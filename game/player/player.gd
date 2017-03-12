@@ -69,6 +69,8 @@ func _process(delta):
 			fire()
 		elif Input.is_key_pressed(KEY_2):
 			fire(true)
+		if Input.is_key_pressed(KEY_3):
+			call_turret()
 
 func fire(multiple = false):
 	if fire_timeout > 0:
@@ -86,6 +88,13 @@ func create_bullet(direction):
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	get_node('../').add_child(bullet)
+
+func call_turret():
+	var turret = preload('../turret/turret.tscn').instance()
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = get_node('../PlayerMothership').get_global_transform().orthonormalized().origin.y
+	turret.set_global_transform(trans)
+	get_node('../').add_child(turret)
 	
 func reached_left_edge():
 	on_left_edge = true

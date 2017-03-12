@@ -4,7 +4,7 @@
 [ext_resource path="res://player/knight_01.msh" type="Mesh" id=2]
 [ext_resource path="res://player/knight_01.dds" type="Texture" id=3]
 
-[sub_resource type="CapsuleShape" id=3]
+[sub_resource type="CapsuleShape" id=1]
 
 radius = 0.1
 height = 1.7
@@ -53,7 +53,7 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Transform( 1.49839, 0, 0, 0, 1.49839, 0, 0, 0, 1.49839, 0, -0.203543, 0.0441276 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -64,7 +64,11 @@ collide_with/rigid = true
 collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
+is_enemy = false
 speed = 10
+bullet_speed = 20
+forward = Vector3( 0, 0, -1 )
+bullet_mass = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
@@ -92,7 +96,7 @@ material/0 = SubResource( 2 )
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1.49839, 0, 0, 0, 1.49839, 0, 0, 0, 1.49839, 0, -0.203543, 0.0441276 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
