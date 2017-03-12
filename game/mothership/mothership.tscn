@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
-[ext_resource path="res://mothership/battleship_01.msh" type="Mesh" id=1]
-[ext_resource path="res://mothership/battleship_01.dds" type="Texture" id=2]
+[ext_resource path="res://mothership/mothership.gd" type="Script" id=1]
+[ext_resource path="res://mothership/battleship_01.msh" type="Mesh" id=2]
+[ext_resource path="res://mothership/battleship_01.dds" type="Texture" id=3]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -35,7 +36,7 @@ params/shader_param = 0.5
 params/glow = 0
 params/point_size = 1.0
 uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-textures/diffuse = ExtResource( 2 )
+textures/diffuse = ExtResource( 3 )
 textures/diffuse_tc = 0
 textures/detail_tc = 0
 textures/specular_tc = 0
@@ -60,6 +61,9 @@ friction = 1.0
 bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
+script/script = ExtResource( 1 )
+HP_MAX = 100
+is_enemy = false
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
@@ -79,15 +83,53 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-mesh/mesh = ExtResource( 1 )
+mesh/mesh = ExtResource( 2 )
 mesh/skeleton = NodePath("..")
 material/0 = SubResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="Area" type="Area" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input/ray_pickable = false
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shapes/0/trigger = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision/layers = 1
+collision/mask = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="HP" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="body_enter" from="Area" to="." method="_on_Area_body_enter"]
 
 
