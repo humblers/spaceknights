@@ -324,11 +324,13 @@ transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0
 
 [node name="Player" parent="." instance=ExtResource( 8 )]
 
+editor/display_folded = true
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
 is_enemy = false
 speed = 15
 bullet_speed = 50
 forward = Vector3( 0, 0, -1 )
+bullet_mass = 100
 
 [node name="Enemy" parent="." instance=ExtResource( 8 )]
 
@@ -337,6 +339,7 @@ is_enemy = true
 speed = 15
 bullet_speed = 40
 forward = Vector3( 0, 0, 1 )
+bullet_mass = 1
 
 [node name="LeftBoundary" type="Area" parent="."]
 
@@ -344,9 +347,9 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
-hapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5691, 0, 0 )
-hapes/0/trigger = false
+shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -402,10 +405,6 @@ shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[connection signal="body_enter" from="LeftBoundary" to="LeftBoundary" method="_on_LeftBoundary_body_enter"]
-
-[connection signal="body_enter" from="RightBoundary" to="RightBoundary" method="_on_RightBoundary_body_enter"]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -432,6 +431,10 @@ projector = null
 operator = 0
 params/radius = 30.0
 params/attenuation = 1.0
+
+[connection signal="body_enter" from="LeftBoundary" to="LeftBoundary" method="_on_LeftBoundary_body_enter"]
+
+[connection signal="body_enter" from="RightBoundary" to="RightBoundary" method="_on_RightBoundary_body_enter"]
 
 
 [editable path="PlayerMothership"]
