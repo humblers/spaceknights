@@ -2,7 +2,7 @@ extends RigidBody
 
 export var damage = 10
 var life_timer = 0
-var decay_time = 5
+var decay_time = 0.8
 
 func _ready():
 	add_to_group('Bullet')
