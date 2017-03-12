@@ -6,8 +6,6 @@ var decay_time = 5
 
 func _ready():
 	add_to_group('Bullet')
-
-func _ready():
 	set_process(true)
 
 func _process(delta):
