@@ -8,6 +8,7 @@ var prev_fired = false
 var forward = Vector3(0, 0, -1)
 
 func _ready():
+	set_name("player")
 	if get_rotation().y > 0:
 		forward = Vector(0, 0, 1)
 	set_process(true)
