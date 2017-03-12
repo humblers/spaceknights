@@ -9,6 +9,7 @@ var fire_timeout = 0
 var enemy_moving_left = false
 
 func _ready():
+	add_to_group("unfreed_nodes")
 	set_process(true)
 
 func _process(delta):
