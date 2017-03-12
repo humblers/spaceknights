@@ -163,6 +163,7 @@ shadow/zoffset_scale = 2.0
 
 [node name="Stars" type="Spatial" parent="."]
 
+editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="Star1" type="MeshInstance" parent="Stars"]
@@ -258,10 +259,20 @@ transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0
 
 editor/display_folded = true
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
+is_enemy = false
 speed = 15
 bullet_speed = 20
+forward = Vector3( 0, 0, -1 )
 
-[node name="Area" type="Area" parent="."]
+[node name="Enemy" parent="." instance=ExtResource( 7 )]
+
+transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -18 )
+is_enemy = true
+speed = 15
+bullet_speed = 20
+forward = Vector3( 0, 0, 1 )
+
+[node name="Boundary" type="Area" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
@@ -284,14 +295,14 @@ collision/layers = 1
 collision/mask = 1
 script/script = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
+[node name="CollisionShape" type="CollisionShape" parent="Boundary"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[connection signal="body_exit" from="Area" to="Area" method="_on_Area_body_exit"]
+[connection signal="body_exit" from="Boundary" to="Boundary" method="_on_Area_body_exit"]
 
 
 [editable path="PlayerMothership"]
