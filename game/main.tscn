@@ -87,7 +87,7 @@ textures/shade_param_tc = 0
 
 [sub_resource type="BoxShape" id=3]
 
-extents = Vector3( 13.9271, 1.18858, 21.4064 )
+extents = Vector3( 2.25081, 1.18858, 21.4064 )
 
 [node name="World" type="Spatial"]
 
@@ -271,14 +271,14 @@ speed = 15
 bullet_speed = 20
 forward = Vector3( 0, 0, 1 )
 
-[node name="Boundary" type="Area" parent="."]
+[node name="LeftBoundary" type="Area" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5691, 0, 0 )
 shapes/0/trigger = false
 space_override = 0
 gravity_point = false
@@ -293,15 +293,51 @@ monitorable = true
 collision/layers = 1
 collision/mask = 1
 script/script = ExtResource( 8 )
+isLeft = true
 
-[node name="CollisionShape" type="CollisionShape" parent="Boundary"]
+[node name="CollisionShape" type="CollisionShape" parent="LeftBoundary"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5691, 0, 0 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[connection signal="body_exit" from="Boundary" to="Boundary" method="_on_Area_body_exit"]
+[node name="RightBoundary" type="Area" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input/ray_pickable = false
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4564, 0, 0 )
+shapes/0/trigger = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision/layers = 1
+collision/mask = 1
+script/script = ExtResource( 8 )
+isLeft = true
+
+[node name="CollisionShape" type="CollisionShape" parent="RightBoundary"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4564, 0, 0 )
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 0
+
+[connection signal="body_enter" from="LeftBoundary" to="LeftBoundary" method="_on_LeftBoundary_body_enter"]
+
+[connection signal="body_enter" from="RightBoundary" to="RightBoundary" method="_on_RightBoundary_body_enter"]
 
 
 [editable path="PlayerMothership"]

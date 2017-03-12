@@ -7,6 +7,8 @@ export var forward = Vector3(0, 0, -1)
 const FIRE_INTERVAL = 0.2
 var fire_timeout = 0
 var enemy_moving_left = false
+var on_left_edge = false
+var on_right_edge = false
 
 func _ready():
 	add_to_group("unfreed_nodes")
@@ -28,9 +30,11 @@ func _process(delta):
 
 		fire()
 	else:
-		if Input.is_key_pressed(KEY_LEFT):
+		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
+			on_right_edge = false
 			translate(Vector3(-speed * delta, 0, 0))
-		elif Input.is_key_pressed(KEY_RIGHT):
+		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
+			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
 		if Input.is_key_pressed(KEY_SPACE):
 			fire()
@@ -43,3 +47,9 @@ func fire():
 	bullet.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 	bullet.set_linear_velocity(forward * bullet_speed) 
 	get_node('../').add_child(bullet)
+
+func reached_left_edge():
+	on_left_edge = true
+
+func reached_right_edge():
+	on_right_edge = true
