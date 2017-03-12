@@ -1,6 +1,6 @@
 extends StaticBody
 
-export var HP_MAX = 100
+export var HP_MAX = 1000
 export var is_enemy = false
 var hp = HP_MAX
 

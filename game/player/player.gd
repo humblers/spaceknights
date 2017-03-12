@@ -21,7 +21,7 @@ func _process(delta):
 		fire_timeout -= delta
 	
 	if is_enemy:
-		
+		"""
 		var pos_x = get_translation().x
 		if pos_x > 10 or pos_x < -10:
 			enemy_moving_left = not enemy_moving_left
@@ -30,7 +30,7 @@ func _process(delta):
 			translate(Vector3(-speed * delta, 0, 0))
 		else:
 			translate(Vector3(speed * delta, 0, 0))
-		
+		"""
 		
 		var ai_control = randi() % 50 + 1
 		if ai_control <= 2:
@@ -41,11 +41,20 @@ func _process(delta):
 				else :
 					enemy_moving_state = 1
 			else :
-				enemy_moving_state = enemy_moving_state * -1			
+				enemy_moving_state = enemy_moving_state * -1
+				
 		if (ai_control > 49) :
 			enemy_moving_state = 0
-		# translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
-		
+			
+		if on_left_edge:
+			enemy_moving_state = -1
+			on_left_edge = false
+			
+		elif on_right_edge:
+			enemy_moving_state = 1
+			on_right_edge = false
+			
+		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		
 		fire()
 	else:
