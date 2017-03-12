@@ -1,5 +1,5 @@
 var life_timer = 0
-var decay_time = 5
+var decay_time = 0.8
 
 func _ready():
 	set_process(true)
