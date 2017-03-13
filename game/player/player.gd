@@ -5,6 +5,7 @@ export var speed = 15
 export var bullet_speed = 20
 export var forward = Vector3(0, 0, -1)
 export var bullet_mass = 1
+export var bullet_scale = 1
 const FIRE_INTERVAL = 0.1
 var fire_timeout = 0
 var enemy_moving_left = false
@@ -54,9 +55,8 @@ func _process(delta):
 			enemy_moving_state = 1
 			on_right_edge = false
 			
-		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
-		
-		enemy_fire()
+		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))	
+		fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
@@ -72,26 +72,6 @@ func _process(delta):
 		if Input.is_key_pressed(KEY_3):
 			call_turret()
 
-
-func enemy_fire(multiple = false):
-	if fire_timeout > 0:
-		return
-	fire_timeout = FIRE_INTERVAL
-	
-	if multiple:
-		enemy_create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(30)).normalized())
-		enemy_create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-30)).normalized())
-	enemy_create_bullet(forward)
-
-func enemy_create_bullet(direction):
-	var bullet = preload('../bullet/bullet.tscn').instance()
-	bullet.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
-	bullet.set_linear_velocity(direction * bullet_speed) 
-	bullet.set_mass(bullet_mass)
-	bullet.set_scale(Vector3(2,2,2))
-	get_node('../').add_child(bullet)
-
-
 func fire(multiple = false):
 	if fire_timeout > 0:
 		return
@@ -104,9 +84,13 @@ func fire(multiple = false):
 
 func create_bullet(direction):
 	var bullet = preload('../bullet/bullet.tscn').instance()
+	var bullet_mesh = bullet.get_node("MeshInstance")
+	var bullet_collision_shape = bullet.get_node("CollisionShape")
 	bullet.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
+	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
+	bullet_collision_shape.set_scale(bullet_collision_shape.get_scale() * bullet_scale)
 	get_node('../').add_child(bullet)
 
 func call_turret():
