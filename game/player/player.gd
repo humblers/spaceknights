@@ -56,7 +56,7 @@ func _process(delta):
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		
-		fire()
+		enemy_fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
@@ -71,6 +71,26 @@ func _process(delta):
 			fire(true)
 		if Input.is_key_pressed(KEY_3):
 			call_turret()
+
+
+func enemy_fire(multiple = false):
+	if fire_timeout > 0:
+		return
+	fire_timeout = FIRE_INTERVAL
+	
+	if multiple:
+		enemy_create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(30)).normalized())
+		enemy_create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-30)).normalized())
+	enemy_create_bullet(forward)
+
+func enemy_create_bullet(direction):
+	var bullet = preload('../bullet/bullet.tscn').instance()
+	bullet.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
+	bullet.set_linear_velocity(direction * bullet_speed) 
+	bullet.set_mass(bullet_mass)
+	bullet.set_scale(Vector3(2,2,2))
+	get_node('../').add_child(bullet)
+
 
 func fire(multiple = false):
 	if fire_timeout > 0:
