@@ -15,4 +15,5 @@ func _process(delta):
 		life_timer = 0
 
 func on_timeout_complete():
-	queue_free()
+	pass
+	#queue_free()
