@@ -8,6 +8,7 @@ export var bullet_mass = 1
 export var bullet_scale = 1
 export var fire_interval = 0.5
 export var HP_MAX = 1000
+export var turret_cool = 30
 
 var fire_timeout = 0
 var enemy_moving_left = false
@@ -16,6 +17,7 @@ var on_right_edge = false
 var enemy_moving_state = 0
 var collision_shape = SphereShape.new()
 var hp = HP_MAX
+var turret_remain = 0
 
 func _ready():
 	if is_enemy:
@@ -36,12 +38,10 @@ func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Knight : ' + str(hp))
 	else:
-		get_node('HP').set_text('Knight : ' + str(hp))
+		var turret_str = "ready!" if turret_remain <= 0 else str(turret_remain)
+		get_node('HP').set_text('Knight : ' + str(hp) + ', Turret :' + turret_str)
 
 func _process(delta):
-	#|| self.get_transform()
-	print("loc " , self.get_translation())
-	
 	if fire_timeout > 0:
 		fire_timeout -= delta
 	
@@ -82,8 +82,12 @@ func _process(delta):
 			fire()
 		elif Input.is_key_pressed(KEY_2):
 			fire(true)
-		if Input.is_key_pressed(KEY_3):
+
+		turret_remain -= delta
+		if Input.is_key_pressed(KEY_3) and turret_remain <= 0:
 			call_turret()
+		
+		update_ui()
 
 func fire(multiple = false):
 	if fire_timeout > 0:
@@ -108,10 +112,12 @@ func create_bullet(direction):
 	get_node('../').add_child(bullet)
 
 func call_turret():
+	turret_remain = turret_cool
 	var turret = preload('../turret/turret.tscn').instance()
 	var trans = get_global_transform().orthonormalized()
 	trans.origin.y = get_node('../PlayerMothership').get_global_transform().orthonormalized().origin.y
 	turret.set_global_transform(trans)
+	turret.bullet_speed = 20
 	get_node('../').add_child(turret)
 	
 func reached_left_edge():
