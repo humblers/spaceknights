@@ -6,34 +6,46 @@ export var bullet_speed = 20
 export var forward = Vector3(0, 0, -1)
 export var bullet_mass = 1
 export var bullet_scale = 1
-const FIRE_INTERVAL = 1
+export var fire_interval = 0.5
+export var HP_MAX = 1000
+
 var fire_timeout = 0
 var enemy_moving_left = false
 var on_left_edge = false
 var on_right_edge = false
 var enemy_moving_state = 0
 var collision_shape = SphereShape.new()
+var hp = HP_MAX
 
 func _ready():
+	if is_enemy:
+		get_node("HP").set_pos(Vector2(10, 8))
+	else:
+		get_node("HP").set_pos(Vector2(10, 602))
+	update_ui()
 	add_to_group("unfreed_nodes")
 	set_process(true)
 
+func _on_Area_body_enter( body ):
+	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+		hp = clamp(hp - body.damage, 0, HP_MAX)
+		update_ui()
+		body.queue_free()
+
+func update_ui():
+	if is_enemy:
+		get_node('HP').set_text('Knight : ' + str(hp))
+	else:
+		get_node('HP').set_text('Knight : ' + str(hp))
+
 func _process(delta):
+	#|| self.get_transform()
+	print("loc " , self.get_translation())
+	
 	if fire_timeout > 0:
 		fire_timeout -= delta
 	
 	if is_enemy:
-		"""
-		var pos_x = get_translation().x
-		if pos_x > 10 or pos_x < -10:
-			enemy_moving_left = not enemy_moving_left
-		
-		if enemy_moving_left:
-			translate(Vector3(-speed * delta, 0, 0))
-		else:
-			translate(Vector3(speed * delta, 0, 0))
-		"""
-		
 		var ai_control = randi() % 50 + 1
 		if ai_control <= 2:
 			if enemy_moving_state == 0:
@@ -48,7 +60,7 @@ func _process(delta):
 		if (ai_control > 49) :
 			enemy_moving_state = 0
 			
-		if on_left_edge:
+		if on_left_edge :
 			enemy_moving_state = -1
 			on_left_edge = false
 			
@@ -76,7 +88,7 @@ func _process(delta):
 func fire(multiple = false):
 	if fire_timeout > 0:
 		return
-	fire_timeout = FIRE_INTERVAL
+	fire_timeout = fire_interval	
 	
 	if multiple:
 		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(30)).normalized())
@@ -85,6 +97,7 @@ func fire(multiple = false):
 
 func create_bullet(direction):
 	var bullet = preload('../bullet/bullet.tscn').instance()
+	bullet.is_enemy = is_enemy
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
