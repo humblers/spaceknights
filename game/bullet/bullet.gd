@@ -1,8 +1,8 @@
 extends RigidBody
 
-export var damage = 10
+export var damage = 1
 var life_timer = 0
-var decay_time = 0.8
+var decay_time = 1
 var is_enemy = false
 
 func _ready():
@@ -20,5 +20,5 @@ func _process(delta):
 		life_timer = 0
 
 func on_timeout_complete():
-	pass
-	#queue_free()
+	#pass
+	queue_free()

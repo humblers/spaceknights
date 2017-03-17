@@ -1,14 +1,15 @@
 extends StaticBody
 
-export var HP_MAX = 1000
+export var HP_MAX = 10000
 export var is_enemy = false
-var hp = HP_MAX
+var hp
 
 func _ready():
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(260, 8))
 	else:
 		get_node("HP").set_pos(Vector2(260, 602))
+	hp = HP_MAX
 	update_ui()
 
 func _on_Area_body_enter( body ):
@@ -22,3 +23,7 @@ func update_ui():
 		get_node('HP').set_text('Mothership : ' + str(hp))
 	else:
 		get_node('HP').set_text('Mothership : ' + str(hp))
+	
+	if hp <= 0:
+		get_tree().quit()
+	
