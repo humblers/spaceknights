@@ -1,9 +1,12 @@
 extends StaticBody
 
 const DEFAULT_LIFE_TIME = 10
+const DEFAULT_HP = 100
 const DEFAULT_BULLET_COOL_TIME = 0.5
 
 var is_enemy = false
+
+var hp = DEFAULT_HP
 
 var life_elapsed = 0
 var bullet_elapsed = 1
@@ -11,8 +14,18 @@ var bullet_elapsed = 1
 var bullet_speed = 0
 var bullet_vector = Vector3(0, 0, -1)
 
+onready var hp_label = Label.new()
+
 func set_bullet_speed(speed):
 	bullet_speed(speed)
+	
+func update_ui():
+	hp_label.set_text('HP : %d' % hp)
+
+func destroy():
+	set_fixed_process(false)
+	get_parent().remove_child(self)
+	queue_free()
 	
 func _fixed_process(delta):
 	bullet_elapsed += delta
@@ -29,9 +42,20 @@ func _fixed_process(delta):
 		get_node('../../').add_child(bullet)
 
 	if life_elapsed > DEFAULT_LIFE_TIME:
-		set_fixed_process(false)
-		get_parent().remove_child(self)
-		queue_free()
+		destroy()
 
 func _ready():
+	hp_label.set_name('HP')
+	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+	add_child(hp_label)
+	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)
+
+func _on_TurretArea_body_enter( body ):
+	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+		body.queue_free()
+		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
+		if hp <= 0:
+			destroy()
+			return
+		update_ui()
