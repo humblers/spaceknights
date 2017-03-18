@@ -153,11 +153,11 @@ func _process(delta):
 		if (ai_control > 49) :
 			enemy_moving_state = 0
 			
-		if on_left_edge || (self.get_translation().x < -9):
+		if on_left_edge || (self.get_translation().x < -10):
 			enemy_moving_state = -1
 			on_left_edge = false
 			
-		elif on_right_edge || (self.get_translation().x > 9):
+		elif on_right_edge || (self.get_translation().x > 10):
 			enemy_moving_state = 1
 			on_right_edge = false
 			
