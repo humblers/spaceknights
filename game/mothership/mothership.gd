@@ -21,9 +21,13 @@ func _on_Area_body_enter( body ):
 func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Mothership : ' + str(hp))
+		if hp <= 0:
+			Globals.set("blue_result", Globals.get("blue_result") +1 )
+			get_tree().change_scene("res://ui/main_menu.tscn")
 	else:
 		get_node('HP').set_text('Mothership : ' + str(hp))
-	
-	if hp <= 0:
-		get_tree().quit()
+		if hp <= 0:
+			Globals.set("red_result", Globals.get("red_result") +1 )
+			get_tree().change_scene("res://ui/main_menu.tscn")
+		
 	
