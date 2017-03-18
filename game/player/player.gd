@@ -2,8 +2,9 @@ extends KinematicBody
 
 export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
-export var knight_num = 1
+export var knight_num = 0
 
+var knight_total_num = 4
 # default shooter
 var knight1_speed = 15
 var knight1_fire_interval = 0.2
@@ -57,7 +58,7 @@ var knight4_bullet_type = 3
 var knight4_bullet_speed = 50
 var knight4_bullet_mass = 1
 var knight4_bullet_scale = 0.8
-var knight4_bullet_damage = 2
+var knight4_bullet_damage = 1.6
 var knight4_bullet_decay_time= 1.5
 
 var speed = knight1_speed
@@ -84,6 +85,8 @@ var turret_remain = 0
 var is_dead = false
 
 func _ready():
+	if knight_num == 0:
+		knight_num = randi() % knight_total_num + 1
 	if knight_num == 1:
 		speed = knight1_speed
 		fire_interval = knight1_fire_interval

@@ -10,7 +10,10 @@ func _ready():
 		add_to_group('enemy_Bullet')
 	else:
 		add_to_group('player_Bullet')
-	#add_to_group('Bullet')
+		var material = get_node("MeshInstance").get_mesh().surface_get_material(0)	
+		print(material)
+		material.set_parameter(material.PARAM_EMISSION,Color(0,1,0,1))
+		
 	set_process(true)
 
 func _process(delta):
