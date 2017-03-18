@@ -117,7 +117,7 @@ func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Knight : ' + str(hp))
 	else:
-		var turret_str = "ready!" if turret_remain <= 0 else str(turret_remain)
+		var turret_str = "ready!" if turret_remain <= 0 else "%.0f" % turret_remain
 		get_node('HP').set_text('Knight : ' + str(hp) + ', Turret :' + turret_str)
 
 func _process(delta):
@@ -130,7 +130,9 @@ func _process(delta):
 			hp = HP_MAX
 			update_ui()
 			regen_timeout = 0
-			
+	
+	turret_remain -= delta
+	
 	if hp <= 0  && regen_timeout ==0:
 		is_dead = true
 		regen_timeout = knight_regen_cool
@@ -161,7 +163,8 @@ func _process(delta):
 			enemy_moving_state = 1
 			on_right_edge = false
 			
-		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))	
+		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
+		call_turret()
 		fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
@@ -176,8 +179,7 @@ func _process(delta):
 		elif Input.is_key_pressed(KEY_2):
 			fire(true)
 
-		turret_remain -= delta
-		if Input.is_key_pressed(KEY_3) and turret_remain <= 0:
+		if Input.is_key_pressed(KEY_3):
 			call_turret()
 		
 		update_ui()
@@ -210,12 +212,20 @@ func create_bullet(direction):
 	get_node('../').add_child(bullet)
 
 func call_turret():
+	if turret_remain > 0:
+		return
 	turret_remain = turret_cool
 	var turret = preload('../turret/turret.tscn').instance()
 	var trans = get_global_transform().orthonormalized()
-	trans.origin.y = get_node('../PlayerMothership').get_global_transform().orthonormalized().origin.y
+	var mothership_node
+	if is_enemy:
+		mothership_node = get_node('../EnemyMothership')
+	else:
+		mothership_node = get_node('../PlayerMothership')
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	turret.set_global_transform(trans)
 	turret.bullet_speed = 20
+	turret.is_enemy = is_enemy
 	get_node('../').add_child(turret)
 	
 func reached_left_edge():
