@@ -214,12 +214,12 @@ func _process(delta):
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,50))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 			translate(Vector3(-speed * delta, 0, 0))
 		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else :
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
