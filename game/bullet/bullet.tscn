@@ -64,7 +64,7 @@ bounce = 0.0
 gravity_scale = 0.0
 custom_integrator = true
 continuous_cd = false
-contacts_reported = 0
+contacts_reported = 100
 contact_monitor = false
 sleeping = false
 can_sleep = true
@@ -75,6 +75,7 @@ damp_override/linear = -1.0
 damp_override/angular = -1.0
 script/script = ExtResource( 1 )
 damage = 10
+hp = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
@@ -104,5 +105,7 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[connection signal="body_enter" from="." to="." method="_on_Bullet_body_enter"]
 
 
