@@ -203,15 +203,25 @@ func _process(delta):
 			on_right_edge = false
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
+		if enemy_moving_state == 1:
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,50))
+		elif enemy_moving_state == -1:
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
+		else:
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 		call_turret()
 		fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,50))
 			translate(Vector3(-speed * delta, 0, 0))
 		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
+		else :
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_1):
 			pass
