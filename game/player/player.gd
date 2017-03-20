@@ -203,7 +203,7 @@ func _process(delta):
 			on_right_edge = false
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
-		call_turret()
+		call_turret(constants.TURRET_FIXED_TYPE)
 		fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
@@ -222,6 +222,8 @@ func _process(delta):
 
 		if Input.is_key_pressed(KEY_1):
 			call_turret(constants.TURRET_FIXED_TYPE)
+		if Input.is_key_pressed(KEY_2):
+			call_turret(constants.TURRET_FORWARD_TYPE)
 		if Input.is_key_pressed(KEY_SPACE):
 			fire()
 		
@@ -265,7 +267,7 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
 	get_node('../').add_child(bullet)
 
-func call_turret():
+func call_turret(turret_type):
 	if turret_remain > 0:
 		return
 	turret_remain = turret_cool
@@ -280,7 +282,7 @@ func call_turret():
 	turret.set_global_transform(trans)
 	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
-	turret.turret_type = 
+	turret.turret_type = turret_type
 	get_node('../').add_child(turret)
 
 func reached_left_edge():

@@ -3,8 +3,10 @@ extends KinematicBody
 const DEFAULT_LIFE_TIME = 10
 const DEFAULT_HP = 100
 const DEFAULT_BULLET_COOL_TIME = 0.3
+const FORWARD_TYPE_SPEED = 15
 
 var turret_type = constants.TURRET_FIXED_TYPE
+var turret_speed = 0
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -51,6 +53,9 @@ func _fixed_process(delta):
 		bullet.set_linear_velocity(bullet_vector * bullet_speed) 
 		get_node('../../').add_child(bullet)
 
+	if turret_type == constants.TURRET_FORWARD_TYPE:
+		get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+		translate(Vector3(0, 0, turret_speed * delta))
 
 func _ready():
 	var turret_loc = self.get_translation()
@@ -62,12 +67,15 @@ func _ready():
 		self.set_rotation_deg(Vector3(180,0,180))
 	self.set_scale(Vector3(0.5,0.5,0.5))	
 	
+	if turret_type == constants.TURRET_FORWARD_TYPE:
+		turret_speed = -FORWARD_TYPE_SPEED if is_enemy else FORWARD_TYPE_SPEED
 	
 	hp_label.set_name('HP')
 	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
 	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)
+
 
 func _on_TurretArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
