@@ -8,8 +8,8 @@ const DEFAULT_BULLET_COOL_TIME = 0.3
 var is_enemy = false
 
 var hp = DEFAULT_HP
-
 var life_elapsed = 0
+var is_destroyed = false
 var bullet_elapsed = 1
 
 var bullet_damage = 10
@@ -26,13 +26,18 @@ func update_ui():
 	hp_label.set_text('HP : %d' % hp)
 
 func destroy():
-	set_fixed_process(false)
-	get_parent().remove_child(self)
-	queue_free()
-	
+	if not is_destroyed:
+		set_fixed_process(false)
+		queue_free()
+		is_destroyed = true
+
 func _fixed_process(delta):
-	bullet_elapsed += delta
 	life_elapsed += delta
+	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
+		destroy()
+		return
+
+	bullet_elapsed += delta
 	if is_enemy:
 		bullet_vector = Vector3(0, 0, 1)
 	if bullet_elapsed > DEFAULT_BULLET_COOL_TIME:
@@ -46,11 +51,8 @@ func _fixed_process(delta):
 		bullet.set_linear_velocity(bullet_vector * bullet_speed) 
 		get_node('../../').add_child(bullet)
 
-	if life_elapsed > DEFAULT_LIFE_TIME:
-		destroy()
 
 func _ready():
-
 	var turret_loc = self.get_translation()
 	if is_enemy:
 		self.set_translation(turret_loc + Vector3(0,0,-4))
@@ -71,7 +73,4 @@ func _on_TurretArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
 		body.queue_free()
 		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		if hp <= 0:
-			destroy()
-			return
 		update_ui()
