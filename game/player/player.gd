@@ -9,7 +9,7 @@ var knight_total_num = 4
 var knight1_speed = 15
 var knight1_fire_interval = 0.2
 var knight1_HP_MAX = 50
-var knight1_turret_cool = 30
+var knight1_turret_cool = 3
 var knight1_regen_cool = 3
 
 var knight1_bullet_type = 1
@@ -23,7 +23,7 @@ var knight1_bullet_decay_time= 1.5
 var knight2_speed = 15
 var knight2_fire_interval = 1
 var knight2_HP_MAX = 50
-var knight2_turret_cool = 30
+var knight2_turret_cool = 3
 var knight2_regen_cool = 3
 
 var knight2_bullet_type = 1
@@ -37,7 +37,7 @@ var knight2_bullet_decay_time= 4
 var knight3_speed = 15
 var knight3_fire_interval = 0.2
 var knight3_HP_MAX = 50
-var knight3_turret_cool = 30
+var knight3_turret_cool = 3
 var knight3_regen_cool = 3
 
 var knight3_bullet_type = 2
@@ -51,7 +51,7 @@ var knight3_bullet_decay_time= 1.5
 var knight4_speed = 30
 var knight4_fire_interval = 0.1
 var knight4_HP_MAX = 50
-var knight4_turret_cool = 30
+var knight4_turret_cool = 3
 var knight4_regen_cool = 3
 
 var knight4_bullet_type = 3
