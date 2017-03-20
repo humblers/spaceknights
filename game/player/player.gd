@@ -220,8 +220,8 @@ func _process(delta):
 			pass
 		#	fire(true)
 
-		if Input.is_key_pressed(KEY_3):
-			call_turret()
+		if Input.is_key_pressed(KEY_1):
+			call_turret(constants.TURRET_FIXED_TYPE)
 		if Input.is_key_pressed(KEY_SPACE):
 			fire()
 		
@@ -280,8 +280,9 @@ func call_turret():
 	turret.set_global_transform(trans)
 	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
+	turret.turret_type = 
 	get_node('../').add_child(turret)
-	
+
 func reached_left_edge():
 	on_left_edge = true
 

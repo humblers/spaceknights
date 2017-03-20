@@ -1,10 +1,10 @@
-extends StaticBody
+extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
 const DEFAULT_HP = 100
 const DEFAULT_BULLET_COOL_TIME = 0.3
 
-
+var turret_type = constants.TURRET_FIXED_TYPE
 var is_enemy = false
 
 var hp = DEFAULT_HP
