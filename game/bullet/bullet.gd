@@ -14,7 +14,7 @@ func _ready():
 		add_to_group('player_Bullet')
 		var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
 		
-		material.set_parameter(material.PARAM_EMISSION,Color(1,0,0,1))
+		material.set_parameter(material.PARAM_EMISSION,Color(0,0,0.2,1))
 		
 		get_node("MeshInstance").set_material_override(material)
 		
