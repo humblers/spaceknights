@@ -277,20 +277,24 @@ func _process(delta):
 			call_turret(constants.TURRET_FIXED_TYPE)
 		if Input.is_key_pressed(KEY_2):
 			call_turret(constants.TURRET_FORWARD_TYPE)
+		
 		if Input.is_key_pressed(KEY_SPACE):
 			fire()
 			is_hold_fire = true
 		else:
 			is_hold_fire = false
 		update_ui()
-		if !is_hold_fire && bullet_type == 4:
-			print(laser)
-			if laser:
-				print('hehe', get_node('../').get_node("laser").get_name())
-				get_node('../').get_node("laser").queue_free()
-				laser = null
-				print('end',laser)
+		if bullet_type == 4:
+			if !is_hold_fire:
+				if laser:
+					print('finish time: ', get_process_delta_time() , " finished object ", laser)
+					get_node('../').get_node("laser").queue_free()
+					laser = null
+			else:
+				laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
+					
 				#laser.finish()
+		
 
 func fire():
 	
@@ -336,21 +340,25 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	get_node('../').add_child(bullet)
 
 func create_laser(direction):
-	laser = preload('../bullet/laser.tscn').instance()
-	laser.is_enemy = is_enemy
-	laser.damage = bullet_damage
-	laser.translate(self.get_translation())
+	if !laser:
+		laser = preload('../bullet/laser.tscn').instance()
+		laser.is_enemy = is_enemy
+		laser.damage = bullet_damage
+	#	laser.translate(self.get_translation())
+		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
+		get_node('../').add_child(laser)
+		print('start time: ', get_process_delta_time() , " started object ", laser)
 	"""
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
-	bullet.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
+	
 	bullet.translate(width)
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
 	"""
-	get_node('../').add_child(laser)
+	
 
 func call_turret(turret_type):
 	if turret_remain > 0:
