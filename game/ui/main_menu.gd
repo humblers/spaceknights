@@ -27,18 +27,13 @@ func _on_turret_forward_pressed():
 	queue.append(constants.TURRET_FORWARD_TYPE)
 	update_skill_queue()
 
-var current = []
 func update_skill_queue():
-	for prev_button in current:
+	var button_parent = get_node("skill_panel/scroll/skill_queue")
+	for prev_button in button_parent.get_children():
 		prev_button.queue_free()
-	current = []
 	var skill_tscn = preload("res://ui/skill_button.tscn")
 	for i in range(start.player1_skill_queue.size()):
-		var button = preload("res://ui/skill_button.tscn").instance()
-		var skill = start.player1_skill_queue[i]
-		if skill == constants.TURRET_FIXED_TYPE:
-			button.set_text("FIXED")
-		elif skill == constants.TURRET_FORWARD_TYPE:
-			button.set_text("FORWARD")
-		get_node("skill_panel/scroll/skill_queue").add_child(button)
-		current.append(button)
+		var button = skill_tscn.instance()
+		button.skill_type = start.player1_skill_queue[i]
+		button.queue_idx = i
+		button_parent.add_child(button)
