@@ -1,8 +1,8 @@
 extends Control
 
 func _ready():
-	get_node("blue_team").set_text("Blue Team : " + str(Globals.get("blue_result")) + " WIN")
-	get_node("red_team").set_text("Red Team : " + str(Globals.get("red_result")) + " WIN")
+	get_node("blue_team").set_text("Blue Team : " + str(start.blue_score) + " WIN")
+	get_node("red_team").set_text("Red Team : " + str(start.red_score) + " WIN")
 	set_process_unhandled_input(true)
 	update_skill_queue()
 	
