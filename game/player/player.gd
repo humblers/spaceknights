@@ -13,11 +13,13 @@ var knight1_turret_cool = 3
 var knight1_regen_cool = 3
 
 var knight1_bullet_type = 1
+var knight1_bullet_hp = 20
 var knight1_bullet_speed = 30
 var knight1_bullet_mass = 10
 var knight1_bullet_scale = 1
-var knight1_bullet_damage = 20
+var knight1_bullet_damage = 15
 var knight1_bullet_decay_time= 1.5
+var knight1_bullet_is_heavy_mass = false
 
 # big shooter
 var knight2_speed = 15
@@ -27,11 +29,13 @@ var knight2_turret_cool = 3
 var knight2_regen_cool = 3
 
 var knight2_bullet_type = 1
+var knight2_bullet_hp = 80
 var knight2_bullet_speed = 10
 var knight2_bullet_mass = 100000
 var knight2_bullet_scale = 10
 var knight2_bullet_damage = 50
 var knight2_bullet_decay_time= 4
+var knight2_bullet_is_heavy_mass = true
 
 # 3way shooter
 var knight3_speed = 15
@@ -41,11 +45,13 @@ var knight3_turret_cool = 3
 var knight3_regen_cool = 3
 
 var knight3_bullet_type = 2
+var knight3_bullet_hp = 20
 var knight3_bullet_speed = 30
 var knight3_bullet_mass = 1
 var knight3_bullet_scale = 1
-var knight3_bullet_damage = 10
+var knight3_bullet_damage = 5
 var knight3_bullet_decay_time= 1.5
+var knight3_bullet_is_heavy_mass = false
 
 # heavy shooter
 var knight4_speed = 30
@@ -55,11 +61,13 @@ var knight4_turret_cool = 3
 var knight4_regen_cool = 3
 
 var knight4_bullet_type = 3
+var knight4_bullet_hp = 10
 var knight4_bullet_speed = 50
 var knight4_bullet_mass = 1
 var knight4_bullet_scale = 0.8
-var knight4_bullet_damage = 1.6
+var knight4_bullet_damage = 2
 var knight4_bullet_decay_time= 1.5
+var knight4_bullet_is_heavy_mass = false
 
 var speed = knight1_speed
 var fire_interval = knight1_fire_interval
@@ -67,11 +75,13 @@ var HP_MAX = knight1_HP_MAX
 var turret_cool = knight1_turret_cool
 var regen_cool = knight1_regen_cool
 var bullet_type = knight1_bullet_type
+var bullet_hp = knight1_bullet_hp
 var bullet_speed = knight1_bullet_speed
 var bullet_mass = knight1_bullet_mass
 var bullet_scale = knight1_bullet_scale
 var bullet_damage = knight1_bullet_damage
 var bullet_decay_time= knight1_bullet_decay_time
+var bullet_is_heavy_mass = knight1_bullet_is_heavy_mass
 
 var fire_timeout = 0
 var regen_timeout = 0
@@ -94,11 +104,13 @@ func _ready():
 		turret_cool = knight1_turret_cool
 		regen_cool = knight1_regen_cool
 		bullet_type = knight1_bullet_type
+		bullet_hp = knight1_bullet_hp
 		bullet_speed = knight1_bullet_speed
 		bullet_mass = knight1_bullet_mass
 		bullet_scale = knight1_bullet_scale
 		bullet_damage = knight1_bullet_damage
 		bullet_decay_time= knight1_bullet_decay_time
+		bullet_is_heavy_mass = knight1_bullet_is_heavy_mass
 	elif knight_num == 2:
 		speed = knight2_speed
 		fire_interval = knight2_fire_interval
@@ -106,11 +118,13 @@ func _ready():
 		turret_cool = knight2_turret_cool
 		regen_cool = knight2_regen_cool
 		bullet_type = knight2_bullet_type
+		bullet_hp = knight2_bullet_hp
 		bullet_speed = knight2_bullet_speed
 		bullet_mass = knight2_bullet_mass
 		bullet_scale = knight2_bullet_scale
 		bullet_damage = knight2_bullet_damage
 		bullet_decay_time= knight2_bullet_decay_time
+		bullet_is_heavy_mass = knight2_bullet_is_heavy_mass
 	elif knight_num == 3:
 		speed = knight3_speed
 		fire_interval = knight3_fire_interval
@@ -118,11 +132,13 @@ func _ready():
 		turret_cool = knight3_turret_cool
 		regen_cool = knight3_regen_cool
 		bullet_type = knight3_bullet_type
+		bullet_hp = knight3_bullet_hp
 		bullet_speed = knight3_bullet_speed
 		bullet_mass = knight3_bullet_mass
 		bullet_scale = knight3_bullet_scale
 		bullet_damage = knight3_bullet_damage
 		bullet_decay_time= knight3_bullet_decay_time
+		bullet_is_heavy_mass = knight3_bullet_is_heavy_mass
 	elif knight_num == 4:
 		speed = knight4_speed
 		fire_interval = knight4_fire_interval
@@ -130,11 +146,13 @@ func _ready():
 		turret_cool = knight4_turret_cool
 		regen_cool = knight4_regen_cool
 		bullet_type = knight4_bullet_type
+		bullet_hp = knight4_bullet_hp
 		bullet_speed = knight4_bullet_speed
 		bullet_mass = knight4_bullet_mass
 		bullet_scale = knight4_bullet_scale
 		bullet_damage = knight4_bullet_damage
 		bullet_decay_time= knight4_bullet_decay_time
+		bullet_is_heavy_mass = knight4_bullet_is_heavy_mass
 		
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(10, 8))
@@ -209,7 +227,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		call_turret(constants.TURRET_FIXED_TYPE)
+		#call_turret(constants.TURRET_FIXED_TYPE)
 		fire()
 	else:
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
@@ -264,8 +282,11 @@ func fire():
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet = preload('../bullet/bullet.tscn').instance()
 	bullet.is_enemy = is_enemy
+	bullet.hp = bullet_hp
+	bullet.HP_MAX = bullet_hp
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
+	bullet.is_heavy_mass = bullet_is_heavy_mass
 
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
