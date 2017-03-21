@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 100
+const DEFAULT_HP = 30
 const DEFAULT_BULLET_COOL_TIME = 0.3
 const FORWARD_TYPE_SPEED = 15
 
