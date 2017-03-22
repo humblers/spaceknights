@@ -201,6 +201,10 @@ func _on_Area_body_enter( body ):
 		hp = clamp(hp - body.damage, 0, HP_MAX)
 		update_ui()
 		body.queue_free()
+	if (!is_enemy && body.is_in_group("enemy_Laser")) || (is_enemy && body.is_in_group("player_Laser")):
+		print('laser hit?')
+		hp = clamp(hp - body.damage, 0, HP_MAX)
+		update_ui()
 
 func update_ui():
 	if is_enemy:
@@ -280,24 +284,21 @@ func _process(delta):
 		
 		if Input.is_key_pressed(KEY_SPACE):
 			fire()
-			is_hold_fire = true
 		else:
 			is_hold_fire = false
-		update_ui()
-		if bullet_type == 4:
-			if !is_hold_fire:
-				if laser:
-					print('finish time: ', get_process_delta_time() , " finished object ", laser)
-					get_node('../').get_node("laser").queue_free()
-					laser = null
-			else:
+	update_ui()
+	if bullet_type == 4:
+		if !is_hold_fire:
+			if laser:
+				get_node('../').get_node("laser").queue_free()
+				laser = null
+		else:
+			if laser:
 				laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
-					
-				#laser.finish()
-		
+				
 
 func fire():
-	
+	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
 		return
 	if is_dead:
@@ -344,22 +345,9 @@ func create_laser(direction):
 		laser = preload('../bullet/laser.tscn').instance()
 		laser.is_enemy = is_enemy
 		laser.damage = bullet_damage
-	#	laser.translate(self.get_translation())
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
-		print('start time: ', get_process_delta_time() , " started object ", laser)
-	"""
-	var bullet_mesh = bullet.get_node("MeshInstance")
-	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
-	bullet.set_shape(0, collision_shape)
-	
-	bullet.translate(width)
-	bullet.set_linear_velocity(direction * bullet_speed) 
-	bullet.set_mass(bullet_mass)
-	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
-	"""
-	
-
+		
 func call_turret(turret_type):
 	if turret_remain > 0:
 		return

@@ -1,32 +1,33 @@
 extends StaticBody
 
-var material1
-var material2
-var HP_MAX = 1000
 var damage = 1
-var hp = 1
-var life_timer = 0
-var decay_time = 1
 var is_enemy = false
-var is_heavy_mass = false
-var is_heavy_mass_dead = false
-var damaged_scale = float(1)
-var collision_shape = SphereShape.new()
+var is_penetrate = false
 var initial_scale
-var initial_radius
+var time = 0
+var creating_time = 30
+var laser_scale = 1
 
 func _ready():
-	material1 = get_node("laser").get_material_override()
-	#print(material1)
-	material1.set_parameter(material1.PARAM_EMISSION,Color(1,0,0,1))
-	
-	
-	var i = float(230)/float(250)
-	#print(i)
+	var material = get_node("laser_cube").get_material_override()
+	material.set_parameter(material.PARAM_DIFFUSE,Color(1,1,1,0.5))
+	get_node("laser_cube").set_material_override(material)
+	if is_enemy:
+		add_to_group('enemy_Laser')
+	else :
+		add_to_group('player_Laser')
 	set_process(true)
 		
 func _process(delta):
-	pass
+	time += delta*10
+	laser_scale = clamp(time/creating_time, 0.1, 1)
+	var material
+	material = get_node("laser_cube").get_material_override()
+	get_node("laser_cube").set_scale(Vector3(laser_scale , 1, 40))
+		
+	var laser_color = (sin(time)+1)/2*0.6+0.2
+	if is_enemy:
+		material.set_parameter(material.PARAM_DIFFUSE,Color(laser_color+0.5,laser_color,laser_color,laser_color+0.5))
+	else:
+		material.set_parameter(material.PARAM_DIFFUSE,Color(laser_color,laser_color,laser_color+0.5,laser_color+0.5))
 	
-func finish():
-	queue_free()
