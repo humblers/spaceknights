@@ -4,6 +4,8 @@ export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
 
+var knight_skill_queue
+
 var knight_total_num = 5
 # default shooter
 var knight1_speed = 15
@@ -113,6 +115,8 @@ var is_hold_fire = false
 var laser
 
 func _ready():
+	knight_skill_queue = Array(start.player1_skill_queue)
+	
 	if knight_num == 0:
 		knight_num = randi() % knight_total_num + 1
 	if knight_num == 1:
@@ -266,6 +270,7 @@ func _process(delta):
 		call_turret(constants.TURRET_FIXED_TYPE)
 		fire()
 	else:
+		fire()
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
@@ -277,14 +282,8 @@ func _process(delta):
 		else :
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
-		if Input.is_key_pressed(KEY_1):
-			call_turret(constants.TURRET_FIXED_TYPE)
-		if Input.is_key_pressed(KEY_2):
-			call_turret(constants.TURRET_FORWARD_TYPE)
-		
 		if Input.is_key_pressed(KEY_SPACE):
-			fire()
-		else:
+			call_turret(knight_skill_queue.pop_front())
 			is_hold_fire = false
 	update_ui()
 	if bullet_type == 4:
