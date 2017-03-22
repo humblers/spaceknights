@@ -71,4 +71,3 @@ func take_damage(damage):
 			collision_shape.set_radius(initial_radius * damaged_scale)
 			self.set_shape(0, collision_shape)
 			bullet_mesh.set_scale(initial_scale * damaged_scale)
-			print("real :",damaged_scale, " hp :? ", hp, " dead? ", is_heavy_mass_dead)
