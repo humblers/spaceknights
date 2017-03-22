@@ -115,7 +115,7 @@ var is_hold_fire = false
 var laser
 
 func _ready():
-	knight_skill_queue = Array(start.player1_skill_queue)
+	knight_skill_queue = [] + start.player1_skill_queue
 	
 	if knight_num == 0:
 		knight_num = randi() % knight_total_num + 1
@@ -267,7 +267,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		call_turret(constants.TURRET_FIXED_TYPE)
+		call_turret()
 		fire()
 	else:
 		fire()
@@ -283,7 +283,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
-			call_turret(knight_skill_queue.pop_front())
+			call_turret()
 			is_hold_fire = false
 	update_ui()
 	if bullet_type == 4:
@@ -347,7 +347,9 @@ func create_laser(direction):
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
 		
-func call_turret(turret_type):
+func call_turret():
+	if knight_skill_queue.size() <= 0:
+		return
 	if turret_remain > 0:
 		return
 	turret_remain = turret_cool
@@ -362,7 +364,8 @@ func call_turret(turret_type):
 	turret.set_global_transform(trans)
 	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
-	turret.turret_type = turret_type
+	turret.turret_type = knight_skill_queue[0]
+	knight_skill_queue.pop_front()
 	get_node('../').add_child(turret)
 
 func reached_left_edge():
