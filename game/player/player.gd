@@ -109,7 +109,7 @@ var on_right_edge = false
 var enemy_moving_state = 0
 var collision_shape = SphereShape.new()
 var hp = 0
-var turret_remain = 0
+var skill_remain = 0
 var is_dead = false
 var is_hold_fire = false
 var laser
@@ -214,8 +214,10 @@ func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Knight : ' + str(hp))
 	else:
-		var turret_str = "ready!" if turret_remain <= 0 else "%.0f" % turret_remain
-		get_node('HP').set_text('Knight : ' + str(hp) + ', Turret :' + turret_str)
+		var skill_str = "ready!" if skill_remain <= 0 else "%d" % skill_remain
+		if knight_skill_queue.size() <= 0:
+			skill_str = "empty!"
+		get_node('HP').set_text('Knight : ' + str(hp) + ', skill :' + skill_str)
 
 func _process(delta):
 	
@@ -228,7 +230,7 @@ func _process(delta):
 			update_ui()
 			regen_timeout = 0
 	
-	turret_remain -= delta
+	skill_remain -= delta
 	
 	if hp <= 0  && regen_timeout ==0:
 		is_dead = true
@@ -267,7 +269,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		call_turret()
+		activate_skill()
 		fire()
 	else:
 		fire()
@@ -283,7 +285,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
-			call_turret()
+			activate_skill()
 			is_hold_fire = false
 	update_ui()
 	if bullet_type == 4:
@@ -346,26 +348,27 @@ func create_laser(direction):
 		laser.damage = bullet_damage
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
-		
-func call_turret():
+
+func activate_skill():
 	if knight_skill_queue.size() <= 0:
 		return
-	if turret_remain > 0:
+	if skill_remain > 0:
 		return
-	turret_remain = turret_cool
+	skill_remain = turret_cool
+	var skill = knight_skill_queue[0]
+	knight_skill_queue.pop_front()
+	if skill in [constants.TURRET_FIXED_TYPE, constants.TURRET_FORWARD_TYPE]:
+		call_turret(skill)
+
+func call_turret(type):
 	var turret = preload('../turret/turret.tscn').instance()
-	var trans = get_global_transform().orthonormalized()
-	var mothership_node
-	if is_enemy:
-		mothership_node = get_node('../EnemyMothership')
-	else:
-		mothership_node = get_node('../PlayerMothership')
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	turret.set_global_transform(trans)
+	turret.turret_type = type
 	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
-	turret.turret_type = knight_skill_queue[0]
-	knight_skill_queue.pop_front()
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	turret.set_global_transform(trans)
 	get_node('../').add_child(turret)
 
 func reached_left_edge():
