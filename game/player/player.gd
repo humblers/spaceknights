@@ -1,5 +1,6 @@
 extends KinematicBody
 
+export var is_ai = false
 export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
@@ -204,11 +205,7 @@ func _on_Area_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
 		hp = clamp(hp - body.damage, 0, HP_MAX)
 		update_ui()
-		body.queue_free()
-	if (!is_enemy && body.is_in_group("enemy_Laser")) || (is_enemy && body.is_in_group("player_Laser")):
-		print('laser hit?')
-		hp = clamp(hp - body.damage, 0, HP_MAX)
-		update_ui()
+		body.queue_free()	
 
 func update_ui():
 	if is_enemy:
@@ -239,7 +236,7 @@ func _process(delta):
 	if fire_timeout > 0:
 		fire_timeout -= delta
 	
-	if is_enemy:
+	if is_ai:
 		var ai_control = randi() % 50 + 1
 		if ai_control <= 2:
 			if enemy_moving_state == 0:
@@ -254,12 +251,12 @@ func _process(delta):
 		if (ai_control > 49) :
 			enemy_moving_state = 0
 			
-		if on_left_edge || (self.get_translation().x < -10):
-			enemy_moving_state = -1
+		if self.get_translation().x < -10 :
+			enemy_moving_state = -1 * forward.z
 			on_left_edge = false
 			
-		elif on_right_edge || (self.get_translation().x > 10):
-			enemy_moving_state = 1
+		elif self.get_translation().x > 10:
+			enemy_moving_state = 1  * forward.z
 			on_right_edge = false
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
@@ -273,6 +270,7 @@ func _process(delta):
 		fire()
 	else:
 		fire()
+		
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
@@ -286,7 +284,6 @@ func _process(delta):
 
 		if Input.is_key_pressed(KEY_SPACE):
 			activate_skill()
-			is_hold_fire = false
 	update_ui()
 	if bullet_type == 4:
 		if !is_hold_fire:
@@ -303,6 +300,7 @@ func fire():
 	if fire_timeout > 0 && bullet_type != 4:
 		return
 	if is_dead:
+		is_hold_fire = false
 		return
 	fire_timeout = fire_interval
 	
@@ -345,7 +343,7 @@ func create_laser(direction):
 	if !laser:
 		laser = preload('../bullet/laser.tscn').instance()
 		laser.is_enemy = is_enemy
-		laser.damage = bullet_damage
+		
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
 

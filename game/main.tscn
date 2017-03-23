@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://space/star_01.msh" type="Mesh" id=1]
 [ext_resource path="res://space/star_01.dds" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://space/space_01.dds" type="Texture" id=6]
 [ext_resource path="res://mothership/mothership.tscn" type="PackedScene" id=7]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=8]
-[ext_resource path="res://space/boundary.gd" type="Script" id=9]
 
 [sub_resource type="FixedMaterial" id=1]
 
@@ -124,11 +123,7 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
-[sub_resource type="BoxShape" id=4]
-
-extents = Vector3( 2.25081, 1.18858, 21.4064 )
-
-[sub_resource type="Environment" id=5]
+[sub_resource type="Environment" id=4]
 
 ambient_light/enabled = true
 ambient_light/color = Color( 0.477905, 0.481362, 0.566406, 1 )
@@ -330,83 +325,20 @@ is_enemy = true
 
 editor/display_folded = true
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
-knight_num = 2
+knight_num = 0
 
 [node name="Enemy" parent="." instance=ExtResource( 8 )]
 
 transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -18 )
+is_ai = true
 is_enemy = true
 forward = Vector3( 0, 0, 1 )
 knight_num = 0
 
-[node name="LeftBoundary" type="Area" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = false
-input/capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
-shapes/0/trigger = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision/layers = 1
-collision/mask = 1
-script/script = ExtResource( 9 )
-isLeft = true
-
-[node name="CollisionShape" type="CollisionShape" parent="LeftBoundary"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 0 )
-shape = SubResource( 4 )
-trigger = false
-_update_shape_index = 0
-
-[node name="RightBoundary" type="Area" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = false
-input/capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0 )
-shapes/0/trigger = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision/layers = 1
-collision/mask = 1
-script/script = ExtResource( 9 )
-isLeft = true
-
-[node name="CollisionShape" type="CollisionShape" parent="RightBoundary"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 0 )
-shape = SubResource( 4 )
-trigger = false
-_update_shape_index = 0
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-environment = SubResource( 5 )
+environment = SubResource( 4 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 
@@ -429,9 +361,5 @@ projector = null
 operator = 0
 params/radius = 30.0
 params/attenuation = 1.0
-
-[connection signal="body_enter" from="LeftBoundary" to="LeftBoundary" method="_on_LeftBoundary_body_enter"]
-
-[connection signal="body_enter" from="RightBoundary" to="RightBoundary" method="_on_RightBoundary_body_enter"]
 
 
