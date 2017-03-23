@@ -8,6 +8,8 @@ func _ready():
 		set_text("FIXED")
 	elif skill_type == constants.TURRET_FORWARD_TYPE:
 		set_text("FORWARD")
+	elif skill_type == constants.BLACKHOLE:
+		set_text("BLACKHOLE")
 
 func _on_Button_pressed():
 	start.player1_skill_queue.remove(queue_idx)

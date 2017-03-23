@@ -27,6 +27,13 @@ func _on_turret_forward_pressed():
 	queue.append(constants.TURRET_FORWARD_TYPE)
 	update_skill_queue()
 
+func _on_blackhole_pressed():
+	var queue = start.player1_skill_queue
+	if queue.size() >= constants.SKILL_QUEUE_LEN:
+		return
+	queue.append(constants.BLACKHOLE)
+	update_skill_queue()
+
 func update_skill_queue():
 	var button_parent = get_node("skill_panel/scroll/skill_queue")
 	for prev_button in button_parent.get_children():

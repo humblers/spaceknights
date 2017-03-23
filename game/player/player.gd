@@ -359,6 +359,15 @@ func activate_skill():
 	knight_skill_queue.pop_front()
 	if skill in [constants.TURRET_FIXED_TYPE, constants.TURRET_FORWARD_TYPE]:
 		call_turret(skill)
+	elif skill == constants.BLACKHOLE:
+		summon_blackhole()
+
+func summon_blackhole():
+	var blackhole = preload('../skills/blackhole.tscn').instance()
+	blackhole.is_enemy = is_enemy
+	blackhole.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
+	blackhole.set_linear_velocity(forward * 10)
+	get_node('../').add_child(blackhole)
 
 func call_turret(type):
 	var turret = preload('../turret/turret.tscn').instance()
