@@ -30,5 +30,7 @@ func update_ui():
 		else:
 			start.red_score += 1
 		gameover = true
-		get_tree().change_scene("res://ui/main_menu.tscn")
+		var popup = preload('res://ui/score_popup.tscn').instance()
+		get_node('../').add_child(popup)
+		#get_tree().change_scene("res://ui/main_menu.tscn")
 	

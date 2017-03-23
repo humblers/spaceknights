@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://bullet/laser.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=2]
+
+extents = Vector3( 1, 1, 1 )
 
 [sub_resource type="FixedMaterial" id=1]
 
@@ -39,24 +43,28 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
-[node name="laser" type="StaticBody"]
+[node name="laser" type="KinematicBody"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
-shape_count = 0
+shape_count = 1
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 40, 0, 0, -40 )
+shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
-friction = 1.0
-bounce = 0.0
-constant_linear_velocity = Vector3( 0, 0, 0 )
-constant_angular_velocity = Vector3( 0, 0, 0 )
+collide_with/static = true
+collide_with/kinematic = true
+collide_with/rigid = true
+collide_with/character = true
+collision/margin = 0.001
 script/script = ExtResource( 1 )
 
 [node name="laser_cube" type="TestCube" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 40, 0, 0, -40 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 40, 0, -1, -40 )
 layers = 1
 geometry/visible = true
 geometry/material_override = SubResource( 1 )
@@ -71,5 +79,39 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
+
+[node name="Area" type="Area" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 40, 0, 0, -40 )
+input/ray_pickable = false
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shapes/0/trigger = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision/layers = 1
+collision/mask = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[connection signal="body_enter" from="Area" to="." method="_on_Laser_body_enter"]
+
+[connection signal="body_exit" from="Area" to="." method="_on_Laser_body_exit"]
 
 
