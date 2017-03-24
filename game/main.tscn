@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://space/star_01.msh" type="Mesh" id=1]
 [ext_resource path="res://space/star_01.dds" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://space/space_01.dds" type="Texture" id=6]
 [ext_resource path="res://mothership/mothership.tscn" type="PackedScene" id=7]
 [ext_resource path="res://player/player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://player/enemy.tscn" type="PackedScene" id=9]
 
 [sub_resource type="FixedMaterial" id=1]
 
@@ -321,20 +322,6 @@ transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0
 HP_MAX = 3000
 is_enemy = true
 
-[node name="Player" parent="." instance=ExtResource( 8 )]
-
-editor/display_folded = true
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
-knight_num = 0
-
-[node name="Enemy" parent="." instance=ExtResource( 8 )]
-
-transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -18 )
-is_ai = true
-is_enemy = true
-forward = Vector3( 0, 0, 1 )
-knight_num = 0
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -361,5 +348,17 @@ projector = null
 operator = 0
 params/radius = 30.0
 params/attenuation = 1.0
+
+[node name="Player" parent="." instance=ExtResource( 8 )]
+
+transform/local = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 18 )
+is_ai = true
+
+[node name="Enemy" parent="." instance=ExtResource( 9 )]
+
+transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -18 )
+is_ai = true
+is_enemy = true
+forward = Vector3( 0, 0, 1 )
 
 

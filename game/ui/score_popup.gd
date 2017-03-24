@@ -9,5 +9,5 @@ func _on_play_pressed():
 	get_tree().change_scene("res://ui/main_menu.tscn")
 
 func _input(event):
-	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
+	if event.type == InputEvent.KEY and event.is_action_pressed("ui_exit_popup"):
 		_on_play_pressed()

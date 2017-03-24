@@ -261,11 +261,20 @@ func _process(delta):
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,50))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		elif enemy_moving_state == -1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-180,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 		activate_skill()
 		fire()
 	else:
@@ -273,14 +282,23 @@ func _process(delta):
 		
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 			translate(Vector3(-speed * delta, 0, 0))			
 		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))			
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else :
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-180,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
 			activate_skill()
