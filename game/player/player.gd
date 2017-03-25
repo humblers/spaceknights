@@ -11,16 +11,16 @@ var knight_total_num = 6
 # default shooter
 var knight1_speed = 15
 var knight1_fire_interval = 0.2
-var knight1_HP_MAX = 50
-var knight1_turret_cool = 3
+var knight1_HP_MAX = 300
+var knight1_skill_cool = 3
 var knight1_regen_cool = 3
 
 var knight1_bullet_type = 1
 var knight1_bullet_hp = 20
 var knight1_bullet_speed = 30
-var knight1_bullet_mass = 10
+var knight1_bullet_mass = 1000
 var knight1_bullet_scale = 1
-var knight1_bullet_damage = 15
+var knight1_bullet_damage = 22
 var knight1_bullet_decay_time= 1.5
 var knight1_bullet_is_cannon = false
 var knight1_bullet_is_mass = false
@@ -28,16 +28,16 @@ var knight1_bullet_is_mass = false
 # big shooter
 var knight2_speed = 15
 var knight2_fire_interval = 1
-var knight2_HP_MAX = 50
-var knight2_turret_cool = 3
+var knight2_HP_MAX = 300
+var knight2_skill_cool = 3
 var knight2_regen_cool = 3
 
 var knight2_bullet_type = 1
-var knight2_bullet_hp = 80
+var knight2_bullet_hp = 100
 var knight2_bullet_speed = 10
 var knight2_bullet_mass = 100000
 var knight2_bullet_scale = 10
-var knight2_bullet_damage = 50
+var knight2_bullet_damage = 100
 var knight2_bullet_decay_time= 5
 var knight2_bullet_is_cannon = false
 var knight2_bullet_is_mass = true
@@ -45,16 +45,16 @@ var knight2_bullet_is_mass = true
 # 3way shooter
 var knight3_speed = 15
 var knight3_fire_interval = 0.2
-var knight3_HP_MAX = 50
-var knight3_turret_cool = 3
+var knight3_HP_MAX = 300
+var knight3_skill_cool = 3
 var knight3_regen_cool = 3
 
 var knight3_bullet_type = 2
 var knight3_bullet_hp = 20
 var knight3_bullet_speed = 30
-var knight3_bullet_mass = 1
+var knight3_bullet_mass = 1000
 var knight3_bullet_scale = 1
-var knight3_bullet_damage = 5
+var knight3_bullet_damage = 7
 var knight3_bullet_decay_time= 1.5
 var knight3_bullet_is_cannon = false
 var knight3_bullet_is_mass = false
@@ -62,14 +62,14 @@ var knight3_bullet_is_mass = false
 # heavy shooter
 var knight4_speed = 30
 var knight4_fire_interval = 0.1
-var knight4_HP_MAX = 50
-var knight4_turret_cool = 3
+var knight4_HP_MAX = 300
+var knight4_skill_cool = 3
 var knight4_regen_cool = 3
 
 var knight4_bullet_type = 3
 var knight4_bullet_hp = 10
 var knight4_bullet_speed = 50
-var knight4_bullet_mass = 1
+var knight4_bullet_mass = 1000
 var knight4_bullet_scale = 0.8
 var knight4_bullet_damage = 2
 var knight4_bullet_decay_time= 1.5
@@ -79,14 +79,14 @@ var knight4_bullet_is_mass = false
 # laser shooter
 var knight5_speed = 30
 var knight5_fire_interval = 0.2
-var knight5_HP_MAX = 50
-var knight5_turret_cool = 3
+var knight5_HP_MAX = 300
+var knight5_skill_cool = 3
 var knight5_regen_cool = 3
 
 var knight5_bullet_type = 4
 var knight5_bullet_hp = 20
 var knight5_bullet_speed = 30
-var knight5_bullet_mass = 10
+var knight5_bullet_mass = 1000
 var knight5_bullet_scale = 1
 var knight5_bullet_damage = 15
 var knight5_bullet_decay_time= 1.5
@@ -96,16 +96,16 @@ var knight5_bullet_is_mass = false
 # cannon shooter
 var knight6_speed = 15
 var knight6_fire_interval = 1
-var knight6_HP_MAX = 50
-var knight6_turret_cool = 3
+var knight6_HP_MAX = 300
+var knight6_skill_cool = 3
 var knight6_regen_cool = 3
 
 var knight6_bullet_type = 1
-var knight6_bullet_hp = 80
+var knight6_bullet_hp = 100
 var knight6_bullet_speed = 10
 var knight6_bullet_mass = 100000
 var knight6_bullet_scale = 10
-var knight6_bullet_damage = 50
+var knight6_bullet_damage = 100
 var knight6_bullet_decay_time= 5
 var knight6_bullet_is_cannon = true
 var knight6_bullet_is_mass = false
@@ -113,7 +113,7 @@ var knight6_bullet_is_mass = false
 var speed = knight1_speed
 var fire_interval = knight1_fire_interval
 var HP_MAX = knight1_HP_MAX
-var turret_cool = knight1_turret_cool
+var skill_cool = knight1_skill_cool
 var regen_cool = knight1_regen_cool
 var bullet_type = knight1_bullet_type
 var bullet_hp = knight1_bullet_hp
@@ -147,7 +147,7 @@ func _ready():
 		speed = knight1_speed
 		fire_interval = knight1_fire_interval
 		HP_MAX = knight1_HP_MAX
-		turret_cool = knight1_turret_cool
+		skill_cool = knight1_skill_cool
 		regen_cool = knight1_regen_cool
 		bullet_type = knight1_bullet_type
 		bullet_hp = knight1_bullet_hp
@@ -162,7 +162,7 @@ func _ready():
 		speed = knight2_speed
 		fire_interval = knight2_fire_interval
 		HP_MAX = knight2_HP_MAX
-		turret_cool = knight2_turret_cool
+		skill_cool = knight2_skill_cool
 		regen_cool = knight2_regen_cool
 		bullet_type = knight2_bullet_type
 		bullet_hp = knight2_bullet_hp
@@ -177,7 +177,7 @@ func _ready():
 		speed = knight3_speed
 		fire_interval = knight3_fire_interval
 		HP_MAX = knight3_HP_MAX
-		turret_cool = knight3_turret_cool
+		skill_cool = knight3_skill_cool
 		regen_cool = knight3_regen_cool
 		bullet_type = knight3_bullet_type
 		bullet_hp = knight3_bullet_hp
@@ -192,7 +192,7 @@ func _ready():
 		speed = knight4_speed
 		fire_interval = knight4_fire_interval
 		HP_MAX = knight4_HP_MAX
-		turret_cool = knight4_turret_cool
+		skill_cool = knight4_skill_cool
 		regen_cool = knight4_regen_cool
 		bullet_type = knight4_bullet_type
 		bullet_hp = knight4_bullet_hp
@@ -207,7 +207,7 @@ func _ready():
 		speed = knight5_speed
 		fire_interval = knight5_fire_interval
 		HP_MAX = knight5_HP_MAX
-		turret_cool = knight5_turret_cool
+		skill_cool = knight5_skill_cool
 		regen_cool = knight5_regen_cool
 		bullet_type = knight5_bullet_type
 		bullet_hp = knight5_bullet_hp
@@ -222,7 +222,7 @@ func _ready():
 		speed = knight6_speed
 		fire_interval = knight6_fire_interval
 		HP_MAX = knight6_HP_MAX
-		turret_cool = knight6_turret_cool
+		skill_cool = knight6_skill_cool
 		regen_cool = knight6_regen_cool
 		bullet_type = knight6_bullet_type
 		bullet_hp = knight6_bullet_hp
@@ -415,35 +415,55 @@ func create_laser(direction):
 		get_node('../').add_child(laser)
 
 func activate_skill():
+	if is_ai && get_node('../').get_node('BlackHole'):
+		return
 	if knight_skill_queue.size() <= 0:
 		return
 	if skill_remain > 0:
 		return
-	skill_remain = turret_cool
+	skill_remain = skill_cool
 	var skill = knight_skill_queue[0]
 	knight_skill_queue.pop_front()
-	if skill in [constants.TURRET_FIXED_TYPE, constants.TURRET_FORWARD_TYPE]:
+	if skill == constants.TURRET:
 		call_turret(skill)
-	elif skill == constants.BLACKHOLE:
+	elif skill == constants.DRONE:
+		call_drone(skill)
+	elif skill == constants.BLACKHOLE:		
 		summon_blackhole()
 
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy
 	blackhole.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
-	blackhole.set_linear_velocity(forward * 10)
+	#blackhole.set_linear_velocity(forward * 10)
+	var xyz = Vector3(0,0,0)
+	xyz.x = blackhole.get_translation().x
+	if is_enemy:
+		xyz.z = 3
+	else:
+		xyz.z = -3
+	blackhole.set_translation(xyz)
 	get_node('../').add_child(blackhole)
 
 func call_turret(type):
-	var turret = preload('../turret/turret.tscn').instance()
+	var turret = preload('../skills/turret.tscn').instance()
 	turret.turret_type = type
-	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans = get_global_transform().orthonormalized()
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	turret.set_global_transform(trans)
 	get_node('../').add_child(turret)
+
+func call_drone(type):
+	var drone = preload('../skills/drone.tscn').instance()
+	drone.drone_type = type
+	drone.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	drone.set_global_transform(trans)
+	get_node('../').add_child(drone)
 
 func reached_left_edge():
 	on_left_edge = true

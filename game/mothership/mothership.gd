@@ -3,7 +3,7 @@ extends StaticBody
 export var HP_MAX = 10000
 export var is_enemy = false
 var hp
-onready var gameover = false
+
 
 func _ready():
 	if is_enemy:
@@ -28,12 +28,16 @@ func _on_Area_body_enter( body ):
 
 func update_ui():
 	get_node('HP').set_text('Mothership : ' + str(hp))
-	if hp <= 0 and not gameover:
+	if is_enemy:
+		start.red_hp = hp
+	else:
+		start.blue_hp = hp
+	if hp <= 0 and not start.gameover:
 		if is_enemy:
 			start.blue_score += 1
 		else:
 			start.red_score += 1
-		gameover = true
+		start.gameover = true
 		var popup = preload('res://ui/score_popup.tscn').instance()
 		get_node('../').add_child(popup)
 		#get_tree().change_scene("res://ui/main_menu.tscn")

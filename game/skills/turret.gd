@@ -1,11 +1,11 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 30
+const DEFAULT_HP = 100
 const DEFAULT_BULLET_COOL_TIME = 0.3
-const FORWARD_TYPE_SPEED = 15
+const FORWARD_TYPE_SPEED = 5
 
-var turret_type = constants.TURRET_FIXED_TYPE
+var turret_type = constants.TURRET
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -15,8 +15,11 @@ var bullet_elapsed = 1
 
 var bullet_damage = 10
 var bullet_decay_time = 4
-var bullet_speed = 0
-var bullet_vector = Vector3(0, 0, -1)
+var bullet_speed = 20
+var bullet_scale = 1
+var bullet_mass = 1000
+var forward = Vector3(0, 0, -1)
+var collision_shape = SphereShape.new()
 
 onready var hp_label = Label.new()
 
@@ -40,22 +43,34 @@ func _fixed_process(delta):
 
 	bullet_elapsed += delta
 	if is_enemy:
-		bullet_vector = Vector3(0, 0, 1)
+		forward  = Vector3(0, 0, 1)
 	if bullet_elapsed > DEFAULT_BULLET_COOL_TIME:
 		bullet_elapsed = 0
-		var bullet = preload('../bullet/bullet.tscn').instance()
-		bullet.is_enemy = is_enemy
-		bullet.damage = bullet_damage
-		bullet.decay_time = bullet_decay_time
-		var bullet_mesh = bullet.get_node("MeshInstance")
-		bullet.set_global_transform(get_node("ShotFrom").get_global_transform().orthonormalized())
-		bullet.set_linear_velocity(bullet_vector * bullet_speed) 
-		get_node('../../').add_child(bullet)
-
-	if turret_type == constants.TURRET_FORWARD_TYPE:
-		get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-		translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
-
+		create_bullet(forward, Vector3(-2, 0, 0))
+		create_bullet(forward, Vector3( 2, 0, 0))
+		create_bullet(forward, Vector3(-1, 0, 0))
+		create_bullet(forward, Vector3( 1, 0, 0))
+		create_bullet(forward)
+		
+func create_bullet(direction, width = Vector3(0,0,0)):
+	var bullet
+	bullet = preload('../bullet/bullet.tscn').instance()
+	bullet.is_enemy = is_enemy
+	bullet.damage = bullet_damage
+	bullet.decay_time = bullet_decay_time
+	
+	var bullet_mesh = bullet.get_node("MeshInstance")
+	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
+	bullet.set_shape(0, collision_shape)
+	bullet.set_global_transform(get_node("ShotFrom").get_global_transform().orthonormalized())
+	bullet.translate(width)
+	bullet.set_linear_velocity(direction * bullet_speed) 
+	bullet.set_mass(bullet_mass)
+	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
+	if is_enemy:
+		bullet_mesh.set_rotation_deg(Vector3(180,0,0))
+	get_node('../').add_child(bullet)
+	
 func _ready():
 	var turret_loc = self.get_translation()
 	if is_enemy:

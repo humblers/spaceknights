@@ -17,14 +17,14 @@ func _on_turret_fixed_pressed():
 	var queue = start.player1_skill_queue
 	if queue.size() >= constants.SKILL_QUEUE_LEN:
 		return
-	queue.append(constants.TURRET_FIXED_TYPE)
+	queue.append(constants.TURRET)
 	update_skill_queue()
 
 func _on_turret_forward_pressed():
 	var queue = start.player1_skill_queue
 	if queue.size() >= constants.SKILL_QUEUE_LEN:
 		return
-	queue.append(constants.TURRET_FORWARD_TYPE)
+	queue.append(constants.DRONE)
 	update_skill_queue()
 
 func _on_blackhole_pressed():

@@ -98,7 +98,7 @@ func _on_Bullet_body_enter( body ):
 	else:
 		if body.is_in_group("enemy_Bullet") && is_mass:
 			take_damage(body.damage)
-		elif body.is_in_group("player_Bullet") && body.is_mass:
+		elif body.is_in_group("enemy_Bullet") && body.is_mass:
 			if is_mass:
 				take_damage(body.damage)
 			else:
