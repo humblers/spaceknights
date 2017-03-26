@@ -139,7 +139,8 @@ var is_hold_fire = false
 var laser
 
 func _ready():
-	knight_skill_queue = [] + start.player1_skill_queue
+	var player = "player1" if not is_enemy else "player2"
+	knight_skill_queue = [] + start.get("%s_skill_queue" % player)
 	
 	if knight_num == 0:
 		knight_num = randi() % knight_total_num + 1
