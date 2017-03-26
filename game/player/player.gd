@@ -7,91 +7,113 @@ export var knight_num = 0
 
 var knight_skill_queue
 
-var knight_total_num = 5
+var knight_total_num = 6
 # default shooter
 var knight1_speed = 15
 var knight1_fire_interval = 0.2
-var knight1_HP_MAX = 50
-var knight1_turret_cool = 3
+var knight1_HP_MAX = 300
+var knight1_skill_cool = 3
 var knight1_regen_cool = 3
 
 var knight1_bullet_type = 1
 var knight1_bullet_hp = 20
 var knight1_bullet_speed = 30
-var knight1_bullet_mass = 10
+var knight1_bullet_mass = 1000
 var knight1_bullet_scale = 1
-var knight1_bullet_damage = 15
+var knight1_bullet_damage = 22
 var knight1_bullet_decay_time= 1.5
-var knight1_bullet_is_heavy_mass = false
+var knight1_bullet_is_cannon = false
+var knight1_bullet_is_mass = false
 
 # big shooter
 var knight2_speed = 15
 var knight2_fire_interval = 1
-var knight2_HP_MAX = 50
-var knight2_turret_cool = 3
+var knight2_HP_MAX = 300
+var knight2_skill_cool = 3
 var knight2_regen_cool = 3
 
 var knight2_bullet_type = 1
-var knight2_bullet_hp = 80
+var knight2_bullet_hp = 100
 var knight2_bullet_speed = 10
 var knight2_bullet_mass = 100000
 var knight2_bullet_scale = 10
-var knight2_bullet_damage = 50
-var knight2_bullet_decay_time= 4
-var knight2_bullet_is_heavy_mass = true
+var knight2_bullet_damage = 100
+var knight2_bullet_decay_time= 5
+var knight2_bullet_is_cannon = false
+var knight2_bullet_is_mass = true
 
 # 3way shooter
 var knight3_speed = 15
 var knight3_fire_interval = 0.2
-var knight3_HP_MAX = 50
-var knight3_turret_cool = 3
+var knight3_HP_MAX = 300
+var knight3_skill_cool = 3
 var knight3_regen_cool = 3
 
 var knight3_bullet_type = 2
 var knight3_bullet_hp = 20
 var knight3_bullet_speed = 30
-var knight3_bullet_mass = 1
+var knight3_bullet_mass = 1000
 var knight3_bullet_scale = 1
-var knight3_bullet_damage = 5
+var knight3_bullet_damage = 7
 var knight3_bullet_decay_time= 1.5
-var knight3_bullet_is_heavy_mass = false
+var knight3_bullet_is_cannon = false
+var knight3_bullet_is_mass = false
 
 # heavy shooter
 var knight4_speed = 30
 var knight4_fire_interval = 0.1
-var knight4_HP_MAX = 50
-var knight4_turret_cool = 3
+var knight4_HP_MAX = 300
+var knight4_skill_cool = 3
 var knight4_regen_cool = 3
 
 var knight4_bullet_type = 3
 var knight4_bullet_hp = 10
 var knight4_bullet_speed = 50
-var knight4_bullet_mass = 1
+var knight4_bullet_mass = 1000
 var knight4_bullet_scale = 0.8
 var knight4_bullet_damage = 2
 var knight4_bullet_decay_time= 1.5
-var knight4_bullet_is_heavy_mass = false
+var knight4_bullet_is_cannon = false
+var knight4_bullet_is_mass = false
 
 # laser shooter
 var knight5_speed = 30
 var knight5_fire_interval = 0.2
-var knight5_HP_MAX = 50
-var knight5_turret_cool = 3
+var knight5_HP_MAX = 300
+var knight5_skill_cool = 3
 var knight5_regen_cool = 3
 
 var knight5_bullet_type = 4
 var knight5_bullet_hp = 20
 var knight5_bullet_speed = 30
-var knight5_bullet_mass = 10
+var knight5_bullet_mass = 1000
 var knight5_bullet_scale = 1
 var knight5_bullet_damage = 15
 var knight5_bullet_decay_time= 1.5
-var knight5_bullet_is_heavy_mass = false
+var knight5_bullet_is_cannon = false
+var knight5_bullet_is_mass = false
+
+# cannon shooter
+var knight6_speed = 15
+var knight6_fire_interval = 1
+var knight6_HP_MAX = 300
+var knight6_skill_cool = 3
+var knight6_regen_cool = 3
+
+var knight6_bullet_type = 1
+var knight6_bullet_hp = 100
+var knight6_bullet_speed = 10
+var knight6_bullet_mass = 100000
+var knight6_bullet_scale = 10
+var knight6_bullet_damage = 100
+var knight6_bullet_decay_time= 5
+var knight6_bullet_is_cannon = true
+var knight6_bullet_is_mass = false
 
 var speed = knight1_speed
 var fire_interval = knight1_fire_interval
 var HP_MAX = knight1_HP_MAX
-var turret_cool = knight1_turret_cool
+var skill_cool = knight1_skill_cool
 var regen_cool = knight1_regen_cool
 var bullet_type = knight1_bullet_type
 var bullet_hp = knight1_bullet_hp
@@ -100,7 +122,8 @@ var bullet_mass = knight1_bullet_mass
 var bullet_scale = knight1_bullet_scale
 var bullet_damage = knight1_bullet_damage
 var bullet_decay_time= knight1_bullet_decay_time
-var bullet_is_heavy_mass = knight1_bullet_is_heavy_mass
+var bullet_is_cannon = knight1_bullet_is_cannon
+var bullet_is_mass = knight1_bullet_is_mass 
 
 var fire_timeout = 0
 var regen_timeout = 0
@@ -124,7 +147,7 @@ func _ready():
 		speed = knight1_speed
 		fire_interval = knight1_fire_interval
 		HP_MAX = knight1_HP_MAX
-		turret_cool = knight1_turret_cool
+		skill_cool = knight1_skill_cool
 		regen_cool = knight1_regen_cool
 		bullet_type = knight1_bullet_type
 		bullet_hp = knight1_bullet_hp
@@ -133,12 +156,13 @@ func _ready():
 		bullet_scale = knight1_bullet_scale
 		bullet_damage = knight1_bullet_damage
 		bullet_decay_time= knight1_bullet_decay_time
-		bullet_is_heavy_mass = knight1_bullet_is_heavy_mass
+		bullet_is_cannon = knight1_bullet_is_cannon
+		bullet_is_mass = knight1_bullet_is_mass
 	elif knight_num == 2:
 		speed = knight2_speed
 		fire_interval = knight2_fire_interval
 		HP_MAX = knight2_HP_MAX
-		turret_cool = knight2_turret_cool
+		skill_cool = knight2_skill_cool
 		regen_cool = knight2_regen_cool
 		bullet_type = knight2_bullet_type
 		bullet_hp = knight2_bullet_hp
@@ -147,12 +171,13 @@ func _ready():
 		bullet_scale = knight2_bullet_scale
 		bullet_damage = knight2_bullet_damage
 		bullet_decay_time= knight2_bullet_decay_time
-		bullet_is_heavy_mass = knight2_bullet_is_heavy_mass
+		bullet_is_cannon = knight2_bullet_is_cannon
+		bullet_is_mass = knight2_bullet_is_mass
 	elif knight_num == 3:
 		speed = knight3_speed
 		fire_interval = knight3_fire_interval
 		HP_MAX = knight3_HP_MAX
-		turret_cool = knight3_turret_cool
+		skill_cool = knight3_skill_cool
 		regen_cool = knight3_regen_cool
 		bullet_type = knight3_bullet_type
 		bullet_hp = knight3_bullet_hp
@@ -161,12 +186,13 @@ func _ready():
 		bullet_scale = knight3_bullet_scale
 		bullet_damage = knight3_bullet_damage
 		bullet_decay_time= knight3_bullet_decay_time
-		bullet_is_heavy_mass = knight3_bullet_is_heavy_mass
+		bullet_is_cannon = knight3_bullet_is_cannon
+		bullet_is_mass = knight3_bullet_is_mass
 	elif knight_num == 4:
 		speed = knight4_speed
 		fire_interval = knight4_fire_interval
 		HP_MAX = knight4_HP_MAX
-		turret_cool = knight4_turret_cool
+		skill_cool = knight4_skill_cool
 		regen_cool = knight4_regen_cool
 		bullet_type = knight4_bullet_type
 		bullet_hp = knight4_bullet_hp
@@ -175,12 +201,13 @@ func _ready():
 		bullet_scale = knight4_bullet_scale
 		bullet_damage = knight4_bullet_damage
 		bullet_decay_time= knight4_bullet_decay_time
-		bullet_is_heavy_mass = knight4_bullet_is_heavy_mass
+		bullet_is_cannon = knight4_bullet_is_cannon
+		bullet_is_mass = knight4_bullet_is_mass
 	elif knight_num == 5:
 		speed = knight5_speed
 		fire_interval = knight5_fire_interval
 		HP_MAX = knight5_HP_MAX
-		turret_cool = knight5_turret_cool
+		skill_cool = knight5_skill_cool
 		regen_cool = knight5_regen_cool
 		bullet_type = knight5_bullet_type
 		bullet_hp = knight5_bullet_hp
@@ -189,8 +216,23 @@ func _ready():
 		bullet_scale = knight5_bullet_scale
 		bullet_damage = knight5_bullet_damage
 		bullet_decay_time= knight5_bullet_decay_time
-		bullet_is_heavy_mass = knight5_bullet_is_heavy_mass
-		
+		bullet_is_cannon = knight5_bullet_is_cannon
+		bullet_is_mass = knight5_bullet_is_mass
+	elif knight_num == 6:
+		speed = knight6_speed
+		fire_interval = knight6_fire_interval
+		HP_MAX = knight6_HP_MAX
+		skill_cool = knight6_skill_cool
+		regen_cool = knight6_regen_cool
+		bullet_type = knight6_bullet_type
+		bullet_hp = knight6_bullet_hp
+		bullet_speed = knight6_bullet_speed
+		bullet_mass = knight6_bullet_mass
+		bullet_scale = knight6_bullet_scale
+		bullet_damage = knight6_bullet_damage
+		bullet_decay_time= knight6_bullet_decay_time
+		bullet_is_cannon = knight6_bullet_is_cannon
+		bullet_is_mass = knight6_bullet_is_mass
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(10, 8))
 	else:
@@ -261,11 +303,20 @@ func _process(delta):
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,50))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		elif enemy_moving_state == -1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-50))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		else:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,180,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 		activate_skill()
 		fire()
 	else:
@@ -273,14 +324,23 @@ func _process(delta):
 		
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 			translate(Vector3(-speed * delta, 0, 0))			
 		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))			
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else :
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			if self.get_name() == 'Player':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-180,0))
+			elif self.get_name() == 'Enemy':
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
 			activate_skill()
@@ -321,14 +381,19 @@ func fire():
 	
 
 func create_bullet(direction, width = Vector3(0,0,0)):
-	var bullet = preload('../bullet/bullet.tscn').instance()
+	var bullet
+	if bullet_is_cannon:
+		bullet = preload('../bullet/cannon.tscn').instance()
+		bullet.is_cannon = bullet_is_cannon
+	else:
+		bullet = preload('../bullet/bullet.tscn').instance()
 	bullet.is_enemy = is_enemy
 	bullet.hp = bullet_hp
 	bullet.HP_MAX = bullet_hp
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
-	bullet.is_heavy_mass = bullet_is_heavy_mass
-
+	bullet.is_mass = bullet_is_mass
+	
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
@@ -337,6 +402,8 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
+	if is_enemy:
+		bullet_mesh.set_rotation_deg(Vector3(180,0,0))
 	get_node('../').add_child(bullet)
 
 func create_laser(direction):
@@ -348,35 +415,55 @@ func create_laser(direction):
 		get_node('../').add_child(laser)
 
 func activate_skill():
+	if is_ai && get_node('../').get_node('BlackHole'):
+		return
 	if knight_skill_queue.size() <= 0:
 		return
 	if skill_remain > 0:
 		return
-	skill_remain = turret_cool
+	skill_remain = skill_cool
 	var skill = knight_skill_queue[0]
 	knight_skill_queue.pop_front()
-	if skill in [constants.TURRET_FIXED_TYPE, constants.TURRET_FORWARD_TYPE]:
+	if skill == constants.TURRET:
 		call_turret(skill)
-	elif skill == constants.BLACKHOLE:
+	elif skill == constants.DRONE:
+		call_drone(skill)
+	elif skill == constants.BLACKHOLE:		
 		summon_blackhole()
 
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy
 	blackhole.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
-	blackhole.set_linear_velocity(forward * 10)
+	#blackhole.set_linear_velocity(forward * 10)
+	var xyz = Vector3(0,0,0)
+	xyz.x = blackhole.get_translation().x
+	if is_enemy:
+		xyz.z = 3
+	else:
+		xyz.z = -3
+	blackhole.set_translation(xyz)
 	get_node('../').add_child(blackhole)
 
 func call_turret(type):
-	var turret = preload('../turret/turret.tscn').instance()
+	var turret = preload('../skills/turret.tscn').instance()
 	turret.turret_type = type
-	turret.bullet_speed = 20
 	turret.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans = get_global_transform().orthonormalized()
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	turret.set_global_transform(trans)
 	get_node('../').add_child(turret)
+
+func call_drone(type):
+	var drone = preload('../skills/drone.tscn').instance()
+	drone.drone_type = type
+	drone.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	drone.set_global_transform(trans)
+	get_node('../').add_child(drone)
 
 func reached_left_edge():
 	on_left_edge = true

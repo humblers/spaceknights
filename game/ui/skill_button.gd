@@ -4,10 +4,10 @@ var skill_type = 0
 var queue_idx = 0
 
 func _ready():
-	if skill_type == constants.TURRET_FIXED_TYPE:
-		set_text("FIXED")
-	elif skill_type == constants.TURRET_FORWARD_TYPE:
-		set_text("FORWARD")
+	if skill_type == constants.TURRET:
+		set_text("TURRET")
+	elif skill_type == constants.DRONE:
+		set_text("DRONE")
 	elif skill_type == constants.BLACKHOLE:
 		set_text("BLACKHOLE")
 

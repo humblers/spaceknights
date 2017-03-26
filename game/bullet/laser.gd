@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var damage = 1
+var damage = 3
 var is_enemy = false
 var is_enemy_knight_damaged = false
 var is_enemy_mother_damaged = false
