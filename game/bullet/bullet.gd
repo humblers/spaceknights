@@ -31,13 +31,14 @@ func _ready():
 			add_to_group('enemy_Bullet')
 			set_layer_mask(constants.LM_ENEMY)
 			set_collision_mask(constants.LM_PLAYER)
+	
 		else:
 			add_to_group('player_Bullet')
 			set_layer_mask(constants.LM_PLAYER)
 			set_collision_mask(constants.LM_ENEMY)
 			var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
-			
-			material.set_parameter(material.PARAM_EMISSION,Color(0,0,0.2,1))
+			#print('mat suf : ', material)
+			material.set_parameter(material.PARAM_DIFFUSE,Color(0,0,0.3,1))
 			
 			get_node("MeshInstance").set_material_override(material)
 		
