@@ -141,99 +141,27 @@ var laser
 func _ready():
 	var player = "player1" if not is_enemy else "player2"
 	knight_skill_queue = [] + start.get("%s_skill_queue" % player)
-	
-	if knight_num == 0:
-		knight_num = randi() % knight_total_num + 1
-	if knight_num == 1:
-		speed = knight1_speed
-		fire_interval = knight1_fire_interval
-		HP_MAX = knight1_HP_MAX
-		skill_cool = knight1_skill_cool
-		regen_cool = knight1_regen_cool
-		bullet_type = knight1_bullet_type
-		bullet_hp = knight1_bullet_hp
-		bullet_speed = knight1_bullet_speed
-		bullet_mass = knight1_bullet_mass
-		bullet_scale = knight1_bullet_scale
-		bullet_damage = knight1_bullet_damage
-		bullet_decay_time= knight1_bullet_decay_time
-		bullet_is_cannon = knight1_bullet_is_cannon
-		bullet_is_mass = knight1_bullet_is_mass
-	elif knight_num == 2:
-		speed = knight2_speed
-		fire_interval = knight2_fire_interval
-		HP_MAX = knight2_HP_MAX
-		skill_cool = knight2_skill_cool
-		regen_cool = knight2_regen_cool
-		bullet_type = knight2_bullet_type
-		bullet_hp = knight2_bullet_hp
-		bullet_speed = knight2_bullet_speed
-		bullet_mass = knight2_bullet_mass
-		bullet_scale = knight2_bullet_scale
-		bullet_damage = knight2_bullet_damage
-		bullet_decay_time= knight2_bullet_decay_time
-		bullet_is_cannon = knight2_bullet_is_cannon
-		bullet_is_mass = knight2_bullet_is_mass
-	elif knight_num == 3:
-		speed = knight3_speed
-		fire_interval = knight3_fire_interval
-		HP_MAX = knight3_HP_MAX
-		skill_cool = knight3_skill_cool
-		regen_cool = knight3_regen_cool
-		bullet_type = knight3_bullet_type
-		bullet_hp = knight3_bullet_hp
-		bullet_speed = knight3_bullet_speed
-		bullet_mass = knight3_bullet_mass
-		bullet_scale = knight3_bullet_scale
-		bullet_damage = knight3_bullet_damage
-		bullet_decay_time= knight3_bullet_decay_time
-		bullet_is_cannon = knight3_bullet_is_cannon
-		bullet_is_mass = knight3_bullet_is_mass
-	elif knight_num == 4:
-		speed = knight4_speed
-		fire_interval = knight4_fire_interval
-		HP_MAX = knight4_HP_MAX
-		skill_cool = knight4_skill_cool
-		regen_cool = knight4_regen_cool
-		bullet_type = knight4_bullet_type
-		bullet_hp = knight4_bullet_hp
-		bullet_speed = knight4_bullet_speed
-		bullet_mass = knight4_bullet_mass
-		bullet_scale = knight4_bullet_scale
-		bullet_damage = knight4_bullet_damage
-		bullet_decay_time= knight4_bullet_decay_time
-		bullet_is_cannon = knight4_bullet_is_cannon
-		bullet_is_mass = knight4_bullet_is_mass
-	elif knight_num == 5:
-		speed = knight5_speed
-		fire_interval = knight5_fire_interval
-		HP_MAX = knight5_HP_MAX
-		skill_cool = knight5_skill_cool
-		regen_cool = knight5_regen_cool
-		bullet_type = knight5_bullet_type
-		bullet_hp = knight5_bullet_hp
-		bullet_speed = knight5_bullet_speed
-		bullet_mass = knight5_bullet_mass
-		bullet_scale = knight5_bullet_scale
-		bullet_damage = knight5_bullet_damage
-		bullet_decay_time= knight5_bullet_decay_time
-		bullet_is_cannon = knight5_bullet_is_cannon
-		bullet_is_mass = knight5_bullet_is_mass
-	elif knight_num == 6:
-		speed = knight6_speed
-		fire_interval = knight6_fire_interval
-		HP_MAX = knight6_HP_MAX
-		skill_cool = knight6_skill_cool
-		regen_cool = knight6_regen_cool
-		bullet_type = knight6_bullet_type
-		bullet_hp = knight6_bullet_hp
-		bullet_speed = knight6_bullet_speed
-		bullet_mass = knight6_bullet_mass
-		bullet_scale = knight6_bullet_scale
-		bullet_damage = knight6_bullet_damage
-		bullet_decay_time= knight6_bullet_decay_time
-		bullet_is_cannon = knight6_bullet_is_cannon
-		bullet_is_mass = knight6_bullet_is_mass
+	knight_num = start.get("%s_type" % player)
+
+	if knight_num == -1:
+		knight_num = randi() % constants.KNIGHTS.size()
+
+	var knight_info = constants.KNIGHTS[knight_num]
+	speed = knight_info["speed"]
+	fire_interval = knight_info["fire_interval"]
+	HP_MAX = knight_info["HP_MAX"]
+	skill_cool = knight_info["skill_cool"]
+	regen_cool = knight_info["regen_cool"]
+	bullet_type = knight_info["bullet"]["type"]
+	bullet_hp = knight_info["bullet"]["hp"]
+	bullet_speed = knight_info["bullet"]["speed"]
+	bullet_mass = knight_info["bullet"]["mass"]
+	bullet_scale = knight_info["bullet"]["scale"]
+	bullet_damage = knight_info["bullet"]["damage"]
+	bullet_decay_time= knight_info["bullet"]["decay_time"]
+	bullet_is_cannon = knight_info["bullet"]["is_cannon"]
+	bullet_is_mass = knight_info["bullet"]["is_mass"]
+
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(10, 8))
 	else:
