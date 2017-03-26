@@ -32,6 +32,7 @@ func update_skill_panel(player):
 	var skill_tscn = preload("res://ui/skill_button.tscn")
 	for i in range(start.get("%s_skill_queue" % player).size()):
 		var button = skill_tscn.instance()
+		button.player = player
 		button.skill_type = start.get("%s_skill_queue" % player)[i]
 		button.queue_idx = i
 		button_parent.add_child(button)

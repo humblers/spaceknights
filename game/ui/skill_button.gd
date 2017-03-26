@@ -1,5 +1,6 @@
 extends Button
 
+var player = ""
 var skill_type = 0
 var queue_idx = 0
 
@@ -12,5 +13,5 @@ func _ready():
 		set_text("BLACKHOLE")
 
 func _on_Button_pressed():
-	start.player1_skill_queue.remove(queue_idx)
+	start.get("%s_skill_queue" % player).remove(queue_idx)
 	get_node("/root/main_screen").update_skill_queue()
