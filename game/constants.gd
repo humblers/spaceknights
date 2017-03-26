@@ -5,10 +5,11 @@ const TURRET = 1
 const DRONE = 2
 const BLACKHOLE=3
 
-const knights = {
-	"default" : {
+const KNIGHTS = [
+	{
+		"type" : "default",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -24,9 +25,10 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-	"heavy" : {
+	{
+		"type" : "heavy",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -42,9 +44,10 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-	"3way" : {
+	{
+		"type" : "3way",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -60,9 +63,10 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-	"laser" : {
+	{
+		"type" : "laser",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -78,9 +82,10 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-	"multi" : {
+	{
+		"type" : "multi",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -96,9 +101,10 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-	"cannon" : {
+	{
+		"type" : "cannon",
 		"speed" : 15,
-		"interval" : 0.2,
+		"fire_interval" : 0.2,
 		"HP_MAX" : 300,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
@@ -114,7 +120,7 @@ const knights = {
 			"is_mass" : false,
 		},
 	},
-}
+]
 
 func _ready():
 	pass
