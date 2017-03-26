@@ -1,5 +1,9 @@
 extends Node
 
+# Layer Masks
+const LM_PLAYER = 1
+const LM_ENEMY = 2
+
 const SKILL_QUEUE_LEN = 10
 const TURRET = 1
 const DRONE = 2
