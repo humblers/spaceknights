@@ -299,7 +299,7 @@ func fire():
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
 	if bullet_is_cannon:
-		bullet = preload('../bullet/cannon.tscn').instance()
+		bullet = preload('../bullet/rocket.tscn').instance()
 		bullet.is_cannon = bullet_is_cannon
 	else:
 		bullet = preload('../bullet/bullet.tscn').instance()
@@ -318,8 +318,8 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
-	if is_enemy:
-		bullet_mesh.set_rotation_deg(Vector3(180,0,0))
+	#if is_enemy:
+		#bullet_mesh.set_rotation_deg(Vector3(180,0,0))
 	get_node('../').add_child(bullet)
 
 func create_laser(direction):
