@@ -13,34 +13,19 @@ func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
 		_on_play_pressed()
 
-func _on_turret_fixed_pressed():
-	var queue = start.player1_skill_queue
-	if queue.size() >= constants.SKILL_QUEUE_LEN:
-		return
-	queue.append(constants.TURRET)
-	update_skill_queue()
-
-func _on_turret_forward_pressed():
-	var queue = start.player1_skill_queue
-	if queue.size() >= constants.SKILL_QUEUE_LEN:
-		return
-	queue.append(constants.DRONE)
-	update_skill_queue()
-
-func _on_blackhole_pressed():
-	var queue = start.player1_skill_queue
-	if queue.size() >= constants.SKILL_QUEUE_LEN:
-		return
-	queue.append(constants.BLACKHOLE)
-	update_skill_queue()
-
-func update_skill_queue():
-	var button_parent = get_node("skill_panel/scroll/skill_queue")
+func update_skill_panel(player):
+	var button_parent = get_node("picked_skill_%s/scroll/skill_queue" % player)
 	for prev_button in button_parent.get_children():
 		prev_button.queue_free()
 	var skill_tscn = preload("res://ui/skill_button.tscn")
-	for i in range(start.player1_skill_queue.size()):
+	for i in range(start.get("%s_skill_queue" % player).size()):
 		var button = skill_tscn.instance()
 		button.skill_type = start.player1_skill_queue[i]
 		button.queue_idx = i
 		button_parent.add_child(button)
+
+func update_skill_queue(players=null):
+	if players == null:
+		players = ["player1", "player2"]
+	for player in players:
+		update_skill_panel(player)

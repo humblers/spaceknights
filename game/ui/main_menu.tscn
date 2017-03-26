@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://ui/main_menu.gd" type="Script" id=1]
 [ext_resource path="res://ui/skill_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/pick_skill.tscn" type="PackedScene" id=3]
 
 [node name="main_screen" type="Control"]
 
@@ -23,10 +24,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 130.0
-margin/top = 109.0
-margin/right = 281.0
-margin/bottom = 150.0
+margin/left = 51.0
+margin/top = 8.0
+margin/right = 202.0
+margin/bottom = 49.0
 text = "S P A C E  K N I G H T"
 align = 1
 valign = 1
@@ -40,10 +41,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 85.0
-margin/top = 228.0
-margin/right = 321.0
-margin/bottom = 242.0
+margin/left = 6.0
+margin/top = 127.0
+margin/right = 242.0
+margin/bottom = 141.0
 text = "Results"
 align = 1
 percent_visible = 1.0
@@ -56,10 +57,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 147.0
-margin/top = 300.0
-margin/right = 291.0
-margin/bottom = 314.0
+margin/left = 68.0
+margin/top = 199.0
+margin/right = 212.0
+margin/bottom = 213.0
 text = "Blue Team : 0 WIN"
 percent_visible = 1.0
 lines_skipped = 0
@@ -71,10 +72,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 145.0
-margin/top = 342.0
-margin/right = 273.0
-margin/bottom = 356.0
+margin/left = 66.0
+margin/top = 241.0
+margin/right = 194.0
+margin/bottom = 255.0
 text = "Red Team : 0 WIN"
 percent_visible = 1.0
 lines_skipped = 0
@@ -96,66 +97,18 @@ shortcut = null
 text = "START"
 flat = false
 
-[node name="turret" type="Button" parent="."]
+[node name="picked_skill_player1" type="Panel" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 160.0
-margin/top = 470.0
-margin/right = 261.0
-margin/bottom = 514.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "turret"
-flat = false
+margin/left = 131.0
+margin/top = 398.0
+margin/right = 242.0
+margin/bottom = 518.0
 
-[node name="drone" type="Button" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 160.0
-margin/top = 410.0
-margin/right = 261.0
-margin/bottom = 454.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "drone"
-flat = false
-
-[node name="blackhole" type="Button" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 280.0
-margin/top = 411.0
-margin/right = 370.0
-margin/bottom = 448.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "blackhole"
-flat = false
-
-[node name="skill_panel" type="Panel" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 30.0
-margin/top = 403.0
-margin/right = 141.0
-margin/bottom = 523.0
-
-[node name="scroll" type="ScrollContainer" parent="skill_panel"]
+[node name="scroll" type="ScrollContainer" parent="picked_skill_player1"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -168,7 +121,7 @@ margin/bottom = 124.0
 scroll/horizontal = true
 scroll/vertical = true
 
-[node name="skill_queue" type="VBoxContainer" parent="skill_panel/scroll"]
+[node name="skill_queue" type="VBoxContainer" parent="picked_skill_player1/scroll"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -181,7 +134,7 @@ margin/bottom = 0.0
 custom_constants/separation = 1
 alignment = 0
 
-[node name="skill_button" parent="skill_panel/scroll/skill_queue" instance=ExtResource( 2 )]
+[node name="skill_button" parent="picked_skill_player1/scroll/skill_queue" instance=ExtResource( 2 )]
 
 visibility/visible = false
 margin/left = 0.0
@@ -189,12 +142,53 @@ margin/top = 0.0
 margin/right = 12.0
 margin/bottom = 20.0
 
+[node name="picked_skill_player2" type="Panel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 261.0
+margin/top = 397.0
+margin/right = 372.0
+margin/bottom = 517.0
+
+[node name="scroll" type="ScrollContainer" parent="picked_skill_player2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 1.0
+margin/right = 111.0
+margin/bottom = 124.0
+scroll/horizontal = true
+scroll/vertical = true
+
+[node name="skill_queue" type="VBoxContainer" parent="picked_skill_player2/scroll"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_constants/separation = 1
+alignment = 0
+
+[node name="skill_button" parent="picked_skill_player2/scroll/skill_queue" instance=ExtResource( 2 )]
+
+visibility/visible = false
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 12.0
+margin/bottom = 20.0
+
+[node name="Panel" parent="." instance=ExtResource( 3 )]
+
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
-
-[connection signal="pressed" from="turret" to="." method="_on_turret_fixed_pressed"]
-
-[connection signal="pressed" from="drone" to="." method="_on_turret_forward_pressed"]
-
-[connection signal="pressed" from="blackhole" to="." method="_on_blackhole_pressed"]
 
 
