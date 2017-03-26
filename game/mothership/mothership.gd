@@ -7,8 +7,12 @@ var hp
 
 func _ready():
 	if is_enemy:
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
 		get_node("HP").set_pos(Vector2(260, 8))
 	else:
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
 		get_node("HP").set_pos(Vector2(260, 602))
 	hp = HP_MAX
 	update_ui()

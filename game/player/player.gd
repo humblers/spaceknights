@@ -164,12 +164,17 @@ func _ready():
 
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(10, 8))
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
 	else:
 		get_node("HP").set_pos(Vector2(10, 602))
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
+
 	hp = HP_MAX
 	update_ui()
 	add_to_group("unfreed_nodes")
-		
+
 	set_process(true)
 
 func _on_Area_body_enter( body ):

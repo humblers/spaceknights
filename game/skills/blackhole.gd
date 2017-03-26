@@ -17,6 +17,16 @@ func _on_BlackHole_body_enter( body ):
 		body.queue_free()
 		
 func _ready():
+	if is_enemy:
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
+		get_node("Range").set_layer_mask(constants.LM_ENEMY)
+		get_node("Range").set_collision_mask(constants.LM_PLAYER)
+	else:
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
+		get_node("Range").set_layer_mask(constants.LM_PLAYER)
+		get_node("Range").set_collision_mask(constants.LM_ENEMY)
 	set_process(true)
 	
 func _process(delta):

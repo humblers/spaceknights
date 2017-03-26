@@ -83,9 +83,13 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 func _ready():
 	var drone_loc = self.get_translation()
 	if is_enemy:
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
 		self.set_translation(drone_loc + Vector3(0,0,-4))
 		self.set_rotation_deg(Vector3(0,0,0))
 	else:
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
 		self.set_translation(drone_loc + Vector3(0,0,4))
 		self.set_rotation_deg(Vector3(180,0,180))
 	self.set_scale(Vector3(0.5,0.5,0.5))	
