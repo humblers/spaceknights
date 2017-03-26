@@ -27,8 +27,8 @@ fixed_flags/use_color_array = false
 fixed_flags/use_point_size = false
 fixed_flags/discard_alpha = false
 fixed_flags/use_xy_normalmap = false
-params/diffuse = Color( 0.377312, 0.344238, 0.46875, 1 )
-params/specular = Color( 0.0543823, 0.126476, 0.140625, 1 )
+params/diffuse = Color( 0.523746, 0.501251, 0.585938, 1 )
+params/specular = Color( 0.545929, 0.59728, 0.695313, 1 )
 params/emission = Color( 0.0584968, 0.0438995, 0.0820313, 1 )
 params/specular_exp = 40
 params/detail_mix = 1.0
@@ -111,7 +111,7 @@ params/detail_mix = 1.0
 params/normal_depth = 1
 params/shader = 0
 params/shader_param = 0.5
-params/glow = 0
+params/glow = 0.5
 params/point_size = 1.0
 uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 textures/diffuse = ExtResource( 6 )
@@ -127,8 +127,8 @@ textures/shade_param_tc = 0
 [sub_resource type="Environment" id=4]
 
 ambient_light/enabled = true
-ambient_light/color = Color( 0.477905, 0.481362, 0.566406, 1 )
-ambient_light/energy = 1.0
+ambient_light/color = Color( 0.789551, 0.792889, 0.875, 1 )
+ambient_light/energy = 1.2
 fxaa/enabled = true
 background/mode = 1
 background/color = Color( 0.891154, 0.864075, 0.945313, 1 )
@@ -137,12 +137,12 @@ background/scale = 1.0
 background/glow = 0.0
 background/canvas_max_layer = null
 glow/enabled = true
-glow/blur_passes = 1
+glow/blur_passes = 0
 glow/blur_scale = 1
 glow/blur_strength = 1
-glow/blur_blend_mode = null
-glow/bloom = 0.0
-glow/bloom_treshold = 0.5
+glow/blur_blend_mode = 2
+glow/bloom = 0.5
+glow/bloom_treshold = 1.0
 dof_blur/enabled = true
 dof_blur/blur_passes = 0
 dof_blur/begin = 10.0
@@ -157,9 +157,9 @@ hdr/min_luminance = 0.4
 hdr/max_luminance = 8.0
 hdr/exposure_adj_speed = 0.5
 fog/enabled = true
-fog/begin = 20.0
-fog/begin_color = Color( 0.119202, 0.119202, 0.246094, 1 )
-fog/end_color = Color( 0.0347748, 0.0980252, 0.207031, 1 )
+fog/begin = 45.0
+fog/begin_color = Color( 0.346878, 0.346878, 0.699219, 1 )
+fog/end_color = Color( 0.0563965, 0.22502, 0.515625, 1 )
 fog/attenuation = 1.0
 fog/bg = true
 bcs/enabled = false
@@ -194,50 +194,48 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 [node name="KeyLight" type="DirectionalLight" parent="Lights"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.786032, 0.404606, -0.467383, 0.0148029, 0.743521, 0.668549, 0.618008, -0.53242, 0.578442, -21.9338, 15.6038, 0 )
+transform/local = Transform( -0.569672, 0.555765, -0.605475, 0.0148029, 0.743521, 0.668549, 0.821738, 0.371891, -0.43179, -21.9338, 19.6164, 0 )
 layers = 1
 params/enabled = true
 params/editor_only = false
 params/bake_mode = 0
-params/energy = 1.0
-colors/diffuse = Color( 0.9375, 0.856476, 0.761719, 1 )
-colors/specular = Color( 1, 1, 1, 1 )
-shadow/shadow = false
-shadow/darkening = 0.0
+params/energy = 1.2
+colors/diffuse = Color( 0.863571, 0.913221, 0.957031, 1 )
+colors/specular = Color( 0.257629, 0.259418, 0.261719, 1 )
+shadow/shadow = true
+shadow/darkening = 1.0
 shadow/z_offset = 0.05
 shadow/z_slope_scale = 0.0
 shadow/esm_multiplier = 60.0
 shadow/blur_passes = 1.0
 projector = null
 operator = 0
-shadow/mode = 0
-shadow/max_distance = 0.0
+shadow/mode = 3
+shadow/max_distance = 100.0
 shadow/split_weight = 0.5
 shadow/zoffset_scale = 2.0
 
-[node name="FillLight" type="DirectionalLight" parent="Lights"]
+[node name="OmniLight" type="OmniLight" parent="Lights"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.271993, 0.208253, 0.939495, 0.290284, 0.913066, -0.286435, -0.917472, 0.350629, 0.187895, 44.4309, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00882626, -8.11063, -0.446262 )
 layers = 1
 params/enabled = true
 params/editor_only = false
 params/bake_mode = 0
-params/energy = 1.0
-colors/diffuse = Color( 0.0720978, 0.239258, 0.527344, 1 )
-colors/specular = Color( 0.744629, 0.884712, 0.953125, 1 )
+params/energy = 2.0
+colors/diffuse = Color( 0.752307, 0.439941, 0.828125, 1 )
+colors/specular = Color( 0, 0, 0, 1 )
 shadow/shadow = false
 shadow/darkening = 0.0
-shadow/z_offset = 0.05
+shadow/z_offset = 0.001
 shadow/z_slope_scale = 0.0
 shadow/esm_multiplier = 60.0
 shadow/blur_passes = 1.0
 projector = null
 operator = 0
-shadow/mode = 0
-shadow/max_distance = 0.0
-shadow/split_weight = 0.5
-shadow/zoffset_scale = 2.0
+params/radius = 30.0
+params/attenuation = 1.0
 
 [node name="Stars" type="Spatial" parent="."]
 
@@ -327,28 +325,6 @@ is_enemy = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 environment = SubResource( 4 )
 
-[node name="OmniLight" type="OmniLight" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95181, -21.6492, -11.4744 )
-layers = 1
-params/enabled = true
-params/editor_only = false
-params/bake_mode = 0
-params/energy = 2.0
-colors/diffuse = Color( 0.682103, 0.0965881, 0.824219, 1 )
-colors/specular = Color( 1, 1, 1, 1 )
-shadow/shadow = false
-shadow/darkening = 0.0
-shadow/z_offset = 0.001
-shadow/z_slope_scale = 0.0
-shadow/esm_multiplier = 60.0
-shadow/blur_passes = 1.0
-projector = null
-operator = 0
-params/radius = 30.0
-params/attenuation = 1.0
-
 [node name="Enemy" parent="." instance=ExtResource( 8 )]
 
 transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -18 )
@@ -359,7 +335,7 @@ knight_num = 4
 
 [node name="Player" parent="." instance=ExtResource( 9 )]
 
-transform/local = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 18 )
-knight_num = 3
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
+knight_num = 6
 
 
