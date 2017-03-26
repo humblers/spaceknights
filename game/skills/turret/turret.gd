@@ -70,6 +70,12 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 func _ready():
 	var turret_loc = self.get_translation()
 
+	if is_enemy:
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
+	else:
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
 	hp_label.set_name('HP')
 	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
