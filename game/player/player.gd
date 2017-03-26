@@ -232,20 +232,11 @@ func _process(delta):
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		elif enemy_moving_state == -1:
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		else:
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,180,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 		activate_skill()
 		fire()
 	else:
@@ -253,23 +244,14 @@ func _process(delta):
 		
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-30,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
-			translate(Vector3(-speed * delta, 0, 0))			
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			translate(Vector3(-speed * delta, 0, 0))
 		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 			on_left_edge = false
 			translate(Vector3(speed * delta, 0, 0))
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,30,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else :
-			if self.get_name() == 'Player':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,-180,0))
-			elif self.get_name() == 'Enemy':
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
 			activate_skill()
@@ -344,7 +326,7 @@ func create_laser(direction):
 		get_node('../').add_child(laser)
 
 func activate_skill():
-	if is_ai && get_node('../').get_node('BlackHole'):
+	if is_ai && get_node('../').has_node('BlackHole'):
 		return
 	if knight_skill_queue.size() <= 0:
 		return
@@ -361,7 +343,7 @@ func activate_skill():
 		summon_blackhole()
 
 func summon_blackhole():
-	var blackhole = preload('../skills/blackhole.tscn').instance()
+	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy
 	blackhole.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 	#blackhole.set_linear_velocity(forward * 10)
@@ -375,7 +357,7 @@ func summon_blackhole():
 	get_node('../').add_child(blackhole)
 
 func call_turret(type):
-	var turret = preload('../skills/turret.tscn').instance()
+	var turret = preload('../skills/turret/turret.tscn').instance()
 	turret.turret_type = type
 	turret.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
@@ -385,7 +367,7 @@ func call_turret(type):
 	get_node('../').add_child(turret)
 
 func call_drone(type):
-	var drone = preload('../skills/drone.tscn').instance()
+	var drone = preload('../skills/drone/drone.tscn').instance()
 	drone.drone_type = type
 	drone.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
