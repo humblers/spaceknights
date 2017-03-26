@@ -17,8 +17,10 @@ func _input(event):
 
 func initialize_knight_type_button(button_name):
 	var pick_button = get_node(button_name)
-	pick_button.add_item("random", -1)
-	for i in range(constants.KNIGHTS.size()):
+	pick_button.clear()
+	var skill_len = constants.KNIGHTS.size()
+	pick_button.add_item("random", skill_len + 1)
+	for i in range(skill_len):
 		pick_button.add_item(constants.KNIGHTS[i]["type"], i)
 
 func update_skill_panel(player):
@@ -39,7 +41,7 @@ func update_skill_queue(players=null):
 		update_skill_panel(player)
 
 func _on_picked_type_player1_item_selected( ID ):
-	start.player1_type = ID
+	start.player1_type = get_node("picked_type_player1").get_selected_ID()
 
 func _on_picked_type_player2_item_selected( ID ):
-	start.player2_type = ID
+	start.player2_type = get_node("picked_type_player2").get_selected_ID()

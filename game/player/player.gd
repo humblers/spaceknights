@@ -143,10 +143,10 @@ func _ready():
 	knight_skill_queue = [] + start.get("%s_skill_queue" % player)
 	knight_num = start.get("%s_type" % player)
 
-	if knight_num == -1:
-		knight_num = randi() % constants.KNIGHTS.size()
-
-	var knight_info = constants.KNIGHTS[knight_num]
+	var knight_infos = constants.KNIGHTS
+	if knight_num < 0 or knight_num >= knight_infos.size():
+		knight_num = randi() % knight_infos.size()
+	var knight_info = knight_infos[knight_num]
 	speed = knight_info["speed"]
 	fire_interval = knight_info["fire_interval"]
 	HP_MAX = knight_info["HP_MAX"]
