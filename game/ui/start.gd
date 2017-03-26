@@ -13,29 +13,25 @@ onready var red_hp = 0
 onready var gameover = false
 
 func _ready():
-	player1_skill_queue += Globals.get("player1_skill_queue") \
-						if Globals.has("player1_skill_queue") else []
-	player1_type += Globals.get("player1_type") \
-				if Globals.has("player1_type") else 0
-	
-	player2_skill_queue += Globals.get("player2_skill_queue") \
-						if Globals.has("player2_skill_queue") else []
-	player2_type += Globals.get("player2_type") \
-				if Globals.has("player2_type") else 0
-	
-	save_player_data()
+	var player_data = File.new()
+	if not player_data.file_exists("user://player_data.dat"):
+		return
 
-func set_persists_property_with_value(property, value=null):
-	if value == null:
-		value = get(property)
-	Globals.set(property, value)
-	Globals.set_persisting(property, true)
-	
+	var cur_line = {}
+	player_data.open("user://player_data.dat", File.READ)
+	while(not player_data.eof_reached()):
+		cur_line.parse_json(player_data.get_line())
+		for key in cur_line:
+			set(key, cur_line[key])
+
 func save_player_data(p1_button_idx=null, p2_button_idx=null):
-	set_persists_property_with_value("player1_skill_queue")
-	set_persists_property_with_value("player1_type", p1_button_idx)
-	
-	set_persists_property_with_value("player2_skill_queue")
-	set_persists_property_with_value("player2_type", p2_button_idx)
-	
-	Globals.save()
+	var datas = {
+		"player1_skill_queue" : player1_skill_queue,
+		"player1_type" : p1_button_idx if p1_button_idx != null else player1_type,
+		"player2_skill_queue" : player2_skill_queue,
+		"player2_type" : p2_button_idx if p2_button_idx != null else player2_type,
+	}
+	var player_data = File.new()
+	player_data.open("user://player_data.dat", File.WRITE)
+	player_data.store_line(datas.to_json())
+	player_data.close()
