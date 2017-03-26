@@ -9,9 +9,11 @@ func _ready():
 	set_process_input(true)
 
 func _on_play_pressed():
-	start.player1_type = get_node("picked_type_player1").get_selected_ID()
-	start.player2_type = get_node("picked_type_player2").get_selected_ID()
-	start.save_changes()
+	var p1_button = get_node("picked_type_player1")
+	start.player1_type = p1_button.get_selected_ID()
+	var p2_button = get_node("picked_type_player2")
+	start.player2_type = p2_button.get_selected_ID()
+	start.save_player_data(p1_button.get_selected(), p2_button.get_selected())
 	get_tree().change_scene("res://main.tscn")
 
 func _input(event):
