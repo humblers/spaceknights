@@ -20,6 +20,7 @@ var bullet_scale = 0.8
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
+var collider_damage = 100
 
 onready var hp_label = Label.new()
 
@@ -83,11 +84,13 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 func _ready():
 	var drone_loc = self.get_translation()
 	if is_enemy:
+		add_to_group('enemy_Collider')
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 		self.set_translation(drone_loc + Vector3(0,0,-4))
 		self.set_rotation_deg(Vector3(0,0,0))
 	else:
+		add_to_group('player_Collider')
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 		self.set_translation(drone_loc + Vector3(0,0,4))

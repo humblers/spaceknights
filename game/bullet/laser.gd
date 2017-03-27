@@ -88,8 +88,10 @@ func _process(delta):
 	var laser_color = (sin(time)+1)/2*0.6+0.2
 	if is_enemy:
 		material.set_parameter(material.PARAM_DIFFUSE,Color(laser_color+0.5,laser_color,laser_color,laser_color+0.5))
+		get_node("laser_cube").set_material_override(material)
 	else:
 		material.set_parameter(material.PARAM_DIFFUSE,Color(laser_color,laser_color,laser_color+0.5,laser_color+0.5))
+		get_node("laser_cube").set_material_override(material)
 	
 	give_damage(damage*laser_scale)
 	

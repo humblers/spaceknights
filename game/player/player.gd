@@ -5,125 +5,22 @@ export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
 
-var knight_skill_queue
-
-var knight_total_num = 6
-# default shooter
-var knight1_speed = 15
-var knight1_fire_interval = 0.2
-var knight1_HP_MAX = 300
-var knight1_skill_cool = 3
-var knight1_regen_cool = 3
-
-var knight1_bullet_type = 1
-var knight1_bullet_hp = 20
-var knight1_bullet_speed = 30
-var knight1_bullet_mass = 1000
-var knight1_bullet_scale = 1
-var knight1_bullet_damage = 22
-var knight1_bullet_decay_time= 1.5
-var knight1_bullet_is_cannon = false
-var knight1_bullet_is_mass = false
-
-# big shooter
-var knight2_speed = 15
-var knight2_fire_interval = 1
-var knight2_HP_MAX = 300
-var knight2_skill_cool = 3
-var knight2_regen_cool = 3
-
-var knight2_bullet_type = 1
-var knight2_bullet_hp = 100
-var knight2_bullet_speed = 10
-var knight2_bullet_mass = 100000
-var knight2_bullet_scale = 10
-var knight2_bullet_damage = 100
-var knight2_bullet_decay_time= 5
-var knight2_bullet_is_cannon = false
-var knight2_bullet_is_mass = true
-
-# 3way shooter
-var knight3_speed = 15
-var knight3_fire_interval = 0.2
-var knight3_HP_MAX = 300
-var knight3_skill_cool = 3
-var knight3_regen_cool = 3
-
-var knight3_bullet_type = 2
-var knight3_bullet_hp = 20
-var knight3_bullet_speed = 30
-var knight3_bullet_mass = 1000
-var knight3_bullet_scale = 1
-var knight3_bullet_damage = 7
-var knight3_bullet_decay_time= 1.5
-var knight3_bullet_is_cannon = false
-var knight3_bullet_is_mass = false
-
-# heavy shooter
-var knight4_speed = 30
-var knight4_fire_interval = 0.1
-var knight4_HP_MAX = 300
-var knight4_skill_cool = 3
-var knight4_regen_cool = 3
-
-var knight4_bullet_type = 3
-var knight4_bullet_hp = 10
-var knight4_bullet_speed = 50
-var knight4_bullet_mass = 1000
-var knight4_bullet_scale = 0.8
-var knight4_bullet_damage = 2
-var knight4_bullet_decay_time= 1.5
-var knight4_bullet_is_cannon = false
-var knight4_bullet_is_mass = false
-
-# laser shooter
-var knight5_speed = 30
-var knight5_fire_interval = 0.2
-var knight5_HP_MAX = 300
-var knight5_skill_cool = 3
-var knight5_regen_cool = 3
-
-var knight5_bullet_type = 4
-var knight5_bullet_hp = 20
-var knight5_bullet_speed = 30
-var knight5_bullet_mass = 1000
-var knight5_bullet_scale = 1
-var knight5_bullet_damage = 15
-var knight5_bullet_decay_time= 1.5
-var knight5_bullet_is_cannon = false
-var knight5_bullet_is_mass = false
-
-# cannon shooter
-var knight6_speed = 15
-var knight6_fire_interval = 1
-var knight6_HP_MAX = 300
-var knight6_skill_cool = 3
-var knight6_regen_cool = 3
-
-var knight6_bullet_type = 1
-var knight6_bullet_hp = 100
-var knight6_bullet_speed = 10
-var knight6_bullet_mass = 100000
-var knight6_bullet_scale = 10
-var knight6_bullet_damage = 100
-var knight6_bullet_decay_time= 5
-var knight6_bullet_is_cannon = true
-var knight6_bullet_is_mass = false
-
-var speed = knight1_speed
-var fire_interval = knight1_fire_interval
-var HP_MAX = knight1_HP_MAX
-var skill_cool = knight1_skill_cool
-var regen_cool = knight1_regen_cool
-var bullet_type = knight1_bullet_type
-var bullet_hp = knight1_bullet_hp
-var bullet_speed = knight1_bullet_speed
-var bullet_mass = knight1_bullet_mass
-var bullet_scale = knight1_bullet_scale
-var bullet_damage = knight1_bullet_damage
-var bullet_decay_time= knight1_bullet_decay_time
-var bullet_is_cannon = knight1_bullet_is_cannon
-var bullet_is_mass = knight1_bullet_is_mass 
+var knight_skill_queue = []
+var random_skill_queue
+var speed
+var fire_interval
+var HP_MAX
+var skill_cool
+var regen_cool
+var bullet_type
+var bullet_hp
+var bullet_speed
+var bullet_mass
+var bullet_scale
+var bullet_damage
+var bullet_decay_time
+var bullet_is_cannon
+var bullet_is_mass
 
 var fire_timeout = 0
 var regen_timeout = 0
@@ -137,12 +34,24 @@ var skill_remain = 0
 var is_dead = false
 var is_hold_fire = false
 var laser
+var skill_num = 0
 
 func _ready():
 	var player = "player1" if not is_enemy else "player2"
-	knight_skill_queue = [] + start.get("%s_skill_queue" % player)
+	random_skill_queue = [] + start.get("%s_skill_queue" % player)
 	knight_num = start.get("%s_type" % player)
-
+	
+	while random_skill_queue.size() > 0:		
+		var random_num = randi() % random_skill_queue.size()
+		knight_skill_queue.append(random_skill_queue[random_num])
+		random_skill_queue.remove(random_num)		
+	
+	for i in range(knight_skill_queue.size()):
+		print('ran skill num = ', i, ' contents ' , knight_skill_queue[i])
+	
+	skill_num = knight_skill_queue.size()
+	
+	
 	var knight_infos = constants.KNIGHTS
 	if knight_num < 0 or knight_num >= knight_infos.size():
 		knight_num = randi() % knight_infos.size()
@@ -333,20 +242,31 @@ func create_laser(direction):
 func activate_skill():
 	if is_ai && get_node('../').has_node('BlackHole'):
 		return
+	
+	
 	if knight_skill_queue.size() <= 0:
 		return
+	if skill_num <= 0:
+		skill_num = knight_skill_queue.size()
+		
 	if skill_remain > 0:
 		return
-	skill_remain = skill_cool
-	var skill = knight_skill_queue[0]
-	knight_skill_queue.pop_front()
+	
+	skill_num -= 1
+	var skill = knight_skill_queue[skill_num]
+	print('cool ' , constants.SKILLCOOL[skill-1])
+	skill_remain = constants.SKILLCOOL[skill-1]
 	if skill == constants.TURRET:
 		call_turret(skill)
 	elif skill == constants.DRONE:
 		call_drone(skill)
-	elif skill == constants.BLACKHOLE:		
+	elif skill == constants.BLACKHOLE:
 		summon_blackhole()
-
+	elif skill == constants.ADDON:
+		call_addon(skill)
+	elif skill == constants.CHARGE:
+		call_charge(skill)
+		
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy
@@ -380,6 +300,59 @@ func call_drone(type):
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	drone.set_global_transform(trans)
 	get_node('../').add_child(drone)
+	
+func call_addon(type):
+	var addon1 = preload('../skills/addon/addon.tscn').instance()
+	addon1.addon_type = type
+	addon1.is_enemy = is_enemy
+	addon1.from_player = Vector3(-1.5, 0, 0)
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	addon1.set_global_transform(trans)
+	get_node('../').add_child(addon1)
+	
+	var addon2 = preload('../skills/addon/addon.tscn').instance()
+	addon2.addon_type = type
+	addon2.is_enemy = is_enemy
+	addon2.from_player = Vector3(1.5, 0, 0)
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	addon2.set_global_transform(trans)
+	get_node('../').add_child(addon2)
+	
+func call_charge(type):
+	var charge = preload('../skills/charge/charge.tscn').instance()
+	charge.charge_type = type
+	charge.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	charge.set_global_transform(trans)
+	get_node('../').add_child(charge)
+	
+	var charge1 = preload('../skills/charge/charge.tscn').instance()
+	charge1.charge_type = type
+	charge1.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans1 = get_global_transform().orthonormalized()
+	trans1.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	trans1.origin.x -= 3
+	trans1.origin.z -= 4
+	charge1.set_global_transform(trans1)
+	get_node('../').add_child(charge1)
+	
+	var charge2 = preload('../skills/charge/charge.tscn').instance()
+	charge2.charge_type = type
+	charge2.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans2 = get_global_transform().orthonormalized()
+	trans2.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	trans2.origin.x += 3
+	trans2.origin.z += 4
+	charge2.set_global_transform(trans2)
+	get_node('../').add_child(charge2)
 
 func reached_left_edge():
 	on_left_edge = true
