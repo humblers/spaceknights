@@ -5,6 +5,7 @@ func _ready():
 	pick_button.add_item("turret", constants.TURRET)
 	pick_button.add_item("drone", constants.DRONE)
 	pick_button.add_item("blackhole", constants.BLACKHOLE)
+	pick_button.add_item("addon", constants.ADDON)
 
 func get_current_skill():
 	return get_node("pick_skill").get_selected_ID()

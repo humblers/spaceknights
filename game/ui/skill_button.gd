@@ -11,6 +11,8 @@ func _ready():
 		set_text("DRONE")
 	elif skill_type == constants.BLACKHOLE:
 		set_text("BLACKHOLE")
+	elif skill_type == constants.ADDON:
+		set_text("ADDON")
 
 func _on_Button_pressed():
 	start.get("%s_skill_queue" % player).remove(queue_idx)

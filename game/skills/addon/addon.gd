@@ -1,19 +1,18 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 100
-const DEFAULT_BULLET_COOL_TIME = 0.5
+const DEFAULT_BULLET_COOL_TIME = 0.2
 const FORWARD_TYPE_SPEED = 5
 
-var drone_type = constants.DRONE
+var addon_type = constants.ADDON
 var is_enemy = false
-
-var hp = DEFAULT_HP
-var life_elapsed = 0
 var is_destroyed = false
+
+var from_player = 0
+var life_elapsed = 0
 var bullet_elapsed = 1
 
-var bullet_damage = 10
+var bullet_damage = 1
 var bullet_decay_time = 4
 var bullet_speed = 20
 var bullet_scale = 0.8
@@ -21,13 +20,8 @@ var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
 
-onready var hp_label = Label.new()
-
 func set_bullet_speed(speed):
 	bullet_speed(speed)
-	
-func update_ui():
-	hp_label.set_text('HP : %d' % hp)
 
 func destroy():
 	if not is_destroyed:
@@ -37,9 +31,16 @@ func destroy():
 
 func _fixed_process(delta):
 	life_elapsed += delta
-	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
+	if life_elapsed > DEFAULT_LIFE_TIME:
 		destroy()
 		return
+	
+	if is_enemy:
+		var addon_loc = get_node('../Enemy').get_translation()
+		self.set_translation(addon_loc + from_player)
+	else:
+		var addon_loc = get_node('../Player').get_translation()
+		self.set_translation(addon_loc + from_player)
 
 	bullet_elapsed += delta
 	if is_enemy:
@@ -47,18 +48,8 @@ func _fixed_process(delta):
 	if bullet_elapsed > DEFAULT_BULLET_COOL_TIME:
 		bullet_elapsed = 0
 		bullet_scale = 0.8
-		bullet_speed = 40
-		create_bullet(forward, Vector3(-0.5, 0, 0))
-		create_bullet(forward, Vector3( 0.5, 0, 0))
-		
-		bullet_scale = 1
-		bullet_speed = 20
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(90)).normalized())
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-90)).normalized())
-
-	if drone_type == constants.DRONE:
-		get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-		translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
+		bullet_speed = 60
+		create_bullet(forward, Vector3(0, 0, 0))
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
@@ -81,25 +72,18 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 
 func _ready():
-	var drone_loc = self.get_translation()
+	var addon_loc = self.get_translation()
 	if is_enemy:
-		self.set_translation(drone_loc + Vector3(0,0,-4))
+		set_layer_mask(constants.LM_ENEMY)
+		set_collision_mask(constants.LM_PLAYER)
+		self.set_translation(addon_loc + Vector3(0,0,-4))
 		self.set_rotation_deg(Vector3(0,0,0))
 	else:
-		self.set_translation(drone_loc + Vector3(0,0,4))
+		set_layer_mask(constants.LM_PLAYER)
+		set_collision_mask(constants.LM_ENEMY)
+		self.set_translation(addon_loc + Vector3(0,0,4))
 		self.set_rotation_deg(Vector3(180,0,180))
-	self.set_scale(Vector3(0.5,0.5,0.5))	
-	
-	hp_label.set_name('HP')
-	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-	add_child(hp_label)
-	hp_label.set_text('HP : %d' % hp)
+		
 	set_fixed_process(true)
 
-
-func _on_DroneArea_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
-		body.queue_free()
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		update_ui()
 

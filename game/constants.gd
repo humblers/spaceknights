@@ -7,7 +7,8 @@ const LM_ENEMY = 2
 const SKILL_QUEUE_LEN = 10
 const TURRET = 1
 const DRONE = 2
-const BLACKHOLE=3
+const BLACKHOLE = 3
+const ADDON = 4
 
 const KNIGHTS = [
 	{
