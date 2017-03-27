@@ -11,13 +11,28 @@ const BLACKHOLE = 3
 const ADDON = 4
 const CHARGE = 5
 
-const SKILLCOOL = [
-		5,
-		5,
-		15,
-		5,
-		2
-		]		
+const SKILLS = [
+	{
+		"name" : "TURRET",
+		"cool" : 5
+	},
+	{
+		"name" : "DRONE",
+		"cool" : 5
+	},
+	{
+		"name" : "BLACKHOLE",
+		"cool" : 15
+	},
+	{
+		"name" : "ADDON",
+		"cool" : 5
+	},
+	{
+		"name" : "CHARGE",
+		"cool" : 2
+	}
+]
 
 const KNIGHTS = [
 	{

@@ -96,10 +96,23 @@ func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Knight : ' + str(hp))
 	else:
-		var skill_str = "ready!" if skill_remain <= 0 else "%d" % skill_remain
+		var skill_str = "??"
+		if skill_num == 0:
+			pass
+		elif skill_num-2 < 0:
+			if skill_remain <= 0:
+				skill_str = "<" +constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is ready!"
+			else:
+				skill_str = "Next Magazine"+ "%d" % skill_remain + "s"
+		else:
+			if skill_remain <= 0:
+				skill_str = "<" +constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is ready!"
+			else:
+				skill_str = "<" + constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is " + "%d" % skill_remain + "s remain"
+			
 		if knight_skill_queue.size() <= 0:
 			skill_str = "empty!"
-		get_node('HP').set_text('Knight : ' + str(hp) + ', skill :' + skill_str)
+		get_node('HP').set_text('Knight : ' + str(hp) + ',     ' + skill_str)
 
 func _process(delta):
 	
@@ -254,8 +267,9 @@ func activate_skill():
 	
 	skill_num -= 1
 	var skill = knight_skill_queue[skill_num]
-	print('cool ' , constants.SKILLCOOL[skill-1])
-	skill_remain = constants.SKILLCOOL[skill-1]
+	print('cool ' , constants.SKILLS[skill-1]["cool"])
+	
+	skill_remain = constants.SKILLS[skill-1]["cool"]
 	if skill == constants.TURRET:
 		call_turret(skill)
 	elif skill == constants.DRONE:
