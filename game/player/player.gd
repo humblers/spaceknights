@@ -5,7 +5,8 @@ export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
 
-var knight_skill_queue
+var knight_skill_queue = []
+var random_skill_queue
 var speed
 var fire_interval
 var HP_MAX
@@ -33,12 +34,24 @@ var skill_remain = 0
 var is_dead = false
 var is_hold_fire = false
 var laser
+var skill_num = 0
 
 func _ready():
 	var player = "player1" if not is_enemy else "player2"
-	knight_skill_queue = [] + start.get("%s_skill_queue" % player)
+	random_skill_queue = [] + start.get("%s_skill_queue" % player)
 	knight_num = start.get("%s_type" % player)
-
+	
+	while random_skill_queue.size() > 0:		
+		var random_num = randi() % random_skill_queue.size()
+		knight_skill_queue.append(random_skill_queue[random_num])
+		random_skill_queue.remove(random_num)		
+	
+	for i in range(knight_skill_queue.size()):
+		print('ran skill num = ', i, ' contents ' , knight_skill_queue[i])
+	
+	skill_num = knight_skill_queue.size()
+	
+	
 	var knight_infos = constants.KNIGHTS
 	if knight_num < 0 or knight_num >= knight_infos.size():
 		knight_num = randi() % knight_infos.size()
@@ -229,13 +242,20 @@ func create_laser(direction):
 func activate_skill():
 	if is_ai && get_node('../').has_node('BlackHole'):
 		return
+	
+	
 	if knight_skill_queue.size() <= 0:
 		return
+	if skill_num <= 0:
+		skill_num = knight_skill_queue.size()
+		
 	if skill_remain > 0:
 		return
-	skill_remain = skill_cool
-	var skill = knight_skill_queue[0]
-	knight_skill_queue.pop_front()
+	
+	skill_num -= 1
+	var skill = knight_skill_queue[skill_num]
+	print('cool ' , constants.SKILLCOOL[skill-1])
+	skill_remain = constants.SKILLCOOL[skill-1]
 	if skill == constants.TURRET:
 		call_turret(skill)
 	elif skill == constants.DRONE:
@@ -244,6 +264,8 @@ func activate_skill():
 		summon_blackhole()
 	elif skill == constants.ADDON:
 		call_addon(skill)
+	elif skill == constants.CHARGE:
+		call_charge(skill)
 		
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
@@ -299,6 +321,38 @@ func call_addon(type):
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	addon2.set_global_transform(trans)
 	get_node('../').add_child(addon2)
+	
+func call_charge(type):
+	var charge = preload('../skills/charge/charge.tscn').instance()
+	charge.charge_type = type
+	charge.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans = get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	charge.set_global_transform(trans)
+	get_node('../').add_child(charge)
+	
+	var charge1 = preload('../skills/charge/charge.tscn').instance()
+	charge1.charge_type = type
+	charge1.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans1 = get_global_transform().orthonormalized()
+	trans1.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	trans1.origin.x -= 3
+	trans1.origin.z -= 4
+	charge1.set_global_transform(trans1)
+	get_node('../').add_child(charge1)
+	
+	var charge2 = preload('../skills/charge/charge.tscn').instance()
+	charge2.charge_type = type
+	charge2.is_enemy = is_enemy
+	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+	var trans2 = get_global_transform().orthonormalized()
+	trans2.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	trans2.origin.x += 3
+	trans2.origin.z += 4
+	charge2.set_global_transform(trans2)
+	get_node('../').add_child(charge2)
 
 func reached_left_edge():
 	on_left_edge = true

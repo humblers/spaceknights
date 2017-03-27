@@ -9,6 +9,15 @@ const TURRET = 1
 const DRONE = 2
 const BLACKHOLE = 3
 const ADDON = 4
+const CHARGE = 5
+
+const SKILLCOOL = [
+		5,
+		5,
+		15,
+		5,
+		2
+		]		
 
 const KNIGHTS = [
 	{

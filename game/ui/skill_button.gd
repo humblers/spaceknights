@@ -13,6 +13,8 @@ func _ready():
 		set_text("BLACKHOLE")
 	elif skill_type == constants.ADDON:
 		set_text("ADDON")
+	elif skill_type == constants.CHARGE:
+		set_text("CHARGE")
 
 func _on_Button_pressed():
 	start.get("%s_skill_queue" % player).remove(queue_idx)
