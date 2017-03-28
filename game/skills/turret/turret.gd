@@ -71,9 +71,11 @@ func _ready():
 	var turret_loc = self.get_translation()
 
 	if is_enemy:
+		add_to_group('enemy_Collider')
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 	else:
+		add_to_group('player_Collider')
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 	hp_label.set_name('HP')
