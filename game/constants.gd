@@ -1,6 +1,7 @@
 extends Node
 
 # Layer Masks
+const LM_DONT_COLLIDE = 4
 const LM_PLAYER = 1
 const LM_ENEMY = 2
 
