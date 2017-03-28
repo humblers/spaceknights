@@ -35,6 +35,7 @@ var is_dead = false
 var is_hold_fire = false
 var laser
 var skill_num = 0
+var life = 3
 
 func _ready():
 	var player = "player1" if not is_enemy else "player2"
@@ -73,10 +74,12 @@ func _ready():
 
 	if is_enemy:
 		get_node("HP").set_pos(Vector2(10, 8))
+		get_node("Life").set_pos(Vector2(10, 23))
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 	else:
 		get_node("HP").set_pos(Vector2(10, 602))
+		get_node("Life").set_pos(Vector2(10, 587))
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 
@@ -95,6 +98,7 @@ func _on_Area_body_enter( body ):
 func update_ui():
 	if is_enemy:
 		get_node('HP').set_text('Knight : ' + str(hp))
+		get_node('Life').set_text('Life : ' + str(life))
 	else:
 		var skill_str = "??"
 		if skill_num == 0:
@@ -113,9 +117,9 @@ func update_ui():
 		if knight_skill_queue.size() <= 0:
 			skill_str = "empty!"
 		get_node('HP').set_text('Knight : ' + str(hp) + ',     ' + skill_str)
+		get_node('Life').set_text('Life : ' + str(life))
 
-func _process(delta):
-	
+func _process(delta):	
 	if is_dead:
 		if regen_timeout > 0:
 			regen_timeout -= delta
@@ -124,13 +128,36 @@ func _process(delta):
 			hp = HP_MAX
 			update_ui()
 			regen_timeout = 0
+			self.show()
+			if is_enemy:
+				set_layer_mask(constants.LM_ENEMY)
+				set_collision_mask(constants.LM_PLAYER)
+			else:
+				set_layer_mask(constants.LM_PLAYER)
+				set_collision_mask(constants.LM_ENEMY)
 	
 	skill_remain -= delta
 	
-	if hp <= 0  && regen_timeout ==0:
+	if hp <= 0  && regen_timeout == 0:
 		is_dead = true
 		regen_timeout = regen_cool
-		
+		self.hide()
+		life -= 1
+		update_ui()
+		if is_enemy:
+			set_layer_mask(constants.LM_DONT_COLLIDE)
+			set_collision_mask(constants.LM_DONT_COLLIDE)
+		else:
+			set_layer_mask(constants.LM_DONT_COLLIDE)
+			set_collision_mask(constants.LM_DONT_COLLIDE)
+		if life <=0 and not start.gameover:
+			if is_enemy:
+				start.blue_score += 1
+			else:
+				start.red_score += 1
+			start.gameover = true
+			var popup = preload('res://ui/score_popup.tscn').instance()
+			get_node('../').add_child(popup)
 	if fire_timeout > 0:
 		fire_timeout -= delta
 	
