@@ -40,7 +40,7 @@ const KNIGHTS = [
 		"type" : "default",
 		"speed" : 15,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 300,
+		"HP_MAX" : 500,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -143,7 +143,7 @@ const KNIGHTS = [
 			"hp" : 100,
 			"speed" : 10,
 			"mass" : 10000,
-			"scale" : 1,
+			"scale" : 0.8,
 			"damage" : 100,
 			"decay_time" : 5,
 			"is_cannon" : true,

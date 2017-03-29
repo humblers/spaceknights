@@ -123,7 +123,7 @@ func take_damage(damage):
 	hp = clamp(hp - damage, 0, HP_MAX)
 	if hp <= 0 :
 		if is_cannon:			
-			if damaged_scale < 0.2:
+			if damaged_scale < 0.5:
 				queue_free()
 			else:
 				is_cannon_dead = true
@@ -131,7 +131,7 @@ func take_damage(damage):
 			queue_free()
 			
 		if is_mass:
-			if damaged_scale < 0.2:
+			if damaged_scale < 0.5:
 				queue_free()
 			else:
 				is_mass_dead = true
@@ -140,7 +140,7 @@ func take_damage(damage):
 		
 	if is_cannon && !is_cannon_dead:
 		damaged_scale = float(hp)/float(HP_MAX)
-		if damaged_scale < 0.1:
+		if damaged_scale < 0.3:
 			queue_free()
 		else:
 			var bullet_mesh = get_node("MeshInstance")
@@ -150,7 +150,7 @@ func take_damage(damage):
 			
 	if is_mass && !is_mass_dead:
 		damaged_scale = float(hp)/float(HP_MAX)
-		if damaged_scale < 0.1:
+		if damaged_scale < 0.3:
 			queue_free()
 		else:
 			var bullet_mesh = get_node("MeshInstance")
