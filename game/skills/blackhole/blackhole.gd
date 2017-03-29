@@ -5,7 +5,7 @@ var initial_scale
 var time = 0
 var creating_time = 15
 var blackhole_scale = 0
-var MAX_SCALE = 0.6
+var MAX_SCALE = 0.3
 var hp
 
 func _on_BlackHole_body_enter( body ):

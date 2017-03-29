@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var damage = 3
+var damage = 1.5
 var is_enemy = false
 var is_enemy_knight_damaged = false
 var is_enemy_mother_damaged = false
@@ -16,17 +16,50 @@ var damaged_bodies = []
 var hp
 
 func _on_Laser_body_enter( body ):
-	damaged_bodies.append(body)	
+	if is_enemy && body.get_layer_mask() != constants.LM_PLAYER:
+		return
+	if !is_enemy && body.get_layer_mask() != constants.LM_ENEMY:
+		return
+	if is_enemy && body.is_enemy:
+		return
+	if !is_enemy && !body.is_enemy:
+		return
+	if 'Bullet' in body.get_name():
+		if !body.is_mass:
+			return
+	damaged_bodies.append(body)
 	
 func _on_Laser_body_exit( body ):
+	if is_enemy && body.get_layer_mask() != constants.LM_PLAYER:
+		return
+	if !is_enemy && body.get_layer_mask() != constants.LM_ENEMY:
+		return
+	if is_enemy && body.is_enemy:
+		return
+	if !is_enemy && !body.is_enemy:
+		return
+	if 'Bullet' in body.get_name():
+		if !body.is_mass:
+			return
 	damaged_bodies.erase(body)
 		
 func give_damage(damage):
 	for i in range(damaged_bodies.size()):
-		if damaged_bodies[i].hp:
-			damaged_bodies[i].hp -= damage
-			if damaged_bodies[i].get_name() == 'Drone':
-				damaged_bodies[i].update_ui()
+		if weakref(damaged_bodies[i]).get_ref():
+			if damaged_bodies[i].get("hp"):
+				if damaged_bodies[i].hp > 0:
+					damaged_bodies[i].hp -= damage
+					if damaged_bodies[i].get_name() == 'Drone':
+						damaged_bodies[i].update_ui()
+					if damaged_bodies[i].get_name() == 'Turret':
+						damaged_bodies[i].update_ui()
+					if 'Bullet' in damaged_bodies[i].get_name():
+						damaged_bodies[i].take_damage(damage)
+					if 'Rocket' in damaged_bodies[i].get_name():
+						damaged_bodies[i].take_damage(damage)
+				else:
+					damaged_bodies[i].hp = 0
+		
 			
 func _ready():
 	var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
