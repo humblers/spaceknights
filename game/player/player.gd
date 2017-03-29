@@ -213,13 +213,16 @@ func _process(delta):
 	if bullet_type == 4:
 		if !is_hold_fire:
 			if laser:
-				get_node('../').get_node("laser").queue_free()
-				laser = null
+				if is_enemy:
+					get_tree().get_nodes_in_group("enemy_Laser")[0].queue_free()
+					laser = null
+				else:
+					get_tree().get_nodes_in_group("player_Laser")[0].queue_free()
+					laser = null
 		else:
-			if laser:
+			if weakref(laser).get_ref():
 				laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 				
-
 func fire():
 	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
