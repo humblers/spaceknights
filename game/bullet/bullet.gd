@@ -57,20 +57,24 @@ func _process(delta):
 		life_timer = 0
 		
 	if is_cannon_dead:
-		damaged_scale = damaged_scale * 0.1
+		damaged_scale = damaged_scale * 0.9
 		var bullet_mesh = get_node("MeshInstance")
-		if damaged_scale > 0.1:
+		if damaged_scale > 0.3:
 			collision_shape.set_radius(initial_radius * damaged_scale)
 			self.set_shape(0, collision_shape)
 			bullet_mesh.set_scale(initial_scale * damaged_scale)
+		else:
+			queue_free()
 		
 	if is_mass_dead:
-		damaged_scale = damaged_scale * 0.5
+		damaged_scale = damaged_scale * 0.9
 		var bullet_mesh = get_node("MeshInstance")
-		if damaged_scale > 0.1:
+		if damaged_scale > 0.3:
 			collision_shape.set_radius(initial_radius * damaged_scale)
 			self.set_shape(0, collision_shape)
 			bullet_mesh.set_scale(initial_scale * damaged_scale)
+		else:
+			queue_free()
 			
 func on_timeout_complete():
 	#pass
@@ -123,7 +127,7 @@ func take_damage(damage):
 	hp = clamp(hp - damage, 0, HP_MAX)
 	if hp <= 0 :
 		if is_cannon:			
-			if damaged_scale < 0.5:
+			if damaged_scale < 0.3:
 				queue_free()
 			else:
 				is_cannon_dead = true
@@ -131,7 +135,7 @@ func take_damage(damage):
 			queue_free()
 			
 		if is_mass:
-			if damaged_scale < 0.5:
+			if damaged_scale < 0.3:
 				queue_free()
 			else:
 				is_mass_dead = true

@@ -87,7 +87,7 @@ const KNIGHTS = [
 			"speed" : 50,
 			"mass" : 1000,
 			"scale" : 0.8,
-			"damage" : 2,
+			"damage" : 2.5,
 			"decay_time" : 1.5,
 			"is_cannon" : false,
 			"is_mass" : false,
