@@ -6,6 +6,7 @@ var time = 0
 var creating_time = 15
 var blackhole_scale = 0
 var MAX_SCALE = 0.6
+var hp
 
 func _on_BlackHole_body_enter( body ):
 	if (body.is_in_group("enemy_Bullet") and not is_enemy) \

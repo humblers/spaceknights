@@ -19,6 +19,7 @@ var bullet_scale = 0.8
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
+var hp
 
 func set_bullet_speed(speed):
 	bullet_speed(speed)
