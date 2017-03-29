@@ -42,7 +42,7 @@ func _ready():
 			set_collision_mask(constants.LM_ENEMY)
 			var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
 			#print('mat suf : ', material)
-			material.set_parameter(material.PARAM_DIFFUSE,Color(0,0,0.3,1))
+			material.set_parameter(material.PARAM_DIFFUSE,Color(0.2,0.2,0.7,1))
 			
 			get_node("MeshInstance").set_material_override(material)
 		

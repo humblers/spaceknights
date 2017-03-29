@@ -35,6 +35,10 @@ func _fixed_process(delta):
 	if life_elapsed > DEFAULT_LIFE_TIME:
 		destroy()
 		return
+	if is_enemy && get_node("../Enemy").hp <= 0:
+		destroy()
+	elif !is_enemy && get_node("../Player").hp <= 0:
+		destroy()
 	
 	if is_enemy:
 		var addon_loc = get_node('../Enemy').get_translation()
