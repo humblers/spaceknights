@@ -4,15 +4,28 @@ var score
 var overall
 
 func _ready():
-	if start.blue_hp > start.red_hp:
-		get_node("winner").set_text("BLUE WIN!")
-		score = start.blue_hp - start.red_hp
-	else:
-		get_node("winner").set_text("RED WIN!")
-		score = start.red_hp - start.blue_hp
-	get_node("score").set_text("Score : 0" + str(score))
-	get_node("blue_team").set_text("Blue Team's HP : " + str(start.blue_hp))
-	get_node("red_team").set_text("Red Team's HP : " + str(start.red_hp))
+	if start.blue_life <= 0:
+		score = (start.red_life - start.blue_life) * 1000
+		get_node("winner").set_text("RED WIN! = KNIGHT")
+	elif start.red_life <= 0:
+		score = (start.blue_life - start.red_life) * 1000
+		get_node("winner").set_text("BLUE WIN! = KNIGHT ")
+	
+	if start.blue_life <= 0 || start.red_life <= 0:
+		get_node("score").set_text("Score : 0" + str(score))
+		get_node("blue_team").set_text("Blue LIFE : " + str(start.blue_life))
+		get_node("red_team").set_text("Red LIFE : " + str(start.red_life))
+
+	if start.blue_life > 0 && start.red_life > 0:
+		if start.blue_hp > start.red_hp:
+			get_node("winner").set_text("BLUE WIN! = MOTHER")
+			score = start.blue_hp - start.red_hp
+		else:
+			get_node("winner").set_text("RED WIN! = MOTHER")
+			score = start.red_hp - start.blue_hp
+		get_node("score").set_text("Score : 0" + str(score))
+		get_node("blue_team").set_text("Blue Team's HP : " + str(start.blue_hp))
+		get_node("red_team").set_text("Red Team's HP : " + str(start.red_hp))
 	
 	if score > 1500:
 		overall = "Perfect Win!!!"

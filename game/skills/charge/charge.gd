@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 30
+const DEFAULT_HP = 20
 const FORWARD_TYPE_SPEED = 30
 
 var charge_type = constants.CHARGE

@@ -10,6 +10,8 @@ onready var blue_score = 0
 onready var red_score = 0
 onready var blue_hp = 0
 onready var red_hp = 0
+onready var blue_life = 0
+onready var red_life = 0
 onready var gameover = false
 
 func _ready():

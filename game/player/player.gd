@@ -77,11 +77,13 @@ func _ready():
 		get_node("Life").set_pos(Vector2(10, 23))
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
+		start.red_life = life
 	else:
 		get_node("HP").set_pos(Vector2(10, 602))
 		get_node("Life").set_pos(Vector2(10, 587))
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
+		start.blue_life = life
 
 	hp = HP_MAX
 	update_ui()
@@ -145,16 +147,20 @@ func _process(delta):
 		life -= 1
 		update_ui()
 		if is_enemy:
+			start.red_life -= 1
 			set_layer_mask(constants.LM_DONT_COLLIDE)
 			set_collision_mask(constants.LM_DONT_COLLIDE)
 		else:
+			start.blue_life -= 1
 			set_layer_mask(constants.LM_DONT_COLLIDE)
 			set_collision_mask(constants.LM_DONT_COLLIDE)
 		if life <=0 and not start.gameover:
 			if is_enemy:
 				start.blue_score += 1
+				start.red_life = 0
 			else:
 				start.red_score += 1
+				start.blue_life = 0
 			start.gameover = true
 			var popup = preload('res://ui/score_popup.tscn').instance()
 			get_node('../').add_child(popup)
