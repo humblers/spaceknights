@@ -1,8 +1,8 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 50
-const DEFAULT_BULLET_COOL_TIME = 0.3
+const DEFAULT_HP = 200
+const DEFAULT_BULLET_COOL_TIME = 1.5
 const FORWARD_TYPE_SPEED = 5
 
 var turret_type = constants.TURRET
@@ -11,11 +11,11 @@ var is_enemy = false
 var hp = DEFAULT_HP
 var life_elapsed = 0
 var is_destroyed = false
-var bullet_elapsed = 1
+var bullet_elapsed = 0
 
-var bullet_damage = 10
-var bullet_decay_time = 4
-var bullet_speed = 20
+var bullet_damage = 200
+var bullet_decay_time = 20
+var bullet_speed = 5
 var bullet_scale = 1
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
@@ -53,7 +53,9 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet = preload('res://bullet/bullet.tscn').instance()
 	bullet.is_enemy = is_enemy
 	bullet.damage = bullet_damage
-	bullet.decay_time = bullet_decay_time
+	bullet.decay_time = bullet_decay_time	
+	if is_enemy:
+		bullet.is_critical = true
 	
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
@@ -88,5 +90,8 @@ func _ready():
 func _on_TurretArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
 		body.queue_free()
+		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
+		update_ui()
+	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
 		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
 		update_ui()

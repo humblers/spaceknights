@@ -19,7 +19,7 @@ const SKILLS = [
 	},
 	{
 		"name" : "DRONE",
-		"cool" : 3
+		"cool" : 8
 	},
 	{
 		"name" : "BLACKHOLE",
@@ -40,7 +40,7 @@ const KNIGHTS = [
 		"type" : "default",
 		"speed" : 15,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 500,
+		"HP_MAX" : 3200,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -49,7 +49,7 @@ const KNIGHTS = [
 			"speed" : 30,
 			"mass" : 1000,
 			"scale" : 1,
-			"damage" : 22,
+			"damage" : 30,
 			"decay_time" : 1.5,
 			"is_cannon" : false,
 			"is_mass" : false,
@@ -59,7 +59,7 @@ const KNIGHTS = [
 		"type" : "3way",
 		"speed" : 15,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 300,
+		"HP_MAX" : 2000,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -68,7 +68,7 @@ const KNIGHTS = [
 			"speed" : 30,
 			"mass" : 1000,
 			"scale" : 1,
-			"damage" : 7,
+			"damage" : 10,
 			"decay_time" : 1.5,
 			"is_cannon" : false,
 			"is_mass" : false,
@@ -77,17 +77,17 @@ const KNIGHTS = [
 	{
 		"type" : "multi",
 		"speed" : 30,
-		"fire_interval" : 0.1,
-		"HP_MAX" : 300,
+		"fire_interval" : 0.15,
+		"HP_MAX" : 2000,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
 			"type" : 3,
 			"hp" : 10,
-			"speed" : 50,
+			"speed" : 40,
 			"mass" : 1000,
 			"scale" : 0.8,
-			"damage" : 2.5,
+			"damage" : 5,
 			"decay_time" : 1.5,
 			"is_cannon" : false,
 			"is_mass" : false,
@@ -97,7 +97,7 @@ const KNIGHTS = [
 		"type" : "laser",
 		"speed" : 30,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 300,
+		"HP_MAX" : 2000,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -113,15 +113,41 @@ const KNIGHTS = [
 		},
 	},
 	{
-		"type" : "heavy",
+		"type" : "cannon",
 		"speed" : 15,
-		"fire_interval" : 1,
-		"HP_MAX" : 300,
+		"fire_interval" : 0.5,
+		"HP_MAX" : 6000,
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
 			"type" : 1,
-			"hp" : 100,
+			"hp" : 50,
+			"speed" : 15,
+			"mass" : 10000,
+			"scale" : 0.8,
+			"damage" : 100,
+			"decay_time" : 10,
+			"is_cannon" : true,
+			"is_mass" : false,
+		},
+	},
+	
+]
+
+func _ready():
+	pass
+	
+	"""
+	{
+		"type" : "heavy",
+		"speed" : 15,
+		"fire_interval" : 1,
+		"HP_MAX" : 500,
+		"skill_cool" : 3,
+		"regen_cool" : 3,
+		"bullet" : {
+			"type" : 1,
+			"hp" : 80,
 			"speed" : 10,
 			"mass" : 10000,
 			"scale" : 5,
@@ -131,26 +157,4 @@ const KNIGHTS = [
 			"is_mass" : true,
 		},
 	},
-	{
-		"type" : "cannon",
-		"speed" : 15,
-		"fire_interval" : 1,
-		"HP_MAX" : 300,
-		"skill_cool" : 3,
-		"regen_cool" : 3,
-		"bullet" : {
-			"type" : 1,
-			"hp" : 100,
-			"speed" : 10,
-			"mass" : 10000,
-			"scale" : 0.8,
-			"damage" : 100,
-			"decay_time" : 5,
-			"is_cannon" : true,
-			"is_mass" : false,
-		},
-	},
-]
-
-func _ready():
-	pass
+	"""

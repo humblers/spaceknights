@@ -12,9 +12,9 @@ var from_player = 0
 var life_elapsed = 0
 var bullet_elapsed = 1
 
-var bullet_damage = 1
+var bullet_damage = 20
 var bullet_decay_time = 4
-var bullet_speed = 20
+var bullet_speed = 10
 var bullet_scale = 0.8
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
