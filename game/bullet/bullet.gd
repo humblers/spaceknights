@@ -6,6 +6,7 @@ var hp = 1
 var life_timer = 0
 var decay_time = 1
 var is_enemy = false
+var is_critical = false
 var is_cannon = false
 var is_cannon_dead = false
 var is_mass = false
@@ -14,6 +15,10 @@ var damaged_scale = float(1)
 var collision_shape = SphereShape.new()
 var initial_scale
 var initial_radius
+var material_01 = FixedMaterial.new()
+var material_02 = FixedMaterial.new()
+
+var time = 0
 
 func _ready():
 	if is_cannon:
@@ -25,11 +30,6 @@ func _ready():
 			add_to_group('player_Cannon')
 			set_layer_mask(constants.LM_PLAYER)
 			set_collision_mask(constants.LM_ENEMY)
-			#var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
-			
-			#material.set_parameter(material.PARAM_EMISSION,Color(0,0,0.2,1))
-			
-			#get_node("MeshInstance").set_material_override(material)
 	else:
 		if is_enemy:
 			add_to_group('enemy_Bullet')
@@ -40,11 +40,12 @@ func _ready():
 			add_to_group('player_Bullet')
 			set_layer_mask(constants.LM_PLAYER)
 			set_collision_mask(constants.LM_ENEMY)
-			var material = get_node("MeshInstance").get_mesh().surface_get_material(0)
-			#print('mat suf : ', material)
-			material.set_parameter(material.PARAM_DIFFUSE,Color(0.2,0.2,0.7,1))
+			material_01.set_parameter(material_01.PARAM_DIFFUSE,Color(0.2,0.2,0.7,1))
+			get_node("MeshInstance").set_material_override(material_01)
 			
-			get_node("MeshInstance").set_material_override(material)
+		if is_critical:
+			material_02.set_parameter(material_02.PARAM_DIFFUSE,Color(0,1,0,1))
+			get_node("MeshInstance").set_material_override(material_02)
 		
 	initial_scale = get_node("MeshInstance").get_scale()
 	initial_radius = self.get_shape(0).get_radius()
@@ -75,7 +76,13 @@ func _process(delta):
 			bullet_mesh.set_scale(initial_scale * damaged_scale)
 		else:
 			queue_free()
-			
+	
+	time += delta*20
+	if is_critical:
+		var color = (sin(time)+1)/2*0.5
+		material_02.set_parameter(material_02.PARAM_DIFFUSE,Color(color+0.5,color+0.5,color/2,color+0.5))
+		get_node("MeshInstance").set_material_override(material_02)
+		
 func on_timeout_complete():
 	#pass
 	queue_free()
@@ -117,12 +124,6 @@ func _on_Bullet_body_enter( body ):
 			else:
 				queue_free()
 	
-	"""
-	if (body.is_in_group("enemy_Bullet") and not is_enemy) 
-	or (body.is_in_group("player_Bullet") and is_enemy):
-		take_damage(body.damage)
-	"""
-	
 func take_damage(damage):
 	hp = clamp(hp - damage, 0, HP_MAX)
 	if hp <= 0 :
@@ -147,10 +148,13 @@ func take_damage(damage):
 		if damaged_scale < 0.3:
 			queue_free()
 		else:
+			pass
+			"""
 			var bullet_mesh = get_node("MeshInstance")
 			collision_shape.set_radius(initial_radius * damaged_scale)
 			self.set_shape(0, collision_shape)
 			bullet_mesh.set_scale(initial_scale * damaged_scale)
+			"""
 			
 	if is_mass && !is_mass_dead:
 		damaged_scale = float(hp)/float(HP_MAX)

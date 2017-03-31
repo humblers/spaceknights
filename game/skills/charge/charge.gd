@@ -1,7 +1,7 @@
 extends KinematicBody
 
 const DEFAULT_LIFE_TIME = 10
-const DEFAULT_HP = 20
+const DEFAULT_HP = 50
 const FORWARD_TYPE_SPEED = 30
 
 var charge_type = constants.CHARGE
@@ -10,7 +10,7 @@ var is_enemy = false
 var hp = DEFAULT_HP
 var life_elapsed = 0
 var is_destroyed = false
-var collider_damage = 100
+var collider_damage = 400
 
 onready var hp_label = Label.new()
 
@@ -54,8 +54,11 @@ func _ready():
 	set_fixed_process(true)
 
 
-func _on_DroneArea_body_enter( body ):
+func _on_ChargeArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
 		body.queue_free()
+		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
+		update_ui()
+	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
 		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
 		update_ui()

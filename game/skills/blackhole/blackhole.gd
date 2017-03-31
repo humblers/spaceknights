@@ -5,7 +5,7 @@ var initial_scale
 var time = 0
 var creating_time = 15
 var blackhole_scale = 0
-var MAX_SCALE = 0.3
+var MAX_SCALE = 0.4
 var hp
 
 func _on_BlackHole_body_enter( body ):
@@ -32,7 +32,7 @@ func _ready():
 	set_process(true)
 	
 func _process(delta):
-	time += delta*2
+	time += delta*1
 	blackhole_scale = clamp(time/creating_time, 0.1, MAX_SCALE)
 	get_node("MeshInstance").set_scale(Vector3(blackhole_scale , blackhole_scale, blackhole_scale))
 	if blackhole_scale == MAX_SCALE:
