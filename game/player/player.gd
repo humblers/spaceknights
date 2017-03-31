@@ -36,6 +36,12 @@ var is_hold_fire = false
 var laser
 var skill_num = 0
 var life = 3
+var skill_progress = false
+var skill_progress_time = 1
+var select_skill_num = 3
+var MAX_ENERGY = 10.0
+var energy = MAX_ENERGY
+var popup_cool = 1
 
 func _ready():
 	var player = "player1" if not is_enemy else "player2"
@@ -73,14 +79,10 @@ func _ready():
 	bullet_is_mass = knight_info["bullet"]["is_mass"]
 
 	if is_enemy:
-		get_node("HP").set_pos(Vector2(10, 8))
-		get_node("Life").set_pos(Vector2(10, 23))
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 		start.red_life = life
 	else:
-		get_node("HP").set_pos(Vector2(10, 602))
-		get_node("Life").set_pos(Vector2(10, 587))
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 		start.blue_life = life
@@ -102,9 +104,10 @@ func _on_Area_body_enter( body ):
 
 func update_ui():
 	if is_enemy:
-		get_node('HP').set_text('Knight : ' + str(hp))
-		get_node('Life').set_text('Life : ' + str(life))
+		get_node("../ingame_ui/Knight_life2/value").set_text(str(life))
+		get_node("../ingame_ui/Knight_hp2/value").set_text(str(round(hp)))
 	else:
+		"""
 		var skill_str = "??"
 		if skill_num == 0:
 			pass
@@ -121,8 +124,10 @@ func update_ui():
 			
 		if knight_skill_queue.size() <= 0:
 			skill_str = "empty!"
-		get_node('HP').set_text('Knight : ' + str(hp) + ',     ' + skill_str)
-		get_node('Life').set_text('Life : ' + str(life))
+		"""
+		
+		get_node("../ingame_ui/Knight_life1/value").set_text(str(life))
+		get_node("../ingame_ui/Knight_hp1/value").set_text(str(round(hp)))
 
 func _process(delta):	
 	if is_dead:
@@ -217,7 +222,24 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
 		if Input.is_key_pressed(KEY_SPACE):
-			activate_skill()
+			#activate_skill()
+			select_skill_num = get_node("../ingame_ui").skill_num
+			select_skill(select_skill_num)
+	
+	if !is_enemy:
+		if skill_progress:
+			skill_progress_time -= delta
+			select_skill(select_skill_num)
+		energy += delta/2
+		if energy>MAX_ENERGY:
+			energy = MAX_ENERGY
+		get_node("../ingame_ui/Energy_bar").set_value(energy/MAX_ENERGY)
+		if popup_cool > 0:
+			popup_cool -= delta
+		else:
+			popup_cool = 0
+			get_node("../ingame_ui/Error_status").hide()
+		
 	update_ui()
 	if bullet_type == 4:
 		if !is_hold_fire:
@@ -294,8 +316,6 @@ func create_laser(direction):
 func activate_skill():
 	if is_ai && get_node('../').has_node('BlackHole'):
 		return
-	
-	
 	if knight_skill_queue.size() <= 0:
 		return
 	if skill_num <= 0:
@@ -320,6 +340,45 @@ func activate_skill():
 	elif skill == constants.CHARGE:
 		call_charge(skill)
 		
+func select_skill(skill):
+	if skill_remain > 0:
+		return
+	
+	if skill:
+		if energy - constants.SKILLS[skill-1]["energy"] <= 0:
+			get_node("../ingame_ui/Error_status").set_text("NO ENERGY")
+			get_node("../ingame_ui/Error_status").show()
+			popup_cool = 0.5
+			return
+	else:
+		return
+
+	skill_progress = true
+	if skill_progress_time > 0:
+		get_node("../ingame_ui/Skill_status").set_text("READY (" + str(round(skill_progress_time)) + "s)")
+		get_node("../ingame_ui/Skill_status").show()
+		return
+	
+	
+	skill_progress = false
+	skill_progress_time = 1.5
+	skill_remain = 0.1
+	
+	get_node("../ingame_ui/Skill_status").hide()
+	if skill == constants.TURRET:
+		call_turret(skill)
+	elif skill == constants.DRONE:
+		call_drone(skill)
+	elif skill == constants.BLACKHOLE:
+		summon_blackhole()
+	elif skill == constants.ADDON:
+		call_addon(skill)
+	elif skill == constants.CHARGE:
+		call_charge(skill)
+	
+	energy -= constants.SKILLS[skill-1]["energy"]	
+	
+	
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy

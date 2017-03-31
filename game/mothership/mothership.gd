@@ -9,11 +9,9 @@ func _ready():
 	if is_enemy:
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
-		get_node("HP").set_pos(Vector2(260, 8))
 	else:
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
-		get_node("HP").set_pos(Vector2(260, 602))
 	hp = HP_MAX
 	update_ui()
 
@@ -35,11 +33,14 @@ func _on_Area_body_enter( body ):
 		body.queue_free()
 
 func update_ui():
-	get_node('HP').set_text('Mothership : ' + str(hp))
 	if is_enemy:
 		start.red_hp = hp
+		get_node("../ingame_ui/Mother_hp2/value").set_text(str(round(hp)))
+	
 	else:
 		start.blue_hp = hp
+		get_node("../ingame_ui/Mother_hp1/value").set_text(str(round(hp)))
+	
 	if hp <= 0 and not start.gameover:
 		if is_enemy:
 			start.blue_score += 1
