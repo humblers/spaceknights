@@ -61,9 +61,11 @@ func _fixed_process(delta):
 				bullet_speed = 7
 				#create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(100*attack_timing-420)).normalized())
 				#print(100*attack_timing-420)
-				for i in range(0, 12):
-					create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(i*30)).normalized())
-
+				
+				for i in range(0, 7):
+					create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(i*30-90)).normalized())
+				
+				
 				attack_chain -= 1
 		else:
 			attack_chain = DEFAULT_ATTACK_CHAIN
@@ -81,7 +83,7 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.is_enemy = is_enemy
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
-	bullet_scale = 0.5
+	bullet_scale = 1.0
 	if is_enemy:
 		bullet.is_critical = true
 		bullet_scale = 1.5
@@ -130,3 +132,7 @@ func _on_DroneArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
 		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
 		update_ui()
+	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
+		hp = clamp(hp - body.collider_damage, 0, DEFAULT_HP)
+		update_ui()
+		body.queue_free()
