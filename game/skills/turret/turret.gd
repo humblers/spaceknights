@@ -54,8 +54,10 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.is_enemy = is_enemy
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time	
+	bullet_scale = 1.0
 	if is_enemy:
 		bullet.is_critical = true
+		bullet_scale = 1.5
 	
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
@@ -95,3 +97,7 @@ func _on_TurretArea_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
 		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
 		update_ui()
+	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
+		hp = clamp(hp - body.collider_damage, 0, DEFAULT_HP)
+		update_ui()
+		body.queue_free()

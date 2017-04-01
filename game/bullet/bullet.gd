@@ -82,6 +82,10 @@ func _process(delta):
 		var color = (sin(time)+1)/2*0.5
 		material_02.set_parameter(material_02.PARAM_DIFFUSE,Color(color+0.5,color+0.5,color/2,color+0.5))
 		get_node("MeshInstance").set_material_override(material_02)
+		#print('who am i = ', self, 'v = ',self.get_linear_velocity())
+		
+		#if sin(time) > 0.99:
+		#	print('who am i = ', self, 'z = ', self.get_translation().z , ' time = ', sin(time)) 
 		
 func on_timeout_complete():
 	#pass

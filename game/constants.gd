@@ -15,25 +15,31 @@ const CHARGE = 5
 const SKILLS = [
 	{
 		"name" : "TURRET",
-		"cool" : 3
+		"cool" : 3,
+		"energy" : 2
 	},
 	{
 		"name" : "DRONE",
-		"cool" : 8
+		"cool" : 8,
+		"energy" : 6
 	},
 	{
 		"name" : "BLACKHOLE",
-		"cool" : 5
+		"cool" : 5,
+		"energy" : 3
 	},
 	{
 		"name" : "ADDON",
-		"cool" : 5
+		"cool" : 5,
+		"energy" : 5
 	},
 	{
 		"name" : "CHARGE",
-		"cool" : 2
+		"cool" : 2,
+		"energy" : 1
 	}
 ]
+
 
 const KNIGHTS = [
 	{
