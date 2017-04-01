@@ -24,7 +24,7 @@ const SKILLS = [
 		"energy" : 6
 	},
 	{
-		"name" : "BLACKHOLE",
+		"name" : "BHOLE",
 		"cool" : 5,
 		"energy" : 3
 	},

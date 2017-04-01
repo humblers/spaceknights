@@ -2,44 +2,68 @@ extends Control
 
 var color_disable = Color(0,0,0,1)
 var color_enable = Color(0.13,0.58,0.47,1)
+var skill_queue
 var skill_num
+var skill = 0
+var popup_cool = 0
 
 func _ready():
-	print(get_node("Skill1").get_modulate())
-	get_node("Skill1").set_modulate(color_disable)
-	get_node("Skill2").set_modulate(color_disable)
-	get_node("Skill3").set_modulate(color_disable)
-	get_node("Skill4").set_modulate(color_disable)
-	get_node("Skill5").set_modulate(color_disable)
+	skill_queue = [] + start.get("player1_skill_queue")	
 	get_node("Skill_status").hide()
 	get_node("Error_status").hide()
+	if skill_queue.size() < 5:
+		skill_queue = [ 1, 2, 3, 4 , 5 ]
+	
+	update_ui()
 	set_process(true)
 
-func enable_skill(selected):
-	get_node("Skill1").set_modulate(color_disable)
-	get_node("Skill2").set_modulate(color_disable)
-	get_node("Skill3").set_modulate(color_disable)
-	get_node("Skill4").set_modulate(color_disable)
-	get_node("Skill5").set_modulate(color_disable)
-	get_node("Skill%s" %selected).set_modulate(color_enable)
+func update_ui():
+	for i in range(clamp(skill_queue.size() , 1, 4)):
+		get_node("Skill%s" % str(i+1) ).set_text(constants.SKILLS[skill_queue[i]-1]["name"]+"\n(" + str(constants.SKILLS[skill_queue[i]-1]["energy"]) + ")")
+	
+
+func _on_skill1_pressed():
+	skill = skill_queue[0]
+	skill_num = 0
+func _on_skill2_pressed():
+	skill = skill_queue[1]
+	skill_num = 1
+	
+func _on_skill3_pressed():
+	skill = skill_queue[2]
+	skill_num = 2
+	
+func _on_skill4_pressed():
+	skill = skill_queue[3]
+	skill_num = 3
 
 func _process(delta):
-	#get_node("../Player").
-	#print('pos = ', get_node('../Camera').unproject_position(get_node("../Player").get_global_transform().origin))
-	
-	var player_x = get_node('../Camera').unproject_position(get_node("../Player").get_global_transform().origin).x
-	if get_node("Skill1").get_pos().x <= player_x && player_x < get_node("Skill2").get_pos().x:
-		skill_num = constants.TURRET
-	if get_node("Skill2").get_pos().x <= player_x && player_x < get_node("Skill3").get_pos().x:
-		skill_num = constants.DRONE
-	if get_node("Skill3").get_pos().x <= player_x && player_x < get_node("Skill4").get_pos().x:
-		skill_num = constants.BLACKHOLE
-	if get_node("Skill4").get_pos().x <= player_x && player_x < get_node("Skill5").get_pos().x:
-		skill_num = constants.ADDON
-	if get_node("Skill5").get_pos().x <= player_x && player_x:
-		skill_num = constants.CHARGE
-	enable_skill(skill_num)
-		
-		
-	#print(player_x ,' = ' , get_node("Skill1").get_pos().x , ' = ', get_node("Skill2").get_pos().x)
-	#get_node('../Camera').unproject_position(get_global_transform().origin)
+	if popup_cool > 0:
+		popup_cool -= delta
+	else:
+		popup_cool = 0
+		get_node("Error_status").hide()
+	if skill != 0:
+		if get_node("../Player").energy - constants.SKILLS[skill-1]["energy"] <= 0:
+			get_node("Error_status").set_text("NO ENERGY")
+			get_node("Error_status").show()
+			popup_cool = 0.3
+		else:
+			get_node("../Player").energy -= constants.SKILLS[skill-1]["energy"]
+			if skill == constants.TURRET:
+				get_node("../Player").call_turret(skill)
+			elif skill == constants.DRONE:
+				get_node("../Player").call_drone(skill)
+			elif skill == constants.BLACKHOLE:
+				get_node("../Player").summon_blackhole()
+			elif skill == constants.ADDON:
+				get_node("../Player").call_addon(skill)
+			elif skill == constants.CHARGE:
+				get_node("../Player").call_charge(skill)
+			skill_queue[skill_num] = skill_queue[4]
+			skill_queue.remove(4)
+			skill_queue.append(skill)
+			
+		skill = 0
+		update_ui()
+	#
