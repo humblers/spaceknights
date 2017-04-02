@@ -71,8 +71,10 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	get_node('../').add_child(bullet)
 	
 func _ready():
-	var mothership_node = get_node("../EnemyMothership") if is_enemy else get_node('../PlayerMothership')
-	var trans = get_node("../Player").get_global_transform().orthonormalized()
+	var player = "Enemy" if is_enemy else "Player"
+	var mothership_node = get_node("../%sMothership" % player)
+	var player_node = get_node("../%s" % player)
+	var trans = player_node.get_global_transform().orthonormalized()
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	set_global_transform(trans)
 
