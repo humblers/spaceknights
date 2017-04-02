@@ -208,7 +208,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		#activate_skill(0, 0)
+		activate_skill(0, 0)
 		fire()
 	else:
 		fire()
@@ -223,23 +223,11 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		else :
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-
-		if Input.is_key_pressed(KEY_SPACE):
-			#activate_skill()
-			#select_skill_num = get_node("../ingame_ui").skill_num
-			#select_skill(select_skill_num)
-			pass
 	
-	if !is_enemy:
-		if skill_progress:
-			skill_progress_time -= delta
-			select_skill(select_skill_num)
-		energy += delta/2
-		if energy>MAX_ENERGY:
-			energy = MAX_ENERGY
-		get_node("../ingame_ui/Energy_bar").set_value(energy/MAX_ENERGY)
+	energy += delta/2
+	if energy>MAX_ENERGY:
+		energy = MAX_ENERGY
 
-		
 	update_ui()
 	if bullet_type == 4:
 		if !is_hold_fire:

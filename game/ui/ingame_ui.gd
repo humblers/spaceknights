@@ -33,12 +33,12 @@ func _on_skill4_pressed():
 	get_node("../Player").activate_skill(skill4, 3)
 
 func _process(delta):
-	if popup_cool > 0:
-		popup_cool -= delta
-	else:
+	popup_cool -= delta
+	if popup_cool <= 0:
 		popup_cool = 0
 		get_node("Error_status").hide()
-		
+	get_node("Energy_bar").set_value(get_node("../Player").energy/get_node("../Player").MAX_ENERGY)
+
 func show_error_status():
 	get_node("Error_status").set_text("NO ENERGY")
 	get_node("Error_status").show()
