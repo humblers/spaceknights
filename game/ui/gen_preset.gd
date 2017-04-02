@@ -6,7 +6,7 @@ var cur_preset
 func _ready():
 	initialize_knight_type_button()
 	initialize_knight_skill_button()
-	initialize_pick_preset()
+	build_preset_pick_button()
 
 func initialize_knight_skill_button():
 	var pick_button = get_node("pick_skill_panel/pick_skill")
@@ -18,7 +18,7 @@ func initialize_knight_type_button():
 	for i in range(constants.KNIGHTS.size()):
 		pick_button.add_item(constants.KNIGHTS[i]["type"], i)
 
-func initialize_pick_preset():
+func build_preset_pick_button():
 	preset_list = []
 	var clone = {}
 	clone.parse_json(variants.preset_knights.to_json())
@@ -82,4 +82,5 @@ func _on_save_pressed():
 	var key = cur_preset["key"]
 	cur_preset.erase(key)
 	variants.update_preset_knight(key, cur_preset)
-	initialize_pick_preset()
+	build_preset_pick_button()
+	get_parent().build_player_buttons()
