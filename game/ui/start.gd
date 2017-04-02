@@ -1,5 +1,7 @@
 extends Node
 
+var preset_knights = {}
+
 var player1_skill_queue = []
 var player1_type = -1
 
