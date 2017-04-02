@@ -2,8 +2,14 @@ extends Node
 
 var preset_knights = {}
 
-var player1_knight = {}
-var player2_knight = {}
+var player1_knight = {
+	"type" : 0,
+	"skills" : []
+}
+var player2_knight = {
+	"type" : 0,
+	"skills" : []
+}
 
 onready var blue_score = 0
 onready var red_score = 0
