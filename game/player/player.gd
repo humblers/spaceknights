@@ -330,20 +330,6 @@ func activate_skill(skill_idx, slot_num):
 		return
 	get_node("../").add_child(inst)
 
-func summon_blackhole():
-	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
-	blackhole.is_enemy = is_enemy
-	blackhole.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
-	#blackhole.set_linear_velocity(forward * 10)
-	var xyz = Vector3(0,0,0)
-	xyz.x = blackhole.get_translation().x
-	if is_enemy:
-		xyz.z = 3
-	else:
-		xyz.z = -3
-	blackhole.set_translation(xyz)
-	get_node('../').add_child(blackhole)
-
 func call_addon(type):
 	var addon1 = preload('../skills/addon/addon.tscn').instance()
 	addon1.addon_type = type

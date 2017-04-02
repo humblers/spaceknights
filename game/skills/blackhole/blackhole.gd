@@ -18,6 +18,16 @@ func _on_BlackHole_body_enter( body ):
 		body.queue_free()
 		
 func _ready():
+	var bullet_from = get_node("../%s/BulletFrom" % ("Enemy" if is_enemy else "Player"))
+	set_global_transform(bullet_from.get_global_transform().orthonormalized())
+	var xyz = Vector3(0,0,0)
+	xyz.x = get_translation().x
+	if is_enemy:
+		xyz.z = 3
+	else:
+		xyz.z = -3
+	set_translation(xyz)
+
 	if is_enemy:
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
