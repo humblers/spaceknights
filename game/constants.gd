@@ -39,7 +39,7 @@ const SKILLS = [
 		"name" : "CHARGE",
 		"cool" : 2,
 		"energy" : 1,
-		"scene" : "res://skills/charge/charge.tscn",
+		"scene" : preload("res://skills/charge/charge.tscn"),
 		"is_player_child" : false,
 	}
 ]
