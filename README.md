@@ -9,4 +9,4 @@ v2.1 기준으로 obj파일에서 mesh를 가져올 때 msh파일에 집어넣�
 따라서 꺼두는게 속편함
 
 #### disable auto re-import step
-![open_editor_setting](https://files.slack.com/files-tmb/T4KHKQQKA-F4TTP8TAA-78d90d428b/pasted_image_at_2017_04_02_08_03_pm_360.png)
+![open_editor_setting](https://slack-files.com/T4KHKQQKA-F4TTP8TAA-311864974b)
