@@ -28,12 +28,13 @@ func _ready():
 		for key in cur_line:
 			set(key, cur_line[key])
 
-func save_player_data(p1_button_idx=null, p2_button_idx=null):
+func update_preset_knight(key, preset):
+	preset_knights[key] = preset
+	save_player_data()
+
+func save_player_data():
 	var datas = {
-		"player1_skill_queue" : player1_skill_queue,
-		"player1_type" : p1_button_idx if p1_button_idx != null else player1_type,
-		"player2_skill_queue" : player2_skill_queue,
-		"player2_type" : p2_button_idx if p2_button_idx != null else player2_type,
+		"preset_knights" : preset_knights,
 	}
 	var player_data = File.new()
 	player_data.open("user://player_data.dat", File.WRITE)

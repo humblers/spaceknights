@@ -3,7 +3,7 @@
 [ext_resource path="res://ui/gen_preset.gd" type="Script" id=1]
 [ext_resource path="res://ui/skill_button.tscn" type="PackedScene" id=2]
 
-[node name="Control" type="Control"]
+[node name="gen_preset" type="Control"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -96,7 +96,7 @@ shortcut = null
 text = "+"
 flat = false
 
-[node name="picked_skill_player1" type="Panel" parent="."]
+[node name="picked_skill" type="Panel" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -107,9 +107,8 @@ margin/top = 73.0
 margin/right = 110.0
 margin/bottom = 193.0
 
-[node name="scroll" type="ScrollContainer" parent="picked_skill_player1"]
+[node name="scroll" type="ScrollContainer" parent="picked_skill"]
 
-visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -121,7 +120,7 @@ margin/bottom = 124.0
 scroll/horizontal = true
 scroll/vertical = true
 
-[node name="skill_queue" type="VBoxContainer" parent="picked_skill_player1/scroll"]
+[node name="skill_queue" type="VBoxContainer" parent="picked_skill/scroll"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -134,7 +133,7 @@ margin/bottom = 0.0
 custom_constants/separation = 1
 alignment = 0
 
-[node name="skill_button" parent="picked_skill_player1/scroll/skill_queue" instance=ExtResource( 2 )]
+[node name="skill_button" parent="picked_skill/scroll/skill_queue" instance=ExtResource( 2 )]
 
 visibility/visible = false
 margin/left = 0.0
@@ -158,8 +157,56 @@ shortcut = null
 text = "save"
 flat = false
 
+[node name="new_preset_dialog" type="PopupDialog" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 99.0
+margin/top = -41.0
+margin/right = 277.0
+margin/bottom = 57.0
+popup/exclusive = true
+
+[node name="preset_name" type="LineEdit" parent="new_preset_dialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 27.0
+margin/right = 160.0
+margin/bottom = 51.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ok" type="Button" parent="new_preset_dialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 68.0
+margin/top = 63.0
+margin/right = 112.0
+margin/bottom = 83.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "ok"
+flat = false
+
 [connection signal="item_selected" from="pick_preset" to="." method="_on_pick_preset_item_selected"]
 
 [connection signal="pressed" from="pick_skill_panel/add_skill" to="." method="_on_add_skill_pressed"]
+
+[connection signal="pressed" from="save" to="." method="_on_save_pressed"]
+
+[connection signal="pressed" from="new_preset_dialog/ok" to="." method="_on_ok_pressed"]
 
 

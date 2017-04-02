@@ -22,20 +22,3 @@ func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
 		_on_play_pressed()
 
-func update_skill_panel(player):
-	var button_parent = get_node("picked_skill_%s/scroll/skill_queue" % player)
-	for prev_button in button_parent.get_children():
-		prev_button.queue_free()
-	var skill_tscn = preload("res://ui/skill_button.tscn")
-	for i in range(start.get("%s_skill_queue" % player).size()):
-		var button = skill_tscn.instance()
-		button.player = player
-		button.skill_type = start.get("%s_skill_queue" % player)[i]
-		button.queue_idx = i
-		button_parent.add_child(button)
-
-func update_skill_queue(players=null):
-	if players == null:
-		players = ["player1", "player2"]
-	for player in players:
-		update_skill_panel(player)
