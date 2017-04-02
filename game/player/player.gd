@@ -324,50 +324,12 @@ func activate_skill(skill_idx, slot_num):
 	knight_skill_queue.append(skill_idx)
 	get_node("../ingame_ui").update_ui(knight_skill_queue)
 	var inst = skill["scene"].instance()
+	inst.is_enemy = is_enemy
 	if skill["is_player_child"]:
 		add_child(inst)
 		return
 	get_node("../").add_child(inst)
 
-func select_skill(skill):
-	if skill_remain > 0:
-		return
-	
-	if skill:
-		if energy - constants.SKILLS[skill-1]["energy"] <= 0:
-			get_node("../ingame_ui/Error_status").set_text("NO ENERGY")
-			get_node("../ingame_ui/Error_status").show()
-			popup_cool = 0.5
-			return
-	else:
-		return
-
-	skill_progress = true
-	if skill_progress_time > 0:
-		get_node("../ingame_ui/Skill_status").set_text("READY (" + str(round(skill_progress_time)) + "s)")
-		get_node("../ingame_ui/Skill_status").show()
-		return
-	
-	
-	skill_progress = false
-	skill_progress_time = 1.5
-	skill_remain = 0.1
-	
-	get_node("../ingame_ui/Skill_status").hide()
-	if skill == constants.TURRET:
-		call_turret(skill)
-	elif skill == constants.DRONE:
-		call_drone(skill)
-	elif skill == constants.BLACKHOLE:
-		summon_blackhole()
-	elif skill == constants.ADDON:
-		call_addon(skill)
-	elif skill == constants.CHARGE:
-		call_charge(skill)
-	
-	energy -= constants.SKILLS[skill-1]["energy"]	
-	
-	
 func summon_blackhole():
 	var blackhole = preload('../skills/blackhole/blackhole.tscn').instance()
 	blackhole.is_enemy = is_enemy
@@ -381,16 +343,6 @@ func summon_blackhole():
 		xyz.z = -3
 	blackhole.set_translation(xyz)
 	get_node('../').add_child(blackhole)
-
-func call_turret(type):
-	var turret = preload('../skills/turret/turret.tscn').instance()
-	turret.turret_type = type
-	turret.is_enemy = is_enemy
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans = get_global_transform().orthonormalized()
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	turret.set_global_transform(trans)
-	get_node('../').add_child(turret)
 
 func call_drone(type):
 	var drone_root = preload('../skills/drone/drone_zigzag.tscn').instance()

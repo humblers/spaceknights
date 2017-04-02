@@ -5,7 +5,6 @@ const DEFAULT_HP = 200
 const DEFAULT_BULLET_COOL_TIME = 1.5
 const FORWARD_TYPE_SPEED = 5
 
-#var turret_type = constants.TURRET
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -72,6 +71,11 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	get_node('../').add_child(bullet)
 	
 func _ready():
+	var mothership_node = get_node("../EnemyMothership") if is_enemy else get_node('../PlayerMothership')
+	var trans = get_node("../Player").get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	set_global_transform(trans)
+
 	var turret_loc = self.get_translation()
 
 	if is_enemy:

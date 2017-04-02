@@ -15,7 +15,6 @@ func _ready():
 	set_process(true)
 
 func update_ui(skill_queue):
-	print(skill_queue)
 	for i in range(4):
 		var skill = constants.SKILLS[skill_queue[i]]
 		get_node("Skill%d" % [i+1]).set_text("%s\n(%s)" % [skill["name"], skill["energy"]])
