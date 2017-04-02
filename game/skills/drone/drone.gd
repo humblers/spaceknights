@@ -1,4 +1,4 @@
-extends KinematicBody
+extends Spatial
 
 const DEFAULT_LIFE_TIME = 100
 const DEFAULT_HP = 400
@@ -7,7 +7,6 @@ const DEFAULT_ATTACK_COOL_TIME = 4
 const DEFAULT_ATTACK_CHAIN = 1
 const FORWARD_TYPE_SPEED = 5
 
-var drone_type = constants.DRONE
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -71,12 +70,10 @@ func _fixed_process(delta):
 			attack_chain = DEFAULT_ATTACK_CHAIN
 			attack_timing = 0
 
-	if drone_type == constants.DRONE:
-		get_node('HP').set_pos(get_node('../../Camera').unproject_position(get_global_transform().origin))
-		get_parent().translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
-		print ('forawrd type speed: ', FORWARD_TYPE_SPEED)
-		self.get_node("MeshInstance").set_rotation_deg(Vector3(0,100*rotate_timing,0))
-		self.get_node("ShotFrom").set_rotation_deg(Vector3(0,100*rotate_timing,0))
+	translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
+	get_node("HP").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+	get_node("Drone/MeshInstance").set_rotation_deg(Vector3(0,100*rotate_timing,0))
+	get_node("Drone/ShotFrom").set_rotation_deg(Vector3(0,100*rotate_timing,0))
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
@@ -92,7 +89,7 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	#collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
-	bullet.set_global_transform(get_node("ShotFrom").get_global_transform().orthonormalized())
+	bullet.set_global_transform(get_node("Drone/ShotFrom").get_global_transform().orthonormalized())
 	bullet.translate(width)
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
@@ -103,23 +100,31 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 
 func _ready():
-	var drone_loc = get_parent().get_translation()
+	var drone = get_node("Drone")
+	var player = "Enemy" if is_enemy else "Player"
+	var mothership_node = get_node("../%sMothership" % player)
+	var player_node = get_node("../%s" % player)
+	var trans = player_node.get_global_transform().orthonormalized()
+	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+	set_global_transform(trans)
+
+	var drone_loc = get_translation()
 	if is_enemy:
 		add_to_group('enemy_Collider')
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
-		get_parent().set_translation(drone_loc + Vector3(0,0,-4))
-		get_parent().set_rotation_deg(Vector3(0,0,0))
+		drone.set_layer_mask(constants.LM_ENEMY)
+		drone.set_collision_mask(constants.LM_PLAYER)
+		set_translation(drone_loc + Vector3(0,0,-4))
+		set_rotation_deg(Vector3(0,0,0))
 	else:
 		add_to_group('player_Collider')
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
-		get_parent().set_translation(drone_loc + Vector3(0,0,4))
-		get_parent().set_rotation_deg(Vector3(180,0,180))
-	self.set_scale(Vector3(0.5,0.5,0.5))	
+		drone.set_layer_mask(constants.LM_PLAYER)
+		drone.set_collision_mask(constants.LM_ENEMY)
+		set_translation(drone_loc + Vector3(0,0,4))
+		set_rotation_deg(Vector3(180,0,180))
+	set_scale(Vector3(0.5,0.5,0.5))	
 	
 	hp_label.set_name('HP')
-	hp_label.set_pos(get_node('../../Camera').unproject_position(get_global_transform().origin))
+	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
 	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)
