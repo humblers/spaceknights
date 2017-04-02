@@ -8,7 +8,7 @@ var skill = 0
 var popup_cool = 0
 
 func _ready():
-	skill_queue = [] + start.get("player1_skill_queue")	
+	skill_queue = [] + start.player1_knight["skills"]
 	get_node("Skill_status").hide()
 	get_node("Error_status").hide()
 	if skill_queue.size() < 5:

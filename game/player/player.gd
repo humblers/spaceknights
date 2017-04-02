@@ -44,9 +44,9 @@ var energy = MAX_ENERGY
 var popup_cool = 1
 
 func _ready():
-	var player = "player1" if not is_enemy else "player2"
-	random_skill_queue = [] + start.get("%s_skill_queue" % player)
-	knight_num = start.get("%s_type" % player)
+	var player = start.player1_knight if not is_enemy else start.player2_knight
+	random_skill_queue = [] + player["skills"]
+	knight_num = player["type"]
 	
 	while random_skill_queue.size() > 0:		
 		var random_num = randi() % random_skill_queue.size()
