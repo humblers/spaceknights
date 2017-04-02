@@ -6,37 +6,36 @@ const LM_PLAYER = 1
 const LM_ENEMY = 2
 
 const SKILL_QUEUE_LEN = 10
-const TURRET = 1
-const DRONE = 2
-const BLACKHOLE = 3
-const ADDON = 4
-const CHARGE = 5
-
 const SKILLS = [
 	{
 		"name" : "TURRET",
 		"cool" : 3,
-		"energy" : 2
+		"energy" : 2,
+		"scene" : "res://skills/turret/turret.tscn",
 	},
 	{
 		"name" : "DRONE",
 		"cool" : 8,
-		"energy" : 6
+		"energy" : 6,
+		"scene" : "res://skills/drone/drone_zigzag.tscn",
 	},
 	{
 		"name" : "BHOLE",
 		"cool" : 5,
-		"energy" : 3
+		"energy" : 3,
+		"scene" : "res://skills/blackhole/blackhole.tscn",
 	},
 	{
 		"name" : "ADDON",
 		"cool" : 5,
-		"energy" : 5
+		"energy" : 5,
+		"scene" : "res://skills/addon/addon.tscn",
 	},
 	{
 		"name" : "CHARGE",
 		"cool" : 2,
-		"energy" : 1
+		"energy" : 1,
+		"scene" : "res://skills/charge/charge.tscn",
 	}
 ]
 

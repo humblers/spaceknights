@@ -10,11 +10,8 @@ func _ready():
 
 func initialize_knight_skill_button():
 	var pick_button = get_node("pick_skill_panel/pick_skill")
-	pick_button.add_item("turret", constants.TURRET)
-	pick_button.add_item("drone", constants.DRONE)
-	pick_button.add_item("blackhole", constants.BLACKHOLE)
-	pick_button.add_item("addon", constants.ADDON)
-	pick_button.add_item("charge", constants.CHARGE)
+	for i in range(constants.SKILLS.size()):
+		pick_button.add_item(constants.SKILLS[i]["name"], i)
 
 func initialize_knight_type_button():
 	var pick_button = get_node("pick_type")
@@ -24,7 +21,7 @@ func initialize_knight_type_button():
 func initialize_pick_preset():
 	preset_list = []
 	var clone = {}
-	clone.parse_json(start.preset_knights.to_json())
+	clone.parse_json(variants.preset_knights.to_json())
 	for key in clone:
 		var preset = clone[key]
 		preset["key"] = key
@@ -84,5 +81,5 @@ func _on_ok_pressed():
 func _on_save_pressed():
 	var key = cur_preset["key"]
 	cur_preset.erase(key)
-	start.update_preset_knight(key, cur_preset)
+	variants.update_preset_knight(key, cur_preset)
 	initialize_pick_preset()

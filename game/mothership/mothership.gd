@@ -34,19 +34,19 @@ func _on_Area_body_enter( body ):
 
 func update_ui():
 	if is_enemy:
-		start.red_hp = hp
+		variants.red_hp = hp
 		get_node("../ingame_ui/Mother_hp2/value").set_text(str(round(hp)))
 	
 	else:
-		start.blue_hp = hp
+		variants.blue_hp = hp
 		get_node("../ingame_ui/Mother_hp1/value").set_text(str(round(hp)))
 	
-	if hp <= 0 and not start.gameover:
+	if hp <= 0 and not variants.gameover:
 		if is_enemy:
-			start.blue_score += 1
+			variants.blue_score += 1
 		else:
-			start.red_score += 1
-		start.gameover = true
+			variants.red_score += 1
+		variants.gameover = true
 		var popup = preload('res://ui/score_popup.tscn').instance()
 		get_node('../').add_child(popup)
 		#get_tree().change_scene("res://ui/main_menu.tscn")

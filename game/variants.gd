@@ -11,13 +11,13 @@ var player2_knight = {
 	"skills" : []
 }
 
-onready var blue_score = 0
-onready var red_score = 0
-onready var blue_hp = 0
-onready var red_hp = 0
-onready var blue_life = 0
-onready var red_life = 0
-onready var gameover = false
+var blue_score = 0
+var red_score = 0
+var blue_hp = 0
+var red_hp = 0
+var blue_life = 0
+var red_life = 0
+var gameover = false
 
 func _ready():
 	var player_data = File.new()

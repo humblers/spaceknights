@@ -44,7 +44,7 @@ var energy = MAX_ENERGY
 var popup_cool = 1
 
 func _ready():
-	var player = start.player1_knight if not is_enemy else start.player2_knight
+	var player = variants.player1_knight if not is_enemy else variants.player2_knight
 	random_skill_queue = [] + player["skills"]
 	knight_num = player["type"]
 	
@@ -81,11 +81,11 @@ func _ready():
 	if is_enemy:
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
-		start.red_life = life
+		variants.red_life = life
 	else:
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
-		start.blue_life = life
+		variants.blue_life = life
 
 	hp = HP_MAX
 	update_ui()
@@ -155,21 +155,21 @@ func _process(delta):
 		life -= 1
 		update_ui()
 		if is_enemy:
-			start.red_life -= 1
+			variants.red_life -= 1
 			set_layer_mask(constants.LM_DONT_COLLIDE)
 			set_collision_mask(constants.LM_DONT_COLLIDE)
 		else:
-			start.blue_life -= 1
+			variants.blue_life -= 1
 			set_layer_mask(constants.LM_DONT_COLLIDE)
 			set_collision_mask(constants.LM_DONT_COLLIDE)
-		if life <=0 and not start.gameover:
+		if life <=0 and not variants.gameover:
 			if is_enemy:
-				start.blue_score += 1
-				start.red_life = 0
+				variants.blue_score += 1
+				variants.red_life = 0
 			else:
-				start.red_score += 1
-				start.blue_life = 0
-			start.gameover = true
+				variants.red_score += 1
+				variants.blue_life = 0
+			variants.gameover = true
 			var popup = preload('res://ui/score_popup.tscn').instance()
 			get_node('../').add_child(popup)
 	if fire_timeout > 0:
@@ -310,32 +310,9 @@ func create_laser(direction):
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
 
-func activate_skill():
-	if is_ai && get_node('../').has_node('BlackHole'):
-		return
-	if knight_skill_queue.size() <= 0:
-		return
-	if skill_num <= 0:
-		skill_num = knight_skill_queue.size()
-		
-	if skill_remain > 0:
-		return
+func activate_skill(skill):
+	var turret = preload('../skills/turret/turret.tscn').instance()
 	
-	skill_num -= 1
-	var skill = knight_skill_queue[skill_num]
-	print('cool ' , constants.SKILLS[skill-1]["cool"])
-	
-	skill_remain = constants.SKILLS[skill-1]["cool"]
-	if skill == constants.TURRET:
-		call_turret(skill)
-	elif skill == constants.DRONE:
-		call_drone(skill)
-	elif skill == constants.BLACKHOLE:
-		summon_blackhole()
-	elif skill == constants.ADDON:
-		call_addon(skill)
-	elif skill == constants.CHARGE:
-		call_charge(skill)
 		
 func select_skill(skill):
 	if skill_remain > 0:
