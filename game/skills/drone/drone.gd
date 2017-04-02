@@ -38,7 +38,7 @@ func update_ui():
 func destroy():
 	if not is_destroyed:
 		set_fixed_process(false)
-		queue_free()
+		get_parent().queue_free()
 		is_destroyed = true
 
 func _fixed_process(delta):
@@ -72,8 +72,9 @@ func _fixed_process(delta):
 			attack_timing = 0
 
 	if drone_type == constants.DRONE:
-		get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-		translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
+		get_node('HP').set_pos(get_node('../../Camera').unproject_position(get_global_transform().origin))
+		get_parent().translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
+		print ('forawrd type speed: ', FORWARD_TYPE_SPEED)
 		self.get_node("MeshInstance").set_rotation_deg(Vector3(0,100*rotate_timing,0))
 		self.get_node("ShotFrom").set_rotation_deg(Vector3(0,100*rotate_timing,0))
 
@@ -98,27 +99,27 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
 	if is_enemy:
 		bullet_mesh.set_rotation_deg(Vector3(180,0,0))
-	get_node('../').add_child(bullet)
+	get_node('../../').add_child(bullet)
 
 
 func _ready():
-	var drone_loc = self.get_translation()
+	var drone_loc = get_parent().get_translation()
 	if is_enemy:
 		add_to_group('enemy_Collider')
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
-		self.set_translation(drone_loc + Vector3(0,0,-4))
-		self.set_rotation_deg(Vector3(0,0,0))
+		get_parent().set_translation(drone_loc + Vector3(0,0,-4))
+		get_parent().set_rotation_deg(Vector3(0,0,0))
 	else:
 		add_to_group('player_Collider')
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
-		self.set_translation(drone_loc + Vector3(0,0,4))
-		self.set_rotation_deg(Vector3(180,0,180))
+		get_parent().set_translation(drone_loc + Vector3(0,0,4))
+		get_parent().set_rotation_deg(Vector3(180,0,180))
 	self.set_scale(Vector3(0.5,0.5,0.5))	
 	
 	hp_label.set_name('HP')
-	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+	hp_label.set_pos(get_node('../../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
 	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)

@@ -401,14 +401,15 @@ func call_turret(type):
 	get_node('../').add_child(turret)
 
 func call_drone(type):
-	var drone = preload('../skills/drone/drone.tscn').instance()
+	var drone_root = preload('../skills/drone/drone_zigzag.tscn').instance()
+	var drone = drone_root.get_node("Drone")
 	drone.drone_type = type
 	drone.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans = get_global_transform().orthonormalized()
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	drone.set_global_transform(trans)
-	get_node('../').add_child(drone)
+	drone_root.set_global_transform(trans)
+	get_node('../').add_child(drone_root)
 	
 func call_addon(type):
 	var addon1 = preload('../skills/addon/addon.tscn').instance()
