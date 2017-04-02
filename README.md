@@ -2,4 +2,4 @@
 =============
 ## Editor settings
 
-### [Art Re-import](/documents/resource_import.md)
+### [Art Re-import](/documents/resource_reimport.md)
