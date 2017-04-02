@@ -5,7 +5,7 @@ const DEFAULT_HP = 200
 const DEFAULT_BULLET_COOL_TIME = 1.5
 const FORWARD_TYPE_SPEED = 5
 
-var turret_type = constants.TURRET
+#var turret_type = constants.TURRET
 var is_enemy = false
 
 var hp = DEFAULT_HP

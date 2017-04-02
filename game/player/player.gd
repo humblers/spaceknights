@@ -47,6 +47,8 @@ func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
 	random_skill_queue = [] + player["skills"]
 	knight_num = player["type"]
+	if random_skill_queue.size() < 5:
+		random_skill_queue = [ 0, 1, 2, 3, 4 ]
 	
 	while random_skill_queue.size() > 0:		
 		var random_num = randi() % random_skill_queue.size()
@@ -86,6 +88,7 @@ func _ready():
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 		variants.blue_life = life
+		get_node("../ingame_ui").update_ui(knight_skill_queue)
 
 	hp = HP_MAX
 	update_ui()
@@ -205,7 +208,7 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		activate_skill()
+		#activate_skill(0, 0)
 		fire()
 	else:
 		fire()
@@ -310,10 +313,22 @@ func create_laser(direction):
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 		get_node('../').add_child(laser)
 
-func activate_skill(skill):
-	var turret = preload('../skills/turret/turret.tscn').instance()
-	
-		
+func activate_skill(skill_idx, slot_num):
+	var skill = constants.SKILLS[skill_idx]
+	if energy - skill["energy"] <= 0:
+		get_node("../ingame_ui").show_error_status()
+		return
+	energy -= skill["energy"]
+	knight_skill_queue[slot_num] = knight_skill_queue[4]
+	knight_skill_queue.remove(4)
+	knight_skill_queue.append(skill_idx)
+	get_node("../ingame_ui").update_ui(knight_skill_queue)
+	var inst = skill["scene"].instance()
+	if skill["is_player_child"]:
+		add_child(inst)
+		return
+	get_node("../").add_child(inst)
+
 func select_skill(skill):
 	if skill_remain > 0:
 		return

@@ -11,31 +11,36 @@ const SKILLS = [
 		"name" : "TURRET",
 		"cool" : 3,
 		"energy" : 2,
-		"scene" : "res://skills/turret/turret.tscn",
+		"scene" : preload("res://skills/turret/turret.tscn"),
+		"is_player_child" : false,
 	},
 	{
 		"name" : "DRONE",
 		"cool" : 8,
 		"energy" : 6,
-		"scene" : "res://skills/drone/drone_zigzag.tscn",
+		"scene" : preload("res://skills/drone/drone_zigzag.tscn"),
+		"is_player_child" : false,
 	},
 	{
 		"name" : "BHOLE",
 		"cool" : 5,
 		"energy" : 3,
-		"scene" : "res://skills/blackhole/blackhole.tscn",
+		"scene" : preload("res://skills/blackhole/blackhole.tscn"),
+		"is_player_child" : false,
 	},
 	{
 		"name" : "ADDON",
 		"cool" : 5,
 		"energy" : 5,
-		"scene" : "res://skills/addon/addon.tscn",
+		"scene" : preload("res://skills/addon/addon.tscn"),
+		"is_player_child" : true,
 	},
 	{
 		"name" : "CHARGE",
 		"cool" : 2,
 		"energy" : 1,
 		"scene" : "res://skills/charge/charge.tscn",
+		"is_player_child" : false,
 	}
 ]
 
