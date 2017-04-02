@@ -223,8 +223,9 @@ func _process(delta):
 
 		if Input.is_key_pressed(KEY_SPACE):
 			#activate_skill()
-			select_skill_num = get_node("../ingame_ui").skill_num
-			select_skill(select_skill_num)
+			#select_skill_num = get_node("../ingame_ui").skill_num
+			#select_skill(select_skill_num)
+			pass
 	
 	if !is_enemy:
 		if skill_progress:
@@ -234,11 +235,7 @@ func _process(delta):
 		if energy>MAX_ENERGY:
 			energy = MAX_ENERGY
 		get_node("../ingame_ui/Energy_bar").set_value(energy/MAX_ENERGY)
-		if popup_cool > 0:
-			popup_cool -= delta
-		else:
-			popup_cool = 0
-			get_node("../ingame_ui/Error_status").hide()
+
 		
 	update_ui()
 	if bullet_type == 4:
