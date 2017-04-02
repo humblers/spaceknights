@@ -316,13 +316,20 @@ func create_laser(direction):
 func activate_skill(skill_idx, slot_num):
 	var skill = constants.SKILLS[skill_idx]
 	if energy - skill["energy"] <= 0:
-		get_node("../ingame_ui").show_error_status()
+		if not is_enemy:
+			get_node("../ingame_ui").show_error_status()
 		return
 	energy -= skill["energy"]
 	knight_skill_queue[slot_num] = knight_skill_queue[4]
 	knight_skill_queue.remove(4)
 	knight_skill_queue.append(skill_idx)
 	get_node("../ingame_ui").update_ui(knight_skill_queue)
+	if skill["name"] == "ADDON":
+		call_addon()
+		return
+	if skill["name"] == "CHARGE":
+		call_charge()
+		return
 	var inst = skill["scene"].instance()
 	inst.is_enemy = is_enemy
 	if skill["is_player_child"]:
@@ -330,9 +337,8 @@ func activate_skill(skill_idx, slot_num):
 		return
 	get_node("../").add_child(inst)
 
-func call_addon(type):
+func call_addon():
 	var addon1 = preload('../skills/addon/addon.tscn').instance()
-	addon1.addon_type = type
 	addon1.is_enemy = is_enemy
 	addon1.from_player = Vector3(-1.5, 0, 0)
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
@@ -342,7 +348,6 @@ func call_addon(type):
 	get_node('../').add_child(addon1)
 	
 	var addon2 = preload('../skills/addon/addon.tscn').instance()
-	addon2.addon_type = type
 	addon2.is_enemy = is_enemy
 	addon2.from_player = Vector3(1.5, 0, 0)
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
@@ -351,9 +356,8 @@ func call_addon(type):
 	addon2.set_global_transform(trans)
 	get_node('../').add_child(addon2)
 	
-func call_charge(type):
+func call_charge():
 	var charge = preload('../skills/charge/charge.tscn').instance()
-	charge.charge_type = type
 	charge.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans = get_global_transform().orthonormalized()
@@ -362,7 +366,6 @@ func call_charge(type):
 	get_node('../').add_child(charge)
 	
 	var charge1 = preload('../skills/charge/charge.tscn').instance()
-	charge1.charge_type = type
 	charge1.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans1 = get_global_transform().orthonormalized()
@@ -373,7 +376,6 @@ func call_charge(type):
 	get_node('../').add_child(charge1)
 	
 	var charge2 = preload('../skills/charge/charge.tscn').instance()
-	charge2.charge_type = type
 	charge2.is_enemy = is_enemy
 	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 	var trans2 = get_global_transform().orthonormalized()

@@ -4,7 +4,6 @@ const DEFAULT_LIFE_TIME = 10
 const DEFAULT_BULLET_COOL_TIME = 0.2
 const FORWARD_TYPE_SPEED = 5
 
-var addon_type = constants.ADDON
 var is_enemy = false
 var is_destroyed = false
 

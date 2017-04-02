@@ -4,7 +4,6 @@ const DEFAULT_LIFE_TIME = 10
 const DEFAULT_HP = 50
 const FORWARD_TYPE_SPEED = 30
 
-var charge_type = constants.CHARGE
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -29,10 +28,9 @@ func _fixed_process(delta):
 		destroy()
 		return
 	
-	if charge_type == constants.CHARGE:
-		get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-		translate(Vector3(0, 0,  -1 * FORWARD_TYPE_SPEED * delta))
-		rotate_z(0.3)
+	get_node('HP').set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+	translate(Vector3(0, 0,  -1 * FORWARD_TYPE_SPEED * delta))
+	rotate_z(0.3)
 
 func _ready():
 	var charge_loc = self.get_translation()	
