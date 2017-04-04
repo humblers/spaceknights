@@ -6,7 +6,10 @@ const DEFAULT_BULLET_COOL_TIME = 0.4
 const DEFAULT_ATTACK_COOL_TIME = 4
 const DEFAULT_ATTACK_CHAIN = 1
 const FORWARD_TYPE_SPEED = 5
+const ANIMATION_DISTANCE = 50
+const RIGHT_BOUNDARY = 20
 
+var animation_direction
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -41,6 +44,10 @@ func destroy():
 		is_destroyed = true
 
 func _fixed_process(delta):
+	var pos = get_translation()
+	if pos.y < 0:
+		set_translation(pos + animation_direction * delta * 0.4)
+
 	life_elapsed += delta
 	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
 		destroy()
@@ -70,7 +77,7 @@ func _fixed_process(delta):
 			attack_chain = DEFAULT_ATTACK_CHAIN
 			attack_timing = 0
 
-	translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
+	#translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
 	get_node("HP").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	get_node("Drone/MeshInstance").set_rotation_deg(Vector3(0,100*rotate_timing,0))
 	get_node("Drone/ShotFrom").set_rotation_deg(Vector3(0,100*rotate_timing,0))
@@ -104,22 +111,21 @@ func _ready():
 	var player = "Enemy" if is_enemy else "Player"
 	var mothership_node = get_node("../%sMothership" % player)
 	var player_node = get_node("../%s" % player)
-	var trans = player_node.get_global_transform().orthonormalized()
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	set_global_transform(trans)
+	var pos_x = player_node.get_translation().x
+	var depth = sqrt(pow(ANIMATION_DISTANCE, 2) - pow(RIGHT_BOUNDARY - pos_x, 2))
+	var start_pos = Vector3(RIGHT_BOUNDARY, -depth, 0)
+	animation_direction = Vector3(pos_x, 0, 0) - start_pos
+	set_translation(start_pos)
 
-	var drone_loc = get_translation()
 	if is_enemy:
 		add_to_group('enemy_Collider')
 		drone.set_layer_mask(constants.LM_ENEMY)
 		drone.set_collision_mask(constants.LM_PLAYER)
-		set_translation(drone_loc + Vector3(0,0,-4))
 		set_rotation_deg(Vector3(0,0,0))
 	else:
 		add_to_group('player_Collider')
 		drone.set_layer_mask(constants.LM_PLAYER)
 		drone.set_collision_mask(constants.LM_ENEMY)
-		set_translation(drone_loc + Vector3(0,0,4))
 		set_rotation_deg(Vector3(180,0,180))
 	set_scale(Vector3(0.5,0.5,0.5))	
 	
