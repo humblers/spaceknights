@@ -28,7 +28,7 @@ func build_preset_pick_button():
 		preset_list.append(preset)
 	preset_list.append({
 		"key" : "new",
-		"type" : get_node("pick_type").get_selected_ID(),
+		"type" : get_node("pick_type").get_selected(),
 		"skills" : []
 	})
 	var pick_button = get_node("pick_preset")
@@ -41,6 +41,7 @@ func update_preset(idx=0):
 	cur_preset = preset_list[idx]
 	if idx == preset_list.size() - 1:
 		get_node("new_preset_dialog").popup_centered()
+	get_node("pick_type").select(cur_preset["type"])
 	update_skill_panel()
 
 func update_skill_panel():
@@ -67,6 +68,9 @@ func _on_add_skill_pressed():
 	cur_preset["skills"].append(get_node("pick_skill_panel/pick_skill").get_selected_ID())
 	update_skill_panel()
 
+func _on_pick_type_item_selected( ID ):
+	cur_preset["type"] = ID
+
 func _on_pick_preset_item_selected( ID ):
 	update_preset(ID)
 
@@ -84,3 +88,4 @@ func _on_save_pressed():
 	variants.update_preset_knight(key, cur_preset)
 	build_preset_pick_button()
 	get_parent().build_player_buttons()
+
