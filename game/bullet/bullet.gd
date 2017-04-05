@@ -52,11 +52,13 @@ func _ready():
 	initial_radius = self.get_shape(0).get_radius()
 	
 	if is_2d:
-		get_node("MeshInstance").hide()
+		if get_node("MeshInstance").is_visible():
+			get_node("MeshInstance").hide()
 		get_node("Node2D").show()
 	else:
-		get_node("MeshInstance").show()
-		get_node("Node2D").hide()
+		if get_node("Node2D").is_visible():
+			get_node("MeshInstance").show()
+			get_node("Node2D").hide()
 	set_process(true)
 
 func _process(delta):
