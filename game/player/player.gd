@@ -54,10 +54,7 @@ func _ready():
 		var random_num = randi() % random_skill_queue.size()
 		knight_skill_queue.append(random_skill_queue[random_num])
 		random_skill_queue.remove(random_num)		
-	
-	for i in range(knight_skill_queue.size()):
-		print('ran skill num = ', i, ' contents ' , knight_skill_queue[i])
-	
+		
 	skill_num = knight_skill_queue.size()
 	
 	
@@ -84,11 +81,12 @@ func _ready():
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 		variants.red_life = life
+		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 	else:
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 		variants.blue_life = life
-		get_node("../ingame_ui").update_ui(knight_skill_queue)
+		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 
 	hp = HP_MAX
 	update_ui()
@@ -208,21 +206,41 @@ func _process(delta):
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		activate_skill(0, 0)
+		var ai_skill = randi() % 4
+		if ai_skill == 0:
+			get_node("../ingame_ui")._on_enemy_skill1_pressed()
+		elif ai_skill == 1:
+			get_node("../ingame_ui")._on_enemy_skill2_pressed()
+		elif ai_skill == 2:
+			get_node("../ingame_ui")._on_enemy_skill3_pressed()
+		elif ai_skill == 3:
+			get_node("../ingame_ui")._on_enemy_skill4_pressed()
 		fire()
 	else:
 		fire()
-		
-		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
-			on_right_edge = false
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
-			translate(Vector3(-speed * delta, 0, 0))
-		elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
-			on_left_edge = false
-			translate(Vector3(speed * delta, 0, 0))
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
-		else :
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+		if is_enemy:
+			if Input.is_key_pressed(KEY_D) and not on_left_edge:
+				on_right_edge = false
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+				translate(Vector3(-speed * delta, 0, 0))
+			elif Input.is_key_pressed(KEY_A) and not on_right_edge:
+				on_left_edge = false
+				translate(Vector3(speed * delta, 0, 0))
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			else :
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+	
+		else:
+			if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
+				on_right_edge = false
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+				translate(Vector3(-speed * delta, 0, 0))
+			elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
+				on_left_edge = false
+				translate(Vector3(speed * delta, 0, 0))
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			else :
+				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 	
 	energy += delta/2
 	if energy>MAX_ENERGY:
@@ -311,7 +329,8 @@ func activate_skill(skill_idx, slot_num):
 	knight_skill_queue[slot_num] = knight_skill_queue[4]
 	knight_skill_queue.remove(4)
 	knight_skill_queue.append(skill_idx)
-	get_node("../ingame_ui").update_ui(knight_skill_queue)
+		
+	get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 	if skill["name"] == "ADDON":
 		call_addon()
 		return
