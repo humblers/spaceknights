@@ -17,6 +17,7 @@ var initial_scale
 var initial_radius
 var material_01 = FixedMaterial.new()
 var material_02 = FixedMaterial.new()
+export var is_2d = false
 
 var time = 0
 
@@ -49,9 +50,21 @@ func _ready():
 		
 	initial_scale = get_node("MeshInstance").get_scale()
 	initial_radius = self.get_shape(0).get_radius()
+	
+	if is_2d:
+		if get_node("MeshInstance").is_visible():
+			get_node("MeshInstance").hide()
+		get_node("Node2D").show()
+	else:
+		if get_node("Node2D").is_visible():
+			get_node("MeshInstance").show()
+			get_node("Node2D").hide()
 	set_process(true)
 
 func _process(delta):
+	if is_2d:
+		get_node("Node2D/Sprite").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+		#print(get_node('../Camera').unproject_position(get_global_transform().origin))
 	life_timer += delta
 	if life_timer > decay_time:
 		on_timeout_complete()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://bullet/bullet.gd" type="Script" id=1]
 [ext_resource path="res://bullet/bullet_01.msh" type="Mesh" id=2]
 [ext_resource path="res://bullet/bullet_01.dds" type="Texture" id=3]
+[ext_resource path="res://bullet/fx_bullet_02.dds" type="Texture" id=4]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -74,6 +75,7 @@ velocity/angular = Vector3( 0, 0, 0 )
 damp_override/linear = 0.0
 damp_override/angular = -1.0
 script/script = ExtResource( 1 )
+is_2d = false
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
@@ -103,6 +105,13 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 1 )
 trigger = true
 _update_shape_index = 0
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+
+transform/scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
 
 [connection signal="body_enter" from="." to="." method="_on_Bullet_body_enter"]
 
