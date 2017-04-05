@@ -9,7 +9,10 @@ const FORWARD_TYPE_SPEED = 5
 const ANIMATION_DISTANCE = 50
 const RIGHT_BOUNDARY = 20
 
+var position setget set_position, get_position
+onready var mothership = get_node("../%sMothership" % ("Player" if is_enemy else "Enemy"))
 var animation_direction
+var landed = false
 var is_enemy = false
 
 var hp = DEFAULT_HP
@@ -31,6 +34,13 @@ var collider_damage = 100
 
 onready var hp_label = Label.new()
 
+func set_position(pos):
+	pos.y = min(pos.y, 0)
+	set_translation(pos)
+
+func get_position():
+	return get_translation()
+
 func set_bullet_speed(speed):
 	bullet_speed(speed)
 	
@@ -43,10 +53,30 @@ func destroy():
 		get_parent().queue_free()
 		is_destroyed = true
 
+func get_distance_to(target):
+	return get_translation().distance_to(target.get_translation())
+
+func goto_nearest_enemy(delta):
+	var enemy = mothership
+	for body in get_node("Drone/Range").get_overlapping_bodies():
+		if body.is_in_group("enemy_Bullet") or body.is_in_group("player_Bullet"):
+			continue
+		if get_distance_to(body) < get_distance_to(enemy):
+			enemy = body
+	#print ('mothership : ', mothership.get_name())
+	#print ('nearest enemy : ', enemy.get_name())
+	#print ('nearest distance : ', get_distance_to(enemy))
+	var movement = (enemy.get_translation() - get_translation()).normalized() * delta * 10
+	set_translation(get_translation() + movement)
+
 func _fixed_process(delta):
-	var pos = get_translation()
-	if pos.y < 0:
-		set_translation(pos + animation_direction * delta * 0.4)
+	if not landed:
+		self.position = self.position + animation_direction * delta * 0.4
+		if self.position.y == 0:
+			landed = true
+			get_node("Drone/AnimationPlayer").stop(true)
+	else:
+		goto_nearest_enemy(delta)
 
 	life_elapsed += delta
 	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
@@ -121,11 +151,15 @@ func _ready():
 		add_to_group('enemy_Collider')
 		drone.set_layer_mask(constants.LM_ENEMY)
 		drone.set_collision_mask(constants.LM_PLAYER)
+		get_node("Drone/Range").set_layer_mask(constants.LM_ENEMY)
+		get_node("Drone/Range").set_collision_mask(constants.LM_PLAYER)
 		set_rotation_deg(Vector3(0,0,0))
 	else:
 		add_to_group('player_Collider')
 		drone.set_layer_mask(constants.LM_PLAYER)
 		drone.set_collision_mask(constants.LM_ENEMY)
+		get_node("Drone/Range").set_layer_mask(constants.LM_PLAYER)
+		get_node("Drone/Range").set_collision_mask(constants.LM_ENEMY)
 		set_rotation_deg(Vector3(180,0,180))
 	set_scale(Vector3(0.5,0.5,0.5))	
 	
