@@ -185,7 +185,7 @@ func _process(delta):
 		fire_timeout -= delta
 	
 	if is_ai:
-		var ai_control = randi() % 50 + 1
+		var ai_control = randi() % 100 + 1
 		if ai_control <= 2:
 			if enemy_moving_state == 0:
 				var init_direction = randi() % 2
@@ -196,7 +196,7 @@ func _process(delta):
 			else :
 				enemy_moving_state = enemy_moving_state * -1
 				
-		if (ai_control > 49) :
+		if (ai_control > 99) :
 			enemy_moving_state = 0
 			
 		if self.get_translation().x < -10 :
@@ -210,20 +210,35 @@ func _process(delta):
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			fire()
 		elif enemy_moving_state == -1:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			fire()
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		var ai_skill = randi() % 4
-		if ai_skill == 0:
-			get_node("../ingame_ui")._on_enemy_skill1_pressed()
-		elif ai_skill == 1:
-			get_node("../ingame_ui")._on_enemy_skill2_pressed()
-		elif ai_skill == 2:
-			get_node("../ingame_ui")._on_enemy_skill3_pressed()
-		elif ai_skill == 3:
-			get_node("../ingame_ui")._on_enemy_skill4_pressed()
-		fire()
+			if shield_cool > 0:
+				shield_cool -= delta
+			shield()
+		var ai_skill = randi() % 1000
+		if is_enemy:
+			if ai_skill == 0:
+				get_node("../ingame_ui")._on_enemy_skill1_pressed()
+			elif ai_skill == 1:
+				get_node("../ingame_ui")._on_enemy_skill2_pressed()
+			elif ai_skill == 2:
+				get_node("../ingame_ui")._on_enemy_skill3_pressed()
+			elif ai_skill == 3:
+				get_node("../ingame_ui")._on_enemy_skill4_pressed()
+		else:
+			if ai_skill == 0:
+				get_node("../ingame_ui")._on_skill1_pressed()
+			elif ai_skill == 1:
+				get_node("../ingame_ui")._on_skill2_pressed()
+			elif ai_skill == 2:
+				get_node("../ingame_ui")._on_skill3_pressed()
+			elif ai_skill == 3:
+				get_node("../ingame_ui")._on_skill4_pressed()
+		
 	else:
 		if is_enemy:
 			if Input.is_key_pressed(KEY_D) and not on_left_edge:
