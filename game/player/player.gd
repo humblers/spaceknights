@@ -42,6 +42,8 @@ var select_skill_num = 3
 var MAX_ENERGY = 10.0
 var energy = MAX_ENERGY
 var popup_cool = 1
+var is_shield = true
+var shield_cool = 0.5
 
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
@@ -96,11 +98,17 @@ func _ready():
 
 func _on_Area_body_enter( body ):
 	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
-		hp = clamp(hp - body.damage, 0, HP_MAX)
+		var damage = body.damage
+		if is_shield:
+			damage = damage * 0.2
+		hp = clamp(hp - damage, 0, HP_MAX)
 		update_ui()
 		body.queue_free()	
 	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp = clamp(hp - body.damage, 0, HP_MAX)
+		var damage = body.damage
+		if is_shield:
+			damage = damage * 0.2
+		hp = clamp(hp - damage, 0, HP_MAX)
 		update_ui()
 
 func update_ui():
@@ -177,7 +185,7 @@ func _process(delta):
 		fire_timeout -= delta
 	
 	if is_ai:
-		var ai_control = randi() % 50 + 1
+		var ai_control = randi() % 100 + 1
 		if ai_control <= 2:
 			if enemy_moving_state == 0:
 				var init_direction = randi() % 2
@@ -188,7 +196,7 @@ func _process(delta):
 			else :
 				enemy_moving_state = enemy_moving_state * -1
 				
-		if (ai_control > 49) :
+		if (ai_control > 99) :
 			enemy_moving_state = 0
 			
 		if self.get_translation().x < -10 :
@@ -202,50 +210,74 @@ func _process(delta):
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			fire()
 		elif enemy_moving_state == -1:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			fire()
 		else:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
-		var ai_skill = randi() % 4
-		if ai_skill == 0:
-			get_node("../ingame_ui")._on_enemy_skill1_pressed()
-		elif ai_skill == 1:
-			get_node("../ingame_ui")._on_enemy_skill2_pressed()
-		elif ai_skill == 2:
-			get_node("../ingame_ui")._on_enemy_skill3_pressed()
-		elif ai_skill == 3:
-			get_node("../ingame_ui")._on_enemy_skill4_pressed()
-		fire()
+			if shield_cool > 0:
+				shield_cool -= delta
+			shield()
+		var ai_skill = randi() % 1000
+		if is_enemy:
+			if ai_skill == 0:
+				get_node("../ingame_ui")._on_enemy_skill1_pressed()
+			elif ai_skill == 1:
+				get_node("../ingame_ui")._on_enemy_skill2_pressed()
+			elif ai_skill == 2:
+				get_node("../ingame_ui")._on_enemy_skill3_pressed()
+			elif ai_skill == 3:
+				get_node("../ingame_ui")._on_enemy_skill4_pressed()
+		else:
+			if ai_skill == 0:
+				get_node("../ingame_ui")._on_skill1_pressed()
+			elif ai_skill == 1:
+				get_node("../ingame_ui")._on_skill2_pressed()
+			elif ai_skill == 2:
+				get_node("../ingame_ui")._on_skill3_pressed()
+			elif ai_skill == 3:
+				get_node("../ingame_ui")._on_skill4_pressed()
+		
 	else:
-		fire()
 		if is_enemy:
 			if Input.is_key_pressed(KEY_D) and not on_left_edge:
 				on_right_edge = false
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
+				fire()
 			elif Input.is_key_pressed(KEY_A) and not on_right_edge:
 				on_left_edge = false
 				translate(Vector3(speed * delta, 0, 0))
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+				fire()
 			else :
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+				if shield_cool > 0:
+					shield_cool -= delta
+				shield()
 	
 		else:
 			if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 				on_right_edge = false
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
+				fire()
 			elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
 				on_left_edge = false
 				translate(Vector3(speed * delta, 0, 0))
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+				fire()
 			else :
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+				if shield_cool > 0:
+					shield_cool -= delta
+				shield()
 	
 	energy += delta/2
 	if energy>MAX_ENERGY:
 		energy = MAX_ENERGY
-
+		
 	update_ui()
 	if bullet_type == 4:
 		if !is_hold_fire:
@@ -260,7 +292,16 @@ func _process(delta):
 			if weakref(laser).get_ref():
 				laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
 				
+func shield():
+	if shield_cool <= 0:
+		is_shield = true
+		get_node("Shield/Sprite").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+		get_node("Shield").show()
+		shield_cool = 0.5
+
 func fire():
+	is_shield = false
+	get_node("Shield").hide()
 	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
 		return

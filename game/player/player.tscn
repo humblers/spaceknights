@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://player/player.gd" type="Script" id=1]
 [ext_resource path="res://player/knight_01.msh" type="Mesh" id=2]
 [ext_resource path="res://player/knight_01.dds" type="Texture" id=3]
 [ext_resource path="res://player/knight_01_no.dds" type="Texture" id=4]
 [ext_resource path="res://player/knight_01_sp.dds" type="Texture" id=5]
+[ext_resource path="res://player/fx_protect_01.dds" type="Texture" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -157,6 +158,13 @@ margin/bottom = 14.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="Shield" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Shield"]
+
+transform/scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 6 )
 
 [connection signal="body_enter" from="Area" to="." method="_on_Area_body_enter"]
 
