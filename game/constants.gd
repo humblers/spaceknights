@@ -9,7 +9,7 @@ const LM_ENEMY = 2
 const SKILL_QUEUE_LEN = 10
 const SKILLS = [
 	{
-		"name" : "TURRET",
+		"name" : "CENTRY",
 		"cool" : 3,
 		"energy" : 2,
 		"scene" : preload("res://skills/centrybot/centrybot.tscn"),
