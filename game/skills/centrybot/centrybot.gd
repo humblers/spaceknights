@@ -33,10 +33,6 @@ func shot_to_nearest_enemy(delta):
 	for body in get_node("Range").get_overlapping_bodies():
 		if body.is_in_group("enemy_Bullet") or body.is_in_group("player_Bullet"):
 			continue
-		if body.is_in_group("%s_Collider" % ("enemy" if is_enemy else "player")):
-			continue
-		if body.is_in_group("%s_Cannon" % ("enemy" if is_enemy else "player")):
-			continue
 		if get_distance_to(body) < get_distance_to(enemy):
 			enemy = body
 	bullet_elapsed += delta
@@ -98,10 +94,14 @@ func _ready():
 		add_to_group('enemy_Collider')
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
+		get_node("Range").set_layer_mask(constants.LM_ENEMY)
+		get_node("Range").set_collision_mask(constants.LM_PLAYER)
 	else:
 		add_to_group('player_Collider')
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
+		get_node("Range").set_layer_mask(constants.LM_PLAYER)
+		get_node("Range").set_collision_mask(constants.LM_ENEMY)
 	set_process(true)
 
 func _on_centrybot_area_body_enter( body ):
