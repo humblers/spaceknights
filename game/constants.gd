@@ -12,7 +12,7 @@ const SKILLS = [
 		"name" : "TURRET",
 		"cool" : 3,
 		"energy" : 2,
-		"scene" : preload("res://skills/turret/turret.tscn"),
+		"scene" : preload("res://skills/centrybot/centrybot.tscn"),
 		"is_player_child" : false,
 	},
 	{

@@ -80,11 +80,13 @@ func _ready():
 	bullet_is_mass = knight_info["bullet"]["is_mass"]
 
 	if is_enemy:
+		add_to_group('enemy_Collider')
 		set_layer_mask(constants.LM_ENEMY)
 		set_collision_mask(constants.LM_PLAYER)
 		variants.red_life = life
 		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 	else:
+		add_to_group('player_Collider')
 		set_layer_mask(constants.LM_PLAYER)
 		set_collision_mask(constants.LM_ENEMY)
 		variants.blue_life = life
