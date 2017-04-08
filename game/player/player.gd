@@ -116,25 +116,6 @@ func update_ui():
 		get_node("../ingame_ui/Knight_life2/value").set_text(str(life))
 		get_node("../ingame_ui/Knight_hp2/value").set_text(str(round(hp)))
 	else:
-		"""
-		var skill_str = "??"
-		if skill_num == 0:
-			pass
-		elif skill_num-2 < 0:
-			if skill_remain <= 0:
-				skill_str = "<" +constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is ready!"
-			else:
-				skill_str = "Next Magazine"+ "%d" % skill_remain + "s"
-		else:
-			if skill_remain <= 0:
-				skill_str = "<" +constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is ready!"
-			else:
-				skill_str = "<" + constants.SKILLS[knight_skill_queue[skill_num-1]-1]["name"] + "> is " + "%d" % skill_remain + "s remain"
-			
-		if knight_skill_queue.size() <= 0:
-			skill_str = "empty!"
-		"""
-		
 		get_node("../ingame_ui/Knight_life1/value").set_text(str(life))
 		get_node("../ingame_ui/Knight_hp1/value").set_text(str(round(hp)))
 
@@ -348,8 +329,6 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
-	#if is_enemy:
-		#bullet_mesh.set_rotation_deg(Vector3(180,0,0))
 	get_node('../').add_child(bullet)
 
 func create_laser(direction):
@@ -380,6 +359,7 @@ func activate_skill(skill_idx, slot_num):
 		return
 	var inst = skill["scene"].instance()
 	inst.is_enemy = is_enemy
+	inst.set("scene_vars", skill.scene_vars if skill.has("scene_vars") else {})
 	if skill["is_player_child"]:
 		add_child(inst)
 		return
