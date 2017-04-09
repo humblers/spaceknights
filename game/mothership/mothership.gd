@@ -18,7 +18,7 @@ func _ready():
 func _on_Area_body_enter( body ):
 	hp = min(hp - body.damage, 0)
 	update_ui()
-	if (!body.is_in_group('laser')):
+	if (not body.is_in_group('laser')):
 		body.queue_free()
 
 func update_ui():
