@@ -25,8 +25,6 @@ var bullet_is_mass
 var fire_timeout = 0
 var regen_timeout = 0
 var enemy_moving_left = false
-var on_left_edge = false
-var on_right_edge = false
 var enemy_moving_state = 0
 var collision_shape = SphereShape.new()
 var hp = 0
@@ -102,7 +100,6 @@ func _on_Area_body_enter( body ):
 			damage = damage * 0.2
 		hp = clamp(hp - damage, 0, HP_MAX)
 		update_ui()
-		body.queue_free()	
 	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
 		var damage = body.damage
 		if is_shield:
@@ -308,12 +305,9 @@ func fire():
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
-	if bullet_is_cannon:
-		bullet = preload('../bullet/rocket.tscn').instance()
-		bullet.is_cannon = bullet_is_cannon
-	else:
-		bullet = preload('../bullet/bullet.tscn').instance()
-	bullet.is_enemy = is_enemy
+	bullet = preload('../bullet/bullet.tscn').instance()
+	bullet.add_to_group('bullet')
+	bullet.add_to_group('enemy' if is_enemy else 'player')
 	bullet.hp = bullet_hp
 	bullet.HP_MAX = bullet_hp
 	bullet.damage = bullet_damage
@@ -365,55 +359,23 @@ func activate_skill(skill_idx, slot_num):
 	get_node("../").add_child(inst)
 
 func call_addon():
-	var addon1 = preload('../skills/addon/addon.tscn').instance()
-	addon1.is_enemy = is_enemy
-	addon1.from_player = Vector3(-1.5, 0, 0)
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans = get_global_transform().orthonormalized()
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	addon1.set_global_transform(trans)
-	get_node('../').add_child(addon1)
-	
-	var addon2 = preload('../skills/addon/addon.tscn').instance()
-	addon2.is_enemy = is_enemy
-	addon2.from_player = Vector3(1.5, 0, 0)
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans = get_global_transform().orthonormalized()
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	addon2.set_global_transform(trans)
-	get_node('../').add_child(addon2)
+	for i in range(0, 2):
+		var addon = preload('../skills/addon/addon.tscn').instance()
+		addon.add_to_group('enemy' if is_enemy else 'player')
+		var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+		var trans = get_global_transform().orthonormalized()
+		trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+		addon.set_global_transform(trans)
+		add_child(addon)
 	
 func call_charge():
-	var charge = preload('../skills/charge/charge.tscn').instance()
-	charge.is_enemy = is_enemy
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans = get_global_transform().orthonormalized()
-	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	charge.set_global_transform(trans)
-	get_node('../').add_child(charge)
-	
-	var charge1 = preload('../skills/charge/charge.tscn').instance()
-	charge1.is_enemy = is_enemy
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans1 = get_global_transform().orthonormalized()
-	trans1.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	trans1.origin.x -= 3
-	trans1.origin.z -= 4
-	charge1.set_global_transform(trans1)
-	get_node('../').add_child(charge1)
-	
-	var charge2 = preload('../skills/charge/charge.tscn').instance()
-	charge2.is_enemy = is_enemy
-	var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
-	var trans2 = get_global_transform().orthonormalized()
-	trans2.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-	trans2.origin.x += 3
-	trans2.origin.z += 4
-	charge2.set_global_transform(trans2)
-	get_node('../').add_child(charge2)
-
-func reached_left_edge():
-	on_left_edge = true
-
-func reached_right_edge():
-	on_right_edge = true
+	for i in range(0, 3):
+		var charge = preload('../skills/charge/charge.tscn').instance()
+		charge.add_to_group('enemy' if is_enemy else 'player')
+		var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
+		var trans = get_global_transform().orthonormalized()
+		trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
+		trans1.origin.x = -3 + 3 * i
+		trans1.origin.z -= 4 + 4 * i
+		charge.set_global_transform(trans)
+		get_node('../').add_child(charge)

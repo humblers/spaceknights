@@ -15,7 +15,6 @@ var landed = false
 var is_enemy = false
 
 var hp = DEFAULT_HP
-var is_destroyed = false
 var bullet_elapsed = 0
 var attack_timing = 0
 var attack_chain = DEFAULT_ATTACK_CHAIN
@@ -45,12 +44,6 @@ func set_bullet_speed(speed):
 func update_ui():
 	hp_label.set_text('HP : %d' % hp)
 
-func destroy():
-	if not is_destroyed:
-		set_fixed_process(false)
-		get_parent().queue_free()
-		is_destroyed = true
-
 func get_distance_to(target):
 	return get_translation().distance_to(target.get_translation())
 
@@ -77,7 +70,7 @@ func _fixed_process(delta):
 		goto_nearest_enemy(delta)
 
 	if hp <= 0:
-		destroy()
+		queue_free()
 		return
 
 	attack_timing += delta
@@ -121,7 +114,6 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 		bullet_scale = 1.5
 	
 	var bullet_mesh = bullet.get_node("MeshInstance")
-	#collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
 	bullet.set_global_transform(get_node("Drone/ShotFrom").get_global_transform().orthonormalized())
 	bullet.translate(width)
@@ -168,14 +160,6 @@ func _ready():
 
 
 func _on_DroneArea_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
-		body.queue_free()
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
-		hp = clamp(hp - body.collider_damage, 0, DEFAULT_HP)
-		update_ui()
-		body.queue_free()
+	body.queue_free()
+	hp = min(hp - body.damage, 0)
+	update_ui()

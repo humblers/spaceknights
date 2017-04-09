@@ -9,14 +9,8 @@ var MAX_SCALE = 0.4
 var hp
 
 func _on_BlackHole_body_enter( body ):
-	if (body.is_in_group("enemy_Bullet") and not is_enemy) \
-	or (body.is_in_group("player_Bullet") and is_enemy):
-		body.queue_free()
-		
-	if (body.is_in_group("enemy_Cannon") and not is_enemy) \
-	or (body.is_in_group("player_Cannon") and is_enemy):
-		body.queue_free()
-		
+	body.queue_free()
+
 func _ready():
 	var bullet_from = get_node("../%s/BulletFrom" % ("Enemy" if is_enemy else "Player"))
 	set_global_transform(bullet_from.get_global_transform().orthonormalized())

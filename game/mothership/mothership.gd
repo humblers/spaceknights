@@ -16,20 +16,9 @@ func _ready():
 	update_ui()
 
 func _on_Area_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
-		hp = clamp(hp - body.damage, 0, HP_MAX)
-		update_ui()
-		body.queue_free()
-	if (!is_enemy && body.is_in_group("enemy_Laser")) || (is_enemy && body.is_in_group("player_Laser")):
-		hp = clamp(hp - body.damage, 0, HP_MAX)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp = clamp(hp - body.damage, 0, HP_MAX)
-		update_ui()
-		body.queue_free()
-	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
-		hp = clamp(hp - body.collider_damage, 0, HP_MAX)
-		update_ui()
+	hp = min(hp - body.damage, 0)
+	update_ui()
+	if (!body.is_in_group('laser')):
 		body.queue_free()
 
 func update_ui():

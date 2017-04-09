@@ -4,8 +4,6 @@ const DEFAULT_LIFE_TIME = 10
 const DEFAULT_HP = 50
 const FORWARD_TYPE_SPEED = 30
 
-var is_enemy = false
-
 var hp = DEFAULT_HP
 var life_elapsed = 0
 var is_destroyed = false
@@ -33,30 +31,18 @@ func _fixed_process(delta):
 	rotate_z(0.3)
 
 func _ready():
-	var charge_loc = self.get_translation()	
-	if is_enemy:
-		add_to_group('enemy_Collider')
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
-		self.set_translation(charge_loc + Vector3(0,0,-4))
-	else:
-		add_to_group('player_Collider')
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
-		self.set_translation(charge_loc + Vector3(0,0,4))
-	
+	set_translation(get_translation() + Vector3(0,0,-4) if is_in_group('enemy') else Vector3(0, 0, 4))
+	set_layer_mask(constants.LM_ENEMY if is_in_group('enemy') else constants.LM_PLAYER)
+	set_collision_mask(constants.LM_PLAYER if is_in_group('enemy') else constants.LM_ENEMY)
+
 	hp_label.set_name('HP')
 	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
 	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)
 
-
 func _on_ChargeArea_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+	if (body.is_in_group("bullet")):
 		body.queue_free()
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
+		hp = min(hp - body.damage, 0)
 		update_ui()
