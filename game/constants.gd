@@ -165,7 +165,13 @@ const KNIGHTS = [
 
 func _ready():
 	pass
-	
+
+func determine_layer_mask_val(is_enemy):
+	return LM_ENEMY if is_enemy else LM_PLAYER
+
+func determine_collision_mask_val(is_enemy):
+	return LM_PLAYER if is_enemy else LM_ENEMY
+
 	"""
 	{
 		"type" : "heavy",

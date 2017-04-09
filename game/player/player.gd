@@ -358,7 +358,7 @@ func activate_skill(skill_idx, slot_num):
 		call_charge()
 		return
 	var inst = skill["scene"].instance()
-	inst.is_enemy = is_enemy
+	inst.add_to_group("enemy" if is_enemy else "player")
 	inst.set("scene_vars", skill.scene_vars if skill.has("scene_vars") else {})
 	if skill["is_player_child"]:
 		add_child(inst)

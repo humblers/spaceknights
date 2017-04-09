@@ -1,6 +1,5 @@
 extends StaticBody
 
-var is_enemy = false
 var scene_vars = {}
 
 var hp = 0
@@ -12,7 +11,7 @@ var bullet = {}
 var shot_elapsed = 0
 var collision_shape = SphereShape.new()
 var hp_label = Label.new()
-onready var mothership = get_node("../%sMothership" % ("Player" if is_enemy else "Enemy"))
+var mothership
 
 func get_distance_to(target):
 	return get_translation().distance_to(target.get_translation())
@@ -31,7 +30,7 @@ func shot_to_nearest_enemy(delta):
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var node = preload('res://bullet/rocket.tscn').instance()
-	node.is_enemy = is_enemy
+	node.add_to_group("enemy" if is_in_group("enemy") else "player")
 	node.is_cannon = bullet["is_cannon"]
 	node.damage = bullet["damage"]
 	node.decay_time = shot_range * 10 / bullet["speed"]
@@ -59,42 +58,40 @@ func _process(delta):
 func _ready():
 	for key in scene_vars:
 		set(key, scene_vars[key])
+	var is_enemy = is_in_group("enemy")
+	mothership = get_node("../%sMothership" % ("Player" if is_enemy else "Enemy"))
 	var player_node = get_node("../%s" % ("Enemy" if is_enemy else "Player"))
 	var trans = player_node.get_global_transform().orthonormalized()
 	trans.origin.z = -4 if is_enemy else 4
 	set_global_transform(trans)
 
+	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
+	hp_label.set_name('HP')
+	hp_label.set_text('HP : %d' % hp)
+	add_child(hp_label)
+	
+	var layer_mask_val = constants.determine_layer_mask_val(is_enemy)
+	var collision_mask_val = constants.determine_collision_mask_val(is_enemy)
+	
+	set_layer_mask(layer_mask_val)
+	set_collision_mask(collision_mask_val)
+	
 	var range_node = get_node("Range")
 	range_node.get_node("CollisionShape").get_shape().set_radius(search_range)
-
-	hp_label.set_name('HP')
-	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-	add_child(hp_label)
-	hp_label.set_text('HP : %d' % hp)
+	range_node.set_layer_mask(layer_mask_val)
+	range_node.set_collision_mask(collision_mask_val)
 	
-	if is_enemy:
-		add_to_group('enemy_Collider')
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
-		range_node.set_layer_mask(constants.LM_ENEMY)
-		range_node.set_collision_mask(constants.LM_PLAYER)
-	else:
-		add_to_group('player_Collider')
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
-		range_node.set_layer_mask(constants.LM_PLAYER)
-		range_node.set_collision_mask(constants.LM_ENEMY)
 	set_process(true)
 
 func _on_centrybot_area_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+	var is_oppenent_side = body.is_in_group("player") if is_in_group("enemy") else is_in_group("enemy")
+	if not is_oppenent_side:
+		return
+	
+	if body.is_in_group("bullet") || body.is_in_group("collider"):
+		hp -= body.damage
 		body.queue_free()
+		update_ui()
+	if body.is_in_group("cannon"):
 		hp -= body.damage
 		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp -= body.damage
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
-		hp -= body.damage
-		update_ui()
-		body.queue_free()
