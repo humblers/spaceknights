@@ -77,14 +77,11 @@ func _ready():
 	bullet_is_cannon = knight_info["bullet"]["is_cannon"]
 	bullet_is_mass = knight_info["bullet"]["is_mass"]
 
+	add_to_group("enemy" if is_enemy else "player")
 	if is_enemy:
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
 		variants.red_life = life
 		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 	else:
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
 		variants.blue_life = life
 		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)
 
@@ -125,12 +122,6 @@ func _process(delta):
 			update_ui()
 			regen_timeout = 0
 			self.show()
-			if is_enemy:
-				set_layer_mask(constants.LM_ENEMY)
-				set_collision_mask(constants.LM_PLAYER)
-			else:
-				set_layer_mask(constants.LM_PLAYER)
-				set_collision_mask(constants.LM_ENEMY)
 	
 	skill_remain -= delta
 	
@@ -178,11 +169,9 @@ func _process(delta):
 			
 		if self.get_translation().x < -10 :
 			enemy_moving_state = -1 * forward.z
-			on_left_edge = false
 			
 		elif self.get_translation().x > 10:
 			enemy_moving_state = 1  * forward.z
-			on_right_edge = false
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
@@ -218,13 +207,11 @@ func _process(delta):
 		
 	else:
 		if is_enemy:
-			if Input.is_key_pressed(KEY_D) and not on_left_edge:
-				on_right_edge = false
+			if Input.is_key_pressed(KEY_D):
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
 				fire()
-			elif Input.is_key_pressed(KEY_A) and not on_right_edge:
-				on_left_edge = false
+			elif Input.is_key_pressed(KEY_A):
 				translate(Vector3(speed * delta, 0, 0))
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 				fire()
@@ -235,13 +222,11 @@ func _process(delta):
 				shield()
 	
 		else:
-			if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
-				on_right_edge = false
+			if Input.is_key_pressed(KEY_LEFT):
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
 				fire()
-			elif Input.is_key_pressed(KEY_RIGHT) and not on_right_edge:
-				on_left_edge = false
+			elif Input.is_key_pressed(KEY_RIGHT):
 				translate(Vector3(speed * delta, 0, 0))
 				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 				fire()
@@ -306,13 +291,9 @@ func fire():
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
 	bullet = preload('../bullet/bullet.tscn').instance()
-	bullet.add_to_group('bullet')
 	bullet.add_to_group('enemy' if is_enemy else 'player')
-	bullet.hp = bullet_hp
-	bullet.HP_MAX = bullet_hp
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
-	bullet.is_mass = bullet_is_mass
 	
 	var bullet_mesh = bullet.get_node("MeshInstance")
 	collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
@@ -375,7 +356,7 @@ func call_charge():
 		var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 		var trans = get_global_transform().orthonormalized()
 		trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
-		trans1.origin.x = -3 + 3 * i
-		trans1.origin.z -= 4 + 4 * i
+		trans.origin.x = -3 + 3 * i
+		trans.origin.z -= 4 + 4 * i
 		charge.set_global_transform(trans)
 		get_node('../').add_child(charge)

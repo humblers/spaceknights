@@ -69,17 +69,10 @@ func _ready():
 	hp_label.set_name('HP')
 	hp_label.set_text('HP : %d' % hp)
 	add_child(hp_label)
-	
-	var layer_mask_val = constants.determine_layer_mask_val(is_enemy)
-	var collision_mask_val = constants.determine_collision_mask_val(is_enemy)
-	
-	set_layer_mask(layer_mask_val)
-	set_collision_mask(collision_mask_val)
-	
+
 	var range_node = get_node("Range")
 	range_node.get_node("CollisionShape").get_shape().set_radius(search_range)
-	range_node.set_layer_mask(layer_mask_val)
-	range_node.set_collision_mask(collision_mask_val)
+	range_node.add_to_group("enemy" if is_enemy else "player")
 	
 	set_process(true)
 

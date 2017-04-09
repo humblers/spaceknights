@@ -39,7 +39,7 @@ func _process(delta):
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
 	bullet = preload('res://bullet/bullet.tscn').instance()
-	bullet.is_enemy = is_enemy
+	bullet.add_to_group("enemy" if is_enemy else "player")
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
 	
@@ -57,15 +57,12 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 
 func _ready():
+	add_to_group("enemy" if is_enemy else "player")
 	var addon_loc = self.get_translation()
 	if is_enemy:
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
 		self.set_translation(addon_loc + Vector3(0,0,-4))
 		self.set_rotation_deg(Vector3(0,0,0))
 	else:
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
 		self.set_translation(addon_loc + Vector3(0,0,4))
 		self.set_rotation_deg(Vector3(180,0,180))
 		

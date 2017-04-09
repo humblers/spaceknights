@@ -32,9 +32,6 @@ func _fixed_process(delta):
 
 func _ready():
 	set_translation(get_translation() + Vector3(0,0,-4) if is_in_group('enemy') else Vector3(0, 0, 4))
-	set_layer_mask(constants.LM_ENEMY if is_in_group('enemy') else constants.LM_PLAYER)
-	set_collision_mask(constants.LM_PLAYER if is_in_group('enemy') else constants.LM_ENEMY)
-
 	hp_label.set_name('HP')
 	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 	add_child(hp_label)
@@ -44,5 +41,5 @@ func _ready():
 func _on_ChargeArea_body_enter( body ):
 	if (body.is_in_group("bullet")):
 		body.queue_free()
-		hp = min(hp - body.damage, 0)
+		hp = max(hp - body.damage, 0)
 		update_ui()

@@ -37,7 +37,7 @@ const SKILLS = [
 		"name" : "DRONE",
 		"cool" : 8,
 		"energy" : 6,
-		"scene" : preload("res://skills/drone/drone_zigzag.tscn"),
+		"scene" : preload("res://skills/drone/drone.tscn"),
 		"is_player_child" : false,
 	},
 	{

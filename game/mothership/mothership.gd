@@ -6,20 +6,16 @@ var hp
 
 
 func _ready():
-	if is_enemy:
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
-	else:
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
+	add_to_group('enemy' if is_enemy else 'player')
+	add_to_group('mothership')
 	hp = HP_MAX
 	update_ui()
 
 func _on_Area_body_enter( body ):
-	hp = min(hp - body.damage, 0)
+	if (body == self):
+		return
+	hp = max(hp - body.damage, 0)
 	update_ui()
-	if (not body.is_in_group('laser')):
-		body.queue_free()
 
 func update_ui():
 	if is_enemy:

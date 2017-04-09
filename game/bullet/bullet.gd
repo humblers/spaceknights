@@ -11,9 +11,7 @@ export var is_2d = false
 var time = 0
 
 func _ready():
-	set_layer_mask(constants.LM_ENEMY if is_in_group('enemy') else constants.LM_PLAYER)
-	set_collision_mask(constants.LM_PLAYER if is_in_group('enemy') else constants.LM_ENEMY)
-
+	add_to_group("bullet")
 	if is_in_group('player'):
 		material_01.set_parameter(material_01.PARAM_DIFFUSE,Color(0.2,0.2,0.7,1))
 		get_node("MeshInstance").set_material_override(material_01)
