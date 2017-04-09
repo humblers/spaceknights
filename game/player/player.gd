@@ -92,7 +92,6 @@ func _ready():
 
 	hp = HP_MAX
 	update_ui()
-	add_to_group("unfreed_nodes")
 
 	set_process(true)
 
