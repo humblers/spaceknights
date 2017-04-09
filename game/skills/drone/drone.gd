@@ -1,6 +1,5 @@
 extends Spatial
 
-const DEFAULT_LIFE_TIME = 100
 const DEFAULT_HP = 400
 const DEFAULT_BULLET_COOL_TIME = 0.4
 const DEFAULT_ATTACK_COOL_TIME = 4
@@ -16,7 +15,6 @@ var landed = false
 var is_enemy = false
 
 var hp = DEFAULT_HP
-var life_elapsed = 0
 var is_destroyed = false
 var bullet_elapsed = 0
 var attack_timing = 0
@@ -78,8 +76,7 @@ func _fixed_process(delta):
 	else:
 		goto_nearest_enemy(delta)
 
-	life_elapsed += delta
-	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
+	if hp <= 0:
 		destroy()
 		return
 
