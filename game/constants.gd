@@ -1,5 +1,7 @@
 extends Node
 
+const INT_MAX = 2147483647
+
 # Layer Masks
 const LM_DONT_COLLIDE = 0
 const LM_PLAYER = 1
@@ -9,10 +11,26 @@ const LM_ENEMY = 2
 const SKILL_QUEUE_LEN = 10
 const SKILLS = [
 	{
-		"name" : "TURRET",
+		"name" : "CENTRY",
 		"cool" : 3,
-		"energy" : 2,
-		"scene" : preload("res://skills/turret/turret.tscn"),
+		"energy" : 5,
+		"scene" : preload("res://skills/centrybot/centrybot.tscn"),
+		"scene_vars" : {
+			"hp" : 900,
+			"search_range" : 6,
+			"shot_range" : 6,
+			"shot_cool" : 1.6,
+			"bullet" : {
+				"type" : 1,
+				"hp" : 50,
+				"speed" : 15,
+				"mass" : 10000,
+				"scale" : 0.8,
+				"damage" : 100,
+				"is_cannon" : true,
+				"is_mass" : false,
+			},
+		},
 		"is_player_child" : false,
 	},
 	{
@@ -147,7 +165,13 @@ const KNIGHTS = [
 
 func _ready():
 	pass
-	
+
+func determine_layer_mask_val(is_enemy):
+	return LM_ENEMY if is_enemy else LM_PLAYER
+
+func determine_collision_mask_val(is_enemy):
+	return LM_PLAYER if is_enemy else LM_ENEMY
+
 	"""
 	{
 		"type" : "heavy",
