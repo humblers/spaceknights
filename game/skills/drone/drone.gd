@@ -27,7 +27,7 @@ var bullet_scale = 0
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
-var collider_damage = 100
+var damage = 100
 
 onready var hp_label = Label.new()
 
@@ -134,7 +134,7 @@ func _ready():
 	set_translation(start_pos)
 
 	drone.add_to_group("enemy" if is_enemy else "player")
-	get_node("Drone/Range").add_to_group("enemy" if is_enemy else "player")
+	drone.add_to_group("drone")
 
 	if is_enemy:
 		set_rotation_deg(Vector3(0,0,0))
@@ -153,6 +153,9 @@ func _ready():
 
 
 func _on_DroneArea_body_enter( body ):
-	body.queue_free()
-	hp = max(hp - body.damage, 0)
-	update_ui()
+	if not variants.is_opponent(self, body):
+		return
+	if body.is_in_group("bullet") or body.is_in_group("mothership") or body.is_in_group("charge") or body.is_in_group("drone"):
+		body.queue_free()
+		hp = max(hp - body.damage, 0)
+		update_ui()

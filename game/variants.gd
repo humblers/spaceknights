@@ -35,3 +35,11 @@ func save_player_data():
 		player_data.set_value("preset_knights", key, preset_knights[key])
 	var err = player_data.save("user://player_data.cfg")
 	
+func is_opponent(node_a, node_b):
+	if node_a.is_in_group("enemy"):
+		if node_b.is_in_group("player"):
+			return true
+	elif node_a.is_in_group("player"):
+		if node_b.is_in_group("enemy"):
+			return true
+	return false

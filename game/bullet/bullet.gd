@@ -44,3 +44,9 @@ func _process(delta):
 		var color = (sin(time)+1)/2*0.5
 		material_02.set_parameter(material_02.PARAM_DIFFUSE,Color(color+0.5,color+0.5,color/2,color+0.5))
 		get_node("MeshInstance").set_material_override(material_02)
+
+func _on_Bullet_body_enter( body ):
+	if not variants.is_opponent(self, body):
+		return
+	if body.is_in_group("mothership") or body.is_in_group("knight") or body.is_in_group("charge") or body.is_in_group("drone") or body.is_in_group("blackhole"):
+		queue_free()

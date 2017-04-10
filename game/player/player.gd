@@ -78,6 +78,7 @@ func _ready():
 	bullet_is_mass = knight_info["bullet"]["is_mass"]
 
 	add_to_group("enemy" if is_enemy else "player")
+	add_to_group("knight")
 	if is_enemy:
 		variants.red_life = life
 		get_node("../ingame_ui").update_ui(knight_skill_queue, is_enemy)

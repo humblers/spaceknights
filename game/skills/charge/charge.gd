@@ -7,7 +7,7 @@ const FORWARD_TYPE_SPEED = 30
 var hp = DEFAULT_HP
 var life_elapsed = 0
 var is_destroyed = false
-var collider_damage = 400
+var damage = 400
 
 onready var hp_label = Label.new()
 

@@ -12,10 +12,11 @@ func _ready():
 	update_ui()
 
 func _on_Area_body_enter( body ):
-	if (body == self):
+	if not variants.is_opponent(self, body):
 		return
-	hp = max(hp - body.damage, 0)
-	update_ui()
+	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
+		hp = max(hp - body.damage, 0)
+		update_ui()
 
 func update_ui():
 	if is_enemy:

@@ -20,6 +20,7 @@ func _ready():
 	set_translation(xyz)
 
 	add_to_group("enemy" if is_enemy else "player")
+	add_to_group("blackhole")
 	get_node("Range").add_to_group("enemy" if is_enemy else "player")
 
 	set_process(true)

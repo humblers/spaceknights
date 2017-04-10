@@ -18,9 +18,6 @@ var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
 var hp
 
-func set_bullet_speed(speed):
-	bullet_speed(speed)
-
 func _process(delta):
 	life_elapsed += delta
 	if life_elapsed > DEFAULT_LIFE_TIME:
