@@ -291,7 +291,7 @@ func fire():
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
-	bullet = preload('../bullet/bullet.tscn').instance()
+	bullet = preload('res://bullet/bullet.tscn').instance()
 	bullet.add_to_group('enemy' if is_enemy else 'player')
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
@@ -308,7 +308,7 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 func create_laser(direction):
 	if !laser:
-		laser = preload('../bullet/laser.tscn').instance()
+		laser = preload('res://bullet/laser.tscn').instance()
 		laser.is_enemy = is_enemy
 		
 		laser.set_global_transform(get_node("BulletFrom").get_global_transform().orthonormalized())
@@ -342,7 +342,7 @@ func activate_skill(skill_idx, slot_num):
 
 func call_addon():
 	for i in range(0, 2):
-		var addon = preload('../skills/addon/addon.tscn').instance()
+		var addon = preload('res://addon/addon.tscn').instance()
 		addon.add_to_group('enemy' if is_enemy else 'player')
 		var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 		var trans = get_global_transform().orthonormalized()
@@ -352,7 +352,7 @@ func call_addon():
 	
 func call_charge():
 	for i in range(0, 3):
-		var charge = preload('../skills/charge/charge.tscn').instance()
+		var charge = preload('res://charge/charge.tscn').instance()
 		charge.add_to_group('enemy' if is_enemy else 'player')
 		var mothership_node = get_node('../EnemyMothership') if is_enemy else get_node('../PlayerMothership')
 		var trans = get_global_transform().orthonormalized()

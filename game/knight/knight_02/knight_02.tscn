@@ -1,11 +1,9 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://player/player.gd" type="Script" id=1]
-[ext_resource path="res://player/knight_01.msh" type="Mesh" id=2]
-[ext_resource path="res://player/knight_01.dds" type="Texture" id=3]
-[ext_resource path="res://player/knight_01_no.dds" type="Texture" id=4]
-[ext_resource path="res://player/knight_01_sp.dds" type="Texture" id=5]
-[ext_resource path="res://player/fx_protect_01.dds" type="Texture" id=6]
+[ext_resource path="res://knight/knight.gd" type="Script" id=1]
+[ext_resource path="res://knight/knight_02/knight_02.msh" type="Mesh" id=2]
+[ext_resource path="res://knight/knight_02/knight_02.dds" type="Texture" id=3]
+[ext_resource path="res://knight/fx_protect_01.dds" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -37,18 +35,16 @@ params/detail_mix = 1.0
 params/normal_depth = 2.0
 params/shader = 0
 params/shader_param = 0.5
-params/glow = 0.2
+params/glow = 0.1
 params/point_size = 1.0
 uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 textures/diffuse = ExtResource( 3 )
 textures/diffuse_tc = 0
 textures/detail_tc = 0
-textures/specular = ExtResource( 5 )
 textures/specular_tc = 0
 textures/emission_tc = 0
 textures/specular_exp_tc = 0
 textures/glow_tc = 0
-textures/normal = ExtResource( 4 )
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
@@ -72,12 +68,12 @@ script/script = ExtResource( 1 )
 is_ai = false
 is_enemy = false
 forward = Vector3( 0, 0, -1 )
-knight_num = 1
+knight_num = 0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.15, 0.000155943, -0.000186633, -0.000156271, 0.15, -0.000264334, 0.000186359, 0.000264528, 0.15, 0, 0, 0 )
+transform/local = Transform( 0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0 )
 layers = 1
 geometry/visible = true
 geometry/material_override = null
@@ -164,7 +160,7 @@ max_lines_visible = -1
 [node name="Sprite" type="Sprite" parent="Shield"]
 
 transform/scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 
 [connection signal="body_enter" from="Area" to="." method="_on_Area_body_enter"]
 

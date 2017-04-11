@@ -14,7 +14,7 @@ const SKILLS = [
 		"name" : "CENTRY",
 		"cool" : 3,
 		"energy" : 5,
-		"scene" : preload("res://skills/centrybot/centrybot.tscn"),
+		"scene" : preload("res://centrybot/centrybot.tscn"),
 		"scene_vars" : {
 			"hp" : 900,
 			"search_range" : 6,
@@ -37,28 +37,28 @@ const SKILLS = [
 		"name" : "DRONE",
 		"cool" : 8,
 		"energy" : 6,
-		"scene" : preload("res://skills/drone/drone.tscn"),
+		"scene" : preload("res://drone/drone.tscn"),
 		"is_player_child" : false,
 	},
 	{
 		"name" : "BHOLE",
 		"cool" : 5,
 		"energy" : 3,
-		"scene" : preload("res://skills/blackhole/blackhole.tscn"),
+		"scene" : preload("res://blackhole/blackhole.tscn"),
 		"is_player_child" : false,
 	},
 	{
 		"name" : "ADDON",
 		"cool" : 5,
 		"energy" : 5,
-		"scene" : preload("res://skills/addon/addon.tscn"),
+		"scene" : preload("res://addon/addon.tscn"),
 		"is_player_child" : true,
 	},
 	{
 		"name" : "CHARGE",
 		"cool" : 2,
 		"energy" : 1,
-		"scene" : preload("res://skills/charge/charge.tscn"),
+		"scene" : preload("res://charge/charge.tscn"),
 		"is_player_child" : false,
 	}
 ]
