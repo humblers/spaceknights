@@ -5,9 +5,7 @@ const DEFAULT_BULLET_COOL_TIME = 0.2
 const FORWARD_TYPE_SPEED = 5
 
 var is_enemy = false
-var is_destroyed = false
 
-var from_player = 0
 var life_elapsed = 0
 var bullet_elapsed = 1
 
@@ -20,31 +18,11 @@ var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
 var hp
 
-func set_bullet_speed(speed):
-	bullet_speed(speed)
-
-func destroy():
-	if not is_destroyed:
-		set_fixed_process(false)
-		queue_free()
-		is_destroyed = true
-
-func _fixed_process(delta):
+func _process(delta):
 	life_elapsed += delta
 	if life_elapsed > DEFAULT_LIFE_TIME:
-		destroy()
+		queue_free()
 		return
-	if is_enemy && get_node("../Enemy").hp <= 0:
-		destroy()
-	elif !is_enemy && get_node("../Player").hp <= 0:
-		destroy()
-	
-	if is_enemy:
-		var addon_loc = get_node('../Enemy').get_translation()
-		self.set_translation(addon_loc + from_player)
-	else:
-		var addon_loc = get_node('../Player').get_translation()
-		self.set_translation(addon_loc + from_player)
 
 	bullet_elapsed += delta
 	if is_enemy:
@@ -58,7 +36,7 @@ func _fixed_process(delta):
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
 	bullet = preload('res://bullet/bullet.tscn').instance()
-	bullet.is_enemy = is_enemy
+	bullet.add_to_group("enemy" if is_enemy else "player")
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
 	
@@ -76,18 +54,15 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 
 func _ready():
+	add_to_group("enemy" if is_enemy else "player")
 	var addon_loc = self.get_translation()
 	if is_enemy:
-		set_layer_mask(constants.LM_ENEMY)
-		set_collision_mask(constants.LM_PLAYER)
 		self.set_translation(addon_loc + Vector3(0,0,-4))
 		self.set_rotation_deg(Vector3(0,0,0))
 	else:
-		set_layer_mask(constants.LM_PLAYER)
-		set_collision_mask(constants.LM_ENEMY)
 		self.set_translation(addon_loc + Vector3(0,0,4))
 		self.set_rotation_deg(Vector3(180,0,180))
 		
-	set_fixed_process(true)
+	set_process(true)
 
 

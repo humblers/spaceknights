@@ -1,6 +1,5 @@
 extends Spatial
 
-const DEFAULT_LIFE_TIME = 100
 const DEFAULT_HP = 400
 const DEFAULT_BULLET_COOL_TIME = 0.4
 const DEFAULT_ATTACK_COOL_TIME = 4
@@ -10,14 +9,12 @@ const ANIMATION_DISTANCE = 50
 const RIGHT_BOUNDARY = 20
 
 var position setget set_position, get_position
-onready var mothership = get_node("../%sMothership" % ("Player" if is_enemy else "Enemy"))
+var mothership;
 var animation_direction
 var landed = false
 var is_enemy = false
 
 var hp = DEFAULT_HP
-var life_elapsed = 0
-var is_destroyed = false
 var bullet_elapsed = 0
 var attack_timing = 0
 var attack_chain = DEFAULT_ATTACK_CHAIN
@@ -30,7 +27,7 @@ var bullet_scale = 0
 var bullet_mass = 1000
 var forward = Vector3(0, 0, -1)
 var collision_shape = SphereShape.new()
-var collider_damage = 100
+var damage = 100
 
 onready var hp_label = Label.new()
 
@@ -47,12 +44,6 @@ func set_bullet_speed(speed):
 func update_ui():
 	hp_label.set_text('HP : %d' % hp)
 
-func destroy():
-	if not is_destroyed:
-		set_fixed_process(false)
-		get_parent().queue_free()
-		is_destroyed = true
-
 func get_distance_to(target):
 	return get_translation().distance_to(target.get_translation())
 
@@ -63,9 +54,6 @@ func goto_nearest_enemy(delta):
 			continue
 		if get_distance_to(body) < get_distance_to(enemy):
 			enemy = body
-	#print ('mothership : ', mothership.get_name())
-	#print ('nearest enemy : ', enemy.get_name())
-	#print ('nearest distance : ', get_distance_to(enemy))
 	var movement = (enemy.get_translation() - get_translation()).normalized() * delta * 10
 	set_translation(get_translation() + movement)
 
@@ -78,9 +66,8 @@ func _fixed_process(delta):
 	else:
 		goto_nearest_enemy(delta)
 
-	life_elapsed += delta
-	if life_elapsed > DEFAULT_LIFE_TIME or hp <= 0:
-		destroy()
+	if hp <= 0:
+		queue_free()
 		return
 
 	attack_timing += delta
@@ -88,8 +75,7 @@ func _fixed_process(delta):
 	rotate_timing += delta
 	if rotate_timing > 360:
 		rotate_timing = 0
-	if is_enemy:
-		forward = Vector3(0, 0, 1)
+
 	if attack_timing > DEFAULT_ATTACK_COOL_TIME:
 		if attack_chain >= 0:
 			if bullet_elapsed > DEFAULT_BULLET_COOL_TIME:
@@ -115,7 +101,7 @@ func _fixed_process(delta):
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
 	bullet = preload('res://bullet/bullet.tscn').instance()
-	bullet.is_enemy = is_enemy
+	bullet.add_to_group("enemy" if is_enemy else "player")
 	bullet.damage = bullet_damage
 	bullet.decay_time = bullet_decay_time
 	bullet_scale = 1.0
@@ -124,7 +110,6 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 		bullet_scale = 1.5
 	
 	var bullet_mesh = bullet.get_node("MeshInstance")
-	#collision_shape.set_radius(bullet.get_shape(0).get_radius() * bullet_scale)
 	bullet.set_shape(0, collision_shape)
 	bullet.set_global_transform(get_node("Drone/ShotFrom").get_global_transform().orthonormalized())
 	bullet.translate(width)
@@ -137,9 +122,10 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 
 
 func _ready():
+	is_enemy = is_in_group("enemy")
+	mothership = get_node("../%sMothership" % ("Player" if is_enemy else "Enemy"))	
 	var drone = get_node("Drone")
 	var player = "Enemy" if is_enemy else "Player"
-	var mothership_node = get_node("../%sMothership" % player)
 	var player_node = get_node("../%s" % player)
 	var pos_x = player_node.get_translation().x
 	var depth = sqrt(pow(ANIMATION_DISTANCE, 2) - pow(RIGHT_BOUNDARY - pos_x, 2))
@@ -147,19 +133,12 @@ func _ready():
 	animation_direction = Vector3(pos_x, 0, 0) - start_pos
 	set_translation(start_pos)
 
+	drone.add_to_group("enemy" if is_enemy else "player")
+	drone.add_to_group("drone")
+
 	if is_enemy:
-		add_to_group('enemy_Collider')
-		drone.set_layer_mask(constants.LM_ENEMY)
-		drone.set_collision_mask(constants.LM_PLAYER)
-		get_node("Drone/Range").set_layer_mask(constants.LM_ENEMY)
-		get_node("Drone/Range").set_collision_mask(constants.LM_PLAYER)
 		set_rotation_deg(Vector3(0,0,0))
 	else:
-		add_to_group('player_Collider')
-		drone.set_layer_mask(constants.LM_PLAYER)
-		drone.set_collision_mask(constants.LM_ENEMY)
-		get_node("Drone/Range").set_layer_mask(constants.LM_PLAYER)
-		get_node("Drone/Range").set_collision_mask(constants.LM_ENEMY)
 		set_rotation_deg(Vector3(180,0,180))
 	set_scale(Vector3(0.5,0.5,0.5))	
 	
@@ -168,17 +147,15 @@ func _ready():
 	add_child(hp_label)
 	hp_label.set_text('HP : %d' % hp)
 	set_fixed_process(true)
+	
+	if is_enemy:
+		Vector3(0, 0, 1)
 
 
 func _on_DroneArea_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+	if not variants.is_opponent(self, body):
+		return
+	if body.is_in_group("bullet") or body.is_in_group("mothership") or body.is_in_group("charge") or body.is_in_group("drone"):
 		body.queue_free()
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
+		hp = max(hp - body.damage, 0)
 		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		hp = clamp(hp - body.damage, 0, DEFAULT_HP)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Collider")) || (is_enemy && body.is_in_group("player_Collider")):
-		hp = clamp(hp - body.collider_damage, 0, DEFAULT_HP)
-		update_ui()
-		body.queue_free()
