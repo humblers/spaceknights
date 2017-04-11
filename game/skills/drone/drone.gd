@@ -38,9 +38,6 @@ func set_position(pos):
 func get_position():
 	return get_translation()
 
-func set_bullet_speed(speed):
-	bullet_speed(speed)
-	
 func update_ui():
 	hp_label.set_text('HP : %d' % hp)
 
