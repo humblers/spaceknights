@@ -14,7 +14,7 @@ const SKILLS = [
 		"name" : "CENTRY",
 		"cool" : 3,
 		"energy" : 5,
-		"scene" : preload("res://centrybot/centrybot.tscn"),
+		"scene" : preload("res://sentrybot/sentrybot.tscn"),
 		"scene_vars" : {
 			"hp" : 900,
 			"search_range" : 6,
