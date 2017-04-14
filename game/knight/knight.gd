@@ -61,6 +61,7 @@ func _ready():
 	var knight_infos = constants.KNIGHTS
 	if knight_num < 0 or knight_num >= knight_infos.size():
 		knight_num = randi() % knight_infos.size()
+	print("knight num" , knight_num)
 	var knight_info = knight_infos[knight_num]
 	speed = knight_info["speed"]
 	fire_interval = knight_info["fire_interval"]
@@ -176,13 +177,13 @@ func _process(delta):
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
 		if enemy_moving_state == 1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+			self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
 			fire()
 		elif enemy_moving_state == -1:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+			self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
 			fire()
 		else:
-			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+			self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
 			if shield_cool > 0:
 				shield_cool -= delta
 			shield()
@@ -209,30 +210,30 @@ func _process(delta):
 	else:
 		if is_enemy:
 			if Input.is_key_pressed(KEY_D):
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
 				fire()
 			elif Input.is_key_pressed(KEY_A):
 				translate(Vector3(speed * delta, 0, 0))
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
 				fire()
 			else :
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
 				if shield_cool > 0:
 					shield_cool -= delta
 				shield()
 	
 		else:
 			if Input.is_key_pressed(KEY_LEFT):
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
 				translate(Vector3(-speed * delta, 0, 0))
 				fire()
 			elif Input.is_key_pressed(KEY_RIGHT):
 				translate(Vector3(speed * delta, 0, 0))
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
 				fire()
 			else :
-				self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
+				self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
 				if shield_cool > 0:
 					shield_cool -= delta
 				shield()
@@ -304,7 +305,7 @@ func create_bullet(direction, width = Vector3(0,0,0)):
 	bullet.set_linear_velocity(direction * bullet_speed) 
 	bullet.set_mass(bullet_mass)
 	bullet_mesh.set_scale(bullet_mesh.get_scale() * bullet_scale)
-	get_node('../').add_child(bullet)
+	get_node('/root/World').add_child(bullet)
 
 func create_laser(direction):
 	if !laser:

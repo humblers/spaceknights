@@ -14,7 +14,7 @@ const SKILLS = [
 		"name" : "CENTRY",
 		"cool" : 3,
 		"energy" : 5,
-		"scene" : preload("res://sentrybot/sentrybot.tscn"),
+		"scene" : preload("res://sentrybot/sentrybot_01/sentrybot_01.tscn"),
 		"scene_vars" : {
 			"hp" : 900,
 			"search_range" : 6,
@@ -37,7 +37,7 @@ const SKILLS = [
 		"name" : "DRONE",
 		"cool" : 8,
 		"energy" : 6,
-		"scene" : preload("res://drone/drone.tscn"),
+		"scene" : preload("res://drone/drone_02/drone_02.tscn"),
 		"is_player_child" : false,
 	},
 	{
@@ -70,6 +70,7 @@ const KNIGHTS = [
 		"speed" : 15,
 		"fire_interval" : 0.2,
 		"HP_MAX" : 3200,
+		"scene" : preload("res://knight/knight_01/knight_01.tscn"),
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -89,6 +90,7 @@ const KNIGHTS = [
 		"speed" : 15,
 		"fire_interval" : 0.2,
 		"HP_MAX" : 2000,
+		"scene" : preload("res://knight/knight_03/knight_03.tscn"),
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -108,6 +110,7 @@ const KNIGHTS = [
 		"speed" : 30,
 		"fire_interval" : 0.15,
 		"HP_MAX" : 2000,
+		"scene" : preload("res://knight/knight_04/knight_04.tscn"),
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -127,6 +130,7 @@ const KNIGHTS = [
 		"speed" : 30,
 		"fire_interval" : 0.2,
 		"HP_MAX" : 2000,
+		"scene" : preload("res://knight/knight_07/knight_07.tscn"),
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {
@@ -146,6 +150,7 @@ const KNIGHTS = [
 		"speed" : 15,
 		"fire_interval" : 0.5,
 		"HP_MAX" : 6000,
+		"scene" : preload("res://knight/knight_05/knight_05.tscn"),
 		"skill_cool" : 3,
 		"regen_cool" : 3,
 		"bullet" : {

@@ -31,36 +31,36 @@ func update_ui(skill_queue, is_enemy):
 			set("skill%d" % [i+1], skill_queue[i])
 
 func _on_skill1_pressed():
-	get_node("../Player").activate_skill(skill1, 0)
+	get_node("/root/World/Player").activate_skill(skill1, 0)
 
 func _on_skill2_pressed():
-	get_node("../Player").activate_skill(skill2, 1)
+	get_node("/root/World/Player").activate_skill(skill2, 1)
 	
 func _on_skill3_pressed():
-	get_node("../Player").activate_skill(skill3, 2)
+	get_node("/root/World/Player").activate_skill(skill3, 2)
 	
 func _on_skill4_pressed():
-	get_node("../Player").activate_skill(skill4, 3)
+	get_node("/root/World/Player").activate_skill(skill4, 3)
 
 func _on_enemy_skill1_pressed():
-	get_node("../Enemy").activate_skill(enemy_skill1, 0)
+	get_node("/root/World/Enemy").activate_skill(enemy_skill1, 0)
 
 func _on_enemy_skill2_pressed():
-	get_node("../Enemy").activate_skill(enemy_skill2, 1)
+	get_node("/root/World/Enemy").activate_skill(enemy_skill2, 1)
 	
 func _on_enemy_skill3_pressed():
-	get_node("../Enemy").activate_skill(enemy_skill3, 2)
+	get_node("/root/World/Enemy").activate_skill(enemy_skill3, 2)
 	
 func _on_enemy_skill4_pressed():
-	get_node("../Enemy").activate_skill(enemy_skill4, 3)
+	get_node("/root/World/Enemy").activate_skill(enemy_skill4, 3)
 
 func _process(delta):
 	popup_cool -= delta
 	if popup_cool <= 0:
 		popup_cool = 0
 		get_node("Error_status").hide()		
-	get_node("Energy_bar").set_value(get_node("../Player").energy/get_node("../Player").MAX_ENERGY)
-	get_node("Enemy_energy_bar").set_value(get_node("../Enemy").energy/get_node("../Enemy").MAX_ENERGY)	
+	get_node("Energy_bar").set_value(get_node("/root/World/Player").energy/get_node("/root/World/Player").MAX_ENERGY)
+	get_node("Enemy_energy_bar").set_value(get_node("/root/World/Enemy").energy/get_node("/root/World/Enemy").MAX_ENERGY)	
 	
 	if Input.is_key_pressed(KEY_1):
 		if !is_pressed:

@@ -13,6 +13,7 @@ func _on_play_pressed():
 			variants.preset_knights[get_node("pick_knight/player%d" % i).get_text()]
 		)
 	print(variants.player1_knight)
+	print(variants.player2_knight)
 	get_tree().change_scene("res://main.tscn")
 
 func _input(event):
@@ -22,5 +23,6 @@ func _input(event):
 func build_player_buttons():
 	for i in [1, 2]:
 		var pick_button = get_node("pick_knight/player%d" % i)
+		pick_button.clear()
 		for key in variants.preset_knights:
 			pick_button.add_item(key)
