@@ -31,7 +31,6 @@ func shot_to_nearest_enemy(delta):
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var node = preload('res://bullet/rocket.tscn').instance()
 	node.add_to_group("enemy" if is_in_group("enemy") else "player")
-	node.is_cannon = bullet["is_cannon"]
 	node.damage = bullet["damage"]
 	node.decay_time = shot_range * 10 / bullet["speed"]
 	var bullet_scale = bullet["scale"]

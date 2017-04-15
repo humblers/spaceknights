@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://knight/knight.gd" type="Script" id=1]
 [ext_resource path="res://knight/knight_04/knight_04.msh" type="Mesh" id=2]
 [ext_resource path="res://knight/knight_04/griffon_diffuse.dds" type="Texture" id=3]
-[ext_resource path="res://knight/fx_protect_01.dds" type="Texture" id=4]
+[ext_resource path="res://knight/knight_04/griffon_emissive.dds" type="Texture" id=4]
+[ext_resource path="res://knight/knight_04/griffon_normal.dds" type="Texture" id=5]
+[ext_resource path="res://knight/fx_protect_01.dds" type="Texture" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -28,11 +30,11 @@ fixed_flags/use_point_size = false
 fixed_flags/discard_alpha = false
 fixed_flags/use_xy_normalmap = false
 params/diffuse = Color( 1, 1, 1, 1 )
-params/specular = Color( 0, 0, 0, 1 )
-params/emission = Color( 0, 0, 0, 1 )
+params/specular = Color( 0.804688, 1, 0, 1 )
+params/emission = Color( 0.842205, 0.867188, 0.067749, 1 )
 params/specular_exp = 40
 params/detail_mix = 1.0
-params/normal_depth = 1
+params/normal_depth = 0.1
 params/shader = 0
 params/shader_param = 0.5
 params/glow = 0
@@ -42,9 +44,11 @@ textures/diffuse = ExtResource( 3 )
 textures/diffuse_tc = 0
 textures/detail_tc = 0
 textures/specular_tc = 0
+textures/emission = ExtResource( 4 )
 textures/emission_tc = 0
 textures/specular_exp_tc = 0
 textures/glow_tc = 0
+textures/normal = ExtResource( 5 )
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
@@ -69,28 +73,6 @@ is_ai = false
 is_enemy = false
 forward = Vector3( 0, 0, -1 )
 knight_num = 0
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( -0.3, 0, -2.62268e-08, -2.62268e-08, -1.31134e-08, 0.3, -1.14641e-15, 0.3, 1.31134e-08, 0, 0, 0 )
-layers = 1
-geometry/visible = true
-geometry/material_override = null
-geometry/cast_shadow = 1
-geometry/receive_shadows = true
-geometry/range_begin = 0.0
-geometry/range_end = 0.0
-geometry/extra_cull_margin = 0.0
-geometry/billboard = false
-geometry/billboard_y = false
-geometry/depth_scale = false
-geometry/visible_in_all_rooms = false
-geometry/use_baked_light = false
-geometry/baked_light_tex_id = 0
-mesh/mesh = ExtResource( 2 )
-mesh/skeleton = NodePath("..")
-material/0 = SubResource( 2 )
 
 [node name="Area" type="Area" parent="."]
 
@@ -121,6 +103,28 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="Area"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( -0.200215, 0, -1.75033e-08, -1.75033e-08, -8.75166e-09, 0.200215, -7.65095e-16, 0.200215, 8.75166e-09, 0, 0.135841, -0.02945 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+mesh/mesh = ExtResource( 2 )
+mesh/skeleton = NodePath("..")
+material/0 = SubResource( 2 )
 
 [node name="BulletFrom" type="Spatial" parent="."]
 
@@ -160,7 +164,7 @@ max_lines_visible = -1
 [node name="Sprite" type="Sprite" parent="Shield"]
 
 transform/scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 
 [connection signal="body_enter" from="Area" to="." method="_on_Area_body_enter"]
 

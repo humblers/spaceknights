@@ -92,8 +92,7 @@ func _fixed_process(delta):
 
 	#translate(Vector3(0, 0, FORWARD_TYPE_SPEED * delta))
 	get_node("HP").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
-	get_node("Drone/MeshInstance").set_rotation_deg(Vector3(0,100*rotate_timing,0))
-	get_node("Drone/ShotFrom").set_rotation_deg(Vector3(0,100*rotate_timing,0))
+	
 
 func create_bullet(direction, width = Vector3(0,0,0)):
 	var bullet
@@ -134,10 +133,9 @@ func _ready():
 	drone.add_to_group("drone")
 
 	if is_enemy:
-		set_rotation_deg(Vector3(0,0,0))
+		set_rotation_deg(Vector3(0,180,0))
 	else:
-		set_rotation_deg(Vector3(180,0,180))
-	set_scale(Vector3(0.5,0.5,0.5))	
+		set_rotation_deg(Vector3(0,0,0))
 	
 	hp_label.set_name('HP')
 	hp_label.set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
