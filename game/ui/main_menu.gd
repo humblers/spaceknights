@@ -1,5 +1,4 @@
 extends Control
-
 func _ready():
 	get_node("blue_team").set_text("Blue Team : " + str(variants.blue_score) + " WIN")
 	get_node("red_team").set_text("Red Team : " + str(variants.red_score) + " WIN")
