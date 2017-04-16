@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://ui/main_menu2.gd" type="Script" id=1]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://ui/knight_type.gd" type="Script" id=3]
 [ext_resource path="res://ui/skill_button.gd" type="Script" id=4]
 [ext_resource path="res://ui/ammo_button.gd" type="Script" id=5]
-[ext_resource path="res://ui/change_skill.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -407,26 +406,65 @@ flat = false
 clip_text = true
 script/script = ExtResource( 5 )
 
-[node name="Change_BG" parent="Background" instance=ExtResource( 6 )]
+[node name="Change_BG" type="Panel" parent="Background"]
 
-visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 330.0
+margin/right = 400.0
+margin/bottom = 640.0
+custom_styles/panel = SubResource( 1 )
 
-[connection signal="pressed" from="Background/Skill_grid/Button1" to="Background/Skill_grid/Button1" method="_on_Button_pressed"]
+[node name="Change_skill" type="Panel" parent="Background/Change_BG"]
 
-[connection signal="pressed" from="Background/Skill_grid/Button2" to="Background/Skill_grid/Button2" method="_on_Button_pressed"]
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 26.0
+margin/top = 66.0
+margin/right = 386.0
+margin/bottom = 116.0
 
-[connection signal="pressed" from="Background/Skill_grid/Button3" to="Background/Skill_grid/Button3" method="_on_Button_pressed"]
+[node name="title" type="Label" parent="Background/Change_BG/Change_skill"]
 
-[connection signal="pressed" from="Background/Skill_grid/Button4" to="Background/Skill_grid/Button4" method="_on_Button_pressed"]
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 5.0
+margin/right = 354.0
+margin/bottom = 46.0
+custom_fonts/font = SubResource( 2 )
+text = "Select skill to be replaced"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
-[connection signal="pressed" from="Background/Skill_grid/Button5" to="Background/Skill_grid/Button5" method="_on_Button_pressed"]
+[node name="Button" type="Button" parent="Background/Change_BG"]
 
-[connection signal="pressed" from="Background/Skill_grid/Button6" to="Background/Skill_grid/Button6" method="_on_Button_pressed"]
-
-[connection signal="pressed" from="Background/Skill_grid/Button7" to="Background/Skill_grid/Button7" method="_on_Button_pressed"]
-
-[connection signal="pressed" from="Background/Skill_grid/Button8" to="Background/Skill_grid/Button8" method="_on_Button_pressed"]
-
-[connection signal="pressed" from="Background/ScrollContainer/AMMO_grid/Button1" to="Background/ScrollContainer/AMMO_grid/Button1" method="_on_Button1_pressed"]
+rect/min_size = Vector2( 70, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 164.0
+margin/top = 146.0
+margin/right = 234.0
+margin/bottom = 226.0
+custom_fonts/font = SubResource( 3 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Archers"
+flat = false
+clip_text = true
+script/script = ExtResource( 4 )
 
 
