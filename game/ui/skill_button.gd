@@ -6,14 +6,21 @@ var is_changeable = false
 
 func _ready():
 	set_text(constants.SKILLS[skill_type]["name"])
-	set_ignore_mouse(true)
 	
 func update_ui():
-	set_text(constants.SKILLS[skill_type]["name"])
+	if skill_type < 0:
+		set_text("...")
+	else:
+		set_text(constants.SKILLS[skill_type]["name"])
 
 func _on_Button_pressed():
-	get_node("/root/main_screen").change_skill(skill_type, queue_idx)
-	update_ui()
+	if get_node("/root/main_screen/Background/Change_BG").is_visible():
+		get_node("/root/main_screen").change_skill(skill_type, queue_idx)
+		update_ui()
+		get_node("/root/main_screen/Background/Change_BG").hide()
+	else:
+		print("hahaha")	
+
 	
 func _process(delta):
 	"""	

@@ -2,9 +2,10 @@ extends Control
 
 var preset_list
 var cur_preset
+var cur_deck_index = -1
 
 func _ready():	
-	build_knight_buttons()
+	build_deck_buttons()
 	build_skill_buttons()
 	build_AMMO_buttons()
 	set_process_input(true)
@@ -21,23 +22,45 @@ func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
 		_on_play_pressed()
 
-func build_knight_buttons():
-	var knight_button = get_node("Background/Knights_grid")
+func build_deck_buttons():
+	var deck_button = get_node("Background/Deck_grid")
 	preset_list = []
 	var clone = variants.clone(variants.preset_knights)
 	for key in clone:
 		var preset = clone[key]
 		preset["key"] = key
 		preset_list.append(preset)
+	
+	if preset_list.size() > 0:
+		for i in range(preset_list.size()):
+			var deck = deck_button.get_node("Button1").duplicate()
+			#deck.name = preset_list[i]["key"]
+			deck.name = String(i+1)
+			deck.index = i
+			deck_button.add_child(deck)
+		cur_deck_index = 0
 		
-	for i in range(preset_list.size()):
-		var knight = knight_button.get_node("Button1").duplicate()
-		knight.text = preset_list[i]["key"]
-		knight_button.add_child(knight)
+func change_knight(index):
+	if index < 0:
+		make_new_deck()
+		return
+	cur_deck_index = index
+	build_skill_buttons()
+
+func make_new_deck():
+	var skill_button = get_node("Background/Skill_grid")
+	#cur_preset = preset_list[cur_knight_index]
+	
+	for i in range(8):
+		skill_button.get_node("Button%d" % (i+1)).skill_type = -1
+		skill_button.get_node("Button%d" % (i+1)).queue_idx = i
+		skill_button.get_node("Button%d" % (i+1)).update_ui()
 
 func build_skill_buttons():
 	var skill_button = get_node("Background/Skill_grid")
-	cur_preset = preset_list[0]
+	cur_preset = preset_list[cur_deck_index]
+	get_node("Background/Deck_name/Label").set_text(cur_preset["key"])
+	get_node("Background/Knight_type").set_text(constants.KNIGHTS[cur_preset["type"]]["type"])
 	
 	for i in range(8):
 		if cur_preset["skills"].size() > i:
@@ -69,11 +92,12 @@ func change_skill(skill_type, queue_idx):
 	cur_preset["skills"][queue_idx] = int(picked_skill.skill_type)
 	skill_button.get_node("Button%d" % (queue_idx+1)).skill_type = cur_preset["skills"][queue_idx]
 	
+	save_deck()
+
+func save_deck():
 	var key = cur_preset["key"]
-	#cur_preset.erase(key)
 	variants.update_preset_knight(key, cur_preset)
 	
-			
 func update_preset(idx=0):
 	cur_preset = preset_list[idx]
 	if idx == preset_list.size() - 1:

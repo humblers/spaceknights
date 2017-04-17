@@ -11,7 +11,5 @@ func update_ui():
 
 func _on_Button_pressed():
 	get_node("/root/main_screen/Background/Change_BG").hide()
-	for i in range(8):
-		get_node("/root/main_screen/Background/Skill_grid/Button%d" % (i+1)).set_ignore_mouse(true)
-		
+	
 

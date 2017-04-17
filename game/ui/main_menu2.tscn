@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=11 format=1]
 
 [ext_resource path="res://ui/main_menu2.gd" type="Script" id=1]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=2]
@@ -34,6 +34,19 @@ font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 2 )
 
+[sub_resource type="StyleBoxFlat" id=4]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.101074, 0.375, 0.36216, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = true
+draw_bg = true
+
 [node name="main_screen" type="Control"]
 
 anchor/right = 1
@@ -67,9 +80,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 20.0
-margin/top = 20.0
+margin/top = 2.0
 margin/right = 380.0
-margin/bottom = 70.0
+margin/bottom = 52.0
 
 [node name="title" type="Label" parent="Background/Battle_Deck"]
 
@@ -132,9 +145,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 17.0
+margin/left = 20.0
 margin/top = 336.0
-margin/right = 377.0
+margin/right = 380.0
 margin/bottom = 386.0
 
 [node name="title" type="Label" parent="Background/Panel1"]
@@ -154,19 +167,19 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Knights_grid" type="GridContainer" parent="Background"]
+[node name="Deck_grid" type="GridContainer" parent="Background"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 21.0
-margin/top = 84.0
-margin/right = 369.0
-margin/bottom = 130.0
+margin/left = 22.0
+margin/top = 60.0
+margin/right = 370.0
+margin/bottom = 106.0
 columns = 8
 
-[node name="Button1" type="Button" parent="Background/Knights_grid"]
+[node name="Button1" type="Button" parent="Background/Deck_grid"]
 
 rect/min_size = Vector2( 40, 40 )
 focus/ignore_mouse = false
@@ -192,11 +205,11 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 137.0
-margin/right = 380.0
-margin/bottom = 326.0
-custom_constants/vseparation = 20
+margin/left = 22.0
+margin/top = 155.0
+margin/right = 382.0
+margin/bottom = 330.0
+custom_constants/vseparation = 10
 custom_constants/hseparation = 25
 columns = 4
 
@@ -288,9 +301,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 100.0
+margin/top = 90.0
 margin/right = 70.0
-margin/bottom = 180.0
+margin/bottom = 170.0
 custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -308,9 +321,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 95.0
-margin/top = 100.0
+margin/top = 90.0
 margin/right = 165.0
-margin/bottom = 180.0
+margin/bottom = 170.0
 custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -328,9 +341,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 190.0
-margin/top = 100.0
+margin/top = 90.0
 margin/right = 260.0
-margin/bottom = 180.0
+margin/bottom = 170.0
 custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -348,9 +361,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 285.0
-margin/top = 100.0
+margin/top = 90.0
 margin/right = 355.0
-margin/bottom = 180.0
+margin/bottom = 170.0
 custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
@@ -366,9 +379,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 18.0
+margin/left = 20.0
 margin/top = 396.0
-margin/right = 393.0
+margin/right = 395.0
 margin/bottom = 622.0
 scroll/horizontal = false
 scroll/vertical = true
@@ -410,6 +423,55 @@ script/script = ExtResource( 5 )
 [node name="Change_BG" parent="Background" instance=ExtResource( 6 )]
 
 visibility/visible = false
+
+[node name="Knight_type" type="Button" parent="Background"]
+
+rect/min_size = Vector2( 40, 40 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 22.0
+margin/top = 107.0
+margin/right = 192.0
+margin/bottom = 147.0
+custom_fonts/font = SubResource( 3 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "1P"
+flat = false
+clip_text = true
+
+[node name="Deck_name" type="Panel" parent="Background"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 208.0
+margin/top = 107.0
+margin/right = 378.0
+margin/bottom = 147.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="Label" type="Label" parent="Background/Deck_name"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 6.0
+margin/top = 6.0
+margin/right = 163.0
+margin/bottom = 36.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="pressed" from="Background/Deck_grid/Button1" to="Background/Deck_grid/Button1" method="_on_Button1_pressed"]
 
 [connection signal="pressed" from="Background/Skill_grid/Button1" to="Background/Skill_grid/Button1" method="_on_Button_pressed"]
 
