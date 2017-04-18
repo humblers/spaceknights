@@ -14,12 +14,13 @@ func update_ui():
 		set_text(constants.SKILLS[skill_type]["name"])
 
 func _on_Button_pressed():
-	if get_node("/root/main_screen/Background/Change_BG").is_visible():
+	if get_node("/root/main_screen/Background/Change_skill").is_visible():
 		get_node("/root/main_screen").change_skill(skill_type, queue_idx)
 		update_ui()
-		get_node("/root/main_screen/Background/Change_BG").hide()
+		get_node("/root/main_screen/Background/Change_skill").hide()
 	else:
-		print("hahaha")	
+		get_node("/root/main_screen/Background/AMMO_collection").show()
+		get_node("/root/main_screen/Background/Knight_collection").hide()
 
 	
 func _process(delta):

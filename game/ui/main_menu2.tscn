@@ -1,11 +1,15 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://ui/main_menu2.gd" type="Script" id=1]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://ui/knight_type.gd" type="Script" id=3]
-[ext_resource path="res://ui/skill_button.gd" type="Script" id=4]
-[ext_resource path="res://ui/ammo_button.gd" type="Script" id=5]
-[ext_resource path="res://ui/change_skill.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/knight_collection.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/ammo_collection.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/knight_type.gd" type="Script" id=5]
+[ext_resource path="res://ui/skill_button.gd" type="Script" id=6]
+[ext_resource path="res://ui/change_skill.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/change_knight.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ui/knight_button.gd" type="Script" id=9]
+[ext_resource path="res://knight/knight_03/knight_03.msh" type="Mesh" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -139,33 +143,9 @@ text = "2P"
 flat = false
 clip_text = true
 
-[node name="Panel1" type="Panel" parent="Background"]
+[node name="Knight_collection" parent="Background" instance=ExtResource( 3 )]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 336.0
-margin/right = 380.0
-margin/bottom = 386.0
-
-[node name="title" type="Label" parent="Background/Panel1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 4.0
-margin/top = 5.0
-margin/right = 155.0
-margin/bottom = 46.0
-custom_fonts/font = SubResource( 2 )
-text = "AMMO Collection"
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+[node name="AMMO_collection" parent="Background" instance=ExtResource( 4 )]
 
 [node name="Deck_grid" type="GridContainer" parent="Background"]
 
@@ -197,7 +177,7 @@ shortcut = null
 text = "+"
 flat = false
 clip_text = true
-script/script = ExtResource( 3 )
+script/script = ExtResource( 5 )
 
 [node name="Skill_grid" type="GridContainer" parent="Background"]
 
@@ -231,7 +211,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button2" type="Button" parent="Background/Skill_grid"]
 
@@ -251,7 +231,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button3" type="Button" parent="Background/Skill_grid"]
 
@@ -271,7 +251,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button4" type="Button" parent="Background/Skill_grid"]
 
@@ -291,7 +271,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button5" type="Button" parent="Background/Skill_grid"]
 
@@ -311,7 +291,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button6" type="Button" parent="Background/Skill_grid"]
 
@@ -331,7 +311,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button7" type="Button" parent="Background/Skill_grid"]
 
@@ -351,7 +331,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
 [node name="Button8" type="Button" parent="Background/Skill_grid"]
 
@@ -371,56 +351,13 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 4 )
+script/script = ExtResource( 6 )
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Background"]
+[node name="Change_skill" parent="Background" instance=ExtResource( 7 )]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 396.0
-margin/right = 395.0
-margin/bottom = 622.0
-scroll/horizontal = false
-scroll/vertical = true
+visibility/visible = false
 
-[node name="AMMO_grid" type="GridContainer" parent="Background/ScrollContainer"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 70.0
-margin/bottom = 80.0
-custom_constants/vseparation = 20
-custom_constants/hseparation = 25
-columns = 4
-
-[node name="Button1" type="Button" parent="Background/ScrollContainer/AMMO_grid"]
-
-rect/min_size = Vector2( 70, 80 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 70.0
-margin/bottom = 80.0
-custom_fonts/font = SubResource( 3 )
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Archers"
-flat = false
-clip_text = true
-script/script = ExtResource( 5 )
-
-[node name="Change_BG" parent="Background" instance=ExtResource( 6 )]
+[node name="Change_knight" parent="Background" instance=ExtResource( 8 )]
 
 visibility/visible = false
 
@@ -442,6 +379,7 @@ shortcut = null
 text = "1P"
 flat = false
 clip_text = true
+script/script = ExtResource( 9 )
 
 [node name="Deck_name" type="Panel" parent="Background"]
 
@@ -471,6 +409,29 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="MeshInstance" type="MeshInstance" parent="Background/Deck_name"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+mesh/mesh = ExtResource( 10 )
+mesh/skeleton = NodePath("..")
+material/0 = null
+material/1 = null
+
 [connection signal="pressed" from="Background/Deck_grid/Button1" to="Background/Deck_grid/Button1" method="_on_Button1_pressed"]
 
 [connection signal="pressed" from="Background/Skill_grid/Button1" to="Background/Skill_grid/Button1" method="_on_Button_pressed"]
@@ -489,6 +450,6 @@ max_lines_visible = -1
 
 [connection signal="pressed" from="Background/Skill_grid/Button8" to="Background/Skill_grid/Button8" method="_on_Button_pressed"]
 
-[connection signal="pressed" from="Background/ScrollContainer/AMMO_grid/Button1" to="Background/ScrollContainer/AMMO_grid/Button1" method="_on_Button1_pressed"]
+[connection signal="pressed" from="Background/Knight_type" to="Background/Knight_type" method="_on_Knight_type_pressed"]
 
 

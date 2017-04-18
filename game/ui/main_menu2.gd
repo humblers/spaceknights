@@ -5,9 +5,11 @@ var cur_preset
 var cur_deck_index = -1
 
 func _ready():	
+	get_node("Background/Knight_collection").hide()
 	build_deck_buttons()
 	build_skill_buttons()
 	build_AMMO_buttons()
+	build_knight_buttons()
 	set_process_input(true)
 
 func _on_play_pressed():
@@ -60,7 +62,8 @@ func build_skill_buttons():
 	var skill_button = get_node("Background/Skill_grid")
 	cur_preset = preset_list[cur_deck_index]
 	get_node("Background/Deck_name/Label").set_text(cur_preset["key"])
-	get_node("Background/Knight_type").set_text(constants.KNIGHTS[cur_preset["type"]]["type"])
+	get_node("Background/Knight_type").knight_type = cur_preset["type"]
+	get_node("Background/Knight_type").update_ui()
 	
 	for i in range(8):
 		if cur_preset["skills"].size() > i:
@@ -72,22 +75,33 @@ func build_skill_buttons():
 		skill_button.get_node("Button%d" % (i+1)).update_ui()
 		
 func build_AMMO_buttons():
-	var AMMO_button = get_node("Background/ScrollContainer/AMMO_grid")
+	var AMMO_button = get_node("Background/AMMO_collection/ScrollContainer/AMMO_grid")
 	
 	for i in range(constants.SKILLS.size()):
 		if i == 0:
 			var AMMO = AMMO_button.get_node("Button1")
 			AMMO.skill_type = i
-			AMMO.queue_idx = i
 			AMMO.update_ui()
 		else:
 			var AMMO = AMMO_button.get_node("Button1").duplicate()
 			AMMO.skill_type = i
-			AMMO.queue_idx = i
 			AMMO_button.add_child(AMMO)
 
+func build_knight_buttons():
+	var knight_button = get_node("Background/Knight_collection/ScrollContainer/Knight_grid")
+	
+	for i in range(constants.KNIGHTS.size()):
+		if i == 0:
+			var knight = knight_button.get_node("Button1")
+			knight.knight_type = i
+			knight.update_ui()
+		else:
+			var knight = knight_button.get_node("Button1").duplicate()
+			knight.knight_type = i
+			knight_button.add_child(knight)
+
 func change_skill(skill_type, queue_idx):
-	var picked_skill = get_node("/root/main_screen/Background/Change_BG/Button")
+	var picked_skill = get_node("/root/main_screen/Background/Change_skill/Button")
 	var skill_button = get_node("Background/Skill_grid")
 	cur_preset["skills"][queue_idx] = int(picked_skill.skill_type)
 	skill_button.get_node("Button%d" % (queue_idx+1)).skill_type = cur_preset["skills"][queue_idx]
