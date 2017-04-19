@@ -10,6 +10,6 @@ func update_ui():
 
 func _on_Button1_pressed():
 	get_node("/root/main_screen/Background/Change_knight").show()
-	get_node("/root/main_screen/Background/Change_knight/Button").knight_type = knight_type
-	get_node("/root/main_screen/Background/Change_knight/Button").update_ui()
+	get_node("/root/main_screen/Background/Change_knight").knight_type = knight_type
+	get_node("/root/main_screen/Background/Change_knight").update_ui()
 		
