@@ -42,7 +42,7 @@ func build_deck_buttons():
 			deck_button.add_child(deck)
 		cur_deck_index = 0
 		
-func change_knight(index):
+func select_knight(index):
 	if index < 0:
 		make_new_deck()
 		return
@@ -108,6 +108,12 @@ func change_skill(skill_type, queue_idx):
 	
 	save_deck()
 
+func change_knight(knight_type):
+	cur_preset["type"] = knight_type
+	get_node("/root/main_screen/Background/Knight_type").knight_type = knight_type
+	get_node("/root/main_screen/Background/Knight_type").update_ui()
+	save_deck()
+
 func save_deck():
 	var key = cur_preset["key"]
 	variants.update_preset_knight(key, cur_preset)
@@ -115,9 +121,25 @@ func save_deck():
 func update_preset(idx=0):
 	cur_preset = preset_list[idx]
 	if idx == preset_list.size() - 1:
-		get_node("new_preset_dialog").popup_centered()
+		get_node("new_preset_dialog").popup()
 	get_node("pick_type").select(cur_preset["type"])
 	update_skill_panel()
 	
 	
 	
+
+func _on_Deck_name_Button_pressed():
+	get_node("Background/Deck_name/new_preset_dialog").popup_centered()
+
+
+func _on_Deck_name_ok_pressed():
+	var text = get_node("Background/Deck_name/new_preset_dialog/preset_name").get_text()
+	if text.empty():
+		return
+	preset_list.erase(cur_preset)
+	variants.preset_knights.erase(cur_preset["key"])
+	cur_preset["key"] = text
+	preset_list.append(cur_preset)
+	get_node("Background/Deck_name/Label").set_text(cur_preset["key"])
+	get_node("Background/Deck_name/new_preset_dialog").hide()
+	save_deck()

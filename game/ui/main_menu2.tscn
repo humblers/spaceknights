@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://ui/main_menu2.gd" type="Script" id=1]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=2]
@@ -25,7 +25,7 @@ draw_bg = true
 
 [sub_resource type="DynamicFont" id=2]
 
-font/size = 24
+font/size = 22
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 2 )
@@ -49,6 +49,13 @@ dark_color = Color( 0.8, 0.8, 0.8, 1 )
 border_size = 0
 border_blend = true
 draw_bg = true
+
+[sub_resource type="DynamicFont" id=5]
+
+font/size = 18
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
 
 [node name="main_screen" type="Control"]
 
@@ -392,6 +399,22 @@ margin/right = 378.0
 margin/bottom = 147.0
 custom_styles/panel = SubResource( 4 )
 
+[node name="Button" type="Button" parent="Background/Deck_name"]
+
+visibility/opacity = 0.2
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 170.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = true
+
 [node name="Label" type="Label" parent="Background/Deck_name"]
 
 focus/ignore_mouse = true
@@ -407,6 +430,69 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="new_preset_dialog" type="PopupDialog" parent="Background/Deck_name"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -125.0
+margin/top = 76.0
+margin/right = 121.0
+margin/bottom = 216.0
+popup/exclusive = true
+
+[node name="Label" type="Label" parent="Background/Deck_name/new_preset_dialog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 1.0
+margin/top = 18.0
+margin/right = 245.0
+margin/bottom = 50.0
+custom_fonts/font = SubResource( 2 )
+text = "Set a new Deck Name"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="preset_name" type="LineEdit" parent="Background/Deck_name/new_preset_dialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 9.0
+margin/top = 55.0
+margin/right = 237.0
+margin/bottom = 87.0
+custom_fonts/font = SubResource( 5 )
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ok" type="Button" parent="Background/Deck_name/new_preset_dialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 95.0
+margin/top = 96.0
+margin/right = 155.0
+margin/bottom = 126.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "OK"
+flat = false
 
 [connection signal="pressed" from="Background/Deck_grid/Button1" to="Background/Deck_grid/Button1" method="_on_Button1_pressed"]
 
@@ -427,5 +513,9 @@ max_lines_visible = -1
 [connection signal="pressed" from="Background/Skill_grid/Button8" to="Background/Skill_grid/Button8" method="_on_Button_pressed"]
 
 [connection signal="pressed" from="Background/Knight_type" to="Background/Knight_type" method="_on_Knight_type_pressed"]
+
+[connection signal="pressed" from="Background/Deck_name/Button" to="." method="_on_Deck_name_Button_pressed"]
+
+[connection signal="pressed" from="Background/Deck_name/new_preset_dialog/ok" to="." method="_on_Deck_name_ok_pressed"]
 
 

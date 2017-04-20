@@ -13,7 +13,12 @@ func update_ui():
 	get_node("Knight_thumb").update_ui()
 	
 
-func _on_Button_pressed():
+func _on_Button_no_pressed():
 	get_node("/root/main_screen/Background/Change_knight").hide()
+
+func _on_Button_yes_pressed():
+	get_node("/root/main_screen/Background/Change_knight").hide()
+	get_node("/root/main_screen").change_knight(knight_type)
+
 	
 

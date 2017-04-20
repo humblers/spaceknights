@@ -7,4 +7,4 @@ func _ready():
 
 
 func _on_Button1_pressed():
-	get_node("/root/main_screen").change_knight(index)
+	get_node("/root/main_screen").select_knight(index)

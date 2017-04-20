@@ -21,6 +21,7 @@ func _on_Button_pressed():
 	else:
 		get_node("/root/main_screen/Background/AMMO_collection").show()
 		get_node("/root/main_screen/Background/Knight_collection").hide()
+		get_node("/root/main_screen/Background/Change_knight").hide()
 
 	
 func _process(delta):
