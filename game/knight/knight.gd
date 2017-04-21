@@ -43,6 +43,13 @@ var popup_cool = 1
 var is_shield = true
 var shield_cool = 0.5
 
+var direction = 0
+remote func set_trans_and_direction(t, d):
+		if is_enemy:
+			t.z = -18
+			set_translation(t)
+			direction = d
+
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
 	random_skill_queue = [] + player["skills"]
@@ -224,19 +231,21 @@ func _process(delta):
 				shield()
 	
 		else:
+			direction = 0
 			if Input.is_key_pressed(KEY_LEFT):
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
-				translate(Vector3(-speed * delta, 0, 0))
+				direction = -1
 				fire()
 			elif Input.is_key_pressed(KEY_RIGHT):
-				translate(Vector3(speed * delta, 0, 0))
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
+				direction = 1
 				fire()
 			else :
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
 				if shield_cool > 0:
 					shield_cool -= delta
 				shield()
+
+			rpc_unreliable("set_trans_and_direction", get_translation(), direction)
+			translate(Vector3(direction * speed * delta, 0, 0))
+			self.get_node("Area").set_rotation_deg(Vector3(0,0, -direction * 30))
 	
 	energy += delta/2
 	if energy>MAX_ENERGY:
