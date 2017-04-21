@@ -9,7 +9,6 @@ func update_ui():
 	set_text(constants.KNIGHTS[knight_type]["type"])
 
 func _on_Button1_pressed():
-	get_node("/root/main_screen/Background/Change_knight").show()
-	get_node("/root/main_screen/Background/Change_knight").knight_type = knight_type
-	get_node("/root/main_screen/Background/Change_knight").update_ui()
+	get_node("../../../../Change_knight").set_change_knight(knight_type)
+	
 		

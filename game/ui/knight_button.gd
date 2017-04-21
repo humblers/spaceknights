@@ -15,6 +15,6 @@ func update_ui():
 		set_text(constants.KNIGHTS[knight_type]["type"])
 
 func _on_Knight_type_pressed():
-	get_node("/root/main_screen/Background/Change_skill").hide()
-	get_node("/root/main_screen/Background/AMMO_collection").hide()
-	get_node("/root/main_screen/Background/Knight_collection").show()
+	get_node("../Change_skill").hide()
+	get_node("../AMMO_collection").hide()
+	get_node("../Knight_collection").show()

@@ -128,7 +128,7 @@ func build_knight_buttons():
 			knight_button.add_child(knight)
 
 func change_skill(skill_type, queue_idx):
-	var picked_skill = get_node("/root/main_screen/Background/Change_skill/Button")
+	var picked_skill = get_node("Background/Change_skill/Button")
 	var skill_button = get_node("Background/Skill_grid")
 	cur_preset["skills"][queue_idx] = int(picked_skill.skill_type)
 	skill_button.get_node("Button%d" % (queue_idx+1)).skill_type = cur_preset["skills"][queue_idx]
@@ -137,8 +137,8 @@ func change_skill(skill_type, queue_idx):
 
 func change_knight(knight_type):
 	cur_preset["type"] = knight_type
-	get_node("/root/main_screen/Background/Knight_type").knight_type = knight_type
-	get_node("/root/main_screen/Background/Knight_type").update_ui()
+	get_node("Background/Knight_type").knight_type = knight_type
+	get_node("Background/Knight_type").update_ui()
 	save_cur_deck()
 	
 func change_deck_name():
@@ -183,3 +183,5 @@ func _on_Deck_name_ok_pressed():
 	
 func _on_Del_pressed():
 	delete_deck()
+
+

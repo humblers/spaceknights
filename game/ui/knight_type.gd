@@ -7,6 +7,7 @@ func _ready():
 
 
 func _on_Button1_pressed():
-	#get_node("../../../").select_knight(index)
+	get_node("../../../").select_knight(index)
 	#get_node("/root/main_screen/").select_knight(index)
-	if get_path()
+	#if get_path()
+	

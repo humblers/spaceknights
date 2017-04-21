@@ -1,14 +1,18 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=31 format=1]
 
 [ext_resource path="res://ui/deck_menu.gd" type="Script" id=1]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://ui/knight_collection.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ui/ammo_collection.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/knight_pool_button.gd" type="Script" id=3]
+[ext_resource path="res://ui/ammo_button.gd" type="Script" id=4]
 [ext_resource path="res://ui/knight_type.gd" type="Script" id=5]
-[ext_resource path="res://ui/skill_button.gd" type="Script" id=6]
-[ext_resource path="res://ui/change_skill.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ui/change_knight.tscn" type="PackedScene" id=8]
-[ext_resource path="res://ui/knight_button.gd" type="Script" id=9]
+[ext_resource path="res://ui/skill_grid.gd" type="Script" id=6]
+[ext_resource path="res://ui/skill_button.gd" type="Script" id=7]
+[ext_resource path="res://ui/change_skill.gd" type="Script" id=8]
+[ext_resource path="res://ui/change_skill_button.gd" type="Script" id=9]
+[ext_resource path="res://ui/change_knight.gd" type="Script" id=10]
+[ext_resource path="res://ui/knight_thumb.tscn" type="PackedScene" id=11]
+[ext_resource path="res://ui/knight_thumb.gd" type="Script" id=12]
+[ext_resource path="res://ui/knight_button.gd" type="Script" id=13]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -33,6 +37,108 @@ font/font = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=3]
 
 font/size = 12
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+
+font/size = 12
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
+
+font/size = 12
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+light_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+dark_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+border_size = 0
+border_blend = true
+draw_bg = true
+
+[sub_resource type="DynamicFont" id=11]
+
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=12]
+
+font/size = 12
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+light_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+dark_color = Color( 0.219608, 0.294118, 0.368627, 1 )
+border_size = 0
+border_blend = true
+draw_bg = true
+
+[sub_resource type="DynamicFont" id=14]
+
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=15]
+
+font/size = 12
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.101074, 0.375, 0.36216, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = true
+draw_bg = true
+
+[sub_resource type="DynamicFont" id=17]
+
+font/size = 15
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 2 )
@@ -85,6 +191,7 @@ custom_styles/panel = SubResource( 1 )
 
 [node name="Battle_Deck" type="Panel" parent="Background"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -130,12 +237,161 @@ text = "Del"
 flat = false
 clip_text = true
 
-[node name="Knight_collection" parent="Background" instance=ExtResource( 3 )]
+[node name="Knight_collection" type="Panel" parent="Background"]
 
-[node name="AMMO_collection" parent="Background" instance=ExtResource( 4 )]
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 336.0
+margin/right = 380.0
+margin/bottom = 386.0
+
+[node name="title" type="Label" parent="Background/Knight_collection"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 5.0
+margin/right = 155.0
+margin/bottom = 46.0
+custom_fonts/font = SubResource( 6 )
+text = "KNIGHT Collection"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/Knight_collection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 60.0
+margin/right = 375.0
+margin/bottom = 286.0
+scroll/horizontal = false
+scroll/vertical = true
+
+[node name="Knight_grid" type="GridContainer" parent="Background/Knight_collection/ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 80.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 25
+columns = 4
+
+[node name="Button1" type="Button" parent="Background/Knight_collection/ScrollContainer/Knight_grid"]
+
+rect/min_size = Vector2( 70, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 80.0
+custom_fonts/font = SubResource( 7 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "3way"
+flat = false
+clip_text = true
+script/script = ExtResource( 3 )
+
+[node name="AMMO_collection" type="Panel" parent="Background"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 336.0
+margin/right = 380.0
+margin/bottom = 386.0
+
+[node name="title" type="Label" parent="Background/AMMO_collection"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 5.0
+margin/right = 155.0
+margin/bottom = 46.0
+custom_fonts/font = SubResource( 8 )
+text = "AMMO Collection"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/AMMO_collection"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 60.0
+margin/right = 375.0
+margin/bottom = 286.0
+scroll/horizontal = false
+scroll/vertical = true
+
+[node name="AMMO_grid" type="GridContainer" parent="Background/AMMO_collection/ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 80.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 25
+columns = 4
+
+[node name="Button1" type="Button" parent="Background/AMMO_collection/ScrollContainer/AMMO_grid"]
+
+rect/min_size = Vector2( 70, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 80.0
+custom_fonts/font = SubResource( 9 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Archers"
+flat = false
+clip_text = true
+script/script = ExtResource( 4 )
 
 [node name="Deck_grid" type="GridContainer" parent="Background"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -179,6 +435,7 @@ margin/bottom = 330.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 25
 columns = 4
+script/script = ExtResource( 6 )
 
 [node name="Button1" type="Button" parent="Background/Skill_grid"]
 
@@ -198,7 +455,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button2" type="Button" parent="Background/Skill_grid"]
 
@@ -218,7 +475,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button3" type="Button" parent="Background/Skill_grid"]
 
@@ -238,7 +495,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button4" type="Button" parent="Background/Skill_grid"]
 
@@ -258,7 +515,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button5" type="Button" parent="Background/Skill_grid"]
 
@@ -278,7 +535,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button6" type="Button" parent="Background/Skill_grid"]
 
@@ -298,7 +555,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button7" type="Button" parent="Background/Skill_grid"]
 
@@ -318,7 +575,7 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
 [node name="Button8" type="Button" parent="Background/Skill_grid"]
 
@@ -338,15 +595,215 @@ shortcut = null
 text = "Archers"
 flat = false
 clip_text = true
-script/script = ExtResource( 6 )
+script/script = ExtResource( 7 )
 
-[node name="Change_skill" parent="Background" instance=ExtResource( 7 )]
+[node name="Change_skill" type="Panel" parent="Background"]
 
+editor/display_folded = true
 visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 330.0
+margin/right = 400.0
+margin/bottom = 640.0
+custom_styles/panel = SubResource( 10 )
+script/script = ExtResource( 8 )
 
-[node name="Change_knight" parent="Background" instance=ExtResource( 8 )]
+[node name="Change_skill" type="Panel" parent="Background/Change_skill"]
 
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 26.0
+margin/top = 66.0
+margin/right = 386.0
+margin/bottom = 116.0
+
+[node name="title" type="Label" parent="Background/Change_skill/Change_skill"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 5.0
+margin/right = 354.0
+margin/bottom = 46.0
+custom_fonts/font = SubResource( 11 )
+text = "Select skill to be replaced"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Button" type="Button" parent="Background/Change_skill"]
+
+rect/min_size = Vector2( 70, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 164.0
+margin/top = 146.0
+margin/right = 234.0
+margin/bottom = 226.0
+custom_fonts/font = SubResource( 12 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Archers"
+flat = false
+clip_text = true
+script/script = ExtResource( 9 )
+
+[node name="Change_knight" type="Panel" parent="Background"]
+
+editor/display_folded = true
 visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 330.0
+margin/right = 400.0
+margin/bottom = 640.0
+custom_styles/panel = SubResource( 13 )
+script/script = ExtResource( 10 )
+
+[node name="Change_skill" type="Panel" parent="Background/Change_knight"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 26.0
+margin/top = 10.0
+margin/right = 386.0
+margin/bottom = 60.0
+
+[node name="title" type="Label" parent="Background/Change_knight/Change_skill"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 5.0
+margin/right = 357.0
+margin/bottom = 46.0
+custom_fonts/font = SubResource( 14 )
+text = "Do you want to change this\?"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Button_no" type="Button" parent="Background/Change_knight"]
+
+rect/min_size = Vector2( 60, 40 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 100.0
+margin/top = 222.0
+margin/right = 180.0
+margin/bottom = 272.0
+custom_fonts/font = SubResource( 15 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "NO"
+flat = false
+clip_text = true
+
+[node name="Button_yes" type="Button" parent="Background/Change_knight"]
+
+rect/min_size = Vector2( 60, 40 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 220.0
+margin/top = 222.0
+margin/right = 300.0
+margin/bottom = 272.0
+custom_fonts/font = SubResource( 15 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "YES"
+flat = false
+clip_text = true
+
+[node name="Knight_thumb" type="Node2D" parent="Background/Change_knight" instance=ExtResource( 11 )]
+
+transform/pos = Vector2( 76.4718, 159.163 )
+transform/scale = Vector2( 0.733484, 0.692583 )
+script/script = ExtResource( 12 )
+
+[node name="Knight_name" type="Panel" parent="Background/Change_knight"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 152.0
+margin/top = 67.0
+margin/right = 322.0
+margin/bottom = 107.0
+custom_styles/panel = SubResource( 16 )
+
+[node name="Label" type="Label" parent="Background/Change_knight/Knight_name"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 6.0
+margin/top = 6.0
+margin/right = 163.0
+margin/bottom = 36.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Knight_desc" type="Panel" parent="Background/Change_knight"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 151.0
+margin/top = 122.0
+margin/right = 384.0
+margin/bottom = 209.0
+custom_styles/panel = SubResource( 16 )
+
+[node name="Label" type="Label" parent="Background/Change_knight/Knight_desc"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 6.0
+margin/top = 6.0
+margin/right = 230.0
+margin/bottom = 82.0
+custom_fonts/font = SubResource( 17 )
+text = "기사의 설명이 들어갈 자리다.\n블라블라블라블라블라블라블라블\n블라블라블라블라블라블라블라블\n블라블라블라블라블라블라블라블"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Knight_type" type="Button" parent="Background"]
 
@@ -366,10 +823,11 @@ shortcut = null
 text = "1P"
 flat = false
 clip_text = true
-script/script = ExtResource( 9 )
+script/script = ExtResource( 13 )
 
 [node name="Deck_name" type="Panel" parent="Background"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -477,6 +935,10 @@ flat = false
 
 [connection signal="pressed" from="Background/Battle_Deck/Del" to="." method="_on_Del_pressed"]
 
+[connection signal="pressed" from="Background/Knight_collection/ScrollContainer/Knight_grid/Button1" to="Background/Knight_collection/ScrollContainer/Knight_grid/Button1" method="_on_Button1_pressed"]
+
+[connection signal="pressed" from="Background/AMMO_collection/ScrollContainer/AMMO_grid/Button1" to="Background/AMMO_collection/ScrollContainer/AMMO_grid/Button1" method="_on_Button1_pressed"]
+
 [connection signal="pressed" from="Background/Deck_grid/Button" to="Background/Deck_grid/Button" method="_on_Button1_pressed"]
 
 [connection signal="pressed" from="Background/Skill_grid/Button1" to="Background/Skill_grid/Button1" method="_on_Button_pressed"]
@@ -494,6 +956,12 @@ flat = false
 [connection signal="pressed" from="Background/Skill_grid/Button7" to="Background/Skill_grid/Button7" method="_on_Button_pressed"]
 
 [connection signal="pressed" from="Background/Skill_grid/Button8" to="Background/Skill_grid/Button8" method="_on_Button_pressed"]
+
+[connection signal="pressed" from="Background/Change_skill/Button" to="Background/Change_skill" method="_on_Button_pressed"]
+
+[connection signal="pressed" from="Background/Change_knight/Button_no" to="Background/Change_knight" method="_on_Button_no_pressed"]
+
+[connection signal="pressed" from="Background/Change_knight/Button_yes" to="Background/Change_knight" method="_on_Button_yes_pressed"]
 
 [connection signal="pressed" from="Background/Knight_type" to="Background/Knight_type" method="_on_Knight_type_pressed"]
 

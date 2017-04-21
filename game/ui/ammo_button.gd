@@ -8,4 +8,5 @@ func _ready():
 func update_ui():
 	set_text(constants.SKILLS[skill_type]["name"])
 
-		
+func _on_Button1_pressed():
+	get_node("../../../../Change_skill").set_change_skill(skill_type)

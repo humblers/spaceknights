@@ -2,7 +2,6 @@ extends Button
 
 var skill_type = int(-1)
 var queue_idx = 0
-var is_changeable = false
 
 func _ready():
 	if skill_type < 0:
@@ -17,14 +16,14 @@ func update_ui():
 		set_text(constants.SKILLS[skill_type]["name"])
 
 func _on_Button_pressed():
-	if get_node("/root/main_screen/Background/Change_skill").is_visible():
-		get_node("/root/main_screen").change_skill(skill_type, queue_idx)
+	if get_node("../../Change_skill").is_visible():
+		get_node("../../../").change_skill(skill_type, queue_idx)
 		update_ui()
-		get_node("/root/main_screen/Background/Change_skill").hide()
+		get_node("../../Change_skill").hide()
 	else:
-		get_node("/root/main_screen/Background/AMMO_collection").show()
-		get_node("/root/main_screen/Background/Knight_collection").hide()
-		get_node("/root/main_screen/Background/Change_knight").hide()
+		get_node("../../AMMO_collection").show()
+		get_node("../../Knight_collection").hide()
+		get_node("../../Change_knight").hide()
 
 	
 func _process(delta):
@@ -41,6 +40,6 @@ func _process(delta):
 	
 	skill_remain -= delta
 	"""
-	if is_changeable:
-		set_ignore_mouse(false)
+	print("haha")
+	if get_parent().is_changeable:
 		set_rotation_deg(1)

@@ -6,6 +6,7 @@ func _ready():
 	get_node("Knight_name/Label").set_text(constants.KNIGHTS[knight_type]["type"])
 	get_node("Knight_thumb").knight_type = knight_type
 	get_node("Knight_thumb").update_ui()
+	self.hide()
 	
 func update_ui():
 	get_node("Knight_name/Label").set_text(constants.KNIGHTS[knight_type]["type"])
@@ -14,11 +15,14 @@ func update_ui():
 	
 
 func _on_Button_no_pressed():
-	get_node("/root/main_screen/Background/Change_knight").hide()
+	self.hide()
 
 func _on_Button_yes_pressed():
-	get_node("/root/main_screen/Background/Change_knight").hide()
-	get_node("/root/main_screen").change_knight(knight_type)
-
+	self.hide()
+	get_node("../../").change_knight(knight_type)
 	
-
+func set_change_knight(index):
+	self.show()
+	knight_type = index
+	update_ui()
+	
