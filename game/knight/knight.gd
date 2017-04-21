@@ -166,10 +166,10 @@ func _process(delta):
 		direction = 0
 		if Input.is_key_pressed(KEY_LEFT):
 			direction = -1
-			fire()
+			rpc("fire")
 		elif Input.is_key_pressed(KEY_RIGHT):
 			direction = 1
-			fire()
+			rpc("fire")
 
 		rpc_unreliable("set_trans_and_direction", get_translation(), direction)
 	translate(Vector3(direction * speed * delta, 0, 0))
@@ -206,7 +206,7 @@ func shield():
 		get_node("Shield").show()
 		shield_cool = 0.5
 
-func fire():
+sync func fire():
 	is_shield = false
 	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
