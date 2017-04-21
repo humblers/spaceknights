@@ -1,11 +1,14 @@
 extends Button
 
-var skill_type = int(0)
+var skill_type = int(-1)
 var queue_idx = 0
 var is_changeable = false
 
 func _ready():
-	set_text(constants.SKILLS[skill_type]["name"])
+	if skill_type < 0:
+		set_text("...")
+	else:
+		set_text(constants.SKILLS[skill_type]["name"])
 	
 func update_ui():
 	if skill_type < 0:

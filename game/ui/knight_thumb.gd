@@ -7,6 +7,7 @@ func _ready():
 
 func update_ui():
 	if get_node("Viewport").has_node("knight_thumb"):
+		get_node("Viewport/knight_thumb").queue_free()
 		get_node("Viewport").remove_child(get_node("Viewport/knight_thumb"))
 	
 	if knight_type == 0:

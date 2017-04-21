@@ -11,6 +11,9 @@ func _on_play_pressed():
 			"player%d_knight" % i,
 			variants.preset_knights[get_node("pick_knight/player%d" % i).get_text()]
 		)
+	print("preset = ", variants.preset_knights)
+	print("!!! ", get_node("pick_knight/player%d" % 1).get_text())
+		
 	print(variants.player1_knight)
 	print(variants.player2_knight)
 	get_tree().change_scene("res://main.tscn")
