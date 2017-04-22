@@ -167,7 +167,7 @@ func _process(delta):
 			direction = 1
 			rpc("fire")
 
-		rpc("set_trans_and_direction", get_translation(), direction)
+		rpc("set_trans_and_direction", get_translation(), -direction)
 	translate(Vector3(direction * speed * delta, 0, 0))
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
