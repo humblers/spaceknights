@@ -9,3 +9,4 @@ func set_change_skill(skill_type):
 	
 func _on_Button_pressed():
 	self.hide()
+	get_node("../Skill_grid").is_changeable = false
