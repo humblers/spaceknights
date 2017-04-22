@@ -24,7 +24,7 @@ func _ready():
 	var err = player_data.load("user://player_data.cfg")
 	for key in player_data.get_section_keys("preset_knights"):
 		preset_knights[key] = player_data.get_value("preset_knights", key)
-
+	
 func update_preset_knight(key, preset):
 	preset_knights[key] = preset
 	save_player_data()
@@ -33,7 +33,7 @@ func save_player_data():
 	var player_data = ConfigFile.new()
 	for key in preset_knights:
 		player_data.set_value("preset_knights", key, preset_knights[key])
-	var err = player_data.save("user://player_data.cfg")
+		var err = player_data.save("user://player_data.cfg")
 	
 func is_opponent(node_a, node_b):
 	if node_a.is_in_group("enemy"):
@@ -43,3 +43,17 @@ func is_opponent(node_a, node_b):
 		if node_b.is_in_group("enemy"):
 			return true
 	return false
+	
+func clone(data):
+	var to
+	if typeof(data) == TYPE_DICTIONARY:
+		to = {}
+		for key in data:
+			to[key] = clone(data[key])
+	elif typeof(data) == TYPE_ARRAY:
+		to = []
+		for value in data:
+			to.append(clone(value))
+	else:
+		to = data
+	return to
