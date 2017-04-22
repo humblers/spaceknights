@@ -99,17 +99,14 @@ func _ready():
 	set_process(true)
 
 func _on_Area_body_enter( body ):
-	if (!is_enemy && body.is_in_group("enemy_Bullet")) || (is_enemy && body.is_in_group("player_Bullet")):
+	if not variants.is_opponent(self, body):
+		return
+
+	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
 		var damage = body.damage
 		if is_shield:
 			damage = damage * 0.2
-		hp = clamp(hp - damage, 0, HP_MAX)
-		update_ui()
-	if (!is_enemy && body.is_in_group("enemy_Cannon")) || (is_enemy && body.is_in_group("player_Cannon")):
-		var damage = body.damage
-		if is_shield:
-			damage = damage * 0.2
-		hp = clamp(hp - damage, 0, HP_MAX)
+		hp = max(hp - damage, 0)
 		update_ui()
 
 func update_ui():
