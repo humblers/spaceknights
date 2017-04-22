@@ -15,8 +15,10 @@ func _ready():
 	enemy.is_enemy = true
 	if is_network_master():
 		player.set_name("Player")
+		enemy.set_network_mode(NETWORK_MODE_SLAVE)
 		enemy.set_name("Enemy")
 	else:
+		player.set_network_mode(NETWORK_MODE_MASTER)
 		player.set_name("Enemy")
 		enemy.set_name("Player")
 	get_node('/root/World').add_child(player)

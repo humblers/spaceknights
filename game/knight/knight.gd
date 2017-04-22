@@ -43,11 +43,10 @@ var is_shield = true
 var shield_cool = 0.5
 
 var direction = 0
-remote func set_trans_and_direction(t, d):
-		if is_enemy:
-			t.z = -18
-			set_translation(t)
-			direction = d
+slave func set_trans_and_direction(t, d):
+		t.z = -18
+		set_translation(t)
+		direction = d
 
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
@@ -55,14 +54,14 @@ func _ready():
 	knight_num = player["type"]
 	if random_skill_queue.size() < 5:
 		random_skill_queue = [ 0, 1, 2, 3, 4 ]
-	
-	while random_skill_queue.size() > 0:		
+
+	while random_skill_queue.size() > 0:
 		var random_num = randi() % random_skill_queue.size()
 		knight_skill_queue.append(random_skill_queue[random_num])
 		random_skill_queue.remove(random_num)		
-		
+
 	skill_num = knight_skill_queue.size()
-	
+
 	
 	var knight_infos = constants.KNIGHTS
 	if knight_num < 0 or knight_num >= knight_infos.size():
@@ -168,7 +167,7 @@ func _process(delta):
 			direction = 1
 			rpc("fire")
 
-		rpc_unreliable("set_trans_and_direction", get_translation(), direction)
+		rpc("set_trans_and_direction", get_translation(), direction)
 	translate(Vector3(direction * speed * delta, 0, 0))
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
