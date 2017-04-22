@@ -1,6 +1,5 @@
 extends KinematicBody
 
-export var is_ai = false
 export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
@@ -42,6 +41,13 @@ var energy = MAX_ENERGY
 var popup_cool = 1
 var is_shield = true
 var shield_cool = 0.5
+
+var direction = 0
+remote func set_trans_and_direction(t, d):
+		if is_enemy:
+			t.z = -18
+			set_translation(t)
+			direction = d
 
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
@@ -153,91 +159,28 @@ func _process(delta):
 			get_node('../').add_child(popup)
 	if fire_timeout > 0:
 		fire_timeout -= delta
-	
-	if is_ai:
-		var ai_control = randi() % 100 + 1
-		if ai_control <= 2:
-			if enemy_moving_state == 0:
-				var init_direction = randi() % 2
-				if init_direction == 0:
-					enemy_moving_state = -1
-				else :
-					enemy_moving_state = 1
-			else :
-				enemy_moving_state = enemy_moving_state * -1
-				
-		if (ai_control > 99) :
-			enemy_moving_state = 0
-			
-		if self.get_translation().x < -10 :
-			enemy_moving_state = -1 * forward.z
-			
-		elif self.get_translation().x > 10:
-			enemy_moving_state = 1  * forward.z
-			
-		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
-		if enemy_moving_state == 1:
-			self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
-			fire()
-		elif enemy_moving_state == -1:
-			self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
-			fire()
-		else:
-			self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
-			if shield_cool > 0:
-				shield_cool -= delta
-			shield()
-		var ai_skill = randi() % 1000
-		if is_enemy:
-			if ai_skill == 0:
-				get_node("../ingame_ui")._on_enemy_skill1_pressed()
-			elif ai_skill == 1:
-				get_node("../ingame_ui")._on_enemy_skill2_pressed()
-			elif ai_skill == 2:
-				get_node("../ingame_ui")._on_enemy_skill3_pressed()
-			elif ai_skill == 3:
-				get_node("../ingame_ui")._on_enemy_skill4_pressed()
-		else:
-			if ai_skill == 0:
-				get_node("../ingame_ui")._on_skill1_pressed()
-			elif ai_skill == 1:
-				get_node("../ingame_ui")._on_skill2_pressed()
-			elif ai_skill == 2:
-				get_node("../ingame_ui")._on_skill3_pressed()
-			elif ai_skill == 3:
-				get_node("../ingame_ui")._on_skill4_pressed()
-		
+
+	if is_enemy:
+		pass
 	else:
-		if is_enemy:
-			if Input.is_key_pressed(KEY_D):
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
-				translate(Vector3(-speed * delta, 0, 0))
-				fire()
-			elif Input.is_key_pressed(KEY_A):
-				translate(Vector3(speed * delta, 0, 0))
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
-				fire()
-			else :
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
-				if shield_cool > 0:
-					shield_cool -= delta
-				shield()
-	
-		else:
-			if Input.is_key_pressed(KEY_LEFT):
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,30))
-				translate(Vector3(-speed * delta, 0, 0))
-				fire()
-			elif Input.is_key_pressed(KEY_RIGHT):
-				translate(Vector3(speed * delta, 0, 0))
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,-30))
-				fire()
-			else :
-				self.get_node("Area").set_rotation_deg(Vector3(0,0,0))
-				if shield_cool > 0:
-					shield_cool -= delta
-				shield()
-	
+		direction = 0
+		if Input.is_key_pressed(KEY_LEFT):
+			direction = -1
+			rpc("fire")
+		elif Input.is_key_pressed(KEY_RIGHT):
+			direction = 1
+			rpc("fire")
+
+		rpc_unreliable("set_trans_and_direction", get_translation(), direction)
+	translate(Vector3(direction * speed * delta, 0, 0))
+	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
+	if direction == 0:
+		if shield_cool > 0:
+			shield_cool -= delta
+		shield()
+	else:
+		get_node("Shield").hide()
+
 	energy += delta/2
 	if energy>MAX_ENERGY:
 		energy = MAX_ENERGY
@@ -263,9 +206,8 @@ func shield():
 		get_node("Shield").show()
 		shield_cool = 0.5
 
-func fire():
+sync func fire():
 	is_shield = false
-	get_node("Shield").hide()
 	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
 		return
