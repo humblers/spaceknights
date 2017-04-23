@@ -98,16 +98,18 @@ func _ready():
 	set_process(true)
 
 func _on_Area_body_enter( body ):
+	if not is_network_master():
+		return
 	if not variants.is_opponent(self, body):
 		return
 
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
-		var damage = body.damage
-		if is_shield:
-			damage = damage * 0.2
-		hp = max(hp - damage, 0)
-		update_ui()
+		rpc("take_damage", body.damage if not is_shield else body.damage * 0.2)
 
+sync func take_damage(damage):
+	hp = max(hp - damage, 0)
+	update_ui()
+	
 func update_ui():
 	if is_enemy:
 		get_node("../ingame_ui/Knight_life2/value").set_text(str(life))
