@@ -17,9 +17,9 @@ func _ready():
 	update_ui()
 
 func _on_Area_body_enter( body ):
-	if not is_network_master():
-		return
 	if not variants.is_opponent(self, body):
+		return
+	if not is_network_master():
 		return
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
 		rpc("take_damage", body.damage)
