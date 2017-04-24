@@ -6,11 +6,11 @@ var hp
 
 
 func _ready():
-	if not is_network_master():
-		if is_enemy:
-			set_name("PlayerMothership")
-		else:
-			set_name("EnemyMothership")
+	if is_network_master():
+		set_name("PlayerMothership" if not is_enemy else "EnemyMothership")
+	else:
+		set_name("PlayerMothership" if is_enemy else "EnemyMothership")
+
 	add_to_group('enemy' if is_enemy else 'player')
 	add_to_group('mothership')
 	hp = HP_MAX
