@@ -42,3 +42,10 @@ func update_skill_queue(players=null):
 		players = ["player1", "player2"]
 	for player in players:
 		update_skill_panel(player)
+		
+func _input_event(viewport, event, shape_idx):
+	print('??')
+	# Convert event to local coordinates
+	if (event.type == InputEvent.MOUSE_MOTION):
+		event = make_input_local(event)
+		print(str(event.pos))

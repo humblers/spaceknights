@@ -41,9 +41,9 @@ var skill_progress_time = 1
 var select_skill_num = 3
 var MAX_ENERGY = 10.0
 var energy = MAX_ENERGY
-var popup_cool = 1
 
 func _ready():
+	self.set_process_input(true)
 	var player = "player1" if not is_enemy else "player2"
 	random_skill_queue = [] + start.get("%s_skill_queue" % player)
 	knight_num = start.get("%s_type" % player)
@@ -199,6 +199,7 @@ func _process(delta):
 			on_right_edge = false
 			
 		translate(Vector3(speed * delta * enemy_moving_state, 0, 0))
+		
 		if enemy_moving_state == 1:
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,-30))
 		elif enemy_moving_state == -1:
@@ -209,7 +210,7 @@ func _process(delta):
 		fire()
 	else:
 		fire()
-		
+		"""
 		if Input.is_key_pressed(KEY_LEFT) and not on_left_edge:
 			on_right_edge = false
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,30))
@@ -221,6 +222,9 @@ func _process(delta):
 		else :
 			self.get_node("MeshInstance").set_rotation_deg(Vector3(0,0,0))
 
+		#print("pos = ", get_node('../Camera').unproject_position(get_global_transform().origin))
+		print(get_translation())
+		"""
 		if Input.is_key_pressed(KEY_SPACE):
 			#activate_skill()
 			#select_skill_num = get_node("../ingame_ui").skill_num
@@ -345,7 +349,6 @@ func select_skill(skill):
 		if energy - constants.SKILLS[skill-1]["energy"] <= 0:
 			get_node("../ingame_ui/Error_status").set_text("NO ENERGY")
 			get_node("../ingame_ui/Error_status").show()
-			popup_cool = 0.5
 			return
 	else:
 		return
@@ -420,7 +423,7 @@ func call_addon(type):
 	trans.origin.y = mothership_node.get_global_transform().orthonormalized().origin.y
 	addon1.set_global_transform(trans)
 	get_node('../').add_child(addon1)
-	
+	Area2D
 	var addon2 = preload('../skills/addon/addon.tscn').instance()
 	addon2.addon_type = type
 	addon2.is_enemy = is_enemy
@@ -468,3 +471,45 @@ func reached_left_edge():
 
 func reached_right_edge():
 	on_right_edge = true
+	
+	
+func _input_event(viewport, event, shape_idx):
+	print('aaa')
+	# Convert event to local coordinates
+	if (event.type == InputEvent.MOUSE_MOTION):
+		event = make_input_local(event)
+		print(str(event.pos))
+
+
+
+func _input(ev):
+
+	if (ev.type == InputEvent.MOUSE_BUTTON):
+		get_node("../ingame_ui/Error_status").set_text("Click +" + String(ev.button_index))
+		get_node("../ingame_ui").popup_cool = 0.5
+		
+		get_node("../ingame_ui/Error_status").show()
+		
+	#if (ev.type == InputEvent.MOUSE_MOTION):
+	#	print(ev.pos)
+	if (ev.type == InputEvent.SCREEN_TOUCH):
+		
+		get_node("../ingame_ui").popup_cool = 0.5
+		get_node("../ingame_ui/Error_status").set_text("Pressed +" + String(ev.pressed))
+		get_node("../ingame_ui/Error_status").show()
+		
+	if (ev.type == InputEvent.SCREEN_DRAG):
+		if !is_enemy:
+			get_node("../ingame_ui").popup_cool = 0.5
+			get_node("../ingame_ui/Error_status").set_text("pos= " + String(ev.pos) + " repos= " + String(ev.relative_pos))
+			get_node("../ingame_ui/Error_status").show()
+			set_translation(Vector3(ev.pos.x / 13.3 - 15, 0, 18))
+			
+	if (ev.type == InputEvent.MOUSE_MOTION):
+		if !is_enemy:
+			get_node("../ingame_ui/Error_status").set_text("pos= " + String(ev.pos) + " repos= " + String(ev.relative_pos))
+			set_translation(Vector3(ev.pos.x / 13.3 - 15, 0, 18))
+			
+	
+		
+		
