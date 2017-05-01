@@ -5,6 +5,13 @@ export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
 
+var origin_x
+var mouse_x
+var screen_x
+var is_mouse_pressed = false
+var is_mouse_first_pressed = false
+var is_screen_touched = false
+var is_screen_first_touched = false
 var knight_skill_queue = []
 var random_skill_queue
 var speed
@@ -473,43 +480,45 @@ func reached_right_edge():
 	on_right_edge = true
 	
 	
-func _input_event(viewport, event, shape_idx):
-	print('aaa')
-	# Convert event to local coordinates
-	if (event.type == InputEvent.MOUSE_MOTION):
-		event = make_input_local(event)
-		print(str(event.pos))
-
-
-
 func _input(ev):
 
-	if (ev.type == InputEvent.MOUSE_BUTTON):
-		get_node("../ingame_ui/Error_status").set_text("Click +" + String(ev.button_index))
-		get_node("../ingame_ui").popup_cool = 0.5
-		
-		get_node("../ingame_ui/Error_status").show()
+	
 		
 	#if (ev.type == InputEvent.MOUSE_MOTION):
 	#	print(ev.pos)
-	if (ev.type == InputEvent.SCREEN_TOUCH):
+	if (ev.type == InputEvent.SCREEN_TOUCH) && !is_enemy:
+		if ev.pressed:
+			is_screen_touched = true
+			is_screen_first_touched = true
+			origin_x = get_translation().x
+		else:
+			is_screen_touched = false
 		
-		get_node("../ingame_ui").popup_cool = 0.5
-		get_node("../ingame_ui/Error_status").set_text("Pressed +" + String(ev.pressed))
-		get_node("../ingame_ui/Error_status").show()
-		
-	if (ev.type == InputEvent.SCREEN_DRAG):
-		if !is_enemy:
-			get_node("../ingame_ui").popup_cool = 0.5
-			get_node("../ingame_ui/Error_status").set_text("pos= " + String(ev.pos) + " repos= " + String(ev.relative_pos))
-			get_node("../ingame_ui/Error_status").show()
-			set_translation(Vector3(ev.pos.x / 13.3 - 15, 0, 18))
+	if (ev.type == InputEvent.SCREEN_DRAG) && !is_enemy:
+		if is_screen_touched:
+			if is_screen_first_touched:
+				is_screen_first_touched = false
+				screen_x = ev.pos.x
 			
-	if (ev.type == InputEvent.MOUSE_MOTION):
-		if !is_enemy:
-			get_node("../ingame_ui/Error_status").set_text("pos= " + String(ev.pos) + " repos= " + String(ev.relative_pos))
-			set_translation(Vector3(ev.pos.x / 13.3 - 15, 0, 18))
+			set_translation(Vector3(origin_x  + (ev.pos.x - screen_x) / 13.3, 0, 18))
 			
-	
+	if (ev.type == InputEvent.MOUSE_BUTTON)&& !is_enemy:
+		#get_node("../ingame_ui/Error_status").set_text("Click +" + String(ev.pressed))
+		#get_node("../ingame_ui").popup_cool = 0.5	
+		#get_node("../ingame_ui/Error_status").show()
 		
+		if ev.pressed:
+			is_mouse_pressed = true
+			is_mouse_first_pressed = true
+			origin_x = get_translation().x
+		else:
+			is_mouse_pressed = false
+			
+	if ev.type == InputEvent.MOUSE_MOTION && !is_enemy :
+		if is_mouse_pressed:
+			if is_mouse_first_pressed:
+				is_mouse_first_pressed = false
+				mouse_x = ev.pos.x
+			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))
+			
 		
