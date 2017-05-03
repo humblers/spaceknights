@@ -1,21 +1,30 @@
 package main
 
 import (
-    "net"
     "log"
-    "fmt"
+    kcp "github.com/xtaci/kcp-go"
+    "github.com/xtaci/smux"
 )
 
 func main() {
-    conn, err := net.Dial("udp", "127.0.0.1:3824")
+    conn, err := kcp.DialWithOptions("127.0.0.1:3824", nil, 10, 3)
     if err != nil {
-        log.Fatal(err)
+        panic(err)
     }
-    defer conn.Close()
 
-    conn.Write([]byte("Hello"))
+    session, err := smux.Client(conn, nil)
+    if err != nil {
+        panic(err)
+    }
+    defer session.Close()
 
-    buffer := make([]byte, 1024)
-    conn.Read(buffer)
-    fmt.Println(string(buffer))
+    stream, err := session.OpenStream()
+    if err != nil {
+        panic(err)
+    }
+
+    buf := make([]byte, 1024)
+    stream.Write([]byte("Hello"))
+    stream.Read(buf)
+    log.Print(string(buf))
 }
