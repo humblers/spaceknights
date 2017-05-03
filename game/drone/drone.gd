@@ -50,14 +50,24 @@ func goto_nearest_enemy(delta):
 		if body.is_in_group("enemy_Bullet") or body.is_in_group("player_Bullet"):
 			continue
 		if get_distance_to(body) < get_distance_to(enemy):
-			enemy = body
+			if body.is_in_group("bullet"):
+				pass
+			elif body.is_in_group("drone"):
+				if body.get_parent().is_enemy != is_enemy:
+					enemy = body
+			elif body.is_enemy != is_enemy:
+				enemy = body
 	var movement = (enemy.get_translation() - get_translation()).normalized() * delta * 10
-	set_translation(get_translation() + movement)
+	var distance = self.get_translation() - enemy.get_translation()
+	if distance.length() > 0.1:
+		set_translation(get_translation() + movement)
+	print('enemy = ', enemy.get_name(), ' move = ', movement)
 
 func _fixed_process(delta):
 	if not landed:
 		self.position = self.position + animation_direction * delta * 0.4
 		if self.position.y == 0:
+			print("!!!!!!!!!!!!!!!!!!!!")
 			landed = true
 			get_node("Drone/AnimationPlayer").stop(true)
 	else:
