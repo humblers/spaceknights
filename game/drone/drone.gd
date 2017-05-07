@@ -7,6 +7,7 @@ const DEFAULT_ATTACK_CHAIN = 1
 const FORWARD_TYPE_SPEED = 5
 const ANIMATION_DISTANCE = 50
 const RIGHT_BOUNDARY = 20
+const LEFT_BOUNDARY = -20
 
 var position setget set_position, get_position
 var mothership;
@@ -55,13 +56,13 @@ func goto_nearest_enemy(delta):
 			elif body.is_in_group("drone"):
 				if body.get_parent().is_enemy != is_enemy:
 					enemy = body
-			elif body.is_enemy != is_enemy:
+			elif body.is_in_group("enemy"):
 				enemy = body
 	var movement = (enemy.get_translation() - get_translation()).normalized() * delta * 10
 	var distance = self.get_translation() - enemy.get_translation()
-	if distance.length() > 0.1:
+	if distance.length() > 6:
 		set_translation(get_translation() + movement)
-	print('enemy = ', enemy.get_name(), ' move = ', movement)
+	#print('enemy = ', enemy.get_name(), ' move = ', movement)
 
 func _fixed_process(delta):
 	if not landed:
@@ -134,9 +135,18 @@ func _ready():
 	var player = "Enemy" if is_enemy else "Player"
 	var player_node = get_node("../%s" % player)
 	var pos_x = player_node.get_translation().x
-	var depth = sqrt(pow(ANIMATION_DISTANCE, 2) - pow(RIGHT_BOUNDARY - pos_x, 2))
-	var start_pos = Vector3(RIGHT_BOUNDARY, -depth, 0)
-	animation_direction = Vector3(pos_x, 0, 0) - start_pos
+	print('pos_x = ', pos_x)
+	var depth
+	var start_pos
+	if pos_x < 0:
+		depth = sqrt(pow(ANIMATION_DISTANCE, 2) - pow(LEFT_BOUNDARY - pos_x, 2))
+		start_pos = Vector3(LEFT_BOUNDARY, -depth, 0)
+		animation_direction = Vector3(pos_x, 0, 0) - start_pos
+	
+	else:
+		depth = sqrt(pow(ANIMATION_DISTANCE, 2) - pow(RIGHT_BOUNDARY - pos_x, 2))
+		start_pos = Vector3(RIGHT_BOUNDARY, -depth, 0)
+		animation_direction = Vector3(pos_x, 0, 0) - start_pos
 	set_translation(start_pos)
 
 	drone.add_to_group("enemy" if is_enemy else "player")
