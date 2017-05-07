@@ -21,8 +21,10 @@ func _on_Area_body_enter( body ):
 		return
 	if not is_network_master():
 		return
-	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
+	if body.is_in_group("bullet") or body.is_in_group("charge"):
 		rpc("take_damage", body.damage)
+	if  body.is_in_group("drone"):
+		rpc("take_damage", body.get_parent().damage)
 
 sync func take_damage(damage):
 	hp = max(hp - damage, 0)
