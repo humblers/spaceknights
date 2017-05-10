@@ -9,12 +9,13 @@ func _process(delta):
 func _ready():
 	kcp = Kcp.new()
 	kcp.dialWithOptions("127.0.0.1", 9999, 2, 2)
-	#kcp.write("hello")
+	kcp.write("hello")
 	
 	get_node("Background/blue_team").set_text("Blue Team : " + str(variants.blue_score) + " WIN")
 	get_node("Background/red_team").set_text("Red Team : " + str(variants.red_score) + " WIN")
 	get_node("1P").hide()
 	get_node("2P").hide()
+	set_process(true)
 	set_process_input(true)
 
 func _on_play_pressed():
