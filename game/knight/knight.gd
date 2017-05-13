@@ -43,7 +43,7 @@ var is_shield = true
 var shield_cool = 0.5
 
 var direction = 0
-slave func set_trans_and_direction(t, d):
+func set_trans_and_direction(t, d):
 		t.z = -18
 		set_translation(t)
 		direction = d
@@ -106,7 +106,7 @@ func _on_Area_body_enter( body ):
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
 		rpc("take_damage", body.damage if not is_shield else body.damage * 0.2)
 
-sync func take_damage(damage):
+func take_damage(damage):
 	hp = max(hp - damage, 0)
 	update_ui()
 	
@@ -204,7 +204,7 @@ func shield():
 		get_node("Shield").show()
 		shield_cool = 0.5
 
-sync func fire():
+func fire():
 	is_shield = false
 	is_hold_fire = true
 	if fire_timeout > 0 && bullet_type != 4:
