@@ -1,41 +1,40 @@
 package main
 
 import (
-    "io"
-    "log"
+    "fmt"
     kcp "github.com/xtaci/kcp-go"
-    "github.com/xtaci/smux"
 )
 
 func main() {
-    listener, err := kcp.ListenWithOptions(":3824", nil, 10, 3)
+    listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {
         panic(err)
     }
+    listener.SetDSCP(46)
 
     for {
         conn, err := listener.AcceptKCP()
         if err != nil {
             panic(err)
         }
-        go handleMux(conn)
+        go handleClient(conn)
     }
 }
 
-func handleMux(conn io.ReadWriteCloser) {
-    session, err := smux.Server(conn, nil)
-    if err != nil {
-        panic(err)
-    }
-    defer session.Close()
-
-    stream, err := session.AcceptStream()
-    if err != nil {
-        panic(err)
-    }
-
-    buf := make([]byte, 1024)
-    stream.Read(buf)
-    stream.Write(buf)
-    log.Print(string(buf))
+func handleClient(conn *kcp.UDPSession) {
+	conn.SetWindowSize(1024, 1024)
+	conn.SetNoDelay(1, 20, 2, 1)
+	conn.SetStreamMode(false)
+	fmt.Println("new client", conn.RemoteAddr())
+	buf := make([]byte, 65536)
+	count := 0
+	for {
+		n, err := conn.Read(buf)
+		if err != nil {
+			panic(err)
+		}
+		count++
+		fmt.Println("received:", string(buf[:n]))
+		conn.Write(buf[:n])
+	}
 }
