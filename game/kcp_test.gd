@@ -11,5 +11,5 @@ func _process(delta):
 func _ready():
 	kcp = Kcp.new()
 	kcp.dial("127.0.0.1", 9999)
-	kcp.write("hello")
+	kcp.write("hello\n")
 	set_process(true)
