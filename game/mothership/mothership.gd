@@ -6,11 +6,7 @@ var hp
 
 
 func _ready():
-	if is_network_master():
-		set_name("PlayerMothership" if not is_enemy else "EnemyMothership")
-	else:
-		set_name("PlayerMothership" if is_enemy else "EnemyMothership")
-
+	set_name("PlayerMothership" if not is_enemy else "EnemyMothership")
 	add_to_group('enemy' if is_enemy else 'player')
 	add_to_group('mothership')
 	hp = HP_MAX
@@ -19,14 +15,12 @@ func _ready():
 func _on_Area_body_enter( body ):
 	if not variants.is_opponent(self, body):
 		return
-	if not is_network_master():
-		return
 	if body.is_in_group("bullet") or body.is_in_group("charge"):
-		rpc("take_damage", body.damage)
+		take_damage(body.damage)
 	if  body.is_in_group("drone"):
-		rpc("take_damage", body.get_parent().damage)
+		take_damage(body.get_parent().damage)
 
-sync func take_damage(damage):
+func take_damage(damage):
 	hp = max(hp - damage, 0)
 	update_ui()
 

@@ -9,17 +9,11 @@ func _ready():
 	player.set_translation(Vector3 ( 0, 0, 18 ))
 	player.forward = Vector3(0, 0, -1)
 	player.is_enemy = false
+	player.set_name("Player")
 	enemy.set_translation(Vector3 ( 0, 0, -18 ))
 	enemy.forward = Vector3(0, 0, 1)
 	enemy.set_rotation_deg(Vector3(0, 180, 0))
 	enemy.is_enemy = true
-	if is_network_master():
-		player.set_name("Player")
-		enemy.set_network_mode(NETWORK_MODE_SLAVE)
-		enemy.set_name("Enemy")
-	else:
-		player.set_network_mode(NETWORK_MODE_MASTER)
-		player.set_name("Enemy")
-		enemy.set_name("Player")
+	enemy.set_name("Enemy")
 	get_node('/root/World').add_child(player)
 	get_node('/root/World').add_child(enemy)

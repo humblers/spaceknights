@@ -16,7 +16,7 @@ func _on_play_pressed():
 	
 	print(variants.player1_knight)
 	print(variants.player2_knight)
-	get_tree().change_scene("res://lobby.tscn")
+	get_tree().change_scene("res://main.tscn")
 
 func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):

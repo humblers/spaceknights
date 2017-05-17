@@ -43,10 +43,6 @@ var is_shield = true
 var shield_cool = 0.5
 
 var direction = 0
-func set_trans_and_direction(t, d):
-		t.z = -18
-		set_translation(t)
-		direction = d
 
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
@@ -100,11 +96,8 @@ func _ready():
 func _on_Area_body_enter( body ):
 	if not variants.is_opponent(self, body):
 		return
-	if not is_network_master():
-		return
-		
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
-		rpc("take_damage", body.damage if not is_shield else body.damage * 0.2)
+		take_damage(body.damage if not is_shield else body.damage * 0.2)
 
 func take_damage(damage):
 	hp = max(hp - damage, 0)
@@ -164,12 +157,11 @@ func _process(delta):
 		direction = 0
 		if Input.is_key_pressed(KEY_LEFT):
 			direction = -1
-			rpc("fire")
+			fire()
 		elif Input.is_key_pressed(KEY_RIGHT):
 			direction = 1
-			rpc("fire")
+			fire()
 
-		rpc("set_trans_and_direction", get_translation(), -direction)
 	translate(Vector3(direction * speed * delta, 0, 0))
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
