@@ -44,6 +44,11 @@ var shield_cool = 0.5
 
 var direction = 0
 
+var packet = {}
+func set_trans_and_direction(t_x, d):
+	set_translation(Vector3(t_x, get_translation().y, get_translation().z))
+	direction = d
+
 func _ready():
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
 	random_skill_queue = [] + player["skills"]
@@ -152,7 +157,9 @@ func _process(delta):
 		fire_timeout -= delta
 
 	if is_enemy:
-		pass
+		if kcp.packets.size() > 0:
+			var packet = kcp.packets[-1]
+			set_trans_and_direction(packet.trans_x, packet.dir) 
 	else:
 		direction = 0
 		if Input.is_key_pressed(KEY_LEFT):
@@ -161,6 +168,9 @@ func _process(delta):
 		elif Input.is_key_pressed(KEY_RIGHT):
 			direction = 1
 			fire()
+		packet["dir"] = -direction
+		packet["trans_x"] = get_translation().x
+		kcp.write(packet)
 
 	translate(Vector3(direction * speed * delta, 0, 0))
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
