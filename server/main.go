@@ -6,6 +6,11 @@ import (
     kcp "github.com/xtaci/kcp-go"
 )
 
+type Packet struct {
+    client *Client
+    data string
+}
+
 type Client struct {
     incoming chan string
     outgoing chan string
@@ -51,28 +56,30 @@ func NewClient(conn *kcp.UDPSession) *Client {
 type Session struct {
     clients []*Client
     joins chan *kcp.UDPSession
-    incoming chan string
-    outgoing chan string
+    incoming chan Packet
+    outgoing chan Packet
 }
 
-func (session *Session) Broadcast(data string) {
+func (session *Session) Broadcast(packet Packet) {
     for _, client := range session.clients {
-        client.outgoing <- data
+        if packet.client != client {
+            client.outgoing <- packet.data
+        }
     }
 }
 
 func (session *Session) Join(conn *kcp.UDPSession) {
     client := NewClient(conn)
     session.clients = append(session.clients, client)
-    go func() { for { session.incoming <- <-client.incoming } }()
+    go func() { for { session.incoming <- Packet{client: client, data: <-client.incoming} } }()
 }
 
 func (session *Session) Listen() {
     go func() {
         for {
             select {
-            case data := <-session.incoming:
-                session.Broadcast(data)
+            case packet := <-session.incoming:
+                session.Broadcast(packet)
             case conn := <-session.joins:
                 session.Join(conn)
             }
@@ -84,8 +91,8 @@ func NewSession() *Session {
     session := &Session{
         clients: make([]*Client, 0),
         joins: make(chan *kcp.UDPSession),
-        incoming: make(chan string),
-        outgoing: make(chan string),
+        incoming: make(chan Packet),
+        outgoing: make(chan Packet),
     }
 
     session.Listen()
