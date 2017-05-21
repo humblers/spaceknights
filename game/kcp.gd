@@ -1,24 +1,32 @@
 extends Node
 
-var packets = []
-var kcp
+const READ_RATE = 30 # reads per second
 var id = OS.get_unix_time()
+var kcp
+var timer = Timer.new()
+signal packet_received(dict)
+var packets = []
 
-func _process(delta):
-	kcp.update()
+func _read():
 	var packet = kcp.read()
 	if packet:
 		var dict = {}
 		dict.parse_json(packet)
-		if dict.id != id:
-			packets.append(dict)
-			print (dict)
+		emit_signal("packet_received", dict)
+	for p in packets:
+		kcp.write(p)
+	packets.clear()
+	kcp.update()
 
 func _ready():
+	timer.set_wait_time(1.0/READ_RATE)
+	timer.connect("timeout", self, "_read")
+	add_child(timer)
+	timer.start()
 	kcp = Kcp.new()
 	kcp.dial("127.0.0.1", 9999)
-	set_process(true)
 
-func write(msg):
-	msg["id"] = id
-	kcp.write(msg.to_json() + '\n')
+func write(dict):
+	dict["id"] = id
+	var packet = dict.to_json() + '\n'
+	packets.append(packet)

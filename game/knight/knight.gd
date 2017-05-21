@@ -44,12 +44,29 @@ var shield_cool = 0.5
 
 var direction = 0
 
-var packet = {}
+var timer = Timer.new()
+const INPUT_SAMPLE_RATE = 30 # times per second
 func set_trans_and_direction(t_x, d):
 	set_translation(Vector3(t_x, get_translation().y, get_translation().z))
 	direction = d
 
+func _sample():
+	if not is_enemy:
+		var packet = {}
+		packet["dir"] = -direction
+		packet["trans_x"] = get_translation().x
+		kcp.write(packet)
+
+func _packet_received(dict):
+	if is_enemy:
+		set_trans_and_direction(dict.trans_x, dict.dir)
+
 func _ready():
+	kcp.connect("packet_received", self, "_packet_received")
+	timer.connect("timeout", self, "_sample")
+	timer.set_wait_time(1.0/INPUT_SAMPLE_RATE)
+	add_child(timer)
+	timer.start()
 	var player = variants.player1_knight if not is_enemy else variants.player2_knight
 	random_skill_queue = [] + player["skills"]
 	knight_num = player["type"]
@@ -157,9 +174,7 @@ func _process(delta):
 		fire_timeout -= delta
 
 	if is_enemy:
-		if kcp.packets.size() > 0:
-			var packet = kcp.packets[-1]
-			set_trans_and_direction(packet.trans_x, packet.dir) 
+		pass 
 	else:
 		direction = 0
 		if Input.is_key_pressed(KEY_LEFT):
@@ -168,11 +183,8 @@ func _process(delta):
 		elif Input.is_key_pressed(KEY_RIGHT):
 			direction = 1
 			fire()
-		packet["dir"] = -direction
-		packet["trans_x"] = get_translation().x
-		kcp.write(packet)
+		translate(Vector3(direction * speed * delta, 0, 0))
 
-	translate(Vector3(direction * speed * delta, 0, 0))
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
 		if shield_cool > 0:
