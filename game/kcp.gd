@@ -5,14 +5,19 @@ var id = OS.get_unix_time()
 var kcp
 var timer = Timer.new()
 signal packet_received(dict)
+signal match_opponent(dict)
 var packets = []
 
 func _read():
 	var packet = kcp.read()
-	if packet:
-		var dict = {}
-		dict.parse_json(packet)
+	if packet == null:
+		return	
+	var dict = {}
+	dict.parse_json(packet)
+	if dict.has("dir"):
 		emit_signal("packet_received", dict)
+	if dict.has("type") and dict.has("skills"):
+		emit_signal("match_opponent", dict)
 	for p in packets:
 		kcp.write(p)
 	packets.clear()
