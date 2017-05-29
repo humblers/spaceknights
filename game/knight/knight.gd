@@ -183,7 +183,7 @@ func _process(delta):
 		elif Input.is_key_pressed(KEY_RIGHT):
 			direction = 1
 			fire()
-		translate(Vector3(direction * speed * delta, 0, 0))
+	translate(Vector3(direction * speed * delta, 0, 0))
 
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
