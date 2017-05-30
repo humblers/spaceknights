@@ -1,6 +1,8 @@
 package main
 
 import (
+    "time"
+    "net"
     "log"
     "bufio"
     kcp "github.com/xtaci/kcp-go"
@@ -16,18 +18,33 @@ type Client struct {
     outgoing chan string
     reader *bufio.Reader
     writer *bufio.Writer
+    conn net.Conn
 }
 
 func (client *Client) Read() {
     for {
-        line, _ := client.reader.ReadString('\n')
+        client.conn.SetReadDeadline(time.Now().Add(1 * time.Second))
+        line, err := client.reader.ReadString('\n')
+        if err != nil {
+            switch err.(type) {
+            case net.Error:
+                log.Println("client disconnected")
+                // TODO: stop related goroutines and free memories 
+                return
+            default:
+                panic(err)
+            }
+        }
         client.incoming <- line
     }
 }
 
 func (client *Client) Write() {
     for data := range client.outgoing {
-        client.writer.WriteString(data)
+        _, err := client.writer.WriteString(data)
+        if err != nil {
+            panic(err)
+        }
         client.writer.Flush()
     }
 }
@@ -37,7 +54,7 @@ func (client *Client) Listen() {
     go client.Write()
 }
 
-func NewClient(conn *kcp.UDPSession) *Client {
+func NewClient(conn net.Conn) *Client {
     r := bufio.NewReader(conn)
     w := bufio.NewWriter(conn)
 
@@ -46,6 +63,7 @@ func NewClient(conn *kcp.UDPSession) *Client {
         outgoing: make(chan string),
         reader: r,
         writer: w,
+        conn: conn,
     }
 
     c.Listen()
@@ -55,7 +73,7 @@ func NewClient(conn *kcp.UDPSession) *Client {
 
 type Session struct {
     clients []*Client
-    joins chan *kcp.UDPSession
+    joins chan net.Conn
     incoming chan Packet
     outgoing chan Packet
 }
@@ -68,7 +86,7 @@ func (session *Session) Broadcast(packet Packet) {
     }
 }
 
-func (session *Session) Join(conn *kcp.UDPSession) {
+func (session *Session) Join(conn net.Conn) {
     client := NewClient(conn)
     session.clients = append(session.clients, client)
     go func() { for { session.incoming <- Packet{client: client, data: <-client.incoming} } }()
@@ -90,7 +108,7 @@ func (session *Session) Listen() {
 func NewSession() *Session {
     session := &Session{
         clients: make([]*Client, 0),
-        joins: make(chan *kcp.UDPSession),
+        joins: make(chan net.Conn),
         incoming: make(chan Packet),
         outgoing: make(chan Packet),
     }
