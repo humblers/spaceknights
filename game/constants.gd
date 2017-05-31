@@ -69,10 +69,10 @@ const KNIGHTS = [
 		"type" : "default",
 		"speed" : 15,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 80, #1/40 divide
+		"HP_MAX" : 100, #1/40 divide
 		"scene" : preload("res://knight/knight_01/knight_01.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 3,
+		"regen_cool" : 1,
 		"bullet" : {
 			"type" : 1,
 			"hp" : 20,
@@ -89,10 +89,10 @@ const KNIGHTS = [
 		"type" : "3way",
 		"speed" : 15,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 50,
+		"HP_MAX" : 100,
 		"scene" : preload("res://knight/knight_03/knight_03.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 3,
+		"regen_cool" : 1,
 		"bullet" : {
 			"type" : 2,
 			"hp" : 20,
@@ -109,10 +109,10 @@ const KNIGHTS = [
 		"type" : "multi",
 		"speed" : 30,
 		"fire_interval" : 0.15,
-		"HP_MAX" : 50,
+		"HP_MAX" : 100,
 		"scene" : preload("res://knight/knight_04/knight_04.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 3,
+		"regen_cool" : 1,
 		"bullet" : {
 			"type" : 3,
 			"hp" : 10,
@@ -129,10 +129,10 @@ const KNIGHTS = [
 		"type" : "laser",
 		"speed" : 30,
 		"fire_interval" : 0.2,
-		"HP_MAX" : 50,
+		"HP_MAX" : 100,
 		"scene" : preload("res://knight/knight_07/knight_07.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 3,
+		"regen_cool" : 1,
 		"bullet" : {
 			"type" : 4,
 			"hp" : 20,
@@ -152,7 +152,7 @@ const KNIGHTS = [
 		"HP_MAX" : 100,
 		"scene" : preload("res://knight/knight_05/knight_05.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 3,
+		"regen_cool" : 1,
 		"bullet" : {
 			"type" : 1,
 			"hp" : 50,
