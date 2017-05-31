@@ -32,7 +32,7 @@ var is_dead = false
 var is_hold_fire = false
 var laser
 var skill_num = 0
-var life = 3
+var life = 10
 var skill_progress = false
 var skill_progress_time = 1
 var select_skill_num = 3
