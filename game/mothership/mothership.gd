@@ -21,6 +21,8 @@ func _on_Area_body_enter( body ):
 		take_damage(body.get_parent().damage)
 
 func take_damage(damage):
+	if is_enemy:
+		return
 	hp = max(hp - damage, 0)
 	update_ui()
 

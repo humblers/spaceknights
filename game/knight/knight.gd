@@ -48,17 +48,31 @@ var timer = Timer.new()
 const INPUT_SAMPLE_RATE = 30 # times per second
 func set_trans_and_direction(t_x, d):
 	set_translation(Vector3(t_x, get_translation().y, get_translation().z))
-	direction = d
+	direction = -d
 
 func _sample():
-	if not is_enemy:
-		var packet = {}
-		packet["dir"] = -direction
-		packet["trans_x"] = get_translation().x
-		kcp.write(packet)
+	if is_enemy:
+		return
+		
+	direction = 0
+	if Input.is_key_pressed(KEY_LEFT):
+		direction = -1
+	elif Input.is_key_pressed(KEY_RIGHT):
+		direction = 1
+	
+	var packet = {}
+	packet["dir"] = -direction
+	packet["trans_x"] = get_translation().x
+	packet["hp"] = hp
+	packet["m_hp"] = get_node("../PlayerMothership").hp
+	kcp.write(packet)
 
 func _packet_received(dict):
 	if is_enemy:
+		hp = dict.hp
+		update_ui()
+		get_node("../EnemyMothership").hp = dict.m_hp
+		get_node("../EnemyMothership").update_ui()
 		set_trans_and_direction(dict.trans_x, dict.dir)
 
 func _ready():
@@ -122,6 +136,8 @@ func _on_Area_body_enter( body ):
 		take_damage(body.damage if not is_shield else body.damage * 0.2)
 
 func take_damage(damage):
+	if is_enemy:
+		return
 	hp = max(hp - damage, 0)
 	update_ui()
 	
@@ -173,16 +189,8 @@ func _process(delta):
 	if fire_timeout > 0:
 		fire_timeout -= delta
 
-	if is_enemy:
-		pass 
-	else:
-		direction = 0
-		if Input.is_key_pressed(KEY_LEFT):
-			direction = -1
-			fire()
-		elif Input.is_key_pressed(KEY_RIGHT):
-			direction = 1
-			fire()
+	if direction != 0:
+		fire()
 	translate(Vector3(direction * speed * delta, 0, 0))
 
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
