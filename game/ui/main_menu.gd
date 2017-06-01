@@ -8,7 +8,7 @@ func _ready():
 	set_process_input(true)
 
 func _on_play_pressed():
-	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_preset["key"]])
+	#variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_preset["key"]])
 
 	print(variants.player1_knight)
 	print(variants.player2_knight)
