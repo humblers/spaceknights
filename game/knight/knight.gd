@@ -4,6 +4,15 @@ export var is_enemy = false
 export var forward = Vector3(0, 0, -1)
 export var knight_num = 0
 
+# Input variables
+var origin_x
+var mouse_x
+var screen_x
+var is_mouse_pressed = false
+var is_mouse_first_pressed = false
+var is_screen_touched = false
+var is_screen_first_touched = false
+
 var knight_skill_queue = []
 var random_skill_queue
 var speed
@@ -53,20 +62,62 @@ func set_trans_and_direction(t_x, d):
 func _sample():
 	if is_enemy:
 		return
-		
-	direction = 0
-	if Input.is_key_pressed(KEY_LEFT):
-		direction = -1
-	elif Input.is_key_pressed(KEY_RIGHT):
-		direction = 1
 	
 	var packet = {}
-	packet["dir"] = -direction
+	packet["dir"] = direction
 	packet["trans_x"] = get_translation().x
 	packet["hp"] = hp
 	packet["m_hp"] = get_node("../PlayerMothership").hp
 	kcp.write(packet)
 
+func _input(ev):
+	if is_enemy:
+		return
+
+	direction = 0
+
+	if ev.type == InputEvent.SCREEN_TOUCH:
+		if ev.pressed:
+			is_screen_touched = true
+			is_screen_first_touched = true
+			origin_x = get_translation().x
+		else:
+			is_screen_touched = false
+		
+	if ev.type == InputEvent.SCREEN_DRAG:
+		if is_screen_touched:
+			if is_screen_first_touched:
+				is_screen_first_touched = false
+				screen_x = ev.pos.x
+			if (ev.pos.x - screen_x) < 0:
+				direction = -1
+			elif (ev.pos.x - screen_x) > 0:
+				direction = 1
+			set_translation(Vector3(origin_x  + (ev.pos.x - screen_x) / 13.3, 0, 18))
+			
+	if ev.type == InputEvent.MOUSE_BUTTON:
+		#get_node("../ingame_ui/Error_status").set_text("Click +" + String(ev.pressed))
+		#get_node("../ingame_ui").popup_cool = 0.5	
+		#get_node("../ingame_ui/Error_status").show()
+		
+		if ev.pressed:
+			is_mouse_pressed = true
+			is_mouse_first_pressed = true
+			origin_x = get_translation().x
+		else:
+			is_mouse_pressed = false
+			
+	if ev.type == InputEvent.MOUSE_MOTION:
+		if is_mouse_pressed:
+			if is_mouse_first_pressed:
+				is_mouse_first_pressed = false
+				mouse_x = ev.pos.x
+			if (ev.pos.x - mouse_x) < 0:
+				direction = -1
+			elif (ev.pos.x - mouse_x) > 0:
+				direction = 1
+			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))
+			
 func _packet_received(dict):
 	if is_enemy:
 		hp = dict.hp
@@ -76,6 +127,7 @@ func _packet_received(dict):
 		set_trans_and_direction(dict.trans_x, dict.dir)
 
 func _ready():
+	set_process_input(true)
 	kcp.connect("packet_received", self, "_packet_received")
 	timer.connect("timeout", self, "_sample")
 	timer.set_wait_time(1.0/INPUT_SAMPLE_RATE)
@@ -191,7 +243,8 @@ func _process(delta):
 
 	if direction != 0:
 		fire()
-	translate(Vector3(direction * speed * delta, 0, 0))
+	if is_enemy:
+		translate(Vector3(direction * speed * delta, 0, 0))
 
 	self.get_node("Area").set_rotation_deg(Vector3(0,0, (direction if is_enemy else -direction) * 30))
 	if direction == 0:
