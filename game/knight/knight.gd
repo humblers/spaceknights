@@ -31,6 +31,7 @@ var bullet_is_cannon
 var bullet_is_mass
 
 var fire_timeout = 0
+var fire2_timeout = 0
 var regen_timeout = 0
 var enemy_moving_left = false
 var enemy_moving_state = 0
@@ -185,7 +186,7 @@ func _on_Area_body_enter( body ):
 	if not variants.is_opponent(self, body):
 		return
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
-		take_damage(body.damage if not is_shield else body.damage * 0.2)
+		take_damage(body.damage if not is_shield else body.damage * 0.1)
 
 func take_damage(damage):
 	if is_enemy:
@@ -240,9 +241,13 @@ func _process(delta):
 			get_node('../').add_child(popup)
 	if fire_timeout > 0:
 		fire_timeout -= delta
+		
+	if fire2_timeout > 0:
+		fire2_timeout -= delta
 
 	if direction != 0:
 		fire()
+		fire2()
 	if is_enemy:
 		translate(Vector3(direction * speed * delta, 0, 0))
 
@@ -288,21 +293,25 @@ func fire():
 		is_hold_fire = false
 		return
 	fire_timeout = fire_interval
+	create_bullet(forward, Vector3(-1.5, 0, 0))
+	create_bullet(forward, Vector3( 1.5, 0, 0))
+	create_bullet(forward)
 	
-	if bullet_type == 1:
-		create_bullet(forward)
-	elif bullet_type == 2:
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(15)).normalized())
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-15)).normalized())
-		create_bullet(forward)
-	elif bullet_type == 3:
-		create_bullet(forward, Vector3(-2, 0, 0))
-		create_bullet(forward, Vector3( 2, 0, 0))
-		create_bullet(forward, Vector3(-1, 0, 0))
-		create_bullet(forward, Vector3( 1, 0, 0))
-		create_bullet(forward)
-	elif bullet_type ==4:
-		create_laser(forward)
+	
+func fire2():
+	is_shield = false
+	is_hold_fire = true
+	if fire2_timeout > 0 && bullet_type != 4:
+		return
+	if is_dead:
+		is_hold_fire = false
+		return
+	fire2_timeout = 1
+	
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(11)).normalized(), Vector3(1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-11)).normalized(), Vector3(-1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(22)).normalized(), Vector3(1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-22)).normalized(), Vector3(-1, 0, 0))
 	
 
 func create_bullet(direction, width = Vector3(0,0,0)):
