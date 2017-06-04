@@ -68,11 +68,11 @@ const KNIGHTS = [
 	{
 		"type" : "default",
 		"speed" : 15,
-		"fire_interval" : 0.2,
+		"fire_interval" : 0.5,
 		"HP_MAX" : 100, #1/40 divide
 		"scene" : preload("res://knight/knight_01/knight_01.tscn"),
 		"skill_cool" : 3,
-		"regen_cool" : 1,
+		"regen_cool" : 0.3,
 		"bullet" : {
 			"type" : 1,
 			"hp" : 20,

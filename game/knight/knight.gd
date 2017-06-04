@@ -31,6 +31,7 @@ var bullet_is_cannon
 var bullet_is_mass
 
 var fire_timeout = 0
+var fire2_timeout = 0
 var regen_timeout = 0
 var enemy_moving_left = false
 var enemy_moving_state = 0
@@ -116,7 +117,7 @@ func _input(ev):
 				direction = -1
 			elif (ev.pos.x - mouse_x) > 0:
 				direction = 1
-			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))
+			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))			
 			
 func _packet_received(dict):
 	if is_enemy:
@@ -185,7 +186,7 @@ func _on_Area_body_enter( body ):
 	if not variants.is_opponent(self, body):
 		return
 	if body.is_in_group("bullet") or body.is_in_group("charge") or body.is_in_group("drone"):
-		take_damage(body.damage if not is_shield else body.damage * 0.2)
+		take_damage(body.damage if not is_shield else body.damage * 0.1)
 
 func take_damage(damage):
 	if is_enemy:
@@ -240,9 +241,14 @@ func _process(delta):
 			get_node('../').add_child(popup)
 	if fire_timeout > 0:
 		fire_timeout -= delta
+		
+	if fire2_timeout > 0:
+		fire2_timeout -= delta
 
 	if direction != 0:
 		fire()
+		fire2()
+		shield_cool = 0.1
 	if is_enemy:
 		translate(Vector3(direction * speed * delta, 0, 0))
 
@@ -250,9 +256,12 @@ func _process(delta):
 	if direction == 0:
 		if shield_cool > 0:
 			shield_cool -= delta
-		shield()
+			shield()
+		
 	else:
 		get_node("Shield").hide()
+		if !is_enemy:
+			get_node("../ingame_ui").hide_skill_button()
 
 	energy += delta/2
 	if energy>MAX_ENERGY:
@@ -275,9 +284,12 @@ func _process(delta):
 func shield():
 	if shield_cool <= 0:
 		is_shield = true
+		#print("come " , shield_cool , "dir = ", direction)
 		get_node("Shield/Sprite").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 		get_node("Shield").show()
-		shield_cool = 0.5
+		if !is_enemy:
+			get_node("../ingame_ui").show_skill_button()
+		
 
 func fire():
 	is_shield = false
@@ -288,21 +300,25 @@ func fire():
 		is_hold_fire = false
 		return
 	fire_timeout = fire_interval
+	create_bullet(forward, Vector3(-1.5, 0, 0))
+	create_bullet(forward, Vector3( 1.5, 0, 0))
+	create_bullet(forward)
 	
-	if bullet_type == 1:
-		create_bullet(forward)
-	elif bullet_type == 2:
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(15)).normalized())
-		create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-15)).normalized())
-		create_bullet(forward)
-	elif bullet_type == 3:
-		create_bullet(forward, Vector3(-2, 0, 0))
-		create_bullet(forward, Vector3( 2, 0, 0))
-		create_bullet(forward, Vector3(-1, 0, 0))
-		create_bullet(forward, Vector3( 1, 0, 0))
-		create_bullet(forward)
-	elif bullet_type ==4:
-		create_laser(forward)
+	
+func fire2():
+	is_shield = false
+	is_hold_fire = true
+	if fire2_timeout > 0 && bullet_type != 4:
+		return
+	if is_dead:
+		is_hold_fire = false
+		return
+	fire2_timeout = 1
+	
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(11)).normalized(), Vector3(1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-11)).normalized(), Vector3(-1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(22)).normalized(), Vector3(1, 0, 0))
+	create_bullet(forward.rotated(Vector3(0, 1, 0), deg2rad(-22)).normalized(), Vector3(-1, 0, 0))
 	
 
 func create_bullet(direction, width = Vector3(0,0,0)):
