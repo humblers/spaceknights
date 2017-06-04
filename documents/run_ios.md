@@ -8,8 +8,9 @@ Download and Install template
 
 Build executable ios editor
 ============
-* build
-```bash
+* run below command for build engine
+
+```
 scons platform=iphone target=debug
 ```
 * replace executable editor to ![../godot_ios_xcode/godot.iphone.debug.arm]()
