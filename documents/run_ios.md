@@ -1,6 +1,6 @@
 Prerequisite
 ============
-* Xcode, Apple developer account(Enterprise is good to test), executable ios godot editor, ![export template](https://downloads.tuxfamily.org/godotengine/2.1.3/Godot_v2.1.3-stable_export_templates.tpz)
+* Xcode, Apple developer account(Enterprise is good to test), executable ios godot editor, [export templates](https://downloads.tuxfamily.org/godotengine/2.1.3/Godot_v2.1.3-stable_export_templates.tpz)
 
 Download and Install template
 ============
