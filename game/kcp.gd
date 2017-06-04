@@ -24,7 +24,7 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	kcp = Kcp.new()
-	kcp.dial("172.30.44.121", 9999)
+	kcp.dial("192.168.1.3", 9999):
 
 func write(dict):
 	dict["id"] = id
