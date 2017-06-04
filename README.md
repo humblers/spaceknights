@@ -3,3 +3,6 @@
 ## Editor settings
 
 ### [Art Re-import](/documents/resource_reimport.md)
+
+
+### [Run game in iOS](/documents/run_ios.md)
