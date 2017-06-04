@@ -17,18 +17,14 @@ var is_pressed = false
 func _ready():
 	get_node("Skill_status").hide()
 	get_node("Error_status").hide()
+	#hide_skill_button()
 	set_process(true)
 
 func update_ui(skill_queue, is_enemy):
 	for i in range(4):
 		var skill = constants.SKILLS[skill_queue[i]]
-		if is_enemy:
-			get_node("Enemy_skill%d" % [i+1]).set_text("%s\n(%s)" % [skill["name"], skill["energy"]])
-			set("enemy_skill%d" % [i+1], skill_queue[i])
-
-		else:
-			get_node("Skill%d" % [i+1]).set_text("%s\n(%s)" % [skill["name"], skill["energy"]])
-			set("skill%d" % [i+1], skill_queue[i])
+		get_node("Skill%d" % [i+1]).set_text("%s\n(%s)" % [skill["name"], skill["energy"]])
+		set("skill%d" % [i+1], skill_queue[i])
 
 func _on_skill1_pressed():
 	get_node("/root/World/Player").activate_skill(skill1, 0)
@@ -96,6 +92,18 @@ func _process(delta):
 			_on_enemy_skill4_pressed()
 	else:
 		is_pressed = false
+
+func hide_skill_button():
+	get_node("Skill1").hide()
+	get_node("Skill2").hide()
+	get_node("Skill3").hide()
+	get_node("Skill4").hide()
+	
+func show_skill_button():
+	get_node("Skill1").show()
+	get_node("Skill2").show()
+	get_node("Skill3").show()
+	get_node("Skill4").show()	
 
 func show_error_status():
 	get_node("Error_status").set_text("NO ENERGY")

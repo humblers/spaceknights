@@ -117,7 +117,7 @@ func _input(ev):
 				direction = -1
 			elif (ev.pos.x - mouse_x) > 0:
 				direction = 1
-			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))
+			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))			
 			
 func _packet_received(dict):
 	if is_enemy:
@@ -248,6 +248,7 @@ func _process(delta):
 	if direction != 0:
 		fire()
 		fire2()
+		shield_cool = 0.1
 	if is_enemy:
 		translate(Vector3(direction * speed * delta, 0, 0))
 
@@ -255,9 +256,12 @@ func _process(delta):
 	if direction == 0:
 		if shield_cool > 0:
 			shield_cool -= delta
-		shield()
+			shield()
+		
 	else:
 		get_node("Shield").hide()
+		if !is_enemy:
+			get_node("../ingame_ui").hide_skill_button()
 
 	energy += delta/2
 	if energy>MAX_ENERGY:
@@ -280,9 +284,12 @@ func _process(delta):
 func shield():
 	if shield_cool <= 0:
 		is_shield = true
+		#print("come " , shield_cool , "dir = ", direction)
 		get_node("Shield/Sprite").set_pos(get_node('../Camera').unproject_position(get_global_transform().origin))
 		get_node("Shield").show()
-		shield_cool = 0.5
+		if !is_enemy:
+			get_node("../ingame_ui").show_skill_button()
+		
 
 func fire():
 	is_shield = false

@@ -1,17 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://ui/ingame_ui.gd" type="Script" id=1]
 [ext_resource path="res://ui/white_box.png" type="Texture" id=2]
 [ext_resource path="res://ui/GodoM.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="DynamicFont" id=1]
-
-font/size = 15
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -24,27 +17,14 @@ border_size = 0
 border_blend = true
 draw_bg = true
 
-[sub_resource type="StyleBoxFlat" id=2]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-bg_color = Color( 0.356863, 0.223529, 0.247059, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
-border_blend = true
-draw_bg = true
-
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 
 font/size = 27
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 
 font/size = 10
 font/use_mipmaps = false
@@ -55,12 +35,13 @@ font/font = ExtResource( 3 )
 
 anchor/right = 1
 anchor/bottom = 1
+rect/min_size = Vector2( 400, 640 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 450.0
+margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
 script/script = ExtResource( 1 )
@@ -72,11 +53,33 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = -450.0
+margin/top = 0.0
 margin/right = 400.0
-margin/bottom = -435.0
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
+margin/bottom = 15.0
+custom_styles/bg = SubResource( 1 )
+range/min = 0.0
+range/max = 1.0
+range/step = 1.0
+range/page = 0.0
+range/value = 0.1
+range/exp_edit = false
+range/rounded = false
+percent/visible = true
+
+[node name="Energy_bar" type="ProgressBar" parent="."]
+
+anchor/top = 1
+anchor/bottom = 1
+rect/min_size = Vector2( 400, 15 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 15.0
+margin/right = 400.0
+margin/bottom = 0.0
+custom_styles/bg = SubResource( 1 )
 range/min = 0.0
 range/max = 1.0
 range/step = 1.0
@@ -89,14 +92,17 @@ percent/visible = true
 [node name="Knight_life1" type="TextureFrame" parent="."]
 
 editor/display_folded = true
+anchor/top = 1
+anchor/bottom = 1
+rect/min_size = Vector2( 50, 30 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 5.0
-margin/top = 75.0
-margin/right = 55.0
-margin/bottom = 105.0
+margin/left = 0.0
+margin/top = 50.0
+margin/right = 50.0
+margin/bottom = 20.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -139,14 +145,16 @@ max_lines_visible = -1
 [node name="Knight_hp1" type="TextureFrame" parent="."]
 
 editor/display_folded = true
+anchor/top = 1
+anchor/bottom = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 5.0
-margin/top = 106.0
-margin/right = 55.0
-margin/bottom = 136.0
+margin/left = 55.0
+margin/top = 50.0
+margin/right = 105.0
+margin/bottom = 20.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -189,14 +197,18 @@ max_lines_visible = -1
 [node name="Mother_hp1" type="TextureFrame" parent="."]
 
 editor/display_folded = true
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 345.0
-margin/top = 106.0
-margin/right = 395.0
-margin/bottom = 136.0
+margin/left = 50.0
+margin/top = 50.0
+margin/right = 0.0
+margin/bottom = 20.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -239,14 +251,16 @@ max_lines_visible = -1
 [node name="Mother_hp2" type="TextureFrame" parent="."]
 
 editor/display_folded = true
+anchor/left = 1
+anchor/right = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 345.0
-margin/top = -448.0
-margin/right = 395.0
-margin/bottom = -418.0
+margin/left = 50.0
+margin/top = 20.0
+margin/right = 0.0
+margin/bottom = 50.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -293,10 +307,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 5.0
-margin/top = -448.0
-margin/right = 55.0
-margin/bottom = -418.0
+margin/left = 0.0
+margin/top = 20.0
+margin/right = 50.0
+margin/bottom = 50.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -343,10 +357,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 5.0
-margin/top = -417.0
-margin/right = 55.0
-margin/bottom = -387.0
+margin/left = 55.0
+margin/top = 20.0
+margin/right = 105.0
+margin/bottom = 50.0
 texture = ExtResource( 2 )
 modulate = Color( 0, 0, 0, 1 )
 expand = true
@@ -392,11 +406,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 125.0
-margin/top = 81.0
-margin/right = 278.0
-margin/bottom = 161.0
-custom_fonts/font = SubResource( 3 )
+margin/left = 123.0
+margin/top = 536.0
+margin/right = 276.0
+margin/bottom = 616.0
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0.0134277, 0.0859375, 1 )
 custom_colors/font_color_shadow = Color( 0.11261, 0.703125, 0.412481, 1 )
 custom_constants/shadow_offset_x = 2
@@ -416,11 +430,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 3.0
-margin/top = 69.0
-margin/right = 399.0
-margin/bottom = 109.0
-custom_fonts/font = SubResource( 3 )
+margin/left = 1.0
+margin/top = 524.0
+margin/right = 397.0
+margin/bottom = 564.0
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 2
@@ -434,38 +448,18 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Energy_bar" type="ProgressBar" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 175.0
-margin/right = 400.0
-margin/bottom = 190.0
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
-range/min = 0.0
-range/max = 1.0
-range/step = 1.0
-range/page = 0.0
-range/value = 0.1
-range/exp_edit = false
-range/rounded = false
-percent/visible = true
-
 [node name="Skill1" type="Label" parent="."]
 
+rect/min_size = Vector2( 80, 80 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 5.0
-margin/top = -300.0
-margin/right = 45.0
-margin/bottom = -236.0
-custom_fonts/font = SubResource( 4 )
+margin/left = 10.0
+margin/top = 280.0
+margin/right = 90.0
+margin/bottom = 360.0
+custom_fonts/font = SubResource( 3 )
 text = "TURRET
 (2)"
 align = 1
@@ -484,44 +478,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-clip_text = true
-
-[node name="Enemy_skill1" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 355.0
-margin/top = -300.0
-margin/right = 395.0
-margin/bottom = -236.0
-custom_fonts/font = SubResource( 4 )
-text = "TURRET\n(2)"
-align = 1
-valign = 1
-clip_text = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="button" type="Button" parent="Enemy_skill1"]
-
-visibility/opacity = 0.4
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
+margin/right = 80.0
+margin/bottom = 80.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -530,16 +488,15 @@ clip_text = true
 
 [node name="Skill2" type="Label" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 5.0
-margin/top = -220.0
-margin/right = 45.0
-margin/bottom = -156.0
-custom_fonts/font = SubResource( 4 )
+margin/left = 110.0
+margin/top = 280.0
+margin/right = 190.0
+margin/bottom = 360.0
+custom_fonts/font = SubResource( 3 )
 text = "TURRET
 (2)"
 align = 1
@@ -558,44 +515,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-clip_text = true
-
-[node name="Enemy_skill2" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 355.0
-margin/top = -220.0
-margin/right = 395.0
-margin/bottom = -156.0
-custom_fonts/font = SubResource( 4 )
-text = "TURRET\n(2)"
-align = 1
-valign = 1
-clip_text = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="button" type="Button" parent="Enemy_skill2"]
-
-visibility/opacity = 0.4
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
+margin/right = 80.0
+margin/bottom = 80.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -604,16 +525,15 @@ clip_text = true
 
 [node name="Skill3" type="Label" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 5.0
-margin/top = -140.0
-margin/right = 45.0
-margin/bottom = -76.0
-custom_fonts/font = SubResource( 4 )
+margin/left = 210.0
+margin/top = 280.0
+margin/right = 290.0
+margin/bottom = 360.0
+custom_fonts/font = SubResource( 3 )
 text = "TURRET
 (2)"
 align = 1
@@ -632,44 +552,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-clip_text = true
-
-[node name="Enemy_skill3" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 355.0
-margin/top = -140.0
-margin/right = 395.0
-margin/bottom = -76.0
-custom_fonts/font = SubResource( 4 )
-text = "TURRET\n(2)"
-align = 1
-valign = 1
-clip_text = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="button" type="Button" parent="Enemy_skill3"]
-
-visibility/opacity = 0.4
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
+margin/right = 80.0
+margin/bottom = 80.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -678,16 +562,17 @@ clip_text = true
 
 [node name="Skill4" type="Label" parent="."]
 
-editor/display_folded = true
+anchor/left = 1
+anchor/right = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 5.0
-margin/top = -60.0
-margin/right = 45.0
-margin/bottom = 4.0
-custom_fonts/font = SubResource( 4 )
+margin/left = 90.0
+margin/top = 280.0
+margin/right = 10.0
+margin/bottom = 360.0
+custom_fonts/font = SubResource( 3 )
 text = "TURRET
 (2)"
 align = 1
@@ -706,44 +591,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-clip_text = true
-
-[node name="Enemy_skill4" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 355.0
-margin/top = -60.0
-margin/right = 395.0
-margin/bottom = 4.0
-custom_fonts/font = SubResource( 4 )
-text = "TURRET\n(2)"
-align = 1
-valign = 1
-clip_text = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="button" type="Button" parent="Enemy_skill4"]
-
-visibility/opacity = 0.4
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 64.0
+margin/right = 80.0
+margin/bottom = 80.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -752,18 +601,10 @@ clip_text = true
 
 [connection signal="pressed" from="Skill1/button" to="." method="_on_skill1_pressed"]
 
-[connection signal="pressed" from="Enemy_skill1/button" to="." method="_on_enemy_skill1_pressed"]
-
 [connection signal="pressed" from="Skill2/button" to="." method="_on_skill2_pressed"]
-
-[connection signal="pressed" from="Enemy_skill2/button" to="." method="_on_enemy_skill2_pressed"]
 
 [connection signal="pressed" from="Skill3/button" to="." method="_on_skill3_pressed"]
 
-[connection signal="pressed" from="Enemy_skill3/button" to="." method="_on_enemy_skill3_pressed"]
-
 [connection signal="pressed" from="Skill4/button" to="." method="_on_skill4_pressed"]
-
-[connection signal="pressed" from="Enemy_skill4/button" to="." method="_on_enemy_skill4_pressed"]
 
 
