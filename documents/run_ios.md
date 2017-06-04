@@ -13,7 +13,7 @@ Build executable ios editor
 ```
 scons platform=iphone target=debug
 ```
-* replace executable editor to ![../godot_ios_xcode/godot.iphone.debug.arm]()
+* replace executable editor file ([godot.iphone.debug.arm](../godot_ios_xcode/godot.iphone.debug.arm))
 
 Make .pck file
 ============
@@ -21,7 +21,7 @@ Make .pck file
 * click export button(left top)
 * choose any platform U can export pck
 * then export
-* replace .pck file to ![../godot_ios_xcode/data.pck]()
+* replace .pck file ([data.pck](../godot_ios_xcode/data.pck))
 
 Xcode
 ============
