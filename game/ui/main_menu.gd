@@ -10,7 +10,7 @@ func _ready():
 func _on_play_pressed():
 	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_preset["key"]])
 	kcp.connect("match_opponent", self, "_matched")
-	kcp.write(variants.player1_knight)
+	kcp.write(kcp.FIND_OPPONENT, variants.player1_knight)
 
 func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
