@@ -7,7 +7,6 @@ import (
     "bufio"
     "encoding/json"
     kcp "github.com/xtaci/kcp-go"
-    "fmt"
 )
 
 const FIND_OPPONENT int = 1
@@ -104,7 +103,7 @@ func (session *Session) Parse(packet Packet) {
     var p Proto
     jsonerr := json.Unmarshal([]byte(packet.data), &p)
     if jsonerr != nil {
-        fmt.Println("unexpected data can't parse in json", packet.data)
+        log.Println("unexpected data can't parse in json", packet.data)
         return
     }
 
@@ -120,7 +119,7 @@ func (session *Session) Parse(packet Packet) {
         }
         b, err := json.Marshal(v)
         if err != nil {
-            fmt.Println("unexpected struct can't encode in json", v)
+            log.Println("unexpected struct can't encode in json", v)
         }
         for _, client := range session.clients {
             client.outgoing <- string(b)
