@@ -115,6 +115,7 @@ func _input(ev):
 			position = Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18)
 			
 func _packet_received(dict):
+	dict = dict["message"]
 	if is_enemy:
 		hp = dict.hp
 		update_ui()
@@ -198,15 +199,16 @@ func update_ui():
 		get_node("../ingame_ui/Knight_hp1/value").set_text(str(round(hp)))
 
 func _process(delta):
-	var diff = (get_translation() - position).x
-	if  diff != 0:
-		set_translation(position)
-		if diff < 0:
-			direction = 1
+	if not is_enemy:
+		var diff = (get_translation() - position).x
+		if  diff != 0:
+			set_translation(position)
+			if diff < 0:
+				direction = 1
+			else:
+				direction = -1
 		else:
-			direction = -1
-	else:
-		direction = 0
+			direction = 0
 	
 		
 	if is_dead:
