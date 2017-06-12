@@ -52,6 +52,7 @@ var popup_cool = 1
 var is_shield = true
 var shield_cool = 0.5
 
+onready var position = get_translation()
 var direction = 0
 
 var timer = Timer.new()
@@ -74,8 +75,6 @@ func _sample():
 func _input(ev):
 	if is_enemy:
 		return
-
-	direction = 0
 
 	if ev.type == InputEvent.SCREEN_TOUCH:
 		if ev.pressed:
@@ -113,11 +112,7 @@ func _input(ev):
 			if is_mouse_first_pressed:
 				is_mouse_first_pressed = false
 				mouse_x = ev.pos.x
-			if (ev.pos.x - mouse_x) < 0:
-				direction = -1
-			elif (ev.pos.x - mouse_x) > 0:
-				direction = 1
-			set_translation(Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18))			
+			position = Vector3(origin_x  + (ev.pos.x - mouse_x) / 13.3, 0, 18)
 			
 func _packet_received(dict):
 	if is_enemy:
@@ -202,7 +197,18 @@ func update_ui():
 		get_node("../ingame_ui/Knight_life1/value").set_text(str(life))
 		get_node("../ingame_ui/Knight_hp1/value").set_text(str(round(hp)))
 
-func _process(delta):	
+func _process(delta):
+	var diff = (get_translation() - position).x
+	if  diff != 0:
+		set_translation(position)
+		if diff < 0:
+			direction = 1
+		else:
+			direction = -1
+	else:
+		direction = 0
+	
+		
 	if is_dead:
 		if regen_timeout > 0:
 			regen_timeout -= delta
