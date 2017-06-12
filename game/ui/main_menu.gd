@@ -28,7 +28,11 @@ func _on_HButtonArray_button_selected( button_idx ):
 		get_node("Shop").show()
 
 func _matched(dict):
-	variants.set("player2_knight", dict)
+	var opponent_uid
+	for uid in dict["message"]:
+		if int(uid) != kcp.uid:
+			opponent_uid = uid
+	variants.set("player2_knight", dict["message"][opponent_uid])
 	print(variants.player1_knight)
 	print(variants.player2_knight)
 	get_tree().change_scene("res://main.tscn")
