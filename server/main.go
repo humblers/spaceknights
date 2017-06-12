@@ -116,11 +116,11 @@ func (session *Session) Parse(packet Packet) {
         }
         v := map[string]interface{}{
             "protoid" : MATCH_OPPONENT,
-            "meessage" : session.decks,
+            "message" : session.decks,
         }
         b, err := json.Marshal(v)
         if err != nil {
-            fmt.Println("what the~~")
+            fmt.Println("unexpected struct can't encode in json", v)
         }
         for _, client := range session.clients {
             client.outgoing <- string(b)

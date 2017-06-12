@@ -14,22 +14,30 @@ var packets = []
 var uid
 
 func _read():
-	uid = randi()
+	for p in packets:
+		kcp.write(p)
+	packets.clear()
+	kcp.update()
+	
 	var packet = kcp.read()
 	if packet == null:
 		return
 	var dict = {}
 	dict.parse_json(packet)
-	if dict.has("dir"):
-		emit_signal("packet_received", dict)
-	if dict.has("type") and dict.has("skills"):
+	if dict.empty():
+		return
+	if not dict.has("protoid"):
+		print("ugly packet", dict)
+		return
+	var protoid = dict["protoid"]
+	if protoid == MATCH_OPPONENT:
 		emit_signal("match_opponent", dict)
-	for p in packets:
-		kcp.write(p)
-	packets.clear()
-	kcp.update()
+	else:
+		emit_signal("packet_received", dict)
 
 func _ready():
+	randomize()
+	uid = randi()
 	timer.set_wait_time(1.0/READ_RATE)
 	timer.connect("timeout", self, "_read")
 	add_child(timer)
