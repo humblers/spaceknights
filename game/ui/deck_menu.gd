@@ -28,15 +28,11 @@ func _input(event):
 func build_deck_buttons():
 	var deck_button = get_node("Background/Deck_grid")
 	preset_list = []
-	preset_list.append({
-		"key":"test", "skills":[], "type":0
-	})
-
-#	var clone = variants.clone(variants.preset_knights)
-#	for key in clone:
-#		var preset = clone[key]
-#		preset["key"] = key
-#		preset_list.append(preset)
+	var clone = variants.clone(variants.preset_knights)
+	for key in clone:
+		var preset = clone[key]
+		preset["key"] = key
+		preset_list.append(preset)
 	
 	if preset_list.size() > 0:
 		for i in range(preset_list.size()):
