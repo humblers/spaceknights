@@ -5,8 +5,20 @@ import (
     "net"
     "log"
     "bufio"
+    "encoding/json"
     kcp "github.com/xtaci/kcp-go"
+    "fmt"
 )
+
+const FIND_OPPONENT int = 1
+const MATCH_OPPONENT int = 2
+const MOVE_KNIGHT int = 3
+
+type Proto struct {
+    Protoid int
+    Uid int
+    Message interface{}
+}
 
 type Packet struct {
     client *Client
@@ -76,13 +88,45 @@ type Session struct {
     joins chan net.Conn
     incoming chan Packet
     outgoing chan Packet
+    decks map[int]interface{}
 }
 
-func (session *Session) Broadcast(packet Packet) {
+func (session *Session) Broadcast(packet Packet, relayOnly bool) {
     for _, client := range session.clients {
-        if packet.client != client {
-            client.outgoing <- packet.data
+        if relayOnly && packet.client == client {
+            continue
         }
+        client.outgoing <- packet.data
+    }
+}
+
+func (session *Session) Parse(packet Packet) {
+    var p Proto
+    jsonerr := json.Unmarshal([]byte(packet.data), &p)
+    if jsonerr != nil {
+        fmt.Println("unexpected data can't parse in json", packet.data)
+        return
+    }
+
+    switch p.Protoid {
+    case FIND_OPPONENT:
+        session.decks[p.Uid] = p.Message.(map[string]interface{})
+        if len(session.clients) <= 1 {
+            return
+        }
+        v := map[string]interface{}{
+            "protoid" : MATCH_OPPONENT,
+            "message" : session.decks,
+        }
+        b, err := json.Marshal(v)
+        if err != nil {
+            fmt.Println("unexpected struct can't encode in json", v)
+        }
+        for _, client := range session.clients {
+            client.outgoing <- string(b)
+        }
+    default:
+        session.Broadcast(packet, true)
     }
 }
 
@@ -97,7 +141,7 @@ func (session *Session) Listen() {
         for {
             select {
             case packet := <-session.incoming:
-                session.Broadcast(packet)
+                session.Parse(packet)
             case conn := <-session.joins:
                 session.Join(conn)
             }
@@ -111,6 +155,7 @@ func NewSession() *Session {
         joins: make(chan net.Conn),
         incoming: make(chan Packet),
         outgoing: make(chan Packet),
+        decks : make(map[int]interface{}),
     }
 
     session.Listen()

@@ -70,7 +70,7 @@ func _sample():
 	packet["trans_x"] = get_translation().x
 	packet["hp"] = hp
 	packet["m_hp"] = get_node("../PlayerMothership").hp
-	kcp.write(packet)
+	kcp.write(kcp.MOVE_KNIGHT, packet)
 
 func _input(ev):
 	if is_enemy:
