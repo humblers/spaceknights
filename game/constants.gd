@@ -7,7 +7,6 @@ const LM_DONT_COLLIDE = 0
 const LM_PLAYER = 1
 const LM_ENEMY = 2
 
-
 const SKILL_QUEUE_LEN = 10
 const SKILLS = [
 	{
