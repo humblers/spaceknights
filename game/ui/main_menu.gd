@@ -3,7 +3,9 @@ extends Control
 func _ready():
 	get_node("Background/blue_team").set_text("Blue Team : " + str(variants.blue_score) + " WIN")
 	get_node("Background/red_team").set_text("Red Team : " + str(variants.red_score) + " WIN")
-	get_node("Deck").hide()
+	get_node("Deck").show()
+	if variants.preset_knights.size() > 0:
+		get_node("Deck").hide()
 	get_node("Shop").hide()
 	set_process_input(true)
 
