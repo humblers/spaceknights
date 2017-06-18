@@ -6,7 +6,8 @@ func _ready():
 	get_node("Deck").hide()
 	get_node("Shop").hide()
 	if variants.preset_knights.size() <= 0:
-		get_node("Deck").show_deck_menu()
+		_on_HButtonArray_button_selected(0)
+		get_node("HButtonArray").set_selected(0)
 	set_process_input(true)
 
 func _on_play_pressed():
