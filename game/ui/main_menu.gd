@@ -10,7 +10,7 @@ func _ready():
 	set_process_input(true)
 
 func _on_play_pressed():
-	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_preset["key"]])
+	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
 	kcp.connect("match_opponent", self, "_matched")
 	kcp.write(kcp.FIND_OPPONENT, variants.player1_knight)
 
