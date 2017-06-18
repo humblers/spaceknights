@@ -4,13 +4,10 @@ var decks
 var cur_deck_key
 var cur_deck_info
 
-var preset_list
-var cur_deck_index = -1
-
 func _ready():	
 	get_node("Background/Knight_collection").hide()
-#	build_AMMO_buttons()
-#	build_knight_buttons()
+	build_AMMO_buttons()
+	build_knight_buttons()
 	set_process_input(true)
 
 func _on_play_pressed():
@@ -152,13 +149,7 @@ func delete_deck():
 
 func save_cur_deck():
 	variants.update_preset_knight(cur_deck_key, cur_deck_info)
-
-func update_preset(idx=0):
-	cur_deck_info = preset_list[idx]
-	if idx == preset_list.size() - 1:
-		get_node("new_preset_dialog").popup()
-	get_node("pick_type").select(cur_deck_info["type"])
-	update_skill_panel()
+	refresh_deck_buttons(false)
 
 func _on_Deck_name_Button_pressed():
 	get_node("Background/Deck_name/new_preset_dialog").popup_centered()
