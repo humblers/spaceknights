@@ -9,8 +9,6 @@ var cur_deck_index = -1
 
 func _ready():	
 	get_node("Background/Knight_collection").hide()
-	refresh_deck_buttons()
-#	build_skill_buttons()
 #	build_AMMO_buttons()
 #	build_knight_buttons()
 	set_process_input(true)
@@ -27,6 +25,10 @@ func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
 		_on_play_pressed()
 
+func show_deck_menu():
+	show()
+	refresh_deck_buttons()
+
 func refresh_deck_buttons(clone_from_variants = true):
 	if clone_from_variants:
 		decks = variants.clone(variants.preset_knights)
@@ -36,18 +38,20 @@ func refresh_deck_buttons(clone_from_variants = true):
 	for child in deck_button.get_children():
 		if child != ori_button:
 			child.queue_free()
-#	preset_list = []
-#	var clone = variants.clone(variants.preset_knights)
-#	for key in clone:
-#		var preset = clone[key]
-#		preset["key"] = key
-#		preset_list.append(preset)
+
 	for key in decks:
+		if cur_deck_key == null:
+			cur_deck_key = key
 		var deck = deck_button.get_node("Button").duplicate()
 		deck.set_name("deck_button_%s" % key)
 		deck.is_creator = false
 		deck.name = key
 		deck_button.add_child(deck)
+
+	if cur_deck_key == null:
+		make_new_deck()
+		return
+	build_skill_buttons()
 
 func select_knight(key):
 	cur_deck_key = key
@@ -68,9 +72,8 @@ func make_new_deck():
 	decks[new_key] = cur_deck_info
 	
 	get_node("Background/Deck_name/new_preset_dialog").popup_centered()
-	refresh_deck_buttons()
-	build_skill_buttons()
 	save_cur_deck()
+	refresh_deck_buttons(false)
 
 func build_skill_buttons():
 	var skill_button = get_node("Background/Skill_grid")
@@ -143,8 +146,8 @@ func change_deck_name():
 
 func delete_deck():
 	variants.preset_knights.erase(cur_deck_key)
+	cur_deck_key = null
 	refresh_deck_buttons()
-	build_skill_buttons()
 	save_cur_deck()
 
 func save_cur_deck():
