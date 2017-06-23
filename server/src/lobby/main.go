@@ -5,8 +5,8 @@ import (
     "flag"
     "fmt"
     "net/http"
-    "time"
     "strconv"
+    "time"
 
     "github.com/alexedwards/scs/session"
     "github.com/alexedwards/scs/engine/memstore"
