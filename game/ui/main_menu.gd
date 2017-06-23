@@ -5,10 +5,13 @@ func _ready():
 	get_node("Background/red_team").set_text("Red Team : " + str(variants.red_score) + " WIN")
 	get_node("Deck").hide()
 	get_node("Shop").hide()
+	if variants.preset_knights.size() <= 0:
+		_on_HButtonArray_button_selected(0)
+		get_node("HButtonArray").set_selected(0)
 	set_process_input(true)
 
 func _on_play_pressed():
-	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_preset["key"]])
+	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
 	kcp.connect("match_opponent", self, "_matched")
 	kcp.write(kcp.FIND_OPPONENT, variants.player1_knight)
 
@@ -18,7 +21,7 @@ func _input(event):
 
 func _on_HButtonArray_button_selected( button_idx ):
 	if button_idx == 0:
-		get_node("Deck").show()
+		get_node("Deck").show_deck_menu()
 		get_node("Shop").hide()
 	elif button_idx == 1:
 		get_node("Deck").hide()
