@@ -1,14 +1,11 @@
 extends Control
 
-var preset_list
-var cur_preset
-var cur_deck_index = -1
+var decks
+var cur_deck_key
+var cur_deck_info
 
 func _ready():	
 	get_node("Background/Knight_collection").hide()
-	cur_deck_index = 0
-	build_deck_buttons()
-	build_skill_buttons()
 	build_AMMO_buttons()
 	build_knight_buttons()
 	set_process_input(true)
@@ -25,79 +22,69 @@ func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
 		_on_play_pressed()
 
-func build_deck_buttons():
-	var deck_button = get_node("Background/Deck_grid")
-	preset_list = []
-	var clone = variants.clone(variants.preset_knights)
-	for key in clone:
-		var preset = clone[key]
-		preset["key"] = key
-		preset_list.append(preset)
-	
-	if preset_list.size() > 0:
-		for i in range(preset_list.size()):
-			var deck = deck_button.get_node("Button").duplicate()
-			#deck.name = preset_list[i]["key"]
-			deck.set_name("dupl_button")
-			deck.name = String(i+1)
-			deck.index = i
-			deck_button.add_child(deck)
-		
+func show_deck_menu():
+	show()
+	refresh_deck_buttons()
 
-func refresh_deck_buttons():
+func refresh_deck_buttons(clone_from_variants = true):
+	if clone_from_variants:
+		decks = variants.clone(variants.preset_knights)
+	
 	var deck_button = get_node("Background/Deck_grid")
 	var ori_button = deck_button.get_node("Button")
 	for child in deck_button.get_children():
 		if child != ori_button:
 			child.queue_free()
-	
-func select_knight(index):
-	if index < 0:
+
+	for key in decks:
+		if cur_deck_key == null:
+			cur_deck_key = key
+		var deck = deck_button.get_node("Button").duplicate()
+		deck.set_name("deck_button_%s" % key)
+		deck.is_creator = false
+		deck.name = key
+		deck_button.add_child(deck)
+
+	if cur_deck_key == null:
 		make_new_deck()
 		return
-	cur_deck_index = index
+	build_skill_buttons()
+
+func select_knight(key):
+	cur_deck_key = key
 	build_skill_buttons()
 
 func make_new_deck():
-	for preset in preset_list:
-		if preset["key"] == "new":
+	var new_key = "new"
+	for key in decks:
+		if key == new_key:
 			return
-			
+
 	var skill_button = get_node("Background/Skill_grid")
-	preset_list.append({
-		"key" : "new",
+	cur_deck_key = new_key
+	cur_deck_info = {
 		"type" : -1,
 		"skills" : []
-	})
-	cur_deck_index = preset_list.size() - 1
-	cur_preset = preset_list[cur_deck_index]
-	save_cur_deck()
+	}
+	decks[new_key] = cur_deck_info
 	
 	get_node("Background/Deck_name/new_preset_dialog").popup_centered()
-	print("cur = ", cur_deck_index)
-	print(cur_preset)
-	print('----')
-	for i in preset_list:
-		print(i)
-	refresh_deck_buttons()
-	build_deck_buttons()
-	build_skill_buttons()
-	#save_cur_deck()
-		
+	save_cur_deck()
+	refresh_deck_buttons(false)
 
 func build_skill_buttons():
 	var skill_button = get_node("Background/Skill_grid")
-	cur_preset = preset_list[cur_deck_index]
-	get_node("Background/Deck_name/Label").set_text(cur_preset["key"])
-	get_node("Background/Knight_type").knight_type = cur_preset["type"]
+	cur_deck_info = decks[cur_deck_key]
+	get_node("Background/Deck_name/Label").set_text(cur_deck_key)
+	get_node("Background/Knight_type").knight_type = cur_deck_info["type"]
 	get_node("Background/Knight_type").update_ui()
 	
 	for i in range(8):
-		if cur_preset["skills"].size() > i:
+		if cur_deck_info["skills"].size() > i:
 			pass
 		else:
-			cur_preset["skills"].append(int(-1))
-		skill_button.get_node("Button%d" % (i+1)).skill_type = int(cur_preset["skills"][i])
+			cur_deck_info["skills"].append(int(-1))
+		skill_button.get_node("Button%d" % (i+1)).skill_type = int(cur_deck_info["skills"][i])
 		skill_button.get_node("Button%d" % (i+1)).queue_idx = i
 		skill_button.get_node("Button%d" % (i+1)).update_ui()
 		
@@ -130,13 +117,12 @@ func build_knight_buttons():
 func change_skill(skill_type, queue_idx):
 	var picked_skill = get_node("Background/Change_skill/Button")
 	var skill_button = get_node("Background/Skill_grid")
-	cur_preset["skills"][queue_idx] = int(picked_skill.skill_type)
-	skill_button.get_node("Button%d" % (queue_idx+1)).skill_type = cur_preset["skills"][queue_idx]
-	
+	cur_deck_info["skills"][queue_idx] = int(picked_skill.skill_type)
+	skill_button.get_node("Button%d" % (queue_idx+1)).skill_type = cur_deck_info["skills"][queue_idx]
 	save_cur_deck()
 
 func change_knight(knight_type):
-	cur_preset["type"] = knight_type
+	cur_deck_info["type"] = knight_type
 	get_node("Background/Knight_type").knight_type = knight_type
 	get_node("Background/Knight_type").update_ui()
 	save_cur_deck()
@@ -145,42 +131,32 @@ func change_deck_name():
 	var text = get_node("Background/Deck_name/new_preset_dialog/preset_name").get_text()
 	if text.empty():
 		return
-	preset_list.erase(cur_preset)
-	variants.preset_knights.erase(cur_preset["key"])
-	cur_preset["key"] = text
-	preset_list.append(cur_preset)
-	get_node("Background/Deck_name/Label").set_text(cur_preset["key"])
+	var deck = decks[cur_deck_key]
+	decks.erase(cur_deck_key)
+	variants.preset_knights.erase(cur_deck_key)
+	cur_deck_key = text
+	decks[cur_deck_key] = deck
+	get_node("Background/Deck_name/Label").set_text(cur_deck_key)
 	get_node("Background/Deck_name/new_preset_dialog").hide()
 	save_cur_deck()
-	
-func delete_deck():
-	preset_list.erase(cur_preset)
-	variants.preset_knights.erase(cur_preset["key"])	
 	refresh_deck_buttons()
-	build_deck_buttons()
-	cur_deck_index = cur_deck_index-1
-	if cur_deck_index < 0:
-		cur_deck_index = 0
-	build_skill_buttons()
+
+func delete_deck():
+	variants.preset_knights.erase(cur_deck_key)
+	cur_deck_key = null
+	refresh_deck_buttons()
 	save_cur_deck()
 
 func save_cur_deck():
-	var key = cur_preset["key"]
-	variants.update_preset_knight(key, cur_preset)
-	
-func update_preset(idx=0):
-	cur_preset = preset_list[idx]
-	if idx == preset_list.size() - 1:
-		get_node("new_preset_dialog").popup()
-	get_node("pick_type").select(cur_preset["type"])
-	update_skill_panel()
-	
+	variants.update_preset_knight(cur_deck_key, cur_deck_info)
+	refresh_deck_buttons(false)
+
 func _on_Deck_name_Button_pressed():
 	get_node("Background/Deck_name/new_preset_dialog").popup_centered()
 
 func _on_Deck_name_ok_pressed():
 	change_deck_name()
-	
+
 func _on_Del_pressed():
 	delete_deck()
 
