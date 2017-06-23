@@ -6,6 +6,7 @@ import (
     "fmt"
     "net/http"
     "time"
+    "strconv"
 
     "github.com/alexedwards/scs/session"
     "github.com/alexedwards/scs/engine/memstore"
@@ -14,7 +15,6 @@ import (
     "github.com/go-chi/chi/docgen"
     "github.com/go-chi/chi/middleware"
     "github.com/go-chi/chi/render"
-    "strconv"
 )
 
 var routes = flag.Bool("routes", false, "Generate router documentation")
