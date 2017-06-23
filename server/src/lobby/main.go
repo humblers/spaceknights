@@ -125,7 +125,7 @@ func init() {
 }
 
 type LoginRequest struct {
-    ID int `json:"id"`
+    ID string `json:"id"`
     Token string `json:"token"`
 }
 
@@ -134,7 +134,7 @@ func (a *LoginRequest) Bind(r *http.Request) error {
 }
 
 type LoginResponse struct {
-    ID int `json:"id"`
+    ID string `json:"id"`
     Token string `json:"token"`
 }
 
@@ -144,7 +144,7 @@ func NewLoginResponse() *LoginResponse {
 }
 
 func (rd *LoginResponse) Render(w http.ResponseWriter, r *http.Request) error {
-    session.PutInt(r, "uid", rd.ID)
+    session.PutString(r, "id", rd.ID)
     return nil
 }
 
