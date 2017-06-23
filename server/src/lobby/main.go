@@ -1,9 +1,11 @@
 package main
 
 import (
+    "errors"
     "flag"
     "fmt"
     "net/http"
+    "time"
 
     "github.com/alexedwards/scs/session"
     "github.com/alexedwards/scs/engine/memstore"
@@ -12,6 +14,7 @@ import (
     "github.com/go-chi/chi/docgen"
     "github.com/go-chi/chi/middleware"
     "github.com/go-chi/chi/render"
+    "strconv"
 )
 
 var routes = flag.Bool("routes", false, "Generate router documentation")
@@ -44,7 +47,7 @@ func main() {
 
     r.Route("/login", func(r chi.Router) {
         r.Post("/dev", DevLogin)
-        //r.Post("/google", CreateArticle)
+        // ToDo : implement platform authentication
     })
 
     // Mount the admin sub-router, which btw is the same as:
@@ -67,8 +70,25 @@ func main() {
 }
 
 func DevLogin(w http.ResponseWriter, r *http.Request) {
+    s_id, _ := session.GetString(r, "id")
+    data := &LoginRequest{}
+    if err := render.Bind(r, data); err != nil {
+        render.Render(w, r, ErrInvalidRequest(err))
+        return
+    }
+    id := data.ID
+    if s_id != "" && s_id != id {
+        render.Render(w, r, ErrInvalidRequest(errors.New("session id mismatching")))
+        return
+    }
+
+    token := ""
+    if id == "" {
+        id = strconv.FormatInt(time.Now().Unix(), 10)
+    }
+
     render.Status(r, http.StatusCreated)
-    render.Render(w, r, NewLoginResponse())
+    render.Render(w, r, NewLoginResponse(id, token))
 }
 
 // A completely separate router for administrator routes
@@ -138,8 +158,8 @@ type LoginResponse struct {
     Token string `json:"token"`
 }
 
-func NewLoginResponse() *LoginResponse {
-    resp := &LoginResponse{}
+func NewLoginResponse(id string, token string) *LoginResponse {
+    resp := &LoginResponse{ID:id, Token:token}
     return resp
 }
 
