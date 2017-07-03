@@ -103,7 +103,7 @@ func validate_conn():
 
 func request(method, path, params, signal_name):
 	if not validate_conn():
-		print("validating error!!")
-		return "err"
-
+		print("validating error!! what the fuck...")
+		emit_signal(signal_name, {"err_code":-999, "err_msg":"unknown"})
+		return
 	req_queue.push_back([method, path, params, signal_name])
