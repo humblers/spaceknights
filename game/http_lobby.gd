@@ -8,6 +8,9 @@ var timer = Timer.new()
 var req_queue = []
 var cur_req_callback
 
+signal login_success(ret)
+signal failure(err_code, err_msg)
+
 func _ready():
 	if not validate_conn() and not connect_to_lobby():
 		print("connect fail. To Do - rollback to launch scene")
@@ -18,7 +21,8 @@ func _ready():
 	timer.connect("timeout", self, "_poll")
 	add_child(timer)
 	timer.start()
-	request(HTTPClient.METHOD_GET, "/ping", {}, funcref(self, "callback"))
+	#request(HTTPClient.METHOD_GET, "/ping", {}, funcref(self, "callback"))
+	request(HTTPClient.METHOD_POST, "/login/dev", {"id":"1", "token":"temp"}, funcref(self, "callback"))
 
 func callback(ret):
 	print(ret)
@@ -67,9 +71,15 @@ func _poll():
 	# Some headers
 	var headers=[
 		"User-Agent: Pirulo/1.0 (Godot)",
-		"Accept: */*"
+		"Accept: */*",
 	]
-	var err = http.request(request[0], request[1], headers) # Request a page from the site (this one was chunked..)
+	var method = request[0]
+	var body = ""
+	if method == HTTPClient.METHOD_POST:
+		body = request[2].to_json()
+		headers.append("Content-Type: application/json")
+		headers.append("Content-Length: %d" % body.length())
+	var err = http.request(request[0], request[1], headers, body)
 	if err != OK:
 		cur_req_callback.call_func("err")
 		cur_req_callback = null
