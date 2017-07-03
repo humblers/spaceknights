@@ -16,13 +16,11 @@ func _ready():
 	if not validate_conn() and not connect_to_lobby():
 		print("connect fail. To Do - rollback to launch scene")
 		return
-	#http.set_blocking_mode(true)
-	#print("blocking enabled?", http.is_blocking_mode_enabled())
 	timer.set_wait_time(1.0/kcp.READ_RATE)
 	timer.connect("timeout", self, "_poll")
 	add_child(timer)
 	timer.start()
-	request(HTTPClient.METHOD_POST, "/login/dev", {"id":"1", "token":"temp"}, "login_success")
+	#request(HTTPClient.METHOD_POST, "/login/dev", {"id":"1", "token":"temp"}, "login_success")
 
 func emit_reserved_signal(ret):
 	print(ret)
@@ -67,7 +65,6 @@ func _poll():
 	if next_request == null:
 		return
 	req_queue.pop_front()
-	# Some headers
 	var headers=[
 		"User-Agent: Pirulo/1.0 (Godot)",
 		"Accept: */*",
@@ -104,9 +101,9 @@ func validate_conn():
 		return false
 	return true
 
-func request(method, path, params, callback_func):
+func request(method, path, params, signal_name):
 	if not validate_conn():
 		print("validating error!!")
 		return "err"
 
-	req_queue.push_back([method, path, params, callback_func])
+	req_queue.push_back([method, path, params, signal_name])
