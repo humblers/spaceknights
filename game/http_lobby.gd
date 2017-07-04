@@ -5,8 +5,11 @@ const LOBBY_PORT = 3333
 
 var http = HTTPClient.new()
 var timer = Timer.new()
-var req_queue = []
+
 var response_body = RawArray()
+var cookie_str = ""
+
+var req_queue = []
 var reserved_signal
 
 signal login_success(ret)
@@ -39,6 +42,9 @@ func _poll():
 		var headers = http.get_response_headers_as_dictionary()
 		print("code: ",http.get_response_code())
 		print("**headers:\\n",headers)
+		
+		if headers.has("Set-Cookie"):
+			cookie_str = headers["Set-Cookie"]
 
 		if (http.is_response_chunked()):
 			print("Response is Chunked!")
@@ -78,6 +84,9 @@ func _poll():
 			"Content-Length: %d" % body.length(),
 		]
 	reserved_signal = next_request[3]
+	var use_cookie = next_request[4]
+	if use_cookie:
+		headers.append("Cookie: %s" % cookie_str)
 	var err = http.request(method, url, headers, body)
 	if err != OK:
 		emit_reserved_signal({"err_code":-999, "err_msg":"unknown"})
@@ -100,9 +109,9 @@ func validate_conn():
 		return false
 	return true
 
-func request(method, path, params, signal_name):
+func request(method, path, params, signal_name, use_cookie=true):
 	if not validate_conn():
 		print("validating error!! what the fuck...")
 		emit_signal(signal_name, {"err_code":-999, "err_msg":"unknown"})
 		return
-	req_queue.push_back([method, path, params, signal_name])
+	req_queue.push_back([method, path, params, signal_name, use_cookie])

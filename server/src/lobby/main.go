@@ -50,6 +50,8 @@ func main() {
         // ToDo : implement platform authentication
     })
 
+    r.Post("/find_match", FindMatch)
+
     // Mount the admin sub-router, which btw is the same as:
     // r.Route("/admin", func(r chi.Router) { admin routes here })
     r.Mount("/admin", adminRouter())
@@ -89,6 +91,10 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
 
     render.Status(r, http.StatusCreated)
     render.Render(w, r, NewLoginResponse(id, token))
+}
+
+func FindMatch(w http.ResponseWriter, r *http.Request) {
+    s_id, _ := session.GetString(r, "id")
 }
 
 // A completely separate router for administrator routes
@@ -164,6 +170,7 @@ func NewLoginResponse(id string, token string) *LoginResponse {
 }
 
 func (rd *LoginResponse) Render(w http.ResponseWriter, r *http.Request) error {
+    fmt.Println("rd id : ", rd.ID)
     session.PutString(r, "id", rd.ID)
     return nil
 }
