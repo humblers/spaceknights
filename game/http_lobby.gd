@@ -2,6 +2,10 @@ extends Node
 
 const LOBBY_HOST = "http://127.0.0.1"
 const LOBBY_PORT = 3333
+const SUCCESS_RESPONSES = [
+	HTTPClient.RESPONSE_OK,
+	HTTPClient.RESPONSE_CREATED,
+]
 
 var http = HTTPClient.new()
 var timer = Timer.new()
@@ -12,7 +16,8 @@ var cookie_str = ""
 var req_queue = []
 var reserved_signal
 
-signal login_success(ret)
+signal login_response(success, ret)
+signal match_response(success, ret)
 #signal failure(err_code, err_msg)
 
 func _ready():
@@ -24,10 +29,12 @@ func _ready():
 	add_child(timer)
 	timer.start()
 
-func emit_reserved_signal(ret):
-	print(ret)
+func emit_reserved_signal(code, ret):
+	var success = false
+	if code in SUCCESS_RESPONSES:
+		success = true
 	if reserved_signal != null:
-		emit_signal(reserved_signal, ret)
+		emit_signal(reserved_signal, success, ret)
 		reserved_signal = null
 
 func _poll():
@@ -64,7 +71,7 @@ func _poll():
 		var ret = {}
 		ret.parse_json(text)
 		response_body = RawArray()
-		emit_reserved_signal(ret)
+		emit_reserved_signal(http.get_response_code(), ret)
 
 	if req_queue.size() <= 0:
 		return
@@ -89,7 +96,7 @@ func _poll():
 		headers.append("Cookie: %s" % cookie_str)
 	var err = http.request(method, url, headers, body)
 	if err != OK:
-		emit_reserved_signal({"err_code":-999, "err_msg":"unknown"})
+		emit_reserved_signal(-999, {"error":"unknown"})
 
 func connect_to_lobby():
 	var err = http.connect(LOBBY_HOST, LOBBY_PORT)

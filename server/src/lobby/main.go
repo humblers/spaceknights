@@ -95,6 +95,7 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
 
 func FindMatch(w http.ResponseWriter, r *http.Request) {
     s_id, _ := session.GetString(r, "id")
+    fmt.Println("cur id : ", s_id)
 }
 
 // A completely separate router for administrator routes

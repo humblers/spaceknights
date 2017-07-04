@@ -14,12 +14,12 @@ func _ready():
 	set_process_input(true)
 
 func _on_login_pressed():
-	http_lobby.connect("login_success", self, "_login_success")
+	http_lobby.connect("login_response", self, "_login_response")
 	var id = get_node("Background/login_panel/id").get_text()
 	var params = {}
 	if id and not id.empty():
-		params["id"] = id	
-	http_lobby.request(HTTPClient.METHOD_POST, "/login/dev", params, "login_success")
+		params["id"] = id
+	http_lobby.request(HTTPClient.METHOD_POST, "/login/dev", params, "login_response", false)
 
 func _on_play_pressed():
 	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
@@ -40,7 +40,7 @@ func _on_HButtonArray_button_selected( button_idx ):
 		get_node("Deck").hide()
 		get_node("Shop").show()
 
-func _login_success(ret):
+func _login_response(success, ret):
 	var loggedin_uid = ret["id"]
 	get_node("Background/login_panel/login").hide()
 	get_node("Background/login_panel/id").set_text(loggedin_uid)
