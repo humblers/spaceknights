@@ -1,14 +1,19 @@
 extends Control
-	
+
 func _ready():
 	get_node("Background/blue_team").set_text("Blue Team : " + str(variants.blue_score) + " WIN")
 	get_node("Background/red_team").set_text("Red Team : " + str(variants.red_score) + " WIN")
+
+	get_node("HButtonArray").hide()
+	get_node("Background/play").hide()
 	get_node("Deck").hide()
 	get_node("Shop").hide()
-	if variants.preset_knights.size() <= 0:
-		_on_HButtonArray_button_selected(0)
-		get_node("HButtonArray").set_selected(0)
+
 	set_process_input(true)
+
+func _on_login_pressed():
+	http_lobby.connect("login_success", self, "_login_success")
+	http_lobby.request(HTTPClient.METHOD_POST, "/login/dev", {"id":"1", "token":"temp"}, "login_success")
 
 func _on_play_pressed():
 	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
@@ -28,3 +33,23 @@ func _on_HButtonArray_button_selected( button_idx ):
 	elif button_idx == 2:
 		get_node("Deck").hide()
 		get_node("Shop").show()
+
+func _login_success(ret):
+	get_node("Background/login_panel/login").hide()
+	get_node("Background/login_panel/id").set_text(ret["id"])
+
+	get_node("HButtonArray").show()
+	get_node("Background/play").show()
+	if variants.preset_knights.size() <= 0:
+		_on_HButtonArray_button_selected(0)
+		get_node("HButtonArray").set_selected(0)
+
+func _matched(dict):
+	var opponent_uid
+	for uid in dict["message"]:
+		if int(uid) != kcp.uid:
+			opponent_uid = uid
+	variants.set("player2_knight", dict["message"][opponent_uid])
+	print(variants.player1_knight)
+	print(variants.player2_knight)
+	get_tree().change_scene("res://main.tscn")
