@@ -20,7 +20,6 @@ func _ready():
 	timer.connect("timeout", self, "_poll")
 	add_child(timer)
 	timer.start()
-	#request(HTTPClient.METHOD_POST, "/login/dev", {"id":"1", "token":"temp"}, "login_success")
 
 func emit_reserved_signal(ret):
 	print(ret)
@@ -61,9 +60,9 @@ func _poll():
 		response_body = RawArray()
 		emit_reserved_signal(ret)
 
-	var next_request = req_queue.front()
-	if next_request == null:
+	if req_queue.size() <= 0:
 		return
+	var next_request = req_queue.front()
 	req_queue.pop_front()
 	var headers=[
 		"User-Agent: Pirulo/1.0 (Godot)",
