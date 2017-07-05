@@ -1,118 +1,170 @@
 package main
 
 import (
+    "fmt"
     "net"
     "bufio"
     "time"
+    "sync"
 )
 
 type Client struct {
     id string
+    session *Session
     conn net.Conn
-    incoming chan Packet
+    server *Server
     reader *bufio.Reader
     writer *bufio.Writer
+    outgoing chan Packet
+    closing chan struct{}
+    loop sync.WaitGroup
 }
 
-func NewClient(conn net.Conn) *Client {
-    client := &Client{
-        id: "",
+func NewClient(conn net.Conn, server *Server) *Client {
+    client := Client{
         conn: conn,
-        incoming: make(chan Packet),
+        server: server,
         reader: bufio.NewReader(conn),
         writer: bufio.NewWriter(conn),
+        outgoing: make(chan Packet),
+        closing: make(chan struct{}),
     }
-
-    go client.listen()
-    go client.run()
-
-    return client
+    return &client
 }
 
-func (client *Client) run() {
-    if !client.auth() {
-        client.stop()
-        return
-    }
-    tick := time.Tick(FrameInterval)
-    timeout := time.After(PlayTime)
-    for {
-        select {
-        case <-timeout:
-            client.stop()
-            return
-        case <-tick:
-            game := games[client.id]
-            if game == nil {
-                client.stop()
-                return
-            }
-            client.write(NewPacket(game))
-        case packet := <-client.incoming:
-            game := games[client.id]
-            if game == nil {
-                client.stop()
-                return
-            }
-            var input Input
-            packet.Parse(&input)
-            input.id = client.id
-            game.inputs <- input
-        }
-    }
-}
-
-func (client *Client) stop() {
-    err := client.conn.Close()
-    if err != nil {
+func (client *Client) Run() {
+    defer client.closeConn()
+    if err := client.auth(); err != nil {
         panic(err)
     }
+    if err:= client.join(); err != nil {
+        panic(err)
+    }
+
+    client.loop.Add(2)
+    go client.readLoop()
+    go client.writeLoop()
+    client.loop.Wait()
 }
 
-func (client *Client) listen() {
+func (client *Client) WriteAsync(packet Packet) {
+    select {
+    case client.outgoing <- packet:
+    default:
+        panic("client outgoing channel blocked")
+    }
+}
+
+func (client *Client) StopAsync() {
+    close(client.closing)
+}
+
+func (client *Client) readLoop() {
+    defer client.loop.Done()
     for {
-        err := client.conn.SetReadDeadline(time.Now().Add(1 * time.Second))
-        if err != nil {
-            panic(err)
-        }
-        b, err := client.reader.ReadBytes('\n')
+        packet, err := client.read(1 * time.Second)
         if err != nil {
             if e, ok := err.(net.Error); ok && e.Timeout() {
-                continue    // normal timeout
+                select {
+                case <-client.closing:
+                    return
+                default:
+                    continue    // normal timeout
+                }
             }
             panic(err)
-        } else {
-            client.incoming <- Packet(b)
+        }
+
+        var input Input
+        if err := packet.Parse(&input); err != nil {
+            panic(err)
+        }
+        input.Id = client.id
+
+        select {
+        case <-client.closing:
+            return
+        case client.session.incoming <- input:
         }
     }
 }
 
-func (client *Client) write(packet Packet) {
-    _, err := client.writer.Write([]byte(packet))
+func (client *Client) writeLoop() {
+    defer client.loop.Done()
+    for {
+        select {
+        case <-client.closing:
+            return
+        case packet := <-client.outgoing:
+            if err := client.write(packet, 1 * time.Second); err != nil {
+                panic(err)
+            }
+        }
+    }
+}
+
+func (client *Client) read(timeout time.Duration) (Packet, error) {
+    if err := client.conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
+        return nil, err
+    }
+    if b, err := client.reader.ReadBytes('\n'); err != nil {
+        return nil, err
+    } else {
+        return Packet(b), nil
+    }
+}
+
+func (client *Client) write(packet Packet, timeout time.Duration) error {
+    if err := client.conn.SetWriteDeadline(time.Now().Add(timeout)); err != nil {
+        return err
+    }
+    if _, err := client.writer.Write(packet); err != nil {
+        return err
+    }
+    if err := client.writer.Flush(); err != nil {
+        return err
+    }
+    return nil
+}
+
+func (client *Client) auth() error {
+    packet, err := client.read(1 * time.Second)
     if err != nil {
+        return err
+    }
+    var auth Auth
+    if err := packet.Parse(&auth); err != nil {
+        return err
+    }
+    if auth.Id != auth.Token {  // TODO: implement real auth
+        return fmt.Errorf("auth failed")
+    }
+    client.id = auth.Id
+    return nil
+}
+
+func (client *Client) join() error {
+    packet, err := client.read(1 * time.Second)
+    if err != nil {
+        return err
+    }
+    var join Join
+    if err := packet.Parse(&join); err != nil {
+        return err
+    }
+    session, err := client.server.Get(join.SessionId)
+    if err != nil {
+        return err
+    }
+    if err := session.Join(client); err != nil {
+        return err
+    }
+    client.session = session
+    return nil
+}
+
+func (client *Client) closeConn() {
+    if err := client.conn.Close(); err != nil {
         panic(err)
     }
-    client.writer.Flush()
-}
-
-func (client *Client) read(timeout time.Duration) Packet {
-    select {
-    case <-time.After(timeout):
-        return nil
-    case packet := <-client.incoming:
-        return packet
-    }
-}
-
-func (client *Client) auth() bool {
-    packet := client.read(1 * time.Second)
-    var auth Auth
-    packet.Parse(&auth)
-
-    // TODO : temporary impl. need to add token creation logic
-    if auth.Id != auth.Token {
-        client.id = auth.Id
-        return true
-    }
-    return false
 }
