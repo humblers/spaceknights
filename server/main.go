@@ -7,15 +7,20 @@ import (
     kcp "github.com/xtaci/kcp-go"
 )
 
-var games map[string]*Game
-
 func main() {
+    server := NewServer()
+    go server.Run()
+
     go func() {
         reader := bufio.NewReader(os.Stdin)
         for {
             cmd, _ := reader.ReadString('\n')
-            if cmd == "start game" {
-                NewGame("alice", "bob")
+            if cmd == "start game\n" {
+                game := NewGame("alice", "bob")
+                session := NewSession("test", game, server)
+                go session.Run()
+                go game.Run(session)
+                log.Println("game started")
             }
         }
     }()
@@ -25,7 +30,6 @@ func main() {
         panic(err)
     }
     listener.SetDSCP(46)
-
     for {
         conn, err := listener.AcceptKCP()
         if err != nil {
@@ -35,6 +39,7 @@ func main() {
         conn.SetNoDelay(1, 20, 2, 1)
         conn.SetStreamMode(false)
         log.Println("new client", conn.RemoteAddr())
-        NewClient(conn)
+        client := NewClient(conn, server)
+        go client.Run()
     }
 }

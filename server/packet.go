@@ -4,11 +4,8 @@ import "encoding/json"
 
 type Packet []byte
 
-func (packet Packet) Parse(out interface{})  {
-    err := json.Unmarshal(packet, out)
-    if err != nil {
-        panic(err)
-    }
+func (packet Packet) Parse(out interface{}) error {
+    return json.Unmarshal(packet, out)
 }
 
 func NewPacket(in interface{}) Packet {
@@ -24,7 +21,11 @@ type Auth struct {
     Token string
 }
 
+type Join struct {
+    SessionId string
+}
+
 type Input struct {
-    id string
+    Id string
     Move int
 }
