@@ -27,5 +27,5 @@ type Join struct {
 
 type Input struct {
     Id string
-    Move int
+    Move float64
 }
