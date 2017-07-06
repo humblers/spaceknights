@@ -1,10 +1,13 @@
 package main
 
 import (
+    "fmt"
+    "log"
     "time"
+    "strings"
 )
 
-const PlayTime = time.Minute * 5
+const PlayTime = 1 * time.Minute
 const FrameInterval = time.Millisecond * 100
 
 type Player struct {
@@ -31,7 +34,17 @@ func NewGame(ids ...string) *Game {
     return &game
 }
 
+func (game *Game) String() string {
+    var ids []string
+    for id, _ := range game.Players {
+        ids = append(ids, id)
+    }
+    return fmt.Sprintf("(%v)", strings.Join(ids, ", "))
+}
+
 func (game *Game) Run(session *Session) {
+    log.Printf("game %v starting", game)
+    defer log.Printf("game %v stopped", game)
     tick := time.Tick(FrameInterval)
     over := time.After(PlayTime)
     for {

@@ -19,6 +19,7 @@ func _read():
 		var dict = {}
 		dict.parse_json(packet)
 		emit_signal("packet_received", dict)
+		print(packet)
 	for p in packets:
 		kcp.write(p)
 	packets.clear()

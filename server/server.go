@@ -1,6 +1,7 @@
 package main
 
 import (
+    "log"
     "fmt"
 )
 
@@ -39,16 +40,21 @@ func (server *Server) Get(id string) (*Session, error) {
 }
 
 func (server *Server) Add(session *Session) error {
+    defer log.Printf("session %v added to server", session)
     server.add <- session
     return <-server.addResult
 }
 
 func (server *Server) Remove(session *Session) error {
+    defer log.Printf("session %v removed from server", session)
     server.rem <- session
     return <-server.remResult
 }
 
 func (server *Server) Run() {
+    log.Printf("server starting")
+    defer log.Printf("server stopped")
+
     for {
         select {
         case id := <-server.get:

@@ -1,6 +1,7 @@
 package main
 
 import (
+    "log"
     "fmt"
 )
 
@@ -31,10 +32,14 @@ func NewSession(id string, game *Game, server *Server) *Session {
     return &session
 }
 
+func (session *Session) String() string {
+    return session.id
+}
+
 func (session *Session) Join(client *Client) error {
     select {
     case <-session.closing:
-        return fmt.Errorf("session %v already stopped", session.id)
+        return fmt.Errorf("session %v already stopped")
     case session.join <- client:
     }
     return <-session.joinResult
@@ -49,9 +54,13 @@ func (session *Session) Stop() error {
 }
 
 func (session *Session) Run() {
+    log.Printf("session %v starting", session)
+    defer log.Printf("session %v stopped", session)
+
     if err := session.server.Add(session); err != nil {
         panic(err)
     }
+
     for {
         select {
         case <-session.closing:

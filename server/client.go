@@ -1,6 +1,7 @@
 package main
 
 import (
+    "log"
     "fmt"
     "net"
     "bufio"
@@ -32,11 +33,18 @@ func NewClient(conn net.Conn, server *Server) *Client {
     return &client
 }
 
+func (client *Client) String() string {
+    return fmt.Sprintf("%v(%v)", client.id, client.conn.RemoteAddr())
+}
+
 func (client *Client) Run() {
+    log.Printf("client %v starting", client)
     defer client.closeConn()
+
     if err := client.auth(); err != nil {
         panic(err)
     }
+
     if err:= client.join(); err != nil {
         panic(err)
     }
@@ -45,13 +53,15 @@ func (client *Client) Run() {
     go client.readLoop()
     go client.writeLoop()
     client.loop.Wait()
+
+    log.Printf("client %v stopped", client)
 }
 
 func (client *Client) WriteAsync(packet Packet) {
     select {
     case client.outgoing <- packet:
     default:
-        panic("client outgoing channel blocked")
+        panic(fmt.Errorf("client %v outgoing channel blocked", client))
     }
 }
 
@@ -137,9 +147,10 @@ func (client *Client) auth() error {
         return err
     }
     if auth.Id != auth.Token {  // TODO: implement real auth
-        return fmt.Errorf("auth failed")
+        return fmt.Errorf("client %v auth failed", client)
     }
     client.id = auth.Id
+    log.Printf("client %v authenticated", client)
     return nil
 }
 
@@ -160,6 +171,7 @@ func (client *Client) join() error {
         return err
     }
     client.session = session
+    log.Printf("client %v joined to session %v", client, session)
     return nil
 }
 
