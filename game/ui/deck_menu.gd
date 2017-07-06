@@ -6,6 +6,7 @@ var cur_deck_info
 
 func _ready():	
 	get_node("Background/Knight_collection").hide()
+	refresh_deck_buttons()
 	build_AMMO_buttons()
 	build_knight_buttons()
 	set_process_input(true)
