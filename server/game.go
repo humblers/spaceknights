@@ -7,7 +7,7 @@ import (
     "strings"
 )
 
-const PlayTime = 1 * time.Minute
+const PlayTime = 5 * time.Minute
 const FrameInterval = time.Millisecond * 100
 
 type Player struct {
@@ -68,5 +68,5 @@ func (game *Game) update() {
 }
 
 func (game *Game) apply(input Input) {
-    game.Players[input.Id].Position += input.Move
+    game.Players[input.Id].Position = input.Move
 }

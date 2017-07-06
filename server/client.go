@@ -61,7 +61,7 @@ func (client *Client) WriteAsync(packet Packet) {
     select {
     case client.outgoing <- packet:
     default:
-        panic(fmt.Errorf("client %v outgoing channel blocked", client))
+        log.Printf("WARNING: client %v outgoing channel blocked", client)
     }
 }
 
