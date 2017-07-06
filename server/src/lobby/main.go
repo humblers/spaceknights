@@ -52,10 +52,6 @@ func main() {
 
     r.Post("/find_match", FindMatch)
 
-    // Mount the admin sub-router, which btw is the same as:
-    // r.Route("/admin", func(r chi.Router) { admin routes here })
-    r.Mount("/admin", adminRouter())
-
     // Passing -routes to the program will generate docs for the above
     // router definition. See the `routes.json` file in this folder for
     // the output.
@@ -96,34 +92,6 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
 func FindMatch(w http.ResponseWriter, r *http.Request) {
     s_id, _ := session.GetString(r, "id")
     fmt.Println("cur id : ", s_id)
-}
-
-// A completely separate router for administrator routes
-func adminRouter() chi.Router {
-    r := chi.NewRouter()
-    r.Use(AdminOnly)
-    r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("admin: index"))
-    })
-    r.Get("/accounts", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("admin: list accounts.."))
-    })
-    r.Get("/users/{userId}", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte(fmt.Sprintf("admin: view user id %v", chi.URLParam(r, "userId"))))
-    })
-    return r
-}
-
-// AdminOnly middleware restricts access to just administrators.
-func AdminOnly(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        isAdmin, ok := r.Context().Value("acl.admin").(bool)
-        if !ok || !isAdmin {
-            http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
-            return
-        }
-        next.ServeHTTP(w, r)
-    })
 }
 
 // This is entirely optional, but I wanted to demonstrate how you could easily
