@@ -1,6 +1,7 @@
 extends Spatial
 
 signal game_finished()
+const player_id = "alice"
 
 func _ready():
 	
@@ -21,9 +22,12 @@ func _ready():
 	kcp.connect("packet_received", self, "_packet_received")
 	
 func _packet_received(dict):
-	var position = get_node("/root/World/Player").get_translation()
-	position.x = dict.Players.alice.Position
-	get_node("/root/World/Player").set_translation(position)
-	position = get_node("/root/World/Enemy").get_translation()
-	position.x = dict.Players.bob.Position
-	get_node("/root/World/Enemy").set_translation(position)
+	for id in dict.Players:
+		if id == player_id:
+			var position = get_node("/root/World/Player").get_translation()
+			position.x = dict.Players[id].Position
+			get_node("/root/World/Player").set_translation(position)
+		else:
+			var position = get_node("/root/World/Enemy").get_translation()
+			position.x = dict.Players[id].Position
+			get_node("/root/World/Enemy").set_translation(position)
