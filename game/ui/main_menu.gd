@@ -12,8 +12,7 @@ func _ready():
 
 func _on_play_pressed():
 	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
-	kcp.connect("match_opponent", self, "_matched")
-	kcp.write(kcp.FIND_OPPONENT, variants.player1_knight)
+	get_tree().change_scene("res://main.tscn")
 
 func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
@@ -29,13 +28,3 @@ func _on_HButtonArray_button_selected( button_idx ):
 	elif button_idx == 2:
 		get_node("Deck").hide()
 		get_node("Shop").show()
-
-func _matched(dict):
-	var opponent_uid
-	for uid in dict["message"]:
-		if int(uid) != kcp.uid:
-			opponent_uid = uid
-	variants.set("player2_knight", dict["message"][opponent_uid])
-	print(variants.player1_knight)
-	print(variants.player2_knight)
-	get_tree().change_scene("res://main.tscn")

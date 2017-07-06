@@ -66,11 +66,8 @@ func _sample():
 		return
 	
 	var packet = {}
-	packet["dir"] = direction
-	packet["trans_x"] = get_translation().x
-	packet["hp"] = hp
-	packet["m_hp"] = get_node("../PlayerMothership").hp
-	kcp.write(kcp.MOVE_KNIGHT, packet)
+	packet["Move"] = get_translation().x
+	kcp.write(packet)
 
 func _input(ev):
 	if is_enemy:
@@ -106,7 +103,6 @@ func _input(ev):
 			origin_x = get_translation().x
 		else:
 			is_mouse_pressed = false
-			
 	if ev.type == InputEvent.MOUSE_MOTION:
 		if is_mouse_pressed:
 			if is_mouse_first_pressed:
@@ -125,7 +121,7 @@ func _packet_received(dict):
 
 func _ready():
 	set_process_input(true)
-	kcp.connect("packet_received", self, "_packet_received")
+	#kcp.connect("packet_received", self, "_packet_received")
 	timer.connect("timeout", self, "_sample")
 	timer.set_wait_time(1.0/INPUT_SAMPLE_RATE)
 	add_child(timer)
