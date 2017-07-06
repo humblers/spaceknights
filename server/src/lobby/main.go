@@ -1,12 +1,9 @@
 package main
 
 import (
-    "errors"
     "flag"
     "fmt"
     "net/http"
-    "strconv"
-    "time"
 
     "github.com/alexedwards/scs/session"
     "github.com/alexedwards/scs/engine/memstore"
@@ -45,12 +42,8 @@ func main() {
         panic("test")
     })
 
-    r.Route("/login", func(r chi.Router) {
-        r.Post("/dev", DevLogin)
-        // ToDo : implement platform authentication
-    })
-
-    r.Post("/find_match", FindMatch)
+    r.Mount("/login", LoginRouter())
+    r.Mount("/match", MatchRouter())
 
     // Passing -routes to the program will generate docs for the above
     // router definition. See the `routes.json` file in this folder for
@@ -65,33 +58,6 @@ func main() {
     }
 
     http.ListenAndServe(":3333", r)
-}
-
-func DevLogin(w http.ResponseWriter, r *http.Request) {
-    s_id, _ := session.GetString(r, "id")
-    data := &LoginRequest{}
-    if err := render.Bind(r, data); err != nil {
-        render.Render(w, r, ErrInvalidRequest(err))
-        return
-    }
-    id := data.ID
-    if s_id != "" && s_id != id {
-        render.Render(w, r, ErrInvalidRequest(errors.New("session id mismatching")))
-        return
-    }
-
-    token := ""
-    if id == "" {
-        id = strconv.FormatInt(time.Now().Unix(), 10)
-    }
-
-    render.Status(r, http.StatusCreated)
-    render.Render(w, r, NewLoginResponse(id, token))
-}
-
-func FindMatch(w http.ResponseWriter, r *http.Request) {
-    s_id, _ := session.GetString(r, "id")
-    fmt.Println("cur id : ", s_id)
 }
 
 // This is entirely optional, but I wanted to demonstrate how you could easily
@@ -119,30 +85,6 @@ func init() {
     }
 }
 
-type LoginRequest struct {
-    ID string `json:"id"`
-    Token string `json:"token"`
-}
-
-func (a *LoginRequest) Bind(r *http.Request) error {
-    return nil
-}
-
-type LoginResponse struct {
-    ID string `json:"id"`
-    Token string `json:"token"`
-}
-
-func NewLoginResponse(id string, token string) *LoginResponse {
-    resp := &LoginResponse{ID:id, Token:token}
-    return resp
-}
-
-func (rd *LoginResponse) Render(w http.ResponseWriter, r *http.Request) error {
-    fmt.Println("rd id : ", rd.ID)
-    session.PutString(r, "id", rd.ID)
-    return nil
-}
 
 //--
 // Error response payloads & renderers
