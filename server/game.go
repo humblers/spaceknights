@@ -11,7 +11,7 @@ const PlayTime = 1 * time.Minute
 const FrameInterval = time.Millisecond * 100
 
 type Player struct {
-    Position int
+    Position float64
     Hp int
 }
 

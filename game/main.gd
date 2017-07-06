@@ -21,7 +21,7 @@ func _ready():
 	kcp.connect("packet_received", self, "_packet_received")
 	
 func _packet_received(dict):
-	position = get_node("/root/World/Player").get_translation()
+	var position = get_node("/root/World/Player").get_translation()
 	position.x = dict.Players.alice.Position
 	get_node("/root/World/Player").set_translation(position)
 	position = get_node("/root/World/Enemy").get_translation()
