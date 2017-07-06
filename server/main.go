@@ -2,7 +2,6 @@ package main
 
 import (
     "os"
-    "log"
     "bufio"
     kcp "github.com/xtaci/kcp-go"
 )
@@ -20,7 +19,6 @@ func main() {
                 session := NewSession("test", game, server)
                 go session.Run()
                 go game.Run(session)
-                log.Println("game started")
             }
         }
     }()
@@ -38,7 +36,6 @@ func main() {
         conn.SetWindowSize(1024, 1024)
         conn.SetNoDelay(1, 20, 2, 1)
         conn.SetStreamMode(false)
-        log.Println("new client", conn.RemoteAddr())
         client := NewClient(conn, server)
         go client.Run()
     }
