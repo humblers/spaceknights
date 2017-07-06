@@ -9,7 +9,6 @@ var id = OS.get_unix_time()
 var kcp
 var timer = Timer.new()
 signal packet_received(dict)
-signal match_opponent(dict)
 var packets = []
 var uid
 
