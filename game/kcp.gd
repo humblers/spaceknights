@@ -14,17 +14,18 @@ func _ready():
 	timer.connect("timeout", self, "_update")
 	add_child(timer)
 
-func connect(ip, port):
+func _connect(ip, port):
 	if kcp.connect(ip, port):
 		connected = true
 		timer.start()
 
-func disconnect():
+func _disconnect():
 	if connected:
 		timer.stop()
 		kcp.disconnect()
+		connected = false
 
-func write(dict):
+func send(dict):
 	var packet = dict.to_json() + '\n'
 	packets.append(packet)
 	
