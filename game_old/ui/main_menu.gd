@@ -23,7 +23,8 @@ func _on_login_pressed():
 
 func _on_play_pressed():
 	variants.set("player1_knight",variants.preset_knights[get_node("Deck").cur_deck_key])
-	get_tree().change_scene("res://main.tscn")
+	http_lobby.connect("match_response", self, "_matched")
+	http_lobby.request(HTTPClient.METHOD_POST, "/match/find", {}, "match_response")
 
 func _input(event):
 	if event.type == InputEvent.KEY and event.is_action_pressed("ui_start_game"):
@@ -53,12 +54,16 @@ func _login_response(success, ret):
 		_on_HButtonArray_button_selected(0)
 		get_node("HButtonArray").set_selected(0)
 
-func _matched(dict):
-	var opponent_uid
-	for uid in dict["message"]:
-		if int(uid) != kcp.uid:
-			opponent_uid = uid
-	variants.set("player2_knight", dict["message"][opponent_uid])
-	print(variants.player1_knight)
-	print(variants.player2_knight)
-	get_tree().change_scene("res://main.tscn")
+func _matched(success, dict):
+	if not success:
+		print("match fail : ", dict)
+		return
+	print("match success : ", dict)		
+#	var opponent_uid
+#	for uid in dict["message"]:
+#		if int(uid) != kcp.uid:
+#			opponent_uid = uid
+#	variants.set("player2_knight", dict["message"][opponent_uid])
+#	print(variants.player1_knight)
+#	print(variants.player2_knight)
+#	get_tree().change_scene("res://main.tscn")
