@@ -41,7 +41,6 @@ func _poll():
 	# ongoing request poll and return
 	if http.get_status() == HTTPClient.STATUS_REQUESTING:
 		http.poll()
-		print("Requesting..")
 		return
 
 	# get response and return response by emit signal 
@@ -66,8 +65,8 @@ func _poll():
 			return
 
 		response_body = response_body + chunk
-		print("bytes got: ",response_body.size())
 		var text = response_body.get_string_from_utf8()
+		print("bytes got: ",response_body.size(), ", raw text: ", text)
 		var ret = {}
 		ret.parse_json(text)
 		response_body = RawArray()

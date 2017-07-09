@@ -16,6 +16,8 @@ import (
 
 var routes = flag.Bool("routes", false, "Generate router documentation")
 
+var store *memstore.MemStore = memstore.New(0)
+
 func main() {
     flag.Parse()
 
@@ -25,8 +27,7 @@ func main() {
     r.Use(middleware.Logger)
     r.Use(middleware.Recoverer)
 
-    e := memstore.New(0)
-    r.Use(session.Manage(e))
+    r.Use(session.Manage(store))
 
     r.Use(render.SetContentType(render.ContentTypeJSON))
 
