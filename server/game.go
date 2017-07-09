@@ -11,7 +11,7 @@ const PlayTime = 5 * time.Minute
 const FrameInterval = time.Millisecond * 100
 
 type Player struct {
-    Position float64
+    Position int
     Hp int
 }
 
@@ -68,5 +68,5 @@ func (game *Game) update() {
 }
 
 func (game *Game) apply(input Input) {
-    game.Players[input.Id].Position = input.Move
+    game.Players[input.Id].Position += input.Move
 }
