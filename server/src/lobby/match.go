@@ -21,7 +21,6 @@ func MatchRouter() chi.Router {
         for {
             c1 := <- input
             c2 := <- input
-            fmt.Println("client c1, c2 : ", c1, c2)
             match := &MatchResponse{
                 Host : "127.0.0.1",
                 SessionID : strconv.FormatInt(time.Now().Unix(), 10),
@@ -41,7 +40,8 @@ type MatchResponse struct {
     SessionID string `json:"sid"`
 }
 
-func NewMatchResponse(match *MatchResponse) *MatchResponse {
+func NewMatchResponse(id string, match *MatchResponse) *MatchResponse {
+    store.Add(id, &match, 0)
     return match
 }
 
@@ -54,5 +54,5 @@ func FindMatch(w http.ResponseWriter, r *http.Request) {
     fmt.Println("cur id : ", id)
     resp := make(chan *MatchResponse)
     input <- resp
-    render.Render(w, r, NewMatchResponse(<- resp))
+    render.Render(w, r, NewMatchResponse(id, <- resp))
 }
