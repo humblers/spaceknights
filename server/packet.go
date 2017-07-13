@@ -30,3 +30,8 @@ type Input struct {
     Move int
     Use int
 }
+
+type CreateGame struct {
+    SessionId string `json:"sid"`
+    UserIds []string `json:"uids"`
+}
