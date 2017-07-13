@@ -1,7 +1,9 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
+    "net"
     "net/http"
     "strconv"
     "time"
@@ -11,22 +13,33 @@ import (
     "github.com/alexedwards/scs/session"
 )
 
-var input chan chan *MatchResponse
+type Wait struct {
+    ID string
+    Resp chan *MatchResponse
+}
+var match chan Wait
 
 
 func MatchRouter() chi.Router {
-    input = make(chan chan *MatchResponse, 2)
+    match = make(chan Wait, 2)
 
     go func() {
         for {
-            c1 := <- input
-            c2 := <- input
+            c1 := <- match
+            c2 := <- match
             match := &MatchResponse{
-                Host : "127.0.0.1",
-                SessionID : strconv.FormatInt(time.Now().Unix(), 10),
+                Host:      "127.0.0.1",
+                SessionID: strconv.FormatInt(time.Now().Unix(), 10),
             }
-            c1 <- match
-            c2 <- match
+            c1.Resp <- match
+            c2.Resp <- match
+            ids := []string{c1.ID, c2.ID}
+            packet, _ := json.Marshal(map[string]interface{}{
+                "sid":  match.SessionID,
+                "uids": ids,
+            })
+            conn, _ := net.Dial("tcp", "127.0.0.1:9989")
+            conn.Write(packet)
         }
     }()
 
@@ -53,6 +66,9 @@ func FindMatch(w http.ResponseWriter, r *http.Request) {
     id, _ := session.GetString(r, "id")
     fmt.Println("cur id : ", id)
     resp := make(chan *MatchResponse)
-    input <- resp
+    match <- Wait{
+        ID: id,
+        Resp: resp,
+    }
     render.Render(w, r, NewMatchResponse(id, <- resp))
 }
