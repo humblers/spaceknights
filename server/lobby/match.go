@@ -1,6 +1,7 @@
 package main
 
 import (
+    "bufio"
     "encoding/json"
     "fmt"
     "net"
@@ -31,8 +32,6 @@ func MatchRouter() chi.Router {
                 Host:      "127.0.0.1",
                 SessionID: strconv.FormatInt(time.Now().Unix(), 10),
             }
-            c1.Resp <- match
-            c2.Resp <- match
             ids := []string{c1.ID, c2.ID}
             packet, _ := json.Marshal(map[string]interface{}{
                 "sid":  match.SessionID,
@@ -40,6 +39,9 @@ func MatchRouter() chi.Router {
             })
             conn, _ := net.Dial("tcp", "127.0.0.1:9989")
             conn.Write(packet)
+            bufio.NewReader(conn).ReadLine()
+            c1.Resp <- match
+            c2.Resp <- match
         }
     }()
 

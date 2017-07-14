@@ -76,6 +76,7 @@ func main() {
                     session := NewSession(create.SessionId, server)
                     go session.Run(game)
                     go game.Run(session)
+                    conn.Write([]byte("ok\n"))
                 }
             }()
         }
