@@ -1,17 +1,16 @@
 extends Node
 
-const ID = "alice"
-const SESSION_ID = "test"
-
 var HEIGHT
 var WIDTH
 
 func _ready():
 	WIDTH = Globals.get("display/width")
 	HEIGHT = Globals.get("display/height") - get_node("UI/Elixir").get_size().y
-	kcp._connect("127.0.0.1", 9999)
-	kcp.send({"Id": ID, "Token": ID})
-	kcp.send({"SessionId": SESSION_ID})
+	var id = http_lobby.get_var("uid")
+	var session_id = http_lobby.get_var("game_sessionid")
+	kcp._connect(http_lobby.get_var("game_host"), 9999)
+	kcp.send({"Id": id, "Token": id})
+	kcp.send({"SessionId": session_id})
 	kcp.connect("packet_received", self, "update")
 	input.connect("mouse_dragged", self, "send_player_input")
 	input.connect("mouse_pressed", self, "show_deck")
