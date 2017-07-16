@@ -10,36 +10,40 @@ import (
 const PlayTime = 5 * time.Minute
 const FrameInterval = time.Millisecond * 100
 
-type Player struct {
-    Position int
-    Hp int
-}
-
 type Game struct {
     Frame int
-    Players map[string]*Player
+    TeamA *Team
+    TeamB *Team
 }
 
-func NewGame(ids ...string) *Game {
+func NewGame(A *Team, B *Team) *Game {
     game := Game{
         Frame: 0,
-        Players: make(map[string]*Player),
-    }
-    for _, id := range ids {
-        game.Players[id] = &Player{
-            Position: 0,
-            Hp: 100,
-        }
+        TeamA: A,
+        TeamB: B,
     }
     return &game
 }
 
-func (game *Game) String() string {
-    var ids []string
-    for id, _ := range game.Players {
-        ids = append(ids, id)
+func (game *Game) GetPlayer(id string) *Player {
+    if p := game.TeamA.Players[id]; p != nil {
+        return p
+    } else if p := game.TeamB.Players[id]; p != nil {
+        return p
+    } else {
+        return p
     }
-    return fmt.Sprintf("(%v)", strings.Join(ids, ", "))
+}
+
+func (game *Game) String() string {
+    var a, b []string
+    for id, _ := range game.TeamA.Players {
+        a = append(a, id)
+    }
+    for id, _ := range game.TeamB.Players {
+        b = append(b, id)
+    }
+    return fmt.Sprintf("(%v VS %v)", strings.Join(a, ", "), strings.Join(b, ", "))
 }
 
 func (game *Game) Run(session *Session) {
@@ -68,5 +72,10 @@ func (game *Game) update() {
 }
 
 func (game *Game) apply(input Input) {
-    game.Players[input.Id].Position += input.Move
+    player := game.GetPlayer(input.id)
+    if input.Move != 0 {
+        player.Knight.X += input.Move
+    } else if input.Use != 0 {
+        player.UseCard(input.Use - 1)
+    }
 }

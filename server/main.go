@@ -6,7 +6,37 @@ import (
     kcp "github.com/xtaci/kcp-go"
 )
 
+type User struct{
+    name string
+    knightType string
+    deck Deck
+}
+
 func main() {
+    a := User{
+        name: "alice",
+        knightType: "A",
+        deck: Deck{
+            "archer",
+            "babydragon",
+            "barbarian",
+            "bomber",
+            "cannon",
+            "giant",
+        },
+    }
+    b:= User{
+        name: "bob",
+        knightType: "B",
+        deck: Deck{
+            "archer",
+            "babydragon",
+            "barbarian",
+            "bomber",
+            "cannon",
+            "giant",
+        },
+    }
     server := NewServer()
     go server.Run()
 
@@ -15,7 +45,13 @@ func main() {
         for {
             cmd, _ := reader.ReadString('\n')
             if cmd == "start game\n" {
-                game := NewGame("alice", "bob")
+                alice := NewPlayer(NewKnight(a.knightType), a.deck)
+                bob := NewPlayer(NewKnight(b.knightType), b.deck)
+                A := NewTeam()
+                B := NewTeam()
+                A.AddPlayer(a.name, alice)
+                B.AddPlayer(b.name, bob)
+                game := NewGame(A, B)
                 session := NewSession("test", game, server)
                 go session.Run()
                 go game.Run(session)

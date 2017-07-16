@@ -69,7 +69,7 @@ func (session *Session) Run() {
             }
             return
         case client := <-session.join:
-            if _, ok := session.game.Players[client.id]; !ok {
+            if p := session.game.GetPlayer(client.id); p == nil {
                 session.joinResult <- fmt.Errorf("player %v not exists", client.id)
             }
             if existing, ok := session.clients[client.id]; ok {
