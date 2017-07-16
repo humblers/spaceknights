@@ -6,9 +6,9 @@ signal mouse_pressed(b)
 signal mouse_dragged(x)
 
 func _ready():
-	set_process_input(true)
+	set_process_unhandled_input(true)
 
-func _input(event):
+func _unhandled_input(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
 		pressed = event.pressed
 		emit_signal("mouse_pressed", pressed)

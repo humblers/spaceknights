@@ -26,6 +26,7 @@ type Join struct {
 }
 
 type Input struct {
-    Id string
+    id string
     Move int
+    Use int
 }

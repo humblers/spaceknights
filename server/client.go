@@ -89,7 +89,7 @@ func (client *Client) readLoop() {
         if err := packet.Parse(&input); err != nil {
             panic(err)
         }
-        input.Id = client.id
+        input.id = client.id
 
         select {
         case <-client.closing:
