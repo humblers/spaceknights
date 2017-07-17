@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 const (
     DeckSize = 6
     HandSize = 3
@@ -25,6 +27,7 @@ func NewPlayer(knight *Knight, deck Deck) *Player {
     }
     p.deck.Shuffle()
     copy(p.Hand[:], p.deck[:HandSize])
+    log.Println(p.Hand)
     copy(p.pending[:], p.deck[HandSize:])
     p.Next = p.pending[0]
     return &p
@@ -37,7 +40,7 @@ func (player *Player) UseCard(index int) {
         player.Barbarians[player.unitCounter] = NewBarbarian(player.Knight.X)
         player.unitCounter++
     default:
-        panic("invalid summon name")
+        log.Printf("invalid summon name: %v", card)
     }
     player.Hand[index] = player.Next
     for i := 1; i < len(player.pending); i++ {
