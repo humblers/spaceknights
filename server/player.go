@@ -27,7 +27,6 @@ func NewPlayer(knight *Knight, deck Deck) *Player {
     }
     p.deck.Shuffle()
     copy(p.Hand[:], p.deck[:HandSize])
-    log.Println(p.Hand)
     copy(p.pending[:], p.deck[HandSize:])
     p.Next = p.pending[0]
     return &p
