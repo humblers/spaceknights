@@ -48,7 +48,7 @@ func main() {
         reader := bufio.NewReader(os.Stdin)
         for {
             cmd, _ := reader.ReadString('\n')
-            if cmd[:10] == "start game" {
+            if len(cmd) >= 10 && cmd[:10] == "start game" {
                 alice := NewPlayer(NewKnight(a.knightType), a.deck)
                 bob := NewPlayer(NewKnight(b.knightType), b.deck)
                 A := NewTeam()
