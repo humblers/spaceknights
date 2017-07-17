@@ -3,6 +3,8 @@ package main
 import (
     "os"
     "bufio"
+    "math/rand"
+    "time"
     kcp "github.com/xtaci/kcp-go"
 )
 
@@ -39,6 +41,8 @@ func main() {
     }
     server := NewServer()
     go server.Run()
+    // set default Source for math/rand
+    rand.Seed(time.Now().UnixNano())
 
     go func() {
         reader := bufio.NewReader(os.Stdin)

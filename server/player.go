@@ -24,8 +24,8 @@ func NewPlayer(knight *Knight, deck Deck) *Player {
         Barbarians: make(map[int]*Barbarian),
     }
     p.deck.Shuffle()
-    copy(p.Hand[:], deck[:HandSize])
-    copy(p.pending[:], deck[HandSize:])
+    copy(p.Hand[:], p.deck[:HandSize])
+    copy(p.pending[:], p.deck[HandSize:])
     p.Next = p.pending[0]
     return &p
 }
