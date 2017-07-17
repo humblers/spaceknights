@@ -27,7 +27,7 @@ func _ready():
 	kcp.send({"SessionId": SessionId})
 	kcp.connect("packet_received", self, "reflect")
 	input.connect("mouse_dragged", self, "send_player_input")
-	input.connect("mouse_pressed", self, "show_ui")
+	input.connect("mouse_pressed", self, "show_deck")
 
 func _exit_tree():
 	kcp._disconnect()
@@ -44,6 +44,10 @@ func update_team(team, node, invert):
 			player_node.set_name(id)
 			node.add_child(player_node)
 		update_player(players[id], node.get_node(id), invert)
+		if id == Id:
+			for i in range(3):
+				get_node("deck/card" + str(i + 1)).set_text(players[id].Hand[i])
+			get_node("deck/next").set_text(players[id].Next)
 
 func update_player(player, node, invert):
 	if not node.has_node("knight"):
@@ -58,17 +62,23 @@ func update_player(player, node, invert):
 			var barbarian_node = Sprite.new()
 			barbarian_node.set_texture(barbarian_texture_map["red" if invert else "blue"])
 			barbarian_node.set_name("barbarian" + count)
-		node.get_node("barbarian" + count).set_pos(Vector2(player.Barbarians[count].X, player.Barbarians[count].Y))
-
-	for i in range(3):
-		get_node("deck/card" + str(i + 1)).set_text(player.Hand[i])
-	get_node("deck/next").set_text(player.Next)
+			node.add_child(barbarian_node)
+		node.get_node("barbarian" + count).set_pos(Vector2(player.Barbarians[count].X, 140 * (1 if invert else -1) + player.Barbarians[count].Y))
 
 func send_player_input(x):
 	kcp.send({ "Move" : x })
 
-func show_ui(b):
-	if b:
+func show_deck(pressed):
+	if pressed:
 		get_node("deck").hide()
 	else:
 		get_node("deck").show()
+
+func _on_card1_pressed():
+	kcp.send({ "Use" : 1 })
+
+func _on_card2_pressed():
+	kcp.send({ "Use" : 2 })
+
+func _on_card3_pressed():
+	kcp.send({ "Use" : 3 })
