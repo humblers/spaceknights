@@ -53,7 +53,6 @@ func update_player(player, node, invert):
 	if not node.has_node("knight"):
 		var knight_node = Sprite.new()
 		knight_node.set_texture(knight_texture_map["red" if invert else "blue"][player.Knight.Type])
-		knight_node.get_texture().set_flags(0)
 		knight_node.set_name("knight")
 		node.add_child(knight_node)
 	node.get_node("knight").set_pos(Vector2(player.Knight.X, 19.5 * (1 if invert else -1)))
@@ -62,7 +61,6 @@ func update_player(player, node, invert):
 		if not node.has_node("barbarian" + count):
 			var barbarian_node = Sprite.new()
 			barbarian_node.set_texture(barbarian_texture_map["red" if invert else "blue"])
-			barbarian_node.get_texture().set_flags(0)
 			barbarian_node.set_name("barbarian" + count)
 			node.add_child(barbarian_node)
 		node.get_node("barbarian" + count).set_pos(Vector2(player.Barbarians[count].X, 140 * (1 if invert else -1) + player.Barbarians[count].Y))
