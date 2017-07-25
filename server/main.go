@@ -9,16 +9,16 @@ import (
 )
 
 type User struct{
-    name string
-    knightType string
-    deck Deck
+    id string
+    knightName string
+    deck Cards
 }
 
 func main() {
-    a := User{
-        name: "alice",
-        knightType: "A",
-        deck: Deck{
+    alice := User{
+        id: "alice",
+        knightName: "shuriken",
+        deck: Cards{
             "archer",
             "babydragon",
             "barbarian",
@@ -27,10 +27,10 @@ func main() {
             "giant",
         },
     }
-    b:= User{
-        name: "bob",
-        knightType: "B",
-        deck: Deck{
+    bob:= User{
+        id: "bob",
+        knightName: "space_z",
+        deck: Cards{
             "archer",
             "babydragon",
             "barbarian",
@@ -49,15 +49,11 @@ func main() {
         for {
             cmd, _ := reader.ReadString('\n')
             if len(cmd) >= 10 && cmd[:10] == "start game" {
-                alice := NewPlayer(NewKnight(a.knightType), a.deck)
-                bob := NewPlayer(NewKnight(b.knightType), b.deck)
-                A := NewTeam()
-                B := NewTeam()
-                A.AddPlayer(a.name, alice)
-                B.AddPlayer(b.name, bob)
-                game := NewGame(A, B)
-                session := NewSession("test", game, server)
-                go session.Run()
+                game := NewGame()
+                game.Join(Home, alice)
+                game.Join(Visitor, bob)
+                session := NewSession("test", server)
+                go session.Run(game)
                 go game.Run(session)
             }
         }

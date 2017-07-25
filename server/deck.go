@@ -3,13 +3,13 @@ package main
 import "math/rand"
 
 type Card string
-type Deck [DeckSize]Card
+type Cards []Card
 
 // Knuth shuffle
 // https://en.wikipedia.org/wiki/Fisher–Yates_shuffle#The_modern_algorithm
-func (deck *Deck) Shuffle() {
-    for i := len(deck) - 1; i > 0; i-- {
+func (cards Cards) Shuffle() {
+    for i := len(cards) - 1; i > 0; i-- {
         j := rand.Intn(i + 1)
-        deck[i], deck[j] = deck[j], deck[i]
+        cards[i], cards[j] = cards[j], cards[i]
     }
 }

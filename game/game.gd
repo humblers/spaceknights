@@ -1,84 +1,69 @@
 extends Node
 
-var Id = "alice"
-var SessionId = "test"
-var MyTeam = "TeamA"
-var EnemyTeam = "TeamB"
+const ID = "alice"
+const SESSION_ID = "test"
 
-
-var knight_texture_map = {
-	"blue": {
-		"A": preload("res://shuriken_blue.png"),
-		"B": preload("res://space_z_blue.png"),
-	},
-	"red": {
-		"A": preload("res://shuriken_red.png"),
-		"B": preload("res://space_z_red.png"),
-	},
-}
-var barbarian_texture_map = {
-	"blue": preload("res://barbarian_blue.png"),
-	"red": preload("res://barbarian_red.png"),
-}
+var HEIGHT
+var WIDTH
 
 func _ready():
+	WIDTH = Globals.get("display/width")
+	HEIGHT = Globals.get("display/height") - get_node("UI/Elixir").get_size().y
 	kcp._connect("127.0.0.1", 9999)
-	kcp.send({"Id": Id, "Token": Id})
-	kcp.send({"SessionId": SessionId})
-	kcp.connect("packet_received", self, "reflect")
+	kcp.send({"Id": ID, "Token": ID})
+	kcp.send({"SessionId": SESSION_ID})
+	kcp.connect("packet_received", self, "update")
 	input.connect("mouse_dragged", self, "send_player_input")
 	input.connect("mouse_pressed", self, "show_deck")
 
 func _exit_tree():
 	kcp._disconnect()
-	
-func reflect(game):
-	update_team(game[MyTeam], get_node("MyTeam"), false)
-	update_team(game[EnemyTeam], get_node("EnemyTeam"), true)
 
-func update_team(team, node, invert):
-	var players = team.Players
-	for id in players:
-		if not node.has_node(id):
-			var player_node = Node2D.new()
-			player_node.set_name(id)
-			node.add_child(player_node)
-		update_player(players[id], node.get_node(id), invert)
-		if id == Id:
-			for i in range(3):
-				get_node("deck/card" + str(i + 1)).set_text(players[id].Hand[i])
-			get_node("deck/next").set_text(players[id].Next)
+func load_sprite(name, color):
+	return load("res://" + name + "_" + color + ".png")
 
-func update_player(player, node, invert):
-	if not node.has_node("knight"):
-		var knight_node = Sprite.new()
-		knight_node.set_texture(knight_texture_map["red" if invert else "blue"][player.Knight.Type])
-		knight_node.set_name("knight")
-		node.add_child(knight_node)
-	node.get_node("knight").set_pos(Vector2(player.Knight.X, 19.5 * (1 if invert else -1)))
+func get_position(team, x, y):
+	if team == "Home":
+		return Vector2(x, y)
+	else:
+		return Vector2(WIDTH - x, HEIGHT - y)
+
+func update(game):
+	var team = "Home" if game.has("Home") else "Visitor"
+	var player = game[team][ID]
+	get_node("UI/Deck/Next").set_texture(load_sprite(player.Next, "blue"))
+	for i in range(3):
+		var node = get_node("UI/Deck/Card" + str(i + 1))
+		var card = player.Hand[i]
+		node.set_text(card)
+		node.set_button_icon(load_sprite(card, "blue"))
 	
-	for count in player.Barbarians:
-		if not node.has_node("barbarian" + count):
-			var barbarian_node = Sprite.new()
-			barbarian_node.set_texture(barbarian_texture_map["red" if invert else "blue"])
-			barbarian_node.set_name("barbarian" + count)
-			node.add_child(barbarian_node)
-		node.get_node("barbarian" + count).set_pos(Vector2(player.Barbarians[count].X, 140 * (1 if invert else -1) + player.Barbarians[count].Y))
+	for i in game.Units:
+		var unit = game.Units[i]
+		if not has_node(i):
+			var node = Sprite.new()
+			var color = "blue" if team == unit.Team else "red"
+			node.set_texture(load_sprite(unit.Name, color))
+			node.set_name(i)
+			add_child(node)
+		get_node(i).set_pos(get_position(team, unit.X, unit.Y))
 
 func send_player_input(x):
 	kcp.send({ "Move" : x })
 
 func show_deck(pressed):
 	if pressed:
-		get_node("deck").hide()
+		get_node("UI/Deck").hide()
 	else:
-		get_node("deck").show()
+		get_node("UI/Deck").show()
 
-func _on_card1_pressed():
+func _on_Card1_pressed():
 	kcp.send({ "Use" : 1 })
 
-func _on_card2_pressed():
+
+func _on_Card2_pressed():
 	kcp.send({ "Use" : 2 })
 
-func _on_card3_pressed():
+
+func _on_Card3_pressed():
 	kcp.send({ "Use" : 3 })

@@ -7,50 +7,86 @@ import (
     "strings"
 )
 
-const PlayTime = 5 * time.Minute
-const FrameInterval = time.Millisecond * 100
+const (
+    PlayTime = 1 * time.Minute
+    FrameInterval = time.Millisecond * 100
+)
+
+type Team string
+const (
+    Home Team = "Home"
+    Visitor Team = "Visitor"
+)
+
+type Unit interface {
+    Move()
+    Attack()
+}
 
 type Game struct {
-    Frame int
-    TeamA *Team
-    TeamB *Team
+    Frame int `json:"-"`
+    Home map[string]*Player `json:",omitempty"`
+    Visitor map[string]*Player `json:",omitempty"`
+    Units map[int]Unit
+    UnitCounter int `json:"-"`
 }
 
-func NewGame(A *Team, B *Team) *Game {
-    game := Game{
+func NewGame() *Game {
+    g := Game{
         Frame: 0,
-        TeamA: A,
-        TeamB: B,
+        Home: make(map[string]*Player),
+        Visitor: make(map[string]*Player),
+        Units: make(map[int]Unit),
+        UnitCounter: 0,
     }
-    return &game
+    g.AddUnit(NewMothership(Home))
+    g.AddUnit(NewMothership(Visitor))
+    return &g
 }
 
-func (game *Game) GetPlayer(id string) *Player {
-    if p := game.TeamA.Players[id]; p != nil {
-        return p
-    } else if p := game.TeamB.Players[id]; p != nil {
-        return p
-    } else {
+func (g *Game) Player(id string) *Player {
+    if p := g.Home[id]; p != nil {
         return p
     }
+    if p:= g.Visitor[id]; p != nil {
+        return p
+    }
+    return nil
 }
 
-func (game *Game) String() string {
-    var a, b []string
-    for id, _ := range game.TeamA.Players {
-        a = append(a, id)
+func (g *Game) Join(team Team, user User) {
+    knight := NewKnight(team, user.knightName)
+    player := NewPlayer(team, user.deck, knight)
+    switch team {
+    case Home:
+        g.Home[user.id] = player
+    case Visitor:
+        g.Visitor[user.id] = player
     }
-    for id, _ := range game.TeamB.Players {
-        b = append(b, id)
+    g.AddUnit(knight)
+}
+
+func (g *Game) AddUnit(unit Unit) {
+    g.Units[g.UnitCounter] = unit
+    g.UnitCounter++
+}
+
+func (g *Game) String() string {
+    var h, v []string
+    for id, _ := range g.Home {
+        h = append(h, id)
     }
-    return fmt.Sprintf("(%v VS %v)", strings.Join(a, ", "), strings.Join(b, ", "))
+    for id, _ := range g.Visitor {
+        v = append(v, id)
+    }
+    return fmt.Sprintf("(%v) VS (%v)", strings.Join(h, " + "), strings.Join(v, " + "))
 }
 
 func (game *Game) Run(session *Session) {
     log.Printf("game %v starting", game)
     defer log.Printf("game %v stopped", game)
     tick := time.Tick(FrameInterval)
-    over := time.After(PlayTime)
+    over := make(chan struct {})
     for {
         select {
         case <-over:
@@ -59,23 +95,26 @@ func (game *Game) Run(session *Session) {
             }
             return
         case <-tick:
-            game.update()
-            session.outgoing <- NewPacket(game)
+            game.update(over)
+            session.Broadcast(game)
         case input := <-session.incoming:
             game.apply(input)
         }
     }
 }
 
-func (game *Game) update() {
+func (game *Game) update(over chan<- struct{}) {
     game.Frame++
+    if game.Frame > int(PlayTime/FrameInterval) {
+        close(over)
+    }
 }
 
 func (game *Game) apply(input Input) {
-    player := game.GetPlayer(input.id)
+    player := game.Player(input.id)
     if input.Move != 0 {
-        player.Knight.X += input.Move
+        player.Move(input.Move)
     } else if input.Use != 0 {
-        player.UseCard(input.Use - 1)
+        player.UseCard(input.Use - 1, game)
     }
 }

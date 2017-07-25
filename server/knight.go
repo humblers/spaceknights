@@ -1,16 +1,42 @@
 package main
 
+import "log"
+
+const (
+    ShurikenHeight = 40
+    SpaceZHeight = 62
+)
+
 type Knight struct {
-    Type string
-    X, Y int
-    Hp int
+    Team Team
+    Name string
+    *Position
 }
 
-func NewKnight(t string) *Knight {
-    return &Knight{
-        Type: t,
-        X: 0,
-        Y: 0,
-        Hp: 100,
+func NewKnight(team Team, name string) *Knight {
+    k := Knight{
+        Team: team,
+        Name: name,
+        Position: &Position{
+            X: MapWidth / 2,
+        },
     }
+    switch name {
+    case "shuriken":
+        k.Position.Y = ShurikenHeight / 2
+    case "space_z":
+        k.Position.Y = SpaceZHeight / 2
+    default:
+        log.Panicf("unknown knight type: %v", name)
+    }
+    if team == Home {
+        k.FlipY()
+    }
+    return &k
+}
+
+func (k *Knight) Move() {
+}
+
+func (k *Knight) Attack() {
 }

@@ -1,14 +1,41 @@
 package main
 
+import "encoding/json"
+
+const MothershipHeight = 110
+
 type Mothership struct {
-    x, y int
-    Hp int
+    Team Team
+    *Position
 }
 
-func NewMothership() *Mothership {
-    return &Mothership{
-        x: 0,
-        y: 0,
-        Hp: 100,
+func NewMothership(team Team) *Mothership {
+    m := Mothership{
+        Team: team,
+        Position: &Position{
+            X: MapWidth / 2,
+            Y: MothershipHeight / 2,
+        },
     }
+    if team == Home {
+        m.FlipY()
+    }
+    return &m
+}
+
+func (m *Mothership) Move() {
+}
+
+func (m *Mothership) Attack() {
+}
+
+func (m *Mothership) MarshalJSON() ([]byte, error) {
+    type Alias Mothership
+    return json.Marshal(&struct{
+        Name string
+        *Alias
+    }{
+        Name: "mothership",
+        Alias: (*Alias)(m),
+    })
 }

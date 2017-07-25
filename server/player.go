@@ -1,50 +1,58 @@
 package main
 
-import "log"
-
-const (
-    DeckSize = 6
-    HandSize = 3
+import (
+    "log"
+    "encoding/json"
 )
 
+const HandSize = 3
+
 type Player struct {
-    Hand [HandSize]Card
-    Next Card
-    Knight *Knight
-    Barbarians map[int]*Barbarian
+    Team Team `json:"-"`
+    Hand Cards
+    Pending Cards `json:"-"`
+    Knight *Knight `json:"-"`
     Elixir int
-
-    deck Deck
-    pending [DeckSize - HandSize]Card
-    unitCounter int
+}
+func (p *Player) MarshalJSON() ([]byte, error) {
+    type Alias Player
+    return json.Marshal(&struct{
+        Next Card
+        *Alias
+    }{
+        Next: p.Pending[0],
+        Alias: (*Alias)(p),
+    })
 }
 
-func NewPlayer(knight *Knight, deck Deck) *Player {
-    p := Player{
+func NewPlayer(team Team, deck Cards, knight *Knight) *Player {
+    deck.Shuffle()
+    return &Player{
+        Team: team,
+        Hand: deck[:HandSize],
+        Pending: deck[HandSize:],
         Knight: knight,
-        deck: deck,
-        Barbarians: make(map[int]*Barbarian),
     }
-    p.deck.Shuffle()
-    copy(p.Hand[:], p.deck[:HandSize])
-    copy(p.pending[:], p.deck[HandSize:])
-    p.Next = p.pending[0]
-    return &p
 }
 
-func (player *Player) UseCard(index int) {
+func (player *Player) Move(x int) {
+    player.Knight.X += x
+}
+
+func (player *Player) UseCard(index int, game *Game) {
     card := player.Hand[index]
+    next := player.Pending[0]
+
+    player.Hand[index] = next
+    for i := 1; i < len(player.Pending); i++ {
+        player.Pending[i - 1] = player.Pending[i]
+    }
+    player.Pending[len(player.Pending) - 1] = card
+
     switch card {
     case "barbarian":
-        player.Barbarians[player.unitCounter] = NewBarbarian(player.Knight.X)
-        player.unitCounter++
+        game.AddUnit(NewBarbarian(player.Team, player.Knight.X))
     default:
         log.Printf("invalid summon name: %v", card)
     }
-    player.Hand[index] = player.Next
-    for i := 1; i < len(player.pending); i++ {
-        player.pending[i - 1] = player.pending[i]
-    }
-    player.pending[len(player.pending) - 1] = card
-    player.Next = player.pending[0]
 }
