@@ -7,26 +7,26 @@ import (
 
 type Session struct {
     id string
-    game *Game
     server *Server
     clients map[string]*Client
     join chan *Client
     joinResult chan error
     incoming chan Input
-    outgoing chan Packet
+    outgoing chan *Game
+    outgoingResult chan error
     closing chan struct{}
 }
 
-func NewSession(id string, game *Game, server *Server) *Session {
+func NewSession(id string, server *Server) *Session {
     session := Session{
         id: id,
-        game: game,
         server: server,
         clients: make(map[string]*Client),
         join: make(chan *Client),
         joinResult: make(chan error),
         incoming: make(chan Input),
-        outgoing: make(chan Packet),
+        outgoing: make(chan *Game),
+        outgoingResult: make(chan error),
         closing: make(chan struct {}),
     }
     return &session
@@ -53,7 +53,12 @@ func (session *Session) Stop() error {
     return nil
 }
 
-func (session *Session) Run() {
+func (session *Session) Broadcast(game *Game) error {
+    session.outgoing <- game
+    return <-session.outgoingResult
+}
+
+func (session *Session) Run(game *Game) {
     log.Printf("session %v starting", session)
     defer log.Printf("session %v stopped", session)
 
@@ -69,7 +74,7 @@ func (session *Session) Run() {
             }
             return
         case client := <-session.join:
-            if p := session.game.GetPlayer(client.id); p == nil {
+            if p := game.Player(client.id); p == nil {
                 session.joinResult <- fmt.Errorf("player %v not exists", client.id)
             }
             if existing, ok := session.clients[client.id]; ok {
@@ -77,10 +82,21 @@ func (session *Session) Run() {
             }
             session.clients[client.id] = client
             session.joinResult <- nil
-        case packet := <-session.outgoing:
+        case game := <-session.outgoing:
+            home := game.Home
+            visitor := game.Visitor
             for _, client := range session.clients {
-                client.WriteAsync(packet)
+                player := game.Player(client.id)
+                switch player.Team {
+                case Home:
+                    game.Home = home; game.Visitor = nil
+                case Visitor:
+                    game.Home = nil; game.Visitor = visitor
+                }
+                client.WriteAsync(NewPacket(game))
             }
+            game.Home = home; game.Visitor = visitor
+            session.outgoingResult <- nil
         }
     }
 }
