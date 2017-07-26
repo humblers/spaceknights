@@ -83,19 +83,20 @@ func (session *Session) Run(game *Game) {
             session.clients[client.id] = client
             session.joinResult <- nil
         case game := <-session.outgoing:
-            home := game.Home
-            visitor := game.Visitor
             for _, client := range session.clients {
+                home := game.Home
+                visitor := game.Visitor
                 player := game.Player(client.id)
+                // filter enemy info
                 switch player.Team {
                 case Home:
-                    game.Home = home; game.Visitor = nil
+                    game.Visitor = nil
                 case Visitor:
-                    game.Home = nil; game.Visitor = visitor
+                    game.Home = nil;
                 }
                 client.WriteAsync(NewPacket(game))
+                game.Home = home; game.Visitor = visitor
             }
-            game.Home = home; game.Visitor = visitor
             session.outgoingResult <- nil
         }
     }
