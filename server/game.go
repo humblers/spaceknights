@@ -114,6 +114,12 @@ func (game *Game) update(over chan<- struct{}) {
     if game.Frame > int(PlayTime/FrameInterval) {
         close(over)
     }
+    for _, player := range game.Home {
+        player.IncreaseElixir(1)
+    }
+    for _, player := range game.Visitor {
+        player.IncreaseElixir(1)
+    }
 }
 
 func (game *Game) apply(input Input) {

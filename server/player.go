@@ -14,16 +14,6 @@ type Player struct {
     Knight *Knight `json:"-"`
     Elixir int
 }
-func (p *Player) MarshalJSON() ([]byte, error) {
-    type Alias Player
-    return json.Marshal(&struct{
-        Next Card
-        *Alias
-    }{
-        Next: p.Pending[0],
-        Alias: (*Alias)(p),
-    })
-}
 
 func NewPlayer(team Team, deck Cards, knight *Knight) *Player {
     deck.Shuffle()
@@ -35,6 +25,17 @@ func NewPlayer(team Team, deck Cards, knight *Knight) *Player {
     }
 }
 
+func (p *Player) MarshalJSON() ([]byte, error) {
+    type Alias Player
+    return json.Marshal(&struct{
+        Next Card
+        *Alias
+    }{
+        Next: p.Pending[0],
+        Alias: (*Alias)(p),
+    })
+}
+
 func (player *Player) Move(x int) {
     player.Knight.X += x
 }
@@ -42,6 +43,14 @@ func (player *Player) Move(x int) {
 func (player *Player) UseCard(index int, game *Game) {
     card := player.Hand[index]
     next := player.Pending[0]
+
+    if index >= len(player.Hand) {
+        log.Panicf("invalid card index: %v", index)
+    }
+    if player.Elixir < CostMap[card] {
+        log.Panicf("not enough elixir for %v: %v", card, player.Elixir)
+    }
+    player.Elixir = player.Elixir - CostMap[card]
 
     player.Hand[index] = next
     for i := 1; i < len(player.Pending); i++ {
@@ -54,5 +63,11 @@ func (player *Player) UseCard(index int, game *Game) {
         game.AddUnit(NewBarbarian(player.Team, player.Knight.X))
     default:
         log.Printf("invalid summon name: %v", card)
+    }
+}
+
+func (player *Player) IncreaseElixir(amount int) {
+    if player.Elixir + amount <= 100 {
+        player.Elixir = player.Elixir + amount
     }
 }
