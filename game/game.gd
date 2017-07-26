@@ -3,11 +3,14 @@ extends Node
 var HEIGHT
 var WIDTH
 
+var id
+var session_id
+
 func _ready():
 	WIDTH = Globals.get("display/width")
 	HEIGHT = Globals.get("display/height") - get_node("UI/Elixir").get_size().y
-	var id = http_lobby.get_var("uid")
-	var session_id = http_lobby.get_var("game_sessionid")
+	id = http_lobby.get_var("uid")
+	session_id = http_lobby.get_var("game_sessionid")
 	kcp._connect(http_lobby.get_var("game_host"), 9999)
 	kcp.send({"Id": id, "Token": id})
 	kcp.send({"SessionId": session_id})
@@ -29,7 +32,7 @@ func get_position(team, x, y):
 
 func update(game):
 	var team = "Home" if game.has("Home") else "Visitor"
-	var player = game[team][ID]
+	var player = game[team][id]
 	get_node("UI/Deck/Next").set_texture(load_sprite(player.Next, "blue"))
 	for i in range(3):
 		var node = get_node("UI/Deck/Card" + str(i + 1))
