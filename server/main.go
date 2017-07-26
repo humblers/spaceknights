@@ -62,7 +62,7 @@ func main() {
                         },
                     })
                     game.Join(Visitor, User{
-                        id: create.UserIds[0],
+                        id: create.UserIds[1],
                         knightName: "space_z",
                         deck: Cards{
                             "archer",
