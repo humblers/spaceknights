@@ -5,6 +5,7 @@ import "encoding/json"
 type Barbarian struct {
     Team Team
     *Position
+    Layer Layer
 }
 
 func NewBarbarian(team Team, x int) *Barbarian {
@@ -14,6 +15,7 @@ func NewBarbarian(team Team, x int) *Barbarian {
             X: x,
             Y: 200,
         },
+        Layer: Ground,
     }
     if team == Home {
         b.FlipY()
