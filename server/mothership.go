@@ -7,6 +7,7 @@ const MothershipHeight = 110
 type Mothership struct {
     Team Team
     *Position
+    Layer Layer
 }
 
 func NewMothership(team Team) *Mothership {
@@ -16,6 +17,7 @@ func NewMothership(team Team) *Mothership {
             X: MapWidth / 2,
             Y: MothershipHeight / 2,
         },
+        Layer: Ground,
     }
     if team == Home {
         m.FlipY()

@@ -23,6 +23,12 @@ type Unit interface {
     Attack()
 }
 
+type Layer string
+const (
+    Ground Layer = "Ground"
+    Air Layer = "Air"
+)
+
 type Game struct {
     Frame int `json:"-"`
     Home map[string]*Player `json:",omitempty"`

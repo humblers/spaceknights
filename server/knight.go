@@ -11,6 +11,7 @@ type Knight struct {
     Team Team
     Name string
     *Position
+    Layer Layer
 }
 
 func NewKnight(team Team, name string) *Knight {
@@ -20,6 +21,7 @@ func NewKnight(team Team, name string) *Knight {
         Position: &Position{
             X: MapWidth / 2,
         },
+        Layer: Air,
     }
     switch name {
     case "shuriken":

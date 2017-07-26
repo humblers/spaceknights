@@ -40,13 +40,14 @@ func update(game):
 	
 	for i in game.Units:
 		var unit = game.Units[i]
-		if not has_node(i):
+		var layer = get_node(unit.Layer + "/YSort")
+		if not layer.has_node(i):
 			var node = Sprite.new()
 			var color = "blue" if team == unit.Team else "red"
 			node.set_texture(load_sprite(unit.Name, color))
 			node.set_name(i)
-			add_child(node)
-		get_node(i).set_pos(get_position(team, unit.X, unit.Y))
+			layer.add_child(node)
+		layer.get_node(i).set_pos(get_position(team, unit.X, unit.Y))
 
 func send_player_input(x):
 	kcp.send({ "Move" : x })
