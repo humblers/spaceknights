@@ -37,6 +37,8 @@ func update(game):
 		var card = player.Hand[i]
 		node.set_text(card)
 		node.set_button_icon(load_sprite(card, "blue"))
+	get_node("UI/Elixir").set_value(player.Elixir)
+	get_node("UI/Elixir/Label").set_text(str(floor(player.Elixir/10)))
 	
 	for i in game.Units:
 		var unit = game.Units[i]
