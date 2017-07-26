@@ -37,7 +37,12 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 }
 
 func (player *Player) Move(x int) {
-    player.Knight.X += x
+    switch player.Team {
+    case Home:
+        player.Knight.X += x
+    case Visitor:
+        player.Knight.X -= x
+    }
 }
 
 func (player *Player) UseCard(index int, game *Game) {
