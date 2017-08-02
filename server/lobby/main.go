@@ -9,9 +9,9 @@ import (
     "github.com/alexedwards/scs/engine/memstore"
 
     "github.com/go-chi/chi"
-    "github.com/go-chi/chi/docgen"
+    "github.com/go-chi/docgen"
     "github.com/go-chi/chi/middleware"
-    "github.com/go-chi/chi/render"
+    "github.com/go-chi/render"
 )
 
 var routes = flag.Bool("routes", false, "Generate router documentation")
