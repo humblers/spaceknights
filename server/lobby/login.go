@@ -2,7 +2,6 @@ package main
 
 import (
     "errors"
-    "fmt"
     "net/http"
     "strconv"
     "time"
@@ -30,6 +29,7 @@ func (a *LoginRequest) Bind(r *http.Request) error {
 type LoginResponse struct {
     ID string `json:"id"`
     Token string `json:"token"`
+    Match **MatchResponse `json:"match"`
 }
 
 func NewLoginResponse(id string, token string) *LoginResponse {
@@ -38,7 +38,6 @@ func NewLoginResponse(id string, token string) *LoginResponse {
 }
 
 func (rd *LoginResponse) Render(w http.ResponseWriter, r *http.Request) error {
-    fmt.Println("rd id : ", rd.ID)
     session.PutString(r, "id", rd.ID)
     return nil
 }
@@ -61,6 +60,10 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
         id = strconv.FormatInt(time.Now().Unix(), 10)
     }
 
-    render.Status(r, http.StatusCreated)
-    render.Render(w, r, NewLoginResponse(id, token))
+    resp := NewLoginResponse(id, token)
+    match, exist := store.Get(id)
+    if exist {
+        resp.Match = match.(**MatchResponse)
+    }
+    render.Render(w, r, resp)
 }
