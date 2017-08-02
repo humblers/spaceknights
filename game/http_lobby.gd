@@ -16,15 +16,16 @@ var cookie_str = ""
 var req_queue = []
 var reserved_signal
 
+var _lobby_vars = {} setget set_var, get_var
+
 signal login_response(success, ret)
 signal match_response(success, ret)
-#signal failure(err_code, err_msg)
 
 func _ready():
 	if not validate_conn() and not connect_to_lobby():
 		print("connect fail. To Do - rollback to launch scene")
 		return
-	timer.set_wait_time(1.0/kcp.READ_RATE)
+	timer.set_wait_time(1.0 / kcp.UPDATES_PER_SECOND)
 	timer.connect("timeout", self, "_poll")
 	add_child(timer)
 	timer.start()
@@ -121,3 +122,11 @@ func request(method, path, params, signal_name, use_cookie=true):
 		emit_signal(signal_name, {"err_code":-999, "err_msg":"unknown"})
 		return
 	req_queue.push_back([method, path, params, signal_name, use_cookie])
+
+func set_var(key, value):
+	_lobby_vars[key] = value
+
+func get_var(key):
+	if _lobby_vars.has(key):
+		return _lobby_vars[key]
+	return null
