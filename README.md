@@ -9,6 +9,15 @@
 
 ## Golang
 ### Gogradle
+
+#### requirements  
+* jdk8+
+* if using IDEs(Gogland, Android Studio, etc...). jdk already installed.
+* on mac  
+```/Applications/<PRODUCT>.app/Contents/jdk/Contents/Home/jre```
+* on windows  
+```<INSTALLATION PATH OF IDE>/jre/jre```  
+
 #### build
 * run following command in go main directory  
 ```
@@ -21,5 +30,5 @@ gradlew.bat build
 * execute file in gogradle directory(in linux)
 * file name is combination of os/project_name(such as drawin_amd64_lobby)  
 ```
-.gogradle/{OS}_{PACKAGENAME}
+.gogradle/<OS>_<PACKAGENAME>
 ```
