@@ -10,7 +10,7 @@ const (
 type Knight struct {
     Team Team
     Name string
-    *Position
+    Position Vector2
     Layer Layer
 }
 
@@ -18,7 +18,7 @@ func NewKnight(team Team, name string) *Knight {
     k := Knight{
         Team: team,
         Name: name,
-        Position: &Position{
+        Position: Vector2{
             X: MapWidth / 2,
         },
         Layer: Air,
@@ -32,13 +32,10 @@ func NewKnight(team Team, name string) *Knight {
         log.Panicf("unknown knight type: %v", name)
     }
     if team == Home {
-        k.FlipY()
+        k.Position = k.Position.FlipY()
     }
     return &k
 }
 
-func (k *Knight) Move() {
-}
-
-func (k *Knight) Attack() {
+func (k *Knight) Update(game *Game) {
 }

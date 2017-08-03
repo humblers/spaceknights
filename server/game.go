@@ -19,8 +19,7 @@ const (
 )
 
 type Unit interface {
-    Move()
-    Attack()
+    Update(g *Game)
 }
 
 type Layer string
@@ -119,6 +118,9 @@ func (game *Game) update(over chan<- struct{}) {
     }
     for _, player := range game.Visitor {
         player.IncreaseElixir(1)
+    }
+    for _, unit := range game.Units {
+        unit.Update(game)
     }
 }
 

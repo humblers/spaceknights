@@ -36,12 +36,12 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) Move(x int) {
+func (player *Player) Move(x float64) {
     switch player.Team {
     case Home:
-        player.Knight.X += x
+        player.Knight.Position.X += x
     case Visitor:
-        player.Knight.X -= x
+        player.Knight.Position.X -= x
     }
 }
 
@@ -65,7 +65,7 @@ func (player *Player) UseCard(index int, game *Game) {
 
     switch card {
     case "barbarian":
-        game.AddUnit(NewBarbarian(player.Team, player.Knight.X))
+        game.AddUnit(NewBarbarian(player.Team, player.Knight.Position.X))
     default:
         log.Printf("invalid summon name: %v", card)
     }
