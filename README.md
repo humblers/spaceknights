@@ -10,8 +10,16 @@
 ## Golang
 ### Gogradle
 #### build
-* run following command in go main directory
-```bash
+* run following command in go main directory  
+```
 ./gradlew build
 ```
-* execute file on .gogradle/{OS}_{PACKAGENAME}
+or
+```
+gradlew.bat build
+```
+* execute file in gogradle directory(in linux)
+* file name is combination of os/project_name(such as drawin_amd64_lobby)  
+```
+.gogradle/{OS}_{PACKAGENAME}
+```
