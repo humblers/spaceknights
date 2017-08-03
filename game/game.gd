@@ -51,7 +51,7 @@ func update(game):
 			node.set_texture(load_sprite(unit.Name, color))
 			node.set_name(i)
 			layer.add_child(node)
-		layer.get_node(i).set_pos(get_position(team, unit.X, unit.Y))
+		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
 
 func send_player_input(x):
 	kcp.send({ "Move" : x })

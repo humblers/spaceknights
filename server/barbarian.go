@@ -4,29 +4,30 @@ import "encoding/json"
 
 type Barbarian struct {
     Team Team
-    *Position
+    Position Vector2
     Layer Layer
+    velocity Vector2
 }
 
-func NewBarbarian(team Team, x int) *Barbarian {
+func NewBarbarian(team Team, x float64) *Barbarian {
     b := Barbarian{
         Team: team,
-        Position: &Position{
+        Position: Vector2{
             X: x,
             Y: 200,
         },
         Layer: Ground,
     }
     if team == Home {
-        b.FlipY()
+        b.Position = b.Position.FlipY()
     }
     return &b
 }
 
-func (b *Barbarian) Move() {
-}
-
-func (b *Barbarian) Attack() {
+func (b *Barbarian) Update(game *Game) {
+    // Scan enemies
+    // Follow flow vector
+    // Add steering behavior (seperation + obstacle avoidance)
 }
 
 func (b *Barbarian) MarshalJSON() ([]byte, error) {
