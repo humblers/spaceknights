@@ -18,10 +18,6 @@ const (
     Visitor Team = "Visitor"
 )
 
-type Unit interface {
-    Update(g *Game)
-}
-
 type Layer string
 const (
     Ground Layer = "Ground"
@@ -32,7 +28,7 @@ type Game struct {
     Frame int `json:"-"`
     Home map[string]*Player `json:",omitempty"`
     Visitor map[string]*Player `json:",omitempty"`
-    Units map[int]Unit
+    Units map[int]*Unit
     UnitCounter int `json:"-"`
 }
 
@@ -41,7 +37,7 @@ func NewGame() *Game {
         Frame: 0,
         Home: make(map[string]*Player),
         Visitor: make(map[string]*Player),
-        Units: make(map[int]Unit),
+        Units: make(map[int]*Unit),
         UnitCounter: 0,
     }
     g.AddUnit(NewMothership(Home))
@@ -71,7 +67,10 @@ func (g *Game) Join(team Team, user User) {
     g.AddUnit(knight)
 }
 
-func (g *Game) AddUnit(unit Unit) {
+func (g *Game) AddUnit(unit *Unit) {
+    if unit.Team == Home {
+        unit.Position = unit.Position.FlipY()
+    }
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }

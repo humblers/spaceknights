@@ -11,11 +11,11 @@ type Player struct {
     Team Team `json:"-"`
     Hand Cards
     Pending Cards `json:"-"`
-    Knight *Knight `json:"-"`
+    Knight *Unit `json:"-"`
     Elixir int
 }
 
-func NewPlayer(team Team, deck Cards, knight *Knight) *Player {
+func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
     deck.Shuffle()
     return &Player{
         Team: team,

@@ -7,35 +7,25 @@ const (
     SpaceZHeight = 62
 )
 
-type Knight struct {
-    Team Team
-    Name string
-    Position Vector2
-    Layer Layer
-}
-
-func NewKnight(team Team, name string) *Knight {
-    k := Knight{
-        Team: team,
-        Name: name,
-        Position: Vector2{
-            X: MapWidth / 2,
-        },
-        Layer: Air,
-    }
+func NewKnight(t Team, name string) *Unit {
+    p := Vector2{}
+    var radius float64
     switch name {
     case "shuriken":
-        k.Position.Y = ShurikenHeight / 2
+        p.X = MapWidth / 2; p.Y = ShurikenHeight / 2
+        radius = 20
     case "space_z":
-        k.Position.Y = SpaceZHeight / 2
+        p.X = MapWidth / 2; p.Y = SpaceZHeight / 2
+        radius = 31
     default:
         log.Panicf("unknown knight type: %v", name)
     }
-    if team == Home {
-        k.Position = k.Position.FlipY()
+    return &Unit{
+        Team: t,
+        Name: name,
+        Position: p,
+        Layer: Air,
+        Hp: 100,
+        Radius: radius,
     }
-    return &k
-}
-
-func (k *Knight) Update(game *Game) {
 }
