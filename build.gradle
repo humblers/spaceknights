@@ -1,0 +1,18 @@
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
+task link() {
+    for(String path : ['gradle', 'gradlew', 'gradlew.bat']) {
+        Path org = getProject().getProjectDir().toPath().resolve(path)
+        for(String targetDir : ['server', 'server/lobby']) {
+            Path target = getProject().getProjectDir().toPath().resolve(targetDir).resolve(path)
+            if(!Files.exists(target)) {
+                println('create symlink ' + org + ' -> ' + target)
+                Files.createSymbolicLink(target, org)
+                continue
+            }
+            println('link already exists. if U have invalid symlink delete it first.')
+       }
+    }
+}
