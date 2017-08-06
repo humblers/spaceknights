@@ -19,7 +19,7 @@ task link() {
 task buildServer(dependsOn: 'link') {
     String gradle_command = './gradlew'
     if (System.properties['os.name'].toLowerCase().contains('windows')) {
-        gradle_command = 'gradle.bat'
+        gradle_command = 'gradlew.bat'
     }
     for (String targetDir : targetDirs) {
         ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
