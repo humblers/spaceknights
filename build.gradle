@@ -2,12 +2,15 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-def targetDirs = ['server', 'server/lobby']
+def targetMap = [
+    'server' : 'server', 
+    'lobby' : 'server/lobby'
+]
 
 task link() {
     for (String path : ['gradle', 'gradlew', 'gradlew.bat']) {
         Path org = getProject().getProjectDir().toPath().resolve(path)
-        for (String targetDir : targetDirs) {
+        targetMap.each { k, targetDir ->
             Path target = getProject().getProjectDir().toPath().resolve(targetDir).resolve(path)
             println('create symlink ' + org + ' -> ' + target)
             Files.deleteIfExists(target)
@@ -21,7 +24,7 @@ task buildServer(dependsOn: 'link') {
     if (System.properties['os.name'].toLowerCase().contains('windows')) {
         gradle_command = 'gradlew.bat'
     }
-    for (String targetDir : targetDirs) {
+    targetMap.each { k, targetDir ->
         ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
         BufferedReader reader = 
                         new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
@@ -32,5 +35,36 @@ task buildServer(dependsOn: 'link') {
            builder.append(System.getProperty("line.separator"))
         }
         println(builder.toString())
+    }
+}
+
+task copyExecutable(type: Copy, dependsOn: 'buildServer') {
+    targetMap.each { key, path ->
+        from ("${path}/.gogradle") {
+            include "*${key}"
+        }
+    }
+    into 'bin'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        rename { String fileName ->
+            fileName + ".exe"
+        }
+    }
+}
+
+task run(dependsOn: 'copyExecutable') {
+    targetMap.each { key, v -> 
+        ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
+        String os = System.properties['os.name'].toLowerCase()
+        if (os.contains('windows')) {
+            pb.command('cmd.exe', '/c', 'start', "windows_386_${key}")
+        } else {
+            //below script not proper working on mac
+            //        if (os.contains('mac')) {
+            //            pb.command("./darwin_amd64_${key}")
+            //        } 
+            println('unknown to run binary!!')
+        }
+        pb.start()
     }
 }
