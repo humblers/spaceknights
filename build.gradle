@@ -53,18 +53,20 @@ task copyExecutable(type: Copy, dependsOn: 'buildServer') {
 }
 
 task run(dependsOn: 'copyExecutable') {
-    targetMap.each { key, v -> 
-        ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
-        String os = System.properties['os.name'].toLowerCase()
-        if (os.contains('windows')) {
-            pb.command('cmd.exe', '/c', 'start', "windows_386_${key}")
-        } else {
-            //below script not proper working on mac
-            //        if (os.contains('mac')) {
-            //            pb.command("./darwin_amd64_${key}")
-            //        } 
-            println('unknown to run binary!!')
+    doLast {
+        targetMap.each { key, v -> 
+            ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
+            String os = System.properties['os.name'].toLowerCase()
+            if (os.contains('windows')) {
+                pb.command('cmd.exe', '/c', 'start', "windows_386_${key}")
+            } else {
+                //below script not proper working on mac
+                //        if (os.contains('mac')) {
+                //            pb.command("./darwin_amd64_${key}")
+                //        } 
+                println('unknown to run binary!!')
+            }
+            pb.start()
         }
-        pb.start()
     }
 }
