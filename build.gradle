@@ -16,7 +16,7 @@ task link() {
     }
 }
 
-task run(dependsOn: 'link') {
+task buildUnix(dependsOn: 'link') {
     for (String targetDir : targetDirs) {
         ProcessBuilder pb = new ProcessBuilder().command('./gradlew', 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
         BufferedReader reader = 
@@ -28,5 +28,20 @@ task run(dependsOn: 'link') {
            builder.append(System.getProperty("line.separator"))
         }
         println(builder.toString())
-  }
+    }
+}
+
+task buildWin(dependsOn: 'link') {
+    for (String targetDir : targetDirs) {
+        ProcessBuilder pb = new ProcessBuilder().command('gradlew.bat', 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
+        BufferedReader reader = 
+                        new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String line = null
+        while ( (line = reader.readLine()) != null) {
+           builder.append(line)
+           builder.append(System.getProperty("line.separator"))
+        }
+        println(builder.toString())
+    }
 }
