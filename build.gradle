@@ -5,9 +5,9 @@ import java.nio.file.Paths
 def targetDirs = ['server', 'server/lobby']
 
 task link() {
-    for(String path : ['gradle', 'gradlew', 'gradlew.bat']) {
+    for (String path : ['gradle', 'gradlew', 'gradlew.bat']) {
         Path org = getProject().getProjectDir().toPath().resolve(path)
-        for(String targetDir : targetDirs) {
+        for (String targetDir : targetDirs) {
             Path target = getProject().getProjectDir().toPath().resolve(targetDir).resolve(path)
             println('create symlink ' + org + ' -> ' + target)
             Files.deleteIfExists(target)
@@ -16,24 +16,13 @@ task link() {
     }
 }
 
-task buildUnix(dependsOn: 'link') {
-    for (String targetDir : targetDirs) {
-        ProcessBuilder pb = new ProcessBuilder().command('./gradlew', 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
-        BufferedReader reader = 
-                        new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line = null
-        while ( (line = reader.readLine()) != null) {
-           builder.append(line)
-           builder.append(System.getProperty("line.separator"))
-        }
-        println(builder.toString())
+task buildServer(dependsOn: 'link') {
+    String gradle_command = './gradlew'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        gradle_command = 'gradle.bat'
     }
-}
-
-task buildWin(dependsOn: 'link') {
     for (String targetDir : targetDirs) {
-        ProcessBuilder pb = new ProcessBuilder().command('gradlew.bat', 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
+        ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
         BufferedReader reader = 
                         new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
         StringBuilder builder = new StringBuilder();
