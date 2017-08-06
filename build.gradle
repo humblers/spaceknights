@@ -13,3 +13,22 @@ task link() {
        }
     }
 }
+
+task run(dependsOn: 'link') {
+    String now = new Date().format('yyyyMMdd-HHmmss')
+    File stdout = new File(getProject().getProjectDir(), "build/${now}.stdout")
+    File stderr = new File(getProject().getProjectDir(), "build/${now}.stderr")
+    ProcessBuilder pb = new ProcessBuilder().command('./gradlew', 'build').directory(getProject().getProjectDir().toPath().resolve('server').toFile())
+    //pb.start().waitFor()
+
+    pb.redirectOutput(ProcessBuilder.Redirect.appendTo(stdout))
+    pb.redirectError(ProcessBuilder.Redirect.appendTo(stderr))
+
+    if (pb.start().waitFor() == 0) {
+        stderr.append("Initializing ${path} succeed\n")
+        stdout.append("Initializing ${path} succeed\n")
+    } else {
+        stderr.append("Initializing ${path} failed\n")
+        stdout.append("Initializing ${path} failed\n")
+    }
+}
