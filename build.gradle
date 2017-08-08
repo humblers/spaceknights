@@ -2,14 +2,69 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+def targetMap = [
+    'server' : 'server', 
+    'lobby' : 'server/lobby'
+]
+
 task link() {
-    for(String path : ['gradle', 'gradlew', 'gradlew.bat']) {
+    for (String path : ['gradle', 'gradlew', 'gradlew.bat']) {
         Path org = getProject().getProjectDir().toPath().resolve(path)
-        for(String targetDir : ['server', 'server/lobby']) {
+        targetMap.each { k, targetDir ->
             Path target = getProject().getProjectDir().toPath().resolve(targetDir).resolve(path)
             println('create symlink ' + org + ' -> ' + target)
             Files.deleteIfExists(target)
             Files.createSymbolicLink(target, org)
        }
+    }
+}
+
+task buildServer(dependsOn: 'link') {
+    String gradle_command = './gradlew'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        gradle_command = 'gradlew.bat'
+    }
+    targetMap.each { k, targetDir ->
+        ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
+        BufferedReader reader = 
+                        new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String line = null
+        while ( (line = reader.readLine()) != null) {
+           builder.append(line)
+           builder.append(System.getProperty("line.separator"))
+        }
+        println(builder.toString())
+    }
+}
+
+task copyExecutable(type: Copy, dependsOn: 'buildServer') {
+    targetMap.each { key, path ->
+        from ("${path}/.gogradle") {
+            include "*${key}"
+        }
+    }
+    into 'bin'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        rename('(.*)_(.*)_(.*)', '$1_$3.exe')
+    }
+}
+
+task run(dependsOn: 'copyExecutable') {
+    doLast {
+        targetMap.each { key, v -> 
+            ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
+            String os = System.properties['os.name'].toLowerCase()
+            if (os.contains('windows')) {
+                pb.command('cmd.exe', '/c', 'start', "windows_${key}.exe")
+            } else {
+                //below script not proper working on mac
+                //        if (os.contains('mac')) {
+                //            pb.command("./darwin_amd64_${key}")
+                //        } 
+                println('unknown to run binary!!')
+            }
+            pb.start()
+        }
     }
 }
