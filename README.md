@@ -18,17 +18,21 @@
 * on windows  
 ```<INSTALLATION PATH OF IDE>/jre/jre```  
 
-#### build
-* run following command in go main directory  
+#### build  
+* for all server build, run following command in root directory  
+```./gradlew buildServer```  
+or  
+```gradlew.bat buildServer```  
+* build specific project, run in root dir  
+```./gradlew link```  
+* then, run in <PROJECT_DIR>  
+```./gradlew build```  
+
+#### run  
+* for windows, execute <run-server-win.bat>
+* for linux  
 ```
-./gradlew build
+./gradlew copyExecutable
 ```
-or
-```
-gradlew.bat build
-```
-* execute file in gogradle directory(in linux)
-* file name is combination of os/project_name(such as drawin_amd64_lobby)  
-```
-.gogradle/<OS>_<PACKAGENAME>
-```
+* then, run binaries in bin directory
+
