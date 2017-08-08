@@ -25,7 +25,7 @@ or
 ```gradlew.bat buildServer```  
 * build specific project, run in root dir  
 ```./gradlew link```  
-* then, run in <PROJECT_DIR>  
+* then, run in `<PROJECT_DIR>`  
 ```./gradlew build```  
 
 #### run  
