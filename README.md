@@ -29,7 +29,7 @@ or
 ```./gradlew build```  
 
 #### run  
-* for windows, execute <run-server-win.bat>
+* for windows, execute `<run-server-win.bat>`
 * for linux  
 ```
 ./gradlew copyExecutable
