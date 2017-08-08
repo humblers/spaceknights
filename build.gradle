@@ -46,9 +46,7 @@ task copyExecutable(type: Copy, dependsOn: 'buildServer') {
     }
     into 'bin'
     if (System.properties['os.name'].toLowerCase().contains('windows')) {
-        rename { String fileName ->
-            fileName + ".exe"
-        }
+        rename('(.*)_(.*)_(.*)', '$1_$3.exe')
     }
 }
 
@@ -58,7 +56,7 @@ task run(dependsOn: 'copyExecutable') {
             ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
             String os = System.properties['os.name'].toLowerCase()
             if (os.contains('windows')) {
-                pb.command('cmd.exe', '/c', 'start', "windows_386_${key}")
+                pb.command('cmd.exe', '/c', 'start', "windows_${key}.exe")
             } else {
                 //below script not proper working on mac
                 //        if (os.contains('mac')) {
