@@ -1,18 +1,54 @@
 package main
 
-const MothershipHeight = 110
+const MothershipMainHeight = 40
+const MothershipSubHeight = 60
+const MothershipBaseHeight = 60
 
-func NewMothership(t Team) *Unit {
-    p := Vector2{
-        X: MapWidth / 2,
-        Y: MothershipHeight / 2,
-    }
-    return &Unit{
+func NewMothership(t Team) []*Unit {
+    var mothership []*Unit
+    main := &Unit{
         Team: t,
-        Name: "mothership",
-        Position: p,
+        Type: "mothership",
+        Name: "maincore",
+        Position: Vector2{
+            X: MapWidth / 2,
+            Y: MothershipBaseHeight + MothershipMainHeight / 2,
+        },
         Layer: Ground,
         Hp: 500,
-        Radius: 45,
     }
+    left := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "subcore",
+        Position: Vector2{
+            X: 70,
+            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+        },
+        Layer: Ground,
+        Hp: 300,
+    }
+    right := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "subcore",
+        Position: Vector2{
+            X: 330,
+            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+        },
+        Layer: Ground,
+        Hp: 300,
+    }
+    base := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "base",
+        Position: Vector2{
+            X: MapWidth / 2,
+            Y: MothershipBaseHeight / 2,
+        },
+        Layer: Ground,
+    }
+    mothership = append(mothership, main, left, right, base)
+    return mothership
 }

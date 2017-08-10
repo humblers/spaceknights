@@ -18,10 +18,11 @@ func NewKnight(t Team, name string) *Unit {
         p.X = MapWidth / 2; p.Y = SpaceZHeight / 2
         radius = 31
     default:
-        log.Panicf("unknown knight type: %v", name)
+        log.Panicf("unknown knight name: %v", name)
     }
     return &Unit{
         Team: t,
+        Type: "knight",
         Name: name,
         Position: p,
         Layer: Air,
