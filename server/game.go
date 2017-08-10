@@ -12,6 +12,11 @@ const (
     FrameInterval = time.Millisecond * 100
 )
 
+const (
+    MapWidth = 400
+    MapHeight = 560
+)
+
 type Team string
 const (
     Home Team = "Home"
@@ -40,8 +45,12 @@ func NewGame() *Game {
         Units: make(map[int]*Unit),
         UnitCounter: 0,
     }
-    g.AddUnit(NewMothership(Home))
-    g.AddUnit(NewMothership(Visitor))
+    for _, u := range NewMothership(Home) {
+        g.AddUnit(u)
+    }
+    for _, u := range NewMothership(Visitor) {
+        g.AddUnit(u)
+    }
     return &g
 }
 
@@ -69,10 +78,28 @@ func (g *Game) Join(team Team, user User) {
 
 func (g *Game) AddUnit(unit *Unit) {
     if unit.Team == Home {
-        unit.Position = unit.Position.FlipY()
+        unit.FlipY()
     }
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
+}
+
+func (g *Game) FindNearestEnemy(u *Unit) *Unit {
+    var enemy *Unit
+    for _, unit := range g.Units {
+        if unit.Team == u.Team || !unit.Attackable() {
+            continue
+        }
+        if unit.Type == "mothership" || u.CanSee(unit) {
+            if enemy == nil || u.DistanceTo(enemy) > u.DistanceTo(unit) {
+                enemy = unit
+            }
+        }
+    }
+    if enemy == nil {
+        panic("no target found")
+    }
+    return enemy
 }
 
 func (g *Game) String() string {
@@ -113,10 +140,10 @@ func (game *Game) update(over chan<- struct{}) {
         close(over)
     }
     for _, player := range game.Home {
-        player.IncreaseElixir(1)
+        player.IncreaseEnergy(1)
     }
     for _, player := range game.Visitor {
-        player.IncreaseElixir(1)
+        player.IncreaseEnergy(1)
     }
     for _, unit := range game.Units {
         unit.Update(game)

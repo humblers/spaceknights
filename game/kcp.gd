@@ -33,7 +33,6 @@ func _update():
 	# read
 	var packet = kcp.read()
 	if packet:
-		print (packet)
 		var dict = {}
 		dict.parse_json(packet)
 		emit_signal("packet_received", dict)

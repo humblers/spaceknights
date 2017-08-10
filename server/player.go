@@ -12,7 +12,7 @@ type Player struct {
     Hand Cards
     Pending Cards `json:"-"`
     Knight *Unit `json:"-"`
-    Elixir int
+    Energy int
 }
 
 func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
@@ -52,10 +52,10 @@ func (player *Player) UseCard(index int, game *Game) {
     if index >= len(player.Hand) {
         log.Panicf("invalid card index: %v", index)
     }
-    if player.Elixir < CostMap[card] {
-        log.Panicf("not enough elixir for %v: %v", card, player.Elixir)
+    if player.Energy < CostMap[card] {
+        log.Panicf("not enough energy for %v: %v", card, player.Energy)
     }
-    player.Elixir = player.Elixir - CostMap[card]
+    player.Energy = player.Energy - CostMap[card]
 
     player.Hand[index] = next
     for i := 1; i < len(player.Pending); i++ {
@@ -71,8 +71,8 @@ func (player *Player) UseCard(index int, game *Game) {
     }
 }
 
-func (player *Player) IncreaseElixir(amount int) {
-    if player.Elixir + amount <= 100 {
-        player.Elixir = player.Elixir + amount
+func (player *Player) IncreaseEnergy(amount int) {
+    if player.Energy + amount <= 100 {
+        player.Energy = player.Energy + amount
     }
 }
