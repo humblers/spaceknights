@@ -80,27 +80,12 @@ func (g *Game) AddUnit(unit *Unit) {
     if unit.Team == Home {
         unit.FlipY()
     }
+    unit.Id = g.UnitCounter
+    unit.Game = g
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }
 
-func (g *Game) FindNearestEnemy(u *Unit) *Unit {
-    var enemy *Unit
-    for _, unit := range g.Units {
-        if unit.Team == u.Team || !unit.Attackable() {
-            continue
-        }
-        if unit.Type == "mothership" || u.CanSee(unit) {
-            if enemy == nil || u.DistanceTo(enemy) > u.DistanceTo(unit) {
-                enemy = unit
-            }
-        }
-    }
-    if enemy == nil {
-        panic("no target found")
-    }
-    return enemy
-}
 
 func (g *Game) String() string {
     var h, v []string
@@ -146,7 +131,7 @@ func (game *Game) update(over chan<- struct{}) {
         player.IncreaseEnergy(1)
     }
     for _, unit := range game.Units {
-        unit.Update(game)
+        unit.Update()
     }
 }
 

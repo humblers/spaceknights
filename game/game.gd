@@ -8,7 +8,7 @@ var session_id
 
 func _ready():
 	WIDTH = Globals.get("display/width")
-	HEIGHT = Globals.get("display/height") - get_node("Ground/YSort/Background").get_texture().get_size().height
+	HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
 	id = http_lobby.get_var("uid")
 	session_id = http_lobby.get_var("game_sessionid")
 	kcp._connect(http_lobby.get_var("game_host"), 9999)
@@ -42,9 +42,20 @@ func update(game):
 		node.set_normal_texture(load_icon(card))
 	get_node("UI/Energy").set_value(player.Energy)
 	
+	# delete dead unit nodes
+	for node in get_node("Ground").get_children():
+		if node.get_name() == "Background":
+			continue
+		if not game.Units.has(node.get_name()):
+			node.queue_free()
+
+	for node in get_node("Air").get_children():
+		if not game.Units.has(node.get_name()):
+			node.queue_free()
+
 	for i in game.Units:
 		var unit = game.Units[i]
-		var layer = get_node(unit.Layer + "/YSort")
+		var layer = get_node(unit.Layer)
 		if not layer.has_node(i):
 			var node = Sprite.new()
 			var color = "blue" if team == unit.Team else "red"

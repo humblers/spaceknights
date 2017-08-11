@@ -15,7 +15,7 @@ func NewMothership(t Team) []*Unit {
             Y: MothershipBaseHeight + MothershipMainHeight / 2,
         },
         Layer: Ground,
-        Hp: 500,
+        Hp: 200,
     }
     left := &Unit{
         Team: t,
@@ -26,7 +26,7 @@ func NewMothership(t Team) []*Unit {
             Y: MothershipBaseHeight + MothershipSubHeight / 2,
         },
         Layer: Ground,
-        Hp: 300,
+        Hp: 100,
     }
     right := &Unit{
         Team: t,
@@ -37,7 +37,7 @@ func NewMothership(t Team) []*Unit {
             Y: MothershipBaseHeight + MothershipSubHeight / 2,
         },
         Layer: Ground,
-        Hp: 300,
+        Hp: 100,
     }
     base := &Unit{
         Team: t,
