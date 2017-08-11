@@ -1,6 +1,10 @@
 package main
 
+import "log"
+
 type Unit struct {
+    Id int `json:"-"`
+    Game *Game `json:"-"`
     Team Team
     Type string `json:"-"`
     Name string
@@ -24,8 +28,8 @@ func (u *Unit) FlipY() {
 
 func (u *Unit) TakeDamage(d int) {
     u.Hp -= d
-    if u.Hp < 0 {
-        u.Hp = 0
+    if u.Hp <= 0 {
+        delete(u.Game.Units, u.Id)
     }
 }
 
@@ -47,7 +51,7 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 
 func (u *Unit) MoveTo(target *Unit) {
     direction := target.Position.Minus(u.Position).Normalize()
-    u.Position.Plus(direction.Multiply(u.Speed))
+    u.Position = u.Position.Plus(direction.Multiply(u.Speed))
 }
 
 func (u *Unit) CanSee(other *Unit) bool {
@@ -64,25 +68,53 @@ func (u *Unit) CanAttack(other *Unit) bool {
     return false
 }
 
-func (u *Unit) Attack(other *Unit, g *Game) {
-    if g.Frame > u.LastHit + u.HitSpeed {
+func (u *Unit) Attack(other *Unit) {
+    if u.Game.Frame > u.LastHit + u.HitSpeed {
         other.TakeDamage(u.Damage)
-        u.LastHit = g.Frame
+        u.LastHit = u.Game.Frame
     }
 }
 
-func (u *Unit) Update(game *Game) {
+func (u *Unit) FindNearestEnemy() *Unit {
+    var enemy *Unit
+    for _, unit := range u.Game.Units {
+        if unit.Team == u.Team || !unit.Attackable() {
+            continue
+        }
+        if unit.Type == "mothership" || u.CanSee(unit) {
+            if enemy == nil || u.DistanceTo(enemy) > u.DistanceTo(unit) {
+                enemy = unit
+            }
+        }
+    }
+    if enemy == nil {
+        panic("no target found")
+    }
+    return enemy
+}
+
+func (u *Unit) IsDead() bool {
+    return u.Hp <= 0
+}
+
+func (u *Unit) HasTarget() bool {
+    return u.Target != nil && !u.Target.IsDead()
+}
+
+func (u *Unit) Update() {
     if u.Type != "barbarian" {
         return
     }
-
-    if u.Target == nil || !u.CanAttack(u.Target) {
-        u.Target = game.FindNearestEnemy(u)
+    if !u.HasTarget() || !u.CanAttack(u.Target) {
+        u.Target = u.FindNearestEnemy()
     }
+    log.Printf("target found : %v", u.Target.Type)
 
     if u.CanAttack(u.Target) {
-        u.Attack(u.Target, game)
+        u.Attack(u.Target)
+        log.Printf("attacking %v, Hp : %v", u.Target.Type, u.Target.Hp)
     } else {
         u.MoveTo(u.Target)
+        log.Printf("moving to %v", u.Target.Type)
     }
 }
