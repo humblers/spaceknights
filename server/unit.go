@@ -11,7 +11,7 @@ type Unit struct {
     Position Vector2
     Layer Layer
     Hp int
-    Speed float64
+    Speed float64 `json:"-"`
     HitSpeed int `json:"-"` // # of frames
     Radius float64 `json:"-"`
     Sight float64 `json:"-"`
