@@ -1,41 +1,18 @@
 package main
 
-import "encoding/json"
-
-type Barbarian struct {
-    Team Team
-    *Position
-    Layer Layer
-}
-
-func NewBarbarian(team Team, x int) *Barbarian {
-    b := Barbarian{
-        Team: team,
-        Position: &Position{
-            X: x,
-            Y: 200,
-        },
-        Layer: Ground,
-    }
-    if team == Home {
-        b.FlipY()
-    }
-    return &b
-}
-
-func (b *Barbarian) Move() {
-}
-
-func (b *Barbarian) Attack() {
-}
-
-func (b *Barbarian) MarshalJSON() ([]byte, error) {
-    type Alias Barbarian
-    return json.Marshal(&struct{
-        Name string
-        *Alias
-    }{
+func NewBarbarian(t Team, x float64) *Unit {
+    return &Unit{
+        Team: t,
+        Type: "barbarian",
         Name: "barbarian",
-        Alias: (*Alias)(b),
-    })
+        Position: Vector2 { x, 200 },
+        Layer: Ground,
+        Hp: 80,
+        Speed: 5,
+        HitSpeed: 10,
+        Radius: 12,
+        Sight: 100,
+        Range: 15,
+        Damage: 10,
+    }
 }

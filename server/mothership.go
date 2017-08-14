@@ -1,43 +1,54 @@
 package main
 
-import "encoding/json"
+const MothershipMainHeight = 40
+const MothershipSubHeight = 60
+const MothershipBaseHeight = 60
 
-const MothershipHeight = 110
-
-type Mothership struct {
-    Team Team
-    *Position
-    Layer Layer
-}
-
-func NewMothership(team Team) *Mothership {
-    m := Mothership{
-        Team: team,
-        Position: &Position{
+func NewMothership(t Team) []*Unit {
+    var mothership []*Unit
+    main := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "maincore",
+        Position: Vector2{
             X: MapWidth / 2,
-            Y: MothershipHeight / 2,
+            Y: MothershipBaseHeight + MothershipMainHeight / 2,
+        },
+        Layer: Ground,
+        Hp: 200,
+    }
+    left := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "subcore",
+        Position: Vector2{
+            X: 70,
+            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+        },
+        Layer: Ground,
+        Hp: 100,
+    }
+    right := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "subcore",
+        Position: Vector2{
+            X: 330,
+            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+        },
+        Layer: Ground,
+        Hp: 100,
+    }
+    base := &Unit{
+        Team: t,
+        Type: "mothership",
+        Name: "base",
+        Position: Vector2{
+            X: MapWidth / 2,
+            Y: MothershipBaseHeight / 2,
         },
         Layer: Ground,
     }
-    if team == Home {
-        m.FlipY()
-    }
-    return &m
-}
-
-func (m *Mothership) Move() {
-}
-
-func (m *Mothership) Attack() {
-}
-
-func (m *Mothership) MarshalJSON() ([]byte, error) {
-    type Alias Mothership
-    return json.Marshal(&struct{
-        Name string
-        *Alias
-    }{
-        Name: "mothership",
-        Alias: (*Alias)(m),
-    })
+    mothership = append(mothership, main, left, right, base)
+    return mothership
 }
