@@ -1,6 +1,9 @@
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import org.gradle.internal.logging.text.StyledTextOutput;
+import org.gradle.internal.logging.text.StyledTextOutputFactory;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style;
 
 def targetMap = [
     'game' : 'game', 
@@ -26,15 +29,24 @@ task buildServer(dependsOn: 'link') {
     }
     targetMap.each { k, targetDir ->
         ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
-        BufferedReader reader = 
+        BufferedReader stdReader = 
                         new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
+        BufferedReader errReader = 
+                        new BufferedReader(new InputStreamReader(pb.start().getErrorStream()));
         StringBuilder builder = new StringBuilder();
         String line = null
-        while ( (line = reader.readLine()) != null) {
+        while ( (line = stdReader.readLine()) != null ) {
            builder.append(line)
            builder.append(System.getProperty("line.separator"))
         }
         println(builder.toString())
+        builder = new StringBuilder();
+        while ( (line = errReader.readLine()) != null ) {
+           builder.append(line)
+           builder.append(System.getProperty("line.separator"))            
+        }
+        def out = services.get(StyledTextOutputFactory).create("blah")
+        out.withStyle(Style.Info).println(builder.toString())
     }
 }
 
