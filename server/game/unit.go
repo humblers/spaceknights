@@ -87,9 +87,6 @@ func (u *Unit) FindNearestEnemy() *Unit {
             }
         }
     }
-    if enemy == nil {
-        panic("no target found")
-    }
     return enemy
 }
 
@@ -108,7 +105,10 @@ func (u *Unit) Update() {
     if !u.HasTarget() || !u.CanAttack(u.Target) {
         u.Target = u.FindNearestEnemy()
     }
-    log.Printf("target found : %v", u.Target.Type)
+    if u.Target == nil {
+        log.Printf("no target found : %v", u.Target.Type)
+        return
+    }
 
     if u.CanAttack(u.Target) {
         u.Attack(u.Target)

@@ -5,6 +5,7 @@ var WIDTH
 
 var id
 var session_id
+var over = false
 
 func _ready():
 	WIDTH = Globals.get("display/width")
@@ -63,15 +64,23 @@ func update(game):
 			node.set_name(i)
 			layer.add_child(node)
 		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
+	
+	if game.has("Winner"):
+		over = true
+		get_node("UI/Winner").set_text("Winner : " + game.Winner)
 
 func send_player_input(x):
-	kcp.send({ "Move" : x })
+	if not over:
+		kcp.send({ "Move" : x })
 
 func _on_Card1_pressed():
-	kcp.send({ "Use" : 1 })
+	if not over:
+		kcp.send({ "Use" : 1 })
 
 func _on_Card2_pressed():
-	kcp.send({ "Use" : 2 })
+	if not over:
+		kcp.send({ "Use" : 2 })
 
 func _on_Card3_pressed():
-	kcp.send({ "Use" : 3 })
+	if not over:
+		kcp.send({ "Use" : 3 })

@@ -1,8 +1,13 @@
 package main
 
-const MothershipMainHeight = 40
-const MothershipSubHeight = 60
-const MothershipBaseHeight = 60
+const (
+    MothershipMainHeight = 40
+    MothershipSubHeight = 60
+    MothershipBaseHeight = 60
+
+    MaincoreScore = 3
+    SubcoreScore = 1
+)
 
 func NewMothership(t Team) []*Unit {
     var mothership []*Unit
