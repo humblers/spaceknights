@@ -15,6 +15,7 @@ const (
 const (
     MapWidth = 400
     MapHeight = 560
+    TileHeight = 20
 )
 
 type Team string
