@@ -12,16 +12,16 @@ const (
     FrameInterval = time.Millisecond * 100
 )
 
+const (
+    MapWidth = 400
+    MapHeight = 560
+)
+
 type Team string
 const (
     Home Team = "Home"
     Visitor Team = "Visitor"
 )
-
-type Unit interface {
-    Move()
-    Attack()
-}
 
 type Layer string
 const (
@@ -33,8 +33,9 @@ type Game struct {
     Frame int `json:"-"`
     Home map[string]*Player `json:",omitempty"`
     Visitor map[string]*Player `json:",omitempty"`
-    Units map[int]Unit
+    Units map[int]*Unit
     UnitCounter int `json:"-"`
+    Motherships map[Team][]*Unit `json:"-"`
 }
 
 func NewGame() *Game {
@@ -42,12 +43,33 @@ func NewGame() *Game {
         Frame: 0,
         Home: make(map[string]*Player),
         Visitor: make(map[string]*Player),
-        Units: make(map[int]Unit),
+        Units: make(map[int]*Unit),
         UnitCounter: 0,
+        Motherships: make(map[Team][]*Unit),
     }
-    g.AddUnit(NewMothership(Home))
-    g.AddUnit(NewMothership(Visitor))
+    g.Motherships[Home] = NewMothership(Home)
+    g.Motherships[Visitor] = NewMothership(Visitor)
+    for _, u := range g.Motherships[Home] {
+        g.AddUnit(u)
+    }
+    for _, u := range g.Motherships[Visitor] {
+        g.AddUnit(u)
+    }
     return &g
+}
+
+func (g *Game) IsOver() bool {
+    if g.Frame > int(PlayTime/FrameInterval) {
+        return true
+    }
+    for _, m := range g.Motherships {
+        for _, u := range m {
+            if u.Name == "maincore" && u.IsDead() {
+                return true
+            }
+        }
+    }
+    return false
 }
 
 func (g *Game) Player(id string) *Player {
@@ -72,10 +94,16 @@ func (g *Game) Join(team Team, user User) {
     g.AddUnit(knight)
 }
 
-func (g *Game) AddUnit(unit Unit) {
+func (g *Game) AddUnit(unit *Unit) {
+    if unit.Team == Home {
+        unit.FlipY()
+    }
+    unit.Id = g.UnitCounter
+    unit.Game = g
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }
+
 
 func (g *Game) String() string {
     var h, v []string
@@ -94,12 +122,13 @@ func (game *Game) Run(session *Session) {
     tick := time.Tick(FrameInterval)
     over := make(chan struct {})
     for {
-        select {
-        case <-over:
+        if game.IsOver() {
             if err := session.Stop(); err != nil {
                 panic(err)
             }
-            return
+            break
+        }
+        select {
         case <-tick:
             game.update(over)
             session.Broadcast(game)
@@ -111,14 +140,14 @@ func (game *Game) Run(session *Session) {
 
 func (game *Game) update(over chan<- struct{}) {
     game.Frame++
-    if game.Frame > int(PlayTime/FrameInterval) {
-        close(over)
-    }
     for _, player := range game.Home {
-        player.IncreaseElixir(1)
+        player.IncreaseEnergy(1)
     }
     for _, player := range game.Visitor {
-        player.IncreaseElixir(1)
+        player.IncreaseEnergy(1)
+    }
+    for _, unit := range game.Units {
+        unit.Update()
     }
 }
 
