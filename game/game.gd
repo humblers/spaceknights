@@ -67,7 +67,9 @@ func update(game):
 	
 	if game.has("Winner"):
 		over = true
-		get_node("UI/Winner").set_text("Winner : " + game.Winner)
+		var node = get_node("UI/Winner")
+		node.set_text("Winner : " + ("Blue" if game.Winner == team else "Red"))
+		node.show()
 
 func send_player_input(x):
 	if not over:
