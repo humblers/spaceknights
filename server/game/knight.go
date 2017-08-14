@@ -3,8 +3,9 @@ package main
 import "log"
 
 const (
-    ShurikenHeight = 40
-    SpaceZHeight = 62
+    // draw knight 3 pixel lower in map
+    ShurikenHeight = 40 - 6
+    SpaceZHeight = 62 - 6
 )
 
 func NewKnight(t Team, name string) *Unit {
