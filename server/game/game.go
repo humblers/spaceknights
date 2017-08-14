@@ -21,6 +21,7 @@ type Team string
 const (
     Home Team = "Home"
     Visitor Team = "Visitor"
+    Draw Team = "Draw"  // for game result
 )
 
 type Layer string
@@ -30,6 +31,7 @@ const (
 )
 
 type Game struct {
+    Winner Team `json:",omitempty"`
     Frame int `json:"-"`
     Home map[string]*Player `json:",omitempty"`
     Visitor map[string]*Player `json:",omitempty"`
@@ -58,18 +60,46 @@ func NewGame() *Game {
     return &g
 }
 
-func (g *Game) IsOver() bool {
-    if g.Frame > int(PlayTime/FrameInterval) {
-        return true
-    }
-    for _, m := range g.Motherships {
-        for _, u := range m {
-            if u.Name == "maincore" && u.IsDead() {
-                return true
-            }
+func (game *Game) Score(team Team) int {
+    score := 0
+    for _, unit := range game.Motherships[team] {
+        if unit.IsDead() {
+            continue
+        }
+        switch unit.Name {
+        case "maincore":
+            score += MaincoreScore
+        case "subcore":
+            score += SubcoreScore
         }
     }
-    return false
+    return score
+}
+
+func (game *Game) Over() bool {
+    switch {
+    case game.Frame > int(PlayTime/FrameInterval):
+        break
+    case game.Score(Home) < MaincoreScore:
+        break
+    case game.Score(Visitor) < MaincoreScore:
+        break
+    default:
+        return false
+    }
+    return true
+}
+
+func (game *Game) GetWinner() Team {
+    home := game.Score(Home)
+    visitor := game.Score(Visitor)
+    switch {
+    case home > visitor:
+        return Home
+    case visitor > home:
+        return Visitor
+    }
+    return Draw
 }
 
 func (g *Game) Player(id string) *Player {
@@ -120,9 +150,8 @@ func (game *Game) Run(session *Session) {
     log.Printf("game %v starting", game)
     defer log.Printf("game %v stopped", game)
     tick := time.Tick(FrameInterval)
-    over := make(chan struct {})
     for {
-        if game.IsOver() {
+        if game.Over() {
             if err := session.Stop(); err != nil {
                 panic(err)
             }
@@ -130,7 +159,10 @@ func (game *Game) Run(session *Session) {
         }
         select {
         case <-tick:
-            game.update(over)
+            game.update()
+            if game.Over() {
+                game.Winner = game.GetWinner()
+            }
             session.Broadcast(game)
         case input := <-session.incoming:
             game.apply(input)
@@ -138,7 +170,7 @@ func (game *Game) Run(session *Session) {
     }
 }
 
-func (game *Game) update(over chan<- struct{}) {
+func (game *Game) update() {
     game.Frame++
     for _, player := range game.Home {
         player.IncreaseEnergy(1)
