@@ -19,11 +19,11 @@
 ```<INSTALLATION PATH OF IDE>/jre/jre```  
 
 #### build  
-* for all server build, run following command in root directory  
+* for all server build, run following command in server directory  
 ```./gradlew buildServer```  
 or  
 ```gradlew.bat buildServer```  
-* build specific project, run in root dir  
+* build specific project, run in server dir  
 ```./gradlew link```  
 * then, run in `<PROJECT_DIR>`  
 ```./gradlew build```  
