@@ -13,6 +13,7 @@ type Unit struct {
     Name string
     Position Vector2
     Layer Layer
+    AttackableLayers []Layer `json:"-""`
     Hp int
     Speed float64 `json:"-"`
     HitSpeed int `json:"-"` // # of frames
@@ -36,8 +37,14 @@ func (u *Unit) TakeDamage(d int) {
     }
 }
 
-func (u *Unit) Attackable() bool {
-    switch u.Type {
+func (u *Unit) Attackable(target *Unit) bool {
+    if u.Team == target.Team {
+        return false
+    }
+    if !Contains(u.AttackableLayers, target.Layer) {
+        return false
+    }
+    switch target.Type {
     case "knight":
         return false
     case "mothership":
@@ -81,7 +88,7 @@ func (u *Unit) Attack(other *Unit) {
 func (u *Unit) FindNearestEnemy() *Unit {
     var enemy *Unit
     for _, unit := range u.Game.Units {
-        if unit.Team == u.Team || !unit.Attackable() {
+        if !u.Attackable(unit) {
             continue
         }
         if unit.Type == "mothership" || u.CanSee(unit) {
@@ -102,7 +109,7 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    implementedUnits := [...]string{"barbarian", "cannon"}
+    implementedUnits := [...]string{"barbarian", "cannon", "archer"}
     if !Contains(implementedUnits, u.Type) {
         return
     }
