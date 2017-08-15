@@ -1,6 +1,9 @@
 package main
 
-import "log"
+import (
+    "log"
+    "reflect"
+)
 
 type Unit struct {
     Id int `json:"-"`
@@ -99,7 +102,8 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    if u.Type != "barbarian" {
+    implementedUnits := [...]string{"barbarian", "cannon"}
+    if !Contains(implementedUnits, u.Type) {
         return
     }
     if !u.HasTarget() || !u.CanAttack(u.Target) {
@@ -117,4 +121,17 @@ func (u *Unit) Update() {
         u.MoveTo(u.Target)
         log.Printf("moving to %v", u.Target.Type)
     }
+}
+
+func Contains(source interface{}, element interface{}) bool {
+    sourceRef := reflect.ValueOf(source)
+    if sourceRef.Kind() == reflect.Slice || sourceRef.Kind() == reflect.Array {
+        for i := 0; i < sourceRef.Len(); i++ {
+            if sourceRef.Index(i).Interface() == element {
+                return true
+            }
+        }
+    }
+    // ToDo : add another interface cases
+    return false
 }
