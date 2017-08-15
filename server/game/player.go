@@ -67,6 +67,8 @@ func (player *Player) UseCard(index int, game *Game) {
     switch card {
     case "barbarian":
         game.AddUnit(NewBarbarian(player.Team, player.Knight.Position.X))
+    case "cannon":
+        game.AddUnit(NewCannon(player.Team, player.Knight.Position.X))
     default:
         log.Printf("invalid summon name: %v", card)
     }
