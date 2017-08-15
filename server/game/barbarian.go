@@ -7,7 +7,7 @@ func NewBarbarian(t Team, x float64) *Unit {
         Name: "barbarian",
         Position: Vector2 { x, 200 },
         Layer: Ground,
-        AttackableLayers : []Layer{Ground},
+        TargetLayers : []Layer{Ground},
         Hp: 80,
         Speed: 5,
         HitSpeed: 10,

@@ -7,7 +7,7 @@ func NewArcher(t Team, x float64) *Unit {
         Name: "archer",
         Position: Vector2 { x, 200 },
         Layer: Ground,
-        AttackableLayers : []Layer{Ground, Air},
+        TargetLayers : []Layer{Ground, Air},
         Hp: 60,
         Speed: 3,
         HitSpeed: 5,

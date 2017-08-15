@@ -7,7 +7,7 @@ func NewCannon(t Team, x float64) *Unit {
         Name: "cannon",
         Position: Vector2 { x, 200 },
         Layer: Ground,
-        AttackableLayers : []Layer{Ground},
+        TargetLayers : []Layer{Ground},
         Hp: 100,
         Speed: 0,
         HitSpeed: 8,
