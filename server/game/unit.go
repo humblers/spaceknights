@@ -13,7 +13,7 @@ type Unit struct {
     Name string
     Position Vector2
     Layer Layer
-    AttackableLayers []Layer `json:"-""`
+    TargetLayers []Layer `json:"-""`
     Hp int
     Speed float64 `json:"-"`
     HitSpeed int `json:"-"` // # of frames
@@ -41,7 +41,7 @@ func (u *Unit) Attackable(target *Unit) bool {
     if u.Team == target.Team {
         return false
     }
-    if !Contains(u.AttackableLayers, target.Layer) {
+    if !Contains(u.TargetLayers, target.Layer) {
         return false
     }
     switch target.Type {
