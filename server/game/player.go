@@ -54,6 +54,7 @@ func (player *Player) UseCard(index int, game *Game) {
     }
     if player.Energy < CostMap[card] {
         log.Printf("not enough energy for %v: %v", card, player.Energy)
+        return
     }
     player.Energy = player.Energy - CostMap[card]
 

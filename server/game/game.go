@@ -189,6 +189,6 @@ func (game *Game) apply(input Input) {
     if input.Move != 0 {
         player.Move(input.Move)
     } else if input.Use != 0 {
-        player.UseCard(input.Use - 1, game)
+        player.UseCard(input.Use, game)
     }
 }

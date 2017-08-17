@@ -1,15 +1,18 @@
 extends Node
 
-var HEIGHT
-var WIDTH
+onready var WIDTH = Globals.get("display/width")
+onready var HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
+onready var card0 = get_node("UI/Card0")
+onready var card1 = get_node("UI/Card1")
+onready var card2 = get_node("UI/Card2")
 
 var id
 var session_id
-var over = false
+var team
+
+signal game_over(winner)
 
 func _ready():
-	WIDTH = Globals.get("display/width")
-	HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
 	id = http_lobby.get_var("uid")
 	session_id = http_lobby.get_var("game_sessionid")
 	kcp._connect(http_lobby.get_var("game_host"), 9999)
@@ -17,9 +20,17 @@ func _ready():
 	kcp.send({"SessionId": session_id})
 	kcp.connect("packet_received", self, "update")
 	input.connect("mouse_dragged", self, "send_player_input")
+	connect("game_over", self, "on_game_over")
 
-func _exit_tree():
+func on_game_over(winner):
+	input.disconnect("mouse_dragged", self, "send_player_input")
+	card0.disconnect("pressed", self, "use_card")
+	card1.disconnect("pressed", self, "use_card")
+	card2.disconnect("pressed", self, "use_card")
 	kcp._disconnect()
+	var node = get_node("UI/Winner")
+	node.set_text("Winner : " + winner)
+	node.show()
 
 func load_icon(name):
 	return load("res://icon/" + name + ".png")
@@ -34,11 +45,12 @@ func get_position(team, x, y):
 		return Vector2(WIDTH - x, HEIGHT - y)
 
 func update(game):
-	var team = "Home" if game.has("Home") else "Visitor"
+	# update deck and energy
+	team = "Home" if game.has("Home") else "Visitor"
 	var player = game[team][id]
 	get_node("UI/Next").set_texture(load_icon(player.Next))
 	for i in range(3):
-		var node = get_node("UI/Card" + str(i + 1))
+		var node = get_node("UI/Card" + str(i))
 		var card = player.Hand[i]
 		node.set_normal_texture(load_icon(card))
 	get_node("UI/Energy").set_value(player.Energy)
@@ -54,6 +66,7 @@ func update(game):
 		if not game.Units.has(node.get_name()):
 			node.queue_free()
 
+	# update unit nodes
 	for i in game.Units:
 		var unit = game.Units[i]
 		var layer = get_node(unit.Layer)
@@ -66,23 +79,10 @@ func update(game):
 		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
 	
 	if game.has("Winner"):
-		over = true
-		var node = get_node("UI/Winner")
-		node.set_text("Winner : " + ("Blue" if game.Winner == team else "Red"))
-		node.show()
+		emit_signal("game_over", game.Winner)
 
 func send_player_input(x):
-	if not over:
-		kcp.send({ "Move" : x })
+	kcp.send({ "Move" : x })
 
-func _on_Card1_pressed():
-	if not over:
-		kcp.send({ "Use" : 1 })
-
-func _on_Card2_pressed():
-	if not over:
-		kcp.send({ "Use" : 2 })
-
-func _on_Card3_pressed():
-	if not over:
-		kcp.send({ "Use" : 3 })
+func use_card(index):
+	kcp.send({ "Use" : index })
