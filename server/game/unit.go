@@ -126,7 +126,7 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    implementedUnits := [...]string{"barbarian", "cannon", "archer"}
+    implementedUnits := [...]string{"archer", "babydragon", "barbarian", "cannon"}
     if !Contains(implementedUnits, u.Type) {
         return
     }
