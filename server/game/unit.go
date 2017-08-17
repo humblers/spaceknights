@@ -2,7 +2,6 @@ package main
 
 import (
     "log"
-    "reflect"
     "time"
 )
 
@@ -58,9 +57,6 @@ func (u *Unit) Attackable(target *Unit) bool {
     if u.Team == target.Team {
         return false
     }
-    if !Contains(u.TargetLayers, target.Layer) {
-        return false
-    }
     switch target.Type {
     case "knight":
         return false
@@ -69,7 +65,12 @@ func (u *Unit) Attackable(target *Unit) bool {
             return false
         }
     }
-    return true
+    for i := 0; i < len(u.TargetLayers); i++ {
+        if u.TargetLayers[i] == target.Layer {
+            return true
+        }
+    }
+    return false
 }
 
 func (u *Unit) DistanceTo(other *Unit) float64 {
@@ -127,7 +128,14 @@ func (u *Unit) HasTarget() bool {
 
 func (u *Unit) Update() {
     implementedUnits := [...]string{"archer", "babydragon", "barbarian", "cannon"}
-    if !Contains(implementedUnits, u.Type) {
+    updatable := false
+    for i := 0; i < len(implementedUnits); i++ {
+        if implementedUnits[i] == u.Type {
+            updatable = true
+            break
+        }
+    }
+    if !updatable {
         return
     }
     u.TakeLifetimeCost()
@@ -146,17 +154,4 @@ func (u *Unit) Update() {
         u.MoveTo(u.Target)
         log.Printf("moving to %v", u.Target.Type)
     }
-}
-
-func Contains(source interface{}, element interface{}) bool {
-    sourceRef := reflect.ValueOf(source)
-    if sourceRef.Kind() == reflect.Slice || sourceRef.Kind() == reflect.Array {
-        for i := 0; i < sourceRef.Len(); i++ {
-            if sourceRef.Index(i).Interface() == element {
-                return true
-            }
-        }
-    }
-    // ToDo : add another interface cases
-    return false
 }
