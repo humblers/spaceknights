@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "reflect"
+    "time"
 )
 
 type Unit struct {
@@ -21,9 +22,20 @@ type Unit struct {
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
     Damage int `json:"-"`
+    Lifetime int `json:"-"` // # of secs
+    LifetimeCost int `json:"-"`
     Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
     LastHit int `json:"-"`
+}
+
+func (u *Unit) SetLifetimeCost() *Unit{
+    if u.Lifetime <= 0 {
+        return u
+    }
+    interval := int(time.Duration(u.Lifetime) * time.Second / LifetimeCostInterval)
+    u.LifetimeCost = u.Hp / interval
+    return u
 }
 
 func (u *Unit) FlipY() {
@@ -31,9 +43,14 @@ func (u *Unit) FlipY() {
 }
 
 func (u *Unit) TakeDamage(d int) {
-    u.Hp -= d
-    if u.Hp <= 0 {
+    if u.Hp -= d; u.Hp <= 0 {
         delete(u.Game.Units, u.Id)
+    }
+}
+
+func (u *Unit) TakeLifetimeCost() {
+    if u.LifetimeCost > 0 && u.Game.Frame % int(LifetimeCostInterval / FrameInterval) == 0 {
+        u.TakeDamage(u.LifetimeCost)
     }
 }
 
@@ -113,6 +130,7 @@ func (u *Unit) Update() {
     if !Contains(implementedUnits, u.Type) {
         return
     }
+    u.TakeLifetimeCost()
     if !u.HasTarget() || !u.CanAttack(u.Target) {
         u.Target = u.FindNearestEnemy()
     }
