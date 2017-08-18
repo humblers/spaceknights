@@ -1,1 +1,1 @@
-gradlew.bat run
+gradlew.bat runWindows
