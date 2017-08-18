@@ -10,7 +10,6 @@ import (
 const (
     PlayTime = time.Minute * 1
     FrameInterval = time.Millisecond * 100
-    LifetimeCostInterval = time.Millisecond * 1000
 )
 
 const (
