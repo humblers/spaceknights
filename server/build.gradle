@@ -20,6 +20,7 @@ allprojects {
 
 golang {
     packagePath = 'servers'
+    goVersion = '1.8.1'
 }
 
 task copyGoExecutable(type: Copy) {
@@ -29,6 +30,7 @@ task copyGoExecutable(type: Copy) {
                 include "*${key}"
             }
         }
+        into 'bin'
         if (System.properties['os.name'].toLowerCase().contains('windows')) {
             rename('(.*)_(.*)_(.*)', '$1_$3.exe')
         }
