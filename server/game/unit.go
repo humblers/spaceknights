@@ -10,6 +10,7 @@ type Unit struct {
     Name string
     Position Vector2
     Layer Layer
+    TargetLayers []Layer `json:"-""`
     Hp int
     Speed float64 `json:"-"`
     HitSpeed int `json:"-"` // # of frames
@@ -17,6 +18,7 @@ type Unit struct {
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
     Damage int `json:"-"`
+    LifetimeCost int `json:"-"`
     Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
     LastHit int `json:"-"`
@@ -27,14 +29,16 @@ func (u *Unit) FlipY() {
 }
 
 func (u *Unit) TakeDamage(d int) {
-    u.Hp -= d
-    if u.Hp <= 0 {
+    if u.Hp -= d; u.Hp <= 0 {
         delete(u.Game.Units, u.Id)
     }
 }
 
-func (u *Unit) Attackable() bool {
-    switch u.Type {
+func (u *Unit) Attackable(target *Unit) bool {
+    if u.Team == target.Team {
+        return false
+    }
+    switch target.Type {
     case "knight":
         return false
     case "mothership":
@@ -42,7 +46,12 @@ func (u *Unit) Attackable() bool {
             return false
         }
     }
-    return true
+    for i := 0; i < len(u.TargetLayers); i++ {
+        if u.TargetLayers[i] == target.Layer {
+            return true
+        }
+    }
+    return false
 }
 
 func (u *Unit) DistanceTo(other *Unit) float64 {
@@ -78,7 +87,7 @@ func (u *Unit) Attack(other *Unit) {
 func (u *Unit) FindNearestEnemy() *Unit {
     var enemy *Unit
     for _, unit := range u.Game.Units {
-        if unit.Team == u.Team || !unit.Attackable() {
+        if !u.Attackable(unit) {
             continue
         }
         if unit.Type == "mothership" || u.CanSee(unit) {
@@ -99,8 +108,20 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    if u.Type != "barbarian" {
+    implementedUnits := [...]string{"archer", "babydragon", "barbarian", "cannon"}
+    updatable := false
+    for i := 0; i < len(implementedUnits); i++ {
+        if implementedUnits[i] == u.Type {
+            updatable = true
+            break
+        }
+    }
+    if !updatable {
         return
+    }
+
+    if u.LifetimeCost > 0 {
+        u.TakeDamage(u.LifetimeCost)
     }
     if !u.HasTarget() || !u.CanAttack(u.Target) {
         u.Target = u.FindNearestEnemy()
