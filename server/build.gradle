@@ -1,58 +1,31 @@
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import org.gradle.internal.logging.text.StyledTextOutput;
-import org.gradle.internal.logging.text.StyledTextOutputFactory;
-import static org.gradle.internal.logging.text.StyledTextOutput.Style;
-
-def targetMap = [
-    'game' : 'game', 
-    'lobby' : 'lobby'
-]
-
-task link() {
-    for (String path : ['gradle', 'gradlew', 'gradlew.bat']) {
-        Path org = getProject().getProjectDir().toPath().resolve(path)
-        targetMap.each { k, targetDir ->
-            Path target = getProject().getProjectDir().toPath().resolve(targetDir).resolve(path)
-            println('create symlink ' + org + ' -> ' + target)
-            Files.deleteIfExists(target)
-            Files.createSymbolicLink(target, org)
-       }
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.blindpirate:gogradle:0.7.0"
     }
 }
 
-task buildServer(dependsOn: 'link') {
-    String gradle_command = './gradlew'
-    if (System.properties['os.name'].toLowerCase().contains('windows')) {
-        gradle_command = 'gradlew.bat'
-    }
-    targetMap.each { k, targetDir ->
-        ProcessBuilder pb = new ProcessBuilder().command(gradle_command, 'build').directory(getProject().getProjectDir().toPath().resolve(targetDir).toFile())
-        BufferedReader stdReader = 
-                        new BufferedReader(new InputStreamReader(pb.start().getInputStream()));
-        BufferedReader errReader = 
-                        new BufferedReader(new InputStreamReader(pb.start().getErrorStream()));
-        StringBuilder builder = new StringBuilder();
-        String line = null
-        while ( (line = stdReader.readLine()) != null ) {
-           builder.append(line)
-           builder.append(System.getProperty("line.separator"))
+
+allprojects {
+    it.apply plugin: 'com.github.blindpirate.gogradle'
+    it.dependencies {
+        golang {
         }
-        println(builder.toString())
-        builder = new StringBuilder();
-        while ( (line = errReader.readLine()) != null ) {
-           builder.append(line)
-           builder.append(System.getProperty("line.separator"))            
-        }
-        def out = services.get(StyledTextOutputFactory).create("blah")
-        out.withStyle(Style.Info).println(builder.toString())
     }
 }
 
-task copyExecutable(type: Copy, dependsOn: 'buildServer') {
-    targetMap.each { key, path ->
-        from ("${path}/.gogradle") {
+golang {
+    packagePath = 'servers'
+    goVersion = '1.8.1'
+}
+
+task copyExecutable(type: Copy) {
+    ['game', 'lobby'].each { key ->
+        from ("${key}/.gogradle") {
             include "*${key}"
         }
     }
@@ -62,21 +35,21 @@ task copyExecutable(type: Copy, dependsOn: 'buildServer') {
     }
 }
 
-task run(dependsOn: 'copyExecutable') {
+task runWindows() {
     doLast {
-        targetMap.each { key, v -> 
-            ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
-            String os = System.properties['os.name'].toLowerCase()
-            if (os.contains('windows')) {
+        String os = System.properties['os.name'].toLowerCase()
+        if (os.contains('windows')) {
+            ['game', 'lobby'].each { key -> 
+                ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
                 pb.command('cmd.exe', '/c', 'start', "windows_${key}.exe")
-            } else {
-                //below script not proper working on mac
-                //        if (os.contains('mac')) {
-                //            pb.command("./darwin_amd64_${key}")
-                //        } 
-                println('unknown to run binary!!')
+                pb.start()
             }
-            pb.start()
         }
     }
 }
+
+build.dependsOn copyExecutable
+runWindows.dependsOn copyExecutable
+
+copyExecutable.dependsOn ':game:build'
+copyExecutable.dependsOn ':lobby:build'

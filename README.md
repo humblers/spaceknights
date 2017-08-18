@@ -20,19 +20,12 @@
 
 #### build  
 * for all server build, run following command in server directory  
-```./gradlew buildServer```  
-or  
-```gradlew.bat buildServer```  
-* build specific project, run in server dir  
-```./gradlew link```  
-* then, run in `<PROJECT_DIR>`  
 ```./gradlew build```  
+or  
+```gradlew.bat build```  
+* build specific project, run in server dir  
+```./gradlew build -p <PROJECT DIR>```  
 
 #### run  
 * for windows, execute `<run-server-win.bat>`
-* for linux  
-```
-./gradlew copyExecutable
-```
-* then, run binaries in bin directory
-
+* for linux, when build succeed. check binary in `<.gogradle>` DIR
