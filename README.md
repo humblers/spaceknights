@@ -28,4 +28,4 @@ or
 
 #### run  
 * for windows, execute `<run-server-win.bat>`
-* for linux, when build succeed. check binary in <.gogradle> DIR
+* for linux, when build succeed. check binary in `<.gogradle>` DIR
