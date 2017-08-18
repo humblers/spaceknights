@@ -23,33 +23,33 @@ golang {
     goVersion = '1.8.1'
 }
 
-task copyGoExecutable(type: Copy) {
-    doLast {
-        ['game', 'lobby'].each { key -> 
-            from ("${key}/.gogradle") {
-                include "*${key}"
-            }
+task copyExecutable(type: Copy) {
+    ['game', 'lobby'].each { key ->
+        from ("${key}/.gogradle") {
+            include "*${key}"
         }
-        into 'bin'
-        if (System.properties['os.name'].toLowerCase().contains('windows')) {
-            rename('(.*)_(.*)_(.*)', '$1_$3.exe')
-        }
+    }
+    into 'bin'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        rename('(.*)_(.*)_(.*)', '$1_$3.exe')
     }
 }
 
 task runWindows() {
-    String os = System.properties['os.name'].toLowerCase()
-    if (os.contains('windows')) {
-        ['game', 'lobby'].each { key -> 
-            ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
-            pb.command('cmd.exe', '/c', 'start', "windows_${key}.exe")
-            pb.start()
+    doLast {
+        String os = System.properties['os.name'].toLowerCase()
+        if (os.contains('windows')) {
+            ['game', 'lobby'].each { key -> 
+                ProcessBuilder pb = new ProcessBuilder().directory(getProject().getProjectDir().toPath().resolve('bin').toFile())
+                pb.command('cmd.exe', '/c', 'start', "windows_${key}.exe")
+                pb.start()
+            }
         }
     }
 }
 
-build.dependsOn copyGoExecutable
-runWindows.dependsOn copyGoExecutable
+build.dependsOn copyExecutable
+runWindows.dependsOn copyExecutable
 
-copyGoExecutable.dependsOn ':game:build'
-copyGoExecutable.dependsOn ':lobby:build'
+copyExecutable.dependsOn ':game:build'
+copyExecutable.dependsOn ':lobby:build'
