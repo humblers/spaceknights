@@ -35,29 +35,6 @@ func on_game_over(winner):
 func load_icon(name):
 	return load("res://icon/" + name + ".png")
 
-func load_unit_texture(name, color, postfix=null):
-	var path = "res://unit/" + name + "_" + color
-	if postfix:
-		path += "_" + postfix
-	path += ".png"
-	return load(path)
-	
-func load_unit(name, color):
-	var multiple_texture_nodes = { 
-		"cannon" : ["bot", "top"],
-	}
-	var node
-	if multiple_texture_nodes.has(name):
-		node = Node2D.new()
-		for postfix in multiple_texture_nodes[name]:
-			var sp = Sprite.new()
-			sp.set_texture(load_unit_texture(name, color, postfix))
-			node.add_child(sp)
-		return node
-	node = Sprite.new()
-	node.set_texture(load_unit_texture(name, color))
-	return node
-
 func get_position(team, x, y):
 	if team == "Home":
 		return Vector2(x, y)
@@ -92,7 +69,7 @@ func update(game):
 		var layer = get_node(unit.Layer)
 		if not layer.has_node(i):
 			var color = "blue" if team == unit.Team else "red"
-			var node = load_unit(unit.Name, color)
+			var node = UnitManager.load_unit(unit.Name, color)
 			node.set_name(i)
 			layer.add_child(node)
 		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
