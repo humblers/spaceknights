@@ -44,7 +44,7 @@ func load_unit_texture(name, color, postfix=null):
 	
 func load_unit(name, color):
 	var multiple_texture_nodes = { 
-		"cannon" : ["top", "bottom"],
+		"cannon" : ["top", "bot"],
 	}
 	var node
 	if multiple_texture_nodes.has(name):
