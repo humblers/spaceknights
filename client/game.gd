@@ -55,4 +55,4 @@ func send_player_input(x):
 	kcp.send({ "Move" : x })
 
 func use_card(index):
-	kcp.send({ "Use" : index })
+	kcp.send({ "Use" : index + 1})
