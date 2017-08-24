@@ -67,13 +67,17 @@ func update(game):
 	for i in game.Units:
 		var unit = game.Units[i]
 		var layer = get_node(unit.Layer)
+		var color = "blue" if team == unit.Team else "red"
 		if not layer.has_node(i):
-			var color = "blue" if team == unit.Team else "red"
 			var node = UnitManager.load_unit(unit.Name, color)
 			node.set_name(i)
 			layer.add_child(node)
 		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
-	
+		var action = "move"
+		if unit.has("LastHit") and game.Frame <= unit.LastHit + unit.HitSpeed:
+			action = "attack"
+		UnitManager.change_action(layer.get_node(i), color, action)
+
 	if game.has("Winner"):
 		emit_signal("game_over", game.Winner)
 

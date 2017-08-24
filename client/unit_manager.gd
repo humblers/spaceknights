@@ -10,10 +10,7 @@ func load_unit_texture(name, color, postfix=null):
 	path += ".png"
 	return load(path)
 
-func load_unit(name, color):
-	var unit = load("res://unit/" + name + ".tscn")
-	if unit:
-		return unit
+func load_unit_from_resource(name, color):
 	var multiple_texture_nodes = { 
 		"cannon" : ["bot", "top"],
 	}
@@ -29,5 +26,23 @@ func load_unit(name, color):
 	node.set_texture(load_unit_texture(name, color))
 	return node
 
-func play(unit, team, anim):
-	pass
+func load_unit(name, color):
+	var path = "res://unit/" + name + ".tscn"
+	if not File.new().file_exists(path):
+		return load_unit_from_resource(name, color)
+	var unit = load(path).instance()
+	if unit != null:
+		return unit
+	return load_unit_from_resource(name, color)
+
+func change_action(unit, color, action):
+	if not unit.has_node("anims"):
+		return
+	var animspr = unit.get_node("anims")
+	var animstr = color + "_" + action
+	if animspr.get_animation() == animstr:
+		return
+	var sprframes = animspr.get_sprite_frames()
+	if not sprframes or not sprframes.has_animation(animstr):
+		return
+	animspr.set_animation(animstr)

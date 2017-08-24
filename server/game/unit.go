@@ -10,10 +10,10 @@ type Unit struct {
     Name string
     Position Vector2
     Layer Layer
-    TargetLayers []Layer `json:"-""`
+    TargetLayers []Layer `json:"-"`
     Hp int
     Speed float64 `json:"-"`
-    HitSpeed int `json:"-"` // # of frames
+    HitSpeed int // # of frames
     Radius float64 `json:"-"`
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
@@ -21,7 +21,7 @@ type Unit struct {
     LifetimeCost int `json:"-"`
     Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
-    LastHit int `json:"-"`
+    LastHit int `json:",omitempty"`
 }
 
 func (u *Unit) FlipY() {
