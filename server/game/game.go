@@ -33,7 +33,7 @@ const (
 
 type Game struct {
     Winner Team `json:",omitempty"`
-    Frame int `json:"-"`
+    Frame int
     Home map[string]*Player `json:",omitempty"`
     Visitor map[string]*Player `json:",omitempty"`
     Units map[int]*Unit
