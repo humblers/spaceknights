@@ -36,13 +36,16 @@ func load_unit_from_resource(name, color):
 	return node
 
 func load_unit(name, color):
+	var label = Label.new()
+	label.set_name("HP")
 	var path = "res://unit/" + name + ".tscn"
-	if not File.new().file_exists(path):
-		return load_unit_from_resource(name, color)
-	var unit = load(path).instance()
-	if unit != null:
-		return unit
-	return load_unit_from_resource(name, color)
+	var unit 
+	if File.new().file_exists(path):
+		unit = load(path).instance()
+	if not unit:
+		unit = load_unit_from_resource(name, color)
+	unit.add_child(label)
+	return unit
 
 func change_action(unit, color, action):
 	if not unit.has_node("anims"):
@@ -55,7 +58,15 @@ func change_action(unit, color, action):
 	if not sprframes or not sprframes.has_animation(animstr):
 		return
 	animspr.set_animation(animstr)
-	
+
+func apply_state(node, unit, frame, team, color):
+	node.set_pos(get_position(team, unit.Position.X, unit.Position.Y))
+	node.get_node("HP").set_text(String(unit.Hp))
+	var action = "move"
+	if unit.has("LastHit") and frame <= unit.LastHit + unit.HitSpeed:
+		action = "attack"
+	change_action(node, color, action)
+
 func update(game_node, units, frame, team):
 	# delete dead unit nodes
 	for node in game_node.get_node("Ground").get_children():
@@ -73,12 +84,9 @@ func update(game_node, units, frame, team):
 		var unit = units[i]
 		var layer = game_node.get_node(unit.Layer)
 		var color = "blue" if team == unit.Team else "red"
+		var node
 		if not layer.has_node(i):
-			var node = UnitManager.load_unit(unit.Name, color)
+			node = load_unit(unit.Name, color)
 			node.set_name(i)
 			layer.add_child(node)
-		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
-		var action = "move"
-		if unit.has("LastHit") and frame <= unit.LastHit + unit.HitSpeed:
-			action = "attack"
-		change_action(layer.get_node(i), color, action)
+		apply_state(layer.get_node(i), unit, frame, team, color)
