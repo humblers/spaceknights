@@ -1,7 +1,5 @@
 extends Node
 
-onready var WIDTH = Globals.get("display/width")
-onready var HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
 onready var card0 = get_node("UI/Card0")
 onready var card1 = get_node("UI/Card1")
 onready var card2 = get_node("UI/Card2")
@@ -13,6 +11,8 @@ var team
 signal game_over(winner)
 
 func _ready():
+	UnitManager.WIDTH = Globals.get("display/width")
+	UnitManager.HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
 	id = http_lobby.get_var("uid")
 	session_id = http_lobby.get_var("game_sessionid")
 	kcp._connect(http_lobby.get_var("game_host"), 9999)
@@ -35,12 +35,6 @@ func on_game_over(winner):
 func load_icon(name):
 	return load("res://icon/" + name + ".png")
 
-func get_position(team, x, y):
-	if team == "Home":
-		return Vector2(x, y)
-	else:
-		return Vector2(WIDTH - x, HEIGHT - y)
-
 func update(game):
 	# update deck and energy
 	team = "Home" if game.has("Home") else "Visitor"
@@ -51,32 +45,8 @@ func update(game):
 		var card = player.Hand[i]
 		node.set_normal_texture(load_icon(card))
 	get_node("UI/Energy").set_value(player.Energy)
-	
-	# delete dead unit nodes
-	for node in get_node("Ground").get_children():
-		if node.get_name() == "Background":
-			continue
-		if not game.Units.has(node.get_name()):
-			node.queue_free()
 
-	for node in get_node("Air").get_children():
-		if not game.Units.has(node.get_name()):
-			node.queue_free()
-
-	# update unit nodes
-	for i in game.Units:
-		var unit = game.Units[i]
-		var layer = get_node(unit.Layer)
-		var color = "blue" if team == unit.Team else "red"
-		if not layer.has_node(i):
-			var node = UnitManager.load_unit(unit.Name, color)
-			node.set_name(i)
-			layer.add_child(node)
-		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
-		var action = "move"
-		if unit.has("LastHit") and game.Frame <= unit.LastHit + unit.HitSpeed:
-			action = "attack"
-		UnitManager.change_action(layer.get_node(i), color, action)
+	UnitManager.update(self, game.Units, game.Frame, team)
 
 	if game.has("Winner"):
 		emit_signal("game_over", game.Winner)

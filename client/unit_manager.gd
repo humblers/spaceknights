@@ -1,7 +1,16 @@
 extends Node
 
+var WIDTH
+var HEIGHT
+
 func _ready():
 	pass
+
+func get_position(team, x, y):
+	if team == "Home":
+		return Vector2(x, y)
+	else:
+		return Vector2(WIDTH - x, HEIGHT - y)
 
 func load_unit_texture(name, color, postfix=null):
 	var path = "res://unit/" + name + "_" + color
@@ -46,3 +55,30 @@ func change_action(unit, color, action):
 	if not sprframes or not sprframes.has_animation(animstr):
 		return
 	animspr.set_animation(animstr)
+	
+func update(game_node, units, frame, team):
+	# delete dead unit nodes
+	for node in game_node.get_node("Ground").get_children():
+		if node.get_name() == "Background":
+			continue
+		if not units.has(node.get_name()):
+			node.queue_free()
+
+	for node in game_node.get_node("Air").get_children():
+		if not units.has(node.get_name()):
+			node.queue_free()
+
+	# update unit nodes
+	for i in units:
+		var unit = units[i]
+		var layer = game_node.get_node(unit.Layer)
+		var color = "blue" if team == unit.Team else "red"
+		if not layer.has_node(i):
+			var node = UnitManager.load_unit(unit.Name, color)
+			node.set_name(i)
+			layer.add_child(node)
+		layer.get_node(i).set_pos(get_position(team, unit.Position.X, unit.Position.Y))
+		var action = "move"
+		if unit.has("LastHit") and frame <= unit.LastHit + unit.HitSpeed:
+			action = "attack"
+		change_action(layer.get_node(i), color, action)
