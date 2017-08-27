@@ -12,14 +12,14 @@ func get_position(team, x, y):
 	else:
 		return Vector2(WIDTH - x, HEIGHT - y)
 
-func load_unit_texture(name, color, postfix=null):
+func load_from_resource(name, color, postfix=null):
 	var path = "res://unit/" + name + "_" + color
 	if postfix:
 		path += "_" + postfix
 	path += ".png"
 	return load(path)
 
-func load_unit_from_resource(name, color):
+func load_texture(name, color):
 	var multiple_texture_nodes = { 
 		"cannon" : ["bot", "top"],
 	}
@@ -28,14 +28,14 @@ func load_unit_from_resource(name, color):
 		node = Node2D.new()
 		for postfix in multiple_texture_nodes[name]:
 			var sp = Sprite.new()
-			sp.set_texture(load_unit_texture(name, color, postfix))
+			sp.set_texture(load_from_resource(name, color, postfix))
 			node.add_child(sp)
 		return node
 	node = Sprite.new()
-	node.set_texture(load_unit_texture(name, color))
+	node.set_texture(load_from_resource(name, color))
 	return node
 
-func load_unit(name, color):
+func create_node(name, color, node_index):
 	var label = Label.new()
 	label.set_name("HP")
 	var path = "res://unit/" + name + ".tscn"
@@ -43,7 +43,8 @@ func load_unit(name, color):
 	if File.new().file_exists(path):
 		unit = load(path).instance()
 	if not unit:
-		unit = load_unit_from_resource(name, color)
+		unit = load_texture(name, color)
+	unit.set_name(node_index)
 	unit.add_child(label)
 	return unit
 
@@ -69,7 +70,7 @@ func apply_state(node, unit, frame, team, color):
 	var action = ""
 	if prev_pos != cur_pos:
 		action = "move"
-	if unit.has("HitFrame") and frame == unit.HitFrame - unit.HitAfter:
+	elif unit.has("HitFrame") and frame == unit.HitFrame - unit.HitAfter:
 		action = "attack"
 	change_action(node, color, action)
 
@@ -90,9 +91,6 @@ func update(game_node, units, frame, team):
 		var unit = units[i]
 		var layer = game_node.get_node(unit.Layer)
 		var color = "blue" if team == unit.Team else "red"
-		var node
 		if not layer.has_node(i):
-			node = load_unit(unit.Name, color)
-			node.set_name(i)
-			layer.add_child(node)
+			layer.add_child(create_node(unit.Name, color, i))
 		apply_state(layer.get_node(i), unit, frame, team, color)
