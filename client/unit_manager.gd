@@ -52,18 +52,24 @@ func change_action(unit, color, action):
 		return
 	var animspr = unit.get_node("anims")
 	var animstr = color + "_" + action
-	if animspr.get_animation() == animstr:
-		return
 	var sprframes = animspr.get_sprite_frames()
 	if not sprframes or not sprframes.has_animation(animstr):
 		return
-	animspr.set_animation(animstr)
+	animspr.play(animstr)
+	if sprframes.get_animation_loop(animstr):
+		return
+	if animspr.get_frame() == sprframes.get_frame_count(animstr) - 1:
+		animspr.set_frame(0)
 
 func apply_state(node, unit, frame, team, color):
-	node.set_pos(get_position(team, unit.Position.X, unit.Position.Y))
+	var prev_pos = node.get_pos()
+	var cur_pos = get_position(team, unit.Position.X, unit.Position.Y) 
+	node.set_pos(cur_pos)
 	node.get_node("HP").set_text(String(unit.Hp))
-	var action = "move"
-	if unit.has("LastHit") and frame <= unit.LastHit + unit.HitSpeed:
+	var action = ""
+	if prev_pos != cur_pos:
+		action = "move"
+	if unit.has("HitFrame") and frame == unit.HitFrame - unit.HitAfter:
 		action = "attack"
 	change_action(node, color, action)
 

@@ -13,7 +13,8 @@ type Unit struct {
     TargetLayers []Layer `json:"-"`
     Hp int
     Speed float64 `json:"-"`
-    HitSpeed int // # of frames
+    HitAfter int // # of frames
+    HitCycle int
     Radius float64 `json:"-"`
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
@@ -21,7 +22,7 @@ type Unit struct {
     LifetimeCost int `json:"-"`
     Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
-    LastHit int `json:",omitempty"`
+    HitFrame int `json:",omitempty"`
 }
 
 func (u *Unit) FlipY() {
@@ -58,6 +59,13 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
+func (u *Unit) CanMove() bool {
+    if u.HitFrame != 0 && u.HitFrame > u.Game.Frame {
+        return false
+    }
+    return true
+}
+
 func (u *Unit) MoveTo(target *Unit) {
     direction := target.Position.Minus(u.Position).Normalize()
     u.Position = u.Position.Plus(direction.Multiply(u.Speed))
@@ -78,9 +86,13 @@ func (u *Unit) CanAttack(other *Unit) bool {
 }
 
 func (u *Unit) Attack(other *Unit) {
-    if u.Game.Frame > u.LastHit + u.HitSpeed {
+    if u.HitFrame == 0 {
+        u.HitFrame = u.Game.Frame + u.HitAfter
+        return
+    }
+    if u.HitFrame == u.Game.Frame {
         other.TakeDamage(u.Damage)
-        u.LastHit = u.Game.Frame
+        u.HitFrame += u.HitCycle
     }
 }
 
@@ -134,7 +146,8 @@ func (u *Unit) Update() {
     if u.CanAttack(u.Target) {
         u.Attack(u.Target)
         log.Printf("attacking %v, Hp : %v", u.Target.Type, u.Target.Hp)
-    } else {
+    } else if u.CanMove() {
+        u.HitFrame  = 0
         u.MoveTo(u.Target)
         log.Printf("moving to %v", u.Target.Type)
     }
