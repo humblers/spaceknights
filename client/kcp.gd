@@ -31,22 +31,20 @@ func send(dict):
 	packets.append(packet)
 	
 func _update():
+	# read
+	var packet = kcp.read()
+	if packet:
+		recv += packet
+		if recv.ends_with("\n"):
+			var dict = {}
+			dict.parse_json(recv)
+			emit_signal("packet_received", dict)
+			recv = ""
+
 	# write
 	for p in packets:
 		kcp.write(p)
 	packets.clear()
-
-	# read
-	var packet = kcp.read()
-	if not packet:
-		return kcp.update()
-	recv += packet
-	if not recv.ends_with("\n"):
-		return kcp.update()
-	var dict = {}
-	dict.parse_json(recv)
-	recv = ""
-	emit_signal("packet_received", dict)
-
+	
 	# update
 	kcp.update()
