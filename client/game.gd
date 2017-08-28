@@ -12,7 +12,7 @@ signal game_over(winner)
 
 func _ready():
 	UnitManager.WIDTH = Globals.get("display/width")
-	UnitManager.HEIGHT = Globals.get("display/height") - get_node("Ground/Background").get_texture().get_size().height
+	UnitManager.HEIGHT = Globals.get("display/height") - get_node("MothershipBG").get_texture().get_size().height
 	id = http_lobby.get_var("uid")
 	session_id = http_lobby.get_var("game_sessionid")
 	kcp._connect(http_lobby.get_var("game_host"), 9999)

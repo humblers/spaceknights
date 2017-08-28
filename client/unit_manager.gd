@@ -77,11 +77,8 @@ func apply_state(node, unit, frame, team, color):
 func update(game_node, units, frame, team):
 	# delete dead unit nodes
 	for node in game_node.get_node("Ground").get_children():
-		if node.get_name() == "Background":
-			continue
 		if not units.has(node.get_name()):
 			node.queue_free()
-
 	for node in game_node.get_node("Air").get_children():
 		if not units.has(node.get_name()):
 			node.queue_free()
