@@ -31,14 +31,14 @@ func send(dict):
 	packets.append(packet)
 	
 func _update():
+	# https://github.com/xtaci/libkcp#usage
 	# read
+	var dict = {}
 	var packet = kcp.read()
 	if packet:
 		recv += packet
 		if recv.ends_with("\n"):
-			var dict = {}
 			dict.parse_json(recv)
-			emit_signal("packet_received", dict)
 			recv = ""
 
 	# write
@@ -48,3 +48,7 @@ func _update():
 	
 	# update
 	kcp.update()
+	
+	# logic
+	if not dict.empty():
+		emit_signal("packet_received", dict)
