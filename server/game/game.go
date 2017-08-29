@@ -131,6 +131,7 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Id = g.UnitCounter
     unit.Game = g
+    unit.State = Idle
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }
