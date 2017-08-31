@@ -5,6 +5,7 @@ const UPDATES_PER_SECOND = 30
 var kcp = Kcp.new()
 var timer = Timer.new()
 var packets = []
+var recv = ""
 var connected = false
 
 signal packet_received(dict)
@@ -30,13 +31,15 @@ func send(dict):
 	packets.append(packet)
 	
 func _update():
+	# https://github.com/xtaci/libkcp#usage
 	# read
+	var dict = {}
 	var packet = kcp.read()
 	if packet:
-		#print(packet)
-		var dict = {}
-		dict.parse_json(packet)
-		emit_signal("packet_received", dict)
+		recv += packet
+		if recv.ends_with("\n"):
+			dict.parse_json(recv)
+			recv = ""
 
 	# write
 	for p in packets:
@@ -45,3 +48,7 @@ func _update():
 	
 	# update
 	kcp.update()
+	
+	# logic
+	if not dict.empty():
+		emit_signal("packet_received", dict)

@@ -13,6 +13,7 @@ func NewPacket(in interface{}) Packet {
     if err != nil {
         panic(err)
     }
+    b = append(b, '\n')
     return Packet(b)
 }
 

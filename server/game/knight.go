@@ -18,9 +18,9 @@ func NewKnight(t Team, name string) *Unit {
         Team: t,
         Type: "knight",
         Name: name,
-        Position: p,
         Layer: Air,
         Hp: 100,
         Radius: radius,
+        Position: p,
     }
 }

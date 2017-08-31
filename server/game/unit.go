@@ -2,26 +2,38 @@ package main
 
 import "log"
 
+type State string
+const (
+    Idle State = "idle"
+    Attack State = "attack"
+    Move State = "move"
+)
+
 type Unit struct {
-    Id int `json:"-"`
-    Game *Game `json:"-"`
+    // invariant
     Team Team
     Type string `json:"-"`
     Name string
-    Position Vector2
     Layer Layer
-    TargetLayers []Layer `json:"-""`
+    TargetLayers []Layer `json:"-"`
     Hp int
     Speed float64 `json:"-"`
-    HitSpeed int `json:"-"` // # of frames
+    PreHitDelay int `json:"-"`
+    PostHitDelay int `json:"-"`
     Radius float64 `json:"-"`
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
     Damage int `json:"-"`
     LifetimeCost int `json:"-"`
+
+    // variant
+    Id int `json:"-"`
+    Game *Game `json:"-"`
+    State State
+    Position Vector2
     Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
-    LastHit int `json:"-"`
+    HitFrame int `json:"-"`
 }
 
 func (u *Unit) FlipY() {
@@ -58,6 +70,7 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
+
 func (u *Unit) MoveTo(target *Unit) {
     direction := target.Position.Minus(u.Position).Normalize()
     u.Position = u.Position.Plus(direction.Multiply(u.Speed))
@@ -77,11 +90,22 @@ func (u *Unit) CanAttack(other *Unit) bool {
     return false
 }
 
-func (u *Unit) Attack(other *Unit) {
-    if u.Game.Frame > u.LastHit + u.HitSpeed {
-        other.TakeDamage(u.Damage)
-        u.LastHit = u.Game.Frame
+func (u *Unit) IsAttacking() bool {
+    return u.Game.Frame >= u.HitFrame - u.PreHitDelay &&
+            u.Game.Frame <= u.HitFrame + u.PostHitDelay
+}
+
+func (u *Unit) HandleAttack() {
+    if u.Game.Frame == u.HitFrame {
+        if u.CanAttack(u.Target) {
+            u.Target.TakeDamage(u.Damage)
+        }
     }
+}
+
+func (u *Unit) StartAttack() {
+    u.HitFrame = u.Game.Frame + u.PreHitDelay
+    u.HandleAttack()
 }
 
 func (u *Unit) FindNearestEnemy() *Unit {
@@ -123,19 +147,28 @@ func (u *Unit) Update() {
     if u.LifetimeCost > 0 {
         u.TakeDamage(u.LifetimeCost)
     }
-    if !u.HasTarget() || !u.CanAttack(u.Target) {
-        u.Target = u.FindNearestEnemy()
-    }
-    if u.Target == nil {
-        log.Printf("no target found : %v", u.Target.Type)
-        return
+
+    if u.IsAttacking() {
+        u.HandleAttack()
+    } else {
+        if !u.HasTarget() || !u.CanAttack(u.Target) {
+            u.Target = u.FindNearestEnemy()
+        }
+        if u.Target == nil {
+            u.State = Idle
+            log.Printf("no target found : %v", u.Name)
+        } else {
+            if u.CanAttack(u.Target) {
+                u.State = Attack
+                u.StartAttack()
+                log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+            } else {
+                u.State = Move
+                u.MoveTo(u.Target)
+                log.Printf("moving to %v", u.Target.Name)
+            }
+        }
     }
 
-    if u.CanAttack(u.Target) {
-        u.Attack(u.Target)
-        log.Printf("attacking %v, Hp : %v", u.Target.Type, u.Target.Hp)
-    } else {
-        u.MoveTo(u.Target)
-        log.Printf("moving to %v", u.Target.Type)
-    }
+    // TODO : apply repulsion force
 }
