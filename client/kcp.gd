@@ -6,7 +6,6 @@ var kcp = Kcp.new()
 var timer = Timer.new()
 var packets = []
 var recv = ""
-var connected = false
 
 signal packet_received(dict)
 
@@ -16,21 +15,22 @@ func _ready():
 	add_child(timer)
 
 func _connect(ip, port):
+	assert(kcp.is_connected() == false)
 	if kcp.connect(ip, port):
-		connected = true
 		timer.start()
 
 func _disconnect():
-	if connected:
-		timer.stop()
-		kcp.disconnect()
-		connected = false
+	assert(kcp.is_connected() == true)
+	timer.stop()
+	kcp.disconnect()
 
 func send(dict):
 	var packet = dict.to_json() + '\n'
 	packets.append(packet)
 	
 func _update():
+	assert(kcp.is_connected() == true)
+
 	# https://github.com/xtaci/libkcp#usage
 	# read
 	var dict = {}
