@@ -131,6 +131,7 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Id = g.UnitCounter
     unit.Game = g
+    unit.State = Idle
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }
@@ -189,6 +190,6 @@ func (game *Game) apply(input Input) {
     if input.Move != 0 {
         player.Move(input.Move)
     } else if input.Use != 0 {
-        player.UseCard(input.Use, game)
+        player.UseCard(input.Use - 1, game)
     }
 }
