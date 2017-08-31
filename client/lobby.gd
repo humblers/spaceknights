@@ -16,4 +16,11 @@ func _match_response(success, dict):
 		print("match failed : ", dict)
 	http_lobby.set_var("game_host", dict["host"])
 	http_lobby.set_var("game_sessionid", dict["sid"])
+
+	# kcp connect before scene loading
+	var id = http_lobby.get_var("uid")
+	var session_id = http_lobby.get_var("game_sessionid")
+	kcp._connect(http_lobby.get_var("game_host"), 9999)
+	kcp.send({"Id": id, "Token": id})
+	kcp.send({"SessionId": session_id})
 	get_tree().change_scene("res://game.tscn")
