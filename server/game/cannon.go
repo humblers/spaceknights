@@ -3,7 +3,7 @@ package main
 func NewCannon(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "cannon",
+        Type: "building",
         Name: "cannon",
         Layer: Ground,
         TargetLayers : []Layer{Ground},

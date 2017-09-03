@@ -3,7 +3,7 @@ package main
 func NewArcher(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "archer",
+        Type: "troop",
         Name: "archer",
         Layer: Ground,
         TargetLayers : []Layer{Ground, Air},

@@ -15,6 +15,7 @@ type Unit struct {
     Type string `json:"-"`
     Name string
     Layer Layer
+    TargetTypes []string `json:"-"`
     TargetLayers []Layer `json:"-"`
     Hp int
     Speed float64 `json:"-"`

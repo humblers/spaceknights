@@ -3,7 +3,7 @@ package main
 func NewBarbarian(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "barbarian",
+        Type: "troop",
         Name: "barbarian",
         Layer: Ground,
         TargetLayers : []Layer{Ground},

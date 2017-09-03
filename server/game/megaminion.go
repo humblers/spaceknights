@@ -3,7 +3,7 @@ package main
 func NewMegaminion(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "megaminion",
+        Type: "troop",
         Name: "megaminion",
         Layer: Air,
         TargetLayers : []Layer{Ground, Air},
