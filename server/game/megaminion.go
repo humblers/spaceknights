@@ -1,10 +1,10 @@
 package main
 
-func NewBabydragon(t Team, x float64) *Unit {
+func NewMegaminion(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "babydragon",
-        Name: "babydragon",
+        Type: "megaminion",
+        Name: "megaminion",
         Layer: Air,
         TargetLayers : []Layer{Ground, Air},
         Hp: 200,
