@@ -132,18 +132,6 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    implementedUnits := [...]string{"archer", "babydragon", "barbarian", "cannon"}
-    updatable := false
-    for i := 0; i < len(implementedUnits); i++ {
-        if implementedUnits[i] == u.Type {
-            updatable = true
-            break
-        }
-    }
-    if !updatable {
-        return
-    }
-
     if u.LifetimeCost > 0 {
         u.TakeDamage(u.LifetimeCost)
     }
@@ -156,7 +144,9 @@ func (u *Unit) Update() {
         }
         if u.Target == nil {
             u.State = Idle
-            log.Printf("no target found : %v", u.Name)
+            if u.Range > 0 {
+                log.Printf("no target found : %v", u.Name)
+            }
         } else {
             if u.CanAttack(u.Target) {
                 u.State = Attack
