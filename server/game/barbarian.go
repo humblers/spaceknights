@@ -10,7 +10,7 @@ func NewBarbarian(t Team, x float64) *Unit {
         Hp: 80,
         Speed: 5,
         PreHitDelay: 3,
-        PostHitDelay: 10,
+        PostHitDelay: 6,
         Radius: 12,
         Sight: 100,
         Range: 15,
