@@ -46,7 +46,7 @@ func (u *Unit) TakeDamage(d int) {
     }
 }
 
-func (u *Unit) Attackable(target *Unit) bool {
+func (u *Unit) AbleTargeting(target *Unit) bool {
     if u.Team == target.Team {
         return false
     }
@@ -112,7 +112,7 @@ func (u *Unit) FindNearestEnemy() *Unit {
     var enemy *Unit
     var enemyDistance float64
     for _, unit := range u.Game.Units {
-        if !u.Attackable(unit) {
+        if !u.AbleTargeting(unit) {
             continue
         }
         if canSee, dist := u.CanSee(unit); canSee || unit.Type == "mothership" {
