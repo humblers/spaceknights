@@ -70,17 +70,17 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-
 func (u *Unit) MoveTo(position Vector2) {
     direction := position.Minus(u.Position).Normalize()
     u.Position = u.Position.Plus(direction.Multiply(u.Speed))
 }
 
-func (u *Unit) CanSee(other *Unit) bool {
-    if u.DistanceTo(other) < u.Sight {
-        return true
+func (u *Unit) CanSee(other *Unit) (bool, float64) {
+    distance := u.DistanceTo(other)
+    if  distance < u.Sight {
+        return true, distance
     }
-    return false
+    return false, distance
 }
 
 func (u *Unit) CanAttack(other *Unit) bool {
@@ -110,13 +110,14 @@ func (u *Unit) StartAttack() {
 
 func (u *Unit) FindNearestEnemy() *Unit {
     var enemy *Unit
+    var enemyDistance float64
     for _, unit := range u.Game.Units {
         if !u.Attackable(unit) {
             continue
         }
-        if unit.Type == "mothership" || u.CanSee(unit) {
-            if enemy == nil || u.DistanceTo(enemy) > u.DistanceTo(unit) {
-                enemy = unit
+        if canSee, dist := u.CanSee(unit); canSee || unit.Type == "mothership" {
+            if enemy == nil || enemyDistance > dist {
+                enemy, enemyDistance = unit, dist
             }
         }
     }
