@@ -15,8 +15,8 @@ type Unit struct {
     Type string `json:"-"`
     Name string
     Layer Layer
-    TargetTypes []string `json:"-"`
     TargetLayers []Layer `json:"-"`
+    TargetExcludeTroopType bool `json:"-"`
     Hp int
     Speed float64 `json:"-"`
     PreHitDelay int `json:"-"`
@@ -56,6 +56,10 @@ func (u *Unit) AbleTargeting(target *Unit) bool {
         return false
     case "mothership":
         if u.Name == "base" {
+            return false
+        }
+    case "troop":
+        if u.TargetExcludeTroopType {
             return false
         }
     }
