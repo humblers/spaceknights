@@ -9,7 +9,7 @@ func NewBarbarian(t Team, x float64) *Unit {
         TargetLayers : []Layer{Ground},
         Hp: 80,
         Speed: 5,
-        PreHitDelay: 4,
+        PreHitDelay: 3,
         PostHitDelay: 10,
         Radius: 12,
         Sight: 100,
