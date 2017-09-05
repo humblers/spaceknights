@@ -18,6 +18,48 @@ const (
     TileHeight = 20
 )
 
+type Area struct {
+    T float64  // Top
+    B float64  // Bottom
+    L float64  // Left
+    R float64  // Right
+}
+var (
+    Top = &Area{0, 260, 0, 400}
+    Bottom = &Area{300, 560, 0, 400}
+    LeftHole = &Area{260, 300, 60, 80}
+    RightHole = &Area{260, 300, 320, 340}
+)
+var (
+    LeftHoleTL = Vector2{LeftHole.L, LeftHole.T}
+    LeftHoleTR = Vector2{LeftHole.R, LeftHole.T}
+    LeftHoleBL = Vector2{LeftHole.L, LeftHole.B}
+    LeftHoleBR = Vector2{LeftHole.R, LeftHole.B}
+    RightHoleTL = Vector2{RightHole.L, RightHole.T}
+    RightHoleTR = Vector2{RightHole.R, RightHole.T}
+    RightHoleBL = Vector2{RightHole.L, RightHole.B}
+    RightHoleBR = Vector2{RightHole.R, RightHole.B}
+)
+
+func (a *Area) Contains(v Vector2) bool {
+    return v.X >= a.L && v.X <= a.R && v.Y >= a.T && v.Y <= a.B
+}
+
+type Portal struct {
+    Left Vector2
+    Right Vector2
+}
+var (
+    TopToLeftHole = &Portal{LeftHoleTR, LeftHoleTL}
+    TopToRightHole = &Portal{RightHoleTR, RightHoleTL}
+    BottomToLeftHole = &Portal{LeftHoleBL, LeftHoleBR}
+    BottomToRightHole = &Portal{RightHoleBL, RightHoleBR}
+    LeftHoleToTop = &Portal{LeftHoleTL, LeftHoleTR}
+    RightHoleToTop = &Portal{RightHoleTL, RightHoleTR}
+    LeftHoleToBottom = &Portal{LeftHoleBR, LeftHoleBL}
+    RightHoleToBottom = &Portal{RightHoleBR, RightHoleBL}
+)
+
 type Team string
 const (
     Home Team = "Home"
