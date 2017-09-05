@@ -38,3 +38,7 @@ func (v Vector2) Normalize() Vector2 {
         Y: v.Y / l,
     }
 }
+
+func (a Vector2) Cross(b Vector2) float64 {
+    return a.X * b.Y - a.Y * b.X
+}

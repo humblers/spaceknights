@@ -39,6 +39,8 @@ func delete_dead_units(units):
 func create_unit(id, unit):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()
 	node.set_name(id)
+	if node.has_method("set_unit_name"):
+		node.set_unit_name(unit.Name)
 	get_node("Units").add_child(node)
 
 func get_unit_color(unit, my_team):

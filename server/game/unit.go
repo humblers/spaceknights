@@ -71,8 +71,8 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 }
 
 
-func (u *Unit) MoveTo(target *Unit) {
-    direction := target.Position.Minus(u.Position).Normalize()
+func (u *Unit) MoveTo(position Vector2) {
+    direction := position.Minus(u.Position).Normalize()
     u.Position = u.Position.Plus(direction.Multiply(u.Speed))
 }
 
@@ -154,11 +154,133 @@ func (u *Unit) Update() {
                 log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
             } else {
                 u.State = Move
-                u.MoveTo(u.Target)
-                log.Printf("moving to %v", u.Target.Name)
+                position := u.Target.Position
+                if u.Layer == Ground {
+                    path := u.FindPath(u.Target)
+                    position = u.NextCornerInPath(path)
+                }
+                log.Printf("moving to %v", position)
+                u.MoveTo(position)
             }
         }
     }
 
     // TODO : apply repulsion force
+}
+
+func (u *Unit) Location() (area *Area) {
+    switch {
+    case Top.Contains(u.Position):
+        area = Top
+    case Bottom.Contains(u.Position):
+        area = Bottom
+    case LeftHole.Contains(u.Position):
+        area = LeftHole
+    case RightHole.Contains(u.Position):
+        area = RightHole
+    default:
+        log.Panicf("invalid unit position : %v", u.Position)
+    }
+    return
+}
+
+func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
+    src := from.Location()
+    dst := to.Location()
+    switch src {
+    case Top:
+        switch dst {
+        case Top:
+            portals = []*Portal{}
+        case Bottom:
+            if from.Position.X < MapWidth / 2 {
+                return []*Portal{TopToLeftHole, LeftHoleToBottom}
+            } else {
+                return []*Portal{TopToRightHole, RightHoleToBottom}
+            }
+        case LeftHole:
+            portals = []*Portal{TopToLeftHole}
+        case RightHole:
+            portals = []*Portal{TopToRightHole}
+        }
+    case Bottom:
+        switch dst {
+        case Top:
+            if from.Position.X < MapWidth / 2 {
+                return []*Portal{BottomToLeftHole, LeftHoleToTop}
+            } else {
+                return []*Portal{BottomToRightHole, RightHoleToTop}
+            }
+        case Bottom:
+            portals = []*Portal{}
+        case LeftHole:
+            portals = []*Portal{BottomToLeftHole}
+        case RightHole:
+            portals = []*Portal{BottomToRightHole}
+        }
+    case LeftHole:
+        switch dst {
+        case Top:
+            portals = []*Portal{LeftHoleToTop}
+        case Bottom:
+            portals = []*Portal{LeftHoleToBottom}
+        case LeftHole:
+            portals = []*Portal{}
+        case RightHole:
+            if from.Team == Home {
+                return []*Portal{LeftHoleToTop, TopToRightHole}
+            } else {
+                return []*Portal{LeftHoleToBottom, BottomToRightHole}
+            }
+        }
+    case RightHole:
+        switch dst {
+        case Top:
+            portals = []*Portal{RightHoleToTop}
+        case Bottom:
+            portals = []*Portal{RightHoleToBottom}
+        case LeftHole:
+            if from.Team == Home {
+                return []*Portal{RightHoleToTop, TopToLeftHole}
+            } else {
+                return []*Portal{RightHoleToBottom, BottomToLeftHole}
+            }
+        case RightHole:
+            portals = []*Portal{}
+        }
+    }
+    portals = append(portals, &Portal{to.Position, to.Position})
+    return
+}
+
+// find the next corner using funnel filter
+func (u *Unit) NextCornerInPath(path []*Portal) Vector2 {
+    if len(path) <= 0 {
+        panic("invalid path")
+    }
+    portalLeft := path[0].Left
+    portalRight := path[0].Right
+    left := portalLeft.Minus(u.Position)
+    right := portalRight.Minus(u.Position)
+    for _, portal := range path[1:] {
+        newPortalLeft := portal.Left
+        newPortalRight := portal.Right
+        newLeft := newPortalLeft.Minus(u.Position)
+        newRight := newPortalRight.Minus(u.Position)
+        if left.Cross(newLeft) >= 0 {
+            if right.Cross(newLeft) > 0 {
+                return portalRight
+            }
+            portalLeft = newPortalLeft
+            left = newLeft
+        }
+        if right.Cross(newRight) <= 0 {
+            if left.Cross(newRight) < 0 {
+                return portalLeft
+            }
+            portalRight = newPortalRight
+            right = newRight
+        }
+    }
+    return portalLeft
 }
