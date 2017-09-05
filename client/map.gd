@@ -40,7 +40,6 @@ func create_unit(id, unit):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()
 	node.set_name(id)
 	if node.has_method("set_unit_name"):
-		print(unit.Name)
 		node.set_unit_name(unit.Name)
 	get_node("Units").add_child(node)
 
