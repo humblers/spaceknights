@@ -161,7 +161,6 @@ func (u *Unit) Update() {
                 }
                 log.Printf("moving to %v", position)
                 u.MoveTo(position)
-                log.Printf("current position : %v", u.Position)
             }
         }
     }
