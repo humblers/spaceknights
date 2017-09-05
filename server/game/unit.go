@@ -82,10 +82,14 @@ func (u *Unit) MoveTo(position Vector2) {
 
 func (u *Unit) CanSee(other *Unit) (bool, float64) {
     distance := u.DistanceTo(other)
-    if  distance < u.Sight {
+    if distance < u.Sight {
         return true, distance
     }
     return false, distance
+}
+
+func (u *Unit) HasAttack() bool {
+    return u.Sight > 0 && u.Range > 0 && u.Damage > 0
 }
 
 func (u *Unit) CanAttack(other *Unit) bool {
@@ -113,7 +117,7 @@ func (u *Unit) StartAttack() {
     u.HandleAttack()
 }
 
-func (u *Unit) FindNearestEnemy() *Unit {
+func (u *Unit) FindNearestTarget() *Unit {
     var enemy *Unit
     var enemyDistance float64
     for _, unit := range u.Game.Units {
@@ -125,6 +129,9 @@ func (u *Unit) FindNearestEnemy() *Unit {
                 enemy, enemyDistance = unit, dist
             }
         }
+    }
+    if enemy == nil {
+        log.Printf("no target found : %v", u.Name)
     }
     return enemy
 }
@@ -145,29 +152,25 @@ func (u *Unit) Update() {
     if u.IsAttacking() {
         u.HandleAttack()
     } else {
-        if !u.HasTarget() || !u.CanAttack(u.Target) {
-            u.Target = u.FindNearestEnemy()
+        u.State = Idle
+        if u.HasAttack() {
+            if !u.HasTarget() || !u.CanAttack(u.Target) {
+                u.Target = u.FindNearestTarget()
+            }
         }
-        if u.Target == nil {
-            u.State = Idle
-            if u.Range > 0 {
-                log.Printf("no target found : %v", u.Name)
+        if u.Target != nil && u.CanAttack(u.Target){
+            u.State = Attack
+            u.StartAttack()
+            log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+        } else if u.Speed > 0 {
+            u.State = Move
+            position := u.Target.Position
+            if u.Layer == Ground {
+                path := u.FindPath(u.Target)
+                position = u.NextCornerInPath(path)
             }
-        } else {
-            if u.CanAttack(u.Target) {
-                u.State = Attack
-                u.StartAttack()
-                log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
-            } else {
-                u.State = Move
-                position := u.Target.Position
-                if u.Layer == Ground {
-                    path := u.FindPath(u.Target)
-                    position = u.NextCornerInPath(path)
-                }
-                log.Printf("moving to %v", position)
-                u.MoveTo(position)
-            }
+            log.Printf("moving to %v", position)
+            u.MoveTo(position)
         }
     }
 
