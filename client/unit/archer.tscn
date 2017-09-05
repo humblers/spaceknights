@@ -1,12 +1,20 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://devmonitor.gd" type="Script" id=1]
 [ext_resource path="res://unit/archer_blue_move01.png" type="Texture" id=2]
 [ext_resource path="res://unit/archer_blue_move02.png" type="Texture" id=3]
 [ext_resource path="res://unit/archer_blue_idle.png" type="Texture" id=4]
-[ext_resource path="res://unit/archer_red_move01.png" type="Texture" id=5]
-[ext_resource path="res://unit/archer_red_move02.png" type="Texture" id=6]
-[ext_resource path="res://unit/archer_red_idle.png" type="Texture" id=7]
+[ext_resource path="res://unit/archer_blue_atk01.png" type="Texture" id=5]
+[ext_resource path="res://unit/archer_blue_atk02.png" type="Texture" id=6]
+[ext_resource path="res://unit/archer_blue_atk03.png" type="Texture" id=7]
+[ext_resource path="res://unit/archer_blue_atk04.png" type="Texture" id=8]
+[ext_resource path="res://unit/archer_red_move01.png" type="Texture" id=9]
+[ext_resource path="res://unit/archer_red_move02.png" type="Texture" id=10]
+[ext_resource path="res://unit/archer_red_idle.png" type="Texture" id=11]
+[ext_resource path="res://unit/archer_red_atk01.png" type="Texture" id=12]
+[ext_resource path="res://unit/archer_red_atk02.png" type="Texture" id=13]
+[ext_resource path="res://unit/archer_red_atk03.png" type="Texture" id=14]
+[ext_resource path="res://unit/archer_red_atk04.png" type="Texture" id=15]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -21,29 +29,29 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "attack",
-"speed": 5.0
+"speed": 10.0
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "move",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 11 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 11 ), ExtResource( 11 ), ExtResource( 11 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "attack",
-"speed": 5.0
+"speed": 10.0
 } ]
 
 [node name="archer" type="Node2D"]
@@ -57,7 +65,8 @@ visibility/visible = false
 [node name="Animation" type="AnimatedSprite" parent="Blue"]
 
 frames = SubResource( 1 )
-animation = "idle"
+animation = "attack"
+frame = 1
 
 [node name="Red" type="Node2D" parent="."]
 
@@ -66,7 +75,8 @@ visibility/visible = false
 [node name="Animation" type="AnimatedSprite" parent="Red"]
 
 frames = SubResource( 2 )
-animation = "idle"
+animation = "attack"
+frame = 2
 
 [node name="Hp" type="Node2D" parent="."]
 
