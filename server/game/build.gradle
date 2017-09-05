@@ -8,3 +8,15 @@ dependencies {
         build name:'github.com/xtaci/kcp-go'
     }
 }
+
+task copyExecutable(type: Copy) {
+    from (".gogradle") {
+        include "*game"
+    }
+    into '../bin'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        rename('(.*)_(.*)_(.*)', '$1_$3.exe')
+    }
+}
+
+build.dependsOn copyExecutable

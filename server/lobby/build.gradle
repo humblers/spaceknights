@@ -11,3 +11,15 @@ dependencies {
         build name:'github.com/go-chi/render'
     }
 }
+
+task copyExecutable(type: Copy) {
+    from (".gogradle") {
+        include "*lobby"
+    }
+    into '../bin'
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        rename('(.*)_(.*)_(.*)', '$1_$3.exe')
+    }
+}
+
+build.dependsOn copyExecutable
