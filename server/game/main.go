@@ -54,7 +54,7 @@ func main() {
                         knightName: "shuriken",
                         deck: Cards{
                             "archer",
-                            "babydragon",
+                            "megaminion",
                             "barbarian",
                             "bomber",
                             "cannon",
@@ -66,7 +66,7 @@ func main() {
                         knightName: "space_z",
                         deck: Cards{
                             "archer",
-                            "babydragon",
+                            "megaminion",
                             "barbarian",
                             "bomber",
                             "cannon",

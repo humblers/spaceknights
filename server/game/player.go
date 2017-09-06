@@ -67,7 +67,7 @@ func (player *Player) UseCard(index int, game *Game) {
     switch card {
     case "archer":
         game.AddUnit(NewArcher(player.Team, player.Knight.Position.X))
-    case "babydragon":
+    case "megaminion":
         game.AddUnit(NewMegaminion(player.Team, player.Knight.Position.X))
     case "barbarian":
         game.AddUnit(NewBarbarian(player.Team, player.Knight.Position.X))
