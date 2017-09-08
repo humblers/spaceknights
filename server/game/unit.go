@@ -2,7 +2,6 @@ package main
 
 import (
     "log"
-    "math"
 )
 
 type State string
@@ -62,7 +61,7 @@ type Unit struct {
     Sight float64 `json:"-"`
     Range float64 `json:"-"`
     Damage int `json:"-"`
-    DamageRadius int `json:"-"`
+    DamageRadius float64 `json:"-"`
     LifetimeCost int `json:"-"`
 
     // variant
@@ -143,7 +142,7 @@ func (u *Unit) HandleAttack() {
                     if u.Target == unit {
                         continue
                     }
-                    if u.CanTarget(unit) && u.DamageRadius <= int(math.Ceil(u.DistanceTo(unit))) {
+                    if u.CanTarget(unit) && u.DamageRadius >= u.Target.DistanceTo(unit) {
                         unit.TakeDamage(u.Damage)
                     }
                 }
