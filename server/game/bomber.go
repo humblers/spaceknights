@@ -3,10 +3,11 @@ package main
 func NewBomber(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "troop",
+        Type: Troop,
         Name: "bomber",
         Layer: Ground,
-        TargetLayers : []Layer{Ground},
+        TargetLayers : Layers{Ground},
+        TargetTypes: Types{Building, Troop},
         Hp: 50,
         Speed: 5,
         PreHitDelay: 5,

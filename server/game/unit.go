@@ -143,7 +143,7 @@ func (u *Unit) HandleAttack() {
                     if u.Target == unit {
                         continue
                     }
-                    if u.AbleTargeting(unit) && u.DamageRadius <= int(math.Ceil(u.DistanceTo(unit))) {
+                    if u.CanTarget(unit) && u.DamageRadius <= int(math.Ceil(u.DistanceTo(unit))) {
                         unit.TakeDamage(u.Damage)
                     }
                 }
