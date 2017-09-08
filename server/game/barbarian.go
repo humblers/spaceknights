@@ -3,10 +3,11 @@ package main
 func NewBarbarian(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "barbarian",
+        Type: Troop,
         Name: "barbarian",
         Layer: Ground,
-        TargetLayers : []Layer{Ground},
+        TargetLayers : Layers{Ground},
+        TargetTypes: Types{Troop, Building},
         Hp: 80,
         Speed: 5,
         PreHitDelay: 3,

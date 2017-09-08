@@ -13,6 +13,10 @@ const UNIT_INFO = {
 		"sight" : 100,
 		"range" : 100,
 	},
+	"giant" : {
+		"sight" : 200,
+		"range" : 15,
+	},
 	"megaminion" : {
 		"sight" : 80,
 		"range" : 50,

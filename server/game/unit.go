@@ -9,13 +9,48 @@ const (
     Move State = "move"
 )
 
+type Layer string
+type Layers []Layer
+const (
+    Ground Layer = "Ground"
+    Air Layer = "Air"
+)
+
+type Type string
+type Types []Type
+const (
+    Troop Type = "Troop"
+    Building Type = "Building"
+    Base Type = "Base"
+    Knight Type = "Knight"
+)
+
+func (layers Layers) Contains(layer Layer) bool {
+    for _, l := range layers {
+        if l == layer {
+            return true
+        }
+    }
+    return false
+}
+
+func (types Types) Contains(_type Type) bool {
+    for _, t := range types {
+        if t == _type {
+            return true
+        }
+    }
+    return false
+}
+
 type Unit struct {
     // invariant
     Team Team
-    Type string `json:"-"`
+    Type Type `json:"-"`
     Name string
     Layer Layer
-    TargetLayers []Layer `json:"-"`
+    TargetLayers Layers `json:"-"`
+    TargetTypes Types `json:"-"`
     Hp int
     Speed float64 `json:"-"`
     PreHitDelay int `json:"-"`
@@ -36,6 +71,13 @@ type Unit struct {
     HitFrame int `json:"-"`
 }
 
+func (u *Unit) IsCore() bool {
+    if u.Name == "maincore" || u.Name == "subcore" {
+        return true
+    }
+    return false
+}
+
 func (u *Unit) FlipY() {
     u.Position.Y = MapHeight - u.Position.Y
 }
@@ -46,30 +88,22 @@ func (u *Unit) TakeDamage(d int) {
     }
 }
 
-func (u *Unit) Attackable(target *Unit) bool {
-    if u.Team == target.Team {
+func (u *Unit) CanTarget(other *Unit) bool {
+    if u.Team == other.Team {
         return false
     }
-    switch target.Type {
-    case "knight":
+    if !u.TargetTypes.Contains(other.Type) {
         return false
-    case "mothership":
-        if u.Name == "base" {
-            return false
-        }
     }
-    for i := 0; i < len(u.TargetLayers); i++ {
-        if u.TargetLayers[i] == target.Layer {
-            return true
-        }
+    if !u.TargetLayers.Contains(other.Layer) {
+        return false
     }
-    return false
+    return true
 }
 
 func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
-
 
 func (u *Unit) MoveTo(position Vector2) {
     direction := position.Minus(u.Position).Normalize()
@@ -83,7 +117,7 @@ func (u *Unit) CanSee(other *Unit) bool {
     return false
 }
 
-func (u *Unit) CanAttack(other *Unit) bool {
+func (u *Unit) WithinRange(other *Unit) bool {
     if u.DistanceTo(other) < u.Range {
         return true
     }
@@ -91,13 +125,14 @@ func (u *Unit) CanAttack(other *Unit) bool {
 }
 
 func (u *Unit) IsAttacking() bool {
-    return u.Game.Frame >= u.HitFrame - u.PreHitDelay &&
+    return u.HitFrame > 0 &&
+            u.Game.Frame >= u.HitFrame - u.PreHitDelay &&
             u.Game.Frame <= u.HitFrame + u.PostHitDelay
 }
 
 func (u *Unit) HandleAttack() {
     if u.Game.Frame == u.HitFrame {
-        if u.CanAttack(u.Target) {
+        if u.WithinRange(u.Target) {
             u.Target.TakeDamage(u.Damage)
         }
     }
@@ -108,19 +143,21 @@ func (u *Unit) StartAttack() {
     u.HandleAttack()
 }
 
-func (u *Unit) FindNearestEnemy() *Unit {
-    var enemy *Unit
+func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
+    var target *Unit
+    var distance float64
     for _, unit := range u.Game.Units {
-        if !u.Attackable(unit) {
+        if !u.CanTarget(unit) {
             continue
         }
-        if unit.Type == "mothership" || u.CanSee(unit) {
-            if enemy == nil || u.DistanceTo(enemy) > u.DistanceTo(unit) {
-                enemy = unit
+        if filter(unit) {
+            dist := u.DistanceTo(unit)
+            if target == nil || dist < distance {
+                target, distance = unit, dist
             }
         }
     }
-    return enemy
+    return target
 }
 
 func (u *Unit) IsDead() bool {
@@ -132,39 +169,59 @@ func (u *Unit) HasTarget() bool {
 }
 
 func (u *Unit) Update() {
-    if u.LifetimeCost > 0 {
-        u.TakeDamage(u.LifetimeCost)
-    }
-
-    if u.IsAttacking() {
-        u.HandleAttack()
-    } else {
-        if !u.HasTarget() || !u.CanAttack(u.Target) {
-            u.Target = u.FindNearestEnemy()
-        }
-        if u.Target == nil {
-            u.State = Idle
-            if u.Range > 0 {
-                log.Printf("no target found : %v", u.Name)
-            }
+    switch u.Type {
+    case Troop:
+        if u.IsAttacking() {
+            u.HandleAttack()
         } else {
-            if u.CanAttack(u.Target) {
+            if !u.HasTarget() || !u.WithinRange(u.Target) {
+                var filter = func (other *Unit) bool {
+                    return u.CanSee(other) || other.IsCore()
+                }
+                u.Target = u.FindNearestTarget(filter)
+            }
+            if u.Target == nil {    // when all cores are destroyed (last frame update)
+                u.State = Idle
+                log.Printf("no target found : %v", u.Name)
+            } else {
+                if u.WithinRange(u.Target){
+                    u.State = Attack
+                    u.StartAttack()
+                    log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                } else {
+                    u.State = Move
+                    position := u.Target.Position
+                    if u.Layer == Ground {
+                        path := u.FindPath(u.Target)
+                        position = u.NextCornerInPath(path)
+                    }
+                    log.Printf("moving to %v", position)
+                    u.MoveTo(position)
+                }
+            }
+        }
+    case Building:
+        u.TakeDamage(u.LifetimeCost)
+        if u.IsAttacking() {
+            u.HandleAttack()
+        } else {
+            if !u.HasTarget() || !u.WithinRange(u.Target) {
+                var filter = func (other *Unit) bool {
+                    return u.WithinRange(other)
+                }
+                u.Target = u.FindNearestTarget(filter)
+            }
+            if u.Target == nil {
+                u.State = Idle
+            } else {
                 u.State = Attack
                 u.StartAttack()
                 log.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
-            } else {
-                u.State = Move
-                position := u.Target.Position
-                if u.Layer == Ground {
-                    path := u.FindPath(u.Target)
-                    position = u.NextCornerInPath(path)
-                }
-                log.Printf("moving to %v", position)
-                u.MoveTo(position)
             }
         }
+    case Base, Knight:
+        return
     }
-
     // TODO : apply repulsion force
 }
 
