@@ -16,7 +16,7 @@ func NewKnight(t Team, name string) *Unit {
     }
     return &Unit{
         Team: t,
-        Type: "knight",
+        Type: Knight,
         Name: name,
         Layer: Air,
         Hp: 100,

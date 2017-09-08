@@ -3,11 +3,11 @@ package main
 func NewGiant(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "troop",
+        Type: Troop,
         Name: "giant",
         Layer: Ground,
-        TargetLayers : []Layer{Ground},
-        TargetExcludeTroopType: true,
+        TargetLayers : Layers{Ground},
+        TargetTypes : Types{Building},
         Hp: 320,
         Speed: 2,
         PreHitDelay: 8,

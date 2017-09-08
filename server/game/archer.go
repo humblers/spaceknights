@@ -3,10 +3,11 @@ package main
 func NewArcher(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "troop",
+        Type: Troop,
         Name: "archer",
         Layer: Ground,
-        TargetLayers : []Layer{Ground, Air},
+        TargetLayers : Layers{Ground, Air},
+        TargetTypes: Types{Troop, Building},
         Hp: 60,
         Speed: 3,
         PreHitDelay: 5,

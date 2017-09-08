@@ -3,10 +3,11 @@ package main
 func NewMegaminion(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
-        Type: "troop",
+        Type: Troop,
         Name: "megaminion",
         Layer: Air,
-        TargetLayers : []Layer{Ground, Air},
+        TargetLayers : Layers{Ground, Air},
+        TargetTypes: Types{Troop, Building},
         Hp: 200,
         Speed: 3,
         PreHitDelay: 5,

@@ -13,7 +13,7 @@ func NewMothership(t Team) []*Unit {
     var mothership []*Unit
     main := &Unit{
         Team: t,
-        Type: "mothership",
+        Type: Building,
         Name: "maincore",
         Layer: Ground,
         Hp: 200,
@@ -24,7 +24,7 @@ func NewMothership(t Team) []*Unit {
     }
     left := &Unit{
         Team: t,
-        Type: "mothership",
+        Type: Building,
         Name: "subcore",
         Layer: Ground,
         Hp: 100,
@@ -35,7 +35,7 @@ func NewMothership(t Team) []*Unit {
     }
     right := &Unit{
         Team: t,
-        Type: "mothership",
+        Type: Building,
         Name: "subcore",
         Layer: Ground,
         Hp: 100,
@@ -46,7 +46,7 @@ func NewMothership(t Team) []*Unit {
     }
     base := &Unit{
         Team: t,
-        Type: "mothership",
+        Type: Base,
         Name: "base",
         Layer: Ground,
         Position: Vector2{

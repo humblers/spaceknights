@@ -67,15 +67,9 @@ const (
     Draw Team = "Draw"  // for game result
 )
 
-type Layer string
-const (
-    Ground Layer = "Ground"
-    Air Layer = "Air"
-)
-
 type Game struct {
     Winner Team `json:",omitempty"`
-    Frame int `json:"-"`
+    Frame int `json:"-"`    // valid only if > 0
     Home map[string]*Player `json:",omitempty"`
     Visitor map[string]*Player `json:",omitempty"`
     Units map[int]*Unit
@@ -85,7 +79,7 @@ type Game struct {
 
 func NewGame() *Game {
     g := Game{
-        Frame: 0,
+        Frame: 1,
         Home: make(map[string]*Player),
         Visitor: make(map[string]*Player),
         Units: make(map[int]*Unit),
@@ -193,28 +187,26 @@ func (g *Game) String() string {
 func (game *Game) Run(session *Session) {
     log.Printf("game %v starting", game)
     defer log.Printf("game %v stopped", game)
-    tick := time.Tick(FrameInterval)
-    for {
-        if game.Over() {
-            if err := session.Stop(); err != nil {
-                panic(err)
-            }
-            break
-        }
+    ticker := time.NewTicker(FrameInterval)
+    defer ticker.Stop()
+    gameover := false
+    // send first frame
+    session.Broadcast(game)
+    for ;!gameover; {
         select {
-        case <-tick:
-            game.update()
-            if game.Over() {
-                game.Winner = game.GetWinner()
-            }
+        case <-ticker.C:
+            gameover = game.update()
             session.Broadcast(game)
         case input := <-session.incoming:
             game.apply(input)
         }
     }
+    if err := session.Stop(); err != nil {
+        panic(err)
+    }
 }
 
-func (game *Game) update() {
+func (game *Game) update() (gameover bool) {
     game.Frame++
     for _, player := range game.Home {
         player.IncreaseEnergy(1)
@@ -225,6 +217,11 @@ func (game *Game) update() {
     for _, unit := range game.Units {
         unit.Update()
     }
+    gameover = game.Over()
+    if gameover {
+        game.Winner = game.GetWinner()
+    }
+    return
 }
 
 func (game *Game) apply(input Input) {
