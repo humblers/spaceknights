@@ -7,7 +7,7 @@ type Cards []Card
 
 var CostMap = map[Card]int{
     "archer": 30,
-    "babydragon": 40,
+    "megaminion": 40,
     "barbarian": 50,
     "bomber": 30,
     "cannon": 40,

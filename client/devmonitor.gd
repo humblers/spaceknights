@@ -9,6 +9,10 @@ const UNIT_INFO = {
 		"sight" : 100,
 		"range" : 15,
 	},
+	"bomber" : {
+		"sight" : 100,
+		"range" : 100,
+	},
 	"cannon" : {
 		"sight" : 100,
 		"range" : 100,
