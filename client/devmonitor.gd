@@ -28,12 +28,18 @@ const UNIT_INFO = {
 }
 
 var unit_name setget set_unit_name
+var show = false
 
 func _ready():
-	pass
+	input.connect("key_pressed", self, "toggle")
+
+func toggle(key):
+	if key == KEY_F1:
+		show = not show
+		update()
 
 func _draw():
-	if not OS.is_debug_build():
+	if not show:
 		return
 	if not unit_name or not UNIT_INFO.has(unit_name):
 		return
