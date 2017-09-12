@@ -84,7 +84,7 @@ func main() {
     }()
 
 
-    logger.New(logger.DEBUG)
+    logger.New(logger.INFO)
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {
         panic(err)
