@@ -6,7 +6,8 @@ import (
     "net"
     "time"
 
-    kcp "github.com/xtaci/kcp-go"
+    "git.humbler.life/jayb/gologger"
+    kcp "git.humbler.life/spaceknights/kcp-go"
 )
 
 type User struct{
@@ -83,6 +84,7 @@ func main() {
     }()
 
 
+    logger.New(logger.DEBUG)
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {
         panic(err)
