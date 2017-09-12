@@ -27,10 +27,7 @@ func update(game):
 		var node = get_node("Units").get_node(id)
 		node.get_node(color).show()
 		node.set_pos(position)
-		if unit.Type == "Building":
-			node.get_node(color).get_node("Animation").set_rot(rotation)
-		else:
-			node.set_rot(rotation)
+		node.get_node(color).get_node("Animation").set_rot(rotation)
 		node.set_z(layer[unit.Layer])
 		node.get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 		node.get_node("Hp").set_z(layer.UI)
