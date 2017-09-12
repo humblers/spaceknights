@@ -21,11 +21,13 @@ func update(game):
 		var unit = game.Units[id]
 		var color = get_unit_color(unit, my_team)
 		var position = get_unit_position(unit, my_team)
+		var rotation = get_unit_rotation(unit, my_team)
 		if not get_node("Units").has_node(id):
 			create_unit(id, game.Units[id])
 		var node = get_node("Units").get_node(id)
 		node.get_node(color).show()
 		node.set_pos(position)
+		node.get_node(color).get_node("Animation").set_rot(rotation)
 		node.set_z(layer[unit.Layer])
 		node.get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 		node.get_node("Hp").set_z(layer.UI)
@@ -53,3 +55,10 @@ func get_unit_position(unit, my_team):
 		return Vector2(x, y)
 	else:
 		return Vector2(WIDTH - x, HEIGHT - y)
+
+func get_unit_rotation(unit, my_team):
+	var angle = atan2(unit.Heading.X, unit.Heading.Y)
+	if my_team == "Home":
+		return angle
+	else:
+		return angle + PI

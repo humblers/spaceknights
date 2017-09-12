@@ -164,6 +164,9 @@ func (g *Game) Join(team Team, user User) {
 func (g *Game) AddUnit(unit *Unit) {
     if unit.Team == Home {
         unit.FlipY()
+        unit.Heading = Vector2{0, -1}
+    } else {
+        unit.Heading = Vector2{0, 1}
     }
     unit.Id = g.UnitCounter
     unit.Game = g

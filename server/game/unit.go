@@ -69,7 +69,8 @@ type Unit struct {
     Game *Game `json:"-"`
     State State
     Position Vector2
-    Velocity Vector2 `json:"-"`
+    Heading Vector2
+    //Velocity Vector2 `json:"-"`
     Target *Unit `json:"-"`
     HitFrame int `json:"-"`
 }
@@ -110,6 +111,7 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 
 func (u *Unit) MoveTo(position Vector2) {
     direction := position.Minus(u.Position).Normalize()
+    u.Heading = direction
     u.Position = u.Position.Plus(direction.Multiply(u.Speed))
 }
 
@@ -134,6 +136,7 @@ func (u *Unit) IsAttacking() bool {
 }
 
 func (u *Unit) HandleAttack() {
+    u.Heading = u.Target.Position.Minus(u.Position)
     if u.Game.Frame == u.HitFrame {
         if u.WithinRange(u.Target) {
             u.Target.TakeDamage(u.Damage)
