@@ -1,8 +1,9 @@
 package main
 
 import (
-    "log"
     "fmt"
+
+    "github.com/golang/glog"
 )
 
 type GetResult struct {
@@ -40,20 +41,20 @@ func (server *Server) Get(id string) (*Session, error) {
 }
 
 func (server *Server) Add(session *Session) error {
-    defer log.Printf("session %v added to server", session)
+    defer glog.V(0).Infof("session %v added to server", session)
     server.add <- session
     return <-server.addResult
 }
 
 func (server *Server) Remove(session *Session) error {
-    defer log.Printf("session %v removed from server", session)
+    defer glog.V(0).Infof("session %v removed from server", session)
     server.rem <- session
     return <-server.remResult
 }
 
 func (server *Server) Run() {
-    log.Printf("server starting")
-    defer log.Printf("server stopped")
+    glog.V(0).Infof("server starting")
+    defer glog.V(0).Infof("server stopped")
 
     for {
         select {

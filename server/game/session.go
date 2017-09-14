@@ -1,8 +1,9 @@
 package main
 
 import (
-    "log"
     "fmt"
+
+    "github.com/golang/glog"
 )
 
 type Session struct {
@@ -59,8 +60,8 @@ func (session *Session) Broadcast(game *Game) error {
 }
 
 func (session *Session) Run(game *Game) {
-    log.Printf("session %v starting", session)
-    defer log.Printf("session %v stopped", session)
+    glog.V(0).Infof("session %v starting", session)
+    defer glog.V(0).Infof("session %v stopped", session)
 
     if err := session.server.Add(session); err != nil {
         panic(err)

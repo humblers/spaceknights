@@ -1,12 +1,13 @@
 package main
 
 import (
-    "log"
     "fmt"
     "net"
     "bufio"
     "time"
     "sync"
+
+    "github.com/golang/glog"
 )
 
 type Client struct {
@@ -38,7 +39,7 @@ func (client *Client) String() string {
 }
 
 func (client *Client) Run() {
-    log.Printf("client %v starting", client)
+    glog.V(0).Infof("client %v starting", client)
     defer client.closeConn()
 
     if err := client.auth(); err != nil {
@@ -54,14 +55,14 @@ func (client *Client) Run() {
     go client.writeLoop()
     client.loop.Wait()
 
-    log.Printf("client %v stopped", client)
+    glog.V(0).Infof("client %v stopped", client)
 }
 
 func (client *Client) WriteAsync(packet Packet) {
     select {
     case client.outgoing <- packet:
     default:
-        log.Printf("WARNING: client %v outgoing channel blocked", client)
+        glog.Warningf("WARNING: client %v outgoing channel blocked", client)
     }
 }
 
@@ -150,7 +151,7 @@ func (client *Client) auth() error {
         return fmt.Errorf("client %v auth failed", client)
     }
     client.id = auth.Id
-    log.Printf("client %v authenticated", client)
+    glog.V(0).Infof("client %v authenticated", client)
     return nil
 }
 
@@ -171,7 +172,7 @@ func (client *Client) join() error {
         return err
     }
     client.session = session
-    log.Printf("client %v joined to session %v", client, session)
+    glog.V(0).Infof("client %v joined to session %v", client, session)
     return nil
 }
 
