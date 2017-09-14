@@ -2,11 +2,11 @@ package main
 
 import (
     "bufio"
+    "flag"
     "math/rand"
     "net"
     "time"
 
-    "git.humbler.life/jayb/gologger"
     kcp "git.humbler.life/spaceknights/kcp-go"
 )
 
@@ -17,6 +17,9 @@ type User struct{
 }
 
 func main() {
+    // for glog flag parsing
+    flag.Parse()
+
     server := NewServer()
     go server.Run()
     // set default Source for math/rand
@@ -83,8 +86,6 @@ func main() {
         }
     }()
 
-
-    logger.New(logger.INFO)
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {
         panic(err)

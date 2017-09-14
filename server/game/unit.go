@@ -1,8 +1,7 @@
 package main
 
 import (
-    "log"
-    "git.humbler.life/jayb/gologger"
+    "github.com/golang/glog"
 )
 
 type State string
@@ -199,12 +198,12 @@ func (u *Unit) Update() {
             }
             if u.Target == nil {    // when all cores are destroyed (last frame update)
                 u.State = Idle
-                logger.Warning.Printf("no target found : %v", u.Name)
+                glog.Warningf("no target found : %v", u.Name)
             } else {
                 if u.WithinRange(u.Target){
                     u.State = Attack
                     u.StartAttack()
-                    logger.Debug.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                    glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
                     position := u.Target.Position
@@ -212,7 +211,7 @@ func (u *Unit) Update() {
                         path := u.FindPath(u.Target)
                         position = u.NextCornerInPath(path)
                     }
-                    logger.Debug.Printf("moving to %v", position)
+                    glog.Infof("moving to %v", position)
                     u.MoveTo(position)
                 }
             }
@@ -233,7 +232,7 @@ func (u *Unit) Update() {
             } else {
                 u.State = Attack
                 u.StartAttack()
-                logger.Debug.Printf("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
             }
         }
     case Base, Knight:
@@ -253,7 +252,7 @@ func (u *Unit) Location() (area *Area) {
     case RightHole.Contains(u.Position):
         area = RightHole
     default:
-        log.Panicf("invalid unit position : %v", u.Position)
+        glog.Fatalf("invalid unit position : %v", u.Position)
     }
     return
 }
