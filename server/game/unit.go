@@ -123,7 +123,7 @@ func (u *Unit) CanSee(other *Unit) bool {
 }
 
 func (u *Unit) WithinRange(other *Unit) bool {
-    if u.DistanceTo(other) < u.Range {
+    if u.DistanceTo(other) < u.Range + u.Radius + other.Radius {
         return true
     }
     return false
