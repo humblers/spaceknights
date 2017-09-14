@@ -211,7 +211,7 @@ func (u *Unit) Update() {
                         path := u.FindPath(u.Target)
                         position = u.NextCornerInPath(path)
                     }
-                    glog.Infof("moving to %v", position)
+                    glog.V(2).Infof("moving to %v", position)
                     u.MoveTo(position)
                 }
             }
