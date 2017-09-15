@@ -1,6 +1,8 @@
 extends Node
 
 func _ready():
+	if kcp.is_connected():
+		kcp._disconnect()
 	http_lobby.connect("login_response", self, "_login_response")
 	http_lobby.connect("match_response", self, "_match_response")
 	http_lobby.request(HTTPClient.METHOD_POST, "/login/dev", {}, "login_response", false)

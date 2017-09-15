@@ -30,9 +30,17 @@ func update(game):
 		var node = get_node("Winner")
 		node.set_text("Winner : " + game.Winner)
 		node.show()
+		card1.disconnect("pressed", self, "use_card")
+		card2.disconnect("pressed", self, "use_card")
+		card3.disconnect("pressed", self, "use_card")
+		input.disconnect("mouse_dragged", self, "send_player_input")
+		input.connect("mouse_pressed", self, "back_to_lobby")
 
 func use_card(i):
 	kcp.send({ "Use" : i})
 
 func send_player_input(x):
 	kcp.send({ "Move" : x })
+
+func back_to_lobby(b):
+	get_tree().change_scene("res://lobby.tscn")
