@@ -54,6 +54,7 @@ type Unit struct {
     TargetLayers Layers `json:"-"`
     TargetTypes Types `json:"-"`
     Hp int
+    Mass float64 `json:"-"`
     Speed float64 `json:"-"`
     PreHitDelay int `json:"-"`
     PostHitDelay int `json:"-"`
@@ -70,7 +71,8 @@ type Unit struct {
     State State
     Position Vector2
     Heading Vector2
-    //Velocity Vector2 `json:"-"`
+    Velocity Vector2 `json:"-"`
+    Acceleration Vector2 `json:"-"`
     Target *Unit `json:"-"`
     HitFrame int `json:"-"`
 }
@@ -109,10 +111,41 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-func (u *Unit) MoveTo(position Vector2) {
-    direction := position.Minus(u.Position).Normalize()
-    u.Heading = direction
-    u.Position = u.Position.Plus(direction.Multiply(u.Speed))
+func (u *Unit) Seek(position Vector2) Vector2 {
+    desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
+    return desired.Minus(u.Velocity)
+}
+
+func (u *Unit) Seperate() Vector2 {
+    sum := Vector2{0, 0}
+    for _, unit := range u.Game.Units {
+        d := u.DistanceTo(unit)
+        if d > 0 && d < u.Radius + unit.Radius {
+            direction := u.Position.Minus(unit.Position).Normalize()
+            sum = sum.Plus(direction.Multiply(unit.Mass).Divide(d))
+        }
+    }
+    return sum
+}
+
+func (u *Unit) AddForce(force Vector2) {
+    u.Acceleration = u.Acceleration.Plus(force.Divide(u.Mass))   // f = ma
+}
+
+func (u *Unit) ResetForce() {
+    u.Acceleration = Vector2{0, 0}
+}
+
+func (u *Unit) Move() {
+    pos := u.Position
+    u.Velocity = u.Velocity.Plus(u.Acceleration)
+    u.Position = u.Position.Plus(u.Velocity)
+    if u.Location == nil {
+        u.Position = pos    // no move
+    }
+    if u.State == Move {
+        u.Heading = u.Velocity
+    }
 }
 
 func (u *Unit) CanSee(other *Unit) bool {
@@ -152,6 +185,7 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
+    u.Velocity = Vector2{0, 0}
 }
 
 func (u *Unit) StartAttack() {
@@ -211,11 +245,14 @@ func (u *Unit) Update() {
                         path := u.FindPath(u.Target)
                         position = u.NextCornerInPath(path)
                     }
-                    glog.V(2).Infof("moving to %v", position)
-                    u.MoveTo(position)
+                    glog.Infof("moving to %v", position)
+                    u.AddForce(u.Seek(position))
                 }
             }
         }
+        u.AddForce(u.Seperate())
+        u.Move()
+        u.ResetForce()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.IsAttacking() {
@@ -238,7 +275,6 @@ func (u *Unit) Update() {
     case Base, Knight:
         return
     }
-    // TODO : apply repulsion force
 }
 
 func (u *Unit) Location() (area *Area) {
@@ -252,7 +288,8 @@ func (u *Unit) Location() (area *Area) {
     case RightHole.Contains(u.Position):
         area = RightHole
     default:
-        glog.Fatalf("invalid unit position : %v", u.Position)
+        glog.Infof("invalid unit position : %v", u.Position)
+        area = nil
     }
     return
 }
