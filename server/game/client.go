@@ -43,7 +43,8 @@ func (client *Client) Run() {
     defer client.closeConn()
 
     if err := client.auth(); err != nil {
-        panic(err)
+        glog.Errorf(err.Error())
+        return
     }
 
     if err:= client.join(); err != nil {
