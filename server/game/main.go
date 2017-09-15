@@ -7,6 +7,7 @@ import (
     "net"
     "time"
 
+    "github.com/golang/glog"
     kcp "git.humbler.life/spaceknights/kcp-go"
 )
 
@@ -102,4 +103,6 @@ func main() {
         client := NewClient(conn, server)
         go client.Run()
     }
+
+    glog.Flush()
 }
