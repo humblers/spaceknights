@@ -2,11 +2,13 @@ package main
 
 import (
     "bufio"
+    "flag"
     "math/rand"
     "net"
     "time"
 
-    kcp "github.com/xtaci/kcp-go"
+    "github.com/golang/glog"
+    kcp "git.humbler.life/spaceknights/kcp-go"
 )
 
 type User struct{
@@ -16,6 +18,9 @@ type User struct{
 }
 
 func main() {
+    // for glog flag parsing
+    flag.Parse()
+
     server := NewServer()
     go server.Run()
     // set default Source for math/rand
@@ -82,7 +87,6 @@ func main() {
         }
     }()
 
-
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {
         panic(err)
@@ -99,4 +103,6 @@ func main() {
         client := NewClient(conn, server)
         go client.Run()
     }
+
+    glog.Flush()
 }

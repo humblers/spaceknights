@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "encoding/json"
+    "github.com/golang/glog"
 )
 
 const HandSize = 3
@@ -53,7 +54,7 @@ func (player *Player) UseCard(index int, game *Game) {
         log.Panicf("invalid card index: %v", index)
     }
     if player.Energy < CostMap[card] {
-        log.Printf("not enough energy for %v: %v", card, player.Energy)
+        glog.V(0).Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
     player.Energy = player.Energy - CostMap[card]
@@ -78,7 +79,7 @@ func (player *Player) UseCard(index int, game *Game) {
     case "giant":
         game.AddUnit(NewGiant(player.Team, player.Knight.Position.X))
     default:
-        log.Printf("invalid summon name: %v", card)
+        glog.Warningf("invalid summon name: %v", card)
     }
 }
 
