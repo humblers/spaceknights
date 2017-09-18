@@ -28,23 +28,24 @@ const UNIT_INFO = {
 }
 
 var unit_name setget set_unit_name
-var show = false
 
 func _ready():
 	input.connect("key_pressed", self, "toggle")
 
 func toggle(key):
 	if key == KEY_F1:
-		show = not show
-		update()
+		debug.show_sight = not debug.show_sight
+	elif key == KEY_F2:
+		debug.show_range = not debug.show_range
+	update()
 
 func _draw():
-	if not show:
-		return
 	if not unit_name or not UNIT_INFO.has(unit_name):
 		return
-	draw_circle_arc(UNIT_INFO[unit_name]["sight"], Color(0, 1.0, 0))
-	draw_circle_arc(UNIT_INFO[unit_name]["range"], Color(1.0, 0, 0))
+	if debug.show_sight:
+		draw_circle_arc(UNIT_INFO[unit_name]["sight"], Color(0, 1.0, 0))
+	if debug.show_range:
+		draw_circle_arc(UNIT_INFO[unit_name]["range"], Color(1.0, 0, 0))
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32

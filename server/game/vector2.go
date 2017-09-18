@@ -27,6 +27,20 @@ func (v Vector2) Multiply(c float64) Vector2 {
     }
 }
 
+func (v Vector2) Divide(c float64) Vector2 {
+    return Vector2{
+        X: v.X / c,
+        Y: v.Y / c,
+    }
+}
+
+func (v Vector2) Truncate(c float64) Vector2 {
+    if v.Length() > c {
+        return v.Normalize().Multiply(c)
+    }
+    return v
+}
+
 func (v Vector2) Length() float64 {
     return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }

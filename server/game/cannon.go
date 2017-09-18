@@ -12,7 +12,7 @@ func NewCannon(t Team, x float64) *Unit {
         Speed: 0,
         PreHitDelay: 5,
         PostHitDelay: 2,
-        Radius: 30,
+        Radius: 20,
         Sight: 100,
         Range: 100,
         Damage: 15,

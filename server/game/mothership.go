@@ -17,6 +17,8 @@ func NewMothership(t Team) []*Unit {
         Name: "maincore",
         Layer: Ground,
         Hp: 200,
+        Mass: 100,
+        Radius: 20,
         Position: Vector2{
             X: MapWidth / 2,
             Y: MothershipBaseHeight + MothershipMainHeight / 2,
@@ -28,6 +30,8 @@ func NewMothership(t Team) []*Unit {
         Name: "subcore",
         Layer: Ground,
         Hp: 100,
+        Mass: 100,
+        Radius: 30,
         Position: Vector2{
             X: 70,
             Y: MothershipBaseHeight + MothershipSubHeight / 2,
@@ -39,6 +43,8 @@ func NewMothership(t Team) []*Unit {
         Name: "subcore",
         Layer: Ground,
         Hp: 100,
+        Mass: 100,
+        Radius: 30,
         Position: Vector2{
             X: 330,
             Y: MothershipBaseHeight + MothershipSubHeight / 2,
@@ -49,6 +55,7 @@ func NewMothership(t Team) []*Unit {
         Type: Base,
         Name: "base",
         Layer: Ground,
+        Mass: 100,
         Position: Vector2{
             X: MapWidth / 2,
             Y: MothershipBaseHeight / 2,
