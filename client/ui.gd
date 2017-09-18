@@ -42,5 +42,6 @@ func use_card(i):
 func send_player_input(x):
 	kcp.send({ "Move" : x })
 
-func back_to_lobby(b):
-	get_tree().change_scene("res://lobby.tscn")
+func back_to_lobby(pressed):
+	if pressed == true:
+		get_tree().change_scene("res://lobby.tscn")
