@@ -27,6 +27,8 @@ const (
     Knight Type = "Knight"
 )
 
+const MaxSeparationForce = 20
+
 func (layers Layers) Contains(layer Layer) bool {
     for _, l := range layers {
         if l == layer {
@@ -119,17 +121,21 @@ func (u *Unit) Seek(position Vector2) Vector2 {
 func (u *Unit) Separate() Vector2 {
     sum := Vector2{0, 0}
     for _, unit := range u.Game.Units {
+        if u.Layer != unit.Layer {
+            continue
+        }
         d := u.DistanceTo(unit)
         if d > 0 && d < u.Radius + unit.Radius {
+            intersection := u.Radius + unit.Radius - d
             direction := u.Position.Minus(unit.Position).Normalize()
-            sum = sum.Plus(direction.Multiply(unit.Mass).Divide(d))
+            sum = sum.Plus(direction.Multiply(unit.Mass).Divide(intersection))
         }
     }
-    return sum
+    return sum.Truncate(MaxSeparationForce)
 }
 
 func (u *Unit) AddForce(force Vector2) {
-    u.Acceleration = u.Acceleration.Plus(force.Divide(u.Mass))   // f = ma
+    u.Acceleration = u.Acceleration.Plus(force)   // f = ma
 }
 
 func (u *Unit) ResetForce() {

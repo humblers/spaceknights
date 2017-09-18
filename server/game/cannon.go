@@ -9,6 +9,7 @@ func NewCannon(t Team, x float64) *Unit {
         TargetLayers : Layers{Ground},
         TargetTypes : Types{Troop, Building},
         Hp: 300,
+        Mass: 100,
         Speed: 0,
         PreHitDelay: 5,
         PostHitDelay: 2,

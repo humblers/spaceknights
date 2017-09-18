@@ -6,12 +6,12 @@ type Card string
 type Cards []Card
 
 var CostMap = map[Card]int{
-    "archer": 30,
-    "megaminion": 40,
-    "barbarian": 50,
-    "bomber": 30,
-    "cannon": 40,
-    "giant": 50,
+    "archer": 0,
+    "megaminion": 0,
+    "barbarian": 0,
+    "bomber": 0,
+    "cannon": 0,
+    "giant": 0,
 }
 
 // Knuth shuffle
