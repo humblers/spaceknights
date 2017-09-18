@@ -137,12 +137,8 @@ func (u *Unit) ResetForce() {
 }
 
 func (u *Unit) Move() {
-    pos := u.Position
     u.Velocity = u.Velocity.Plus(u.Acceleration)
     u.Position = u.Position.Plus(u.Velocity)
-    if u.Location == nil {
-        u.Position = pos    // no move
-    }
     if u.State == Move {
         u.Heading = u.Velocity
     }
