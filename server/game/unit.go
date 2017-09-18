@@ -116,7 +116,7 @@ func (u *Unit) Seek(position Vector2) Vector2 {
     return desired.Minus(u.Velocity)
 }
 
-func (u *Unit) Seperate() Vector2 {
+func (u *Unit) Separate() Vector2 {
     sum := Vector2{0, 0}
     for _, unit := range u.Game.Units {
         d := u.DistanceTo(unit)
@@ -250,7 +250,7 @@ func (u *Unit) Update() {
                 }
             }
         }
-        u.AddForce(u.Seperate())
+        u.AddForce(u.Separate())
         u.Move()
         u.ResetForce()
     case Building:

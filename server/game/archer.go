@@ -9,7 +9,7 @@ func NewArcher(t Team, x float64) *Unit {
         TargetLayers : Layers{Ground, Air},
         TargetTypes: Types{Troop, Building},
         Hp: 60,
-        Mass: 5,
+        Mass: 6,
         Speed: 3,
         PreHitDelay: 0,
         PostHitDelay: 9,

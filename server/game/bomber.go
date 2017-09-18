@@ -9,7 +9,7 @@ func NewBomber(t Team, x float64) *Unit {
         TargetLayers : Layers{Ground},
         TargetTypes: Types{Building, Troop},
         Hp: 50,
-        Mass: 3,
+        Mass: 5,
         Speed: 5,
         PreHitDelay: 5,
         PostHitDelay: 0,
