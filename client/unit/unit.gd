@@ -36,16 +36,7 @@ const UNIT_INFO = {
 var unit_name setget set_unit_name
 
 func _ready():
-	input.connect("key_pressed", self, "toggle")
-
-func toggle(key):
-	if key == KEY_F1:
-		debug.show_radius = not debug.show_radius
-	elif key == KEY_F2:
-		debug.show_sight = not debug.show_sight
-	elif key == KEY_F3:
-		debug.show_range = not debug.show_range
-	update()
+	debug.connect("toggled", self, "update")
 
 func _draw():
 	if not unit_name or not UNIT_INFO.has(unit_name):
