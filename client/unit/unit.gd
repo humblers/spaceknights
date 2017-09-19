@@ -5,6 +5,11 @@ const UNIT_INFO = {
 		"radius": 10,
 		"sight" : 100,
 		"range" : 100,
+		"projectile" : {
+			"type": "bullet",
+			"speed": 50,
+			"mass": 5,
+		},
 	},
 	"barbarian" : {
 		"radius": 13,
@@ -33,20 +38,22 @@ const UNIT_INFO = {
 	},
 }
 
-var unit_name setget set_unit_name
+var name setget name_set
+var color setget color_set
+var target setget target_set
 
 func _ready():
 	debug.connect("toggled", self, "update")
 
 func _draw():
-	if not unit_name or not UNIT_INFO.has(unit_name):
+	if not name or not UNIT_INFO.has(name):
 		return
 	if debug.show_radius:
-		draw_circle_arc(UNIT_INFO[unit_name]["radius"], Color(1.0, 0, 0))
+		draw_circle_arc(UNIT_INFO[name]["radius"], Color(1.0, 0, 0))
 	if debug.show_sight:
-		draw_circle_arc(UNIT_INFO[unit_name]["sight"], Color(0, 1.0, 0))
+		draw_circle_arc(UNIT_INFO[name]["sight"], Color(0, 1.0, 0))
 	if debug.show_range:
-		draw_circle_arc(UNIT_INFO[unit_name]["range"], Color(0, 0, 1.0))
+		draw_circle_arc(UNIT_INFO[name]["range"], Color(0, 0, 1.0))
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32
@@ -60,5 +67,17 @@ func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angl
 	for indexPoint in range(nb_points):
 		draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
-func set_unit_name(name):
-	unit_name = name
+func anim_process():
+	# do nothing on melee unit
+	if not UNIT_INFO[name].has("projectile"):
+		return
+
+func name_set(_name):
+	name = _name
+
+func color_set(_color):
+	color = _color
+	#get_node(color).get_node("Animation").connect("frame_changed", self, "anim_process")
+
+func target_set(_target):
+	target = _target
