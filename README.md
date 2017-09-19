@@ -29,3 +29,6 @@ or
 #### run  
 * for windows, execute `<run-server-win.bat>`
 * for linux, when build succeed. check binary in `<.gogradle>` DIR
+
+## See Also
+[Scripts](/document/scripts.md)
