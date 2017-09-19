@@ -22,7 +22,7 @@ func update(game):
 		if not get_node("Units").has_node(id):
 			create_unit(id, game.Units[id], my_team)
 		var pos = get_unit_position(unit, my_team)
-		get_node("Units").get_node(id)._update(unit, my_team, pos)
+		get_node("Units").get_node(id).process(unit, my_team, pos)
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
@@ -31,12 +31,7 @@ func delete_dead_units(units):
 
 func create_unit(id, unit, my_team):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()
-	node.set_name(id)
-	node.team = unit.Team
-	node.name = unit.Name
-	node.set_color(my_team)
-	node.set_z(layer[unit.Layer])
-	node.get_node("Hp").set_z(layer.UI)
+	node.initialize(id, unit, my_team, layer[unit.Layer], layer.UI)
 	get_node("Units").add_child(node)
 
 func get_unit_position(unit, my_team):

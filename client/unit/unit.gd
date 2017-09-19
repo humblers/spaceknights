@@ -58,23 +58,31 @@ func _draw():
 	if debug.show_range:
 		draw_circle_arc(UNIT_INFO[name]["range"], Color(0, 0, 1.0))
 
-func _update(unit, my_team, position):
+func initialize(id, unit, my_team, unit_z, ui_z):
+	set_name(id)
+	team = unit.Team
+	name = unit.Name
+	set_color(my_team)
+	set_z(unit_z)
+	get_node("Hp").set_z(ui_z)
+
+func process(unit, my_team, position):
 	var anim_node = get_anim_node()
 	set_pos(position)
 	anim_node.set_rot(get_rotation(unit, my_team))
 	anim_node.play(unit.State)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 
-func has_info():
-	return UNIT_INFO.has(name)
-
-func anim_process():
+func process_anim():
 	if not has_info():
 		return
 	var info = UNIT_INFO[name]
 	# do nothing on melee unit
 	if not info.has("projectile"):
 		return
+
+func has_info():
+	return UNIT_INFO.has(name)
 
 func get_anim_node():
 	return get_node(color).get_node("Animation")
@@ -92,7 +100,7 @@ func get_color(my_team):
 func set_color(my_team):
 	color = get_color(my_team)
 	get_node(color).show()
-	get_anim_node().connect("frame_changed", self, "anim_process")
+	get_anim_node().connect("frame_changed", self, "process_anim")
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32
