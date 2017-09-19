@@ -9,7 +9,7 @@ tmux new-session -d -s godot &&
 tmux split-window -t godot:0
 
 tmux send-keys -t godot:0.0 "$CMD" C-m
-sleep 1
+sleep 2
 tmux send-keys -t godot:0.1 "$CMD" C-m
 
 tmux attach -t godot
