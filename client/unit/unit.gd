@@ -38,15 +38,18 @@ const UNIT_INFO = {
 	},
 }
 
-var name setget name_set
-var color setget color_set
-var target setget target_set
+var team
+var name
+var color setget set_color
+
+var target
+var state
 
 func _ready():
 	debug.connect("toggled", self, "update")
 
 func _draw():
-	if not name or not UNIT_INFO.has(name):
+	if not has_info():
 		return
 	if debug.show_radius:
 		draw_circle_arc(UNIT_INFO[name]["radius"], Color(1.0, 0, 0))
@@ -54,6 +57,42 @@ func _draw():
 		draw_circle_arc(UNIT_INFO[name]["sight"], Color(0, 1.0, 0))
 	if debug.show_range:
 		draw_circle_arc(UNIT_INFO[name]["range"], Color(0, 0, 1.0))
+
+func _update(unit, my_team, position):
+	var anim_node = get_anim_node()
+	set_pos(position)
+	anim_node.set_rot(get_rotation(unit, my_team))
+	anim_node.play(unit.State)
+	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
+
+func has_info():
+	return UNIT_INFO.has(name)
+
+func anim_process():
+	if not has_info():
+		return
+	var info = UNIT_INFO[name]
+	# do nothing on melee unit
+	if not info.has("projectile"):
+		return
+
+func get_anim_node():
+	return get_node(color).get_node("Animation")
+
+func get_rotation(unit, my_team):
+	var angle = atan2(unit.Heading.X, unit.Heading.Y)
+	if my_team == "Home":
+		return angle
+	else:
+		return angle + PI
+
+func get_color(my_team):
+	return "Blue" if team == my_team else "Red"
+
+func set_color(my_team):
+	color = get_color(my_team)
+	get_node(color).show()
+	get_anim_node().connect("frame_changed", self, "anim_process")
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32
@@ -66,18 +105,3 @@ func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angl
 
 	for indexPoint in range(nb_points):
 		draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
-
-func anim_process():
-	# do nothing on melee unit
-	if not UNIT_INFO[name].has("projectile"):
-		return
-
-func name_set(_name):
-	name = _name
-
-func color_set(_color):
-	color = _color
-	#get_node(color).get_node("Animation").connect("frame_changed", self, "anim_process")
-
-func target_set(_target):
-	target = _target
