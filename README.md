@@ -31,4 +31,4 @@ or
 * for linux, when build succeed. check binary in `<.gogradle>` DIR
 
 ## See Also
-[Scripts](/document/scripts.md)
+[Scripts](/documents/scripts.md)
