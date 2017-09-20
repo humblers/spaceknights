@@ -1,10 +1,13 @@
 #### Linux Shell script with tmux
+
 * Run two client
+
 ```
 GODOT_PATH='<YOUR_GODOT_BIN_PATH>'
 CLIENT_PATH='<YOUR_CLIENT_ROOT_PATH>'
 CMD="$GODOT_PATH -path $CLIENT_PATH"
 
+tmux kill-session -t godot
 tmux new-session -d -s godot &&
 tmux split-window -t godot:0
 
@@ -16,7 +19,9 @@ tmux attach -t godot
 ```
 
 * Run Servers without Gradle(gradle build success and only local modify)
+
 ```
+tmux kill-session -t servers
 tmux new-session -d -s servers
 
 tmux new-window -t servers:1
