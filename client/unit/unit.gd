@@ -44,9 +44,8 @@ var color setget set_color
 var state
 var target = null
 
-var is_dead = false
-
-signal create_projectile(pos, type, target, land_at) 
+signal create_projectile(pos, type, target, land_at)
+signal to_projectile(is_dead, pos)
 
 func _ready():
 	debug.connect("toggled", self, "update")
@@ -73,10 +72,12 @@ func process(unit, my_team, position):
 	state = unit.State
 	target = String(unit.TargetId) if unit.has("TargetId") else null
 	var anim_node = get_anim_node()
-	set_pos(position)
 	anim_node.set_rot(get_rotation(unit, my_team))
 	anim_node.play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
+	set_pos(position)
+	if state == "move":
+		emit_signal("to_projectile", false, position)
 
 func process_anim():
 	if not is_range():
@@ -90,11 +91,12 @@ func process_anim():
 	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
 	emit_signal("create_projectile", projtype, pos, target, hitafter)
 
+func die():
+	emit_signal("to_projectile", true, null)
+	queue_free()
+
 func has_info():
 	return UNIT_INFO.has(name)
-
-func is_dead():
-	return is_dead
 
 func is_range():
 	return has_info() and UNIT_INFO[name].has("projectile")
@@ -114,7 +116,12 @@ func get_color(my_team):
 
 func set_color(my_team):
 	color = get_color(my_team)
-	get_node(color).show()
+	for _color in ["Blue", "Red"]:
+		if color != _color:
+			get_node(_color).hide()
+			continue
+		get_node(_color).show()
+		get_node(_color).get_node("Animation").show()
 	get_anim_node().connect("frame_changed", self, "process_anim")
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
