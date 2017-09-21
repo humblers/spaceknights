@@ -1,0 +1,22 @@
+package main
+
+func NewValkyrie(t Team, x float64) *Unit {
+    return &Unit{
+        Team: t,
+        Type: Troop,
+        Name: "valkyrie",
+        Layer: Ground,
+        TargetLayers : Layers{Ground},
+        TargetTypes: Types{Troop, Building},
+        Hp: 880,
+        Mass: 15,
+        Speed: 3,
+        PreHitDelay: 8,
+        PostHitDelay: 6,
+        Radius: 12,
+        Sight: 100,
+        Range: 20,
+        Damage: 120,
+        Position: Vector2 { x, 200 },
+    }
+}
