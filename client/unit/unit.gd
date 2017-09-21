@@ -7,8 +7,7 @@ const UNIT_INFO = {
 		"range" : 100,
 		"projectile" : {
 			"type": "bullet",
-			"speed": 50,
-			"mass": 5,
+			"hitafter" : 9,
 		},
 	},
 	"barbarian" : {
@@ -42,8 +41,12 @@ var team
 var name
 var color setget set_color
 
-var target
 var state
+var target = null
+
+var is_dead = false
+
+signal create_projectile(pos, type, target, land_at) 
 
 func _ready():
 	debug.connect("toggled", self, "update")
@@ -67,22 +70,34 @@ func initialize(id, unit, my_team, unit_z, ui_z):
 	get_node("Hp").set_z(ui_z)
 
 func process(unit, my_team, position):
+	state = unit.State
+	target = String(unit.TargetId) if unit.has("TargetId") else null
 	var anim_node = get_anim_node()
 	set_pos(position)
 	anim_node.set_rot(get_rotation(unit, my_team))
-	anim_node.play(unit.State)
+	anim_node.play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 
 func process_anim():
-	if not has_info():
+	if not is_range():
 		return
-	var info = UNIT_INFO[name]
-	# do nothing on melee unit
-	if not info.has("projectile"):
+	if not state == "attack":
 		return
+	if get_anim_node().get_frame() != 0:
+		return
+	var pos = get_pos()
+	var projtype = UNIT_INFO[name]["projectile"]["type"]
+	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
+	emit_signal("create_projectile", projtype, pos, target, hitafter)
 
 func has_info():
 	return UNIT_INFO.has(name)
+
+func is_dead():
+	return is_dead
+
+func is_range():
+	return has_info() and UNIT_INFO[name].has("projectile")
 
 func get_anim_node():
 	return get_node(color).get_node("Animation")

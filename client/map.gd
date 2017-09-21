@@ -27,12 +27,21 @@ func update(game):
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if not units.has(node.get_name()):
+			node.is_dead = true
 			node.queue_free()
 
 func create_unit(id, unit, my_team):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()
 	node.initialize(id, unit, my_team, layer[unit.Layer], layer.UI)
+	node.connect("create_projectile", self, "create_projectile")
 	get_node("Units").add_child(node)
+
+func create_projectile(type, pos, targetid, hitafter):
+	if not get_node("Units").has_node(targetid):
+		return
+	var node = load("res://projectile/" + type + ".tscn").instance()
+	node.initialize(pos, get_node("Units").get_node(targetid), hitafter)
+	get_node("Projectiles").add_child(node)
 
 func get_unit_position(unit, my_team):
 	var x = unit.Position.X

@@ -2,6 +2,7 @@ package main
 
 import (
     "github.com/golang/glog"
+    "encoding/json"
 )
 
 type State string
@@ -77,6 +78,21 @@ type Unit struct {
     Acceleration Vector2 `json:"-"`
     Target *Unit `json:"-"`
     HitFrame int `json:"-"`
+}
+
+func (u Unit) MarshalJSON() ([]byte, error) {
+    type Alias Unit
+    var targetId int
+    if u.Target != nil {
+        targetId = u.Target.Id
+    }
+    return json.Marshal(&struct{
+        Alias
+        TargetId int `json:",omitempty"`
+    }{
+        Alias: (Alias)(u),
+        TargetId: targetId,
+    })
 }
 
 func (u *Unit) IsCore() bool {
