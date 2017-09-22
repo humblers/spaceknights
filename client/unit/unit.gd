@@ -2,7 +2,7 @@ extends Node2D
 
 const UNIT_INFO = {
 	"archer" : {
-		"radius": 10,
+		"radius": 9,
 		"sight" : 100,
 		"range" : 100,
 		"projectile" : {
@@ -11,12 +11,12 @@ const UNIT_INFO = {
 		},
 	},
 	"barbarian" : {
-		"radius": 13,
+		"radius": 11,
 		"sight" : 100,
 		"range" : 15,
 	},
 	"bomber" : {
-		"radius": 10,
+		"radius": 11,
 		"sight" : 100,
 		"range" : 100,
 	},
@@ -67,12 +67,16 @@ func initialize(id, unit, my_team, unit_z, ui_z):
 	set_color(my_team)
 	set_z(unit_z)
 	get_node("Hp").set_z(ui_z)
+	set_layer_mask(0 if team == "Home" else 1)
+	set_collision_mask(1 if team == "Home" else 0)
 
 func process(unit, my_team, position):
 	state = unit.State
 	target = String(unit.TargetId) if unit.has("TargetId") else null
 	var anim_node = get_anim_node()
-	anim_node.set_rot(get_rotation(unit, my_team))
+	var rot = get_rotation(unit, my_team)
+	anim_node.set_rot(rot)
+	get_node("Collision").set_rot(rot)
 	anim_node.play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 	set_pos(position)
