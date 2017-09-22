@@ -36,7 +36,7 @@ func create_unit(id, unit, my_team):
 	get_node("Units").add_child(node)
 
 func create_projectile(type, pos, targetid, hitafter):
-	if not get_node("Units").has_node(targetid):
+	if not target_id or not get_node("Units").has_node(targetid):
 		return
 	var node = load("res://projectile/" + type + ".tscn").instance()
 	var target = get_node("Units").get_node(targetid)

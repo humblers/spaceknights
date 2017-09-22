@@ -78,15 +78,13 @@ func initialize(id, unit, my_team, unit_z, ui_z):
 func process(unit, my_team, position):
 	state = unit.State
 	target = String(unit.TargetId) if unit.has("TargetId") else null
-	var anim_node = get_anim_node()
 	var rot = get_rotation(unit, my_team)
-	anim_node.set_rot(rot)
+	get_node(color).set_rot(rot)
 	get_node("Collision").set_rot(rot)
-	anim_node.play(state)
+	get_anim_node().play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 	set_pos(position)
-	if state == "move":
-		emit_signal("send_posistion", position)
+	emit_signal("send_posistion", position)
 
 func process_anim():
 	if not state == "attack":
@@ -95,7 +93,7 @@ func process_anim():
 		return
 	if get_anim_node().get_frame() != 0:
 		return
-	var pos = get_pos()
+	var pos = get_node(color).get_node("Shotpoint").get_global_pos()
 	var projtype = UNIT_INFO[name]["projectile"]["type"]
 	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
 	emit_signal("create_projectile", projtype, pos, target, hitafter)
