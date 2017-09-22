@@ -16,7 +16,7 @@ func NewMothership(t Team) []*Unit {
         Type: Building,
         Name: "maincore",
         Layer: Ground,
-        Hp: 200,
+        Hp: 2400,
         Mass: 100,
         Radius: 20,
         Position: Vector2{
@@ -29,7 +29,7 @@ func NewMothership(t Team) []*Unit {
         Type: Building,
         Name: "subcore",
         Layer: Ground,
-        Hp: 100,
+        Hp: 1400,
         Mass: 100,
         Radius: 30,
         Position: Vector2{
@@ -42,7 +42,7 @@ func NewMothership(t Team) []*Unit {
         Type: Building,
         Name: "subcore",
         Layer: Ground,
-        Hp: 100,
+        Hp: 1400,
         Mass: 100,
         Radius: 30,
         Position: Vector2{

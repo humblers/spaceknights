@@ -27,7 +27,7 @@ func update(game):
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if not units.has(node.get_name()):
-			node.die()
+			node.queue_free()
 
 func create_unit(id, unit, my_team):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()

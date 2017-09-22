@@ -7,7 +7,7 @@ const UNIT_INFO = {
 		"range" : 100,
 		"projectile" : {
 			"type": "bullet",
-			"hitafter" : 9,
+			"hitafter" : 6,
 		},
 	},
 	"barbarian" : {
@@ -44,11 +44,16 @@ var color setget set_color
 var state
 var target = null
 
+var modulate_timer = Timer.new()
+
 signal create_projectile(pos, type, target, land_at)
-signal to_projectile(is_dead, pos)
+signal send_posistion(pos)
 
 func _ready():
 	debug.connect("toggled", self, "update")
+	modulate_timer.set_one_shot(true)
+	modulate_timer.connect("timeout", self, "erase_modulate")
+	add_child(modulate_timer)
 
 func _draw():
 	if not has_info():
@@ -81,12 +86,12 @@ func process(unit, my_team, position):
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 	set_pos(position)
 	if state == "move":
-		emit_signal("to_projectile", false, position)
+		emit_signal("send_posistion", position)
 
 func process_anim():
-	if not is_range():
-		return
 	if not state == "attack":
+		return
+	if not is_range():
 		return
 	if get_anim_node().get_frame() != 0:
 		return
@@ -95,9 +100,13 @@ func process_anim():
 	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
 	emit_signal("create_projectile", projtype, pos, target, hitafter)
 
-func die():
-	emit_signal("to_projectile", true, null)
-	queue_free()
+func damage_modulate():
+	get_anim_node().set_modulate(Color(1.0, 0.4, 0.4))
+	modulate_timer.set_wait_time(0.15)
+	modulate_timer.start()
+
+func erase_modulate():
+	get_anim_node().set_modulate(Color(1.0, 1.0, 1.0))
 
 func has_info():
 	return UNIT_INFO.has(name)
