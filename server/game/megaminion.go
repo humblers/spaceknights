@@ -15,7 +15,7 @@ func NewMegaminion(t Team, x float64) *Unit {
         PostHitDelay: 11,
         Radius: 20,
         Sight: 80,
-        Range: 40,
+        Range: 20,
         Damage: 147,
         Position: Vector2 { x, 200 },
     }
