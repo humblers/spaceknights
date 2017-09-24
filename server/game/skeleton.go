@@ -1,10 +1,10 @@
 package main
 
-func NewSkelecton(t Team, x float64) *Unit {
+func NewSkeleton(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
-        Name: "skelecton",
+        Name: "skeleton",
         Layer: Ground,
         TargetLayers : Layers{Ground},
         TargetTypes: Types{Troop, Building},

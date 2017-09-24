@@ -4,7 +4,7 @@ func NewMusketeer(t Team, x float64) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
-        Name: "muketeer",
+        Name: "musketeer",
         Layer: Ground,
         TargetLayers : Layers{Ground, Air},
         TargetTypes: Types{Troop, Building},

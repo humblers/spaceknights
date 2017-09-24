@@ -68,8 +68,6 @@ func (player *Player) UseCard(index int, game *Game) {
     switch card {
     case "archer":
         game.AddUnit(NewArcher(player.Team, player.Knight.Position.X))
-    case "megaminion":
-        game.AddUnit(NewMegaminion(player.Team, player.Knight.Position.X))
     case "barbarian":
         game.AddUnit(NewBarbarian(player.Team, player.Knight.Position.X))
     case "bomber":
@@ -78,6 +76,20 @@ func (player *Player) UseCard(index int, game *Game) {
         game.AddUnit(NewCannon(player.Team, player.Knight.Position.X))
     case "giant":
         game.AddUnit(NewGiant(player.Team, player.Knight.Position.X))
+    case "megaminion":
+        game.AddUnit(NewMegaminion(player.Team, player.Knight.Position.X))
+    case "minipekka":
+        game.AddUnit(NewMinipekka(player.Team, player.Knight.Position.X))
+    case "musketeer":
+        game.AddUnit(NewMusketeer(player.Team, player.Knight.Position.X))
+    case "pekka":
+        game.AddUnit(NewPekka(player.Team, player.Knight.Position.X))
+    case "skeleton":
+        game.AddUnit(NewSkeleton(player.Team, player.Knight.Position.X))
+    case "speargoblin":
+        game.AddUnit(NewSpeargoblin(player.Team, player.Knight.Position.X))
+    case "valkyrie":
+        game.AddUnit(NewValkyrie(player.Team, player.Knight.Position.X))
     default:
         glog.Warningf("invalid summon name: %v", card)
     }

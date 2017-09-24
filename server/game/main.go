@@ -59,23 +59,23 @@ func main() {
                         knightName: "shuriken",
                         deck: Cards{
                             "archer",
-                            "megaminion",
                             "barbarian",
                             "bomber",
                             "cannon",
                             "giant",
+                            "megaminion",
                         },
                     })
                     game.Join(Visitor, User{
                         id: create.UserIds[1],
                         knightName: "space_z",
                         deck: Cards{
-                            "archer",
-                            "megaminion",
-                            "barbarian",
-                            "bomber",
-                            "cannon",
-                            "giant",
+                            "minipekka",
+                            "musketeer",
+                            "pekka",
+                            "skeleton",
+                            "speargoblin",
+                            "valkyrie",
                         },
                     })
                     session := NewSession(create.SessionId, server)
