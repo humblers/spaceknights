@@ -24,6 +24,10 @@ const UNIT_INFO = {
 		"radius": 20,
 		"sight" : 100,
 		"range" : 100,
+		"projectile" : {
+			"type" : "bullet",
+			"lifetime" : 5,
+		},
 	},
 	"giant" : {
 		"radius": 28,
@@ -34,6 +38,44 @@ const UNIT_INFO = {
 		"radius": 20,
 		"sight" : 80,
 		"range" : 50,
+	},
+	"minipekka" : {
+		"radius": 12,
+		"sight" : 100,
+		"range" : 15,
+	},
+	"musketeer" : {
+		"radius": 11,
+		"sight" : 120,
+		"range" : 120,
+		"projectile" : {
+			"type" : "bullet",
+			"lifetime" : 10,
+		},
+	},
+	"pekka" : {
+		"radius": 13,
+		"sight" : 100,
+		"range" : 15,
+	},
+	"skeleton" : {
+		"radius": 6,
+		"sight" : 100,
+		"range" : 5,
+	},
+	"speargoblin" : {
+		"radius": 9,
+		"sight" : 100,
+		"range" : 100,
+		"projectile" : {
+			"type" : "bullet",
+			"lifetime" : 12,
+		},
+	},
+	"valkyrie" : {
+		"radius": 12,
+		"sight" : 100,
+		"range" : 20,
 	},
 }
 
@@ -81,6 +123,8 @@ func process(unit, user_team, position):
 	var rot = get_rotation(unit, user_team)
 	get_node(color).set_rot(rot)
 	get_node("Collision").set_rot(rot)
+	if is_range():
+		get_anim_node().get_node("Shotpoint").set_rot(rot)
 	get_anim_node().play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 	set_pos(position)
@@ -96,7 +140,7 @@ func process_anim():
 	emit_signal("create_projectile", 
 		target_id, 
 		UNIT_INFO[name]["projectile"]["type"], 
-		get_node(color).get_node("Shotpoint").get_global_pos(), 
+		get_anim_node().get_node("Shotpoint").get_global_pos(),
 		UNIT_INFO[name]["projectile"]["lifetime"])
 
 func damage_modulate():
