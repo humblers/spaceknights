@@ -7,7 +7,7 @@ const UNIT_INFO = {
 		"range" : 100,
 		"projectile" : {
 			"type": "bullet",
-			"hitafter" : 6,
+			"lifetime" : 6, # server's unit prehitdelay
 		},
 	},
 	"barbarian" : {
@@ -37,6 +37,8 @@ const UNIT_INFO = {
 	},
 }
 
+var modulate_timer = Timer.new()
+
 var team
 var name
 var color setget set_color
@@ -44,9 +46,7 @@ var color setget set_color
 var state
 var target_id = 0
 
-var modulate_timer = Timer.new()
-
-signal create_projectile(pos, type, target_id, land_at)
+signal create_projectile(target_id, type, pos, lifetime)
 signal send_posistion(pos)
 
 func _ready():
@@ -65,20 +65,20 @@ func _draw():
 	if debug.show_range:
 		draw_circle_arc(UNIT_INFO[name]["range"], Color(0, 0, 1.0))
 
-func initialize(id, unit, my_team, unit_z, ui_z):
+func initialize(id, unit, user_team, unit_z, ui_z):
 	set_name(id)
 	team = unit.Team
 	name = unit.Name
-	set_color(my_team)
+	set_color(user_team)
 	set_z(unit_z)
 	get_node("Hp").set_z(ui_z)
 	set_layer_mask(0 if team == "Home" else 1)
 	set_collision_mask(1 if team == "Home" else 0)
 
-func process(unit, my_team, position):
+func process(unit, user_team, position):
 	state = unit.State
 	target_id = unit.TargetId
-	var rot = get_rotation(unit, my_team)
+	var rot = get_rotation(unit, user_team)
 	get_node(color).set_rot(rot)
 	get_node("Collision").set_rot(rot)
 	get_anim_node().play(state)
@@ -93,10 +93,11 @@ func process_anim():
 		return
 	if get_anim_node().get_frame() != 0:
 		return
-	var pos = get_node(color).get_node("Shotpoint").get_global_pos()
-	var projtype = UNIT_INFO[name]["projectile"]["type"]
-	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
-	emit_signal("create_projectile", projtype, pos, target_id, hitafter)
+	emit_signal("create_projectile", 
+		target_id, 
+		UNIT_INFO[name]["projectile"]["type"], 
+		get_node(color).get_node("Shotpoint").get_global_pos(), 
+		UNIT_INFO[name]["projectile"]["lifetime"])
 
 func damage_modulate():
 	get_anim_node().set_modulate(Color(1.0, 0.4, 0.4))
@@ -115,24 +116,19 @@ func is_range():
 func get_anim_node():
 	return get_node(color).get_node("Animation")
 
-func get_rotation(unit, my_team):
+func get_rotation(unit, user_team):
 	var angle = atan2(unit.Heading.X, unit.Heading.Y)
-	if my_team == "Home":
+	if user_team == "Home":
 		return angle
 	else:
 		return angle + PI
 
-func get_color(my_team):
-	return "Blue" if team == my_team else "Red"
-
-func set_color(my_team):
-	color = get_color(my_team)
-	for _color in ["Blue", "Red"]:
-		if color != _color:
-			get_node(_color).hide()
-			continue
-		get_node(_color).show()
-		get_node(_color).get_node("Animation").show()
+func set_color(user_team):
+	var off_color = "Red" if team == user_team else "Blue"
+	get_node(off_color).hide()
+	color = "Blue" if team == user_team else "Red"
+	get_node(color).show()
+	get_anim_node().show()
 	get_anim_node().connect("frame_changed", self, "process_anim")
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):

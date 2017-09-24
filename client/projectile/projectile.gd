@@ -2,7 +2,7 @@ extends Area2D
 
 var target_id
 var target_pos
-var hitafter
+var lifetime
 
 onready var elapsed = 0
 
@@ -11,7 +11,7 @@ func _ready():
 
 func _process(delta):
 	elapsed += delta
-	var remain = hitafter - elapsed
+	var remain = lifetime - elapsed
 	if remain <= 0:
 		queue_free()
 		return
@@ -20,12 +20,12 @@ func _process(delta):
 	var speed = pos.distance_to(target_pos) / remain * delta
 	set_pos(pos + (target_pos - pos).normalized() * speed)
 
-func initialize(pos, target, _hitafter):
-	set_pos(pos)
-	hitafter = float(_hitafter) / 10
+func initialize(target, pos, _lifetime):
 	target_id = target.get_name()
 	target_pos = target.get_pos()
 	target.connect("send_posistion", self, "update_target_pos")
+	set_pos(pos)
+	lifetime = float(_lifetime) / 10
 	connect("area_enter", self, "on_area_enter")
 	set_layer_mask(1 if target.team == "Home" else 0)
 	set_collision_mask(0 if target.team == "Home" else 1)
