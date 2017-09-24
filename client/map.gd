@@ -21,6 +21,8 @@ func update(game):
 		var unit = game.Units[id]
 		if not get_node("Units").has_node(id):
 			create_unit(id, game.Units[id], my_team)
+	for id in game.Units:
+		var unit = game.Units[id]
 		var pos = get_unit_position(unit, my_team)
 		get_node("Units").get_node(id).process(unit, my_team, pos)
 
@@ -35,12 +37,15 @@ func create_unit(id, unit, my_team):
 	node.connect("create_projectile", self, "create_projectile")
 	get_node("Units").add_child(node)
 
-func create_projectile(type, pos, targetid, hitafter):
-	if not targetid or not get_node("Units").has_node(targetid):
+func create_projectile(type, pos, target_id, hitafter):
+	if target_id <= 0:
+		return
+	target_id = String(target_id)
+	if not get_node("Units").has_node(target_id):
 		return
 	var node = load("res://projectile/" + type + ".tscn").instance()
-	var target = get_node("Units").get_node(targetid)
-	node.initialize(pos, targetid, target, hitafter)
+	var target = get_node("Units").get_node(target_id)
+	node.initialize(pos, target, hitafter)
 	get_node("Projectiles").add_child(node)
 
 func get_unit_position(unit, my_team):

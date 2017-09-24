@@ -42,11 +42,11 @@ var name
 var color setget set_color
 
 var state
-var target = null
+var target_id = 0
 
 var modulate_timer = Timer.new()
 
-signal create_projectile(pos, type, target, land_at)
+signal create_projectile(pos, type, target_id, land_at)
 signal send_posistion(pos)
 
 func _ready():
@@ -77,7 +77,7 @@ func initialize(id, unit, my_team, unit_z, ui_z):
 
 func process(unit, my_team, position):
 	state = unit.State
-	target = String(unit.TargetId) if unit.has("TargetId") else null
+	target_id = unit.TargetId
 	var rot = get_rotation(unit, my_team)
 	get_node(color).set_rot(rot)
 	get_node("Collision").set_rot(rot)
@@ -87,7 +87,7 @@ func process(unit, my_team, position):
 	emit_signal("send_posistion", position)
 
 func process_anim():
-	if not state == "attack":
+	if state != "attack":
 		return
 	if not is_range():
 		return
@@ -96,7 +96,7 @@ func process_anim():
 	var pos = get_node(color).get_node("Shotpoint").get_global_pos()
 	var projtype = UNIT_INFO[name]["projectile"]["type"]
 	var hitafter = UNIT_INFO[name]["projectile"]["hitafter"]
-	emit_signal("create_projectile", projtype, pos, target, hitafter)
+	emit_signal("create_projectile", projtype, pos, target_id, hitafter)
 
 func damage_modulate():
 	get_anim_node().set_modulate(Color(1.0, 0.4, 0.4))

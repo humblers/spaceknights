@@ -83,12 +83,12 @@ type Unit struct {
 func (u Unit) MarshalJSON() ([]byte, error) {
     type Alias Unit
     var targetId int
-    if u.Target != nil {
+    if u.HasTarget() {
         targetId = u.Target.Id
     }
     return json.Marshal(&struct{
         Alias
-        TargetId int `json:",omitempty"`
+        TargetId int
     }{
         Alias: (Alias)(u),
         TargetId: targetId,

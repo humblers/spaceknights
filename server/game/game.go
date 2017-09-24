@@ -84,7 +84,7 @@ func NewGame() *Game {
         Home: make(map[string]*Player),
         Visitor: make(map[string]*Player),
         Units: make(map[int]*Unit),
-        UnitCounter: 0,
+        UnitCounter: 1,
         Motherships: make(map[Team][]*Unit),
     }
     g.Motherships[Home] = NewMothership(Home)

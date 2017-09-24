@@ -20,15 +20,15 @@ func _process(delta):
 	var speed = pos.distance_to(target_pos) / remain * delta
 	set_pos(pos + (target_pos - pos).normalized() * speed)
 
-func initialize(_pos, _targetid, _target, _hitafter):
-	set_pos(_pos)
-	target_id = _targetid
+func initialize(pos, target, _hitafter):
+	set_pos(pos)
 	hitafter = float(_hitafter) / 10
-	_target.connect("send_posistion", self, "update_target_pos")
-	target_pos = _target.get_pos()
-	set_layer_mask(1 if _target.team == "Home" else 0)
-	set_collision_mask(0 if _target.team == "Home" else 1)
+	target_id = target.get_name()
+	target_pos = target.get_pos()
+	target.connect("send_posistion", self, "update_target_pos")
 	connect("area_enter", self, "on_area_enter")
+	set_layer_mask(1 if target.team == "Home" else 0)
+	set_collision_mask(0 if target.team == "Home" else 1)
 	set_process(true)
 
 func update_target_pos(pos):
