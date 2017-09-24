@@ -20,11 +20,12 @@ func _process(delta):
 	var speed = pos.distance_to(target_pos) / remain * delta
 	set_pos(pos + (target_pos - pos).normalized() * speed)
 
-func initialize(target, pos, _lifetime):
+func initialize(target, pos, _lifetime, z):
 	target_id = target.get_name()
 	target_pos = target.get_pos()
 	target.connect("send_posistion", self, "update_target_pos")
 	set_pos(pos)
+	set_z(z)
 	lifetime = float(_lifetime) / 10
 	connect("area_enter", self, "on_area_enter")
 	set_layer_mask(1 if target.team == "Home" else 0)

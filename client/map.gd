@@ -4,6 +4,7 @@ extends Node
 var layer = {
 	"Ground": 0,
 	"Air": 1,
+	"Projectile": 2,
 	"UI": 100,
 }
 
@@ -45,7 +46,7 @@ func create_projectile(target_id, type, pos, lifetime):
 		return
 	var node = load("res://projectile/" + type + ".tscn").instance()
 	var target = get_node("Units").get_node(target_id)
-	node.initialize(target, pos, lifetime)
+	node.initialize(target, pos, lifetime, layer.Projectile)
 	get_node("Projectiles").add_child(node)
 
 func get_unit_position(unit, user_team):
