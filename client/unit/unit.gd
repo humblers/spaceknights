@@ -116,32 +116,31 @@ func initialize(id, unit, user_team, unit_z, ui_z):
 	get_node("Hp").set_z(ui_z)
 	set_layer_mask(0 if team == "Home" else 1)
 	set_collision_mask(1 if team == "Home" else 0)
+	get_anim_node().connect("changed", self, "on_anim_node_changed")
 
 func process(unit, user_team, position):
 	state = unit.State
 	target_id = unit.TargetId
 	var rot = get_rotation(unit, user_team)
-	get_node(color).set_rot(rot)
 	get_node("Collision").set_rot(rot)
-	if is_range():
-		get_anim_node().get_node("Shotpoint").set_rot(rot)
+	get_anim_node().set_rot(rot)
 	get_anim_node().play(state)
 	get_node("Hp").get_node("Label").set_text(str(unit.Hp))
 	set_pos(position)
 	emit_signal("send_posistion", position)
 
-func process_anim():
-	if state != "attack":
-		return
+func on_anim_node_changed(animation, frame):
+	range_action(animation, frame)
+
+func range_action(animation, frame):
 	if not is_range():
 		return
-	if get_anim_node().get_frame() != 0:
-		return
-	emit_signal("create_projectile", 
-		target_id, 
-		UNIT_INFO[name]["projectile"]["type"], 
-		get_anim_node().get_node("Shotpoint").get_global_pos(),
-		UNIT_INFO[name]["projectile"]["lifetime"])
+	if animation == "attack" and frame == 0:
+		emit_signal("create_projectile", 
+			target_id, 
+			UNIT_INFO[name]["projectile"]["type"], 
+			get_anim_node().get_node("Shotpoint").get_global_pos(),
+			UNIT_INFO[name]["projectile"]["lifetime"])
 
 func damage_modulate():
 	get_anim_node().set_modulate(Color(1.0, 0.4, 0.4))
@@ -173,7 +172,6 @@ func set_color(user_team):
 	color = "Blue" if team == user_team else "Red"
 	get_node(color).show()
 	get_anim_node().show()
-	get_anim_node().connect("frame_changed", self, "process_anim")
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32
