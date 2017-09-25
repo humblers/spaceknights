@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=22 format=1]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/cannon_blue_base.png" type="Texture" id=2]
@@ -9,17 +9,22 @@
 [ext_resource path="res://unit/cannon_blue_atk04.png" type="Texture" id=7]
 [ext_resource path="res://unit/cannon_blue_atk05.png" type="Texture" id=8]
 [ext_resource path="res://unit/cannon_blue_atk06.png" type="Texture" id=9]
-[ext_resource path="res://unit/cannon_red_base.png" type="Texture" id=10]
-[ext_resource path="res://unit/cannon_red_idle.png" type="Texture" id=11]
-[ext_resource path="res://unit/cannon_red_atk01.png" type="Texture" id=12]
-[ext_resource path="res://unit/cannon_red_atk02.png" type="Texture" id=13]
-[ext_resource path="res://unit/cannon_red_atk03.png" type="Texture" id=14]
-[ext_resource path="res://unit/cannon_red_atk04.png" type="Texture" id=15]
-[ext_resource path="res://unit/cannon_red_atk05.png" type="Texture" id=16]
-[ext_resource path="res://unit/cannon_red_atk06.png" type="Texture" id=17]
+[ext_resource path="res://unit/animation.gd" type="Script" id=10]
+[ext_resource path="res://unit/cannon_red_base.png" type="Texture" id=11]
+[ext_resource path="res://unit/cannon_red_idle.png" type="Texture" id=12]
+[ext_resource path="res://unit/cannon_red_atk01.png" type="Texture" id=13]
+[ext_resource path="res://unit/cannon_red_atk02.png" type="Texture" id=14]
+[ext_resource path="res://unit/cannon_red_atk03.png" type="Texture" id=15]
+[ext_resource path="res://unit/cannon_red_atk04.png" type="Texture" id=16]
+[ext_resource path="res://unit/cannon_red_atk05.png" type="Texture" id=17]
+[ext_resource path="res://unit/cannon_red_atk06.png" type="Texture" id=18]
 
+[sub_resource type="RectangleShape2D" id=1]
 
-[sub_resource type="SpriteFrames" id=1]
+custom_solver_bias = 0.0
+extents = Vector2( 16, 16 )
+
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 3 ) ],
@@ -38,32 +43,38 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
-"frames": [ ExtResource( 11 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
 "name": "move",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 12 ), ExtResource( 12 ) ],
 "loop": true,
 "name": "attack",
 "speed": 10.0
 } ]
 
-[node name="cannon" type="Node2D"]
+[node name="cannon" type="Area2D"]
 
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
 script/script = ExtResource( 1 )
 
 [node name="Blue" type="Node2D" parent="."]
-
-visibility/visible = false
 
 [node name="Base" type="Sprite" parent="Blue"]
 
@@ -71,9 +82,14 @@ texture = ExtResource( 2 )
 
 [node name="Animation" type="AnimatedSprite" parent="Blue"]
 
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "attack"
 frame = 6
+script/script = ExtResource( 10 )
+
+[node name="Shotpoint" type="Position2D" parent="Blue/Animation"]
+
+transform/pos = Vector2( 0, 20 )
 
 [node name="Red" type="Node2D" parent="."]
 
@@ -81,12 +97,17 @@ visibility/visible = false
 
 [node name="Base" type="Sprite" parent="Red"]
 
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Animation" type="AnimatedSprite" parent="Red"]
 
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "idle"
+script/script = ExtResource( 10 )
+
+[node name="Shotpoint" type="Position2D" parent="Red/Animation"]
+
+transform/pos = Vector2( 0, 20 )
 
 [node name="Hp" type="Node2D" parent="."]
 
@@ -106,5 +127,11 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
 
 
