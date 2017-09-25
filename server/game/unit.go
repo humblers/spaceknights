@@ -80,17 +80,17 @@ type Unit struct {
     HitFrame int `json:"-"`
 }
 
-func (u Unit) MarshalJSON() ([]byte, error) {
+func (u *Unit) MarshalJSON() ([]byte, error) {
     type Alias Unit
     var targetId int
     if u.HasTarget() {
         targetId = u.Target.Id
     }
     return json.Marshal(&struct{
-        Alias
+        *Alias
         TargetId int
     }{
-        Alias: (Alias)(u),
+        Alias: (*Alias)(u),
         TargetId: targetId,
     })
 }
