@@ -10,6 +10,7 @@ func _ready():
 	set_process_unhandled_input(true)
 
 func _unhandled_input(event):
+	# UI intercepted input not seen on here
 	if event.type == InputEvent.MOUSE_BUTTON:
 		pressed = event.pressed
 		emit_signal("mouse_pressed", pressed)

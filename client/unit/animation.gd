@@ -1,13 +1,11 @@
 extends AnimatedSprite
 
-var animation
-var frame
+var animation = ""
+var frame = -1
 
 signal changed(animation, frame)
 
 func _ready():
-	animation = ""
-	frame = -1
 	set_process(true)
 
 func _process(delta):
