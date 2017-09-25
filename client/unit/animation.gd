@@ -6,8 +6,8 @@ var frame
 signal changed(animation, frame)
 
 func _ready():
-	animation = get_animation()
-	frame = get_frame()
+	animation = ""
+	frame = -1
 	set_process(true)
 
 func _process(delta):
