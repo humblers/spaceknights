@@ -2,7 +2,7 @@ extends Node
 
 func _ready():
 	if kcp.is_connected():
-		kcp._disconnect()
+		kcp.disconnect_server()
 	http_lobby.connect("login_response", self, "_login_response")
 	http_lobby.connect("match_response", self, "_match_response")
 	http_lobby.request(HTTPClient.METHOD_POST, "/login/dev", {}, "login_response", false)
@@ -22,7 +22,7 @@ func _match_response(success, dict):
 	# kcp connect before scene loading
 	var id = http_lobby.get_var("uid")
 	var session_id = http_lobby.get_var("game_sessionid")
-	kcp._connect(http_lobby.get_var("game_host"), 9999)
+	kcp.connect_server(http_lobby.get_var("game_host"), 9999)
 	kcp.send({"Id": id, "Token": id})
 	kcp.send({"SessionId": session_id})
 	get_tree().change_scene("res://game.tscn")

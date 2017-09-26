@@ -14,12 +14,12 @@ func _ready():
 	timer.connect("timeout", self, "_update")
 	add_child(timer)
 
-func _connect(ip, port):
+func connect_server(ip, port):
 	assert(kcp.is_connected() == false)
 	if kcp.connect(ip, port):
 		timer.start()
 
-func _disconnect():
+func disconnect_server():
 	assert(kcp.is_connected() == true)
 	timer.stop()
 	kcp.disconnect()
