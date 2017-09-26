@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg_blue.png" type="Texture" id=2]
@@ -16,7 +16,14 @@
 [ext_resource path="res://icon/bomber.png" type="Texture" id=14]
 [ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=15]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="StyleBoxEmpty" id=1]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+
+[sub_resource type="DynamicFont" id=2]
 
 font/size = 40
 font/use_mipmaps = false
@@ -63,7 +70,6 @@ texture = ExtResource( 5 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -179,23 +185,29 @@ textures/normal = ExtResource( 14 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
-[node name="Winner" type="Label" parent="UI"]
+[node name="Winner" type="Button" parent="UI"]
 
 visibility/visible = false
-focus/ignore_mouse = true
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
-size_flags/vertical = 0
+size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 400.0
-margin/bottom = 640.0
-custom_fonts/font = SubResource( 1 )
+margin/right = 0.0
+margin/bottom = 0.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = SubResource( 1 )
+custom_styles/disabled = SubResource( 1 )
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
 text = "Game Over"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+flat = false
 
 
