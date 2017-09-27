@@ -45,5 +45,12 @@ func back_to_lobby():
 	get_tree().change_scene("res://lobby.tscn")
 
 func show_winner(game):
-	winner.set_text("You " + ("Win" if team == game.Winner else "Lose"))
+	var text
+	if game.Winner == "Draw":
+		text = "Draw"
+	elif game.Winner == team:
+		text = "You Win"
+	else:
+		text = "You Lose"
+	winner.set_text(text)
 	winner.show()
