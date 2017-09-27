@@ -11,7 +11,7 @@ func NewArcher(t Team, x float64) *Unit {
         Hp: 125,
         Mass: 6,
         Speed: 3,
-        PreHitDelay: 6,
+        PreHitDelay: 11,
         PostHitDelay: 0,
         Radius: 9,
         Sight: 100,

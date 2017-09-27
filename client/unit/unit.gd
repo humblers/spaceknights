@@ -5,10 +5,8 @@ const UNIT_INFO = {
 		"radius": 9,
 		"sight" : 100,
 		"range" : 100,
-		"projectile" : {
-			"type": "bullet",
-			"lifetime" : 6, # server's unit prehitdelay
-		},
+		"prehitdelay" : 11,
+		"projectile" : "bullet",
 	},
 	"barbarian" : {
 		"radius": 11,
@@ -24,10 +22,8 @@ const UNIT_INFO = {
 		"radius": 20,
 		"sight" : 100,
 		"range" : 100,
-		"projectile" : {
-			"type" : "bullet",
-			"lifetime" : 5,
-		},
+		"prehitdelay": 5,
+		"projectile" : "bullet",
 	},
 	"giant" : {
 		"radius": 28,
@@ -48,10 +44,8 @@ const UNIT_INFO = {
 		"radius": 11,
 		"sight" : 120,
 		"range" : 120,
-		"projectile" : {
-			"type" : "bullet",
-			"lifetime" : 10,
-		},
+		"prehitdelay": 10,
+		"projectile" : "bullet",
 	},
 	"pekka" : {
 		"radius": 13,
@@ -67,10 +61,8 @@ const UNIT_INFO = {
 		"radius": 9,
 		"sight" : 100,
 		"range" : 100,
-		"projectile" : {
-			"type" : "bullet",
-			"lifetime" : 12,
-		},
+		"prehitdelay" : 12,
+		"projectile" : "bullet",
 	},
 	"valkyrie" : {
 		"radius": 12,
@@ -138,9 +130,9 @@ func range_action(animation, frame):
 	if animation == "attack" and frame == 0:
 		emit_signal("create_projectile", 
 			target_id, 
-			UNIT_INFO[name]["projectile"]["type"], 
+			UNIT_INFO[name]["projectile"], 
 			get_anim_node().get_node("Shotpoint").get_global_pos(),
-			UNIT_INFO[name]["projectile"]["lifetime"])
+			UNIT_INFO[name]["prehitdelay"])
 
 func damage_modulate():
 	get_anim_node().set_modulate(Color(1.0, 0.4, 0.4))

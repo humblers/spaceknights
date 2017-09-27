@@ -11,30 +11,32 @@ var layer = {
 onready var WIDTH = Globals.get("display/width")
 onready var HEIGHT = Globals.get("display/height") - get_node("MothershipBG").get_texture().get_size().height
 
+var team
+
 func _ready():
 	kcp.connect("packet_received", self, "update")
 
 func update(game):
 	delete_dead_units(game.Units)
 
-	var user_team = "Home" if game.has("Home") else "Visitor"
+	team = "Home" if game.has("Home") else "Visitor"
 	for id in game.Units:
 		var unit = game.Units[id]
 		if not get_node("Units").has_node(id):
-			create_unit(id, game.Units[id], user_team)
+			create_unit(id, game.Units[id], team)
 	for id in game.Units:
 		var unit = game.Units[id]
-		var pos = get_unit_position(unit, user_team)
-		get_node("Units").get_node(id).process(unit, user_team, pos)
+		var pos = get_unit_position(unit, team)
+		get_node("Units").get_node(id).process(unit, team, pos)
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if not units.has(node.get_name()):
 			node.queue_free()
 
-func create_unit(id, unit, user_team):
+func create_unit(id, unit, team):
 	var node = load("res://unit/" + unit.Name + ".tscn").instance()
-	node.initialize(id, unit, user_team, layer[unit.Layer], layer.UI)
+	node.initialize(id, unit, team, layer[unit.Layer], layer.UI)
 	node.connect("create_projectile", self, "create_projectile")
 	get_node("Units").add_child(node)
 
@@ -49,10 +51,10 @@ func create_projectile(target_id, type, pos, lifetime):
 	node.initialize(target, pos, lifetime, layer.Projectile)
 	get_node("Projectiles").add_child(node)
 
-func get_unit_position(unit, user_team):
+func get_unit_position(unit, team):
 	var x = unit.Position.X
 	var y = unit.Position.Y
-	if user_team == "Home":
+	if team == "Home":
 		return Vector2(x, y)
 	else:
 		return Vector2(WIDTH - x, HEIGHT - y)
