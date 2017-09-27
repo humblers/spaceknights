@@ -56,7 +56,10 @@ func update_changes(unit):
 	set_hp(unit)
 
 func set_hp(unit):
-	if unit.Hp < hp:
+	var lifetimecost = 0
+	if global.UNITS[name].has("lifetimecost"):
+		lifetimecost = global.UNITS[name].lifetimecost
+	if hp - lifetimecost > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp
 	get_node("Hp/Label").set_text(str(hp))

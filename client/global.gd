@@ -45,6 +45,7 @@ const UNITS = {
 		"sight" : 100,
 		"range" : 100,
 		"projectile" : "bullet",
+		"lifetimecost" : 1,
 	},
 	"giant" : {
 		"layer" : "Ground",
