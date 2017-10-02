@@ -1,6 +1,6 @@
 package main
 
-func NewCannon(t Team, x float64) *Unit {
+func NewCannon(t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Building,
@@ -18,6 +18,6 @@ func NewCannon(t Team, x float64) *Unit {
         Range: 110,
         Damage: 60,
         LifetimeCost: 1,
-        Position: Vector2 { x, 200 },
+        Position: pos,
     }
 }

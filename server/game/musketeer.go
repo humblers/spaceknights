@@ -1,6 +1,6 @@
 package main
 
-func NewMusketeer(t Team, x float64) *Unit {
+func NewMusketeer(t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,6 @@ func NewMusketeer(t Team, x float64) *Unit {
         Sight: 120,
         Range: 120,
         Damage: 100,
-        Position: Vector2 { x, 200 },
+        Position: pos,
     }
 }

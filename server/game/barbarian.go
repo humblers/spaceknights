@@ -1,6 +1,6 @@
 package main
 
-func NewBarbarian(t Team, x float64) *Unit {
+func NewBarbarian(t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,6 @@ func NewBarbarian(t Team, x float64) *Unit {
         Sight: 100,
         Range: 15,
         Damage: 75,
-        Position: Vector2 { x, 200 },
+        Position: pos,
     }
 }

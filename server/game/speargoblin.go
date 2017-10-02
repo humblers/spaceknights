@@ -1,6 +1,6 @@
 package main
 
-func NewSpeargoblin(t Team, x float64) *Unit {
+func NewSpeargoblin(t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,6 @@ func NewSpeargoblin(t Team, x float64) *Unit {
         Sight: 100,
         Range: 100,
         Damage: 24,
-        Position: Vector2 { x, 200 },
+        Position: pos,
     }
 }

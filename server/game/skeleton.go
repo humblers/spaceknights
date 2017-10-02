@@ -1,6 +1,6 @@
 package main
 
-func NewSkeleton(t Team, x float64) *Unit {
+func NewSkeleton(t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,6 @@ func NewSkeleton(t Team, x float64) *Unit {
         Sight: 100,
         Range: 5,
         Damage: 30,
-        Position: Vector2 { x, 200 },
+        Position: pos,
     }
 }
