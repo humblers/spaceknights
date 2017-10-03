@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://unit/unit.gd" type="Script" id=1]
+[ext_resource path="res://unit/subcore/blue.png" type="Texture" id=2]
+[ext_resource path="res://unit/subcore/red.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "blue_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "red_idle",
+"speed": 5.0
+} ]
+
+[node name="subcore" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Body" type="AnimatedSprite" parent="."]
+
+frames = SubResource( 1 )
+animation = "blue_idle"
+
+[node name="Hp" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Hp"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -22.0
+margin/top = -45.0
+margin/right = 18.0
+margin/bottom = -31.0
+text = "100"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+

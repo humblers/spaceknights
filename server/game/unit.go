@@ -53,7 +53,7 @@ type Unit struct {
     Team Team
     Type Type `json:"-"`
     Name string
-    Layer Layer
+    Layer Layer `json:"-"`
     TargetLayers Layers `json:"-"`
     TargetTypes Types `json:"-"`
     Hp int
@@ -88,7 +88,7 @@ func (u *Unit) MarshalJSON() ([]byte, error) {
     }
     return json.Marshal(&struct{
         *Alias
-        TargetId int
+        TargetId int `json:",omitempty"`
     }{
         Alias: (*Alias)(u),
         TargetId: targetId,
