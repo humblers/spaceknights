@@ -25,18 +25,21 @@ const UNITS = {
 		"sight" : 100,
 		"range" : 100,
 		"projectile" : "bullet",
+		"size" : "small",
 	},
 	"barbarian" : {
 		"layer" : "Ground",
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 15,
+		"size" : "medium",
 	},
 	"bomber" : {
 		"layer" : "Ground",
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 100,
+		"size" : "medium",
 	},
 	"cannon" : {
 		"layer" : "Ground",
@@ -45,12 +48,15 @@ const UNITS = {
 		"sight" : 100,
 		"range" : 100,
 		"projectile" : "bullet",
+		"lifetimecost" : 1,
+		"size" : "medium",
 	},
 	"giant" : {
 		"layer" : "Ground",
 		"radius" : 28,
 		"sight" : 200,
 		"range" : 15,
+		"size" : "xlarge",
 	},
 	"shuriken" : {
 		"layer" : "Air",
@@ -65,12 +71,14 @@ const UNITS = {
 		"radius" : 20,
 		"sight" : 80,
 		"range" : 50,
+		"size" : "large",
 	},
 	"minipekka" : {
 		"layer" : "Ground",
 		"radius" : 12,
 		"sight" : 100,
 		"range" : 15,
+		"size" : "small",
 	},
 	"maincore" : {
 		"layer" : "Ground",
@@ -90,18 +98,21 @@ const UNITS = {
 		"sight" : 120,
 		"range" : 120,
 		"projectile" : "bullet",
+		"size" : "large",
 	},
 	"pekka" : {
 		"layer" : "Ground",
 		"radius" : 13,
 		"sight" : 100,
 		"range" : 15,
+		"size" : "medium",
 	},
 	"skeleton" : {
 		"layer" : "Ground",
 		"radius" : 6,
 		"sight" : 100,
 		"range" : 5,
+		"size" : "small",
 	},
 	"speargoblin" : {
 		"layer" : "Ground",
@@ -110,11 +121,18 @@ const UNITS = {
 		"sight" : 100,
 		"range" : 100,
 		"projectile" : "bullet",
+		"size" : "small",
 	},
 	"valkyrie" : {
 		"layer" : "Ground",
 		"radius": 12,
 		"sight" : 100,
 		"range" : 20,
+		"size" : "medium",
 	},
 }
+
+static func dict_get(dict, key, not_found_val=null):
+	if dict.has(key):
+		return dict[key]
+	return not_found_val

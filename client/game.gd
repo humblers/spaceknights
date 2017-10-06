@@ -1,7 +1,6 @@
 extends Node
 
 func _ready():
-	global.id = http_lobby.get_var("uid")
 	kcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
@@ -14,6 +13,9 @@ func update_changes(game):
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if not units.has(node.get_name()):
+			var effect = load("res://effect/explosion.tscn").instance()
+			effect.initialize(node.get_pos(), global.dict_get(global.UNITS, "size", "small"))
+			add_child(effect)
 			node.queue_free()
 
 func create_new_units(units):
