@@ -49,15 +49,16 @@ func set_damage_effect():
 	add_child(damage_effect)
 
 func set_launch_effect():
-	set_pos(Vector2(pos.x, 510))
-	state = "launch"
-	get_anim_node().play("idle")
-	get_anim_node().set_rot(PI)
-	get_anim_node().set_self_opacity(0.3)
-	var node = preload("res://effect/launch_unit.tscn").instance()
-	node.initialize(self, pos.y, UNIT_INFO[name]["launch_effect"])
-	node.connect("launch_finished", self, "launch_finished")
-	get_anim_node().add_child(node)
+	return
+#	set_pos(Vector2(pos.x, 510))
+#	state = "launch"
+#	get_anim_node().play("idle")
+#	get_anim_node().set_rot(PI)
+#	get_anim_node().set_self_opacity(0.3)
+#	var node = load("res://effect/launch_unit.tscn").instance()
+#	node.initialize(self, pos.y, UNIT_INFO[name]["launch_effect"])
+#	node.connect("launch_finished", self, "launch_finished")
+#	get_anim_node().add_child(node)
 
 func transform_to_guide_node(pos):
 	set_rot(PI)
@@ -67,11 +68,13 @@ func transform_to_guide_node(pos):
 	set_pos(pos)
 
 func is_launching():
-	return state and state == "launch"
+	return false
+#	return state and state == "launch"
 
 func launch_finished():
-	state = "idle"
-	get_anim_node().set_self_opacity(1.0)
+	return
+#	state = "idle"
+#	get_anim_node().set_self_opacity(1.0)
 
 func update_changes(unit):
 	if is_launching():

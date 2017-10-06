@@ -2,8 +2,8 @@ extends AnimatedSprite
 
 const EFFECT_TIME = 0.3
 
-var wait
-var elapsed
+var wait = rand_range(0, 0.1)
+var elapsed = 0
 var speed
 
 var unit_node
@@ -13,8 +13,6 @@ var size
 signal launch_finished
 
 func _ready():
-	wait = rand_range(0, 0.1)
-	elapsed = 0
 	speed = (510 - destination) / EFFECT_TIME
 	play(size)
 	set_process(true)

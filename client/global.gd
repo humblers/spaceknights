@@ -10,6 +10,9 @@ const MAP = {
 	"height" : 560,
 }
 
+const TILE_HEIGHT = 20
+const BASE_HEIGHT = 50
+
 const LAYERS = {
 	"Ground": 0,
 	"Air": 1,
