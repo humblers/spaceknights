@@ -1,7 +1,6 @@
 extends Node
 
 func _ready():
-	global.id = http_lobby.get_var("uid")
 	kcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
