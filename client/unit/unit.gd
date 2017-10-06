@@ -3,6 +3,7 @@ extends Node2D
 var name
 var color
 var target_id = 0
+var hp = 0
 var damage_effect = Timer.new()
 onready var body = get_node("Body")
 
@@ -50,9 +51,15 @@ func update_changes(unit):
 	set_pos(get_position(unit))
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
-	get_node("Hp/Label").set_text(str(unit.Hp))
 	body.play(color + "_" + unit.State)
 	set_target_id(unit)
+	set_hp(unit)
+
+func set_hp(unit):
+	if unit.Hp < hp:
+		show_damage_effect()
+	hp = unit.Hp
+	get_node("Hp/Label").set_text(str(hp))
 
 func get_position(unit):
 	var x = unit.Position.X
