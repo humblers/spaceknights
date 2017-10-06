@@ -1,10 +1,14 @@
 extends AnimatedSprite
 
-func _ready():
-	connect("finished", self, "_on_finished")
-	# temporary scale for all unit explosion
-	set_scale(Vector2(2.0, 2.0))
-	set_frame(0)
+var size
 
-func _on_finished():
+func _ready():
+	play(size)
+
+func initialize(pos, _size):
+	set_pos(pos)
+	size = _size
+	connect("finished", self, "on_finished")
+
+func on_finished():
 	queue_free()
