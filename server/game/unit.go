@@ -28,7 +28,7 @@ const (
     Knight Type = "Knight"
 )
 
-const IdleFramesForLaunch = 4
+const IdleFramesForLaunch = 5
 const MaxSeparationForce = 20
 
 func (layers Layers) Contains(layer Layer) bool {

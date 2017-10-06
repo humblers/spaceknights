@@ -177,7 +177,6 @@ func (g *Game) AddUnit(unit *Unit) {
     g.UnitCounter++
 }
 
-
 func (g *Game) String() string {
     var h, v []string
     for id, _ := range g.Home {

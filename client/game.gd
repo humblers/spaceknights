@@ -1,6 +1,7 @@
 extends Node
 
 func _ready():
+	randomize()
 	kcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):

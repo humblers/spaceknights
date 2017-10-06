@@ -65,32 +65,36 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
     }
     player.Pending[len(player.Pending) - 1] = card
 
-    releasePosition := Vector2{player.Knight.Position.X, MapHeight - releasePoint}
+    position := Vector2{player.Knight.Position.X, MapHeight - releasePoint}
     switch card {
-    case "archer":
-        game.AddUnit(NewArcher(player.Team, releasePosition))
-    case "barbarian":
-        game.AddUnit(NewBarbarian(player.Team, releasePosition))
+    case "archers":
+        game.AddUnit(NewArcher(player.Team, position, Vector2{1, 0}))
+        game.AddUnit(NewArcher(player.Team, position, Vector2{-1, 0}))
+    case "barbarians":
+        game.AddUnit(NewBarbarian(player.Team, position, Vector2{1, 1}))
+        game.AddUnit(NewBarbarian(player.Team, position, Vector2{1, -1}))
+        game.AddUnit(NewBarbarian(player.Team, position, Vector2{-1, 1}))
+        game.AddUnit(NewBarbarian(player.Team, position, Vector2{-1, -1}))
     case "bomber":
-        game.AddUnit(NewBomber(player.Team, releasePosition))
+        game.AddUnit(NewBomber(player.Team, position))
     case "cannon":
-        game.AddUnit(NewCannon(player.Team, releasePosition))
+        game.AddUnit(NewCannon(player.Team, position))
     case "giant":
-        game.AddUnit(NewGiant(player.Team, releasePosition))
+        game.AddUnit(NewGiant(player.Team, position))
     case "megaminion":
-        game.AddUnit(NewMegaminion(player.Team, releasePosition))
+        game.AddUnit(NewMegaminion(player.Team, position))
     case "minipekka":
-        game.AddUnit(NewMinipekka(player.Team, releasePosition))
+        game.AddUnit(NewMinipekka(player.Team, position))
     case "musketeer":
-        game.AddUnit(NewMusketeer(player.Team, releasePosition))
+        game.AddUnit(NewMusketeer(player.Team, position))
     case "pekka":
-        game.AddUnit(NewPekka(player.Team, releasePosition))
+        game.AddUnit(NewPekka(player.Team, position))
     case "skeleton":
-        game.AddUnit(NewSkeleton(player.Team, releasePosition))
+        game.AddUnit(NewSkeleton(player.Team, position))
     case "speargoblin":
-        game.AddUnit(NewSpeargoblin(player.Team, releasePosition))
+        game.AddUnit(NewSpeargoblin(player.Team, position))
     case "valkyrie":
-        game.AddUnit(NewValkyrie(player.Team, releasePosition))
+        game.AddUnit(NewValkyrie(player.Team, position))
     default:
         glog.Warningf("invalid summon name: %v", card)
     }

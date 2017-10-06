@@ -29,6 +29,7 @@ func initialize(unit):
 	set_base()
 	set_layers()
 	set_damage_effect()
+	set_launch_effect()
 	debug.connect("option_changed", self, "update")
 
 func set_base():
@@ -47,7 +48,34 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
+func set_launch_effect():
+	set_pos(Vector2(pos.x, 510))
+	state = "launch"
+	get_anim_node().play("idle")
+	get_anim_node().set_rot(PI)
+	get_anim_node().set_self_opacity(0.3)
+	var node = preload("res://effect/launch_unit.tscn").instance()
+	node.initialize(self, pos.y, UNIT_INFO[name]["launch_effect"])
+	node.connect("launch_finished", self, "launch_finished")
+	get_anim_node().add_child(node)
+
+func transform_to_guide_node(pos):
+	set_rot(PI)
+	get_node("Blue").get_node("Animation").play("idle")
+	get_node("Hp").hide()
+	set_opacity(0.5)
+	set_pos(pos)
+
+func is_launching():
+	return state and state == "launch"
+
+func launch_finished():
+	state = "idle"
+	get_anim_node().set_self_opacity(1.0)
+
 func update_changes(unit):
+	if is_launching():
+		return
 	set_pos(get_position(unit))
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))

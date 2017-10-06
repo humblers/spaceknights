@@ -63,7 +63,11 @@ func free_guide_node():
 		guide_node = null
 
 func press_card(i):
-	guide_node = load("res://unit/" + hand[i - 1] + ".tscn").instance()
+	var card = hand[i - 1]
+	if card == "archers":
+		guide_node = preload("res://unit/archer.tscn").instance()
+	elif card == "barbarians":
+		guide_node = preload("res://unit/barbarian.tscn").instance()
 	guide_node.transform_to_guide_node(Vector2(guide_pos_x, MAP_HEIGHT - BASE_HEIGHT))
 	add_child(guide_node)
 	set_process(true)
