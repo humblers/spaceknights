@@ -70,12 +70,12 @@ func main() {
                         id: create.UserIds[1],
                         knightName: "space_z",
                         deck: Cards{
-                            "archers",
-                            "archers",
-                            "archers",
-                            "barbarians",
-                            "barbarians",
-                            "barbarians",
+                            "skeletons",
+                            "skeletons",
+                            "skeletons",
+                            "speargoblins",
+                            "speargoblins",
+                            "speargoblins",
                         },
                     })
                     session := NewSession(create.SessionId, server)

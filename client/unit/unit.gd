@@ -108,10 +108,7 @@ func get_rotation(unit):
 		return angle + PI
 
 func set_target_id(unit):
-	if unit.has("TargetId"):
-		target_id = unit.TargetId
-	else:
-		target_id = 0
+	target_id = global.dict_get(unit, "TargetId", 0)
 
 func show_damage_effect():
 	body.set_modulate(Color(1.0, 0.4, 0.4))

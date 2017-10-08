@@ -89,10 +89,14 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
         game.AddUnit(NewMusketeer(player.Team, position))
     case "pekka":
         game.AddUnit(NewPekka(player.Team, position))
-    case "skeleton":
-        game.AddUnit(NewSkeleton(player.Team, position))
-    case "speargoblin":
-        game.AddUnit(NewSpeargoblin(player.Team, position))
+    case "skeletons":
+        game.AddUnit(NewSkeleton(player.Team, position, Vector2{0, 1}))
+        game.AddUnit(NewSkeleton(player.Team, position, Vector2{1, -1}))
+        game.AddUnit(NewSkeleton(player.Team, position, Vector2{-1, -1}))
+    case "speargoblins":
+        game.AddUnit(NewSpeargoblin(player.Team, position, Vector2{0, 1}))
+        game.AddUnit(NewSpeargoblin(player.Team, position, Vector2{1, -1}))
+        game.AddUnit(NewSpeargoblin(player.Team, position, Vector2{-1, -1}))
     case "valkyrie":
         game.AddUnit(NewValkyrie(player.Team, position))
     default:

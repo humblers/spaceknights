@@ -21,7 +21,7 @@ func set_starting_point_x(point):
 	pos.x = point
 	starting.set_pos(pos)
 
-func create_unit(name, offset):
+func create_unit(name, offset=Vector2(0, 0)):
 	var spr = Sprite.new()
 	spr.set_texture(load("res://unit/%s/blue_idle.png" % name))
 	spr.set_pos(offset * global.UNITS[name].radius)
@@ -32,7 +32,20 @@ func show(card):
 		create_unit("archer", Vector2(1, 0))
 		create_unit("archer", Vector2(-1, 0))
 	elif card == "barbarians":
-		pass
+		create_unit("barbarian", Vector2(1, 1))
+		create_unit("barbarian", Vector2(1, -1))
+		create_unit("barbarian", Vector2(-1, 1))
+		create_unit("barbarian", Vector2(-1, -1))
+	elif card == "skeletons":
+		create_unit("skeleton", Vector2(0, 1))
+		create_unit("skeleton", Vector2(1, -1))
+		create_unit("skeleton", Vector2(-1, -1))
+	elif card == "speargoblins":
+		create_unit("speargoblin", Vector2(0, 1))
+		create_unit("speargoblin", Vector2(1, -1))
+		create_unit("speargoblin", Vector2(-1, -1))
+	else:
+		create_unit(card)
 	units.set_pos(starting.get_pos())
 	units.show()
 	set_process(true)
