@@ -1,9 +1,11 @@
 extends Node2D
 
 var name
+var team
 var color
 var target_id = 0
 var hp = 0
+var launch_effect = null
 var damage_effect = Timer.new()
 onready var body = get_node("Body")
 
@@ -11,9 +13,13 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
+	if launch_effect != null:
+		body.add_child(launch_effect)
 	set_process(true)
 
 func _process(delta):
+	if launch_effect != null:
+		play_launch_effect(delta)
 	if body.get_animation() == "%s_attack" % color and body.get_frame() == 0:
 		if not global.UNITS[name].has("projectile"):
 			return
@@ -25,11 +31,12 @@ func _process(delta):
 
 func initialize(unit):
 	self.name = unit.Name
+	self.team = unit.Team
 	self.color = "blue" if unit.Team == global.team else "red"
 	set_base()
 	set_layers()
 	set_damage_effect()
-	set_launch_effect()
+	set_launch_effect(get_position(unit))
 	debug.connect("option_changed", self, "update")
 
 func set_base():
@@ -48,33 +55,21 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_launch_effect():
-	return
-#	set_pos(Vector2(pos.x, 510))
-#	state = "launch"
-#	get_anim_node().play("idle")
-#	get_anim_node().set_rot(PI)
-#	get_anim_node().set_self_opacity(0.3)
-#	var node = load("res://effect/launch_unit.tscn").instance()
-#	node.initialize(self, pos.y, UNIT_INFO[name]["launch_effect"])
-#	node.connect("launch_finished", self, "launch_finished")
-#	get_anim_node().add_child(node)
-
-func transform_to_guide_node(pos):
-	set_rot(PI)
-	get_node("Blue").get_node("Animation").play("idle")
-	get_node("Hp").hide()
-	set_opacity(0.5)
+func set_launch_effect(pos):
+	if global.UNITS[name].type in ["Knight", "Base"]:
+		return
+	var destination = pos.y
+	launch_effect = load("res://effect/launch_unit.tscn").instance()
+	if global.team == team:
+		pos.y = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
+	else:
+		pos.y = global.MOTHERSHIP_BASE_HEIGHT
 	set_pos(pos)
+	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
+	launch_effect.set_name("Launch")
 
 func is_launching():
-	return false
-#	return state and state == "launch"
-
-func launch_finished():
-	return
-#	state = "idle"
-#	get_anim_node().set_self_opacity(1.0)
+	return body.has_node("Launch")
 
 func update_changes(unit):
 	if is_launching():
@@ -116,6 +111,16 @@ func show_damage_effect():
 
 func hide_damage_effect():
 	body.set_modulate(Color(1.0, 1.0, 1.0))
+
+func play_launch_effect(delta):
+	if not launch_effect.is_finished(delta):
+		set_pos(launch_effect.update_position(get_pos()))
+		body.set_self_opacity(0.3)
+		body.set_rot(PI)
+		return
+	launch_effect.queue_free()
+	launch_effect = null
+	body.set_self_opacity(1.0)
 
 func _draw():
 	var unit = global.UNITS[name]
