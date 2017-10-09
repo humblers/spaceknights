@@ -6,9 +6,6 @@ onready var starting = get_node("Starting")
 onready var threshold = get_node("Threshold").get_pos().y
 onready var base = get_node("Base")
 
-func _ready():
-	pass
-
 func _process(delta):
 	var pos = base.get_pos()
 	pos.y -= delta * (starting.get_pos().y - threshold) / TO_THRESHOLD
