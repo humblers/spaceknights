@@ -172,7 +172,9 @@ func (g *Game) AddUnit(unit *Unit) {
     unit.Id = g.UnitCounter
     unit.Game = g
     unit.State = Idle
-    unit.InviolableUntil = g.Frame + IdleFramesForLaunch
+    if !unit.IsCore() {
+        unit.InviolableUntil = g.Frame + IdleFramesForLaunch
+    }
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }

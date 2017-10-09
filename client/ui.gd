@@ -4,7 +4,7 @@ onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var winner = get_node("Winner")
-onready var guide = get_node("LaunchGuide")
+onready var guide = get_node("CardGuide")
 
 var hand
 
@@ -46,7 +46,7 @@ func release_card(i):
 	kcp.send({ 
 	"Use" : {
 		"Index" : i,
-		"Point" : guide.units.get_pos().y,
+		"Point" : guide.base.get_pos().y,
 		}
 	})
 	guide.hide()

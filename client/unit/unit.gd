@@ -3,9 +3,9 @@ extends Node2D
 var name
 var team
 var color
+var launch_effect
 var target_id = 0
 var hp = 0
-var launch_effect = null
 var damage_effect = Timer.new()
 onready var body = get_node("Body")
 
@@ -13,12 +13,13 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
-	if launch_effect != null:
-		body.add_child(launch_effect)
+	if body.has_node("Launch"):
+		launch_effect = get_node("Body/Launch")
+		set_launch_effect()
 	set_process(true)
 
 func _process(delta):
-	if launch_effect != null:
+	if is_launching():
 		play_launch_effect(delta)
 	if body.get_animation() == "%s_attack" % color and body.get_frame() == 0:
 		if not global.UNITS[name].has("projectile"):
@@ -33,10 +34,10 @@ func initialize(unit):
 	self.name = unit.Name
 	self.team = unit.Team
 	self.color = "blue" if unit.Team == global.team else "red"
+	set_pos(get_position(unit))
 	set_base()
 	set_layers()
 	set_damage_effect()
-	set_launch_effect(get_position(unit))
 	debug.connect("option_changed", self, "update")
 
 func set_base():
@@ -55,18 +56,19 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_launch_effect(pos):
-	if global.UNITS[name].type in ["Knight", "Base"]:
-		return
+func set_launch_effect():
+	var pos = get_pos()
 	var destination = pos.y
-	launch_effect = load("res://effect/launch_unit.tscn").instance()
 	if global.team == team:
 		pos.y = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
+		body.set_rot(PI)
+		body.play("blue_idle")
 	else:
 		pos.y = global.MOTHERSHIP_BASE_HEIGHT
+		body.play("red_idle")
 	set_pos(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
-	launch_effect.set_name("Launch")
+	body.set_self_opacity(0.7)
 
 func is_launching():
 	return body.has_node("Launch")
@@ -114,12 +116,9 @@ func hide_damage_effect():
 
 func play_launch_effect(delta):
 	if not launch_effect.is_finished(delta):
-		set_pos(launch_effect.update_position(get_pos()))
-		body.set_self_opacity(0.3)
-		body.set_rot(PI)
+		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
 	launch_effect.queue_free()
-	launch_effect = null
 	body.set_self_opacity(1.0)
 
 func _draw():
