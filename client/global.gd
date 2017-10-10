@@ -21,7 +21,7 @@ const LAYERS = {
 const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
-		"prehitdelay" : 11,
+		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 100,
@@ -42,6 +42,16 @@ const UNITS = {
 		"range" : 100,
 		"size" : "medium",
 	},
+	"bombtower" : {
+		"layer" : "Ground",
+		"prehitdelay": 15,
+		"radius" : 20,
+		"sight" : 120,
+		"range" : 120,
+		"projectile" : "bullet",
+		"lifetimecost" : 1,
+		"size" : "large",
+	},
 	"cannon" : {
 		"layer" : "Ground",
 		"prehitdelay": 5,
@@ -50,7 +60,7 @@ const UNITS = {
 		"range" : 100,
 		"projectile" : "bullet",
 		"lifetimecost" : 1,
-		"size" : "medium",
+		"size" : "large",
 	},
 	"giant" : {
 		"layer" : "Ground",
@@ -96,7 +106,7 @@ const UNITS = {
 	},
 	"musketeer" : {
 		"layer" : "Ground",
-		"prehitdelay": 10,
+		"prehitdelay": 3,
 		"radius" : 11,
 		"sight" : 120,
 		"range" : 120,
@@ -119,7 +129,7 @@ const UNITS = {
 	},
 	"speargoblin" : {
 		"layer" : "Ground",
-		"prehitdelay" : 12,
+		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 100,
