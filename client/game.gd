@@ -34,7 +34,7 @@ func update_units(units):
 		var unit = units[id]
 		get_node("Units").get_node(id).update_changes(unit)
 		if unit.Team == global.team and unit.Name in ["shuriken", "space_z"]:
-			get_node("UI/CardGuide").set_starting_point_x(unit.Position.X)
+			get_node("UI/CardGuide").set_starting_x(unit.Position.X)
 
 func update_ui(game):
 	get_node("UI").update_changes(game)

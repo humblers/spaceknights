@@ -20,7 +20,6 @@ const LAYERS = {
 
 const UNITS = {
 	"archer" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"prehitdelay" : 11,
 		"radius" : 9,
@@ -30,7 +29,6 @@ const UNITS = {
 		"size" : "small",
 	},
 	"barbarian" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 11,
 		"sight" : 100,
@@ -38,7 +36,6 @@ const UNITS = {
 		"size" : "medium",
 	},
 	"bomber" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 11,
 		"sight" : 100,
@@ -46,7 +43,6 @@ const UNITS = {
 		"size" : "medium",
 	},
 	"cannon" : {
-		"type" : "Building",
 		"layer" : "Ground",
 		"prehitdelay": 5,
 		"radius" : 20,
@@ -57,7 +53,6 @@ const UNITS = {
 		"size" : "medium",
 	},
 	"giant" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 28,
 		"sight" : 200,
@@ -65,7 +60,6 @@ const UNITS = {
 		"size" : "xlarge",
 	},
 	"shuriken" : {
-		"type" : "Knight",
 		"layer" : "Air",
 		"radius" : 20,
 	},
@@ -75,7 +69,6 @@ const UNITS = {
 		"radius" : 31,
 	},
 	"megaminion" : {
-		"type" : "Troop",
 		"layer" : "Air",
 		"radius" : 20,
 		"sight" : 80,
@@ -83,7 +76,6 @@ const UNITS = {
 		"size" : "large",
 	},
 	"minipekka" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 12,
 		"sight" : 100,
@@ -91,23 +83,19 @@ const UNITS = {
 		"size" : "small",
 	},
 	"maincore" : {
-		"type" : "Building",
 		"layer" : "Ground",
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
-		"type" : "Building",
 		"layer" : "Ground",
 		"radius" : 30,
 		"size" : "xlarge",
 	},
 	"base" : {
-		"type" : "Base",
 		"layer" : "Ground",
 	},
 	"musketeer" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"prehitdelay": 10,
 		"radius" : 11,
@@ -117,7 +105,6 @@ const UNITS = {
 		"size" : "large",
 	},
 	"pekka" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 13,
 		"sight" : 100,
@@ -125,7 +112,6 @@ const UNITS = {
 		"size" : "medium",
 	},
 	"skeleton" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius" : 6,
 		"sight" : 100,
@@ -133,7 +119,6 @@ const UNITS = {
 		"size" : "small",
 	},
 	"speargoblin" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"prehitdelay" : 12,
 		"radius" : 9,
@@ -143,7 +128,6 @@ const UNITS = {
 		"size" : "small",
 	},
 	"valkyrie" : {
-		"type" : "Troop",
 		"layer" : "Ground",
 		"radius": 12,
 		"sight" : 100,
