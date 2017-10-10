@@ -64,7 +64,6 @@ const UNITS = {
 		"radius" : 20,
 	},
 	"space_z" : {
-		"type" : "Knight",
 		"layer" : "Air",
 		"radius" : 31,
 	},
