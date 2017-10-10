@@ -172,10 +172,12 @@ func (g *Game) AddUnit(unit *Unit) {
     unit.Id = g.UnitCounter
     unit.Game = g
     unit.State = Idle
+    if !unit.IsCore() {
+        unit.InviolableUntil = g.Frame + IdleFramesForLaunch
+    }
     g.Units[g.UnitCounter] = unit
     g.UnitCounter++
 }
-
 
 func (g *Game) String() string {
     var h, v []string
@@ -232,7 +234,7 @@ func (game *Game) apply(input Input) {
     player := game.Player(input.id)
     if input.Move != 0 {
         player.Move(input.Move)
-    } else if input.Use != 0 {
-        player.UseCard(input.Use - 1, game)
+    } else if input.Use.Index != 0 {
+        player.UseCard(input.Use.Index - 1, input.Use.Point, game)
     }
 }

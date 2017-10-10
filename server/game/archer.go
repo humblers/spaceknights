@@ -1,6 +1,6 @@
 package main
 
-func NewArcher(t Team, x float64) *Unit {
+func NewArcher(t Team, pos Vector2, offset Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,6 @@ func NewArcher(t Team, x float64) *Unit {
         Sight: 100,
         Range: 100,
         Damage: 40,
-        Position: Vector2 { x, 200 },
+        Position: pos.Plus(offset.Multiply(9)),
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg_blue.png" type="Texture" id=2]
@@ -6,15 +6,16 @@
 [ext_resource path="res://background_tilecheck.png" type="Texture" id=4]
 [ext_resource path="res://center_barrier.png" type="Texture" id=5]
 [ext_resource path="res://ui.gd" type="Script" id=6]
-[ext_resource path="res://icon/archer.png" type="Texture" id=7]
-[ext_resource path="res://next_panel.png" type="Texture" id=8]
-[ext_resource path="res://energybar_bot.png" type="Texture" id=9]
-[ext_resource path="res://energybar_top.png" type="Texture" id=10]
-[ext_resource path="res://energybar_inside.png" type="Texture" id=11]
-[ext_resource path="res://icon/barbarian.png" type="Texture" id=12]
-[ext_resource path="res://icon/megaminion.png" type="Texture" id=13]
-[ext_resource path="res://icon/bomber.png" type="Texture" id=14]
-[ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://icon/archers.png" type="Texture" id=8]
+[ext_resource path="res://next_panel.png" type="Texture" id=9]
+[ext_resource path="res://energybar_bot.png" type="Texture" id=10]
+[ext_resource path="res://energybar_top.png" type="Texture" id=11]
+[ext_resource path="res://energybar_inside.png" type="Texture" id=12]
+[ext_resource path="res://icon/barbarians.png" type="Texture" id=13]
+[ext_resource path="res://icon/megaminion.png" type="Texture" id=14]
+[ext_resource path="res://icon/bomber.png" type="Texture" id=15]
+[ext_resource path="res://cardguide.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -28,7 +29,7 @@ content_margin/bottom = -1.0
 font/size = 40
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 15 )
+font/font = ExtResource( 7 )
 
 [node name="game" type="Node"]
 
@@ -69,121 +70,11 @@ texture = ExtResource( 5 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 script/script = ExtResource( 6 )
-
-[node name="Next" type="TextureFrame" parent="UI"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 12.0
-margin/top = 548.0
-margin/right = 68.0
-margin/bottom = 612.0
-texture = ExtResource( 7 )
-stretch_mode = 0
-
-[node name="Panel" type="TextureFrame" parent="UI"]
-
-anchor/bottom = 1
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 533.0
-margin/right = 80.0
-margin/bottom = 0.0
-texture = ExtResource( 8 )
-stretch_mode = 0
-
-[node name="Energy" type="TextureProgress" parent="UI"]
-
-anchor/top = 1
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 80.0
-margin/top = 14.0
-margin/right = 396.0
-margin/bottom = 0.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 50.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 9 )
-texture/over = ExtResource( 10 )
-texture/progress = ExtResource( 11 )
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="Card1" type="TextureButton" parent="UI"]
-
-anchor/top = 1
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 135.0
-margin/top = 70.0
-margin/right = 191.0
-margin/bottom = 8.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 12 )
-params/resize_mode = 0
-params/stretch_mode = 0
-
-[node name="Card2" type="TextureButton" parent="UI"]
-
-anchor/top = 1
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 211.0
-margin/top = 70.0
-margin/right = 267.0
-margin/bottom = 8.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 13 )
-params/resize_mode = 0
-params/stretch_mode = 0
-
-[node name="Card3" type="TextureButton" parent="UI"]
-
-anchor/top = 1
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 286.0
-margin/top = 70.0
-margin/right = 342.0
-margin/bottom = 8.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 14 )
-params/resize_mode = 0
-params/stretch_mode = 0
 
 [node name="Winner" type="Button" parent="UI"]
 
@@ -209,5 +100,131 @@ enabled_focus_mode = 2
 shortcut = null
 text = "Game Over"
 flat = false
+
+[node name="Next" type="TextureFrame" parent="UI"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 12.0
+margin/top = 548.0
+margin/right = 68.0
+margin/bottom = 612.0
+texture = ExtResource( 8 )
+stretch_mode = 0
+
+[node name="Panel" type="TextureFrame" parent="UI"]
+
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 533.0
+margin/right = 80.0
+margin/bottom = 0.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="Energy" type="TextureProgress" parent="UI"]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 80.0
+margin/top = 14.0
+margin/right = 396.0
+margin/bottom = 0.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 50.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 10 )
+texture/over = ExtResource( 11 )
+texture/progress = ExtResource( 12 )
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="Card1" type="TextureButton" parent="UI"]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 135.0
+margin/top = 70.0
+margin/right = 191.0
+margin/bottom = 8.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Card2" type="TextureButton" parent="UI"]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 211.0
+margin/top = 70.0
+margin/right = 267.0
+margin/bottom = 8.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Card3" type="TextureButton" parent="UI"]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 286.0
+margin/top = 70.0
+margin/right = 342.0
+margin/bottom = 8.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 15 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="CardGuide" type="Node" parent="UI"]
+
+script/script = ExtResource( 16 )
+
+[node name="Threshold" type="Position2D" parent="UI/CardGuide"]
+
+transform/pos = Vector2( 200, 310 )
+
+[node name="Base" type="Node2D" parent="UI/CardGuide"]
+
+visibility/opacity = 0.5
+transform/pos = Vector2( 200, 510 )
+transform/rot = 180.0
 
 

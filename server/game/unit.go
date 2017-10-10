@@ -28,6 +28,7 @@ const (
     Knight Type = "Knight"
 )
 
+const IdleFramesForLaunch = 5
 const MaxSeparationForce = 20
 
 func (layers Layers) Contains(layer Layer) bool {
@@ -69,15 +70,16 @@ type Unit struct {
     LifetimeCost int `json:"-"`
 
     // variant
-    Id int `json:"-"`
-    Game *Game `json:"-"`
-    State State
-    Position Vector2
-    Heading Vector2
-    Velocity Vector2 `json:"-"`
-    Acceleration Vector2 `json:"-"`
-    Target *Unit `json:"-"`
-    HitFrame int `json:"-"`
+    Id              int     `json:"-"`
+    Game            *Game   `json:"-"`
+    State           State
+    Position        Vector2
+    Heading         Vector2
+    Velocity        Vector2 `json:"-"`
+    Acceleration    Vector2 `json:"-"`
+    Target          *Unit   `json:"-"`
+    HitFrame        int     `json:"-"`
+    InviolableUntil int     `json:"-"`
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -113,7 +115,7 @@ func (u *Unit) TakeDamage(d int) {
 }
 
 func (u *Unit) CanTarget(other *Unit) bool {
-    if u.Team == other.Team {
+    if u.Team == other.Team || u.Game.Frame <= other.InviolableUntil {
         return false
     }
     if !u.TargetTypes.Contains(other.Type) {
@@ -239,6 +241,9 @@ func (u *Unit) HasTarget() bool {
 func (u *Unit) Update() {
     switch u.Type {
     case Troop:
+        if u.Game.Frame <= u.InviolableUntil {
+            return
+        }
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
@@ -272,6 +277,9 @@ func (u *Unit) Update() {
         u.Move()
         u.ResetForce()
     case Building:
+        if u.Game.Frame <= u.InviolableUntil {
+            return
+        }
         u.TakeDamage(u.LifetimeCost)
         if u.IsAttacking() {
             u.HandleAttack()

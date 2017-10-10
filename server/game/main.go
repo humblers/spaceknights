@@ -58,8 +58,8 @@ func main() {
                         id: create.UserIds[0],
                         knightName: "shuriken",
                         deck: Cards{
-                            "archer",
-                            "barbarian",
+                            "archers",
+                            "barbarians",
                             "bomber",
                             "cannon",
                             "giant",
@@ -73,8 +73,8 @@ func main() {
                             "minipekka",
                             "musketeer",
                             "pekka",
-                            "skeleton",
-                            "speargoblin",
+                            "skeletons",
+                            "speargoblins",
                             "valkyrie",
                         },
                     })

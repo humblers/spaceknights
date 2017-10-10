@@ -6,8 +6,8 @@ type Card string
 type Cards []Card
 
 var CostMap = map[Card]int{
-    "archer": 0,
-    "barbarian": 0,
+    "archers": 0,
+    "barbarians": 0,
     "bomber": 0,
     "cannon": 0,
     "giant": 0,
@@ -15,8 +15,8 @@ var CostMap = map[Card]int{
     "minipekka": 0,
     "musketeer": 0,
     "pekka": 0,
-    "skeleton": 0,
-    "speargoblin": 0,
+    "skeletons": 0,
+    "speargoblins": 0,
     "valkyrie": 0,
 }
 

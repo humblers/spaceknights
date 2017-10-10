@@ -4,21 +4,34 @@ onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var winner = get_node("Winner")
+onready var guide = get_node("CardGuide")
+
+var hand
 
 func _ready():
 	input.connect("mouse_dragged", self, "move")
-	card1.connect("pressed", self, "use_card", [1])
-	card2.connect("pressed", self, "use_card", [2])
-	card3.connect("pressed", self, "use_card", [3])
+	card1.connect("pressed", self, "press_card", [1])
+	card2.connect("pressed", self, "press_card", [2])
+	card3.connect("pressed", self, "press_card", [3])
+	card1.connect("released", self, "release_card", [1])
+	card2.connect("released", self, "release_card", [2])
+	card3.connect("released", self, "release_card", [3])
+	card1.connect("mouse_exit", self, "cancel_card")
+	card2.connect("mouse_exit", self, "cancel_card")
+	card3.connect("mouse_exit", self, "cancel_card")
 	winner.connect("pressed", self, "back_to_lobby")
+
+func load_icon(name):
+	return load("res://icon/" + name + ".png")
 
 func update_changes(game):
 	var player = game[global.team][global.id]
+	hand = player.Hand
 	# update deck and energy
 	get_node("Next").set_texture(load_icon(player.Next))
 	for i in range(1, 4):
 		var node = get_node("Card" + str(i))
-		var card = player.Hand[i - 1]
+		var card = hand[i - 1]
 		node.set_normal_texture(load_icon(card))
 	get_node("Energy").set_value(player.Energy)
 
@@ -26,11 +39,20 @@ func update_changes(game):
 		input.disconnect("mouse_dragged", self, "move")
 		show_winner(game)
 
-func load_icon(name):
-	return load("res://icon/" + name + ".png")
+func press_card(i):
+	guide.show(hand[i - 1])
 
-func use_card(i):
-	kcp.send({ "Use" : i})
+func release_card(i):
+	kcp.send({ 
+	"Use" : {
+		"Index" : i,
+		"Point" : guide.base.get_pos().y,
+		}
+	})
+	guide.hide()
+
+func cancel_card():
+	guide.hide()
 
 func move(x):
 	kcp.send({ "Move" : x })

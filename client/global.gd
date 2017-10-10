@@ -5,6 +5,7 @@ var team
 
 const SERVER_UPDATES_PER_SECOND = 10
 
+const MOTHERSHIP_BASE_HEIGHT = 50
 const MAP = {
 	"width" : 400,
 	"height" : 560,
@@ -83,10 +84,12 @@ const UNITS = {
 	"maincore" : {
 		"layer" : "Ground",
 		"radius" : 20,
+		"size" : "xlarge",
 	},
 	"subcore" : {
 		"layer" : "Ground",
 		"radius" : 30,
+		"size" : "xlarge",
 	},
 	"base" : {
 		"layer" : "Ground",
