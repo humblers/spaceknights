@@ -4,6 +4,7 @@ extends Node
 var show_radius = false
 var show_sight = false
 var show_range = false
+var show_velocity = false
 
 signal option_changed
 
@@ -19,4 +20,7 @@ func on_key_pressed(key):
 		emit_signal("option_changed")
 	elif key == KEY_F3:
 		show_range = not show_range
+		emit_signal("option_changed")
+	elif key == KEY_F4:
+		show_velocity = not show_velocity
 		emit_signal("option_changed")

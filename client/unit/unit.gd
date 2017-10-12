@@ -1,5 +1,7 @@
 extends Node2D
 
+var velocity = Vector2(0, 0)
+
 var name
 var color
 var target_id = 0
@@ -56,6 +58,8 @@ func update_changes(unit):
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
+	velocity = get_velocity(unit)
+	update()
 
 func set_hp(unit):
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
@@ -63,6 +67,14 @@ func set_hp(unit):
 	hp = unit.Hp
 	get_node("Hp/Label").set_text(str(hp))
 
+func get_velocity(unit):
+	var x = unit.Velocity.X
+	var y = unit.Velocity.Y
+	if global.team == "Home":
+		return Vector2(x, y)
+	else:
+		return Vector2(-x, -y)
+		
 func get_position(unit):
 	var x = unit.Position.X
 	var y = unit.Position.Y
@@ -130,6 +142,9 @@ func _draw():
 		draw_circle_arc(unit["sight"], Color(0, 1.0, 0))
 	if debug.show_range and unit.has("range"):
 		draw_circle_arc(unit["range"], Color(0, 0, 1.0))
+	if debug.show_velocity and unit.has("radius"):
+		var ahead = velocity.normalized() * (unit.radius + 5)
+		draw_line(Vector2(0, 0), ahead, Color(1.0, 1.0, 0))
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
 	var nb_points = 32

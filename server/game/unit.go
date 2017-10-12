@@ -77,7 +77,7 @@ type Unit struct {
     State        State
     Position     Vector2
     Heading      Vector2
-    Velocity     Vector2 `json:"-"`
+    Velocity     Vector2
     Acceleration Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
@@ -133,9 +133,11 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
+const MaxSeekForce = 1
 func (u *Unit) Seek(position Vector2) Vector2 {
     desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
-    return desired.Minus(u.Velocity)
+    u.Heading = desired
+    return desired.Minus(u.Velocity).Truncate(MaxSeekForce)
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -154,20 +156,40 @@ func (u *Unit) Separate() Vector2 {
     return sum.Truncate(MaxSeparationForce)
 }
 
-func (u *Unit) AddForce(force Vector2) {
-    u.Acceleration = u.Acceleration.Plus(force)   // f = ma
+const MaxAvoidForce = 10
+func (u *Unit) Avoid() Vector2 {
+    avoid := Vector2{0, 0}
+    if u.Velocity.Length() == 0 {
+        return avoid
+    }
+    var distance float64
+    for _, obstacle := range u.Game.Units {
+        if obstacle == u || obstacle == u.Target {
+            return avoid
+        }
+        position = obstacle.Position.ToLocalCoordinate(u) // to unit's local coordinate
+        if position.Y < 0 || position.Y > u.Radius + 10 {
+            return avoid
+        }
+        if position.X < obstacle.Radius + u.Radius && nearest{
+        }
+        distance := ahead.Minus(obstacle.Position).Length()
+        if distance < unit.Radius + u.Radius {
+            avoid := ahead.Minus(unit.Position).Normalize().Multiply(3)
+            return avoid.Minus(u.Velocity)
+        }
+    }
+    return Vector2{0, 0}
 }
 
-func (u *Unit) ResetForce() {
-    u.Acceleration = Vector2{0, 0}
+func (u *Unit) AddForce(force Vector2) {
+    u.Acceleration = u.Acceleration.Plus(force)   // f = ma
 }
 
 func (u *Unit) Move() {
     u.Velocity = u.Velocity.Plus(u.Acceleration)
     u.Position = u.Position.Plus(u.Velocity)
-    if u.State == Move {
-        u.Heading = u.Velocity
-    }
+    u.Acceleration = Vector2{0, 0}
 }
 
 func (u *Unit) CanSee(other *Unit) bool {
@@ -301,7 +323,7 @@ func (u *Unit) Update() {
                 if u.WithinRange(u.Target){
                     u.State = StartAttack
                     u.StartAttack()
-                    glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                    //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
                     position := u.Target.Position
@@ -309,14 +331,13 @@ func (u *Unit) Update() {
                         path := u.FindPath(u.Target)
                         position = u.NextCornerInPath(path)
                     }
-                    glog.Infof("moving to %v", position)
+                    //glog.Infof("moving to %v", position)
                     u.AddForce(u.Seek(position))
+                    u.AddForce(u.Avoid())
+                    u.Move()
                 }
             }
         }
-        u.AddForce(u.Separate())
-        u.Move()
-        u.ResetForce()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {
