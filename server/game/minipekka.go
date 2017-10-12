@@ -1,6 +1,6 @@
 package main
 
-func NewMinipekka(t Team, pos Vector2) *Unit {
+func NewMinipekka(id int, t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewMinipekka(t Team, pos Vector2) *Unit {
         Sight: 100,
         Range: 15,
         Damage: 325,
+        Id: id,
         Position: pos,
     }
 }

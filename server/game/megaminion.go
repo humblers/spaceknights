@@ -1,6 +1,6 @@
 package main
 
-func NewMegaminion(t Team, pos Vector2) *Unit {
+func NewMegaminion(id int, t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewMegaminion(t Team, pos Vector2) *Unit {
         Sight: 80,
         Range: 20,
         Damage: 147,
+        Id: id,
         Position: pos,
     }
 }

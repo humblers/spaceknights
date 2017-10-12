@@ -46,7 +46,7 @@ func release_card(i):
 	kcp.send({ 
 	"Use" : {
 		"Index" : i,
-		"Point" : guide.base.get_pos().y,
+		"Point" : guide.get_release_point(),
 		}
 	})
 	guide.hide()

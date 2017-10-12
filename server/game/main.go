@@ -79,7 +79,7 @@ func main() {
                         },
                     })
                     session := NewSession(create.SessionId, server)
-                    go session.Run(game)
+                    go session.Run()
                     go game.Run(session)
                     conn.Write([]byte("ok\n"))
                 }

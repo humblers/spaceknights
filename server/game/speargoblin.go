@@ -1,6 +1,6 @@
 package main
 
-func NewSpeargoblin(t Team, pos Vector2, offset Vector2) *Unit {
+func NewSpeargoblin(id int, t Team, pos Vector2, offset Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewSpeargoblin(t Team, pos Vector2, offset Vector2) *Unit {
         Sight: 100,
         Range: 100,
         Damage: 24,
+        Id: id,
         Position: pos.Plus(offset.Multiply(9)),
     }
 }

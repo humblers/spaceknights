@@ -1,6 +1,6 @@
 package main
 
-func NewSkeleton(t Team, pos Vector2, offset Vector2) *Unit {
+func NewSkeleton(id int, t Team, pos Vector2, offset Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewSkeleton(t Team, pos Vector2, offset Vector2) *Unit {
         Sight: 100,
         Range: 5,
         Damage: 30,
+        Id: id,
         Position: pos.Plus(offset.Multiply(6)),
     }
 }

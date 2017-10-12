@@ -52,3 +52,6 @@ func hide():
 	base.hide()
 	for child in base.get_children():
 		child.queue_free()
+
+func get_release_point():
+	return global.MAP.height - base.get_pos().y

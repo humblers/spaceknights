@@ -4,12 +4,15 @@ func _ready():
 	randomize()
 	kcp.connect("packet_received", self, "update_changes")
 
-func update_changes(game):
-	global.team = "Home" if game.has("Home") else "Visitor"
-	create_new_units(game.Units)
-	update_units(game.Units)
-	delete_dead_units(game.Units)
-	update_ui(game)
+func update_changes(key, dict):
+	if key == "Game":
+		global.team = "Home" if dict.has("Home") else "Visitor"
+		create_new_units(dict.Units)
+		update_units(dict.Units)
+		delete_dead_units(dict.Units)
+		update_ui(dict)
+	elif key == "Card":
+		print("Card packet recv: ", dict)
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():

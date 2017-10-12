@@ -1,9 +1,40 @@
 package main
 
-import "math/rand"
+import (
+    "math/rand"
+    "github.com/golang/glog"
+)
 
-type Card string
-type Cards []Card
+const ActivateAfter = 5
+type Card   string
+type Cards  []Card
+
+type WaitingCard struct {
+    Card       Card
+    Team       Team
+    Position   Vector2
+    IdStarting int
+}
+
+func (c *WaitingCard) GetCost() int {
+    return CostMap[c.Card]
+}
+
+func (c *WaitingCard) GetUnitCount() (count int) {
+    switch c.Card {
+    case "bomber", "cannon", "giant", "megaminion", "minipekka", "musketeer", "pekka", "valkyrie":
+        count = 1
+    case "archers":
+        count = 2
+    case "skeletons", "speargoblins":
+        count = 3
+    case "barbarians":
+        count = 4
+    default:
+        glog.Infof("not unit card or invalid card name: %v", c.Card)
+    }
+    return count
+}
 
 var CostMap = map[Card]int{
     "archers": 0,

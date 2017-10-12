@@ -1,6 +1,6 @@
 package main
 
-func NewValkyrie(t Team, pos Vector2) *Unit {
+func NewValkyrie(id int, t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewValkyrie(t Team, pos Vector2) *Unit {
         Sight: 100,
         Range: 20,
         Damage: 120,
+        Id: id,
         Position: pos,
     }
 }

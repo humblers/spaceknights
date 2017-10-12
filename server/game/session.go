@@ -6,6 +6,11 @@ import (
     "github.com/golang/glog"
 )
 
+type OutGoing struct {
+    Client *Client
+    Packet *Packet
+}
+
 type Session struct {
     id string
     server *Server
@@ -13,7 +18,7 @@ type Session struct {
     join chan *Client
     joinResult chan error
     incoming chan Input
-    outgoing chan *Game
+    outgoing chan OutGoing
     outgoingResult chan error
     closing chan struct{}
 }
@@ -26,7 +31,7 @@ func NewSession(id string, server *Server) *Session {
         join: make(chan *Client),
         joinResult: make(chan error),
         incoming: make(chan Input),
-        outgoing: make(chan *Game),
+        outgoing: make(chan OutGoing),
         outgoingResult: make(chan error),
         closing: make(chan struct {}),
     }
@@ -37,13 +42,20 @@ func (session *Session) String() string {
     return session.id
 }
 
-func (session *Session) Join(client *Client) error {
+func (session *Session) Join(client *Client) (err error) {
     select {
     case <-session.closing:
-        return fmt.Errorf("session %v already stopped")
+        err = fmt.Errorf("session %v already stopped"); return
     case session.join <- client:
     }
-    return <-session.joinResult
+    if err = <-session.joinResult; err != nil {
+        return
+    }
+    if existing, ok := session.clients[client.id]; ok {
+        existing.StopAsync()
+    }
+    session.clients[client.id] = client
+    return
 }
 
 func (session *Session) Stop() error {
@@ -53,13 +65,39 @@ func (session *Session) Stop() error {
     close(session.closing)
     return nil
 }
-
-func (session *Session) Broadcast(game *Game) error {
-    session.outgoing <- game
-    return <-session.outgoingResult
+func (session *Session) Broadcast(packet *Packet) (err error) {
+    for _, client := range session.clients {
+        session.outgoing <- OutGoing{client, packet}
+        if err = <- session.outgoingResult; err != nil {
+            return
+        }
+    }
+    return
 }
 
-func (session *Session) Run(game *Game) {
+func (session *Session) BroadcastGame(game *Game) (err error) {
+    for _, client := range session.clients {
+        home := game.Home
+        visitor := game.Visitor
+        player := game.Player(client.id)
+        // filter enemy info
+        switch player.Team {
+        case Home:
+            game.Visitor = nil
+        case Visitor:
+            game.Home = nil
+        }
+        packet := NewPacket("Game", game)
+        session.outgoing <- OutGoing{client, &packet}
+        game.Home = home; game.Visitor = visitor
+        if err = <-session.outgoingResult; err != nil {
+            return
+        }
+    }
+    return
+}
+
+func (session *Session) Run() {
     glog.V(0).Infof("session %v starting", session)
     defer glog.V(0).Infof("session %v stopped", session)
 
@@ -74,30 +112,8 @@ func (session *Session) Run(game *Game) {
                 client.StopAsync()
             }
             return
-        case client := <-session.join:
-            if p := game.Player(client.id); p == nil {
-                session.joinResult <- fmt.Errorf("player %v not exists", client.id)
-            }
-            if existing, ok := session.clients[client.id]; ok {
-                existing.StopAsync()
-            }
-            session.clients[client.id] = client
-            session.joinResult <- nil
-        case game := <-session.outgoing:
-            for _, client := range session.clients {
-                home := game.Home
-                visitor := game.Visitor
-                player := game.Player(client.id)
-                // filter enemy info
-                switch player.Team {
-                case Home:
-                    game.Visitor = nil
-                case Visitor:
-                    game.Home = nil;
-                }
-                client.WriteAsync(NewPacket(game))
-                game.Home = home; game.Visitor = visitor
-            }
+        case outgoing := <-session.outgoing:
+            outgoing.Client.WriteAsync(*outgoing.Packet)
             session.outgoingResult <- nil
         }
     }
