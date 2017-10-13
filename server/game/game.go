@@ -185,9 +185,9 @@ func (g *Game) AddUnit(unit *Unit) {
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
     frame := g.Frame + ActivateAfter
     waiting := &WaitingCard{
-        Card: card,
-        Team: team,
-        Position: pos,
+        Name:       card,
+        Team:       team,
+        Position:   pos,
         IdStarting: g.UnitCounter,
     }
     g.UnitCounter += waiting.GetUnitCount()
@@ -198,7 +198,7 @@ func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
 }
 
 func (g *Game) ActivateCard(card *WaitingCard) {
-    switch card.Card {
+    switch card.Name {
     case "archers":
         g.AddUnit(NewArcher(card.IdStarting, card.Team, card.Position, Vector2{1, 0}))
         g.AddUnit(NewArcher(card.IdStarting + 1, card.Team, card.Position, Vector2{-1, 0}))
@@ -232,7 +232,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
     default:
-        glog.Warningf("invalid card name: %v", card.Card)
+        glog.Warningf("invalid card name: %v", card.Name)
     }
 }
 

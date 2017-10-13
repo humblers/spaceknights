@@ -10,18 +10,18 @@ type Card   string
 type Cards  []Card
 
 type WaitingCard struct {
-    Card       Card
+    Name       Card
     Team       Team
     Position   Vector2
     IdStarting int
 }
 
 func (c *WaitingCard) GetCost() int {
-    return CostMap[c.Card]
+    return CostMap[c.Name]
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {
-    switch c.Card {
+    switch c.Name {
     case "bomber", "cannon", "giant", "megaminion", "minipekka", "musketeer", "pekka", "valkyrie":
         count = 1
     case "archers":
@@ -31,7 +31,7 @@ func (c *WaitingCard) GetUnitCount() (count int) {
     case "barbarians":
         count = 4
     default:
-        glog.Infof("not unit card or invalid card name: %v", c.Card)
+        glog.Infof("not unit card or invalid card name: %v", c.Name)
     }
     return count
 }

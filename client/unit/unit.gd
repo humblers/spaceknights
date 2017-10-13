@@ -13,14 +13,11 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
-	if body.has_node("Launch"):
-		launch_effect = get_node("Body/Launch")
-		set_launch_effect()
+	set_launch_effect()
 	set_process(true)
 
 func _process(delta):
-	if is_launching():
-		play_launch_effect(delta)
+	play_launch_effect(delta)
 	if body.get_animation() == "%s_attack" % color and body.get_frame() == 0:
 		if not global.UNITS[name].has("projectile"):
 			return
@@ -30,11 +27,11 @@ func _process(delta):
 				float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 				get_node("Body/Shotpoint").get_global_pos())
 
-func initialize(unit):
-	self.name = unit.Name
-	self.team = unit.Team
-	self.color = "blue" if unit.Team == global.team else "red"
-	set_pos(get_position(unit))
+func initialize(name, team, pos):
+	self.name = name
+	self.team = team
+	self.color = "blue" if team == global.team else "red"
+	set_pos(get_position(pos))
 	set_base()
 	set_layers()
 	set_damage_effect()
@@ -57,6 +54,9 @@ func set_damage_effect():
 	add_child(damage_effect)
 
 func set_launch_effect():
+	if not body.has_node("Launch"):
+		return
+	launch_effect = body.get_node("Launch")
 	var pos = get_pos()
 	var destination = pos.y
 	if global.team == team:
@@ -70,13 +70,10 @@ func set_launch_effect():
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
 	body.set_self_opacity(0.7)
 
-func is_launching():
-	return body.has_node("Launch")
-
 func update_changes(unit):
-	if is_launching():
-		return
-	set_pos(get_position(unit))
+#	if not unit.Name in ["base", "maincore", "subcore", "space_z", "shuriken"]:
+#		print("update!!:", unit)
+	set_pos(get_position(Vector2(unit.Position.X, unit.Position.Y)))
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
 	body.play(color + "_" + unit.State)
@@ -89,13 +86,11 @@ func set_hp(unit):
 	hp = unit.Hp
 	get_node("Hp/Label").set_text(str(hp))
 
-func get_position(unit):
-	var x = unit.Position.X
-	var y = unit.Position.Y
+func get_position(pos):
 	if global.team == "Home":
-		return Vector2(x, y)
+		return pos
 	else:
-		return Vector2(global.MAP.width - x, global.MAP.height - y)
+		return Vector2(global.MAP.width - pos.x, global.MAP.height - pos.y)
 
 func get_rotation(unit):
 	var angle = atan2(unit.Heading.X, unit.Heading.Y)
@@ -115,6 +110,8 @@ func hide_damage_effect():
 	body.set_modulate(Color(1.0, 1.0, 1.0))
 
 func play_launch_effect(delta):
+	if not body.has_node("Launch"):
+		return
 	if not launch_effect.is_finished(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return

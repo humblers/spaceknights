@@ -149,3 +149,13 @@ static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
 		return dict[key]
 	return not_found_val
+
+static func flipY(point):
+	return global.MAP.height - point
+
+static func create_unit_node(id, name, team, pos, offset=Vector2(0, 0)):
+	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
+	node.set_name(str(id))
+	pos = pos + offset * global.dict_get(global.UNITS[name], "radius", 0)
+	node.initialize(name, team, pos)
+	return node
