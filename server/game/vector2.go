@@ -48,7 +48,8 @@ func (v Vector2) Length() float64 {
 func (v Vector2) Normalize() Vector2 {
     l := v.Length()
     if l == 0 {
-        panic("cannot normalize zero vector")
+        //panic("cannot normalize zero vector")
+        return Vector2{0, 0}
     }
     return Vector2{
         X: v.X / l,

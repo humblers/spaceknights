@@ -133,11 +133,10 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-const MaxSeekForce = 1
 func (u *Unit) Seek(position Vector2) Vector2 {
     desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
     u.Heading = desired
-    return desired.Minus(u.Velocity).Truncate(MaxSeekForce)
+    return desired.Minus(u.Velocity)
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -156,30 +155,96 @@ func (u *Unit) Separate() Vector2 {
     return sum.Truncate(MaxSeparationForce)
 }
 
-const MaxAvoidForce = 10
+func (u *Unit) Forward() Vector2 {
+    return u.Velocity.Normalize()
+}
+
+func (u *Unit) Side() Vector2 {
+    forward := u.Forward()
+    return Vector2{forward.Y, -forward.X}
+}
+
+func (u *Unit) PredictNearestApproachTime(other *Unit) float64 {
+    relVelocity := other.Velocity.Minus(u.Velocity)
+    relSpeed := relVelocity.Length()
+    if relSpeed == 0 {
+        return 0
+    }
+    relTangent := relVelocity.Divide(relSpeed)
+    relPosition := u.Position.Minus(other.Position)
+    projection := relTangent.Dot(relPosition)
+    return projection / relSpeed
+}
+
+func (u *Unit) ComputeNearestApproachPositions(other *Unit, time float64) (Vector2, Vector2) {
+    myPos := u.Position.Plus(u.Velocity.Multiply(time))
+    otherPos := other.Position.Plus(other.Velocity.Multiply(time))
+    return myPos, otherPos
+}
+
+const minTimeToCollision = 20.0
 func (u *Unit) Avoid() Vector2 {
-    avoid := Vector2{0, 0}
+    steer := 0.0
     if u.Velocity.Length() == 0 {
-        return avoid
+        return Vector2{0, 0}
     }
-    var distance float64
-    for _, obstacle := range u.Game.Units {
-        if obstacle == u || obstacle == u.Target {
-            return avoid
+    minTime := minTimeToCollision
+    minDist := 500.0
+    var threat *Unit
+    var threatPositionAtNearestApproach Vector2
+    for _, other := range u.Game.Units {
+        if other == u || other == u.Target {
+            continue
         }
-        position = obstacle.Position.ToLocalCoordinate(u) // to unit's local coordinate
-        if position.Y < 0 || position.Y > u.Radius + 10 {
-            return avoid
-        }
-        if position.X < obstacle.Radius + u.Radius && nearest{
-        }
-        distance := ahead.Minus(obstacle.Position).Length()
-        if distance < unit.Radius + u.Radius {
-            avoid := ahead.Minus(unit.Position).Normalize().Multiply(3)
-            return avoid.Minus(u.Velocity)
+        collisionDangerThreshold := u.Radius + other.Radius
+        time := u.PredictNearestApproachTime(other)
+        if time >= 0 && time < minTime {
+            myPos, otherPos := u.ComputeNearestApproachPositions(other, time)
+            distance := myPos.Minus(otherPos).Length()
+            if distance < collisionDangerThreshold {
+                minTime = time
+                minDist = distance
+                threat = other
+                threatPositionAtNearestApproach = otherPos
+            }
         }
     }
-    return Vector2{0, 0}
+
+    if threat != nil && threat.Velocity.Length() <= u.Velocity.Length() {
+        parallelness := u.Forward().Dot(threat.Forward())
+        const angle = 0.707
+        if parallelness < -angle {
+            offset := threatPositionAtNearestApproach.Minus(u.Position)
+            sideDot := offset.Dot(u.Side())
+            if sideDot > 0 {
+                steer = -1
+            } else {
+                steer = 1
+            }
+            glog.Infof("anti-parallel %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
+        } else {
+            if parallelness > angle {
+                offset := threat.Position.Minus(u.Position)
+                sideDot := offset.Dot(u.Side())
+                if sideDot > 0 {
+                    steer = -1
+                } else {
+                    steer = 1
+                }
+                glog.Infof("parallel %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
+            } else {
+                sideDot := u.Side().Dot(threat.Velocity)
+                if sideDot > 0 {
+                    steer = -1
+                } else {
+                    steer = 1
+                }
+                glog.Infof("perpendicular %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
+            }
+        }
+    }
+
+    return u.Side().Multiply(steer)
 }
 
 func (u *Unit) AddForce(force Vector2) {
@@ -333,8 +398,7 @@ func (u *Unit) Update() {
                     }
                     //glog.Infof("moving to %v", position)
                     u.AddForce(u.Seek(position))
-                    u.AddForce(u.Avoid())
-                    u.Move()
+                    u.AddForce(u.Avoid().Multiply(2))
                 }
             }
         }

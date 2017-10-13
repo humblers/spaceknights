@@ -293,6 +293,9 @@ func (game *Game) update() (gameover bool) {
     for _, unit := range game.Units {
         unit.Update()
     }
+    for _, unit := range game.Units {
+        unit.Move()
+    }
     gameover = game.Over()
     if gameover {
         game.Winner = game.GetWinner()

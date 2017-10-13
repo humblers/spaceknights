@@ -143,7 +143,7 @@ func _draw():
 	if debug.show_range and unit.has("range"):
 		draw_circle_arc(unit["range"], Color(0, 0, 1.0))
 	if debug.show_velocity and unit.has("radius"):
-		var ahead = velocity.normalized() * (unit.radius + 5)
+		var ahead = velocity.normalized() * (unit.radius + velocity.length())
 		draw_line(Vector2(0, 0), ahead, Color(1.0, 1.0, 0))
 
 func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
