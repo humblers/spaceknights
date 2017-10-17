@@ -77,7 +77,7 @@ type Game struct {
     WaitingCards map[int][]*WaitingCard `json:"-"`          // activate in key frame
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
-    broadcasting chan *Packet           `json:"-"`
+    Broadcasting chan *Packet           `json:"-"`
 }
 
 func NewGame() *Game {
@@ -89,7 +89,7 @@ func NewGame() *Game {
         WaitingCards: make(map[int][]*WaitingCard),
         UnitCounter:  1,
         Motherships:  make(map[Team][]*Unit),
-        broadcasting: make(chan *Packet),
+        Broadcasting: make(chan *Packet),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -193,7 +193,7 @@ func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
     g.UnitCounter += waiting.GetUnitCount()
     g.WaitingCards[frame] = append(g.WaitingCards[frame], waiting)
     go func() {
-        packet := NewPacket("Card", waiting); g.broadcasting <- &packet
+        packet := NewPacket("Card", waiting); g.Broadcasting <- &packet
     }()
 }
 
@@ -258,7 +258,7 @@ func (game *Game) Run(session *Session) {
         case <-ticker.C:
             gameover = game.update()
             session.BroadcastGame(game)
-        case packet := <-game.broadcasting:
+        case packet := <-game.Broadcasting:
             session.Broadcast(packet)
         case client := <-session.join:
             if p := game.Player(client.id); p == nil {
