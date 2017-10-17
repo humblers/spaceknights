@@ -3,6 +3,7 @@ package main
 import (
     "github.com/golang/glog"
     "encoding/json"
+    "math"
 )
 
 type State string
@@ -133,10 +134,9 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-func (u *Unit) Seek(position Vector2) Vector2 {
+func (u *Unit) Seek(position Vector2) {
     desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
-    u.Heading = desired
-    return desired.Minus(u.Velocity)
+    u.AddAcceleration(desired.Minus(u.Velocity))
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -155,13 +155,8 @@ func (u *Unit) Separate() Vector2 {
     return sum.Truncate(MaxSeparationForce)
 }
 
-func (u *Unit) Forward() Vector2 {
-    return u.Velocity.Normalize()
-}
-
 func (u *Unit) Side() Vector2 {
-    forward := u.Forward()
-    return Vector2{forward.Y, -forward.X}
+    return Vector2{u.Heading.Y, -u.Heading.X}
 }
 
 func (u *Unit) PredictNearestApproachTime(other *Unit) float64 {
@@ -189,7 +184,7 @@ func (u *Unit) Avoid() Vector2 {
         return Vector2{0, 0}
     }
     minTime := minTimeToCollision
-    minDist := 500.0
+    minDist := math.MaxFloat64
     var threat *Unit
     var threatPositionAtNearestApproach Vector2
     for _, other := range u.Game.Units {
@@ -210,51 +205,38 @@ func (u *Unit) Avoid() Vector2 {
         }
     }
 
-    if threat != nil && threat.Velocity.Length() <= u.Velocity.Length() {
-        parallelness := u.Forward().Dot(threat.Forward())
-        const angle = 0.707
-        if parallelness < -angle {
-            offset := threatPositionAtNearestApproach.Minus(u.Position)
-            sideDot := offset.Dot(u.Side())
-            if sideDot > 0 {
-                steer = -1
-            } else {
-                steer = 1
-            }
-            glog.Infof("anti-parallel %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
+    if threat != nil && threat.Speed <= u.Speed {
+        offset := threatPositionAtNearestApproach.Minus(u.Position)
+        sideDot := offset.Dot(u.Side())
+        if sideDot > 0 {
+            steer = -1
         } else {
-            if parallelness > angle {
-                offset := threat.Position.Minus(u.Position)
-                sideDot := offset.Dot(u.Side())
-                if sideDot > 0 {
-                    steer = -1
-                } else {
-                    steer = 1
-                }
-                glog.Infof("parallel %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
-            } else {
-                sideDot := u.Side().Dot(threat.Velocity)
-                if sideDot > 0 {
-                    steer = -1
-                } else {
-                    steer = 1
-                }
-                glog.Infof("perpendicular %v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
-            }
+            steer = 1
         }
+        glog.Infof("%v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
     }
 
     return u.Side().Multiply(steer)
 }
 
 func (u *Unit) AddForce(force Vector2) {
-    u.Acceleration = u.Acceleration.Plus(force)   // f = ma
+    u.Acceleration = u.Acceleration.Plus(force.Divide(u.Mass))
+}
+
+func (u *Unit) AddAcceleration(acc Vector2) {
+    u.Acceleration = u.Acceleration.Plus(acc)
 }
 
 func (u *Unit) Move() {
-    u.Velocity = u.Velocity.Plus(u.Acceleration)
+    const smoothRate = 0.1
+    old_vel := u.Velocity
+    new_vel := u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
+    u.Velocity = old_vel.Plus(new_vel.Minus(old_vel).Multiply(smoothRate)).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
     u.Acceleration = Vector2{0, 0}
+    if u.State == Move {
+        u.Heading = u.Velocity.Normalize()
+    }
 }
 
 func (u *Unit) CanSee(other *Unit) bool {
@@ -282,7 +264,6 @@ func (u *Unit) HasAttack() bool {
 }
 
 func (u *Unit) HandleAttack() {
-    u.Heading = u.Target.Position.Minus(u.Position)
     if u.Game.Frame == u.HitFrame {
         if u.WithinRange(u.Target) {
             u.Target.TakeDamage(u.Damage)
@@ -299,6 +280,7 @@ func (u *Unit) HandleAttack() {
         }
     }
     u.Velocity = Vector2{0, 0}
+    u.Heading = u.Target.Position.Minus(u.Position).Normalize()
 }
 
 func (u *Unit) StartAttack() {
@@ -397,8 +379,12 @@ func (u *Unit) Update() {
                         position = u.NextCornerInPath(path)
                     }
                     //glog.Infof("moving to %v", position)
-                    u.AddForce(u.Seek(position))
-                    u.AddForce(u.Avoid().Multiply(2))
+                    avoid := u.Avoid()
+                    if avoid.Length() == 0 {
+                        u.Seek(position)
+                    } else {
+                        u.AddAcceleration(avoid)
+                    }
                 }
             }
         }
