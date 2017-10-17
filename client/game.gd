@@ -44,16 +44,16 @@ func update_units(units):
 			get_node("UI/CardGuide").set_starting_x(unit.Position.X)
 
 func create_unit_node(id, unit, group=UNIT_DEFAULT, offset=Vector2(0, 0)):
-	unit = global.clone(unit)
 	var name = unit.Name
+	unit = global.clone(unit)
+	unit.Position.X += offset.x * global.dict_get(global.UNITS[name], "radius", 0)
+	unit.Position.Y += offset.y * global.dict_get(global.UNITS[name], "radius", 0)
 	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
 	node.initialize(unit)
 	node.set_name(str(id))
 	node.connect("projectile_created", self, "create_projectile")
 	get_node("Units").add_child(node)
 	if group == UNIT_LAUNCHING:
-		unit.Position.X += offset.x * global.dict_get(global.UNITS[name], "radius", 0)
-		unit.Position.Y += offset.y * global.dict_get(global.UNITS[name], "radius", 0)
 		if unit.Team == "Home":
 			unit.Position.Y = global.MAP.height - unit.Position.Y
 		node.set_launch_effect(unit)
