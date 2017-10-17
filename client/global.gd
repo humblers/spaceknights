@@ -150,12 +150,16 @@ static func dict_get(dict, key, not_found_val=null):
 		return dict[key]
 	return not_found_val
 
-static func flipY(point):
-	return global.MAP.height - point
-
-static func create_unit_node(id, name, team, pos, offset=Vector2(0, 0)):
-	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
-	node.set_name(str(id))
-	pos = pos + offset * global.dict_get(global.UNITS[name], "radius", 0)
-	node.initialize(name, team, pos)
-	return node
+static func clone(data):
+    var to
+    if typeof(data) == TYPE_DICTIONARY:
+        to = {}
+        for key in data:
+            to[key] = clone(data[key])
+    elif typeof(data) == TYPE_ARRAY:
+        to = []
+        for value in data:
+            to.append(clone(value))
+    else:
+        to = data
+    return to
