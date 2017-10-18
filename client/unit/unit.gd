@@ -2,7 +2,6 @@ extends Node2D
 
 var name
 var color
-var launch_effect
 var target_id = 0
 var hp = 0
 var damage_effect = Timer.new()
@@ -16,14 +15,6 @@ func _ready():
 
 func _process(delta):
 	play_launch_effect(delta)
-	if body.get_animation() == "%s_attack" % color and body.get_frame() == 0:
-		if not global.UNITS[name].has("projectile"):
-			return
-		emit_signal("projectile_created",
-				global.UNITS[name].projectile,
-				target_id,
-				float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-				get_node("Body/Shotpoint").get_global_pos())
 
 func initialize(unit):
 	self.name = unit.Name
@@ -53,9 +44,18 @@ func update_changes(unit):
 	set_pos(get_position(unit))
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
-	body.play(color + "_" + unit.State)
 	set_target_id(unit)
 	set_hp(unit)
+	if unit.State == "startattack":
+		unit.State = "attack"
+		body.set_animation("%s_attack" % color)
+		if global.UNITS[name].has("projectile"):
+			emit_signal("projectile_created",
+					global.UNITS[name].projectile,
+					target_id,
+					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
+					get_node("Body/Shotpoint").get_global_pos())
+	body.play("%s_%s" % [color, unit.State])
 
 func set_hp(unit):
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
@@ -92,7 +92,7 @@ func hide_damage_effect():
 func set_launch_effect(unit):
 	if not body.has_node("Launch"):
 		return
-	launch_effect = body.get_node("Launch")
+	var launch_effect = body.get_node("Launch")
 	var pos = get_position(unit)
 	var destination = pos.y
 	if global.team == unit.Team:
@@ -108,8 +108,9 @@ func set_launch_effect(unit):
 	body.set_self_opacity(0.7)
 
 func play_launch_effect(delta):
-	if not body.has_node("Launch") or not launch_effect:
+	if not body.has_node("Launch"):
 		return
+	var launch_effect = body.get_node("Launch")
 	if not launch_effect.is_finished(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
@@ -117,6 +118,8 @@ func play_launch_effect(delta):
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
+	if body.has_node("Launch"):
+		body.get_node("Launch").queue_free()
 	body.set_rot(PI)
 	body.set_opacity(0.5)
 	set_pos(pos)
