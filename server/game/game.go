@@ -251,6 +251,8 @@ func (game *Game) Run(session *Session) {
     ticker := time.NewTicker(FrameInterval)
     defer ticker.Stop()
     gameover := false
+    // send first frame
+    session.Broadcast(game)
     for ;!gameover; {
         select {
         case <-ticker.C:
