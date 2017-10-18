@@ -3,6 +3,7 @@ extends Node
 var id
 var team
 
+const CARD_WAIT_FRAME = 5 - 1 # server send snapshot after 1 frame
 const SERVER_UPDATES_PER_SECOND = 10
 
 const MOTHERSHIP_BASE_HEIGHT = 50

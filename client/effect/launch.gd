@@ -1,6 +1,6 @@
 extends AnimatedSprite
 
-const EFFECT_TIME = 0.4
+const EFFECT_TIME = 0.3
 
 var elapsed = 0
 var speed

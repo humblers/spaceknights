@@ -8,14 +8,8 @@ func (packet Packet) Parse(out interface{}) error {
     return json.Unmarshal(packet, out)
 }
 
-func NewPacket(key string, in interface{}) Packet {
-    b, err := json.Marshal(struct {
-        Key string
-        Value interface{}
-    }{
-        Key: key,
-        Value: in,
-    })
+func NewPacket(in interface{}) Packet {
+    b, err := json.Marshal(in)
     if err != nil {
         panic(err)
     }

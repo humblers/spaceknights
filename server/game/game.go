@@ -70,14 +70,13 @@ const (
 
 type Game struct {
     Winner       Team                   `json:",omitempty"`
-    Frame        int                    `json:"-"`          // valid only if > 0
+    Frame        int                                        // valid only if > 0
     Home         map[string]*Player     `json:",omitempty"`
     Visitor      map[string]*Player     `json:",omitempty"`
     Units        map[int]*Unit
-    WaitingCards map[int][]*WaitingCard `json:"-"`          // activate in key frame
+    WaitingCards []*WaitingCard         `json:",omitempty"`
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
-    Broadcasting chan *Packet           `json:"-"`
 }
 
 func NewGame() *Game {
@@ -86,10 +85,8 @@ func NewGame() *Game {
         Home:         make(map[string]*Player),
         Visitor:      make(map[string]*Player),
         Units:        make(map[int]*Unit),
-        WaitingCards: make(map[int][]*WaitingCard),
         UnitCounter:  1,
         Motherships:  make(map[Team][]*Unit),
-        Broadcasting: make(chan *Packet),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -188,17 +185,14 @@ func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
         Team:       team,
         Position:   pos,
         IdStarting: g.UnitCounter,
+        ActivateFrame: g.Frame + ActivateAfter,
     }
     count := waiting.GetUnitCount()
     if count <= 0 {
         return
     }
-    frame := g.Frame + ActivateAfter
     g.UnitCounter += count
-    g.WaitingCards[frame] = append(g.WaitingCards[frame], waiting)
-    go func() {
-        packet := NewPacket("Card", waiting); g.Broadcasting <- &packet
-    }()
+    g.WaitingCards = append(g.WaitingCards, waiting)
 }
 
 func (g *Game) ActivateCard(card *WaitingCard) {
@@ -261,16 +255,7 @@ func (game *Game) Run(session *Session) {
         select {
         case <-ticker.C:
             gameover = game.update()
-            session.BroadcastGame(game)
-        case packet := <-game.Broadcasting:
-            session.Broadcast(packet)
-        case client := <-session.join:
-            if p := game.Player(client.id); p == nil {
-                session.joinResult <- fmt.Errorf("player %v not exists", client.id)
-                continue
-            }
-            session.joinResult <- nil
-            session.BroadcastGame(game)
+            session.Broadcast(game)
         case input := <-session.incoming:
             game.apply(input)
         }
@@ -288,10 +273,17 @@ func (game *Game) update() (gameover bool) {
     for _, player := range game.Visitor {
         player.IncreaseEnergy(1)
     }
-    for _, card := range game.WaitingCards[game.Frame] {
-        game.ActivateCard(card)
+    // Filtering without allocating
+    // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
+    filtered := game.WaitingCards[:0]
+    for _, card := range game.WaitingCards {
+        if card.ActivateFrame == game.Frame {
+            game.ActivateCard(card)
+            continue
+        }
+        filtered = append(filtered, card)
     }
-    delete(game.WaitingCards, game.Frame)
+    game.WaitingCards = filtered
     for _, unit := range game.Units {
         unit.Update()
     }

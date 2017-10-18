@@ -54,4 +54,4 @@ func _update():
 	
 	# logic
 	if not dict.empty():
-		emit_signal("packet_received", dict["Key"], dict["Value"])
+		emit_signal("packet_received", dict)

@@ -4,18 +4,15 @@ const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
 func _ready():
-	randomize()
 	kcp.connect("packet_received", self, "update_changes")
 
-func update_changes(key, dict):
-	if key == "Game":
-		global.team = "Home" if dict.has("Home") else "Visitor"
-		create_new_units(dict.Units)
-		update_units(dict.Units)
-		delete_dead_units(dict.Units)
-		update_ui(dict)
-	elif key == "Card":
-		create_card_effect(dict)
+func update_changes(game):
+	global.team = "Home" if game.has("Home") else "Visitor"
+	create_new_units(game.Units)
+	update_units(game.Units)
+	delete_dead_units(game.Units)
+	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
+	update_ui(game)
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
@@ -58,6 +55,11 @@ func create_unit_node(id, unit, group=UNIT_DEFAULT, offset=Vector2(0, 0)):
 			unit.Position.Y = global.MAP.height - unit.Position.Y
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
+
+func handle_waiting_cards(frame, cards):
+	for card in cards:
+		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
+			create_card_effect(card)
 
 func create_card_effect(card):
 	if card.Name == "archers":

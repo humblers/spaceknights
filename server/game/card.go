@@ -10,10 +10,11 @@ type Cards  []Card
 
 const ActivateAfter = 5
 type WaitingCard struct {
-    Name       Card
-    Team       Team
-    Position   Vector2
-    IdStarting int
+    Name            Card
+    Team            Team
+    Position        Vector2
+    IdStarting      int
+    ActivateFrame   int
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {

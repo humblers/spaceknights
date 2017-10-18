@@ -6,11 +6,6 @@ import (
     "github.com/golang/glog"
 )
 
-type OutGoing struct {
-    Client *Client
-    Packet *Packet
-}
-
 type Session struct {
     id string
     server *Server
@@ -18,7 +13,7 @@ type Session struct {
     join chan *Client
     joinResult chan error
     incoming chan Input
-    outgoing chan OutGoing
+    outgoing chan *Game
     outgoingResult chan error
     closing chan struct{}
 }
@@ -31,7 +26,7 @@ func NewSession(id string, server *Server) *Session {
         join: make(chan *Client),
         joinResult: make(chan error),
         incoming: make(chan Input),
-        outgoing: make(chan OutGoing),
+        outgoing: make(chan *Game),
         outgoingResult: make(chan error),
         closing: make(chan struct {}),
     }
@@ -42,21 +37,13 @@ func (session *Session) String() string {
     return session.id
 }
 
-func (session *Session) Join(client *Client) (err error) {
+func (session *Session) Join(client *Client) error {
     select {
     case <-session.closing:
-        err = fmt.Errorf("session %v already stopped"); return
+        return fmt.Errorf("session %v already stopped")
     case session.join <- client:
-        if existing, ok := session.clients[client.id]; ok {
-            existing.StopAsync()
-        }
-        session.clients[client.id] = client
     }
-    if err = <-session.joinResult; err != nil {
-        session.clients[client.id].StopAsync()
-        return
-    }
-    return
+    return <-session.joinResult
 }
 
 func (session *Session) Stop() error {
@@ -66,39 +53,13 @@ func (session *Session) Stop() error {
     close(session.closing)
     return nil
 }
-func (session *Session) Broadcast(packet *Packet) (err error) {
-    for _, client := range session.clients {
-        session.outgoing <- OutGoing{client, packet}
-        if err = <- session.outgoingResult; err != nil {
-            return
-        }
-    }
-    return
+
+func (session *Session) Broadcast(game *Game) error {
+    session.outgoing <- game
+    return <-session.outgoingResult
 }
 
-func (session *Session) BroadcastGame(game *Game) (err error) {
-    for _, client := range session.clients {
-        home := game.Home
-        visitor := game.Visitor
-        player := game.Player(client.id)
-        // filter enemy info
-        switch player.Team {
-        case Home:
-            game.Visitor = nil
-        case Visitor:
-            game.Home = nil
-        }
-        packet := NewPacket("Game", game)
-        session.outgoing <- OutGoing{client, &packet}
-        game.Home = home; game.Visitor = visitor
-        if err = <-session.outgoingResult; err != nil {
-            return
-        }
-    }
-    return
-}
-
-func (session *Session) Run() {
+func (session *Session) Run(game *Game) {
     glog.Infof("session %v starting", session)
     defer glog.Infof("session %v stopped", session)
 
@@ -113,8 +74,30 @@ func (session *Session) Run() {
                 client.StopAsync()
             }
             return
-        case outgoing := <-session.outgoing:
-            outgoing.Client.WriteAsync(*outgoing.Packet)
+        case client := <-session.join:
+            if p := game.Player(client.id); p == nil {
+                session.joinResult <- fmt.Errorf("player %v not exists", client.id)
+            }
+            if existing, ok := session.clients[client.id]; ok {
+                existing.StopAsync()
+            }
+            session.clients[client.id] = client
+            session.joinResult <- nil
+        case game := <-session.outgoing:
+            for _, client := range session.clients {
+                home := game.Home
+                visitor := game.Visitor
+                player := game.Player(client.id)
+                // filter enemy info
+                switch player.Team {
+                case Home:
+                    game.Visitor = nil
+                case Visitor:
+                    game.Home = nil;
+                }
+                client.WriteAsync(NewPacket(game))
+                game.Home = home; game.Visitor = visitor
+            }
             session.outgoingResult <- nil
         }
     }
