@@ -61,7 +61,6 @@ func set_hp(unit):
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp
-	get_node("Hp").show()
 	get_node("Hp/Label").set_text(str(hp))
 
 func get_position(unit):
@@ -90,9 +89,9 @@ func hide_damage_effect():
 	body.set_modulate(Color(1.0, 1.0, 1.0))
 
 func set_launch_effect(unit):
-	if not body.has_node("Launch"):
-		return
-	var launch_effect = body.get_node("Launch")
+	var launch_effect = load("res://effect/launch.tscn").instance()
+	launch_effect.set_name("Launch")
+	body.add_child(launch_effect)
 	var pos = get_position(unit)
 	var destination = pos.y
 	if global.team == unit.Team:
@@ -104,7 +103,7 @@ func set_launch_effect(unit):
 		body.play("red_idle")
 	set_pos(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
-	launch_effect.show()
+	get_node("Hp").hide()
 	body.set_self_opacity(0.7)
 
 func play_launch_effect(delta):
@@ -115,11 +114,11 @@ func play_launch_effect(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
 	launch_effect.queue_free()
+	get_node("Hp").show()
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
-	if body.has_node("Launch"):
-		body.get_node("Launch").queue_free()
+	get_node("Hp").hide()
 	body.set_rot(PI)
 	body.set_opacity(0.5)
 	set_pos(pos)
