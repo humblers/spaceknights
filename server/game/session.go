@@ -47,14 +47,15 @@ func (session *Session) Join(client *Client) (err error) {
     case <-session.closing:
         err = fmt.Errorf("session %v already stopped"); return
     case session.join <- client:
+        if existing, ok := session.clients[client.id]; ok {
+            existing.StopAsync()
+        }
+        session.clients[client.id] = client
     }
     if err = <-session.joinResult; err != nil {
+        session.clients[client.id].StopAsync()
         return
     }
-    if existing, ok := session.clients[client.id]; ok {
-        existing.StopAsync()
-    }
-    session.clients[client.id] = client
     return
 }
 
