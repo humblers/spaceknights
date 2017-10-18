@@ -41,7 +41,7 @@ func update_units(units):
 		var unit = units[id]
 		node.update_changes(unit)
 		if unit.Team == global.team and unit.Name in ["shuriken", "space_z"]:
-			get_node("UI/CardGuide").set_starting_x(unit.Position.X)
+			get_node("UI/CardGuide").set_starting_x(node.get_pos().x)
 
 func create_unit_node(id, unit, group=UNIT_DEFAULT, offset=Vector2(0, 0)):
 	var name = unit.Name

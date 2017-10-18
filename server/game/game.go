@@ -252,8 +252,8 @@ func (g *Game) String() string {
 }
 
 func (game *Game) Run(session *Session) {
-    glog.V(0).Infof("game %v starting", game)
-    defer glog.V(0).Infof("game %v stopped", game)
+    glog.Infof("game %v starting", game)
+    defer glog.Infof("game %v stopped", game)
     ticker := time.NewTicker(FrameInterval)
     defer ticker.Stop()
     gameover := false

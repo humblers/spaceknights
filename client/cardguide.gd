@@ -14,8 +14,6 @@ func _process(delta):
 	base.set_pos(pos)
 
 func set_starting_x(point):
-	if global.team == "Visitor":
-		point = global.MAP.width - point
 	base.set_pos(Vector2(point, base.get_pos().y))
 
 func create_unit(name, offset=Vector2(0, 0)):

@@ -98,8 +98,8 @@ func (session *Session) BroadcastGame(game *Game) (err error) {
 }
 
 func (session *Session) Run() {
-    glog.V(0).Infof("session %v starting", session)
-    defer glog.V(0).Infof("session %v stopped", session)
+    glog.Infof("session %v starting", session)
+    defer glog.Infof("session %v stopped", session)
 
     if err := session.server.Add(session); err != nil {
         panic(err)

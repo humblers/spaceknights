@@ -41,20 +41,20 @@ func (server *Server) Get(id string) (*Session, error) {
 }
 
 func (server *Server) Add(session *Session) error {
-    defer glog.V(0).Infof("session %v added to server", session)
+    defer glog.Infof("session %v added to server", session)
     server.add <- session
     return <-server.addResult
 }
 
 func (server *Server) Remove(session *Session) error {
-    defer glog.V(0).Infof("session %v removed from server", session)
+    defer glog.Infof("session %v removed from server", session)
     server.rem <- session
     return <-server.remResult
 }
 
 func (server *Server) Run() {
-    glog.V(0).Infof("server starting")
-    defer glog.V(0).Infof("server stopped")
+    glog.Infof("server starting")
+    defer glog.Infof("server stopped")
 
     for {
         select {

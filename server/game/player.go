@@ -54,7 +54,7 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
         log.Panicf("invalid card index: %v", index)
     }
     if player.Energy < CostMap[card] {
-        glog.V(0).Infof("not enough energy for %v: %v", card, player.Energy)
+        glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
     player.Energy = player.Energy - CostMap[card]
