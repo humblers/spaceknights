@@ -183,14 +183,18 @@ func (g *Game) AddUnit(unit *Unit) {
 }
 
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
-    frame := g.Frame + ActivateAfter
     waiting := &WaitingCard{
         Name:       card,
         Team:       team,
         Position:   pos,
         IdStarting: g.UnitCounter,
     }
-    g.UnitCounter += waiting.GetUnitCount()
+    count := waiting.GetUnitCount()
+    if count <= 0 {
+        return
+    }
+    frame := g.Frame + ActivateAfter
+    g.UnitCounter += count
     g.WaitingCards[frame] = append(g.WaitingCards[frame], waiting)
     go func() {
         packet := NewPacket("Card", waiting); g.Broadcasting <- &packet

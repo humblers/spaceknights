@@ -5,19 +5,15 @@ import (
     "github.com/golang/glog"
 )
 
-const ActivateAfter = 5
 type Card   string
 type Cards  []Card
 
+const ActivateAfter = 5
 type WaitingCard struct {
     Name       Card
     Team       Team
     Position   Vector2
     IdStarting int
-}
-
-func (c *WaitingCard) GetCost() int {
-    return CostMap[c.Name]
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {
