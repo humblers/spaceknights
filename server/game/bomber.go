@@ -1,6 +1,6 @@
 package main
 
-func NewBomber(t Team, pos Vector2) *Unit {
+func NewBomber(id int, t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -18,6 +18,7 @@ func NewBomber(t Team, pos Vector2) *Unit {
         Range: 90,
         Damage: 100,
         DamageRadius: 15,
+        Id: id,
         Position: pos,
     }
 }

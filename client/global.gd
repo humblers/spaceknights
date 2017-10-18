@@ -3,6 +3,7 @@ extends Node
 var id
 var team
 
+const CARD_WAIT_FRAME = 5 - 1 # server send snapshot after 1 frame
 const SERVER_UPDATES_PER_SECOND = 10
 
 const MOTHERSHIP_BASE_HEIGHT = 50
@@ -149,3 +150,17 @@ static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
 		return dict[key]
 	return not_found_val
+
+static func clone(data):
+    var to
+    if typeof(data) == TYPE_DICTIONARY:
+        to = {}
+        for key in data:
+            to[key] = clone(data[key])
+    elif typeof(data) == TYPE_ARRAY:
+        to = []
+        for value in data:
+            to.append(clone(value))
+    else:
+        to = data
+    return to

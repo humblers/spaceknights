@@ -7,9 +7,10 @@ import (
 
 type State string
 const (
-    Idle State = "idle"
-    Attack State = "attack"
-    Move State = "move"
+    Idle        State = "idle"
+    StartAttack State = "startattack"
+    Attacking   State = "attack"
+    Move        State = "move"
 )
 
 type Layer string
@@ -28,7 +29,6 @@ const (
     Knight Type = "Knight"
 )
 
-const IdleFramesForLaunch = 5
 const MaxSeparationForce = 20
 
 func (layers Layers) Contains(layer Layer) bool {
@@ -79,7 +79,6 @@ type Unit struct {
     Acceleration    Vector2 `json:"-"`
     Target          *Unit   `json:"-"`
     HitFrame        int     `json:"-"`
-    InviolableUntil int     `json:"-"`
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -115,7 +114,7 @@ func (u *Unit) TakeDamage(d int) {
 }
 
 func (u *Unit) CanTarget(other *Unit) bool {
-    if u.Team == other.Team || u.Game.Frame <= other.InviolableUntil {
+    if u.Team == other.Team {
         return false
     }
     if !u.TargetTypes.Contains(other.Type) {
@@ -241,10 +240,8 @@ func (u *Unit) HasTarget() bool {
 func (u *Unit) Update() {
     switch u.Type {
     case Troop:
-        if u.Game.Frame <= u.InviolableUntil {
-            return
-        }
         if u.IsAttacking() {
+            u.State = Attacking
             u.HandleAttack()
         } else {
             if !u.HasTarget() || !u.WithinRange(u.Target) {
@@ -258,7 +255,7 @@ func (u *Unit) Update() {
                 glog.Warningf("no target found : %v", u.Name)
             } else {
                 if u.WithinRange(u.Target){
-                    u.State = Attack
+                    u.State = StartAttack
                     u.StartAttack()
                     glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
@@ -277,11 +274,9 @@ func (u *Unit) Update() {
         u.Move()
         u.ResetForce()
     case Building:
-        if u.Game.Frame <= u.InviolableUntil {
-            return
-        }
         u.TakeDamage(u.LifetimeCost)
         if u.IsAttacking() {
+            u.State = Attacking
             u.HandleAttack()
         } else {
             if !u.HasTarget() || !u.WithinRange(u.Target) {
@@ -293,7 +288,7 @@ func (u *Unit) Update() {
             if u.Target == nil {
                 u.State = Idle
             } else {
-                u.State = Attack
+                u.State = StartAttack
                 u.StartAttack()
                 glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
             }

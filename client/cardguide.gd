@@ -14,15 +14,18 @@ func _process(delta):
 	base.set_pos(pos)
 
 func set_starting_x(point):
-	if global.team == "Visitor":
-		point = global.MAP.width - point
 	base.set_pos(Vector2(point, base.get_pos().y))
 
 func create_unit(name, offset=Vector2(0, 0)):
-	var spr = Sprite.new()
-	spr.set_texture(load("res://unit/%s/blue_idle.png" % name))
-	spr.set_pos(offset * global.UNITS[name].radius)
-	base.add_child(spr)
+	var unit = {
+		"Name": name,
+		"Team": global.team,
+	}
+	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
+	node.initialize(unit)
+	base.add_child(node)
+	var pos = Vector2(0, 0) + offset * global.dict_get(global.UNITS[name], "radius", 0)
+	node.transform_to_guide_node(pos)
 
 func show(card):
 	if card == "archers":
@@ -34,13 +37,13 @@ func show(card):
 		create_unit("barbarian", Vector2(-1, 1))
 		create_unit("barbarian", Vector2(-1, -1))
 	elif card == "skeletons":
-		create_unit("skeleton", Vector2(0, 1))
-		create_unit("skeleton", Vector2(1, -1))
-		create_unit("skeleton", Vector2(-1, -1))
+		create_unit("skeleton", Vector2(0, -1))
+		create_unit("skeleton", Vector2(1, 1))
+		create_unit("skeleton", Vector2(-1, 1))
 	elif card == "speargoblins":
-		create_unit("speargoblin", Vector2(0, 1))
-		create_unit("speargoblin", Vector2(1, -1))
-		create_unit("speargoblin", Vector2(-1, -1))
+		create_unit("speargoblin", Vector2(0, -1))
+		create_unit("speargoblin", Vector2(1, 1))
+		create_unit("speargoblin", Vector2(-1, 1))
 	else:
 		create_unit(card)
 	base.set_pos(Vector2(base.get_pos().x, starting_y))
@@ -52,3 +55,6 @@ func hide():
 	base.hide()
 	for child in base.get_children():
 		child.queue_free()
+
+func get_release_point():
+	return global.MAP.height - base.get_pos().y

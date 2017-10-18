@@ -39,7 +39,7 @@ func (client *Client) String() string {
 }
 
 func (client *Client) Run() {
-    glog.V(0).Infof("client %v starting", client)
+    glog.Infof("client %v starting", client)
     defer client.closeConn()
 
     if err := client.auth(); err != nil {
@@ -56,7 +56,7 @@ func (client *Client) Run() {
     go client.writeLoop()
     client.loop.Wait()
 
-    glog.V(0).Infof("client %v stopped", client)
+    glog.Infof("client %v stopped", client)
 }
 
 func (client *Client) WriteAsync(packet Packet) {
@@ -152,7 +152,7 @@ func (client *Client) auth() error {
         return fmt.Errorf("client %v auth failed", client)
     }
     client.id = auth.Id
-    glog.V(0).Infof("client %v authenticated", client)
+    glog.Infof("client %v authenticated", client)
     return nil
 }
 
@@ -173,7 +173,7 @@ func (client *Client) join() error {
         return err
     }
     client.session = session
-    glog.V(0).Infof("client %v joined to session %v", client, session)
+    glog.Infof("client %v joined to session %v", client, session)
     return nil
 }
 

@@ -1,6 +1,6 @@
 package main
 
-func NewGiant(t Team, pos Vector2) *Unit {
+func NewGiant(id int, t Team, pos Vector2) *Unit {
     return &Unit{
         Team: t,
         Type: Troop,
@@ -17,6 +17,7 @@ func NewGiant(t Team, pos Vector2) *Unit {
         Sight: 200,
         Range: 15,
         Damage: 126,
+        Id: id,
         Position: pos,
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/bomber/red_atk01.png" type="Texture" id=2]
@@ -7,17 +7,16 @@
 [ext_resource path="res://unit/bomber/red_atk04.png" type="Texture" id=5]
 [ext_resource path="res://unit/bomber/red_atk05.png" type="Texture" id=6]
 [ext_resource path="res://unit/bomber/red_idle.png" type="Texture" id=7]
-[ext_resource path="res://unit/bomber/blue_atk01.png" type="Texture" id=8]
-[ext_resource path="res://unit/bomber/blue_atk02.png" type="Texture" id=9]
-[ext_resource path="res://unit/bomber/blue_atk03.png" type="Texture" id=10]
-[ext_resource path="res://unit/bomber/blue_atk04.png" type="Texture" id=11]
-[ext_resource path="res://unit/bomber/blue_atk05.png" type="Texture" id=12]
-[ext_resource path="res://unit/bomber/blue_idle.png" type="Texture" id=13]
-[ext_resource path="res://unit/bomber/blue_move01.png" type="Texture" id=14]
-[ext_resource path="res://unit/bomber/blue_move02.png" type="Texture" id=15]
-[ext_resource path="res://unit/bomber/red_move01.png" type="Texture" id=16]
-[ext_resource path="res://unit/bomber/red_move02.png" type="Texture" id=17]
-[ext_resource path="res://effect/launch.tscn" type="PackedScene" id=18]
+[ext_resource path="res://unit/bomber/red_move01.png" type="Texture" id=8]
+[ext_resource path="res://unit/bomber/red_move02.png" type="Texture" id=9]
+[ext_resource path="res://unit/bomber/blue_idle.png" type="Texture" id=10]
+[ext_resource path="res://unit/bomber/blue_move01.png" type="Texture" id=11]
+[ext_resource path="res://unit/bomber/blue_move02.png" type="Texture" id=12]
+[ext_resource path="res://unit/bomber/blue_atk01.png" type="Texture" id=13]
+[ext_resource path="res://unit/bomber/blue_atk02.png" type="Texture" id=14]
+[ext_resource path="res://unit/bomber/blue_atk03.png" type="Texture" id=15]
+[ext_resource path="res://unit/bomber/blue_atk04.png" type="Texture" id=16]
+[ext_resource path="res://unit/bomber/blue_atk05.png" type="Texture" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -27,30 +26,30 @@ animations = [ {
 "name": "red_attack",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
-"name": "blue_attack",
-"speed": 10.0
+"name": "red_move",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 7 ) ],
 "loop": true,
 "name": "red_idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "blue_idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
 "loop": true,
 "name": "blue_move",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 17 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ) ],
 "loop": true,
-"name": "red_move",
-"speed": 5.0
+"name": "blue_attack",
+"speed": 10.0
 } ]
 
 [node name="bomber" type="Node2D"]
@@ -60,9 +59,7 @@ script/script = ExtResource( 1 )
 [node name="Body" type="AnimatedSprite" parent="."]
 
 frames = SubResource( 1 )
-animation = "blue_attack"
-
-[node name="Launch" parent="Body" instance=ExtResource( 18 )]
+animation = "blue_idle"
 
 [node name="Hp" type="Node2D" parent="."]
 

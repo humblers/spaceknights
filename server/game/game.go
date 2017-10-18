@@ -69,23 +69,24 @@ const (
 )
 
 type Game struct {
-    Winner Team `json:",omitempty"`
-    Frame int `json:"-"`    // valid only if > 0
-    Home map[string]*Player `json:",omitempty"`
-    Visitor map[string]*Player `json:",omitempty"`
-    Units map[int]*Unit
-    UnitCounter int `json:"-"`
-    Motherships map[Team][]*Unit `json:"-"`
+    Winner       Team                   `json:",omitempty"`
+    Frame        int                                        // valid only if > 0
+    Home         map[string]*Player     `json:",omitempty"`
+    Visitor      map[string]*Player     `json:",omitempty"`
+    Units        map[int]*Unit
+    WaitingCards []*WaitingCard         `json:",omitempty"`
+    UnitCounter  int                    `json:"-"`
+    Motherships  map[Team][]*Unit       `json:"-"`
 }
 
 func NewGame() *Game {
     g := Game{
-        Frame: 1,
-        Home: make(map[string]*Player),
-        Visitor: make(map[string]*Player),
-        Units: make(map[int]*Unit),
-        UnitCounter: 1,
-        Motherships: make(map[Team][]*Unit),
+        Frame:        1,
+        Home:         make(map[string]*Player),
+        Visitor:      make(map[string]*Player),
+        Units:        make(map[int]*Unit),
+        UnitCounter:  1,
+        Motherships:  make(map[Team][]*Unit),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -169,14 +170,68 @@ func (g *Game) AddUnit(unit *Unit) {
     } else {
         unit.Heading = Vector2{0, 1}
     }
-    unit.Id = g.UnitCounter
+    if unit.Id <= 0 {
+        unit.Id = g.UnitCounter
+        g.UnitCounter++
+    }
     unit.Game = g
     unit.State = Idle
-    if !unit.IsCore() {
-        unit.InviolableUntil = g.Frame + IdleFramesForLaunch
+    g.Units[unit.Id] = unit
+}
+
+func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
+    waiting := &WaitingCard{
+        Name:       card,
+        Team:       team,
+        Position:   pos,
+        IdStarting: g.UnitCounter,
+        ActivateFrame: g.Frame + ActivateAfter,
     }
-    g.Units[g.UnitCounter] = unit
-    g.UnitCounter++
+    count := waiting.GetUnitCount()
+    if count <= 0 {
+        return
+    }
+    g.UnitCounter += count
+    g.WaitingCards = append(g.WaitingCards, waiting)
+}
+
+func (g *Game) ActivateCard(card *WaitingCard) {
+    switch card.Name {
+    case "archers":
+        g.AddUnit(NewArcher(card.IdStarting, card.Team, card.Position, Vector2{1, 0}))
+        g.AddUnit(NewArcher(card.IdStarting + 1, card.Team, card.Position, Vector2{-1, 0}))
+    case "barbarians":
+        g.AddUnit(NewBarbarian(card.IdStarting, card.Team, card.Position, Vector2{1, 1}))
+        g.AddUnit(NewBarbarian(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
+        g.AddUnit(NewBarbarian(card.IdStarting + 2, card.Team, card.Position, Vector2{-1, 1}))
+        g.AddUnit(NewBarbarian(card.IdStarting + 3, card.Team, card.Position, Vector2{-1, -1}))
+    case "bomber":
+        g.AddUnit(NewBomber(card.IdStarting, card.Team, card.Position))
+    case "cannon":
+        g.AddUnit(NewCannon(card.IdStarting, card.Team, card.Position))
+    case "giant":
+        g.AddUnit(NewGiant(card.IdStarting, card.Team, card.Position))
+    case "megaminion":
+        g.AddUnit(NewMegaminion(card.IdStarting, card.Team, card.Position))
+    case "minipekka":
+        g.AddUnit(NewMinipekka(card.IdStarting, card.Team, card.Position))
+    case "musketeer":
+        g.AddUnit(NewMusketeer(card.IdStarting, card.Team, card.Position))
+    case "pekka":
+        g.AddUnit(NewPekka(card.IdStarting, card.Team, card.Position))
+    case "skeletons":
+        g.AddUnit(NewSkeleton(card.IdStarting, card.Team, card.Position, Vector2{0, 1}))
+        g.AddUnit(NewSkeleton(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
+        g.AddUnit(NewSkeleton(card.IdStarting + 2, card.Team, card.Position, Vector2{-1, -1}))
+    case "speargoblins":
+        g.AddUnit(NewSpeargoblin(card.IdStarting, card.Team, card.Position, Vector2{0, 1}))
+        g.AddUnit(NewSpeargoblin(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
+        g.AddUnit(NewSpeargoblin(card.IdStarting + 2, card.Team, card.Position, Vector2{-1, -1}))
+    case "valkyrie":
+        g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
+    default:
+        glog.Warningf("invalid card name: %v", card.Name)
+    }
 }
 
 func (g *Game) String() string {
@@ -191,8 +246,8 @@ func (g *Game) String() string {
 }
 
 func (game *Game) Run(session *Session) {
-    glog.V(0).Infof("game %v starting", game)
-    defer glog.V(0).Infof("game %v stopped", game)
+    glog.Infof("game %v starting", game)
+    defer glog.Infof("game %v stopped", game)
     ticker := time.NewTicker(FrameInterval)
     defer ticker.Stop()
     gameover := false
@@ -220,6 +275,17 @@ func (game *Game) update() (gameover bool) {
     for _, player := range game.Visitor {
         player.IncreaseEnergy(1)
     }
+    // Filtering without allocating
+    // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
+    filtered := game.WaitingCards[:0]
+    for _, card := range game.WaitingCards {
+        if card.ActivateFrame == game.Frame {
+            game.ActivateCard(card)
+            continue
+        }
+        filtered = append(filtered, card)
+    }
+    game.WaitingCards = filtered
     for _, unit := range game.Units {
         unit.Update()
     }
