@@ -30,8 +30,6 @@ const (
     Knight Type = "Knight"
 )
 
-const MaxSeparationForce = 20
-
 func (layers Layers) Contains(layer Layer) bool {
     for _, l := range layers {
         if l == layer {
@@ -134,9 +132,9 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-func (u *Unit) Seek(position Vector2) {
+func (u *Unit) Seek(position Vector2) Vector2 {
     desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
-    u.AddAcceleration(desired.Minus(u.Velocity))
+    return desired.Minus(u.Velocity)
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -147,12 +145,15 @@ func (u *Unit) Separate() Vector2 {
         }
         d := u.DistanceTo(unit)
         if d > 0 && d < u.Radius + unit.Radius {
-            intersection := u.Radius + unit.Radius - d
-            direction := u.Position.Minus(unit.Position).Normalize()
-            sum = sum.Plus(direction.Multiply(unit.Mass).Divide(intersection))
+            if u.Speed > unit.Speed || (u.Speed == unit.Speed && u.Id > unit.Id) {
+                intersection := u.Radius + unit.Radius - d
+                direction := u.Position.Minus(unit.Position).Normalize()
+                sum = sum.Plus(direction.Multiply(intersection))
+                glog.Infof("%v try to separate from %v, %v, %v", u.Name, unit.Name, intersection, direction)
+            }
         }
     }
-    return sum.Truncate(MaxSeparationForce)
+    return sum
 }
 
 func (u *Unit) Side() Vector2 {
@@ -188,7 +189,7 @@ func (u *Unit) Avoid() Vector2 {
     var threat *Unit
     var threatPositionAtNearestApproach Vector2
     for _, other := range u.Game.Units {
-        if other == u || other == u.Target {
+        if other == u || other == u.Target || other.Layer != u.Layer {
             continue
         }
         collisionDangerThreshold := u.Radius + other.Radius
@@ -205,15 +206,17 @@ func (u *Unit) Avoid() Vector2 {
         }
     }
 
-    if threat != nil && threat.Speed <= u.Speed {
-        offset := threatPositionAtNearestApproach.Minus(u.Position)
-        sideDot := offset.Dot(u.Side())
-        if sideDot > 0 {
-            steer = -1
-        } else {
-            steer = 1
+    if threat != nil {
+        if threat.Speed < u.Speed || (threat.Speed == u.Speed && threat.Id < u.Id) {
+            offset := threatPositionAtNearestApproach.Minus(u.Position)
+            sideDot := offset.Dot(u.Side())
+            if sideDot > 0 {
+                steer = -1
+            } else {
+                steer = 1
+            }
+            glog.Infof("%v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
         }
-        glog.Infof("%v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
     }
 
     return u.Side().Multiply(steer)
@@ -373,17 +376,18 @@ func (u *Unit) Update() {
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
-                    position := u.Target.Position
-                    if u.Layer == Ground {
-                        path := u.FindPath(u.Target)
-                        position = u.NextCornerInPath(path)
-                    }
-                    //glog.Infof("moving to %v", position)
-                    avoid := u.Avoid()
-                    if avoid.Length() == 0 {
-                        u.Seek(position)
-                    } else {
+                    if separate.Length() == 0 {
+                        avoid := u.Avoid()
                         u.AddAcceleration(avoid)
+                        if avoid.Length() == 0 {
+                            position := u.Target.Position
+                            if u.Layer == Ground {
+                                path := u.FindPath(u.Target)
+                                position = u.NextCornerInPath(path)
+                            }
+                            u.AddAcceleration(u.Seek(position))
+                            //glog.Infof("moving to %v", position)
+                        }
                     }
                 }
             }
@@ -427,7 +431,7 @@ func (u *Unit) Location() (area *Area) {
     case RightHole.Contains(u.Position):
         area = RightHole
     default:
-        glog.Infof("invalid unit position : %v", u.Position)
+        //glog.Infof("invalid unit position : %v", u.Position)
         area = nil
     }
     return
