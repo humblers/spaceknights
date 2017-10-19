@@ -8,7 +8,7 @@ onready var guide = get_node("CardGuide")
 
 var hand
 
-func _ready():
+func connect_ui_signals():
 	input.connect("mouse_dragged", self, "move")
 	card1.connect("pressed", self, "press_card", [1])
 	card2.connect("pressed", self, "press_card", [2])

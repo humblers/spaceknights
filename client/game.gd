@@ -3,7 +3,9 @@ extends Node
 const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
+
 func _ready():
+	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
@@ -13,6 +15,11 @@ func update_changes(game):
 	delete_dead_units(game.Units)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
+
+func opening_finished():
+	get_node("UI").connect_ui_signals()
+	get_node("Units").show()
+	get_node("OpeningNodes").hide()
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
