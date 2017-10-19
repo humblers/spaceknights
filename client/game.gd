@@ -40,50 +40,25 @@ func update_units(units):
 		if unit.Team == global.team and unit.Name in ["shuriken", "space_z"]:
 			get_node("UI/CardGuide").set_starting_x(node.get_pos().x)
 
-func create_unit_node(id, unit, group=UNIT_DEFAULT, offset=Vector2(0, 0)):
+func create_unit_node(id, unit, group=UNIT_DEFAULT):
 	var name = unit.Name
-	unit = global.clone(unit)
-	unit.Position.X += offset.x * global.dict_get(global.UNITS[name], "radius", 0)
-	unit.Position.Y += offset.y * global.dict_get(global.UNITS[name], "radius", 0)
 	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
 	node.initialize(unit)
 	node.set_name(str(id))
 	node.connect("projectile_created", self, "create_projectile")
 	get_node("Units").add_child(node)
 	if group == UNIT_LAUNCHING:
-		if unit.Team == "Home":
-			unit.Position.Y = global.MAP.height - unit.Position.Y
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
 
 func handle_waiting_cards(frame, cards):
 	for card in cards:
 		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
-			create_card_effect(card)
-
-func create_card_effect(card):
-	if card.Name == "archers":
-		card.Name = "archer"
-		create_unit_node(card.IdStarting, card, UNIT_LAUNCHING, Vector2(1, 0))
-		create_unit_node(card.IdStarting + 1, card, UNIT_LAUNCHING, Vector2(-1, 0))
-	elif card.Name == "barbarians":
-		card.Name = "barbarian"
-		create_unit_node(card.IdStarting, card, UNIT_LAUNCHING, Vector2(1, 1))
-		create_unit_node(card.IdStarting + 1, card, UNIT_LAUNCHING, Vector2(1, -1))
-		create_unit_node(card.IdStarting + 2, card, UNIT_LAUNCHING, Vector2(-1, 1))
-		create_unit_node(card.IdStarting + 3, card, UNIT_LAUNCHING, Vector2(-1, -1))
-	elif card.Name == "skeletons":
-		card.Name = "skeleton"
-		create_unit_node(card.IdStarting, card, UNIT_LAUNCHING, Vector2(0, 1))
-		create_unit_node(card.IdStarting + 1, card, UNIT_LAUNCHING, Vector2(1, -1))
-		create_unit_node(card.IdStarting + 2, card, UNIT_LAUNCHING, Vector2(-1, -1))
-	elif card.Name == "speargoblins":
-		card.Name = "speargoblin"
-		create_unit_node(card.IdStarting, card, UNIT_LAUNCHING, Vector2(0, 1))
-		create_unit_node(card.IdStarting + 1, card, UNIT_LAUNCHING, Vector2(1, -1))
-		create_unit_node(card.IdStarting + 2, card, UNIT_LAUNCHING, Vector2(-1, -1))
-	else:
-		create_unit_node(card.IdStarting, card, UNIT_LAUNCHING)
+			var script = preload("res://card.gd").new()
+			var id = card.IdStarting
+			for unit in script.get_structures_of_unit(card):
+				create_unit_node(id, unit, UNIT_LAUNCHING)
+				id += 1
 
 func update_ui(game):
 	get_node("UI").update_changes(game)

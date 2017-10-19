@@ -16,36 +16,25 @@ func _process(delta):
 func set_starting_x(point):
 	base.set_pos(Vector2(point, base.get_pos().y))
 
-func create_unit(name, offset=Vector2(0, 0)):
-	var unit = {
-		"Name": name,
-		"Team": global.team,
-	}
+func create_unit(unit):
+	var name = unit.Name
 	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
 	node.initialize(unit)
 	base.add_child(node)
-	var pos = Vector2(0, 0) + offset * global.dict_get(global.UNITS[name], "radius", 0)
-	node.transform_to_guide_node(pos)
+	node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
 
 func show(card):
-	if card == "archers":
-		create_unit("archer", Vector2(1, 0))
-		create_unit("archer", Vector2(-1, 0))
-	elif card == "barbarians":
-		create_unit("barbarian", Vector2(1, 1))
-		create_unit("barbarian", Vector2(1, -1))
-		create_unit("barbarian", Vector2(-1, 1))
-		create_unit("barbarian", Vector2(-1, -1))
-	elif card == "skeletons":
-		create_unit("skeleton", Vector2(0, -1))
-		create_unit("skeleton", Vector2(1, 1))
-		create_unit("skeleton", Vector2(-1, 1))
-	elif card == "speargoblins":
-		create_unit("speargoblin", Vector2(0, -1))
-		create_unit("speargoblin", Vector2(1, 1))
-		create_unit("speargoblin", Vector2(-1, 1))
-	else:
-		create_unit(card)
+	var script = preload("res://card.gd").new()
+	var units = script.get_structures_of_unit( {
+		"Name" : card,
+		"Team" : "",
+		"Position" : {
+			"X" : 0, "Y" : 0,
+		},
+	} )
+	for unit in units:
+		unit.Team = global.team
+		create_unit(unit)
 	base.set_pos(Vector2(base.get_pos().x, starting_y))
 	base.show()
 	set_process(true)

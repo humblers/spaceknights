@@ -118,10 +118,9 @@ func play_launch_effect(delta):
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
-	get_node("Hp").hide()
-	body.set_rot(PI)
-	body.set_opacity(0.5)
 	set_pos(pos)
+	get_node("Hp").hide()
+	body.set_opacity(0.5)
 
 func _draw():
 	var unit = global.UNITS[name]
