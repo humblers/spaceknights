@@ -48,7 +48,7 @@ func update_changes(unit):
 	set_hp(unit)
 	if unit.State == "startattack":
 		unit.State = "attack"
-		body.set_animation("%s_attack" % color)
+		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
 			emit_signal("projectile_created",
 					global.UNITS[name].projectile,

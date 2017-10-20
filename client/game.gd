@@ -27,7 +27,7 @@ func delete_dead_units(units):
 			continue
 		if not units.has(node.get_name()):
 			var effect = load("res://effect/explosion.tscn").instance()
-			effect.initialize(node.get_pos(), global.dict_get(global.UNITS, "size", "small"))
+			effect.initialize(node.get_pos(), global.dict_get(global.UNITS[node.name], "size", "small"))
 			add_child(effect)
 			node.queue_free()
 
