@@ -36,6 +36,12 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
+	"barbarianhut" : {
+		"layer" : "Ground",
+		"radius" : 20,
+		"lifetimecost" : 2,
+		"size" : "large",
+	},
 	"bomber" : {
 		"layer" : "Ground",
 		"radius" : 11,
@@ -69,6 +75,12 @@ const UNITS = {
 		"sight" : 200,
 		"range" : 15,
 		"size" : "xlarge",
+	},
+	"goblinhut" : {
+		"layer" : "Ground",
+		"radius" : 28,
+		"lifetimecost" : 1,
+		"size" : "large",
 	},
 	"shuriken" : {
 		"layer" : "Air",

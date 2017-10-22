@@ -200,6 +200,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
     case "archers":
         g.AddUnit(NewArcher(card.IdStarting, card.Team, card.Position, Vector2{1, 0}))
         g.AddUnit(NewArcher(card.IdStarting + 1, card.Team, card.Position, Vector2{-1, 0}))
+    case "barbarianhut":
+        g.AddUnit(NewBarbarianhut(card.IdStarting, card.Team, card.Position))
     case "barbarians":
         g.AddUnit(NewBarbarian(card.IdStarting, card.Team, card.Position, Vector2{1, 1}))
         g.AddUnit(NewBarbarian(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
@@ -211,6 +213,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewCannon(card.IdStarting, card.Team, card.Position))
     case "giant":
         g.AddUnit(NewGiant(card.IdStarting, card.Team, card.Position))
+    case "goblinhut":
+        g.AddUnit(NewGoblinhut(card.IdStarting, card.Team, card.Position))
     case "megaminion":
         g.AddUnit(NewMegaminion(card.IdStarting, card.Team, card.Position))
     case "minipekka":

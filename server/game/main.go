@@ -58,12 +58,12 @@ func main() {
                         id: create.UserIds[0],
                         knightName: "shuriken",
                         deck: Cards{
-                            "archers",
-                            "barbarians",
-                            "bomber",
-                            "cannon",
-                            "giant",
-                            "megaminion",
+                            "barbarianhut",
+                            "barbarianhut",
+                            "barbarianhut",
+                            "goblinhut",
+                            "goblinhut",
+                            "goblinhut",
                         },
                     })
                     game.Join(Visitor, User{
