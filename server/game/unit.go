@@ -148,7 +148,7 @@ func (u *Unit) Separate() Vector2 {
             if u.Speed > unit.Speed || (u.Speed == unit.Speed && u.Id > unit.Id) {
                 intersection := u.Radius + unit.Radius - d
                 direction := u.Position.Minus(unit.Position).Normalize()
-                sum = sum.Plus(direction.Multiply(intersection))
+                sum = sum.Plus(direction.Multiply(intersection*intersection+1))
 				
 				u.Velocity = Vector2{0, 0}
 				
@@ -219,9 +219,9 @@ func (u *Unit) Avoid() Vector2 {
             sideDot := offset.Dot(u.Side())
             if sideDot > 0 {
                 //steer = -1
-				steer = -2
+				steer = -1
             } else {
-                steer = 2
+                steer = 1
             }
             glog.Infof("%v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
         }
