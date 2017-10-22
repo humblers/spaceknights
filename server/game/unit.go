@@ -257,7 +257,7 @@ func (u *Unit) HandleSpawn() {
             }
             front := Vector2{X: cardlike.X, Y: cardlike.Y + u.Radius + spawn.Radius}
             if spawn.Layer == Ground && !Top.Contains(front) && !Bottom.Contains(front) && !LeftHole.Contains(front) && !RightHole.Contains(front) {
-                if cardlike.X < 200.0 {
+                if cardlike.X < 200.0 || cardlike.X > (RightHole.L + RightHole.R) / 2 {
                     spawn.Position = Vector2{X: cardlike.X - u.Radius - spawn.Radius, Y: cardlike.Y}
                 } else {
                     spawn.Position = Vector2{X: cardlike.X + u.Radius + spawn.Radius, Y: cardlike.Y}
