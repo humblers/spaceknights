@@ -250,29 +250,30 @@ func (u *Unit) HandleSpawn() {
     }
 
     if u.SpawnFrame == 0 || u.SpawnFrame == u.Game.Frame {
-        setPos := func(building *Unit, spawn *Unit) *Unit {
-            cardlike := u.Position
+        getSpawnPos := func(building *Unit, spawnRadius float64) Vector2 {
+            pos := u.Position
             if building.Team == Home {
-                cardlike.Y = MapHeight - cardlike.Y
+                pos.Y = MapHeight - pos.Y
             }
-            front := Vector2{X: cardlike.X, Y: cardlike.Y + u.Radius + spawn.Radius}
-            if spawn.Layer == Ground && !Top.Contains(front) && !Bottom.Contains(front) && !LeftHole.Contains(front) && !RightHole.Contains(front) {
-                if cardlike.X < 200.0 || cardlike.X > (RightHole.L + RightHole.R) / 2 {
-                    spawn.Position = Vector2{X: cardlike.X - u.Radius - spawn.Radius, Y: cardlike.Y}
-                } else {
-                    spawn.Position = Vector2{X: cardlike.X + u.Radius + spawn.Radius, Y: cardlike.Y}
-                }
+            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + spawnRadius}
+            if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
+                return front
+            }
+            if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
+                pos.X -= u.Radius + spawnRadius
             } else {
-                spawn.Position = front
+                pos.X += u.Radius + spawnRadius
             }
-            return spawn
+            return pos
         }
         switch u.SpawnThing {
         case "barbarians":
-            u.Game.AddUnit(setPos(u, NewBarbarian(0, u.Team, Vector2{X:0, Y:0}, Vector2{X:0, Y:0})))
-            u.Game.AddUnit(setPos(u, NewBarbarian(0, u.Team, Vector2{X:0, Y:0}, Vector2{X:0, Y:0})))
+            pos := getSpawnPos(u, 11)
+            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
+            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
         case "speargoblin":
-            u.Game.AddUnit(setPos(u, NewSpeargoblin(0, u.Team, Vector2{X:0, Y:0}, Vector2{X:0, Y:0})))
+            pos := getSpawnPos(u, 9)
+            u.Game.AddUnit(NewSpeargoblin(0, u.Team, pos, Vector2{X:0, Y:0}))
         default:
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
