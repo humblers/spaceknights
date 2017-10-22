@@ -15,12 +15,12 @@ func NewKnight(t Team, name string) *Unit {
         log.Panicf("unknown knight name: %v", name)
     }
     return &Unit{
-        Team: t,
-        Type: Knight,
-        Name: name,
-        Layer: Air,
-        Hp: 100,
-        Radius: radius,
+        Team:     t,
+        Type:     Knight,
+        Name:     name,
+        Layer:    Air,
+        Hp:       100,
+        Radius:   radius,
         Position: p,
     }
 }

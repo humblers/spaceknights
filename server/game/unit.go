@@ -51,34 +51,37 @@ func (types Types) Contains(_type Type) bool {
 
 type Unit struct {
     // invariant
-    Team Team
-    Type Type `json:"-"`
-    Name string
-    Layer Layer `json:"-"`
-    TargetLayers Layers `json:"-"`
-    TargetTypes Types `json:"-"`
-    Hp int
-    Mass float64 `json:"-"`
-    Speed float64 `json:"-"`
-    PreHitDelay int `json:"-"`
-    PostHitDelay int `json:"-"`
-    Radius float64 `json:"-"`
-    Sight float64 `json:"-"`
-    Range float64 `json:"-"`
-    Damage int `json:"-"`
+    Team         Team
+    Type         Type    `json:"-"`
+    Name         string
+    Layer        Layer   `json:"-"`
+    TargetLayers Layers  `json:"-"`
+    TargetTypes  Types   `json:"-"`
+    Hp           int
+    Mass         float64 `json:"-"`
+    Speed        float64 `json:"-"`
+    PreHitDelay  int     `json:"-"`
+    PostHitDelay int     `json:"-"`
+    Radius       float64 `json:"-"`
+    Sight        float64 `json:"-"`
+    Range        float64 `json:"-"`
+    Damage       int     `json:"-"`
     DamageRadius float64 `json:"-"`
-    LifetimeCost int `json:"-"`
+    LifetimeCost int     `json:"-"`
+    SpawnThing   string  `json:"-"`
+    SpawnSpeed   int     `json:"-"`
 
     // variant
-    Id              int     `json:"-"`
-    Game            *Game   `json:"-"`
-    State           State
-    Position        Vector2
-    Heading         Vector2
-    Velocity        Vector2 `json:"-"`
-    Acceleration    Vector2 `json:"-"`
-    Target          *Unit   `json:"-"`
-    HitFrame        int     `json:"-"`
+    Id           int     `json:"-"`
+    Game         *Game   `json:"-"`
+    State        State
+    Position     Vector2
+    Heading      Vector2
+    Velocity     Vector2 `json:"-"`
+    Acceleration Vector2 `json:"-"`
+    Target       *Unit   `json:"-"`
+    HitFrame     int     `json:"-"`
+    SpawnFrame   int     `json:"-"`
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -187,6 +190,10 @@ func (u *Unit) IsAttacking() bool {
             u.Game.Frame <= u.HitFrame + u.PostHitDelay
 }
 
+func (u *Unit) HasAttack() bool {
+    return u.Damage > 0
+}
+
 func (u *Unit) HandleAttack() {
     u.Heading = u.Target.Position.Minus(u.Position)
     if u.Game.Frame == u.HitFrame {
@@ -237,6 +244,43 @@ func (u *Unit) HasTarget() bool {
     return u.Target != nil && !u.Target.IsDead()
 }
 
+func (u *Unit) HandleSpawn() {
+    if u.SpawnSpeed <= 0 {
+        return
+    }
+
+    if u.SpawnFrame == 0 || u.SpawnFrame == u.Game.Frame {
+        getSpawnPos := func(building *Unit, spawnRadius float64) Vector2 {
+            pos := u.Position
+            if building.Team == Home {
+                pos.Y = MapHeight - pos.Y
+            }
+            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + spawnRadius}
+            if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
+                return front
+            }
+            if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
+                pos.X -= u.Radius + spawnRadius
+            } else {
+                pos.X += u.Radius + spawnRadius
+            }
+            return pos
+        }
+        switch u.SpawnThing {
+        case "barbarians":
+            pos := getSpawnPos(u, 11)
+            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
+            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
+        case "speargoblin":
+            pos := getSpawnPos(u, 9)
+            u.Game.AddUnit(NewSpeargoblin(0, u.Team, pos, Vector2{X:0, Y:0}))
+        default:
+            glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
+        }
+        u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
+    }
+}
+
 func (u *Unit) Update() {
     switch u.Type {
     case Troop:
@@ -275,24 +319,27 @@ func (u *Unit) Update() {
         u.ResetForce()
     case Building:
         u.TakeDamage(u.LifetimeCost)
-        if u.IsAttacking() {
-            u.State = Attacking
-            u.HandleAttack()
-        } else {
-            if !u.HasTarget() || !u.WithinRange(u.Target) {
-                var filter = func (other *Unit) bool {
-                    return u.WithinRange(other)
-                }
-                u.Target = u.FindNearestTarget(filter)
-            }
-            if u.Target == nil {
-                u.State = Idle
+        if u.HasAttack() {
+            if u.IsAttacking() {
+                u.State = Attacking
+                u.HandleAttack()
             } else {
-                u.State = StartAttack
-                u.StartAttack()
-                glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                if !u.HasTarget() || !u.WithinRange(u.Target) {
+                    var filter = func(other *Unit) bool {
+                        return u.WithinRange(other)
+                    }
+                    u.Target = u.FindNearestTarget(filter)
+                }
+                if u.Target == nil {
+                    u.State = Idle
+                } else {
+                    u.State = StartAttack
+                    u.StartAttack()
+                    glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                }
             }
         }
+        u.HandleSpawn()
     case Base, Knight:
         return
     }

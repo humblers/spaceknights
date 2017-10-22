@@ -59,6 +59,7 @@ func main() {
                         knightName: "shuriken",
                         deck: Cards{
                             "archers",
+                            "barbarianhut",
                             "barbarians",
                             "bomber",
                             "cannon",
@@ -70,6 +71,7 @@ func main() {
                         id: create.UserIds[1],
                         knightName: "space_z",
                         deck: Cards{
+                            "goblinhut",
                             "minipekka",
                             "musketeer",
                             "pekka",
