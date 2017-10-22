@@ -134,7 +134,7 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 
 func (u *Unit) Seek(position Vector2) Vector2 {
     desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
-    return desired.Minus(u.Velocity)
+    return desired.Minus(u.Velocity).Divide(10)
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -149,11 +149,18 @@ func (u *Unit) Separate() Vector2 {
                 intersection := u.Radius + unit.Radius - d
                 direction := u.Position.Minus(unit.Position).Normalize()
                 sum = sum.Plus(direction.Multiply(intersection))
+				
+				u.Velocity = Vector2{0, 0}
+				
                 glog.Infof("%v try to separate from %v, %v, %v", u.Name, unit.Name, intersection, direction)
+				glog.Infof("so result =  %v", sum)
+				
             }
         }
     }
     return sum
+	
+	
 }
 
 func (u *Unit) Side() Vector2 {
@@ -178,7 +185,7 @@ func (u *Unit) ComputeNearestApproachPositions(other *Unit, time float64) (Vecto
     return myPos, otherPos
 }
 
-const minTimeToCollision = 20.0
+const minTimeToCollision = 50.0
 func (u *Unit) Avoid() Vector2 {
     steer := 0.0
     if u.Velocity.Length() == 0 {
@@ -189,7 +196,7 @@ func (u *Unit) Avoid() Vector2 {
     var threat *Unit
     var threatPositionAtNearestApproach Vector2
     for _, other := range u.Game.Units {
-        if other == u || other == u.Target || other.Layer != u.Layer {
+        if other == u || other == u.Target || other.Layer != u.Layer || other.Team != u.Team {
             continue
         }
         collisionDangerThreshold := u.Radius + other.Radius
@@ -211,9 +218,10 @@ func (u *Unit) Avoid() Vector2 {
             offset := threatPositionAtNearestApproach.Minus(u.Position)
             sideDot := offset.Dot(u.Side())
             if sideDot > 0 {
-                steer = -1
+                //steer = -1
+				steer = -2
             } else {
-                steer = 1
+                steer = 2
             }
             glog.Infof("%v try to avoid %v, %v, %v, %v", u.Name, threat.Name, steer, minTime, minDist)
         }
@@ -231,7 +239,11 @@ func (u *Unit) AddAcceleration(acc Vector2) {
 }
 
 func (u *Unit) Move() {
-    const smoothRate = 0.1
+    //const smoothRate = 0.1
+	var smoothRate = 1.0
+	if u.State == Move {
+        smoothRate = 1.0
+    }
     old_vel := u.Velocity
     new_vel := u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Velocity = old_vel.Plus(new_vel.Minus(old_vel).Multiply(smoothRate)).Truncate(u.Speed)
@@ -375,9 +387,13 @@ func (u *Unit) Update() {
                     u.StartAttack()
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
-                    u.State = Move
+                    //u.State = Move
+					u.State = Collision
+					glog.Infof("i  = %v, separate =  %v, separate var = %v", u.Name, separate.Length() , separate)
                     if separate.Length() == 0 {
-                        avoid := u.Avoid()
+                        u.State = Move
+						
+						avoid := u.Avoid()
                         u.AddAcceleration(avoid)
                         if avoid.Length() == 0 {
                             position := u.Target.Position
@@ -386,9 +402,20 @@ func (u *Unit) Update() {
                                 position = u.NextCornerInPath(path)
                             }
                             u.AddAcceleration(u.Seek(position))
-                            //glog.Infof("moving to %v", position)
+                            glog.Infof("i = %v, moving to %v", u.Name, position)
                         }
+						
                     }
+					/*
+					avoid := u.Avoid()
+					u.AddAcceleration(avoid)
+					position := u.Target.Position
+					if u.Layer == Ground {
+						path := u.FindPath(u.Target)
+						position = u.NextCornerInPath(path)
+					}
+					u.AddAcceleration(u.Seek(position))
+					*/
                 }
             }
         }
