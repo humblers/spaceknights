@@ -137,7 +137,7 @@ func (u *Unit) Seek(position Vector2) Vector2 {
     //return desired.Minus(u.Velocity).Divide(10)
 	desired := position.Minus(u.Position).Normalize().Multiply(1)
 	//glog.Infof("i = %v, seek4s =  %.3f", u.Name, desired.Minus(u.Velocity).Length())
-	glog.Infof("i = %v, seek4s =  %.3f", u.Name, desired.Length())
+	//glog.Infof("i = %v, seek4s =  %.3f", u.Name, desired.Length())
 	//return desired.Minus(u.Velocity)
 	return desired
 	
@@ -146,13 +146,14 @@ func (u *Unit) Seek(position Vector2) Vector2 {
 
 func (u *Unit) Separate() Vector2 {
     sum := Vector2{0, 0}
+	steer := 0.0
     for _, unit := range u.Game.Units {
         if u.Layer != unit.Layer {
             continue
         }
         d := u.DistanceTo(unit)
         if d > 0 && d < u.Radius + unit.Radius {
-            if u.Speed > unit.Speed || (u.Speed == unit.Speed && u.Id > unit.Id) {
+            if u.Speed > unit.Speed || (u.Speed == unit.Speed && (u.Id > unit.Id || unit.Team != u.Team )) {
 				intersection := u.Radius + unit.Radius - d
 				direction := u.Position.Minus(unit.Position).Normalize()
 				//sum = sum.Plus(direction.Multiply(intersection/u.Mass+1)) // middle of them
@@ -161,17 +162,43 @@ func (u *Unit) Separate() Vector2 {
 				
 				//u.Velocity = Vector2{0, 0}
 				u.Velocity = u.Velocity.Divide(1.5)
+				
 				//glog.Infof("I = %v, now Vel =  %.3f,  add S4s = %.3f", u.Name, u.Velocity.Length(), sum)
+				
+				sideDot := sum.Dot(u.Side())
+				if sideDot > 0 {					
+					steer = 1
+				} else {
+					steer = -1
+				}
+				
+				if (u.Speed == unit.Speed && u.Team != unit.Team) {
+					unitSteer := 0.0
+					unitSideDot := sum.Multiply(-1).Dot(unit.Side())
+					if unitSideDot > 0 {
+						unitSteer = 1
+					} else {
+						unitSteer = -1
+					}
+					if u.Side().Multiply(steer).Dot(unit.Side().Multiply(unitSteer)) > 0 {
+						glog.Infof("Coner Case!!!! %v team %v Unit ID = %v , other ID = %v",u.Team, u.Name, u.Id, unit.Id)
+						glog.Infof("ID %v ori_steer =  %v",u.Id, steer)
+						if u.Id > unit.Id {
+							steer = steer * -1
+						}
+						glog.Infof("ID %v result_steer =  %v",u.Id, steer)
+					}
+				}
+				
+				sum = sum.Plus(u.Side().Multiply(steer))
 			
 			//glog.Infof("%v try to separate from %v, %v, %v", u.Name, unit.Name, intersection, direction)
-			//glog.Infof("so result =  %v", sum)
+			//glog.Infof("%v team %v steer =  %v",u.Team, u.Name, steer)
 				
             }
         }
     }
     return sum
-	
-	
 }
 
 func (u *Unit) Side() Vector2 {
@@ -264,7 +291,7 @@ func (u *Unit) Move() {
 	u.Velocity = new_vel
 	
 	if u.Velocity.Length() != 0 {
-		glog.Infof(" I = %v, Pos = %.3f, Vel = %.3f", u.Name, u.Position, u.Velocity.Length())
+		//glog.Infof(" I = %v, Pos = %.3f, Vel = %.3f", u.Name, u.Position, u.Velocity.Length())
 	}
 	
     u.Position = u.Position.Plus(u.Velocity)
