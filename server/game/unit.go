@@ -173,9 +173,12 @@ func (u *Unit) Separate() Vector2 {
 						}
 					}
 				}				
-				sum = sum.Plus(u.Side().Multiply(steer))
-			
-			//glog.Infof("%v try to separate from %v, %v, %v", u.Name, unit.Name, intersection, direction)
+				if intersection > 10 || u.Team != unit.Team {
+					sum = sum.Plus(u.Side().Multiply(steer))
+				} else {
+					sum = u.Side().Multiply(steer)
+				}
+			glog.Infof("%v try to separate from %v, %.3f ", u.Name, unit.Name, intersection)
 			//glog.Infof("%v team %v steer =  %v",u.Team, u.Name, steer)
 				
             }
