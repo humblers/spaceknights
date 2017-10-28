@@ -132,10 +132,8 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 }
 
 func (u *Unit) Seek(position Vector2) Vector2 {
-	desired := position.Minus(u.Position).Normalize().Multiply(1)	
+	desired := position.Minus(u.Position).Normalize().Multiply(1)
 	return desired
-	
-	
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -150,14 +148,14 @@ func (u *Unit) Separate() Vector2 {
             if u.Speed > unit.Speed || (u.Speed == unit.Speed && (u.Id > unit.Id || unit.Team != u.Team )) {
 				intersection := u.Radius + unit.Radius - d
 				direction := u.Position.Minus(unit.Position).Normalize()
-				sum = sum.Plus(direction.Multiply(intersection)) 
-				u.Velocity = u.Velocity.Divide(1.5)				
+				sum = sum.Plus(direction.Multiply(intersection))
+				u.Velocity = u.Velocity.Divide(1.5)
 				sideDot := sum.Dot(u.Side())
-				if sideDot > 0 {					
+				if sideDot > 0 {
 					steer = 1
 				} else {
 					steer = -1
-				}				
+				}
 				if (u.Speed == unit.Speed && u.Team != unit.Team) {
 					unitSteer := 0.0
 					unitSideDot := sum.Multiply(-1).Dot(unit.Side())
@@ -172,7 +170,7 @@ func (u *Unit) Separate() Vector2 {
 							steer = steer * -1
 						}
 					}
-				}				
+				}
 				if intersection > 10 || u.Team != unit.Team {
 					sum = sum.Plus(u.Side().Multiply(steer))
 				} else {
@@ -180,7 +178,6 @@ func (u *Unit) Separate() Vector2 {
 				}
 			glog.Infof("%v try to separate from %v, %.3f ", u.Name, unit.Name, intersection)
 			//glog.Infof("%v team %v steer =  %v",u.Team, u.Name, steer)
-				
             }
         }
     }
@@ -218,8 +215,7 @@ func (u *Unit) AddAcceleration(acc Vector2) {
 }
 
 func (u *Unit) Move() {
-    
-    u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed) 
+    u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
     u.Acceleration = Vector2{0, 0}
     if u.State == Move {
@@ -360,17 +356,13 @@ func (u *Unit) Update() {
                     u.StartAttack()
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
-                    u.State = Collision
-                    if separate.Length() == 0 {
-                        u.State = Move
-                    }
+                    u.State = Move
 					position := u.Target.Position
 					if u.Layer == Ground {
 						path := u.FindPath(u.Target)
 						position = u.NextCornerInPath(path)
 					}
 					u.AddAcceleration(u.Seek(position))
-					
                 }
             }
         }
