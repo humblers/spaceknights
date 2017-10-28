@@ -47,6 +47,10 @@ func (v Vector2) Length() float64 {
 
 func (v Vector2) Normalize() Vector2 {
     l := v.Length()
+    if l == 0 {
+        //panic("cannot normalize zero vector")
+        return Vector2{0, 0}
+    }
     return Vector2{
         X: v.X / l,
         Y: v.Y / l,
@@ -55,4 +59,17 @@ func (v Vector2) Normalize() Vector2 {
 
 func (a Vector2) Cross(b Vector2) float64 {
     return a.X * b.Y - a.Y * b.X
+}
+
+func (a Vector2) Dot(b Vector2) float64 {
+    return a.X * b.X + a.Y * b.Y
+}
+
+func (position Vector2) ToLocalCoordinate(unit *Unit) Vector2 {
+    v := unit.Velocity.Normalize()
+    u := Vector2{v.Y, -v.X}
+    translated := position.Minus(unit.Position)
+    x := u.Dot(translated)
+    y := v.Dot(translated)
+    return Vector2{x, y}
 }

@@ -9,7 +9,7 @@ func NewMinipekka(id int, t Team, pos Vector2) *Unit {
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
         Hp:            600,
-        Mass:          15,
+        Mass:          10,
         Speed:         4,
         PreHitDelay:   5,
         PostHitDelay:  12,

@@ -29,8 +29,6 @@ const (
     Knight Type = "Knight"
 )
 
-const MaxSeparationForce = 20
-
 func (layers Layers) Contains(layer Layer) bool {
     for _, l := range layers {
         if l == layer {
@@ -77,7 +75,7 @@ type Unit struct {
     State        State
     Position     Vector2
     Heading      Vector2
-    Velocity     Vector2 `json:"-"`
+    Velocity     Vector2
     Acceleration Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
@@ -134,39 +132,94 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 }
 
 func (u *Unit) Seek(position Vector2) Vector2 {
-    desired := position.Minus(u.Position).Normalize().Multiply(u.Speed)
-    return desired.Minus(u.Velocity)
+	desired := position.Minus(u.Position).Normalize().Multiply(1)
+	return desired
 }
 
 func (u *Unit) Separate() Vector2 {
     sum := Vector2{0, 0}
+	steer := 0.0
     for _, unit := range u.Game.Units {
         if u.Layer != unit.Layer {
             continue
         }
         d := u.DistanceTo(unit)
         if d > 0 && d < u.Radius + unit.Radius {
-            intersection := u.Radius + unit.Radius - d
-            direction := u.Position.Minus(unit.Position).Normalize()
-            sum = sum.Plus(direction.Multiply(unit.Mass).Divide(intersection))
+            if u.Speed > unit.Speed || (u.Speed == unit.Speed && (u.Id > unit.Id || unit.Team != u.Team )) {
+				intersection := u.Radius + unit.Radius - d
+				direction := u.Position.Minus(unit.Position).Normalize()
+				sum = sum.Plus(direction.Multiply(intersection))
+				u.Velocity = u.Velocity.Divide(1.5)
+				sideDot := sum.Dot(u.Side())
+				if sideDot > 0 {
+					steer = 1
+				} else {
+					steer = -1
+				}
+				if (u.Speed == unit.Speed && u.Team != unit.Team) {
+					unitSteer := 0.0
+					unitSideDot := sum.Multiply(-1).Dot(unit.Side())
+					if unitSideDot > 0 {
+						unitSteer = 1
+					} else {
+						unitSteer = -1
+					}
+					if u.Side().Multiply(steer).Dot(unit.Side().Multiply(unitSteer)) > 0 {
+						//glog.Infof("Coner Case!!!! %v team %v Unit ID = %v , other ID = %v",u.Team, u.Name, u.Id, unit.Id)						
+						if u.Id > unit.Id {
+							steer = steer * -1
+						}
+					}
+				}
+				if intersection > 10 || u.Team != unit.Team {
+					sum = sum.Plus(u.Side().Multiply(steer))
+				} else {
+					sum = u.Side().Multiply(steer)
+				}
+			glog.Infof("%v try to separate from %v, %.3f ", u.Name, unit.Name, intersection)
+			//glog.Infof("%v team %v steer =  %v",u.Team, u.Name, steer)
+            }
         }
     }
-    return sum.Truncate(MaxSeparationForce)
+    return sum
+}
+
+func (u *Unit) Side() Vector2 {
+    return Vector2{u.Heading.Y, -u.Heading.X}
+}
+
+func (u *Unit) PredictNearestApproachTime(other *Unit) float64 {
+    relVelocity := other.Velocity.Minus(u.Velocity)
+    relSpeed := relVelocity.Length()
+    if relSpeed == 0 {
+        return 0
+    }
+    relTangent := relVelocity.Divide(relSpeed)
+    relPosition := u.Position.Minus(other.Position)
+    projection := relTangent.Dot(relPosition)
+    return projection / relSpeed
+}
+
+func (u *Unit) ComputeNearestApproachPositions(other *Unit, time float64) (Vector2, Vector2) {
+    myPos := u.Position.Plus(u.Velocity.Multiply(time))
+    otherPos := other.Position.Plus(other.Velocity.Multiply(time))
+    return myPos, otherPos
 }
 
 func (u *Unit) AddForce(force Vector2) {
-    u.Acceleration = u.Acceleration.Plus(force)   // f = ma
+    u.Acceleration = u.Acceleration.Plus(force.Divide(u.Mass))
 }
 
-func (u *Unit) ResetForce() {
-    u.Acceleration = Vector2{0, 0}
+func (u *Unit) AddAcceleration(acc Vector2) {
+    u.Acceleration = u.Acceleration.Plus(acc)
 }
 
 func (u *Unit) Move() {
-    u.Velocity = u.Velocity.Plus(u.Acceleration)
+    u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
+    u.Acceleration = Vector2{0, 0}
     if u.State == Move {
-        u.Heading = u.Velocity
+        u.Heading = u.Velocity.Normalize()
     }
 }
 
@@ -195,7 +248,6 @@ func (u *Unit) HasAttack() bool {
 }
 
 func (u *Unit) HandleAttack() {
-    u.Heading = u.Target.Position.Minus(u.Position)
     if u.Game.Frame == u.HitFrame {
         if u.WithinRange(u.Target) {
             u.Target.TakeDamage(u.Damage)
@@ -212,6 +264,7 @@ func (u *Unit) HandleAttack() {
         }
     }
     u.Velocity = Vector2{0, 0}
+    u.Heading = u.Target.Position.Minus(u.Position).Normalize()
 }
 
 func (u *Unit) StartAttack() {
@@ -301,22 +354,18 @@ func (u *Unit) Update() {
                 if u.WithinRange(u.Target){
                     u.State = StartAttack
                     u.StartAttack()
-                    glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                    //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
-                    position := u.Target.Position
-                    if u.Layer == Ground {
-                        path := u.FindPath(u.Target)
-                        position = u.NextCornerInPath(path)
-                    }
-                    glog.Infof("moving to %v", position)
-                    u.AddForce(u.Seek(position))
+					position := u.Target.Position
+					if u.Layer == Ground {
+						path := u.FindPath(u.Target)
+						position = u.NextCornerInPath(path)
+					}
+					u.AddAcceleration(u.Seek(position))
                 }
             }
         }
-        u.AddForce(u.Separate())
-        u.Move()
-        u.ResetForce()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {
@@ -356,7 +405,7 @@ func (u *Unit) Location() (area *Area) {
     case RightHole.Contains(u.Position):
         area = RightHole
     default:
-        glog.Infof("invalid unit position : %v", u.Position)
+        //glog.Infof("invalid unit position : %v", u.Position)
         area = nil
     }
     return
