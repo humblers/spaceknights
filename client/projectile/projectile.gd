@@ -8,8 +8,10 @@ var elapsed = 0
 func _ready():
 	set_fixed_process(true)
 
-func initialize(target, lifetime):
+func initialize(target, lifetime, position):
 	self.lifetime = lifetime
+	set_pos(position)
+	set_z(global.LAYERS.Projectile)
 	target_position = target.get_pos()
 	target_radius = global.UNITS[target.name].radius
 	target.connect("position_changed", self, "update_target_position")

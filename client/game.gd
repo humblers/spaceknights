@@ -5,6 +5,7 @@ const UNIT_LAUNCHING = "launching"
 
 
 func _ready():
+	randomize()
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
 
@@ -74,7 +75,5 @@ func create_projectile(type, target_id, lifetime, initial_position):
 	assert(get_node("Units").has_node(str(target_id)))
 	var node = load("res://projectile/" + type + ".tscn").instance()
 	var target = get_node("Units").get_node(str(target_id))
-	node.initialize(target, lifetime)
-	node.set_pos(initial_position)
-	node.set_z(global.LAYERS.Projectile)
+	node.initialize(target, lifetime, initial_position)
 	get_node("Projectiles").add_child(node)

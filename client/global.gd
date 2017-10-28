@@ -44,9 +44,11 @@ const UNITS = {
 	},
 	"bomber" : {
 		"layer" : "Ground",
+		"prehitdelay" : 10,
 		"radius" : 11,
 		"sight" : 100,
-		"range" : 100,
+		"range" : 90,
+		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},
 	"bombtower" : {
