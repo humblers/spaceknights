@@ -48,6 +48,7 @@ const UNITS = {
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 90,
+		"damageradius": 25,
 		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},

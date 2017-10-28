@@ -17,7 +17,7 @@ func NewBomber(id int, t Team, pos Vector2) *Unit {
         Sight:         100,
         Range:         90,
         Damage:        100,
-        DamageRadius:  15,
+        DamageRadius:  25,
         Id:            id,
         Position:      pos,
     }
