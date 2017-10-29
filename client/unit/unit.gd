@@ -48,8 +48,7 @@ func update_changes(unit):
 	body.set_rot(get_rotation(unit))
 	set_target_id(unit)
 	set_hp(unit)
-	if unit.State == "startattack":
-		unit.State = "attack"
+	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
 			emit_signal("projectile_created",
