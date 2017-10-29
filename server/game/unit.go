@@ -8,8 +8,7 @@ import (
 type State string
 const (
     Idle        State = "idle"
-    StartAttack State = "startattack"
-    Attacking   State = "attack"
+    Attack      State = "attack"
     Move        State = "move"
 )
 
@@ -80,6 +79,9 @@ type Unit struct {
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
+
+    // event
+    AttackStarted bool
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -188,28 +190,6 @@ func (u *Unit) Side() Vector2 {
     return Vector2{u.Heading.Y, -u.Heading.X}
 }
 
-func (u *Unit) PredictNearestApproachTime(other *Unit) float64 {
-    relVelocity := other.Velocity.Minus(u.Velocity)
-    relSpeed := relVelocity.Length()
-    if relSpeed == 0 {
-        return 0
-    }
-    relTangent := relVelocity.Divide(relSpeed)
-    relPosition := u.Position.Minus(other.Position)
-    projection := relTangent.Dot(relPosition)
-    return projection / relSpeed
-}
-
-func (u *Unit) ComputeNearestApproachPositions(other *Unit, time float64) (Vector2, Vector2) {
-    myPos := u.Position.Plus(u.Velocity.Multiply(time))
-    otherPos := other.Position.Plus(other.Velocity.Multiply(time))
-    return myPos, otherPos
-}
-
-func (u *Unit) AddForce(force Vector2) {
-    u.Acceleration = u.Acceleration.Plus(force.Divide(u.Mass))
-}
-
 func (u *Unit) AddAcceleration(acc Vector2) {
     u.Acceleration = u.Acceleration.Plus(acc)
 }
@@ -268,8 +248,13 @@ func (u *Unit) HandleAttack() {
 }
 
 func (u *Unit) StartAttack() {
+    u.AttackStarted = true
     u.HitFrame = u.Game.Frame + u.PreHitDelay
     u.HandleAttack()
+}
+
+func (u *Unit) ClearEvents() {
+    u.AttackStarted = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -335,10 +320,10 @@ func (u *Unit) HandleSpawn() {
 }
 
 func (u *Unit) Update() {
+    u.ClearEvents()
     switch u.Type {
     case Troop:
         if u.IsAttacking() {
-            u.State = Attacking
             u.HandleAttack()
         } else {
             if !u.HasTarget() || !u.WithinRange(u.Target) {
@@ -352,7 +337,7 @@ func (u *Unit) Update() {
                 glog.Warningf("no target found : %v", u.Name)
             } else {
                 if u.WithinRange(u.Target){
-                    u.State = StartAttack
+                    u.State = Attack
                     u.StartAttack()
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
@@ -370,7 +355,6 @@ func (u *Unit) Update() {
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {
             if u.IsAttacking() {
-                u.State = Attacking
                 u.HandleAttack()
             } else {
                 if !u.HasTarget() || !u.WithinRange(u.Target) {
@@ -382,7 +366,7 @@ func (u *Unit) Update() {
                 if u.Target == nil {
                     u.State = Idle
                 } else {
-                    u.State = StartAttack
+                    u.State = Attack
                     u.StartAttack()
                     glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 }
