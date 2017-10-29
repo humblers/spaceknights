@@ -85,6 +85,7 @@ type Unit struct {
 
     // event
     AttackStarted bool
+    Colliding bool `json:"-"`
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -209,10 +210,13 @@ func (u *Unit) AddAcceleration(acc Vector2) {
 }
 
 func (u *Unit) Move() {
+    if u.Type != Troop {
+        return
+    }
     u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
     u.Acceleration = Vector2{0, 0}
-    if u.State == Move {
+    if !u.Colliding {
         u.Heading = u.Velocity.Normalize()
     }
 }
@@ -269,6 +273,7 @@ func (u *Unit) StartAttack() {
 
 func (u *Unit) ClearEvents() {
     u.AttackStarted = false
+    u.Colliding = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -359,6 +364,11 @@ func (u *Unit) Update() {
     u.ClearEvents()
     switch u.Type {
     case Troop:
+        separate := u.Separate()
+        if separate.Length() > 0 {
+            u.Colliding = true
+            u.AddAcceleration(separate)
+        }
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
