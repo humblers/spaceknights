@@ -303,7 +303,7 @@ func (game *Game) update() (gameover bool) {
         unit.Update()
     }
     for _, unit := range game.Units {
-        unit.Move()
+        unit.ResolveCollision()
     }
     gameover = game.Over()
     if gameover {

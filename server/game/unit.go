@@ -153,6 +153,37 @@ func (u *Unit) Seek(position Vector2) Vector2 {
 	return desired
 }
 
+/*
+const MaxSight = 50.0
+func (me *Unit) Avoid() Vector2 {
+    for _, obstacle := range me.Game.Units {
+        if obstacle == me || me.Layer != obstacle.Layer {
+            continue
+        }
+        center := obstacle.Position.ToLocalCoordinate(me)
+        top := center.Y + obstacle.Radius
+        bottom := center.Y - obstacle.Radius
+    }
+    return Vector2{0, 0}
+}
+*/
+
+func (me *Unit) ResolveCollision() {
+    for _, obstacle := range me.Game.Units {
+        if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
+            continue
+        }
+        myPosition := me.Position.Plus(me.Velocity)
+        obstaclePosition := obstacle.Position.Plus(obstacle.Velocity)
+        distance := myPosition.Minus(obstaclePosition).Length()
+        intersection := obstacle.Radius + me.Radius - distance
+        if intersection > 0  {
+            offset := myPosition.Minus(obstaclePosition).Normalize().Multiply(intersection)
+            me.Position = me.Position.Plus(offset)
+        }
+    }
+}
+
 func (u *Unit) Separate() Vector2 {
     sum := Vector2{0, 0}
 	steer := 0.0
@@ -364,11 +395,13 @@ func (u *Unit) Update() {
     u.ClearEvents()
     switch u.Type {
     case Troop:
+        /*
         separate := u.Separate()
         if separate.Length() > 0 {
             u.Colliding = true
             u.AddAcceleration(separate)
         }
+        */
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
@@ -393,7 +426,8 @@ func (u *Unit) Update() {
 						path := u.FindPath(u.Target)
 						position = u.NextCornerInPath(path)
 					}
-					u.AddAcceleration(u.Seek(position))
+					//u.AddAcceleration(u.Seek(position))
+                    u.Position = u.Position.Plus(position.Minus(u.Position).Truncate(u.Speed))
                 }
             }
         }
