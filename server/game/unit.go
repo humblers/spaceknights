@@ -169,16 +169,17 @@ func (me *Unit) Avoid() Vector2 {
 */
 
 func (me *Unit) ResolveCollision() {
+    if me.Type != Troop {
+        return
+    }
     for _, obstacle := range me.Game.Units {
         if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
             continue
         }
-        myPosition := me.Position.Plus(me.Velocity)
-        obstaclePosition := obstacle.Position.Plus(obstacle.Velocity)
-        distance := myPosition.Minus(obstaclePosition).Length()
+        distance := me.Position.Minus(obstacle.Position).Length()
         intersection := obstacle.Radius + me.Radius - distance
         if intersection > 0  {
-            offset := myPosition.Minus(obstaclePosition).Normalize().Multiply(intersection)
+            offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
             me.Position = me.Position.Plus(offset)
         }
     }
@@ -292,7 +293,7 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
-    u.Velocity = Vector2{0, 0}
+    //u.Velocity = Vector2{0, 0}
     u.Heading = u.Target.Position.Minus(u.Position).Normalize()
 }
 
@@ -421,13 +422,14 @@ func (u *Unit) Update() {
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
-					position := u.Target.Position
+					destination := u.Target.Position
 					if u.Layer == Ground {
 						path := u.FindPath(u.Target)
-						position = u.NextCornerInPath(path)
+						destination = u.NextCornerInPath(path)
 					}
 					//u.AddAcceleration(u.Seek(position))
-                    u.Position = u.Position.Plus(position.Minus(u.Position).Truncate(u.Speed))
+                    u.Heading = destination.Minus(u.Position)
+                    u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
                 }
             }
         }
