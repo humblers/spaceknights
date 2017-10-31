@@ -236,7 +236,7 @@ func (u *Unit) HandleAttack() {
                     if u.Target == unit {
                         continue
                     }
-                    if u.CanTarget(unit) && u.DamageRadius >= u.Target.DistanceTo(unit) {
+                    if u.CanTarget(unit) && u.DamageRadius >= u.Target.DistanceTo(unit) - unit.Radius {
                         unit.TakeDamage(u.Damage)
                     }
                 }
