@@ -11,7 +11,6 @@ export var damage_radius = 0
 var starting_position
 var target_position
 var lifetime
-var waypoints_num
 
 var deploy_offset = rand_range(0, 0.4)
 var anim = Animation.new()
@@ -19,12 +18,10 @@ var player = AnimationPlayer.new()
 
 onready var missiles = get_node("Missiles")
 
-signal explode(type, name, position)
-
 func _ready():
-	set_missile_animation_player()
-	set_missile_animation_track()
-	play_missile_animation()
+	set_animation_player()
+	set_animation_track()
+	play()
 
 func initialize(target, lifetime, position):
 	self.lifetime = lifetime
@@ -32,21 +29,26 @@ func initialize(target, lifetime, position):
 	target_position = target.get_pos()
 	target.connect("position_changed", self, "update_target_position")
 
-func set_missile_animation_player():
+func set_animation_player():
 	player.add_animation(ANIM_NAME, anim)
 	player.set_current_animation(ANIM_NAME)
 	anim.set_length(lifetime)
 	anim.set_step(1.0 / global.SERVER_UPDATES_PER_SECOND)
 	add_child(player)
 
-func play_missile_animation():
+func play():
 	player.play(ANIM_NAME)
 	yield(player, "finished")
+	var explosion
 	for missile in missiles.get_children():
-		emit_signal("explode", "missile", name, missile.get_pos())
+		explosion = load("res://effect/explosion/missile.tscn").instance()
+		explosion.initialize(name, missile.get_pos())
+		add_child(explosion)
+		missile.queue_free()
+	yield(explosion, "finished")
 	queue_free()
 
-func set_missile_animation_track():
+func set_animation_track():
 	var direction = (target_position - starting_position).normalized()
 	var children = missiles.get_children()
 	for i in range(children.size()):
@@ -112,9 +114,9 @@ func set_missile_animation_track():
 					rad2deg(rotation))
 			prev_rot = rotation
 
+		# set missile visible delay
 		var visible_track = anim.add_track(Animation.TYPE_VALUE)
 		anim.track_set_path(visible_track, "%s:visibility/visible" % path)
-		anim.track_insert_key(visible_track, 0, false)
 		anim.track_insert_key(visible_track, delay, true)
 
 func update_target_position(position):
