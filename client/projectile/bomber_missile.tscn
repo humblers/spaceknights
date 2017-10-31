@@ -1,13 +1,8 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://projectile/bomber_missile.gd" type="Script" id=1]
+[ext_resource path="res://projectile/missile.gd" type="Script" id=1]
 [ext_resource path="res://projectile/bomber_missile_01.png" type="Texture" id=2]
 [ext_resource path="res://projectile/bomber_missile_02.png" type="Texture" id=3]
-[ext_resource path="res://projectile/explosion_01.png" type="Texture" id=4]
-[ext_resource path="res://projectile/explosion_02.png" type="Texture" id=5]
-[ext_resource path="res://projectile/explosion_03.png" type="Texture" id=6]
-[ext_resource path="res://projectile/explosion_04.png" type="Texture" id=7]
-[ext_resource path="res://projectile/explosion_05.png" type="Texture" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -18,18 +13,13 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
-
-animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": false,
-"name": "default",
-"speed": 5.0
-} ]
-
 [node name="BomberMissile" type="Node"]
 
 script/script = ExtResource( 1 )
+name = "bomber"
+missile_spread = 30
+spread_divider_on_way1 = 5
+spread_divider_on_way2 = 3
 damage_radius = 25
 
 [node name="Missiles" type="Node" parent="."]
@@ -38,32 +28,26 @@ damage_radius = 25
 
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 
 [node name="Missile1" type="AnimatedSprite" parent="Missiles"]
 
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 
 [node name="Missile2" type="AnimatedSprite" parent="Missiles"]
 
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 
 [node name="Missile3" type="AnimatedSprite" parent="Missiles"]
 
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
-
-[node name="Explosion" type="AnimatedSprite" parent="."]
-
-visibility/visible = false
-frames = SubResource( 2 )
-animation = "default"
 
 

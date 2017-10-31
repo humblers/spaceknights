@@ -27,9 +27,7 @@ func delete_dead_units(units):
 		if node.is_in_group(UNIT_LAUNCHING):
 			continue
 		if not units.has(node.get_name()):
-			var effect = load("res://effect/explosion.tscn").instance()
-			effect.initialize(node.get_pos(), global.dict_get(global.UNITS[node.name], "size", "small"))
-			add_child(effect)
+			play_explosion_effect("unit", global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			node.queue_free()
 
 func create_new_units(units):
@@ -76,4 +74,10 @@ func create_projectile(type, target_id, lifetime, initial_position):
 	var node = load("res://projectile/" + type + ".tscn").instance()
 	var target = get_node("Units").get_node(str(target_id))
 	node.initialize(target, lifetime, initial_position)
+	node.connect("explode", self, "play_explosion_effect")
 	get_node("Projectiles").add_child(node)
+
+func play_explosion_effect(type, name, position):
+	var effect = load("res://effect/explosion/%s.tscn" % type).instance()
+	effect.initialize(name, position)
+	add_child(effect)
