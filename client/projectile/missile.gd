@@ -90,7 +90,7 @@ func set_animation_track():
 		for j in range(waypoints.size()):
 			var waypoint = waypoints[j]
 			anim.track_insert_key(pos_track,
-					min(lifetime, lifetime / waypoints.size() * j + delay),
+					min(lifetime, lifetime / (waypoints.size() - 1) * j + delay),
 					waypoint)
 			if prev_point == null:
 				prev_point = waypoint
@@ -110,7 +110,7 @@ func set_animation_track():
 				else:
 					rotation -= PI * 2
 			anim.track_insert_key(rot_track,
-					min(lifetime, lifetime / rotations.size() * j + delay),
+					min(lifetime, lifetime / (rotations.size() - 1) * j + delay),
 					rad2deg(rotation))
 			prev_rot = rotation
 
