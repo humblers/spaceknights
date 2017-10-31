@@ -4,7 +4,6 @@ const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
 func _ready():
-	randomize()
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
 

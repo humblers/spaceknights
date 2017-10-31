@@ -161,6 +161,9 @@ const UNITS = {
 	},
 }
 
+func _ready():
+	randomize()
+
 static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
 		return dict[key]
