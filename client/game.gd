@@ -3,7 +3,6 @@ extends Node
 const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
-
 func _ready():
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
@@ -26,8 +25,8 @@ func delete_dead_units(units):
 		if node.is_in_group(UNIT_LAUNCHING):
 			continue
 		if not units.has(node.get_name()):
-			var effect = load("res://effect/explosion.tscn").instance()
-			effect.initialize(node.get_pos(), global.dict_get(global.UNITS[node.name], "size", "small"))
+			var effect = load("res://effect/explosion/unit.tscn").instance()
+			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
 			node.queue_free()
 
@@ -74,7 +73,5 @@ func create_projectile(type, target_id, lifetime, initial_position):
 	assert(get_node("Units").has_node(str(target_id)))
 	var node = load("res://projectile/" + type + ".tscn").instance()
 	var target = get_node("Units").get_node(str(target_id))
-	node.initialize(target, lifetime)
-	node.set_pos(initial_position)
-	node.set_z(global.LAYERS.Projectile)
+	node.initialize(target, lifetime, initial_position)
 	get_node("Projectiles").add_child(node)

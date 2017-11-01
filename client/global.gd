@@ -44,9 +44,12 @@ const UNITS = {
 	},
 	"bomber" : {
 		"layer" : "Ground",
+		"prehitdelay" : 10,
 		"radius" : 11,
 		"sight" : 100,
-		"range" : 100,
+		"range" : 90,
+		"damageradius": 25,
+		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},
 	"bombtower" : {
@@ -157,6 +160,9 @@ const UNITS = {
 		"size" : "medium",
 	},
 }
+
+func _ready():
+	randomize()
 
 static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
