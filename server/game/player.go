@@ -47,6 +47,9 @@ func (player *Player) Move(x float64) {
 }
 
 func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
+    if player.Knight.Hp <= 0 {
+        return
+    }
     card := player.Hand[index]
     next := player.Pending[0]
 

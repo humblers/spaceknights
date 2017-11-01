@@ -26,6 +26,7 @@ const (
     Building Type = "Building"
     Base Type = "Base"
     Knight Type = "Knight"
+    Bullet Type = "bullet"
 )
 
 func (layers Layers) Contains(layer Layer) bool {
@@ -158,7 +159,7 @@ func (u *Unit) Separate() Vector2 {
 				} else {
 					steer = -1
 				}
-				if (u.Speed == unit.Speed && u.Team != unit.Team) {
+				if u.Speed == unit.Speed && u.Team != unit.Team {
 					unitSteer := 0.0
 					unitSideDot := sum.Multiply(-1).Dot(unit.Side())
 					if unitSideDot > 0 {
@@ -312,6 +313,13 @@ func (u *Unit) HandleSpawn() {
         case "speargoblin":
             pos := getSpawnPos(u, 9)
             u.Game.AddUnit(NewSpeargoblin(0, u.Team, pos, Vector2{X:0, Y:0}))
+        case "knightbullet":
+            bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
+            bullet.Velocity = Vector2{0, bullet.Speed}
+            if bullet.Team == Home {
+                bullet.Velocity.Y *= -1
+            }
+            u.Game.AddUnit(bullet)
         default:
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
@@ -373,9 +381,45 @@ func (u *Unit) Update() {
             }
         }
         u.HandleSpawn()
-    case Base, Knight:
+    case Knight:
+        u.HandleSpawn()
+    case Bullet:
+        u.Move()
+        if u.IsOutOfScreen() {
+            delete(u.Game.Units, u.Id)
+        } else {
+            players := u.Game.Home
+            if u.Team == Home {
+                players = u.Game.Visitor
+            }
+            for _, player := range players {
+                knight := player.Knight
+                if knight.Hp > 0 && u.WithinRange(knight) {
+                    knight.TakeDamage(u.Damage)
+                    delete(u.Game.Units, u.Id)
+                    break
+                }
+            }
+        }
+    case Base:
         return
     }
+}
+
+func (u *Unit) IsOutOfScreen() bool {
+    if u.Position.X < 0 - u.Radius{
+        return true
+    }
+    if u.Position.X > MapWidth + u.Radius {
+        return true
+    }
+    if u.Position.Y < MapHeight - ScreenHeight {
+        return true
+    }
+    if u.Position.Y > ScreenHeight {
+        return true
+    }
+    return false
 }
 
 func (u *Unit) Location() (area *Area) {

@@ -59,11 +59,11 @@ func main() {
                         knightName: "shuriken",
                         deck: Cards{
                             "minipekka",
-                            "giant",
+                            "bomber",
                             "minipekka",
-                            "giant",
+                            "bomber",
                             "minipekka",
-                            "giant",
+                            "bomber",
                         },
                     })
                     game.Join(Visitor, User{
@@ -71,8 +71,8 @@ func main() {
                         knightName: "space_z",
                         deck: Cards{
                             "goblinhut",
-                            "minipekka",
-                            "giant",
+                            "skeletons",
+                            "speargoblins",
                             "minipekka",
                             "giant",
                             "minipekka",

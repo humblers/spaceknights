@@ -61,6 +61,8 @@ func update_changes(unit):
 	update()
 
 func set_hp(unit):
+	if unit.Hp <= 0:
+		return
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp

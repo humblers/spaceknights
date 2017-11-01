@@ -17,6 +17,7 @@ const (
     MapWidth = 400
     MapHeight = 560
     TileHeight = 20
+    ScreenHeight = 640
 )
 
 type Area struct {
