@@ -220,6 +220,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewBomber(card.IdStarting, card.Team, card.Position))
     case "cannon":
         g.AddUnit(NewCannon(card.IdStarting, card.Team, card.Position))
+    case "darkprince":
+        g.AddUnit(NewDarkprince(card.IdStarting, card.Team, card.Position))
     case "giant":
         g.AddUnit(NewGiant(card.IdStarting, card.Team, card.Position))
     case "goblinhut":
@@ -232,6 +234,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewMusketeer(card.IdStarting, card.Team, card.Position))
     case "pekka":
         g.AddUnit(NewPekka(card.IdStarting, card.Team, card.Position))
+    case "prince":
+        g.AddUnit(NewPrince(card.IdStarting, card.Team, card.Position))
     case "skeletons":
         g.AddUnit(NewSkeleton(card.IdStarting, card.Team, card.Position, Vector2{0, 1}))
         g.AddUnit(NewSkeleton(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
@@ -240,6 +244,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewSpeargoblin(card.IdStarting, card.Team, card.Position, Vector2{0, 1}))
         g.AddUnit(NewSpeargoblin(card.IdStarting + 1, card.Team, card.Position, Vector2{1, -1}))
         g.AddUnit(NewSpeargoblin(card.IdStarting + 2, card.Team, card.Position, Vector2{-1, -1}))
+    case "tombstone":
+        g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
     default:

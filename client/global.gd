@@ -74,6 +74,13 @@ const UNITS = {
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
+	"darkprince" : {
+		"layer" : "Ground",
+		"radius" : 13,
+		"sight" : 100,
+		"range" : 15,
+		"size" : "medium",
+	},
 	"giant" : {
 		"layer" : "Ground",
 		"radius" : 28,
@@ -152,6 +159,13 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
+	"prince" : {
+		"layer" : "Ground",
+		"radius" : 14,
+		"sight" : 100,
+		"range" : 15,
+		"size" : "medium",
+	},
 	"skeleton" : {
 		"layer" : "Ground",
 		"radius" : 6,
@@ -167,6 +181,12 @@ const UNITS = {
 		"range" : 100,
 		"projectile" : "bullet",
 		"size" : "small",
+	},
+	"tombstone" : {
+		"layer" : "Ground",
+		"radius" : 17,
+		"lifetimecost" : 1,
+		"size" : "large",
 	},
 	"valkyrie" : {
 		"layer" : "Ground",

@@ -397,6 +397,10 @@ func (u *Unit) HandleSpawn() {
             unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
             unit.Position = getSpawnPos(unit.Radius)
             u.Game.AddUnit(unit)
+        case "skeleton":
+            unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+            unit.Position = getSpawnPos(unit.Radius)
+            u.Game.AddUnit(unit)
         case "knightbullet":
             if u.SpawnStack++; u.SpawnStack == 5 {
                 u.SpawnStack = 0
