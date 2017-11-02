@@ -37,6 +37,16 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
+func (player *Player) RepairKnight(frame int) (knight *Unit){
+    if player.Knight.Hp <= 0 && player.Knight.RepairFrame == frame {
+        knight = player.Knight
+        knight.Hp = 100
+        knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
+        knight.SpawnFrame = frame + knight.SpawnSpeed
+    }
+    return
+}
+
 func (player *Player) Move(x float64) {
     switch player.Team {
     case Home:
@@ -47,6 +57,9 @@ func (player *Player) Move(x float64) {
 }
 
 func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
+    if player.Knight.Hp <= 0 {
+        return
+    }
     card := player.Hand[index]
     next := player.Pending[0]
 

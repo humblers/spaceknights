@@ -85,6 +85,9 @@ const UNITS = {
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
+	"knightbullet" : {
+		"layer" : "Air",
+	},
 	"shuriken" : {
 		"layer" : "Air",
 		"radius" : 20,

@@ -3,8 +3,6 @@ package main
 import "log"
 
 func NewKnight(t Team, name string) *Unit {
-    p := Vector2{}
-    p.X = MapWidth / 2; p.Y = TileHeight * 1.5
     var radius float64
     switch name {
     case "shuriken":
@@ -21,6 +19,10 @@ func NewKnight(t Team, name string) *Unit {
         Layer:    Air,
         Hp:       100,
         Radius:   radius,
-        Position: p,
+        SpawnThing: "knightbullet",
+        SpawnSpeed: 15,
+        RepairDelay: 30,
+        SpawnFrame: 15,
+        Position: Vector2{MapWidth / 2, TileHeight * 1.5},
     }
 }
