@@ -4,6 +4,7 @@ import (
     "fmt"
     "time"
     "strings"
+    "sort"
 
     "github.com/golang/glog"
 )
@@ -177,6 +178,9 @@ func (g *Game) AddUnit(unit *Unit) {
     unit.Game = g
     unit.State = Idle
     g.Units = append(g.Units, unit)
+    //glog.Infof("before sort : %v", g.Units)
+    sort.SliceStable(g.Units, func(i, j int) bool { return g.Units[i].Mass > g.Units[j].Mass })
+    //glog.Infof("after sort : %v", g.Units)
 }
 
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "github.com/golang/glog"
     "encoding/json"
 )
@@ -86,6 +87,10 @@ type Unit struct {
     // event
     AttackStarted bool
     Colliding bool `json:"-"`
+}
+
+func (u *Unit) String() string {
+    return fmt.Sprintf("%v", u.Name)
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
