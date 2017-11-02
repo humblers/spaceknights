@@ -19,9 +19,10 @@ func NewKnight(t Team, name string) *Unit {
         Layer:    Air,
         Hp:       100,
         Radius:   radius,
-        SpawnFrame: 15,
         SpawnThing: "knightbullet",
         SpawnSpeed: 15,
+        RepairDelay: 30,
+        SpawnFrame: 15,
         Position: Vector2{MapWidth / 2, TileHeight * 1.5},
     }
 }

@@ -276,9 +276,17 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     for _, player := range game.Home {
         player.IncreaseEnergy(1)
+        knight := player.RepairKnight(game.Frame)
+        if knight != nil {
+            game.AddUnit(knight)
+        }
     }
     for _, player := range game.Visitor {
         player.IncreaseEnergy(1)
+        knight := player.RepairKnight(game.Frame)
+        if knight != nil {
+            game.AddUnit(knight)
+        }
     }
     // Filtering without allocating
     // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating

@@ -68,6 +68,7 @@ type Unit struct {
     LifetimeCost int     `json:"-"`
     SpawnThing   string  `json:"-"`
     SpawnSpeed   int     `json:"-"`
+    RepairDelay  int     `json:"-"`
 
     // variant
     Id           int     `json:"-"`
@@ -80,6 +81,7 @@ type Unit struct {
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
+    RepairFrame  int     `json:"-"`
 
     // event
     AttackStarted bool
@@ -114,6 +116,9 @@ func (u *Unit) FlipY() {
 func (u *Unit) TakeDamage(d int) {
     if u.Hp -= d; u.Hp <= 0 {
         delete(u.Game.Units, u.Id)
+        if u.Type == Knight {
+            u.RepairFrame = u.Game.Frame + u.RepairDelay
+        }
     }
 }
 
