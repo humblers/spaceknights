@@ -71,7 +71,7 @@ type Unit struct {
     RepairDelay  int     `json:"-"`
 
     // variant
-    Id           int     `json:"-"`
+    Id           int
     Game         *Game   `json:"-"`
     State        State
     Position     Vector2
@@ -114,12 +114,23 @@ func (u *Unit) FlipY() {
     u.Position.Y = MapHeight - u.Position.Y
 }
 
+type Units []*Unit
+func (s Units) Filter(f func(*Unit) bool) {
+    filtered := s[:0]
+    for _, x := range s {
+        if f(x) {
+            filtered = append(filtered, x)
+        }
+    }
+    s = filtered
+}
+
 func (u *Unit) TakeDamage(d int) {
     if u.Hp <= 0 {
         return
     }
     if u.Hp -= d; u.Hp <= 0 {
-        delete(u.Game.Units, u.Id)
+        u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         switch u.Type {
         case Troop, Building:
             if !u.IsCore() {
@@ -169,18 +180,22 @@ func (me *Unit) Avoid() Vector2 {
 */
 
 func (me *Unit) ResolveCollision() {
-    if me.Type != Troop {
-        return
-    }
-    for _, obstacle := range me.Game.Units {
-        if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
-            continue
-        }
-        distance := me.Position.Minus(obstacle.Position).Length()
-        intersection := obstacle.Radius + me.Radius - distance
-        if intersection > 0  {
-            offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
-            me.Position = me.Position.Plus(offset)
+    mostHeavyObstacleMass := 0.0
+    for i := 0; i < 1; i++ {
+        for _, obstacle := range me.Game.Units {
+            if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass || obstacle.Mass < mostHeavyObstacleMass {
+                continue
+            }
+            distance := me.Position.Minus(obstacle.Position).Length()
+            intersection := obstacle.Radius + me.Radius - distance
+            if intersection > 0  {
+               // if i > 3 {
+               //     glog.Infof("%v having difficulty to resolve collision %v", me.Name, obstacle.Name)
+               // }
+                offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
+                me.Position = me.Position.Plus(offset)
+                mostHeavyObstacleMass = obstacle.Mass
+            }
         }
     }
 }
@@ -433,6 +448,7 @@ func (u *Unit) Update() {
                 }
             }
         }
+        u.ResolveCollision()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {

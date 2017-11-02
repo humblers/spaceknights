@@ -74,7 +74,7 @@ type Game struct {
     Frame        int                                        // valid only if > 0
     Home         map[string]*Player     `json:",omitempty"`
     Visitor      map[string]*Player     `json:",omitempty"`
-    Units        map[int]*Unit
+    Units        Units 
     WaitingCards []*WaitingCard         `json:",omitempty"`
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
@@ -85,7 +85,6 @@ func NewGame() *Game {
         Frame:        1,
         Home:         make(map[string]*Player),
         Visitor:      make(map[string]*Player),
-        Units:        make(map[int]*Unit),
         UnitCounter:  1,
         Motherships:  make(map[Team][]*Unit),
     }
@@ -177,7 +176,7 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Game = g
     unit.State = Idle
-    g.Units[unit.Id] = unit
+    g.Units = append(g.Units, unit)
 }
 
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
@@ -301,9 +300,6 @@ func (game *Game) update() (gameover bool) {
     game.WaitingCards = filtered
     for _, unit := range game.Units {
         unit.Update()
-    }
-    for _, unit := range game.Units {
-        unit.ResolveCollision()
     }
     gameover = game.Over()
     if gameover {

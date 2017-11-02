@@ -20,37 +20,41 @@ func opening_finished():
 	get_node("Units").show()
 	get_node("OpeningNodes").hide()
 
+func has_id(units, id):
+	for unit in units:
+		if str(unit.Id) == id:
+			return true
+	return false
+
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if node.is_in_group(UNIT_LAUNCHING):
 			continue
-		if not units.has(node.get_name()):
+		if not has_id(units, node.get_name()):
 			var effect = load("res://effect/explosion/unit.tscn").instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
 			node.queue_free()
 
 func create_new_units(units):
-	for id in units:
-		if not get_node("Units").has_node(id):
-			var unit = units[id]
-			create_unit_node(id, unit)
+	for unit in units:
+		if not get_node("Units").has_node(str(unit.Id)):
+			create_unit_node(unit)
 
 func update_units(units):
-	for id in units:
-		var node = get_node("Units").get_node(id)
+	for unit in units:
+		var node = get_node("Units").get_node(str(unit.Id))
 		if node.is_in_group(UNIT_LAUNCHING):
 			node.remove_from_group(UNIT_LAUNCHING)
-		var unit = units[id]
 		node.update_changes(unit)
 		if unit.Team == global.team and unit.Name in ["shuriken", "space_z"]:
 			get_node("UI/CardGuide").set_starting_x(node.get_pos().x)
 
-func create_unit_node(id, unit, group=UNIT_DEFAULT):
+func create_unit_node(unit, group=UNIT_DEFAULT):
 	var name = unit.Name
 	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
 	node.initialize(unit)
-	node.set_name(str(id))
+	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
 	get_node("Units").add_child(node)
 	if group == UNIT_LAUNCHING:
@@ -63,7 +67,8 @@ func handle_waiting_cards(frame, cards):
 			var script = preload("res://card.gd").new()
 			var id = card.IdStarting
 			for unit in script.get_structures_of_unit(card):
-				create_unit_node(id, unit, UNIT_LAUNCHING)
+				unit.Id = id
+				create_unit_node(unit, UNIT_LAUNCHING)
 				id += 1
 
 func update_ui(game):
