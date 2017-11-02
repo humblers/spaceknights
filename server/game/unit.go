@@ -114,9 +114,17 @@ func (u *Unit) FlipY() {
 }
 
 func (u *Unit) TakeDamage(d int) {
+    if u.Hp <= 0 {
+        return
+    }
     if u.Hp -= d; u.Hp <= 0 {
         delete(u.Game.Units, u.Id)
-        if u.Type == Knight {
+        switch u.Type {
+        case Troop, Building:
+            if !u.IsCore() {
+                u.ScatterBullets()
+            }
+        case Knight:
             u.RepairFrame = u.Game.Frame + u.RepairDelay
         }
     }
@@ -294,30 +302,32 @@ func (u *Unit) HandleSpawn() {
     }
 
     if u.SpawnFrame == 0 || u.SpawnFrame == u.Game.Frame {
-        getSpawnPos := func(building *Unit, spawnRadius float64) Vector2 {
+        getSpawnPos := func(radius float64) Vector2 {
             pos := u.Position
-            if building.Team == Home {
+            if u.Team == Home {
                 pos.Y = MapHeight - pos.Y
             }
-            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + spawnRadius}
+            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + radius}
             if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
                 return front
             }
             if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
-                pos.X -= u.Radius + spawnRadius
+                pos.X -= u.Radius + radius
             } else {
-                pos.X += u.Radius + spawnRadius
+                pos.X += u.Radius + radius
             }
             return pos
         }
         switch u.SpawnThing {
         case "barbarians":
-            pos := getSpawnPos(u, 11)
-            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
-            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{X:0, Y:0}))
+            unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+            pos := getSpawnPos(unit.Radius)
+            u.Game.AddUnit(unit)
+            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{0, 0}))
         case "speargoblin":
-            pos := getSpawnPos(u, 9)
-            u.Game.AddUnit(NewSpeargoblin(0, u.Team, pos, Vector2{X:0, Y:0}))
+            unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+            unit.Position = getSpawnPos(unit.Radius)
+            u.Game.AddUnit(unit)
         case "knightbullet":
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
             bullet.Velocity = Vector2{0, bullet.Speed}
@@ -329,6 +339,19 @@ func (u *Unit) HandleSpawn() {
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
         u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
+    }
+}
+
+var ScatterDirections = []Vector2{Vector2{-3, 5}.Normalize(), Vector2{0, 1}, Vector2{3, 5}.Normalize()}
+func (u *Unit) ScatterBullets() {
+    for _, direction := range ScatterDirections {
+        bullet := NewScatteredBullet(u.Team, u.Position)
+        bullet.Velocity = direction.Multiply(bullet.Speed)
+        if bullet.Team == Home {
+            bullet.FlipY()
+            bullet.Velocity.Y *= -1
+        }
+        u.Game.AddUnit(bullet)
     }
 }
 

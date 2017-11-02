@@ -1,6 +1,6 @@
 extends Node
 
-const UPDATES_PER_SECOND = 60
+const UPDATES_PER_SECOND = 30
 
 var kcp = Kcp.new()
 var timer = Timer.new()
