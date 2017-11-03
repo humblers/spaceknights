@@ -29,7 +29,7 @@ func (a *LoginRequest) Bind(r *http.Request) error {
 type LoginResponse struct {
     ID string `json:"id"`
     Token string `json:"token"`
-    Match **MatchResponse `json:"match"`
+    //Match **MatchResponse `json:"match,omitempty"`
 }
 
 func NewLoginResponse(id string, token string) *LoginResponse {
@@ -50,6 +50,9 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
         return
     }
     id := data.ID
+    if id == "" {
+        id = s_id
+    }
     if s_id != "" && s_id != id {
         render.Render(w, r, ErrInvalidRequest(errors.New("session id mismatching")))
         return
@@ -61,9 +64,9 @@ func DevLogin(w http.ResponseWriter, r *http.Request) {
     }
 
     resp := NewLoginResponse(id, token)
-    match, exist := store.Get(id)
-    if exist {
-        resp.Match = match.(**MatchResponse)
-    }
+    //match, exist := store.Get(id)
+    //if exist {
+    //    resp.Match = match.(**MatchResponse)
+    //}
     render.Render(w, r, resp)
 }

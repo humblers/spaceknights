@@ -18,6 +18,7 @@ var reserved_signal
 
 signal login_response(success, ret)
 signal match_response(success, ret)
+signal logout_response(success, ret)
 
 func _ready():
 	if not validate_conn() and not connect_to_lobby():
@@ -57,7 +58,7 @@ func _poll():
 			var bl = http.get_response_body_length()
 			print("Response Length: ",bl)
 
-		if http.get_status()==HTTPClient.STATUS_BODY:
+		if http.get_status() == HTTPClient.STATUS_BODY:
 			http.poll()
 		var chunk = http.read_response_body_chunk()
 		if (chunk.size()==0):
@@ -100,7 +101,8 @@ func connect_to_lobby():
 	var err = http.connect(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
 		return false
-	while( http.get_status()==HTTPClient.STATUS_CONNECTING or http.get_status()==HTTPClient.STATUS_RESOLVING):
+	while( http.get_status() == HTTPClient.STATUS_CONNECTING 
+			or http.get_status() == HTTPClient.STATUS_RESOLVING):
 		http.poll()
 		print("Connecting..")
 		OS.delay_msec(500)

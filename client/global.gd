@@ -1,6 +1,9 @@
 extends Node
 
+var config = ConfigFile.new()
+
 var id
+
 var team
 
 const CARD_WAIT_FRAME = 5 - 1 # server send snapshot after 1 frame
@@ -169,6 +172,16 @@ const UNITS = {
 
 func _ready():
 	randomize()
+	load_config()
+
+func load_config():
+	var err = config.load("user://settings.cfg")
+	if err != OK:
+		print("can't find settings.cfg. try create new one")
+		save_config()
+
+func save_config():
+	assert(config.save("user://settings.cfg") == OK)
 
 static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
