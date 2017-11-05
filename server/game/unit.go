@@ -386,11 +386,11 @@ func (u *Unit) HandleSpawn() {
             u.Game.AddUnit(unit)
         case "knightbullet":
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
-            bullet.Velocity = Vector2{0, bullet.Speed}
-            if bullet.Team == Home {
-                bullet.Velocity.Y *= -1
-            }
             u.Game.AddUnit(bullet)
+            bullet.Heading = Vector2{0, bullet.Speed}
+            if bullet.Team == Home {
+                bullet.Heading.Y *= -1
+            }
         default:
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
@@ -402,12 +402,12 @@ var ScatterDirections = []Vector2{Vector2{-3, 5}.Normalize(), Vector2{0, 1}, Vec
 func (u *Unit) ScatterBullets() {
     for _, direction := range ScatterDirections {
         bullet := NewScatteredBullet(u.Team, u.Position)
-        bullet.Velocity = direction.Multiply(bullet.Speed)
+        u.Game.AddUnit(bullet)
+        bullet.Heading = direction.Multiply(bullet.Speed)
         if bullet.Team == Home {
             bullet.FlipY()
-            bullet.Velocity.Y *= -1
+            bullet.Heading.Y *= -1
         }
-        u.Game.AddUnit(bullet)
     }
 }
 
@@ -479,9 +479,9 @@ func (u *Unit) Update() {
     case Knight:
         u.HandleSpawn()
     case Bullet:
-        u.Move()
+        u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() {
-            delete(u.Game.Units, u.Id)
+            u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
             players := u.Game.Home
             if u.Team == Home {
@@ -491,7 +491,7 @@ func (u *Unit) Update() {
                 knight := player.Knight
                 if knight.Hp > 0 && u.WithinRange(knight) {
                     knight.TakeDamage(u.Damage)
-                    delete(u.Game.Units, u.Id)
+                    u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
                     break
                 }
             }
