@@ -186,8 +186,8 @@ func (me *Unit) Avoid() Vector2 {
 
 func (me *Unit) ResolveCollision() {
     for i := 0; i < 1; i++ {
-        for i := len(me.Game.Units) - 1; i >= 0; i-- {
-            obstacle := me.Game.Units[i]
+        for j := len(me.Game.Units) - 1; j >= 0; j-- {
+            obstacle := me.Game.Units[j]
             if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
                 continue
             }
