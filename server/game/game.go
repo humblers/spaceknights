@@ -4,6 +4,7 @@ import (
     "fmt"
     "time"
     "strings"
+    "sort"
 
     "github.com/golang/glog"
 )
@@ -51,6 +52,11 @@ type Portal struct {
     Left Vector2
     Right Vector2
 }
+
+func (p *Portal) String() string {
+    return fmt.Sprintf("(%v, %v)", p.Left, p.Right)
+}
+
 var (
     TopToLeftHole = &Portal{LeftHoleTR, LeftHoleTL}
     TopToRightHole = &Portal{RightHoleTR, RightHoleTL}
@@ -74,7 +80,7 @@ type Game struct {
     Frame        int                                        // valid only if > 0
     Home         map[string]*Player     `json:",omitempty"`
     Visitor      map[string]*Player     `json:",omitempty"`
-    Units        map[int]*Unit
+    Units        Units 
     WaitingCards []*WaitingCard         `json:",omitempty"`
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
@@ -85,7 +91,6 @@ func NewGame() *Game {
         Frame:        1,
         Home:         make(map[string]*Player),
         Visitor:      make(map[string]*Player),
-        Units:        make(map[int]*Unit),
         UnitCounter:  1,
         Motherships:  make(map[Team][]*Unit),
     }
@@ -177,7 +182,10 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Game = g
     unit.State = Idle
-    g.Units[unit.Id] = unit
+    g.Units = append(g.Units, unit)
+    //glog.Infof("before sort : %v", g.Units)
+    sort.SliceStable(g.Units, func(i, j int) bool { return g.Units[i].Mass > g.Units[j].Mass })
+    //glog.Infof("after sort : %v", g.Units)
 }
 
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
@@ -301,9 +309,6 @@ func (game *Game) update() (gameover bool) {
     game.WaitingCards = filtered
     for _, unit := range game.Units {
         unit.Update()
-    }
-    for _, unit := range game.Units {
-        unit.Move()
     }
     gameover = game.Over()
     if gameover {

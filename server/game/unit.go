@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "github.com/golang/glog"
     "encoding/json"
 )
@@ -71,7 +72,7 @@ type Unit struct {
     RepairDelay  int     `json:"-"`
 
     // variant
-    Id           int     `json:"-"`
+    Id           int
     Game         *Game   `json:"-"`
     State        State
     Position     Vector2
@@ -85,6 +86,11 @@ type Unit struct {
 
     // event
     AttackStarted bool
+    Colliding bool `json:"-"`
+}
+
+func (u *Unit) String() string {
+    return fmt.Sprintf("%v", u.Name)
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -113,12 +119,23 @@ func (u *Unit) FlipY() {
     u.Position.Y = MapHeight - u.Position.Y
 }
 
+type Units []*Unit
+func (s Units) Filter(f func(*Unit) bool) {
+    filtered := s[:0]
+    for _, x := range s {
+        if f(x) {
+            filtered = append(filtered, x)
+        }
+    }
+    s = filtered
+}
+
 func (u *Unit) TakeDamage(d int) {
     if u.Hp <= 0 {
         return
     }
     if u.Hp -= d; u.Hp <= 0 {
-        delete(u.Game.Units, u.Id)
+        u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         switch u.Type {
         case Troop, Building:
             if !u.IsCore() {
@@ -150,6 +167,41 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
 func (u *Unit) Seek(position Vector2) Vector2 {
 	desired := position.Minus(u.Position).Normalize().Multiply(1)
 	return desired
+}
+
+/*
+const MaxSight = 50.0
+func (me *Unit) Avoid() Vector2 {
+    for _, obstacle := range me.Game.Units {
+        if obstacle == me || me.Layer != obstacle.Layer {
+            continue
+        }
+        center := obstacle.Position.ToLocalCoordinate(me)
+        top := center.Y + obstacle.Radius
+        bottom := center.Y - obstacle.Radius
+    }
+    return Vector2{0, 0}
+}
+*/
+
+func (me *Unit) ResolveCollision() {
+    for i := 0; i < 1; i++ {
+        for j := len(me.Game.Units) - 1; j >= 0; j-- {
+            obstacle := me.Game.Units[j]
+            if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
+                continue
+            }
+            distance := me.Position.Minus(obstacle.Position).Length()
+            intersection := obstacle.Radius + me.Radius - distance
+            if intersection > 0  {
+               // if i > 3 {
+               //     glog.Infof("%v having difficulty to resolve collision %v", me.Name, obstacle.Name)
+               // }
+                offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
+                me.Position = me.Position.Plus(offset)
+            }
+        }
+    }
 }
 
 func (u *Unit) Separate() Vector2 {
@@ -209,10 +261,13 @@ func (u *Unit) AddAcceleration(acc Vector2) {
 }
 
 func (u *Unit) Move() {
+    if u.Type != Troop {
+        return
+    }
     u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
     u.Acceleration = Vector2{0, 0}
-    if u.State == Move {
+    if !u.Colliding {
         u.Heading = u.Velocity.Normalize()
     }
 }
@@ -257,7 +312,7 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
-    u.Velocity = Vector2{0, 0}
+    //u.Velocity = Vector2{0, 0}
     u.Heading = u.Target.Position.Minus(u.Position).Normalize()
 }
 
@@ -269,6 +324,7 @@ func (u *Unit) StartAttack() {
 
 func (u *Unit) ClearEvents() {
     u.AttackStarted = false
+    u.Colliding = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -330,11 +386,11 @@ func (u *Unit) HandleSpawn() {
             u.Game.AddUnit(unit)
         case "knightbullet":
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
-            bullet.Velocity = Vector2{0, bullet.Speed}
-            if bullet.Team == Home {
-                bullet.Velocity.Y *= -1
-            }
             u.Game.AddUnit(bullet)
+            bullet.Heading = Vector2{0, bullet.Speed}
+            if bullet.Team == Home {
+                bullet.Heading.Y *= -1
+            }
         default:
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
@@ -346,12 +402,12 @@ var ScatterDirections = []Vector2{Vector2{-3, 5}.Normalize(), Vector2{0, 1}, Vec
 func (u *Unit) ScatterBullets() {
     for _, direction := range ScatterDirections {
         bullet := NewScatteredBullet(u.Team, u.Position)
-        bullet.Velocity = direction.Multiply(bullet.Speed)
+        u.Game.AddUnit(bullet)
+        bullet.Heading = direction.Multiply(bullet.Speed)
         if bullet.Team == Home {
             bullet.FlipY()
-            bullet.Velocity.Y *= -1
+            bullet.Heading.Y *= -1
         }
-        u.Game.AddUnit(bullet)
     }
 }
 
@@ -359,6 +415,13 @@ func (u *Unit) Update() {
     u.ClearEvents()
     switch u.Type {
     case Troop:
+        /*
+        separate := u.Separate()
+        if separate.Length() > 0 {
+            u.Colliding = true
+            u.AddAcceleration(separate)
+        }
+        */
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
@@ -378,15 +441,19 @@ func (u *Unit) Update() {
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
-					position := u.Target.Position
+					destination := u.Target.Position
 					if u.Layer == Ground {
 						path := u.FindPath(u.Target)
-						position = u.NextCornerInPath(path)
+						destination = u.NextCornerInPath(path)
 					}
-					u.AddAcceleration(u.Seek(position))
+					//u.AddAcceleration(u.Seek(position))
+                    //glog.Infof("%v moving to %v", u.Name, destination)
+                    u.Heading = destination.Minus(u.Position)
+                    u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
                 }
             }
         }
+        u.ResolveCollision()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {
@@ -412,9 +479,9 @@ func (u *Unit) Update() {
     case Knight:
         u.HandleSpawn()
     case Bullet:
-        u.Move()
+        u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() {
-            delete(u.Game.Units, u.Id)
+            u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
             players := u.Game.Home
             if u.Team == Home {
@@ -424,7 +491,7 @@ func (u *Unit) Update() {
                 knight := player.Knight
                 if knight.Hp > 0 && u.WithinRange(knight) {
                     knight.TakeDamage(u.Damage)
-                    delete(u.Game.Units, u.Id)
+                    u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
                     break
                 }
             }
@@ -477,9 +544,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{}
         case Bottom:
             if from.Position.X < MapWidth / 2 {
-                return []*Portal{TopToLeftHole, LeftHoleToBottom}
+                portals = []*Portal{TopToLeftHole, LeftHoleToBottom}
             } else {
-                return []*Portal{TopToRightHole, RightHoleToBottom}
+                portals = []*Portal{TopToRightHole, RightHoleToBottom}
             }
         case LeftHole:
             portals = []*Portal{TopToLeftHole}
@@ -490,9 +557,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
         switch dst {
         case Top:
             if from.Position.X < MapWidth / 2 {
-                return []*Portal{BottomToLeftHole, LeftHoleToTop}
+                portals = []*Portal{BottomToLeftHole, LeftHoleToTop}
             } else {
-                return []*Portal{BottomToRightHole, RightHoleToTop}
+                portals = []*Portal{BottomToRightHole, RightHoleToTop}
             }
         case Bottom:
             portals = []*Portal{}
@@ -511,9 +578,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{}
         case RightHole:
             if from.Team == Home {
-                return []*Portal{LeftHoleToTop, TopToRightHole}
+                portals = []*Portal{LeftHoleToTop, TopToRightHole}
             } else {
-                return []*Portal{LeftHoleToBottom, BottomToRightHole}
+                portals = []*Portal{LeftHoleToBottom, BottomToRightHole}
             }
         }
     case RightHole:
@@ -524,9 +591,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{RightHoleToBottom}
         case LeftHole:
             if from.Team == Home {
-                return []*Portal{RightHoleToTop, TopToLeftHole}
+                portals = []*Portal{RightHoleToTop, TopToLeftHole}
             } else {
-                return []*Portal{RightHoleToBottom, BottomToLeftHole}
+                portals = []*Portal{RightHoleToBottom, BottomToLeftHole}
             }
         case RightHole:
             portals = []*Portal{}
