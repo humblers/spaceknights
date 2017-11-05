@@ -185,10 +185,10 @@ func (me *Unit) Avoid() Vector2 {
 */
 
 func (me *Unit) ResolveCollision() {
-    mostHeavyObstacleMass := 0.0
     for i := 0; i < 1; i++ {
-        for _, obstacle := range me.Game.Units {
-            if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass || obstacle.Mass < mostHeavyObstacleMass {
+        for i := len(me.Game.Units) - 1; i >= 0; i-- {
+            obstacle := me.Game.Units[i]
+            if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
                 continue
             }
             distance := me.Position.Minus(obstacle.Position).Length()
@@ -199,7 +199,6 @@ func (me *Unit) ResolveCollision() {
                // }
                 offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
                 me.Position = me.Position.Plus(offset)
-                mostHeavyObstacleMass = obstacle.Mass
             }
         }
     }
@@ -448,6 +447,7 @@ func (u *Unit) Update() {
 						destination = u.NextCornerInPath(path)
 					}
 					//u.AddAcceleration(u.Seek(position))
+                    //glog.Infof("%v moving to %v", u.Name, destination)
                     u.Heading = destination.Minus(u.Position)
                     u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
                 }
@@ -544,9 +544,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{}
         case Bottom:
             if from.Position.X < MapWidth / 2 {
-                return []*Portal{TopToLeftHole, LeftHoleToBottom}
+                portals = []*Portal{TopToLeftHole, LeftHoleToBottom}
             } else {
-                return []*Portal{TopToRightHole, RightHoleToBottom}
+                portals = []*Portal{TopToRightHole, RightHoleToBottom}
             }
         case LeftHole:
             portals = []*Portal{TopToLeftHole}
@@ -557,9 +557,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
         switch dst {
         case Top:
             if from.Position.X < MapWidth / 2 {
-                return []*Portal{BottomToLeftHole, LeftHoleToTop}
+                portals = []*Portal{BottomToLeftHole, LeftHoleToTop}
             } else {
-                return []*Portal{BottomToRightHole, RightHoleToTop}
+                portals = []*Portal{BottomToRightHole, RightHoleToTop}
             }
         case Bottom:
             portals = []*Portal{}
@@ -578,9 +578,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{}
         case RightHole:
             if from.Team == Home {
-                return []*Portal{LeftHoleToTop, TopToRightHole}
+                portals = []*Portal{LeftHoleToTop, TopToRightHole}
             } else {
-                return []*Portal{LeftHoleToBottom, BottomToRightHole}
+                portals = []*Portal{LeftHoleToBottom, BottomToRightHole}
             }
         }
     case RightHole:
@@ -591,9 +591,9 @@ func (from *Unit) FindPath(to *Unit) (portals []*Portal) {
             portals = []*Portal{RightHoleToBottom}
         case LeftHole:
             if from.Team == Home {
-                return []*Portal{RightHoleToTop, TopToLeftHole}
+                portals = []*Portal{RightHoleToTop, TopToLeftHole}
             } else {
-                return []*Portal{RightHoleToBottom, BottomToLeftHole}
+                portals = []*Portal{RightHoleToBottom, BottomToLeftHole}
             }
         case RightHole:
             portals = []*Portal{}

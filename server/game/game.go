@@ -52,6 +52,11 @@ type Portal struct {
     Left Vector2
     Right Vector2
 }
+
+func (p *Portal) String() string {
+    return fmt.Sprintf("(%v, %v)", p.Left, p.Right)
+}
+
 var (
     TopToLeftHole = &Portal{LeftHoleTR, LeftHoleTL}
     TopToRightHole = &Portal{RightHoleTR, RightHoleTL}
