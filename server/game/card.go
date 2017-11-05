@@ -23,10 +23,12 @@ func (c *WaitingCard) GetUnitCount() (count int) {
         count = 1
     case "archers":
         count = 2
-    case "skeletons", "speargoblins":
+    case "skeletons", "speargoblins", "minions", "threemusketeers":
         count = 3
     case "barbarians":
         count = 4
+	case "minionhorde":
+        count = 6
     default:
         glog.Infof("not unit card or invalid card name: %v", c.Name)
     }
@@ -43,12 +45,15 @@ var CostMap = map[Card]int{
     "giant": 0,
     "goblinhut": 0,
     "megaminion": 0,
+    "minionhorde": 0,
+    "minions": 0,
     "minipekka": 0,
     "musketeer": 0,
     "pekka": 0,
     "prince": 0,
     "skeletons": 0,
     "speargoblins": 0,
+    "threemusketeers" : 0,
     "tombstone": 0,
     "valkyrie": 0,
 }

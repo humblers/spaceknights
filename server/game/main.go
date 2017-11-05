@@ -65,6 +65,7 @@ func main() {
                         id: create.Visitor.UserId,
                         knightName: create.Visitor.Knight,
                         deck: create.Visitor.Deck,
+
                     })
                     session := NewSession(create.SessionId, server)
                     go session.Run(game)
