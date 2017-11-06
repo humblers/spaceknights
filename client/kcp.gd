@@ -5,7 +5,6 @@ const UPDATES_PER_SECOND = 30
 var kcp = Kcp.new()
 var timer = Timer.new()
 var packets = []
-var recv = ""
 
 signal packet_received(dict)
 
@@ -39,10 +38,7 @@ func _update():
 	var dict = {}
 	var packet = kcp.read()
 	if packet:
-		recv += packet
-		if recv.ends_with("\n"):
-			dict.parse_json(recv)
-			recv = ""
+		dict.parse_json(packet)
 
 	# write
 	for p in packets:
