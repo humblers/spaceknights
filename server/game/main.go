@@ -55,29 +55,16 @@ func main() {
                     }
                     game := NewGame()
                     game.Join(Home, User{
-                        id: create.UserIds[0],
-                        knightName: "shuriken",
-                        deck: Cards{
-                            "minipekka",
-                            "bomber",
-                            "minipekka",
-                            "bomber",
-                            "minipekka",
-                            "bomber",
-                        },
+                        id: create.Home.UserId,
+                        knightName: create.Home.Knight,
+                        deck: create.Home.Cards,
+                        //custom deck
+                        //deck: Cards{ "goblinhut", "skeletons", "speargoblins", "minipekka", "giant", "minipekka", "giant", },
                     })
                     game.Join(Visitor, User{
-                        id: create.UserIds[1],
-                        knightName: "space_z",
-                        deck: Cards{
-                            "goblinhut",
-                            "skeletons",
-                            "speargoblins",
-                            "minipekka",
-                            "giant",
-                            "minipekka",
-                            "giant",
-                        },
+                        id: create.Visitor.UserId,
+                        knightName: create.Visitor.Knight,
+                        deck: create.Visitor.Cards,
                     })
                     session := NewSession(create.SessionId, server)
                     go session.Run(game)

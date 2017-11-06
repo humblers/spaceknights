@@ -36,6 +36,15 @@ type Input struct {
 }
 
 type CreateGame struct {
-    SessionId string `json:"sid"`
-    UserIds []string `json:"uids"`
+    SessionId string
+    Home struct {
+        UserId  string
+        Knight  string
+        Cards   Cards
+    }
+    Visitor struct {
+        UserId  string
+        Knight  string
+        Cards   Cards
+    }
 }
