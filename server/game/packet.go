@@ -40,11 +40,11 @@ type CreateGame struct {
     Home struct {
         UserId  string
         Knight  string
-        Cards   Cards
+        Deck    Cards
     }
     Visitor struct {
         UserId  string
         Knight  string
-        Cards   Cards
+        Deck    Cards
     }
 }

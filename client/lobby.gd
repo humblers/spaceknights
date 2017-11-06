@@ -1,5 +1,7 @@
 extends Node
 
+var deck
+
 onready var id_holder = get_node("Auth/IDPlaceholder")
 onready var login = get_node("Auth/Login")
 onready var logout = get_node("Auth/Logout")
@@ -7,6 +9,7 @@ onready var match = get_node("Match")
 onready var find_match = get_node("Match/Find")
 onready var continue_match = get_node("Match/Continue")
 onready var cancel_match = get_node("Match/Cancel")
+onready var shuffle_deck = get_node("Deck/Shuffle")
 
 func _ready():
 	if kcp.is_connected():
@@ -19,6 +22,8 @@ func _ready():
 	find_match.connect("pressed", self, "find_match")
 	continue_match.connect("pressed", self, "continue_match")
 	cancel_match.connect("pressed", self, "cancel_match")
+	shuffle_deck.connect("pressed", self, "shuffle_deck")
+	shuffle_deck()
 	try_auto_login()
 
 func try_auto_login():
@@ -60,7 +65,7 @@ func activate_match_buttons():
 func find_match():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/find",
-			{},
+			{"deck":deck},
 			"match_response")
 	find_match.set_text("WAITING...")
 
@@ -71,6 +76,16 @@ func cancel_match():
 	global.config.set_value("match", global.id, null)
 	global.save_config()
 	activate_match_buttons()
+
+func shuffle_deck():
+	for child in get_node("Deck/Container").get_children():
+		child.queue_free()
+	deck = global.shuffle_array(global.CARDS.keys())
+	deck.resize(6)
+	for card in deck:
+		var label = Label.new()
+		label.set_text(card)
+		get_node("Deck/Container").add_child(label)
 
 func _login_response(success, dict):
 	if not success:
