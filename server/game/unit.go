@@ -91,6 +91,7 @@ type Unit struct {
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
+    SpawnStack   int     `json:"-"`
     RepairFrame  int     `json:"-"`
 
     // event
@@ -389,15 +390,18 @@ func (u *Unit) HandleSpawn() {
         switch u.SpawnThing {
         case "barbarians":
             unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            pos := getSpawnPos(unit.Radius)
-            unit.Position = pos
+            unit.Position = getSpawnPos(unit.Radius)
+            u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
             u.Game.AddUnit(unit)
-            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{0, 0}))
         case "speargoblin":
             unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
             unit.Position = getSpawnPos(unit.Radius)
             u.Game.AddUnit(unit)
         case "knightbullet":
+            if u.SpawnStack++; u.SpawnStack == 5 {
+                u.SpawnStack = 0
+                break
+            }
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
             u.Game.AddUnit(bullet)
             bullet.Heading = Vector2{0, bullet.Speed}
