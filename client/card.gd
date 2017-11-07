@@ -1,23 +1,13 @@
 extends Object
 
 func get_structures_of_unit(card):
-	var name
-	var offsets
-	if card.Name == "archers":
-		name = "archer"
-		offsets = [ Vector2(1, 0), Vector2(-1, 0) ]
-	elif card.Name == "barbarians":
-		name = "barbarian"
-		offsets = [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ]
-	elif card.Name == "skeletons":
-		name = "skeleton"
-		offsets = [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ]
-	elif card.Name == "speargoblins":
-		name = "speargoblin"
-		offsets = [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ]
-	else:
-		name = card.Name
-		offsets = [ Vector2(0, 0) ]
+	var dict = global.CARDS[card.Name]
+	var name = card.Name
+	var offsets = [ Vector2(0, 0) ]
+	if dict.has("unitname"):
+		name = dict.unitname
+	if dict.has("unitoffsets"):
+		offsets = dict.unitoffsets
 	var units = []
 	for offset in offsets:
 		var unit = {

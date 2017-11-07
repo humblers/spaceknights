@@ -1,6 +1,9 @@
 extends Node
 
+var config = ConfigFile.new()
+
 var id
+
 var team
 
 const CARD_WAIT_FRAME = 5 - 1 # server send snapshot after 1 frame
@@ -167,13 +170,61 @@ const UNITS = {
 	},
 }
 
+const CARDS = {
+	"archers" : {
+		"unitname" : "archer",
+		"unitoffsets" : [ Vector2(1, 0), Vector2(-1, 0) ],
+	},
+	"barbarianhut" : { },
+	"barbarians" : {
+		"unitname" : "barbarian",
+		"unitoffsets" : [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
+	},
+	"bomber" : { },
+	"cannon" : { },
+	"giant" : { },
+	"goblinhut" : { },
+	"megaminion" : { },
+	"minipekka" : { },
+	"musketeer" : { },
+	"pekka" : { },
+	"skeletons" : {
+		"unitname" : "skeleton",
+		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
+	},
+	"speargoblins" : {
+		"unitname" : "speargoblin",
+		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
+	},
+	"valkyrie" : { },
+}
+
 func _ready():
 	randomize()
+	load_config()
+
+func load_config():
+	var err = config.load("user://settings.cfg")
+	if err != OK:
+		print("can't find settings.cfg. try create new one")
+		save_config()
+
+func save_config():
+	assert(config.save("user://settings.cfg") == OK)
 
 static func dict_get(dict, key, not_found_val=null):
 	if dict.has(key):
 		return dict[key]
 	return not_found_val
+
+static func shuffle_array(arr):
+	for i in range(arr.size() - 1, 0, -1):
+		var j = randi() % (i + 1)
+		var i_val = arr[i]
+		var j_val = arr[j]
+		arr[i] = j_val
+		arr[j] = i_val
+	return arr
 
 static func clone(data):
     var to

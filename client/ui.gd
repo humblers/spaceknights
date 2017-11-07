@@ -36,6 +36,8 @@ func update_changes(game):
 	get_node("Energy").set_value(player.Energy)
 
 	if game.has("Winner"):
+		global.config.set_value("match", global.id, null)
+		global.save_config()
 		input.disconnect("mouse_dragged", self, "move")
 		show_winner(game)
 

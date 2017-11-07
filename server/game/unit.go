@@ -378,6 +378,7 @@ func (u *Unit) HandleSpawn() {
         case "barbarians":
             unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
             pos := getSpawnPos(unit.Radius)
+            unit.Position = pos
             u.Game.AddUnit(unit)
             u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{0, 0}))
         case "speargoblin":
