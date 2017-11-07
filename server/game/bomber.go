@@ -14,6 +14,7 @@ func NewBomber(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   10,
         PostHitDelay:  9,
         Radius:        11,
+        Size:          Medium,
         Sight:         100,
         Range:         90,
         Damage:        100,

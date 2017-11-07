@@ -9,6 +9,7 @@ func NewGoblinhut(id int, t Team, pos Vector2) *Unit {
         Hp:           600,
         Mass:         100,
         Radius:       20,
+        Size:         Large,
         LifetimeCost: 1,
         SpawnThing:   "speargoblin",
         SpawnSpeed:   49,

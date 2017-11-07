@@ -30,6 +30,14 @@ const (
     Bullet Type = "bullet"
 )
 
+type Size string
+const (
+    Small Size = "small"
+    Medium Size = "medium"
+    Large Size = "large"
+    XLarge Size = "xlarge"
+)
+
 func (layers Layers) Contains(layer Layer) bool {
     for _, l := range layers {
         if l == layer {
@@ -62,6 +70,7 @@ type Unit struct {
     PreHitDelay  int     `json:"-"`
     PostHitDelay int     `json:"-"`
     Radius       float64 `json:"-"`
+    Size         Size    `json:"-"`
     Sight        float64 `json:"-"`
     Range        float64 `json:"-"`
     Damage       int     `json:"-"`
@@ -402,12 +411,18 @@ func (u *Unit) HandleSpawn() {
     }
 }
 
-var ScatterDirections = []Vector2{Vector2{-3, 5}.Normalize(), Vector2{0, 1}, Vector2{3, 5}.Normalize()}
 func (u *Unit) ScatterBullets() {
-    for _, direction := range ScatterDirections {
+    var bulletVectors []Vector2
+    switch u.Size {
+    case Medium:
+        bulletVectors = []Vector2{ {0, 1} }
+    case Large, XLarge:
+        bulletVectors = []Vector2{ {-3, 5}, {0, 1}, Vector2{3, 5} }
+    }
+    for _, vector := range bulletVectors {
         bullet := NewScatteredBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
-        bullet.Heading = direction.Multiply(bullet.Speed)
+        bullet.Heading = vector.Normalize().Multiply(bullet.Speed)
         if bullet.Team == Home {
             bullet.FlipY()
             bullet.Heading.Y *= -1

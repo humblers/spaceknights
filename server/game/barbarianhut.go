@@ -9,6 +9,7 @@ func NewBarbarianhut(id int, t Team, pos Vector2) *Unit {
         Hp:           1200,
         Mass:         100,
         Radius:       20,
+        Size:         Large,
         LifetimeCost: 2,
         SpawnThing:   "barbarians",
         SpawnSpeed:   140,

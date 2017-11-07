@@ -14,6 +14,7 @@ func NewMusketeer(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   3,
         PostHitDelay:  7,
         Radius:        11,
+        Size:          Large,
         Sight:         120,
         Range:         120,
         Damage:        100,

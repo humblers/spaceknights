@@ -14,6 +14,7 @@ func NewCannon(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   5,
         PostHitDelay:  2,
         Radius:        20,
+        Size:          Large,
         Sight:         120,
         Range:         110,
         Damage:        60,

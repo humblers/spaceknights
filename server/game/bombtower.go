@@ -14,6 +14,7 @@ func NewBombtower(t Team, x float64) *Unit {
         PreHitDelay:   15,
         PostHitDelay:  0,
         Radius:        20,
+        Size:          Large,
         Sight:         120,
         Range:         120,
         Damage:        100,

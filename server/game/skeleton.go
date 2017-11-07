@@ -14,6 +14,7 @@ func NewSkeleton(id int, t Team, pos Vector2, offset Vector2) *Unit {
         PreHitDelay:   2,
         PostHitDelay:  7,
         Radius:        6,
+        Size:          Small,
         Sight:         100,
         Range:         5,
         Damage:        30,
