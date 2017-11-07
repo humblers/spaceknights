@@ -51,7 +51,6 @@ const UNITS = {
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 90,
-		"damageradius": 25,
 		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},
@@ -96,11 +95,19 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
+		"prehitdelay" : 10,
 		"radius" : 20,
+		"sight" : 140,
+		"range" : 140,
+		"projectile" : "knight_missile",
 	},
 	"space_z" : {
 		"layer" : "Air",
+		"prehitdelay" : 10,
 		"radius" : 31,
+		"sight" : 140,
+		"range" : 140,
+		"projectile" : "knight_missile",
 	},
 	"megaminion" : {
 		"layer" : "Air",

@@ -284,15 +284,13 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     for _, player := range game.Home {
         player.IncreaseEnergy(1)
-        knight := player.RepairKnight(game.Frame)
-        if knight != nil {
+        if knight := player.RepairKnight(game.Frame); knight != nil {
             game.AddUnit(knight)
         }
     }
     for _, player := range game.Visitor {
         player.IncreaseEnergy(1)
-        knight := player.RepairKnight(game.Frame)
-        if knight != nil {
+        if knight := player.RepairKnight(game.Frame); knight != nil {
             game.AddUnit(knight)
         }
     }

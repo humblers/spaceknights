@@ -54,7 +54,11 @@ func set_animation_track():
 	for i in range(children.size()):
 		var child = children[i]
 		var path = child.get_path()
-		var pos_offset = float(children.size() - 1) / 2 - i
+		var pos_offset
+		if children.size() == 1:
+			pos_offset = -1 if randi() % 2 == 0 else 1
+		else:
+			pos_offset = float(children.size() - 1) / 2 - i
 		var delay = abs(deploy_offset - 0.1 * i)
 		child.set_z(global.LAYERS.Projectile)
 

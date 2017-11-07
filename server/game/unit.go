@@ -314,7 +314,9 @@ func (u *Unit) HandleAttack() {
         }
     }
     //u.Velocity = Vector2{0, 0}
-    u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    if u.Type != Knight {
+        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    }
 }
 
 func (u *Unit) StartAttack() {

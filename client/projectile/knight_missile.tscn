@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://projectile/missile.gd" type="Script" id=1]
+[ext_resource path="res://projectile/missile_01_01.png" type="Texture" id=2]
+[ext_resource path="res://projectile/missile_01_02.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "move",
+"speed": 5.0
+} ]
+
+[node name="KnightMissile" type="Node"]
+
+script/script = ExtResource( 1 )
+name = "knight"
+missile_spread = 50
+spread_divider_on_way1 = 5
+spread_divider_on_way2 = 3
+damage_radius = 0
+
+[node name="Missiles" type="Node" parent="."]
+
+[node name="Missile0" type="AnimatedSprite" parent="Missiles"]
+
+visibility/visible = false
+frames = SubResource( 1 )
+animation = "move"
+playing = true
+
+
