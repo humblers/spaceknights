@@ -90,7 +90,7 @@ type Unit struct {
 }
 
 func (u *Unit) String() string {
-    return fmt.Sprintf("%v", u.Name)
+    return fmt.Sprintf("%v(%v)", u.Name, u.Id)
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -120,22 +120,23 @@ func (u *Unit) FlipY() {
 }
 
 type Units []*Unit
-func (s Units) Filter(f func(*Unit) bool) {
+func (s Units) Filter(f func(*Unit) bool) Units {
     filtered := s[:0]
     for _, x := range s {
         if f(x) {
             filtered = append(filtered, x)
         }
     }
-    s = filtered
+    return filtered
 }
 
 func (u *Unit) TakeDamage(d int) {
     if u.Hp <= 0 {
         return
     }
+    //glog.Infof("take damage : %v, unit : %v", d, u)
     if u.Hp -= d; u.Hp <= 0 {
-        u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+        u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         switch u.Type {
         case Troop, Building:
             if !u.IsCore() {
@@ -478,11 +479,25 @@ func (u *Unit) Update() {
         }
         u.HandleSpawn()
     case Knight:
+        if u.IsAttacking() {
+            u.HandleAttack()
+        } else {
+            if !u.HasTarget() || !u.WithinRange(u.Target) {
+                var filter = func(other *Unit) bool {
+                    return u.WithinRange(other)
+                }
+                u.Target = u.FindNearestTarget(filter)
+            }
+            if u.Target != nil {
+                u.StartAttack()
+                glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+            }
+        }
         u.HandleSpawn()
     case Bullet:
         u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() {
-            u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+            u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
             players := u.Game.Home
             if u.Team == Home {
@@ -492,7 +507,7 @@ func (u *Unit) Update() {
                 knight := player.Knight
                 if knight.Hp > 0 && u.WithinRange(knight) {
                     knight.TakeDamage(u.Damage)
-                    u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+                    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
                     break
                 }
             }
