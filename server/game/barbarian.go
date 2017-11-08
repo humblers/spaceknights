@@ -14,6 +14,7 @@ func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
         PreHitDelay:   3,
         PostHitDelay:  11,
         Radius:        11,
+        Size:          Small,
         Sight:         100,
         Range:         15,
         Damage:        75,

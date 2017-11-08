@@ -14,6 +14,7 @@ func NewGiant(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   8,
         PostHitDelay:  6,
         Radius:        28,
+        Size:          XLarge,
         Sight:         200,
         Range:         15,
         Damage:        126,

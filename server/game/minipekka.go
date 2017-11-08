@@ -14,6 +14,7 @@ func NewMinipekka(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   5,
         PostHitDelay:  12,
         Radius:        12,
+        Size:          Small,
         Sight:         100,
         Range:         15,
         Damage:        325,

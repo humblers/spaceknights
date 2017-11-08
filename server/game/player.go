@@ -37,12 +37,13 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) RepairKnight(frame int) (knight *Unit){
+func (player *Player) RepairKnight(frame int) (knight *Unit) {
     if player.Knight.Hp <= 0 && player.Knight.RepairFrame == frame {
         knight = player.Knight
         knight.Hp = 100
         knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
         knight.SpawnFrame = frame + knight.SpawnSpeed
+        knight.HitFrame = 0
     }
     return
 }

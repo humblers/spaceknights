@@ -14,6 +14,7 @@ func NewMegaminion(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   3,
         PostHitDelay:  11,
         Radius:        20,
+        Size:          Large,
         Sight:         80,
         Range:         20,
         Damage:        147,

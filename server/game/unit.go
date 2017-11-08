@@ -30,6 +30,14 @@ const (
     Bullet Type = "bullet"
 )
 
+type Size string
+const (
+    Small Size = "small"
+    Medium Size = "medium"
+    Large Size = "large"
+    XLarge Size = "xlarge"
+)
+
 func (layers Layers) Contains(layer Layer) bool {
     for _, l := range layers {
         if l == layer {
@@ -62,6 +70,7 @@ type Unit struct {
     PreHitDelay  int     `json:"-"`
     PostHitDelay int     `json:"-"`
     Radius       float64 `json:"-"`
+    Size         Size    `json:"-"`
     Sight        float64 `json:"-"`
     Range        float64 `json:"-"`
     Damage       int     `json:"-"`
@@ -82,6 +91,7 @@ type Unit struct {
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
+    SpawnStack   int     `json:"-"`
     RepairFrame  int     `json:"-"`
 
     // event
@@ -90,7 +100,7 @@ type Unit struct {
 }
 
 func (u *Unit) String() string {
-    return fmt.Sprintf("%v", u.Name)
+    return fmt.Sprintf("%v(%v)", u.Name, u.Id)
 }
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
@@ -120,22 +130,23 @@ func (u *Unit) FlipY() {
 }
 
 type Units []*Unit
-func (s Units) Filter(f func(*Unit) bool) {
+func (s Units) Filter(f func(*Unit) bool) Units {
     filtered := s[:0]
     for _, x := range s {
         if f(x) {
             filtered = append(filtered, x)
         }
     }
-    s = filtered
+    return filtered
 }
 
 func (u *Unit) TakeDamage(d int) {
     if u.Hp <= 0 {
         return
     }
+    //glog.Infof("take damage : %v, unit : %v", d, u)
     if u.Hp -= d; u.Hp <= 0 {
-        u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+        u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         switch u.Type {
         case Troop, Building:
             if !u.IsCore() {
@@ -313,7 +324,9 @@ func (u *Unit) HandleAttack() {
         }
     }
     //u.Velocity = Vector2{0, 0}
-    u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    if u.Type != Knight {
+        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    }
 }
 
 func (u *Unit) StartAttack() {
@@ -377,15 +390,18 @@ func (u *Unit) HandleSpawn() {
         switch u.SpawnThing {
         case "barbarians":
             unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            pos := getSpawnPos(unit.Radius)
-            unit.Position = pos
+            unit.Position = getSpawnPos(unit.Radius)
+            u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
             u.Game.AddUnit(unit)
-            u.Game.AddUnit(NewBarbarian(0, u.Team, pos, Vector2{0, 0}))
         case "speargoblin":
             unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
             unit.Position = getSpawnPos(unit.Radius)
             u.Game.AddUnit(unit)
         case "knightbullet":
+            if u.SpawnStack++; u.SpawnStack == 5 {
+                u.SpawnStack = 0
+                break
+            }
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
             u.Game.AddUnit(bullet)
             bullet.Heading = Vector2{0, bullet.Speed}
@@ -399,12 +415,18 @@ func (u *Unit) HandleSpawn() {
     }
 }
 
-var ScatterDirections = []Vector2{Vector2{-3, 5}.Normalize(), Vector2{0, 1}, Vector2{3, 5}.Normalize()}
 func (u *Unit) ScatterBullets() {
-    for _, direction := range ScatterDirections {
+    var bulletVectors []Vector2
+    switch u.Size {
+    case Medium:
+        bulletVectors = []Vector2{ {0, 1} }
+    case Large, XLarge:
+        bulletVectors = []Vector2{ {-3, 5}, {0, 1}, Vector2{3, 5} }
+    }
+    for _, vector := range bulletVectors {
         bullet := NewScatteredBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
-        bullet.Heading = direction.Multiply(bullet.Speed)
+        bullet.Heading = vector.Normalize().Multiply(bullet.Speed)
         if bullet.Team == Home {
             bullet.FlipY()
             bullet.Heading.Y *= -1
@@ -478,11 +500,25 @@ func (u *Unit) Update() {
         }
         u.HandleSpawn()
     case Knight:
+        if u.IsAttacking() {
+            u.HandleAttack()
+        } else {
+            if !u.HasTarget() || !u.WithinRange(u.Target) {
+                var filter = func(other *Unit) bool {
+                    return u.WithinRange(other)
+                }
+                u.Target = u.FindNearestTarget(filter)
+            }
+            if u.Target != nil {
+                u.StartAttack()
+                glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+            }
+        }
         u.HandleSpawn()
     case Bullet:
         u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() {
-            u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+            u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
             players := u.Game.Home
             if u.Team == Home {
@@ -492,7 +528,7 @@ func (u *Unit) Update() {
                 knight := player.Knight
                 if knight.Hp > 0 && u.WithinRange(knight) {
                     knight.TakeDamage(u.Damage)
-                    u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+                    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
                     break
                 }
             }
