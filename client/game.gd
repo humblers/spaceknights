@@ -4,6 +4,7 @@ const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
 func _ready():
+	get_node("MothershipBG/BlueBaseBottom")
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
 
@@ -18,7 +19,7 @@ func update_changes(game):
 func opening_finished():
 	get_node("UI").connect_ui_signals()
 	get_node("Units").show()
-	get_node("OpeningNodes").hide()
+	get_node("OpeningNodes").queue_free()
 
 func has_id(units, id):
 	for unit in units:

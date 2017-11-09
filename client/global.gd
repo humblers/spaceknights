@@ -17,8 +17,9 @@ const MAP = {
 
 const LAYERS = {
 	"Ground": 0,
-	"Air": 1,
-	"Projectile": 2,
+	"GroundEffect": 1,
+	"Air": 2,
+	"Projectile": 3,
 	"UI": 100,
 }
 

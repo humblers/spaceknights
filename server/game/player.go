@@ -43,6 +43,7 @@ func (player *Player) RepairKnight(frame int) (knight *Unit) {
         knight.Hp = 100
         knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
         knight.SpawnFrame = frame + knight.SpawnSpeed
+        knight.SpawnStack = 0
         knight.HitFrame = 0
     }
     return

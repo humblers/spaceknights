@@ -3,7 +3,8 @@ package main
 const (
     MothershipMainHeight = 40
     MothershipSubHeight = 60
-    MothershipBaseHeight = 60
+    MothershipBaseHeight = 70
+    MothershipBoosterHeight = 10
 
     MaincoreScore = 3
     SubcoreScore = 1
@@ -21,7 +22,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 20,
         Position: Vector2{
             X: MapWidth / 2,
-            Y: MothershipBaseHeight + MothershipMainHeight / 2,
+            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipMainHeight / 2,
         },
     }
     left := &Unit{
@@ -34,7 +35,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 30,
         Position: Vector2{
             X: 70,
-            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight / 2,
         },
     }
     right := &Unit{
@@ -47,7 +48,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 30,
         Position: Vector2{
             X: 330,
-            Y: MothershipBaseHeight + MothershipSubHeight / 2,
+            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight / 2,
         },
     }
     base := &Unit{
