@@ -1,6 +1,6 @@
 package main
 
-func NewMusketeer(id int, t Team, pos Vector2) *Unit {
+func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
     return &Unit{
         Team:          t,
         Type:          Troop,
@@ -19,6 +19,6 @@ func NewMusketeer(id int, t Team, pos Vector2) *Unit {
         Range:         120,
         Damage:        100,
         Id:            id,
-        Position:      pos,
+        Position:      pos.Plus(offset.Multiply(11)),
     }
 }
