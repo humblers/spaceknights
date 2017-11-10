@@ -123,6 +123,13 @@ const UNITS = {
 		"range" : 50,
 		"size" : "large",
 	},
+	"minion" : {
+		"layer" : "Air",
+		"radius" : 10,
+		"sight" : 80,
+		"range" : 20,
+		"size" : "small",
+	},
 	"minipekka" : {
 		"layer" : "Ground",
 		"radius" : 12,
@@ -209,12 +216,23 @@ const CARDS = {
 	},
 	"bomber" : { },
 	"cannon" : { },
+	"darkprince" : { },
 	"giant" : { },
 	"goblinhut" : { },
 	"megaminion" : { },
+	"minionhorde" : {
+		"unitname" : "minion",
+		"unitoffsets" : [ Vector2(0, -2), Vector2(1, -1), Vector2(-1, -1),
+				Vector2(0, 2), Vector2(1, 1), Vector2(-1, 1) ],
+	},
+	"minions" : {
+		"unitname" : "minion",
+		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
+	},
 	"minipekka" : { },
 	"musketeer" : { },
 	"pekka" : { },
+	"prince" : { },
 	"skeletons" : {
 		"unitname" : "skeleton",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
@@ -223,6 +241,11 @@ const CARDS = {
 		"unitname" : "speargoblin",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
+	"threemusketeers" : {
+		"unitname" : "musketeer",
+		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
+	},
+	"tombstone" : { },
 	"valkyrie" : { },
 }
 
