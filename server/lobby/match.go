@@ -15,27 +15,52 @@ import (
 
 type Deck []string
 
-type Wait struct {
+type MatchCandidate struct {
     ID          string
     Deck        Deck
-    RespChannel chan *MatchResponse
 }
-var match chan Wait
+type MatchCandidates []*MatchCandidate
+func (s MatchCandidates) Filter(f func(*MatchCandidate) bool) MatchCandidates {
+    filtered := s[:0]
+    for _, x := range s {
+        if f(x) {
+            filtered = append(filtered, x)
+        }
+    }
+    return filtered
+}
 
+type GameSession struct {
+    Host        string  `json:"host"`
+    SessionID   string  `json:"sid"`
+}
 
-func MatchRouter() chi.Router {
-    match = make(chan Wait, 2)
+type MatchManager struct {
+    Find        chan *MatchCandidate
+    Cancel      chan string
+    Candidates  MatchCandidates
+    Games       map[string]*GameSession
+}
 
-    go func() {
-        for {
-            c1 := <- match
-            c2 := <- match
-            resp := &MatchResponse{
+func (m *MatchManager) Run() {
+    for {
+        select {
+        case candidate := <- m.Find:
+            m.Candidates = append(m.Candidates, candidate)
+        case id := <- m.Cancel:
+            m.Candidates = m.Candidates.Filter(func(x *MatchCandidate) bool { return x.ID != id } )
+        default:
+            if len(m.Candidates) < 2 {
+                continue
+            }
+            session := &GameSession{
                 Host:      "13.125.74.237",
                 SessionID: strconv.FormatInt(time.Now().Unix(), 10),
             }
+            var c1, c2 *MatchCandidate
+            c1, c2, m.Candidates = m.Candidates[0], m.Candidates[1], m.Candidates[2:]
             packet, _ := json.Marshal(map[string]interface{}{
-                "SessionId": resp.SessionID,
+                "SessionId": session.SessionID,
                 "Home": map[string]interface{}{
                     "UserId": c1.ID,
                     "Deck": c1.Deck,
@@ -51,58 +76,52 @@ func MatchRouter() chi.Router {
             if err == nil {
                 conn.Write(packet)
                 bufio.NewReader(conn).ReadLine()
+                m.Games[c1.ID] = session
+                m.Games[c2.ID] = session
             }
-            resp.Error = err
-            c1.RespChannel <- resp
-            c2.RespChannel <- resp
         }
-    }()
+    }
+}
+var manager MatchManager
+
+func MatchRouter() chi.Router {
+    manager = MatchManager{
+        Find:   make(chan *MatchCandidate),
+        Cancel: make(chan string),
+        Games:  make(map[string]*GameSession),
+    }
+    go manager.Run()
 
     r := chi.NewRouter()
     r.Post("/find", FindMatch)
     return r
 }
 
-type MatchRequest struct {
+type FindMatchRequest struct {
     Deck    Deck   `json:"deck"`
 }
 
-func (a *MatchRequest) Bind(r *http.Request) error {
+func (a *FindMatchRequest) Bind(r *http.Request) error {
     return nil
 }
 
-type MatchResponse struct {
-    Host        string  `json:"host"`
-    SessionID   string  `json:"sid"`
-    Error       error   `json:"-"`
+type FindMatchResponse struct {
 }
 
-func NewMatchResponse(id string, match *MatchResponse) *MatchResponse {
-    store.Add(id, &match, 0)
-    return match
-}
-
-func (rd *MatchResponse) Render(w http.ResponseWriter, r *http.Request) error {
+func (rd *FindMatchResponse) Render(w http.ResponseWriter, r *http.Request) error {
     return nil
 }
 
 func FindMatch(w http.ResponseWriter, r *http.Request) {
     id, _ := session.GetString(r, "id")
-    data := &MatchRequest{}
+    data := &FindMatchRequest{}
     if err := render.Bind(r, data); err != nil {
         render.Render(w, r, ErrInvalidRequest(err))
         return
     }
-    respChan := make(chan *MatchResponse)
-    match <- Wait{
+    manager.Find <- &MatchCandidate{
         ID:             id,
         Deck:           data.Deck,
-        RespChannel:    respChan,
     }
-    resp := <-respChan
-    if resp.Error != nil {
-        render.Render(w, r, ErrRender(resp.Error))
-        return
-    }
-    render.Render(w, r, NewMatchResponse(id, resp))
+    render.Render(w, r, &FindMatchResponse{})
 }
