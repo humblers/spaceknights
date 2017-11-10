@@ -88,11 +88,13 @@ func create_projectile(type, target_id, lifetime, initial_position):
 func play_runway_light(team, pos_x):
 	var effect = load("res://effect/runway.tscn").instance()
 	var color = "Red"
-	var pos = Vector2(global.MAP.width - pos_x, 0 - 10)
+	var pos = Vector2(pos_x, -10)
 	if global.team == team:
 		color = "Blue"
-		pos = Vector2(pos_x, global.MAP.height + 10)
+		pos.y = global.MAP.height - pos.y
 		effect.set_rot(PI)
+	if global.team == "Visitor":
+		pos.x = global.MAP.width - pos.x
 	get_node("MothershipBG/%sLight" % color).hide()
 	effect.set_pos(pos)
 	add_child(effect)
