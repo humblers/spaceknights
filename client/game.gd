@@ -67,7 +67,10 @@ func handle_waiting_cards(frame, cards):
 		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
 			var script = preload("res://card.gd").new()
 			var id = card.IdStarting
-			for unit in script.get_structures_of_unit(card):
+			var unit_structures = script.get_structures_of_unit(card)
+			if unit_structures.size() > 0:
+				play_runway_light(card.Team, card.Position.X)
+			for unit in unit_structures:
 				unit.Id = id
 				create_unit_node(unit, UNIT_LAUNCHING)
 				id += 1
@@ -81,3 +84,19 @@ func create_projectile(type, target_id, lifetime, initial_position):
 	var target = get_node("Units").get_node(str(target_id))
 	node.initialize(target, lifetime, initial_position)
 	get_node("Projectiles").add_child(node)
+
+func play_runway_light(team, pos_x):
+	var effect = load("res://effect/runway.tscn").instance()
+	var color = "Red"
+	var pos = Vector2(global.MAP.width - pos_x, 0 - 10)
+	if global.team == team:
+		color = "Blue"
+		pos = Vector2(pos_x, global.MAP.height + 10)
+		effect.set_rot(PI)
+	get_node("MothershipBG/%sLight" % color).hide()
+	effect.set_pos(pos)
+	add_child(effect)
+	effect.play()
+	yield(effect, "finished")
+	effect.queue_free()
+	get_node("MothershipBG/%sLight" % color).show()

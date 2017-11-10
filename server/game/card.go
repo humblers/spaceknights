@@ -8,7 +8,7 @@ import (
 type Card   string
 type Cards  []Card
 
-const ActivateAfter = 5
+const ActivateAfter = 10
 type WaitingCard struct {
     Name            Card
     Team            Team
