@@ -6,10 +6,12 @@ var id
 
 var team
 
-const CARD_WAIT_FRAME = 5 - 1 # server send snapshot after 1 frame
+const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
+const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
 const SERVER_UPDATES_PER_SECOND = 10
 
 const MOTHERSHIP_BASE_HEIGHT = 50
+const SCREEN_HEIGHT = 640
 const MAP = {
 	"width" : 400,
 	"height" : 560,
@@ -17,8 +19,9 @@ const MAP = {
 
 const LAYERS = {
 	"Ground": 0,
-	"Air": 1,
-	"Projectile": 2,
+	"GroundEffect": 1,
+	"Air": 2,
+	"Projectile": 3,
 	"UI": 100,
 }
 

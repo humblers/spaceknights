@@ -4,6 +4,7 @@ const UNIT_DEFAULT = "default"
 const UNIT_LAUNCHING = "launching"
 
 func _ready():
+	get_node("MothershipBG/BlueBaseBottom")
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	kcp.connect("packet_received", self, "update_changes")
 
@@ -18,7 +19,7 @@ func update_changes(game):
 func opening_finished():
 	get_node("UI").connect_ui_signals()
 	get_node("Units").show()
-	get_node("OpeningNodes").hide()
+	get_node("OpeningNodes").queue_free()
 
 func has_id(units, id):
 	for unit in units:
@@ -66,7 +67,10 @@ func handle_waiting_cards(frame, cards):
 		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
 			var script = preload("res://card.gd").new()
 			var id = card.IdStarting
-			for unit in script.get_structures_of_unit(card):
+			var unit_structures = script.get_structures_of_unit(card)
+			if unit_structures.size() > 0:
+				play_runway_light(card.Team, card.Position.X)
+			for unit in unit_structures:
 				unit.Id = id
 				create_unit_node(unit, UNIT_LAUNCHING)
 				id += 1
@@ -80,3 +84,21 @@ func create_projectile(type, target_id, lifetime, initial_position):
 	var target = get_node("Units").get_node(str(target_id))
 	node.initialize(target, lifetime, initial_position)
 	get_node("Projectiles").add_child(node)
+
+func play_runway_light(team, pos_x):
+	var effect = load("res://effect/runway.tscn").instance()
+	var color = "Red"
+	var pos = Vector2(pos_x, -10)
+	if global.team == team:
+		color = "Blue"
+		pos.y = global.MAP.height - pos.y
+		effect.set_rot(PI)
+	if global.team == "Visitor":
+		pos.x = global.MAP.width - pos.x
+	get_node("MothershipBG/%sLight" % color).hide()
+	effect.set_pos(pos)
+	add_child(effect)
+	effect.play()
+	yield(effect, "finished")
+	effect.queue_free()
+	get_node("MothershipBG/%sLight" % color).show()

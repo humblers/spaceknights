@@ -108,11 +108,11 @@ func set_launch_effect(unit):
 	var pos = get_position(unit)
 	var destination = pos.y
 	if global.team == unit.Team:
-		pos.y = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
+		pos.y = global.SCREEN_HEIGHT - global.UNITS[name].radius
 		body.set_rot(PI)
 		body.play("blue_idle")
 	else:
-		pos.y = global.MOTHERSHIP_BASE_HEIGHT
+		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[name].radius
 		body.play("red_idle")
 	set_pos(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))

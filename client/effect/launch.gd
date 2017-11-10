@@ -1,12 +1,10 @@
 extends AnimatedSprite
 
-const EFFECT_TIME = 0.3
-
 var elapsed = 0
 var speed
 
 func initialize(starting, destination, size):
-	speed = (starting - destination) / EFFECT_TIME
+	speed = (starting - destination) / global.UNIT_LAUNCH_TIME
 	play(size)
 
 func update_position(pos, delta):
@@ -15,6 +13,6 @@ func update_position(pos, delta):
 
 func is_finished(delta):
 	elapsed += delta
-	if elapsed > EFFECT_TIME:
+	if elapsed > global.UNIT_LAUNCH_TIME:
 		return true
 	return false
