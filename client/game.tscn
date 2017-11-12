@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=1]
+[gd_scene load_steps=48 format=1]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg_blue.png" type="Texture" id=2]
@@ -21,28 +21,26 @@
 [ext_resource path="res://shield_close.png" type="Texture" id=19]
 [ext_resource path="res://ui.gd" type="Script" id=20]
 [ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=21]
-[ext_resource path="res://icon/archers.png" type="Texture" id=22]
+[ext_resource path="res://icon/archers_small.png" type="Texture" id=22]
 [ext_resource path="res://next_panel.png" type="Texture" id=23]
 [ext_resource path="res://energybar_bot.png" type="Texture" id=24]
 [ext_resource path="res://energybar_top.png" type="Texture" id=25]
 [ext_resource path="res://energybar_inside.png" type="Texture" id=26]
-[ext_resource path="res://icon/barbarians.png" type="Texture" id=27]
-[ext_resource path="res://icon/megaminion.png" type="Texture" id=28]
-[ext_resource path="res://icon/bomber.png" type="Texture" id=29]
-[ext_resource path="res://cardguide.gd" type="Script" id=30]
-[ext_resource path="res://shield_open.png" type="Texture" id=31]
+[ext_resource path="res://icon/archers_off.png" type="Texture" id=27]
+[ext_resource path="res://cardguide.gd" type="Script" id=28]
+[ext_resource path="res://shield_open.png" type="Texture" id=29]
+[ext_resource path="res://effect/anchor_move01.png" type="Texture" id=30]
+[ext_resource path="res://effect/anchor_move02.png" type="Texture" id=31]
 [ext_resource path="res://effect/anchor_open01.png" type="Texture" id=32]
 [ext_resource path="res://effect/anchor_open02.png" type="Texture" id=33]
 [ext_resource path="res://effect/anchor_open03.png" type="Texture" id=34]
 [ext_resource path="res://effect/anchor_open04.png" type="Texture" id=35]
-[ext_resource path="res://effect/anchor_move01.png" type="Texture" id=36]
-[ext_resource path="res://effect/anchor_move02.png" type="Texture" id=37]
-[ext_resource path="res://unit/base/red.png" type="Texture" id=38]
-[ext_resource path="res://unit/maincore/red.png" type="Texture" id=39]
-[ext_resource path="res://unit/subcore/red_idle01.png" type="Texture" id=40]
-[ext_resource path="res://unit/base/blue.png" type="Texture" id=41]
-[ext_resource path="res://unit/maincore/blue.png" type="Texture" id=42]
-[ext_resource path="res://unit/subcore/blue_idle01.png" type="Texture" id=43]
+[ext_resource path="res://unit/base/red.png" type="Texture" id=36]
+[ext_resource path="res://unit/maincore/red.png" type="Texture" id=37]
+[ext_resource path="res://unit/subcore/red_idle01.png" type="Texture" id=38]
+[ext_resource path="res://unit/base/blue.png" type="Texture" id=39]
+[ext_resource path="res://unit/maincore/blue.png" type="Texture" id=40]
+[ext_resource path="res://unit/subcore/blue_idle01.png" type="Texture" id=41]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -139,7 +137,7 @@ tracks/5/keys = {
 "times": FloatArray( 0, 2 ),
 "transitions": FloatArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 19 ), ExtResource( 31 ) ]
+"values": [ ExtResource( 19 ), ExtResource( 29 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("OpeningNodes/Mothership/Red:transform/pos")
@@ -165,14 +163,14 @@ tracks/7/keys = {
 [sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
+"frames": [ ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "move",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ],
 "loop": false,
 "name": "open",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 36 ), ExtResource( 37 ) ],
-"loop": true,
-"name": "move",
 "speed": 5.0
 } ]
 
@@ -198,7 +196,7 @@ z/z = 1
 z/relative = false
 frames = SubResource( 1 )
 animation = "default"
-frame = 4
+frame = 7
 playing = true
 
 [node name="RedLight" type="AnimatedSprite" parent="MothershipBG"]
@@ -208,7 +206,7 @@ z/z = 1
 z/relative = false
 frames = SubResource( 2 )
 animation = "default"
-frame = 24
+frame = 27
 playing = true
 
 [node name="Units" type="Node2D" parent="."]
@@ -243,7 +241,6 @@ texture = ExtResource( 19 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -277,14 +274,15 @@ flat = false
 
 [node name="Next" type="TextureFrame" parent="UI"]
 
+anchor/bottom = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 12.0
-margin/top = 548.0
-margin/right = 68.0
-margin/bottom = 612.0
+margin/top = 607.0
+margin/right = 42.0
+margin/bottom = 3.0
 texture = ExtResource( 22 )
 stretch_mode = 0
 
@@ -295,10 +293,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 533.0
-margin/right = 80.0
-margin/bottom = 0.0
+margin/left = 12.0
+margin/top = 597.0
+margin/right = 42.0
+margin/bottom = 35.0
 texture = ExtResource( 23 )
 stretch_mode = 0
 
@@ -310,9 +308,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 80.0
+margin/left = 60.0
 margin/top = 14.0
-margin/right = 396.0
+margin/right = 376.0
 margin/bottom = 0.0
 range/min = 0.0
 range/max = 100.0
@@ -335,10 +333,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 135.0
-margin/top = 70.0
-margin/right = 191.0
-margin/bottom = 8.0
+margin/left = 69.0
+margin/top = 75.0
+margin/right = 147.0
+margin/bottom = 17.0
 toggle_mode = false
 click_on_press = true
 enabled_focus_mode = 2
@@ -355,15 +353,15 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 211.0
-margin/top = 70.0
-margin/right = 267.0
-margin/bottom = 8.0
+margin/left = 172.0
+margin/top = 75.0
+margin/right = 250.0
+margin/bottom = 17.0
 toggle_mode = false
 click_on_press = true
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 28 )
+textures/normal = ExtResource( 27 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -375,22 +373,21 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 286.0
-margin/top = 70.0
-margin/right = 342.0
-margin/bottom = 8.0
+margin/left = 275.0
+margin/top = 75.0
+margin/right = 353.0
+margin/bottom = 17.0
 toggle_mode = false
 click_on_press = true
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 29 )
+textures/normal = ExtResource( 27 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
 [node name="CardGuide" type="Node" parent="UI"]
 
-editor/display_folded = true
-script/script = ExtResource( 30 )
+script/script = ExtResource( 28 )
 
 [node name="Threshold" type="Position2D" parent="UI/CardGuide"]
 
@@ -414,8 +411,6 @@ autoplay = "opening"
 
 [node name="OpeningNodes" type="Node2D" parent="."]
 
-editor/display_folded = true
-
 [node name="AnchorLeft" type="AnimatedSprite" parent="OpeningNodes"]
 
 transform/pos = Vector2( 70, 280 )
@@ -434,29 +429,27 @@ playing = true
 
 [node name="Mothership" type="Node2D" parent="OpeningNodes"]
 
-editor/display_folded = true
-
 [node name="Red" type="Node2D" parent="OpeningNodes/Mothership"]
 
 [node name="Base" type="Sprite" parent="OpeningNodes/Mothership/Red"]
 
 transform/pos = Vector2( 200, 35 )
-texture = ExtResource( 38 )
+texture = ExtResource( 36 )
 
 [node name="Maincore" type="Sprite" parent="OpeningNodes/Mothership/Red"]
 
 transform/pos = Vector2( 200, 80 )
-texture = ExtResource( 39 )
+texture = ExtResource( 37 )
 
 [node name="SubcoreLeft" type="Sprite" parent="OpeningNodes/Mothership/Red"]
 
 transform/pos = Vector2( 70, 90 )
-texture = ExtResource( 40 )
+texture = ExtResource( 38 )
 
 [node name="SubcoreRight" type="Sprite" parent="OpeningNodes/Mothership/Red"]
 
 transform/pos = Vector2( 330, 90 )
-texture = ExtResource( 40 )
+texture = ExtResource( 38 )
 
 [node name="Blue" type="Node2D" parent="OpeningNodes/Mothership"]
 
@@ -464,24 +457,24 @@ texture = ExtResource( 40 )
 
 transform/pos = Vector2( 200, 525 )
 transform/rot = 180.0
-texture = ExtResource( 41 )
+texture = ExtResource( 39 )
 
 [node name="Maincore" type="Sprite" parent="OpeningNodes/Mothership/Blue"]
 
 transform/pos = Vector2( 200, 480 )
 transform/rot = 180.0
-texture = ExtResource( 42 )
+texture = ExtResource( 40 )
 
 [node name="SubcoreLeft" type="Sprite" parent="OpeningNodes/Mothership/Blue"]
 
 transform/pos = Vector2( 70, 470 )
 transform/rot = 180.0
-texture = ExtResource( 43 )
+texture = ExtResource( 41 )
 
 [node name="SubcoreRight" type="Sprite" parent="OpeningNodes/Mothership/Blue"]
 
 transform/pos = Vector2( 330, 470 )
 transform/rot = 180.0
-texture = ExtResource( 43 )
+texture = ExtResource( 41 )
 
 
