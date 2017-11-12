@@ -6,9 +6,9 @@ func NewKnight(t Team, name string) *Unit {
     var radius float64
     switch name {
     case "shuriken":
-        radius = 20
+        radius = 9
     case "space_z":
-        radius = 31
+        radius = 12
     default:
         log.Panicf("unknown knight name: %v", name)
     }
@@ -26,7 +26,7 @@ func NewKnight(t Team, name string) *Unit {
         Range:          140,
         Damage:         100,
         SpawnThing:     "knightbullet",
-        SpawnSpeed:     15,
+        SpawnSpeed:     8,
         RepairDelay:    30,
         SpawnFrame:     15,
         Position:       Vector2{MapWidth / 2, TileHeight * 1.5},

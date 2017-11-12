@@ -8,7 +8,7 @@ func NewKnightBullet(t Team, pos Vector2) *Unit {
         Layer:         Air,
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Knight},
-        Speed:         3,
+        Speed:         8,
         Radius:        5,
         Damage:        40,
         Position:      pos,
