@@ -209,47 +209,80 @@ const UNITS = {
 
 const CARDS = {
 	"archers" : {
+		"cost" : 30,
 		"unitname" : "archer",
 		"unitoffsets" : [ Vector2(1, 0), Vector2(-1, 0) ],
 	},
-	"barbarianhut" : { },
+	"barbarianhut" : {
+		"cost" : 70,
+	},
 	"barbarians" : {
+		"cost" : 50,
 		"unitname" : "barbarian",
 		"unitoffsets" : [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
 	},
-	"bomber" : { },
-	"cannon" : { },
-	"darkprince" : { },
-	"giant" : { },
-	"goblinhut" : { },
-	"megaminion" : { },
+	"bomber" : {
+		"cost" : 30,
+	},
+	"cannon" : {
+		"cost" : 30,
+	},
+	"darkprince" : {
+		"cost" : 40,
+	},
+	"giant" : {
+		"cost" : 50,
+	},
+	"goblinhut" : {
+		"cost" : 50,
+	},
+	"megaminion" : {
+		"cost" : 30,
+	},
 	"minionhorde" : {
+		"cost" : 50,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, -2), Vector2(1, -1), Vector2(-1, -1),
 				Vector2(0, 2), Vector2(1, 1), Vector2(-1, 1) ],
 	},
 	"minions" : {
+		"cost" : 30,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"minipekka" : { },
-	"musketeer" : { },
-	"pekka" : { },
-	"prince" : { },
+	"minipekka" : {
+		"cost" : 40,
+	},
+	"musketeer" : {
+		"cost" : 40,
+	},
+	"pekka" : {
+		"cost" : 70,
+	},
+	"prince" : {
+		"cost" : 50,
+	},
 	"skeletons" : {
+		"cost" : 10,
 		"unitname" : "skeleton",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"speargoblins" : {
+		"cost" : 20,
 		"unitname" : "speargoblin",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"threemusketeers" : {
+		"cost" : 90,
 		"unitname" : "musketeer",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"tombstone" : { },
-	"valkyrie" : { },
+	"tombstone" : {
+		"cost" : 30,
+	},
+	"valkyrie" : {
+		"cost" : 40,
+	},
 }
 
 func _ready():
