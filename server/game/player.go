@@ -6,6 +6,8 @@ import (
     "github.com/golang/glog"
 )
 
+const MaxEnergy = 10000
+const EnergyPerFrame = 35
 const HandSize = 3
 
 type Player struct {
@@ -85,7 +87,7 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
 }
 
 func (player *Player) IncreaseEnergy(amount int) {
-    if player.Energy + amount <= 100 {
-        player.Energy = player.Energy + amount
+    if player.Energy += amount; player.Energy > MaxEnergy {
+        player.Energy = MaxEnergy
     }
 }

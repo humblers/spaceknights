@@ -36,7 +36,7 @@ func update_changes(game):
 		if player.Energy >= global.CARDS[card].cost:
 			postfix = "on"
 		node.set_normal_texture(load_icon(card, postfix))
-	get_node("Energy").set_value(player.Energy)
+	get_node("Energy").set_value(player.Energy / 100)
 
 	if game.has("Winner"):
 		global.config.set_value("match", global.id, null)

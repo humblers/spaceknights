@@ -209,79 +209,79 @@ const UNITS = {
 
 const CARDS = {
 	"archers" : {
-		"cost" : 30,
+		"cost" : 3000,
 		"unitname" : "archer",
 		"unitoffsets" : [ Vector2(1, 0), Vector2(-1, 0) ],
 	},
 	"barbarianhut" : {
-		"cost" : 70,
+		"cost" : 7000,
 	},
 	"barbarians" : {
-		"cost" : 50,
+		"cost" : 5000,
 		"unitname" : "barbarian",
 		"unitoffsets" : [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
 	},
 	"bomber" : {
-		"cost" : 30,
+		"cost" : 3000,
 	},
 	"cannon" : {
-		"cost" : 30,
+		"cost" : 3000,
 	},
 	"darkprince" : {
-		"cost" : 40,
+		"cost" : 4000,
 	},
 	"giant" : {
-		"cost" : 50,
+		"cost" : 5000,
 	},
 	"goblinhut" : {
-		"cost" : 50,
+		"cost" : 5000,
 	},
 	"megaminion" : {
-		"cost" : 30,
+		"cost" : 3000,
 	},
 	"minionhorde" : {
-		"cost" : 50,
+		"cost" : 5000,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, -2), Vector2(1, -1), Vector2(-1, -1),
 				Vector2(0, 2), Vector2(1, 1), Vector2(-1, 1) ],
 	},
 	"minions" : {
-		"cost" : 30,
+		"cost" : 3000,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"minipekka" : {
-		"cost" : 40,
+		"cost" : 4000,
 	},
 	"musketeer" : {
-		"cost" : 40,
+		"cost" : 4000,
 	},
 	"pekka" : {
-		"cost" : 70,
+		"cost" : 7000,
 	},
 	"prince" : {
-		"cost" : 50,
+		"cost" : 5000,
 	},
 	"skeletons" : {
-		"cost" : 10,
+		"cost" : 1000,
 		"unitname" : "skeleton",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"speargoblins" : {
-		"cost" : 20,
+		"cost" : 2000,
 		"unitname" : "speargoblin",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"threemusketeers" : {
-		"cost" : 90,
+		"cost" : 9000,
 		"unitname" : "musketeer",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"tombstone" : {
-		"cost" : 30,
+		"cost" : 3000,
 	},
 	"valkyrie" : {
-		"cost" : 40,
+		"cost" : 4000,
 	},
 }
 
