@@ -9,7 +9,7 @@ func NewValkyrie(id int, t Team, pos Vector2) *Unit {
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
         Hp:            880,
-        Mass:          15,
+        InvMass:       1.0/15,
         Speed:         3,
         PreHitDelay:   8,
         PostHitDelay:  6,

@@ -9,7 +9,7 @@ func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
         Hp:            340,
-        Mass:          12,
+        InvMass:       1.0/12,
         Speed:         3,
         PreHitDelay:   3,
         PostHitDelay:  7,

@@ -4,7 +4,6 @@ import (
     "fmt"
     "time"
     "strings"
-    "sort"
 
     "github.com/golang/glog"
 )
@@ -183,9 +182,6 @@ func (g *Game) AddUnit(unit *Unit) {
     unit.Game = g
     unit.State = Idle
     g.Units = append(g.Units, unit)
-    //glog.Infof("before sort : %v", g.Units)
-    sort.SliceStable(g.Units, func(i, j int) bool { return g.Units[i].Mass > g.Units[j].Mass })
-    //glog.Infof("after sort : %v", g.Units)
 }
 
 func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
@@ -317,7 +313,7 @@ func (game *Game) update() (gameover bool) {
     }
     // Filtering without allocating
     // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
-    filtered := game.WaitingCards[:0]
+    var filtered []*WaitingCard
     for _, card := range game.WaitingCards {
         if card.ActivateFrame == game.Frame {
             game.ActivateCard(card)
@@ -328,6 +324,12 @@ func (game *Game) update() (gameover bool) {
     game.WaitingCards = filtered
     for _, unit := range game.Units {
         unit.Update()
+    }
+    for _, unit := range game.Units {
+        unit.ResolveCollision()
+    }
+    for _, unit := range game.Units {
+        unit.Move()
     }
     gameover = game.Over()
     if gameover {

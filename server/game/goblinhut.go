@@ -7,7 +7,7 @@ func NewGoblinhut(id int, t Team, pos Vector2) *Unit {
         Name:         "goblinhut",
         Layer:        Ground,
         Hp:           600,
-        Mass:         100,
+        InvMass:      0,
         Radius:       20,
         Size:         Large,
         LifetimeCost: 1,

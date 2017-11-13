@@ -9,7 +9,7 @@ func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
         Hp:            300,
-        Mass:          8,
+        InvMass:       1.0/8,
         Speed:         3,
         PreHitDelay:   3,
         PostHitDelay:  11,

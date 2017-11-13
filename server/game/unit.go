@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/golang/glog"
     "encoding/json"
+    "math"
 )
 
 type State string
@@ -65,7 +66,7 @@ type Unit struct {
     TargetLayers Layers  `json:"-"`
     TargetTypes  Types   `json:"-"`
     Hp           int
-    Mass         float64 `json:"-"`
+    InvMass      float64 `json:"-"`
     Speed        float64 `json:"-"`
     PreHitDelay  int     `json:"-"`
     PostHitDelay int     `json:"-"`
@@ -87,7 +88,6 @@ type Unit struct {
     Position     Vector2
     Heading      Vector2
     Velocity     Vector2
-    Acceleration Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
@@ -96,7 +96,6 @@ type Unit struct {
 
     // event
     AttackStarted bool
-    Colliding bool `json:"-"`
 }
 
 func (u *Unit) String() string {
@@ -131,7 +130,7 @@ func (u *Unit) FlipY() {
 
 type Units []*Unit
 func (s Units) Filter(f func(*Unit) bool) Units {
-    filtered := s[:0]
+    var filtered Units
     for _, x := range s {
         if f(x) {
             filtered = append(filtered, x)
@@ -175,111 +174,57 @@ func (u *Unit) DistanceTo(other *Unit) float64 {
     return u.Position.Minus(other.Position).Length()
 }
 
-func (u *Unit) Seek(position Vector2) Vector2 {
-	desired := position.Minus(u.Position).Normalize().Multiply(1)
-	return desired
+func (me *Unit) FuturePosition() Vector2 {
+    return me.Position.Plus(me.Velocity)
 }
 
-/*
-const MaxSight = 50.0
-func (me *Unit) Avoid() Vector2 {
-    for _, obstacle := range me.Game.Units {
-        if obstacle == me || me.Layer != obstacle.Layer {
-            continue
-        }
-        center := obstacle.Position.ToLocalCoordinate(me)
-        top := center.Y + obstacle.Radius
-        bottom := center.Y - obstacle.Radius
+func (A *Unit) CollisionInfo(B *Unit) (float64, Vector2) {
+    overlap := 0.0
+    normal := Vector2{0, 0}
+    if A != B && A.Layer == B.Layer {
+        normal = B.FuturePosition().Minus(A.FuturePosition())
+        overlap = A.Radius + B.Radius - normal.Length()
     }
-    return Vector2{0, 0}
+    return overlap, normal.Normalize()
 }
-*/
 
 func (me *Unit) ResolveCollision() {
-    for i := 0; i < 1; i++ {
-        for j := len(me.Game.Units) - 1; j >= 0; j-- {
-            obstacle := me.Game.Units[j]
-            if obstacle == me || me.Layer != obstacle.Layer || obstacle.Mass < me.Mass {
-                continue
-            }
-            distance := me.Position.Minus(obstacle.Position).Length()
-            intersection := obstacle.Radius + me.Radius - distance
-            if intersection > 0  {
-               // if i > 3 {
-               //     glog.Infof("%v having difficulty to resolve collision %v", me.Name, obstacle.Name)
-               // }
-                offset := me.Position.Minus(obstacle.Position).Multiply(intersection/distance)
-                me.Position = me.Position.Plus(offset)
+    if me.Type == Knight || me.Type == Bullet {
+        return
+    }
+    for _, other := range me.Game.Units {
+        overlap, normal := me.CollisionInfo(other)
+        if overlap > 0 {
+            ratio := me.InvMass / (me.InvMass + other.InvMass)
+            sum := me.Radius + other.Radius
+            distance := sum - overlap
+            offset := math.Sqrt(sum * sum - distance * distance)
+            if normal.Dot(me.Velocity.Normalize()) > 0.9 {
+                if normal.Cross(me.Velocity) > 0 {
+                    me.Velocity = me.Velocity.Plus(Vector2{-normal.Y, normal.X}.Multiply(offset * ratio))
+                    glog.Infof("%v %v(%v) right turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
+                } else {
+                    me.Velocity = me.Velocity.Plus(Vector2{normal.Y, -normal.X}.Multiply(offset * ratio))
+                    glog.Infof("%v %v(%v) left turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
+                }
+            } else {
+                me.Velocity = me.Velocity.Plus(normal.Multiply(-overlap * ratio))
+                glog.Infof("%v %v(%v) step back %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
             }
         }
     }
-}
-
-func (u *Unit) Separate() Vector2 {
-    sum := Vector2{0, 0}
-	steer := 0.0
-    for _, unit := range u.Game.Units {
-        if u.Layer != unit.Layer {
-            continue
-        }
-        d := u.DistanceTo(unit)
-        if d > 0 && d < u.Radius + unit.Radius {
-            if u.Speed > unit.Speed || (u.Speed == unit.Speed && (u.Id > unit.Id || unit.Team != u.Team )) {
-				intersection := u.Radius + unit.Radius - d
-				direction := u.Position.Minus(unit.Position).Normalize()
-				sum = sum.Plus(direction.Multiply(intersection))
-				u.Velocity = u.Velocity.Divide(1.5)
-				sideDot := sum.Dot(u.Side())
-				if sideDot > 0 {
-					steer = 1
-				} else {
-					steer = -1
-				}
-				if u.Speed == unit.Speed && u.Team != unit.Team {
-					unitSteer := 0.0
-					unitSideDot := sum.Multiply(-1).Dot(unit.Side())
-					if unitSideDot > 0 {
-						unitSteer = 1
-					} else {
-						unitSteer = -1
-					}
-					if u.Side().Multiply(steer).Dot(unit.Side().Multiply(unitSteer)) > 0 {
-						//glog.Infof("Coner Case!!!! %v team %v Unit ID = %v , other ID = %v",u.Team, u.Name, u.Id, unit.Id)						
-						if u.Id > unit.Id {
-							steer = steer * -1
-						}
-					}
-				}
-				if intersection > 10 || u.Team != unit.Team {
-					sum = sum.Plus(u.Side().Multiply(steer))
-				} else {
-					sum = u.Side().Multiply(steer)
-				}
-			glog.Infof("%v try to separate from %v, %.3f ", u.Name, unit.Name, intersection)
-			//glog.Infof("%v team %v steer =  %v",u.Team, u.Name, steer)
-            }
-        }
+    me.Velocity = me.Velocity.Truncate(me.Speed)
+    /*
+    if me.Velocity.Dot(me.LastVelocity) < 0.1 {   // opposite direction
+        me.Velocity = me.Velocity.Divide(2)
     }
-    return sum
-}
-
-func (u *Unit) Side() Vector2 {
-    return Vector2{u.Heading.Y, -u.Heading.X}
-}
-
-func (u *Unit) AddAcceleration(acc Vector2) {
-    u.Acceleration = u.Acceleration.Plus(acc)
+    */
 }
 
 func (u *Unit) Move() {
-    if u.Type != Troop {
-        return
-    }
-    u.Velocity = u.Velocity.Plus(u.Acceleration).Truncate(u.Speed)
     u.Position = u.Position.Plus(u.Velocity)
-    u.Acceleration = Vector2{0, 0}
-    if !u.Colliding {
-        u.Heading = u.Velocity.Normalize()
+    if math.IsNaN(u.Position.X) || math.IsNaN(u.Position.Y) {
+        glog.Infof("%v pos: %v, vel: %v", u, u.Position)
     }
 }
 
@@ -323,7 +268,6 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
-    //u.Velocity = Vector2{0, 0}
     if u.Type != Knight {
         u.Heading = u.Target.Position.Minus(u.Position).Normalize()
     }
@@ -337,7 +281,6 @@ func (u *Unit) StartAttack() {
 
 func (u *Unit) ClearEvents() {
     u.AttackStarted = false
-    u.Colliding = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -442,13 +385,6 @@ func (u *Unit) Update() {
     u.ClearEvents()
     switch u.Type {
     case Troop:
-        /*
-        separate := u.Separate()
-        if separate.Length() > 0 {
-            u.Colliding = true
-            u.AddAcceleration(separate)
-        }
-        */
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
@@ -473,14 +409,12 @@ func (u *Unit) Update() {
 						path := u.FindPath(u.Target)
 						destination = u.NextCornerInPath(path)
 					}
-					//u.AddAcceleration(u.Seek(position))
+                    u.Velocity = destination.Minus(u.Position).Truncate(u.Speed)
+                    u.Heading = u.Velocity
                     //glog.Infof("%v moving to %v", u.Name, destination)
-                    u.Heading = destination.Minus(u.Position)
-                    u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
                 }
             }
         }
-        u.ResolveCollision()
     case Building:
         u.TakeDamage(u.LifetimeCost)
         if u.HasAttack() {

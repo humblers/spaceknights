@@ -7,7 +7,7 @@ func NewTombstone(id int, t Team, pos Vector2) *Unit {
         Name:         "tombstone",
         Layer:        Ground,
         Hp:           300,
-        Mass:         100,
+        InvMass:      0,
         Radius:       20,
         LifetimeCost: 1,
         SpawnThing:   "skeleton",
