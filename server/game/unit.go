@@ -345,8 +345,10 @@ func (u *Unit) HandleSpawn() {
             unit.Position = getSpawnPos(unit.Radius)
             u.Game.AddUnit(unit)
         case "knightbullet":
-            if u.SpawnStack++; u.SpawnStack >= 5 {
-                u.SpawnStack = 0
+            if u.SpawnStack++; u.SpawnStack >= 8 {
+                u.SpawnStack = 1
+            }
+            if u.SpawnStack > 4 {
                 break
             }
             bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
