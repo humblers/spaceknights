@@ -57,7 +57,8 @@ func main() {
                     game.Join(Home, User{
                         id: create.Home.UserId,
                         knightName: create.Home.Knight,
-                        //deck: create.Home.Deck,
+                        deck: create.Home.Deck,
+                        /*
                         //custom deck
                         deck: Cards{
                             "minipekka",
@@ -67,6 +68,7 @@ func main() {
                             "minipekka",
                             "giant",
                             },
+                        */
                     })
                     game.Join(Visitor, User{
                         id: create.Visitor.UserId,
