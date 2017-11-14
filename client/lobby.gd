@@ -12,8 +12,6 @@ onready var cancel_match = get_node("Match/Cancel")
 onready var shuffle_deck = get_node("Deck/Shuffle")
 
 func _ready():
-	if kcp.is_connected():
-		kcp.disconnect_server()
 	http_lobby.connect("login_response", self, "_login_response")
 	http_lobby.connect("match_response", self, "_match_response")
 	http_lobby.connect("logout_response", self, "_logout_response")

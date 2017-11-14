@@ -43,6 +43,7 @@ func update_changes(game):
 		global.save_config()
 		input.disconnect("mouse_dragged", self, "move")
 		show_winner(game)
+		kcp.disconnect_server()
 
 func press_card(i):
 	guide.show(hand[i - 1])

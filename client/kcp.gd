@@ -23,9 +23,6 @@ func disconnect_server():
 	timer.stop()
 	kcp.disconnect()
 
-func is_connected():
-	return kcp.is_connected()
-
 func send(dict):
 	var packet = dict.to_json() + '\n'
 	packets.append(packet)
