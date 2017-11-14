@@ -202,14 +202,14 @@ func (me *Unit) ResolveCollision() {
             if normal.Dot(me.Velocity.Normalize()) > 0.9 {
                 if normal.Cross(me.Velocity) > 0 {
                     me.Velocity = me.Velocity.Plus(Vector2{-normal.Y, normal.X}.Multiply(offset * ratio))
-                    glog.Infof("%v %v(%v) right turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
+                    //glog.Infof("%v %v(%v) right turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
                 } else {
                     me.Velocity = me.Velocity.Plus(Vector2{normal.Y, -normal.X}.Multiply(offset * ratio))
-                    glog.Infof("%v %v(%v) left turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
+                    //glog.Infof("%v %v(%v) left turn %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
                 }
             } else {
                 me.Velocity = me.Velocity.Plus(normal.Multiply(-overlap * ratio))
-                glog.Infof("%v %v(%v) step back %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
+                //glog.Infof("%v %v(%v) step back %v(%v), velocity : %v", me.Game.Frame, me.Name, me.Id, other.Name, other.Id, me.Velocity)
             }
         }
     }
@@ -387,6 +387,7 @@ func (u *Unit) Update() {
     u.ClearEvents()
     switch u.Type {
     case Troop:
+        u.Velocity = Vector2{0, 0}
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
@@ -434,7 +435,7 @@ func (u *Unit) Update() {
                 } else {
                     u.State = Attack
                     u.StartAttack()
-                    glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                    //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 }
             }
         }
@@ -451,7 +452,7 @@ func (u *Unit) Update() {
             }
             if u.Target != nil {
                 u.StartAttack()
-                glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
+                //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
             }
         }
         u.HandleSpawn()
