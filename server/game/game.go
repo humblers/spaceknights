@@ -29,8 +29,8 @@ type Area struct {
 var (
     Top = &Area{0, 260, 0, 400}
     Bottom = &Area{300, 560, 0, 400}
-    LeftHole = &Area
-	
+    LeftHole = &Area{260, 300, 60, 80}
+    RightHole = &Area{260, 300, 320, 340}
 )
 var (
     LeftHoleTL = Vector2{LeftHole.L, LeftHole.T}
