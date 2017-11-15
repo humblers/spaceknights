@@ -189,7 +189,7 @@ func (A *Unit) CollisionInfo(B *Unit) (float64, Vector2) {
 }
 
 func (me *Unit) ResolveCollision() {
-    if me.Type == Knight || me.Type == Bullet {
+    if me.Type != Troop {
         return
     }
     for _, other := range me.Game.Units {
