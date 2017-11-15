@@ -194,7 +194,7 @@ func (me *Unit) ResolveCollision() {
     }
     for _, other := range me.Game.Units {
         if other.Type != Troop {
-            return
+            continue
         }
         overlap, normal := me.CollisionInfo(other)
         if overlap > 0 {
