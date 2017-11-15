@@ -18,7 +18,9 @@ var req_queue = []
 var reserved_signal
 
 signal login_response(success, ret)
-signal match_response(success, ret)
+signal candidacy_response(success, ret)
+signal withdraw_response(success, ret)
+signal findgame_response(success, ret)
 signal logout_response(success, ret)
 
 func _ready():
@@ -30,10 +32,12 @@ func _ready():
 	add_child(timer)
 	timer.start()
 
-func emit_reserved_signal(code, ret):
+func emit_reserved_signal(code, text):
 	var success = false
+	var ret = {}
 	if code in SUCCESS_RESPONSES:
 		success = true
+		ret.parse_json(text)
 	if reserved_signal != null:
 		emit_signal(reserved_signal, success, ret)
 		reserved_signal = null
@@ -68,10 +72,8 @@ func _poll():
 		response_body = response_body + chunk
 		var text = response_body.get_string_from_utf8()
 		print("bytes got: ",response_body.size(), ", raw text: ", text)
-		var ret = {}
-		ret.parse_json(text)
 		response_body = RawArray()
-		emit_reserved_signal(http.get_response_code(), ret)
+		emit_reserved_signal(http.get_response_code(), text)
 
 	if req_queue.size() <= 0:
 		return

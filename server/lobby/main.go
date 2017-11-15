@@ -88,20 +88,15 @@ func init() {
 }
 
 
-type LogoutResponse struct {
+type CommonSuccess struct {
 }
-
-func NewLogoutResponse() *LogoutResponse {
-    resp := &LogoutResponse{}
-    return resp
-}
-
-func (rd *LogoutResponse) Render(w http.ResponseWriter, r *http.Request) error {
+func (rd *CommonSuccess) Render(w http.ResponseWriter, r *http.Request) error {
     return nil
 }
+
 func Logout(w http.ResponseWriter, r *http.Request) {
     session.Clear(r)
-    render.Render(w, r, NewLogoutResponse())
+    render.Render(w, r, &CommonSuccess{})
 }
 
 //--

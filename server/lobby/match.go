@@ -2,7 +2,6 @@ package main
 
 import (
     "bufio"
-    "encoding/json"
     "net"
     "net/http"
     "strconv"
@@ -11,98 +10,193 @@ import (
     "github.com/go-chi/chi"
     "github.com/go-chi/render"
     "github.com/alexedwards/scs/session"
+    "github.com/golang/glog"
 )
 
 type Deck []string
 
-type Wait struct {
-    ID          string
-    Deck        Deck
-    RespChannel chan *MatchResponse
+type Candidate struct {
+    UserId string
+    Deck   *Deck
+    Knight string
 }
-var match chan Wait
 
+type Find struct {
+    UserId     string
+    FindResult chan *Game
+}
 
-func MatchRouter() chi.Router {
-    match = make(chan Wait, 2)
+type MatchManager struct {
+    Candidacy  chan *Candidate
+    Withdraw   chan string
+    FindGame   chan *Find
+    Candidates map[string]*Deck
+    Games      map[string]*Game
+}
 
-    go func() {
-        for {
-            c1 := <- match
-            c2 := <- match
-            resp := &MatchResponse{
-                Host:      "13.125.74.237",
-                SessionID: strconv.FormatInt(time.Now().Unix(), 10),
+func (m *MatchManager) Run() {
+    for {
+        select {
+
+        case candidate := <- m.Candidacy:
+            m.Candidates[candidate.UserId] = candidate.Deck
+        case id := <- m.Withdraw:
+            delete(m.Candidates, id)
+        case find := <- m.FindGame:
+            game, exists := m.Games[find.UserId]
+            if exists && !m.IsGameRunning(game) {
+                delete(m.Games, find.UserId)
+                game = nil
             }
-            packet, _ := json.Marshal(map[string]interface{}{
-                "SessionId": resp.SessionID,
-                "Home": map[string]interface{}{
-                    "UserId": c1.ID,
-                    "Deck": c1.Deck,
-                    "Knight": "shuriken",
-                },
-                "Visitor": map[string]interface{}{
-                    "UserId": c2.ID,
-                    "Deck": c2.Deck,
-                    "Knight": "space_z",
-                },
-            })
-            conn, err := net.Dial("tcp", "127.0.0.1:9989")
-            if err == nil {
-                conn.Write(packet)
-                bufio.NewReader(conn).ReadLine()
-            }
-            resp.Error = err
-            c1.RespChannel <- resp
-            c2.RespChannel <- resp
+            find.FindResult <- game
+        default:
+            m.MatchingCandidates()
         }
-    }()
+    }
+}
+
+func (m *MatchManager) MatchingCandidates() {
+    if len(m.Candidates) < 2 {
+        return
+    }
+    keys := make([]string, 0, 2)
+    for key := range m.Candidates {
+        keys = append(keys, key)
+        if len(keys) >= 2{
+            break
+        }
+    }
+    c1, c2 := keys[0], keys[1]
+    d1, d2 := m.Candidates[c1], m.Candidates[c2]
+    session := &Game{
+        Host:      "13.125.74.237",
+        SessionID: strconv.FormatInt(time.Now().Unix(), 10),
+    }
+    m.Games[c1] = session; m.Games[c2] = session
+    delete(m.Candidates, c1); delete(m.Candidates, c2)
+
+    conn, err := net.Dial("tcp", session.Host + ":9989")
+    if err != nil {
+        glog.Errorf("game server connect fail:%v", err)
+        return
+    }
+    defer conn.Close()
+    conn.Write(NewPacket(SessionRequest{
+        SessionId: session.SessionID,
+        Home: Candidate{
+            UserId: c1,
+            Deck:   d1,
+            Knight: "shuriken",
+        },
+        Visitor: Candidate{
+            UserId: c2,
+            Deck:   d2,
+            Knight: "space_z",
+        },
+    }))
+    var created bool
+    if b, _, err := bufio.NewReader(conn).ReadLine(); err == nil {
+        packet := Packet(b)
+        var resp SessionResponse
+        if err := packet.Parse(&resp); err == nil {
+            created = resp.Created
+            glog.Infof("game session(%v, %v) create req result : %v", session.Host, session.SessionID, created)
+        }
+    }
+    if !created {
+        delete(m.Games, c1); delete(m.Games, c2)
+    }
+}
+
+func (m *MatchManager) IsGameRunning(game *Game) (res bool){
+    conn, err := net.Dial("tcp", game.Host + ":9989")
+    if err != nil {
+        glog.Errorf("game server connect fail:%v", err)
+        return
+    }
+    defer conn.Close()
+    conn.Write(NewPacket(SessionRequest{
+        SessionId:      game.SessionID,
+        DoNotCreate:    true,
+    }))
+    if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
+        glog.Errorf("read time out : %v", err)
+        return
+    }
+    b, _, err := bufio.NewReader(conn).ReadLine()
+    if err != nil {
+        return
+    }
+    packet := Packet(b)
+    var resp SessionResponse
+    if err := packet.Parse(&resp); err != nil {
+        return
+    }
+    return resp.Exists
+}
+
+var manager MatchManager
+func MatchRouter() chi.Router {
+    manager = MatchManager{
+        Candidacy:  make(chan *Candidate),
+        Withdraw:   make(chan string),
+        FindGame:   make(chan *Find),
+        Candidates: make(map[string]*Deck),
+        Games:      make(map[string]*Game),
+    }
+    go manager.Run()
 
     r := chi.NewRouter()
-    r.Post("/find", FindMatch)
+    r.Post("/find", FindGame)
+    r.Post("/candidacy", Candidacy)
+    r.Post("/withdraw", WithDraw)
     return r
 }
 
-type MatchRequest struct {
+type CandidacyRequest struct {
     Deck    Deck   `json:"deck"`
 }
 
-func (a *MatchRequest) Bind(r *http.Request) error {
+func (a *CandidacyRequest) Bind(r *http.Request) error {
     return nil
 }
 
-type MatchResponse struct {
-    Host        string  `json:"host"`
-    SessionID   string  `json:"sid"`
-    Error       error   `json:"-"`
-}
-
-func NewMatchResponse(id string, match *MatchResponse) *MatchResponse {
-    store.Add(id, &match, 0)
-    return match
-}
-
-func (rd *MatchResponse) Render(w http.ResponseWriter, r *http.Request) error {
-    return nil
-}
-
-func FindMatch(w http.ResponseWriter, r *http.Request) {
+func Candidacy(w http.ResponseWriter, r *http.Request) {
     id, _ := session.GetString(r, "id")
-    data := &MatchRequest{}
+    data := &CandidacyRequest{}
     if err := render.Bind(r, data); err != nil {
         render.Render(w, r, ErrInvalidRequest(err))
         return
     }
-    respChan := make(chan *MatchResponse)
-    match <- Wait{
-        ID:             id,
-        Deck:           data.Deck,
-        RespChannel:    respChan,
+    manager.Candidacy <- &Candidate{
+        UserId: id,
+        Deck:   &data.Deck,
     }
-    resp := <-respChan
-    if resp.Error != nil {
-        render.Render(w, r, ErrRender(resp.Error))
+    render.Render(w, r, &CommonSuccess{})
+}
+
+func WithDraw(w http.ResponseWriter, r *http.Request) {
+    id, _ := session.GetString(r, "id")
+    manager.Withdraw <- id
+    render.Render(w, r, &CommonSuccess{})
+}
+
+
+func (rd *Game) Render(w http.ResponseWriter, r *http.Request) error {
+    return nil
+}
+
+func FindGame(w http.ResponseWriter, r *http.Request) {
+    id, _ := session.GetString(r, "id")
+    result := make(chan *Game)
+    manager.FindGame <- &Find{
+        UserId:     id,
+        FindResult: result,
+    }
+    game := <- result
+    if game != nil {
+        render.Render(w, r, game)
         return
     }
-    render.Render(w, r, NewMatchResponse(id, resp))
+    render.Render(w, r, ErrNotFound)
 }

@@ -1,10 +1,8 @@
 package main
 
 import (
-    "bufio"
     "flag"
     "math/rand"
-    "net"
     "time"
 
     "github.com/golang/glog"
@@ -26,64 +24,7 @@ func main() {
     // set default Source for math/rand
     rand.Seed(time.Now().UnixNano())
 
-    adminListener, err := net.Listen("tcp", ":9989")
-    if err != nil {
-        panic(err)
-    }
-    go func() {
-        for {
-            conn, err := adminListener.Accept()
-            if err != nil {
-                continue
-            }
-            go func() {
-                defer conn.Close()
-                if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
-                    return
-                }
-                reader := bufio.NewReader(conn)
-                for {
-                    var packet Packet
-                    if b, _, err := reader.ReadLine(); err != nil {
-                        continue
-                    } else {
-                        packet = Packet(b)
-                    }
-                    var create CreateGame
-                    if err := packet.Parse(&create); err != nil {
-                        continue
-                    }
-                    game := NewGame()
-                    game.Join(Home, User{
-                        id: create.Home.UserId,
-                        knightName: create.Home.Knight,
-                        deck: create.Home.Deck,
-                        /*
-                        //custom deck
-                        deck: Cards{
-                            "minipekka",
-                            "giant",
-                            "minipekka",
-                            "giant",
-                            "minipekka",
-                            "giant",
-                            },
-                        */
-                    })
-                    game.Join(Visitor, User{
-                        id: create.Visitor.UserId,
-                        knightName: create.Visitor.Knight,
-                        deck: create.Visitor.Deck,
-
-                    })
-                    session := NewSession(create.SessionId, server)
-                    go session.Run(game)
-                    go game.Run(session)
-                    conn.Write([]byte("ok\n"))
-                }
-            }()
-        }
-    }()
+    NewAdmin(server)
 
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
     if err != nil {

@@ -35,8 +35,8 @@ type Input struct {
     }
 }
 
-type CreateGame struct {
-    SessionId string
+type LobbyRequest struct {
+    SessionId   string
     Home struct {
         UserId  string
         Knight  string
@@ -47,4 +47,10 @@ type CreateGame struct {
         Knight  string
         Deck    Cards
     }
+    DoNotCreate bool
+}
+
+type LobbyResponse struct {
+    Created bool
+    Exists  bool
 }
