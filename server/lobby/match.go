@@ -109,7 +109,7 @@ func (m *MatchManager) MatchingCandidates() {
 }
 
 func (m *MatchManager) IsGameRunning(game *Game) (res bool){
-    conn, err := net.Dial("tcp", game.Host + ":9989")
+    conn, err := net.Dial("tcp", "127.0.0.1:9989")
     if err != nil {
         glog.Errorf("game server connect fail:%v", err)
         return
