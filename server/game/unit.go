@@ -189,10 +189,13 @@ func (A *Unit) CollisionInfo(B *Unit) (float64, Vector2) {
 }
 
 func (me *Unit) ResolveCollision() {
-    if me.Type == Knight || me.Type == Bullet {
+    if me.Type != Troop {
         return
     }
     for _, other := range me.Game.Units {
+        if other.Type != Troop {
+            return
+        }
         overlap, normal := me.CollisionInfo(other)
         if overlap > 0 {
             ratio := me.InvMass / (me.InvMass + other.InvMass)
@@ -458,16 +461,13 @@ func (u *Unit) Update() {
         if u.IsOutOfScreen() {
             u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
-            players := u.Game.Home
-            if u.Team == Home {
-                players = u.Game.Visitor
-            }
-            for _, player := range players {
-                knight := player.Knight
-                if knight.Hp > 0 && u.WithinRange(knight) {
-                    knight.TakeDamage(u.Damage)
-                    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
-                    break
+            for _, other := range u.Game.Units {
+                if other.Team != u.Team &&  (other.Type == Knight || other.Type == Troop) {
+                    if other.Hp > 0 && u.WithinRange(other) {
+                        other.TakeDamage(u.Damage)
+                        u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+                        break
+                    }
                 }
             }
         }
