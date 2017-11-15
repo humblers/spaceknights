@@ -458,18 +458,16 @@ func (u *Unit) Update() {
         if u.IsOutOfScreen() {
             u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
         } else {
-            players := u.Game.Home
-            if u.Team == Home {
-                players = u.Game.Visitor
-            }
-            for _, player := range players {
-                knight := player.Knight
-                if knight.Hp > 0 && u.WithinRange(knight) {
-                    knight.TakeDamage(u.Damage)
-                    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
-                    break
-                }
-            }
+            for _, other := range u.Game.Units {
+				if other.Team != u.Team &&  (other.Type == Knight || other.Type == Troop) {
+					if other.Hp > 0 && u.WithinRange(other) {
+						other.TakeDamage(u.Damage)
+						u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+						break
+					}
+				}
+			}						
+			
         }
     case Base:
         return
