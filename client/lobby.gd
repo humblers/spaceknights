@@ -1,26 +1,33 @@
 extends Node
 
 var deck
+var finding = false
+var find_timer = Timer.new()
+var find_stack = 0
 
 onready var id_holder = get_node("Auth/IDPlaceholder")
 onready var login = get_node("Auth/Login")
 onready var logout = get_node("Auth/Logout")
 onready var match = get_node("Match")
 onready var find_match = get_node("Match/Find")
-onready var continue_match = get_node("Match/Continue")
 onready var cancel_match = get_node("Match/Cancel")
+onready var waiting_match = get_node("Match/Waiting")
 onready var shuffle_deck = get_node("Deck/Shuffle")
 
 func _ready():
 	http_lobby.connect("login_response", self, "_login_response")
-	http_lobby.connect("match_response", self, "_match_response")
+	http_lobby.connect("candidacy_response", self, "_candidacy_response")
+	http_lobby.connect("withdraw_response", self, "_withdraw_response")
+	http_lobby.connect("findgame_response", self, "_findgame_response")
 	http_lobby.connect("logout_response", self, "_logout_response")
 	login.connect("pressed", self, "login_manually")
 	logout.connect("pressed", self, "logout")
-	find_match.connect("pressed", self, "find_match")
-	continue_match.connect("pressed", self, "continue_match")
-	cancel_match.connect("pressed", self, "cancel_match")
+	find_match.connect("pressed", self, "match_candidacy")
+	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
+	find_timer.connect("timeout", self, "find_game")
+	find_timer.set_wait_time(0.1)
+	add_child(find_timer)
 	shuffle_deck()
 	try_auto_login()
 
@@ -49,31 +56,43 @@ func logout():
 			{},
 			"logout_response")
 
-func activate_match_buttons():
+func handle_match_buttons():
+	if not global.id:
+		match.hide()
+		return
 	match.show()
-	if global.config.has_section_key("match", global.id):
+	if finding:
 		find_match.hide()
-		continue_match.show()
+		waiting_match.show()
 		cancel_match.show()
 		return
 	find_match.show()
-	continue_match.hide()
+	waiting_match.hide()
 	cancel_match.hide()
 
-func find_match():
+func match_candidacy():
+	http_lobby.request(HTTPClient.METHOD_POST,
+			"/match/candidacy",
+			{"deck":deck},
+			"candidacy_response")
+
+func find_game(handle_button=true):
+	if finding:
+		return
+	finding = true
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/find",
-			{"deck":deck},
-			"match_response")
-	find_match.set_text("WAITING...")
+			{},
+			"findgame_response")
+	if handle_button:
+		handle_match_buttons()
 
-func continue_match():
-	_match_response(true, global.config.get_value("match", global.id))
-
-func cancel_match():
-	global.config.set_value("match", global.id, null)
-	global.save_config()
-	activate_match_buttons()
+func withdraw_match():
+	http_lobby.request(HTTPClient.METHOD_POST,
+			"/match/withdraw",
+			{},
+			"withdraw_response")
+	handle_match_buttons()
 
 func shuffle_deck():
 	for child in get_node("Deck/Container").get_children():
@@ -97,10 +116,11 @@ func _login_response(success, dict):
 	id_holder.set_focus_mode(Control.FOCUS_NONE)
 	login.hide()
 	logout.show()
-	activate_match_buttons()
+	handle_match_buttons()
+	find_game(false)
 
 func _logout_response(success, dict):
-	match.hide()
+	handle_match_buttons()
 	logout.hide()
 	login.show()
 	id_holder.set_focus_mode(Control.FOCUS_ALL)
@@ -110,15 +130,25 @@ func _logout_response(success, dict):
 	global.save_config()
 	global.id = null
 
-func _match_response(success, dict):
-	find_match.set_text("FIND")
+func _candidacy_response(success, dict):
 	if not success:
 		print("match failed : ", dict)
-		return
-	
-	global.config.set_value("match", global.id, dict)
-	global.save_config()
+	find_timer.start()
 
+func _withdraw_response(success, dict):
+	find_timer.stop()
+	find_stack = 0
+	finding = false
+	handle_match_buttons()
+
+func _findgame_response(success, dict):
+	finding = false
+	if not success:
+		find_stack += 1
+		if find_stack > 100:
+			withdraw_match()
+		return
+	find_timer.stop()
 	# kcp connect before scene loading
 	kcp.connect_server(dict.host, 9999)
 	kcp.send({"Id": global.id, "Token": global.id})
