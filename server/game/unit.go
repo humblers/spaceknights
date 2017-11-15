@@ -345,7 +345,7 @@ func (u *Unit) HandleSpawn() {
             unit.Position = getSpawnPos(unit.Radius)
             u.Game.AddUnit(unit)
         case "knightbullet":
-            if u.SpawnStack++; u.SpawnStack >= 8 {
+            if u.SpawnStack++; u.SpawnStack >= 6 {
                 u.SpawnStack = 1
             }
             if u.SpawnStack > 4 {
