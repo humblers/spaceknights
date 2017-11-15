@@ -75,7 +75,7 @@ func (m *MatchManager) MatchingCandidates() {
     m.Games[c1] = session; m.Games[c2] = session
     delete(m.Candidates, c1); delete(m.Candidates, c2)
 
-    conn, err := net.Dial("tcp", session.Host + ":9989")
+    conn, err := net.Dial("tcp", "127.0.0.1:9989")
     if err != nil {
         glog.Errorf("game server connect fail:%v", err)
         return
