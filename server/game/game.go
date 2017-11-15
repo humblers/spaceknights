@@ -9,7 +9,7 @@ import (
 )
 
 const (
-    PlayTime = time.Minute * 5
+    PlayTime = time.Minute * 3
     FrameInterval = time.Millisecond * 100
 )
 
