@@ -23,7 +23,7 @@ func main() {
     go server.Run()
     // set default Source for math/rand
     rand.Seed(time.Now().UnixNano())
-    
+
     NewAdmin(server)
 
     listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
