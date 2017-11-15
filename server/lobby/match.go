@@ -37,9 +37,12 @@ type MatchManager struct {
 func (m *MatchManager) Run() {
     for {
         select {
-
         case candidate := <- m.Candidacy:
             m.Candidates[candidate.UserId] = candidate.Deck
+            if len(m.Candidates) < 2 {
+                break
+            }
+            m.MatchingCandidates()
         case id := <- m.Withdraw:
             delete(m.Candidates, id)
         case find := <- m.FindGame:
@@ -49,16 +52,11 @@ func (m *MatchManager) Run() {
                 game = nil
             }
             find.FindResult <- game
-        default:
-            m.MatchingCandidates()
         }
     }
 }
 
 func (m *MatchManager) MatchingCandidates() {
-    if len(m.Candidates) < 2 {
-        return
-    }
     keys := make([]string, 0, 2)
     for key := range m.Candidates {
         keys = append(keys, key)
