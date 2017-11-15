@@ -31,7 +31,7 @@ func MatchRouter() chi.Router {
             c1 := <- match
             c2 := <- match
             resp := &MatchResponse{
-                Host:      "127.0.0.1",
+                Host:      "13.125.74.237",
                 SessionID: strconv.FormatInt(time.Now().Unix(), 10),
             }
             packet, _ := json.Marshal(map[string]interface{}{
