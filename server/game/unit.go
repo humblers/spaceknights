@@ -128,30 +128,34 @@ func (u *Unit) FlipY() {
     u.Position.Y = MapHeight - u.Position.Y
 }
 
-type Units []*Unit
-func (s Units) Filter(f func(*Unit) bool) Units {
-    var filtered Units
-    for _, x := range s {
-        if f(x) {
-            filtered = append(filtered, x)
-        }
-    }
-    return filtered
-}
 
-func (u *Unit) TakeDamage(d int) {
-    if u.Hp <= 0 {
+func (u *Unit) TakeDamage(damage int, attacker *Unit) {
+    //glog.Infof("take damage : %v, unit : %v", d, u)
+    if u.IsDead() {
         return
     }
-    //glog.Infof("take damage : %v, unit : %v", d, u)
-    if u.Hp -= d; u.Hp <= 0 {
-        u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+    u.Hp -= damage
+    if attacker != nil {
+        effectiveDamage := damage
+        if u.Hp < 0 {
+            effectiveDamage += u.Hp
+        }
+        if u.Type == Troop {
+            u.Game.Stats[attacker.Team].TroopDamageDealt += effectiveDamage
+        } else if u.IsCore() {
+            u.Game.Stats[attacker.Team].CoreDamageDealt += effectiveDamage
+        } else if u.Type == Knight {
+            u.Game.Stats[attacker.Team].KnightDamageDealt += effectiveDamage
+        }
+    }
+    if u.IsDead() {
         switch u.Type {
         case Troop, Building:
             if !u.IsCore() {
                 u.ScatterBullets()
             }
         case Knight:
+            u.Game.Stats[u.Team].KnightDeadCount++
             u.RepairFrame = u.Game.Frame + u.RepairDelay
         }
     }
@@ -258,14 +262,14 @@ func (u *Unit) HasAttack() bool {
 func (u *Unit) HandleAttack() {
     if u.Game.Frame == u.HitFrame {
         if u.WithinRange(u.Target) {
-            u.Target.TakeDamage(u.Damage)
+            u.Target.TakeDamage(u.Damage, u)
             if u.DamageRadius > 0 {
                 for _, unit := range u.Game.Units {
                     if u.Target == unit {
                         continue
                     }
                     if u.CanTarget(unit) && u.DamageRadius >= u.Target.DistanceTo(unit) - unit.Radius {
-                        unit.TakeDamage(u.Damage)
+                        unit.TakeDamage(u.Damage, u)
                     }
                 }
             }
@@ -304,6 +308,9 @@ func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
 }
 
 func (u *Unit) IsDead() bool {
+    if u.Type == Bullet || u.Type == Base {
+        return false
+    }
     return u.Hp <= 0
 }
 
@@ -357,6 +364,7 @@ func (u *Unit) HandleSpawn() {
             if bullet.Team == Home {
                 bullet.Heading.Y *= -1
             }
+            u.Game.Stats[u.Team].KnightBulletTotalCount += 1
         default:
             glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         }
@@ -367,10 +375,10 @@ func (u *Unit) HandleSpawn() {
 func (u *Unit) ScatterBullets() {
     var bulletVectors []Vector2
     switch u.Size {
-    case Medium:
+    case Small:
         bulletVectors = []Vector2{ {0, 1} }
-    case Large, XLarge:
-        bulletVectors = []Vector2{ {-3, 5}, {0, 1}, Vector2{3, 5} }
+    case Medium, Large, XLarge:
+        bulletVectors = []Vector2{ {-3, 5}, {0, 1}, {3, 5} }
     }
     for _, vector := range bulletVectors {
         bullet := NewScatteredBullet(u.Team, u.Position)
@@ -419,7 +427,7 @@ func (u *Unit) Update() {
             }
         }
     case Building:
-        u.TakeDamage(u.LifetimeCost)
+        u.TakeDamage(u.LifetimeCost, nil)
         if u.HasAttack() {
             if u.IsAttacking() {
                 u.HandleAttack()
@@ -459,21 +467,26 @@ func (u *Unit) Update() {
     case Bullet:
         u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() {
-            u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+            u.SelfRemove()
         } else {
-            for _, other := range u.Game.Units {
-                if other.Team != u.Team &&  (other.Type == Knight || other.Type == Troop) {
-                    if other.Hp > 0 && u.WithinRange(other) {
-                        other.TakeDamage(u.Damage)
-                        u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
-                        break
+            for _, unit := range u.Game.Units {
+                if u.CanTarget(unit) && u.WithinRange(unit) {
+                    unit.TakeDamage(u.Damage, u)
+                    u.SelfRemove()
+                    if u.Name == "knightbullet" {
+                        u.Game.Stats[u.Team].KnightBulletHitCount += 1
                     }
+                    break
                 }
             }
         }
     case Base:
         return
     }
+}
+
+func (u *Unit) SelfRemove() {
+    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
 }
 
 func (u *Unit) IsOutOfScreen() bool {

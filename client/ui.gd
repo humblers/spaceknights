@@ -3,7 +3,7 @@ extends Node
 onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
-onready var winner = get_node("Winner")
+onready var result = get_node("Result")
 onready var guide = get_node("CardGuide")
 
 var hand
@@ -19,7 +19,7 @@ func connect_ui_signals():
 	card1.connect("mouse_exit", self, "cancel_card")
 	card2.connect("mouse_exit", self, "cancel_card")
 	card3.connect("mouse_exit", self, "cancel_card")
-	winner.connect("pressed", self, "back_to_lobby")
+	result.connect("pressed", self, "back_to_lobby")
 
 func load_icon(name, postfix):
 	return load("res://icon/%s_%s.png" % [name, postfix])
@@ -38,11 +38,11 @@ func update_changes(game):
 		node.set_normal_texture(load_icon(card, postfix))
 	get_node("Energy").set_value(player.Energy / 100)
 
-	if game.has("Winner"):
+	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
 		global.save_config()
 		input.disconnect("mouse_dragged", self, "move")
-		show_winner(game)
+		show_result(game.Result)
 		kcp.disconnect_server()
 
 func press_card(i):
@@ -66,13 +66,26 @@ func move(x):
 func back_to_lobby():
 	get_tree().change_scene("res://lobby.tscn")
 
-func show_winner(game):
-	var text
-	if game.Winner == "Draw":
-		text = "Draw"
-	elif game.Winner == global.team:
-		text = "You Win"
+func show_result(data):
+	var winner
+	if data.Winner == "Draw":
+		winner = "Draw"
+	elif data.Winner == global.team:
+		winner = "You Win"
 	else:
-		text = "You Lose"
-	winner.set_text(text)
-	winner.show()
+		winner = "You Lose"
+	
+	var stats = ""
+	stats += to_string(data.Stats, global.team) + "\n"
+	stats += to_string(data.Stats, "Visitor" if global.team == "Home" else "Home")
+	
+	result.get_node("Label").set_text(winner + "\n\n" + stats)
+	result.show()
+
+func to_string(stats, team):
+	var text = "[MyTeam]" if team == global.team else "[EnemyTeam]"
+	text += "\n"
+	var stat = stats[team]
+	for key in stat:
+		text += key + ": " + str(stat[key]) + "\n"
+	return text

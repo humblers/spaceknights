@@ -39,14 +39,15 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) RepairKnight(frame int) (knight *Unit) {
-    if player.Knight.Hp <= 0 && player.Knight.RepairFrame == frame {
-        knight = player.Knight
+func (player *Player) RepairKnight(game *Game) {
+    if player.Knight.Hp <= 0 && player.Knight.RepairFrame == game.Frame {
+        knight := player.Knight
         knight.Hp = 100
         knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
-        knight.SpawnFrame = frame + knight.SpawnSpeed
+        knight.SpawnFrame = game.Frame + knight.SpawnSpeed
         knight.SpawnStack = 0
         knight.HitFrame = 0
+        game.AddUnit(knight)
     }
     return
 }
@@ -75,6 +76,7 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
         return
     }
     player.Energy = player.Energy - CostMap[card]
+    game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
 
     player.Hand[index] = next
     for i := 1; i < len(player.Pending); i++ {
