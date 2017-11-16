@@ -15,7 +15,7 @@ func NewBombtower(t Team, x float64) *Unit {
         Radius:        20,
         Size:          Large,
         Sight:         120,
-        Range:         120,
+        Range:         100,
         Damage:        100,
         LifetimeCost:  1,
         Position:      Vector2 { x, 200 },

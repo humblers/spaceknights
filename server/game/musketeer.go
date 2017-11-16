@@ -16,7 +16,7 @@ func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
         Radius:        11,
         Size:          Large,
         Sight:         120,
-        Range:         120,
+        Range:         100,
         Damage:        100,
         Id:            id,
         Position:      pos.Plus(offset.Multiply(11)),
