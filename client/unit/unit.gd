@@ -13,6 +13,7 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
+	get_node("Body/Hp/Progress").set_max(global.UNITS[name].hp)
 	set_process(true)
 
 func _process(delta):
@@ -33,8 +34,8 @@ func set_base():
 
 func set_layers():
 	set_z(global.LAYERS[global.UNITS[name].layer])
-	get_node("Hp").set_z_as_relative(false)
-	get_node("Hp").set_z(global.LAYERS.UI)
+	get_node("Body/Hp").set_z_as_relative(false)
+	get_node("Body/Hp").set_z(global.LAYERS.UI)
 
 func set_damage_effect():
 	damage_effect.set_one_shot(true)
@@ -66,7 +67,7 @@ func set_hp(unit):
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp
-	get_node("Hp/Label").set_text(str(hp))
+	get_node("Body/Hp/Progress").set_value(hp)
 
 func get_velocity(unit):
 	var x = unit.Velocity.X
@@ -116,7 +117,7 @@ func set_launch_effect(unit):
 		body.play("red_idle")
 	set_pos(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
-	get_node("Hp").hide()
+	get_node("Body/Hp").hide()
 	body.set_self_opacity(0.7)
 
 func play_launch_effect(delta):
@@ -127,12 +128,12 @@ func play_launch_effect(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
 	launch_effect.queue_free()
-	get_node("Hp").show()
+	get_node("Body/Hp").show()
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
 	set_pos(pos)
-	get_node("Hp").hide()
+	get_node("Body/Hp").hide()
 	body.set_opacity(0.5)
 
 func _draw():
