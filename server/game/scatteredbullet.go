@@ -6,7 +6,7 @@ func NewScatteredBullet(t Team, pos Vector2) *Unit {
         Type:          Bullet,
         Name:          "scatteredbullet",
         Layer:         Air,
-        TargetLayers : Layers{Ground},
+        TargetLayers : Layers{Air},
         TargetTypes:   Types{Knight},
         Speed:         3,
         Radius:        7,

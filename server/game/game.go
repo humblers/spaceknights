@@ -75,14 +75,46 @@ const (
 )
 
 type Game struct {
-    Winner       Team                   `json:",omitempty"`
     Frame        int                                        // valid only if > 0
     Home         map[string]*Player     `json:",omitempty"`
     Visitor      map[string]*Player     `json:",omitempty"`
-    Units        Units 
+    Units        Units
     WaitingCards []*WaitingCard         `json:",omitempty"`
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
+    Result       *Result                `json:",omitempty"`
+    Winner       Team                   `json:"-"`
+    Stats        map[Team]*Stat          `json:"-"`
+}
+
+type Result struct {
+    Winner Team
+    Stats map[Team]*Stat
+}
+
+type Stat struct {
+    KnightDeadCount int
+    EnergyUsed int
+    TroopDamageDealt int
+    CoreDamageDealt int
+    KnightDamageDealt int
+    KnightBulletTotalCount int
+    KnightBulletHitCount int
+}
+
+type Units []*Unit
+func (s Units) Filter(f func(*Unit) bool) Units {
+    var filtered Units
+    for _, x := range s {
+        if f(x) {
+            filtered = append(filtered, x)
+        }
+    }
+    return filtered
+}
+
+func (game *Game) RemoveDeadUnits() {
+    game.Units = game.Units.Filter(func(x *Unit) bool { return !x.IsDead() })
 }
 
 func NewGame() *Game {
@@ -92,6 +124,7 @@ func NewGame() *Game {
         Visitor:      make(map[string]*Player),
         UnitCounter:  1,
         Motherships:  make(map[Team][]*Unit),
+        Stats:        make(map[Team]*Stat),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -101,6 +134,8 @@ func NewGame() *Game {
     for _, u := range g.Motherships[Visitor] {
         g.AddUnit(u)
     }
+    g.Stats[Home] = &Stat{}
+    g.Stats[Visitor] = &Stat{}
     return &g
 }
 
@@ -301,30 +336,17 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     for _, player := range game.Home {
         player.IncreaseEnergy(EnergyPerFrame)
-        if knight := player.RepairKnight(game.Frame); knight != nil {
-            game.AddUnit(knight)
-        }
+        player.RepairKnight(game)
     }
     for _, player := range game.Visitor {
         player.IncreaseEnergy(EnergyPerFrame)
-        if knight := player.RepairKnight(game.Frame); knight != nil {
-            game.AddUnit(knight)
-        }
+        player.RepairKnight(game)
     }
-    // Filtering without allocating
-    // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
-    var filtered []*WaitingCard
-    for _, card := range game.WaitingCards {
-        if card.ActivateFrame == game.Frame {
-            game.ActivateCard(card)
-            continue
-        }
-        filtered = append(filtered, card)
-    }
-    game.WaitingCards = filtered
+    game.ActivateWaitingCards()
     for _, unit := range game.Units {
         unit.Update()
     }
+    game.RemoveDeadUnits()
     for _, unit := range game.Units {
         unit.ResolveCollision()
     }
@@ -334,6 +356,10 @@ func (game *Game) update() (gameover bool) {
     gameover = game.Over()
     if gameover {
         game.Winner = game.GetWinner()
+        game.Result = &Result{
+            Winner: game.Winner,
+            Stats: game.Stats,
+        }
     }
     return
 }
@@ -345,4 +371,18 @@ func (game *Game) apply(input Input) {
     } else if input.Use.Index != 0 {
         player.UseCard(input.Use.Index - 1, input.Use.Point, game)
     }
+}
+
+func (game *Game) ActivateWaitingCards() {
+    // Filtering without allocating
+    // https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
+    var filtered []*WaitingCard
+    for _, card := range game.WaitingCards {
+        if card.ActivateFrame == game.Frame {
+            game.ActivateCard(card)
+            continue
+        }
+        filtered = append(filtered, card)
+    }
+    game.WaitingCards = filtered
 }
