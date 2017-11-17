@@ -8,7 +8,7 @@ func NewArcher(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
-        Hp:            125,
+        Hp:            100,
         InvMass:       1.0/6,
         Speed:         3,
         PreHitDelay:   4,

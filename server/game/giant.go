@@ -8,7 +8,7 @@ func NewGiant(id int, t Team, pos Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground},
         TargetTypes :  Types{Building},
-        Hp:            2000,
+        Hp:            1800,
         InvMass:       1.0/100,
         Speed:         1,
         PreHitDelay:   8,

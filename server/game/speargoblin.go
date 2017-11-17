@@ -8,7 +8,7 @@ func NewSpeargoblin(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
-        Hp:            52,
+        Hp:            50,
         InvMass:       1.0/7,
         Speed:         5,
         PreHitDelay:   4,
