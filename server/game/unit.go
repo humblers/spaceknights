@@ -491,14 +491,16 @@ func (u *Unit) SelfRemove() {
 }
 
 func (u *Unit) ReachedMaxY() bool {
-    initialMax := CenterY - TileHeight
-    maxY := initialMax + 2 * u.Game.Frame / int(time.Second / FrameInterval)
-    posY := u.Position.Y
-    if u.Team == Home {
-        posY = MapHeight - posY
-    }
-    if posY >= float64(maxY) {
-        return true
+    if u.Name == "knightbullet" {
+        initialMax := CenterY - TileHeight
+        maxY := initialMax + 2 * u.Game.Frame / int(time.Second / FrameInterval)
+        posY := u.Position.Y
+        if u.Team == Home {
+            posY = MapHeight - posY
+        }
+        if posY >= float64(maxY) {
+            return true
+        }
     }
     return false
 }
