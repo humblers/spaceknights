@@ -43,12 +43,13 @@ func (client *Client) Run() {
     defer client.closeConn()
 
     if err := client.auth(); err != nil {
-        glog.Errorf(err.Error())
+        glog.Error(err)
         return
     }
 
     if err:= client.join(); err != nil {
-        panic(err)
+        glog.Error(err)
+        return
     }
 
     client.loop.Add(2)
@@ -63,7 +64,7 @@ func (client *Client) WriteAsync(packet Packet) {
     select {
     case client.outgoing <- packet:
     default:
-        glog.Warningf("WARNING: client %v outgoing channel blocked", client)
+        glog.Warningf("client %v outgoing channel blocked", client)
     }
 }
 
@@ -109,7 +110,7 @@ func (client *Client) writeLoop() {
             return
         case packet := <-client.outgoing:
             if err := client.write(packet, 1 * time.Second); err != nil {
-                panic(err)
+                glog.Errorf("client %v write error : %v", err)
             }
         }
     }
