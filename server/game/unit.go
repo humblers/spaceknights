@@ -5,6 +5,7 @@ import (
     "github.com/golang/glog"
     "encoding/json"
     "math"
+    "time"
 )
 
 type State string
@@ -466,7 +467,7 @@ func (u *Unit) Update() {
         u.HandleSpawn()
     case Bullet:
         u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
-        if u.IsOutOfScreen() {
+        if u.IsOutOfScreen() || u.ReachedMaxY() {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
@@ -489,17 +490,30 @@ func (u *Unit) SelfRemove() {
     u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
 }
 
+func (u *Unit) ReachedMaxY() bool {
+    initialMax := CenterY - TileHeight
+    maxY := initialMax + 2 * u.Game.Frame / int(time.Second / FrameInterval)
+    posY := u.Position.Y
+    if u.Team == Home {
+        posY = MapHeight - posY
+    }
+    if posY >= float64(maxY) {
+        return true
+    }
+    return false
+}
+
 func (u *Unit) IsOutOfScreen() bool {
-    if u.Position.X < 0 - u.Radius{
+    if u.Position.X < 0 - u.Radius {
         return true
     }
     if u.Position.X > MapWidth + u.Radius {
         return true
     }
-    if u.Position.Y < MapHeight - ScreenHeight {
+    if u.Position.Y < 0 - u.Radius {
         return true
     }
-    if u.Position.Y > ScreenHeight {
+    if u.Position.Y > MapHeight + u.Radius {
         return true
     }
     return false
