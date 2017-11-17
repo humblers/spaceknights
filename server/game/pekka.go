@@ -8,7 +8,7 @@ func NewPekka(id int, t Team, pos Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
-        Hp:            2610,
+        Hp:            1800,
         InvMass:       1.0/25,
         Speed:         1,
         PreHitDelay:   5,

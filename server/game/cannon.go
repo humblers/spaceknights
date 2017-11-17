@@ -16,7 +16,7 @@ func NewCannon(id int, t Team, pos Vector2) *Unit {
         Radius:        20,
         Size:          Large,
         Sight:         120,
-        Range:         110,
+        Range:         90,
         Damage:        60,
         LifetimeCost:  1,
         Id:            id,

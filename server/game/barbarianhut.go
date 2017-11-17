@@ -6,7 +6,7 @@ func NewBarbarianhut(id int, t Team, pos Vector2) *Unit {
         Type:         Building,
         Name:         "barbarianhut",
         Layer:        Ground,
-        Hp:           1200,
+        Hp:           900,
         InvMass:      0,
         Radius:       20,
         Size:         Large,

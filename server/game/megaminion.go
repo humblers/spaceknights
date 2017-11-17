@@ -8,7 +8,7 @@ func NewMegaminion(id int, t Team, pos Vector2) *Unit {
         Layer:         Air,
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
-        Hp:            395,
+        Hp:            300,
         InvMass:       1.0/20,
         Speed:         3,
         PreHitDelay:   3,
