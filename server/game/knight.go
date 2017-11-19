@@ -20,7 +20,7 @@ func NewKnight(t Team, name string) *Unit {
         TargetLayers:   Layers{Air, Ground},
         TargetTypes:    Types{Troop, Building},
         Hp:             100,
-        Speed:          2,
+        Speed:          4,
         PreHitDelay:    10,
         PostHitDelay:   4,
         Radius:         radius,
