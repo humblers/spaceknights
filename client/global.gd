@@ -10,7 +10,7 @@ const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
 const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
 const SERVER_UPDATES_PER_SECOND = 10
 
-const MOTHERSHIP_BASE_HEIGHT = 50
+const MOTHERSHIP_BASE_HEIGHT = 60
 const SCREEN_HEIGHT = 640
 const MAP = {
 	"width" : 400,

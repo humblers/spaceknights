@@ -55,9 +55,9 @@ func (player *Player) RepairKnight(game *Game) {
 func (player *Player) Move(x float64) {
     switch player.Team {
     case Home:
-        player.Knight.Position.X += x
+        player.Knight.InputPositionX = x
     case Visitor:
-        player.Knight.Position.X -= x
+        player.Knight.InputPositionX = MapWidth - x
     }
 }
 

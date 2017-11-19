@@ -110,7 +110,7 @@ func (client *Client) writeLoop() {
             return
         case packet := <-client.outgoing:
             if err := client.write(packet, 1 * time.Second); err != nil {
-                glog.Errorf("client %v write error : %v", err)
+                glog.Errorf("client %v write error : %v", client, err)
             }
         }
     }

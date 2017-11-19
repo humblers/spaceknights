@@ -57,8 +57,8 @@ func update_changes(unit):
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
-	velocity = get_velocity(unit)
-	update()
+	#velocity = get_velocity(unit)
+	#update()
 
 func set_hp(unit):
 	if unit.Hp <= 0:

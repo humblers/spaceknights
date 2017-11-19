@@ -87,8 +87,9 @@ type Unit struct {
     Game         *Game   `json:"-"`
     State        State
     Position     Vector2
+    InputPositionX float64 `json:"-"`   // for knight movement input
     Heading      Vector2
-    Velocity     Vector2
+    Velocity     Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
@@ -465,6 +466,8 @@ func (u *Unit) Update() {
             }
         }
         u.HandleSpawn()
+        destination := Vector2{u.InputPositionX, u.Position.Y}
+        u.Velocity = destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
         u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
         if u.IsOutOfScreen() || u.ReachedMaxY() {
