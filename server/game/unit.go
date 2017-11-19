@@ -5,7 +5,6 @@ import (
     "github.com/golang/glog"
     "encoding/json"
     "math"
-    "time"
 )
 
 type State string
@@ -494,9 +493,8 @@ func (u *Unit) SelfRemove() {
 }
 
 func (u *Unit) ReachedMaxY() bool {
-    if u.Name == "knightbullet" {
-        initialMax := CenterY - TileHeight
-        maxY := initialMax + 2 * u.Game.Frame / int(time.Second / FrameInterval)
+    if u.Name == "knightbullet" && u.Game.Frame < int(PlayTime / FrameInterval) / 2 {
+        maxY := CenterY - TileHeight
         posY := u.Position.Y
         if u.Team == Home {
             posY = MapHeight - posY
