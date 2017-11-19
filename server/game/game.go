@@ -338,10 +338,12 @@ func (game *Game) update() (gameover bool) {
     for _, player := range game.Home {
         player.IncreaseEnergy(EnergyPerFrame)
         player.RepairKnight(game)
+        player.Move(game.Frame)
     }
     for _, player := range game.Visitor {
         player.IncreaseEnergy(EnergyPerFrame)
         player.RepairKnight(game)
+        player.Move(game.Frame)
     }
     game.ActivateWaitingCards()
     for _, unit := range game.Units {
@@ -367,10 +369,10 @@ func (game *Game) update() (gameover bool) {
 
 func (game *Game) apply(input Input) {
     player := game.Player(input.id)
-    if input.Move != 0 {
-        player.Move(input.Move)
-    } else if input.Use.Index != 0 {
+     if input.Use.Index != 0 {
         player.UseCard(input.Use.Index - 1, input.Use.Point, game)
+    } else {
+        player.AddMovement(input.Move, game.Frame)
     }
 }
 

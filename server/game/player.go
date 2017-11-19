@@ -16,6 +16,12 @@ type Player struct {
     Pending Cards `json:"-"`
     Knight *Unit `json:"-"`
     Energy int
+    Movements []*Movement `json:"-"`
+}
+
+type Movement struct {
+    PositionX float64
+    Frame int
 }
 
 func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
@@ -52,13 +58,25 @@ func (player *Player) RepairKnight(game *Game) {
     return
 }
 
-func (player *Player) Move(x float64) {
-    switch player.Team {
-    case Home:
-        player.Knight.InputPositionX = x
-    case Visitor:
-        player.Knight.InputPositionX = MapWidth - x
+const MovementDelay = 5
+func (player *Player) AddMovement(x float64, frame int) {
+    posX := x
+    if player.Team == Visitor {
+        posX = MapWidth - x
     }
+    player.Movements = append(player.Movements, &Movement{posX, frame + MovementDelay})
+}
+
+func (player *Player) Move(frame int) {
+    var unhandled []*Movement
+    for _, m := range player.Movements {
+        if frame > m.Frame {
+            player.Knight.InputPositionX = m.PositionX
+        } else {
+            unhandled = append(unhandled, m)
+        }
+    }
+    player.Movements = unhandled
 }
 
 func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
