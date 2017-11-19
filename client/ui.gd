@@ -9,7 +9,7 @@ onready var guide = get_node("CardGuide")
 var hand
 
 func connect_ui_signals():
-	input.connect("mouse_dragged", self, "move")
+	input.connect("mouse_pressed", self, "move")
 	card1.connect("pressed", self, "press_card", [1])
 	card2.connect("pressed", self, "press_card", [2])
 	card3.connect("pressed", self, "press_card", [3])
@@ -60,8 +60,11 @@ func release_card(i):
 func cancel_card():
 	guide.hide()
 
-func move(x):
-	kcp.send({ "Move" : x })
+func move(pos):
+	var maxY = global.MAP.height
+	var minY = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
+	if pos.y < maxY && pos.y > minY:
+		kcp.send({ "Move" : pos.x })
 
 func back_to_lobby():
 	get_tree().change_scene("res://lobby.tscn")

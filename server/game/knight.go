@@ -20,6 +20,7 @@ func NewKnight(t Team, name string) *Unit {
         TargetLayers:   Layers{Air, Ground},
         TargetTypes:    Types{Troop, Building},
         Hp:             100,
+        Speed:          2,
         PreHitDelay:    10,
         PostHitDelay:   4,
         Radius:         radius,
@@ -30,5 +31,6 @@ func NewKnight(t Team, name string) *Unit {
         RepairDelay:    30,
         SpawnFrame:     15,
         Position:       Vector2{MapWidth / 2, TileHeight * 1.5},
+        InputPositionX: MapWidth / 2,
     }
 }
