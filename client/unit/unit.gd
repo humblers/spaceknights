@@ -23,7 +23,7 @@ func initialize(unit):
 	self.name = unit.Name
 	self.color = "blue" if unit.Team == global.team else "red"
 	set_base()
-	set_hp(unit)
+	set_hp()
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
@@ -33,13 +33,13 @@ func set_base():
 		var texture = load("res://unit/%s/%s_base.png" % [name, color])
 		get_node("Base").set_texture(texture)
 
-func set_hp(unit):
+func set_hp():
 	var path = "Hp"
 	if name in ["maincore", "subcore"]:
 		path = "Body/" + path
 	hpnode = get_node(path)
 	hpnode.get_node(color).show()
-	hpnode.get_node(color).set_max(global.dict_get(unit, "Hp", 100))
+	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[name], "hp", 100))
 
 func set_layers():
 	set_z(global.LAYERS[global.UNITS[name].layer])

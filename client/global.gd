@@ -28,6 +28,7 @@ const LAYERS = {
 const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
+		"hp" : 100,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
@@ -37,6 +38,7 @@ const UNITS = {
 	},
 	"barbarian" : {
 		"layer" : "Ground",
+		"hp" : 300,
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 15,
@@ -44,12 +46,14 @@ const UNITS = {
 	},
 	"barbarianhut" : {
 		"layer" : "Ground",
+		"hp" : 900,
 		"radius" : 20,
 		"lifetimecost" : 2,
 		"size" : "large",
 	},
 	"bomber" : {
 		"layer" : "Ground",
+		"hp" : 150,
 		"prehitdelay" : 10,
 		"radius" : 11,
 		"sight" : 100,
@@ -59,6 +63,7 @@ const UNITS = {
 	},
 	"bombtower" : {
 		"layer" : "Ground",
+		"hp" : 900,
 		"prehitdelay": 15,
 		"radius" : 20,
 		"sight" : 120,
@@ -69,6 +74,7 @@ const UNITS = {
 	},
 	"cannon" : {
 		"layer" : "Ground",
+		"hp" : 450,
 		"prehitdelay": 5,
 		"radius" : 20,
 		"sight" : 100,
@@ -79,6 +85,7 @@ const UNITS = {
 	},
 	"darkprince" : {
 		"layer" : "Ground",
+		"hp" : 920,
 		"radius" : 13,
 		"sight" : 100,
 		"range" : 15,
@@ -86,6 +93,7 @@ const UNITS = {
 	},
 	"giant" : {
 		"layer" : "Ground",
+		"hp" : 1800,
 		"radius" : 28,
 		"sight" : 200,
 		"range" : 15,
@@ -93,6 +101,7 @@ const UNITS = {
 	},
 	"goblinhut" : {
 		"layer" : "Ground",
+		"hp" : 600,
 		"radius" : 28,
 		"lifetimecost" : 1,
 		"size" : "large",
@@ -105,6 +114,7 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
+		"hp" : 100,
 		"prehitdelay" : 10,
 		"radius" : 20,
 		"sight" : 140,
@@ -113,6 +123,7 @@ const UNITS = {
 	},
 	"space_z" : {
 		"layer" : "Air",
+		"hp" : 100,
 		"prehitdelay" : 10,
 		"radius" : 31,
 		"sight" : 140,
@@ -121,6 +132,7 @@ const UNITS = {
 	},
 	"megaminion" : {
 		"layer" : "Air",
+		"hp" : 300,
 		"radius" : 20,
 		"sight" : 80,
 		"range" : 50,
@@ -128,6 +140,7 @@ const UNITS = {
 	},
 	"minion" : {
 		"layer" : "Air",
+		"hp" : 70,
 		"radius" : 10,
 		"sight" : 80,
 		"range" : 20,
@@ -135,6 +148,7 @@ const UNITS = {
 	},
 	"minipekka" : {
 		"layer" : "Ground",
+		"hp" : 600,
 		"radius" : 12,
 		"sight" : 100,
 		"range" : 15,
@@ -142,11 +156,13 @@ const UNITS = {
 	},
 	"maincore" : {
 		"layer" : "Ground",
+		"hp" : 1200,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
 		"layer" : "Ground",
+		"hp" : 700,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
@@ -155,6 +171,7 @@ const UNITS = {
 	},
 	"musketeer" : {
 		"layer" : "Ground",
+		"hp" : 200,
 		"prehitdelay": 3,
 		"radius" : 11,
 		"sight" : 120,
@@ -164,6 +181,7 @@ const UNITS = {
 	},
 	"pekka" : {
 		"layer" : "Ground",
+		"hp" : 1800,
 		"radius" : 13,
 		"sight" : 100,
 		"range" : 15,
@@ -171,6 +189,7 @@ const UNITS = {
 	},
 	"prince" : {
 		"layer" : "Ground",
+		"hp" : 1100,
 		"radius" : 14,
 		"sight" : 100,
 		"range" : 15,
@@ -178,6 +197,7 @@ const UNITS = {
 	},
 	"skeleton" : {
 		"layer" : "Ground",
+		"hp" : 30,
 		"radius" : 6,
 		"sight" : 100,
 		"range" : 5,
@@ -185,6 +205,7 @@ const UNITS = {
 	},
 	"speargoblin" : {
 		"layer" : "Ground",
+		"hp" : 50,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
@@ -194,12 +215,14 @@ const UNITS = {
 	},
 	"tombstone" : {
 		"layer" : "Ground",
+		"hp" : 200,
 		"radius" : 17,
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
 	"valkyrie" : {
 		"layer" : "Ground",
+		"hp" : 880,
 		"radius": 12,
 		"sight" : 100,
 		"range" : 20,
