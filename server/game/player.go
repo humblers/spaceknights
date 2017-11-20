@@ -58,7 +58,7 @@ func (player *Player) RepairKnight(game *Game) {
     return
 }
 
-const MovementDelay = 5
+const MovementDelay = 1
 func (player *Player) AddMovement(x float64, frame int) {
     posX := x
     if player.Team == Visitor {
