@@ -28,7 +28,6 @@ const LAYERS = {
 const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
-		"hp" : 100,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
@@ -100,14 +99,12 @@ const UNITS = {
 	},
 	"knightbullet" : {
 		"layer" : "Air",
-		"hp" : 0,
 	},
 	"scatteredbullet" : {
 		"layer" : "Air",
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 100,
 		"prehitdelay" : 10,
 		"radius" : 20,
 		"sight" : 140,
@@ -116,7 +113,6 @@ const UNITS = {
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 100,
 		"prehitdelay" : 10,
 		"radius" : 31,
 		"sight" : 140,
@@ -146,19 +142,16 @@ const UNITS = {
 	},
 	"maincore" : {
 		"layer" : "Ground",
-		"hp" : 2400,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
 		"layer" : "Ground",
-		"hp" : 1400,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
 	"base" : {
 		"layer" : "Ground",
-		"hp" : 0,
 	},
 	"musketeer" : {
 		"layer" : "Ground",

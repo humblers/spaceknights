@@ -7,13 +7,13 @@ var color
 var target_id = 0
 var hp = 0
 var damage_effect = Timer.new()
+var hpnode
 onready var body = get_node("Body")
 
 signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
-	get_node("Body/Hp/Progress").set_max(global.UNITS[name].hp)
 	set_process(true)
 
 func _process(delta):
@@ -23,6 +23,7 @@ func initialize(unit):
 	self.name = unit.Name
 	self.color = "blue" if unit.Team == global.team else "red"
 	set_base()
+	set_hp(unit)
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
@@ -32,10 +33,18 @@ func set_base():
 		var texture = load("res://unit/%s/%s_base.png" % [name, color])
 		get_node("Base").set_texture(texture)
 
+func set_hp(unit):
+	var path = "Hp"
+	if name in ["maincore", "subcore"]:
+		path = "Body/" + path
+	hpnode = get_node(path)
+	hpnode.get_node(color).show()
+	hpnode.get_node(color).set_max(global.dict_get(unit, "Hp", 100))
+
 func set_layers():
 	set_z(global.LAYERS[global.UNITS[name].layer])
-	get_node("Body/Hp").set_z_as_relative(false)
-	get_node("Body/Hp").set_z(global.LAYERS.UI)
+	hpnode.set_z_as_relative(false)
+	hpnode.set_z(global.LAYERS.UI)
 
 func set_damage_effect():
 	damage_effect.set_one_shot(true)
@@ -48,7 +57,7 @@ func update_changes(unit):
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
 	set_target_id(unit)
-	set_hp(unit)
+	update_hp(unit)
 	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
@@ -61,13 +70,13 @@ func update_changes(unit):
 	#velocity = get_velocity(unit)
 	#update()
 
-func set_hp(unit):
+func update_hp(unit):
 	if unit.Hp <= 0:
 		return
 	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp
-	get_node("Body/Hp/Progress").set_value(hp)
+	hpnode.get_node(color).set_value(hp)
 
 func get_velocity(unit):
 	var x = unit.Velocity.X
@@ -117,7 +126,7 @@ func set_launch_effect(unit):
 		body.play("red_idle")
 	set_pos(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
-	get_node("Body/Hp").hide()
+	hpnode.hide()
 	body.set_self_opacity(0.7)
 
 func play_launch_effect(delta):
@@ -128,12 +137,12 @@ func play_launch_effect(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
 	launch_effect.queue_free()
-	get_node("Body/Hp").show()
+	hpnode.show()
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
 	set_pos(pos)
-	get_node("Body/Hp").hide()
+	hpnode.hide()
 	body.set_opacity(0.5)
 
 func _draw():
