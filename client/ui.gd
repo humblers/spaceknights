@@ -41,7 +41,7 @@ func update_changes(game):
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
 		global.save_config()
-		input.disconnect("mouse_dragged", self, "move")
+		input.disconnect("mouse_pressed", self, "move")
 		show_result(game.Result)
 		kcp.disconnect_server()
 
