@@ -30,7 +30,7 @@ func initialize(unit):
 
 func set_base():
 	if has_node("Base"):
-		var texture = load("res://unit/%s/%s_base.png" % [name, color])
+		var texture = resource.unit_base[name][color]
 		get_node("Base").set_texture(texture)
 
 func set_hp():
@@ -112,7 +112,7 @@ func hide_damage_effect():
 	body.set_modulate(Color(1.0, 1.0, 1.0))
 
 func set_launch_effect(unit):
-	var launch_effect = load("res://effect/launch.tscn").instance()
+	var launch_effect = resource.effect.launch.instance()
 	launch_effect.set_name("Launch")
 	body.add_child(launch_effect)
 	var pos = get_position(unit)

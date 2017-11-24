@@ -41,7 +41,7 @@ func play():
 	yield(player, "finished")
 	var explosion
 	for missile in missiles.get_children():
-		explosion = load("res://effect/explosion/missile.tscn").instance()
+		explosion = resource.effect.explosion.missile.instance()
 		explosion.initialize(name, missile.get_pos())
 		add_child(explosion)
 		missile.queue_free()

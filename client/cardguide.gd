@@ -18,14 +18,13 @@ func set_starting_x(point):
 
 func create_unit(unit):
 	var name = unit.Name
-	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
+	var node = resource.unit[name].instance()
 	node.initialize(unit)
 	base.add_child(node)
 	node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
 
 func show(card):
-	var script = preload("res://card.gd").new()
-	var units = script.get_structures_of_unit( {
+	var units = global.get_structures_of_unit( {
 		"Name" : card,
 		"Team" : "",
 		"Position" : {
