@@ -21,21 +21,18 @@ func connect_ui_signals():
 	card3.connect("mouse_exit", self, "cancel_card")
 	result.connect("pressed", self, "back_to_lobby")
 
-func load_icon(name, postfix):
-	return load("res://icon/%s_%s.png" % [name, postfix])
-
 func update_changes(game):
 	var player = game[global.team][global.id]
 	hand = player.Hand
 	# update deck and energy
-	get_node("Next").set_texture(load_icon(player.Next, "small"))
+	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	for i in range(1, 4):
 		var node = get_node("Card" + str(i))
 		var card = hand[i - 1]
 		var postfix = "off"
 		if player.Energy >= global.CARDS[card].cost:
 			postfix = "on"
-		node.set_normal_texture(load_icon(card, postfix))
+		node.set_normal_texture(resource.icon[card][postfix])
 	get_node("Energy").set_value(player.Energy / 100)
 
 	if game.has("Result"):

@@ -32,7 +32,7 @@ func delete_dead_units(units):
 		if node.is_in_group(UNIT_LAUNCHING):
 			continue
 		if not has_id(units, node.get_name()):
-			var effect = load("res://effect/explosion/unit.tscn").instance()
+			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
 			node.queue_free()
@@ -53,7 +53,7 @@ func update_units(units):
 
 func create_unit_node(unit, group=UNIT_DEFAULT):
 	var name = unit.Name
-	var node = load("res://unit/%s/%s.tscn" % [name, name]).instance()
+	var node = resource.unit[name].instance()
 	node.initialize(unit)
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
@@ -65,9 +65,8 @@ func create_unit_node(unit, group=UNIT_DEFAULT):
 func handle_waiting_cards(frame, cards):
 	for card in cards:
 		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
-			var script = preload("res://card.gd").new()
 			var id = card.IdStarting
-			var unit_structures = script.get_structures_of_unit(card)
+			var unit_structures = global.get_structures_of_unit(card)
 			if unit_structures.size() > 0:
 				play_runway_light(card.Team, card.Position.X)
 			for unit in unit_structures:
@@ -80,13 +79,13 @@ func update_ui(game):
 
 func create_projectile(type, target_id, lifetime, initial_position):
 	assert(get_node("Units").has_node(str(target_id)))
-	var node = load("res://projectile/" + type + ".tscn").instance()
+	var node = resource.projectile[type].instance()
 	var target = get_node("Units").get_node(str(target_id))
 	node.initialize(target, lifetime, initial_position)
 	get_node("Projectiles").add_child(node)
 
 func play_runway_light(team, pos_x):
-	var effect = load("res://effect/runway.tscn").instance()
+	var effect = resource.effect.runway.instance()
 	var color = "Red"
 	var pos = Vector2(pos_x, -10)
 	if global.team == team:
