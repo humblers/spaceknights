@@ -13,6 +13,9 @@ func update_changes(game):
 	create_new_units(game.Units)
 	update_units(game.Units)
 	delete_dead_units(game.Units)
+	create_new_spells(game.Spells)
+	update_spells(game.Spells)
+	delete_ended_spells(game.Spells)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
 
@@ -62,17 +65,44 @@ func create_unit_node(unit, group=UNIT_DEFAULT):
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
 
+func create_new_spells(spells):
+	for id in spells:
+		if get_node("Units").has_node(id):
+			continue
+		var spell = spells[id]
+		var name = spell.Name
+		var node = load("res://spell/%s/%s.tscn" % [name, name]).instance()
+		node.initialize(spell)
+		node.set_name(id)
+		get_node("Units").add_child(node)
+
+func update_spells(spells):
+	for id in spells:
+		get_node("Units").get_node(id).update_changes(spells[id])
+
+func delete_ended_spells(spells):
+	return
+
 func handle_waiting_cards(frame, cards):
 	for card in cards:
-		if frame + global.CARD_WAIT_FRAME == card.ActivateFrame:
-			var id = card.IdStarting
+		if frame + global.CARD_WAIT_FRAME != card.ActivateFrame:
+			continue
+		if global.is_unit_card(card):
 			var unit_structures = global.get_structures_of_unit(card)
 			if unit_structures.size() > 0:
 				play_runway_light(card.Team, card.Position.X)
+			var id = card.IdStarting
 			for unit in unit_structures:
 				unit.Id = id
 				create_unit_node(unit, UNIT_LAUNCHING)
 				id += 1
+		elif global.is_spell_card(card):
+			var name = card.Name
+			var node = load("res://spell/%s.tscn" % name).instance()
+			node.initialize(card)
+			node.set_name(card.Id)
+			get_node("Units").add_child(node)
+			node.set_prepare_animation()
 
 func update_ui(game):
 	get_node("UI").update_changes(game)

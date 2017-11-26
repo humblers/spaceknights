@@ -80,6 +80,7 @@ type Game struct {
     Home         map[string]*Player     `json:",omitempty"`
     Visitor      map[string]*Player     `json:",omitempty"`
     Units        Units
+    Spells       map[int]*Spell
     WaitingCards []*WaitingCard         `json:",omitempty"`
     UnitCounter  int                    `json:"-"`
     Motherships  map[Team][]*Unit       `json:"-"`
@@ -121,6 +122,7 @@ func (game *Game) RemoveDeadUnits() {
 func NewGame() *Game {
     g := Game{
         Frame:        1,
+        Spells:       make(map[int]*Spell),
         Home:         make(map[string]*Player),
         Visitor:      make(map[string]*Player),
         UnitCounter:  1,
@@ -220,18 +222,25 @@ func (g *Game) AddUnit(unit *Unit) {
     g.Units = append(g.Units, unit)
 }
 
-func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
+func (g *Game) AddSpell(spell *Spell) {
+    if spell.Id <= 0 {
+        spell.Id = g.UnitCounter
+        g.UnitCounter++
+    }
+    spell.Game = g
+    g.Spells[spell.Id] = spell
+}
+
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
     waiting := &WaitingCard{
         Name:       card,
-        Team:       team,
+        Team:       player.Team,
         Position:   pos,
         IdStarting: g.UnitCounter,
         ActivateFrame: g.Frame + ActivateAfter,
+        Player:     player,
     }
     count := waiting.GetUnitCount()
-    if count <= 0 {
-        return
-    }
     g.UnitCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
 }
@@ -295,6 +304,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
+    case "laser":
+        g.AddSpell(NewLaser(card.IdStarting, card.Player))
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
@@ -355,6 +366,9 @@ func (game *Game) update() (gameover bool) {
     }
     for _, unit := range game.Units {
         unit.Move()
+    }
+    for _, spell := range game.Spells {
+        spell.Update()
     }
     gameover = game.Over()
     if gameover {
