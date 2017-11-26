@@ -1,7 +1,7 @@
 extends Node
 
-const UNIT_DEFAULT = "default"
-const UNIT_LAUNCHING = "launching"
+const OBJECT_DEFAULT = "default"
+const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
 	get_node("MothershipBG/BlueBaseBottom")
@@ -14,8 +14,7 @@ func update_changes(game):
 	update_units(game.Units)
 	delete_dead_units(game.Units)
 	create_new_spells(game.Spells)
-	update_spells(game.Spells)
-	delete_ended_spells(game.Spells)
+	delete_finished_spells(game.Spells)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
 
@@ -32,7 +31,7 @@ func has_id(units, id):
 
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
-		if node.is_in_group(UNIT_LAUNCHING):
+		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not has_id(units, node.get_name()):
 			var effect = resource.effect.explosion.unit.instance()
@@ -48,61 +47,67 @@ func create_new_units(units):
 func update_units(units):
 	for unit in units:
 		var node = get_node("Units").get_node(str(unit.Id))
-		if node.is_in_group(UNIT_LAUNCHING):
-			node.remove_from_group(UNIT_LAUNCHING)
+		if node.is_in_group(OBJECT_CLIENT_ONLY):
+			node.remove_from_group(OBJECT_CLIENT_ONLY)
 		node.update_changes(unit)
-		if unit.Team == global.team and unit.Name in ["shuriken", "space_z"]:
-			get_node("UI/CardGuide").set_starting_x(node.get_pos().x)
 
-func create_unit_node(unit, group=UNIT_DEFAULT):
+func create_unit_node(unit, group=OBJECT_DEFAULT):
 	var name = unit.Name
 	var node = resource.unit[name].instance()
 	node.initialize(unit)
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
 	get_node("Units").add_child(node)
-	if group == UNIT_LAUNCHING:
+	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
+	if unit.Name in ["shuriken", "space_z"]:
+		global.knights[str(unit.Id)] = node
 
 func create_new_spells(spells):
 	for id in spells:
-		if get_node("Units").has_node(id):
+		if not get_node("Spells").has_node(id):
+			var spell = spells[id]
+			spell.Id = id
+			create_spell_node(spell)
+		var node = get_node("Spells").get_node(id)
+		if node.is_in_group(OBJECT_CLIENT_ONLY):
+			node.remove_from_group(OBJECT_CLIENT_ONLY)
+
+func delete_finished_spells(spells):
+	for node in get_node("Spells").get_children():
+		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
-		var spell = spells[id]
-		var name = spell.Name
-		var node = load("res://spell/%s/%s.tscn" % [name, name]).instance()
-		node.initialize(spell)
-		node.set_name(id)
-		get_node("Units").add_child(node)
+		if not spells.has(node.get_name()):
+			node.queue_free()
 
-func update_spells(spells):
-	for id in spells:
-		get_node("Units").get_node(id).update_changes(spells[id])
-
-func delete_ended_spells(spells):
-	return
+func create_spell_node(spell, group=OBJECT_DEFAULT):
+	var name = spell.Name
+	var node = resource.spell[name].instance()
+	node.initialize(spell)
+	node.set_name(str(spell.Id))
+	var knight = global.knights[str(spell.Knight.Id)]
+	knight.connect("position_changed", node, "update_position")
+	get_node("Spells").add_child(node)
+	if group != OBJECT_DEFAULT:
+		node.add_to_group(group)
 
 func handle_waiting_cards(frame, cards):
 	for card in cards:
 		if frame + global.CARD_WAIT_FRAME != card.ActivateFrame:
 			continue
-		if global.is_unit_card(card):
+		if global.is_unit_card(card.Name):
 			var unit_structures = global.get_structures_of_unit(card)
 			if unit_structures.size() > 0:
 				play_runway_light(card.Team, card.Position.X)
 			var id = card.IdStarting
 			for unit in unit_structures:
 				unit.Id = id
-				create_unit_node(unit, UNIT_LAUNCHING)
+				create_unit_node(unit, OBJECT_CLIENT_ONLY)
 				id += 1
-		elif global.is_spell_card(card):
-			var name = card.Name
-			var node = load("res://spell/%s.tscn" % name).instance()
-			node.initialize(card)
-			node.set_name(card.Id)
-			get_node("Units").add_child(node)
-			node.set_prepare_animation()
+		elif global.is_spell_card(card.Name):
+			card.Id = card.IdStarting
+			create_spell_node(card, OBJECT_CLIENT_ONLY)
 
 func update_ui(game):
 	get_node("UI").update_changes(game)

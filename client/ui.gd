@@ -42,16 +42,23 @@ func update_changes(game):
 		show_result(game.Result)
 		kcp.disconnect_server()
 
-func press_card(i):
-	guide.show(hand[i - 1])
-
-func release_card(i):
-	kcp.send({ 
+func use_card(i):
+	kcp.send({
 	"Use" : {
 		"Index" : i,
 		"Point" : guide.get_release_point(),
 		}
 	})
+
+func press_card(i):
+	if global.is_spell_card(hand[i - 1]):
+		use_card(i)
+		return
+	guide.show(hand[i - 1])
+
+func release_card(i):
+	if not global.is_spell_card(hand[i - 1]):
+		use_card(i)
 	guide.hide()
 
 func cancel_card():

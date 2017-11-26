@@ -15,7 +15,7 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
-    Player          *Player `json:"-"`
+    Knight          *Unit
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {

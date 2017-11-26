@@ -5,6 +5,7 @@ var config = ConfigFile.new()
 var id
 
 var team
+var knights = {}
 
 const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
 const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
@@ -18,11 +19,13 @@ const MAP = {
 }
 
 const LAYERS = {
-	"GroundUnder": -1,
-	"Ground": 0,
-	"GroundOver": 1,
-	"Air": 2,
-	"Projectile": 3,
+	"Mothership": 0,
+	"MothershipOver": 1,
+	"GroundUnder": 2,
+	"Ground": 3,
+	"GroundOver": 4,
+	"Air": 5,
+	"Projectile": 6,
 	"UI": 100,
 }
 
@@ -156,19 +159,19 @@ const UNITS = {
 		"size" : "small",
 	},
 	"maincore" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 		"hp" : 1200,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 		"hp" : 700,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
 	"base" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 	},
 	"musketeer" : {
 		"layer" : "Ground",
@@ -375,13 +378,13 @@ static func clone(data):
         to = data
     return to
 
-func is_spell_card(card):
-	if CARDS[card.Name].type == "spell":
+func is_spell_card(name):
+	if CARDS[name].type == "spell":
 		return true
 	return false
 
-func is_unit_card(card):
-	if CARDS[card.Name].type in ["troop", "building"]:
+func is_unit_card(name):
+	if CARDS[name].type in ["troop", "building"]:
 		return true
 	return false
 

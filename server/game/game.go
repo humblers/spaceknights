@@ -238,7 +238,7 @@ func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
         Position:   pos,
         IdStarting: g.UnitCounter,
         ActivateFrame: g.Frame + ActivateAfter,
-        Player:     player,
+        Knight:     player.Knight,
     }
     count := waiting.GetUnitCount()
     g.UnitCounter += count
@@ -305,7 +305,9 @@ func (g *Game) ActivateCard(card *WaitingCard) {
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
     case "laser":
-        g.AddSpell(NewLaser(card.IdStarting, card.Player))
+        if !card.Knight.IsDead() {
+            g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
+        }
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
