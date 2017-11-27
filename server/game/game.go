@@ -76,16 +76,17 @@ const (
 )
 
 type Game struct {
-    Frame        int                                        // valid only if > 0
-    Home         map[string]*Player     `json:",omitempty"`
-    Visitor      map[string]*Player     `json:",omitempty"`
-    Units        Units
-    WaitingCards []*WaitingCard         `json:",omitempty"`
-    UnitCounter  int                    `json:"-"`
-    Motherships  map[Team][]*Unit       `json:"-"`
-    Result       *Result                `json:",omitempty"`
-    Winner       Team                   `json:"-"`
-    Stats        map[Team]*Stat          `json:"-"`
+    Frame         int                                        // valid only if > 0
+    Home          map[string]*Player `json:",omitempty"`
+    Visitor       map[string]*Player `json:",omitempty"`
+    Units         Units
+    Spells        map[int]*Spell
+    WaitingCards  []*WaitingCard     `json:",omitempty"`
+    ObjectCounter int                `json:"-"`
+    Motherships   map[Team][]*Unit   `json:"-"`
+    Result        *Result            `json:",omitempty"`
+    Winner        Team               `json:"-"`
+    Stats         map[Team]*Stat     `json:"-"`
 }
 
 type Result struct {
@@ -120,12 +121,13 @@ func (game *Game) RemoveDeadUnits() {
 
 func NewGame() *Game {
     g := Game{
-        Frame:        1,
-        Home:         make(map[string]*Player),
-        Visitor:      make(map[string]*Player),
-        UnitCounter:  1,
-        Motherships:  make(map[Team][]*Unit),
-        Stats:        make(map[Team]*Stat),
+        Frame:         1,
+        Spells:        make(map[int]*Spell),
+        Home:          make(map[string]*Player),
+        Visitor:       make(map[string]*Player),
+        ObjectCounter: 1,
+        Motherships:   make(map[Team][]*Unit),
+        Stats:         make(map[Team]*Stat),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -212,27 +214,34 @@ func (g *Game) AddUnit(unit *Unit) {
         unit.Heading = Vector2{0, 1}
     }
     if unit.Id <= 0 {
-        unit.Id = g.UnitCounter
-        g.UnitCounter++
+        unit.Id = g.ObjectCounter
+        g.ObjectCounter++
     }
     unit.Game = g
     unit.State = Idle
     g.Units = append(g.Units, unit)
 }
 
-func (g *Game) AddToWaitingCards(card Card, team Team, pos Vector2) {
+func (g *Game) AddSpell(spell *Spell) {
+    if spell.Id <= 0 {
+        spell.Id = g.ObjectCounter
+        g.ObjectCounter++
+    }
+    spell.Game = g
+    g.Spells[spell.Id] = spell
+}
+
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
     waiting := &WaitingCard{
         Name:       card,
-        Team:       team,
+        Team:       player.Team,
         Position:   pos,
-        IdStarting: g.UnitCounter,
+        IdStarting: g.ObjectCounter,
         ActivateFrame: g.Frame + ActivateAfter,
+        Knight:     player.Knight,
     }
     count := waiting.GetUnitCount()
-    if count <= 0 {
-        return
-    }
-    g.UnitCounter += count
+    g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
 }
 
@@ -295,6 +304,10 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
+    case "laser":
+        if !card.Knight.IsDead() {
+            g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
+        }
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
@@ -355,6 +368,9 @@ func (game *Game) update() (gameover bool) {
     }
     for _, unit := range game.Units {
         unit.Move()
+    }
+    for _, spell := range game.Spells {
+        spell.Update()
     }
     gameover = game.Over()
     if gameover {

@@ -13,8 +13,9 @@ func _process(delta):
 		pos.y = threshold
 	base.set_pos(pos)
 
-func set_starting_x(point):
-	base.set_pos(Vector2(point, base.get_pos().y))
+func update_guide_position(pos):
+	pos.y = base.get_pos().y
+	base.set_pos(pos)
 
 func create_unit(unit):
 	var name = unit.Name

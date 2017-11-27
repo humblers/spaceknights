@@ -15,6 +15,7 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
+    Knight          *Unit
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {
@@ -56,6 +57,8 @@ var CostMap = map[Card]int{
     "threemusketeers" : 9000,
     "tombstone": 3000,
     "valkyrie": 4000,
+
+    "laser": 5000,
 }
 
 // Knuth shuffle

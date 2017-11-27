@@ -5,6 +5,7 @@ var config = ConfigFile.new()
 var id
 
 var team
+var knights = {}
 
 const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
 const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
@@ -18,10 +19,13 @@ const MAP = {
 }
 
 const LAYERS = {
-	"Ground": 0,
-	"GroundEffect": 1,
-	"Air": 2,
-	"Projectile": 3,
+	"Mothership": 0,
+	"MothershipOver": 1,
+	"GroundUnder": 2,
+	"Ground": 3,
+	"GroundOver": 4,
+	"Air": 5,
+	"Projectile": 6,
 	"UI": 100,
 }
 
@@ -155,19 +159,19 @@ const UNITS = {
 		"size" : "small",
 	},
 	"maincore" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 		"hp" : 1200,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 		"hp" : 700,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
 	"base" : {
-		"layer" : "Ground",
+		"layer" : "Mothership",
 	},
 	"musketeer" : {
 		"layer" : "Ground",
@@ -232,79 +236,104 @@ const UNITS = {
 
 const CARDS = {
 	"archers" : {
+		"type" : "troop",
 		"cost" : 3000,
 		"unitname" : "archer",
 		"unitoffsets" : [ Vector2(1, 0), Vector2(-1, 0) ],
 	},
 	"barbarianhut" : {
+		"type" : "building",
 		"cost" : 7000,
 	},
 	"barbarians" : {
+		"type" : "troop",
 		"cost" : 5000,
 		"unitname" : "barbarian",
 		"unitoffsets" : [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
 	},
 	"bomber" : {
+		"type" : "troop",
 		"cost" : 3000,
 	},
 	"cannon" : {
+		"type" : "building",
 		"cost" : 3000,
 	},
 	"darkprince" : {
+		"type" : "troop",
 		"cost" : 4000,
 	},
 	"giant" : {
+		"type" : "troop",
 		"cost" : 5000,
 	},
 	"goblinhut" : {
+		"type" : "building",
 		"cost" : 5000,
 	},
 	"megaminion" : {
+		"type" : "troop",
 		"cost" : 3000,
 	},
 	"minionhorde" : {
+		"type" : "troop",
 		"cost" : 5000,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, -2), Vector2(1, -1), Vector2(-1, -1),
 				Vector2(0, 2), Vector2(1, 1), Vector2(-1, 1) ],
 	},
 	"minions" : {
+		"type" : "troop",
 		"cost" : 3000,
 		"unitname" : "minion",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"minipekka" : {
+		"type" : "troop",
 		"cost" : 4000,
 	},
 	"musketeer" : {
+		"type" : "troop",
 		"cost" : 4000,
 	},
 	"pekka" : {
+		"type" : "troop",
 		"cost" : 7000,
 	},
 	"prince" : {
+		"type" : "troop",
 		"cost" : 5000,
 	},
 	"skeletons" : {
+		"type" : "troop",
 		"cost" : 1000,
 		"unitname" : "skeleton",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"speargoblins" : {
+		"type" : "troop",
 		"cost" : 2000,
 		"unitname" : "speargoblin",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"threemusketeers" : {
+		"type" : "troop",
 		"cost" : 9000,
 		"unitname" : "musketeer",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
 	"tombstone" : {
+		"type" : "building",
 		"cost" : 3000,
 	},
 	"valkyrie" : {
+		"type" : "troop",
 		"cost" : 4000,
+	},
+
+	"laser" : {
+		"type" : "spell",
+		"cost" : 5000,
 	},
 }
 
@@ -349,8 +378,18 @@ static func clone(data):
         to = data
     return to
 
+func is_spell_card(name):
+	if CARDS[name].type == "spell":
+		return true
+	return false
+
+func is_unit_card(name):
+	if CARDS[name].type in ["troop", "building"]:
+		return true
+	return false
+
 func get_structures_of_unit(card):
-	var dict = global.CARDS[card.Name]
+	var dict = CARDS[card.Name]
 	var name = card.Name
 	var offsets = [ Vector2(0, 0) ]
 	if dict.has("unitname"):

@@ -14,29 +14,19 @@ const (
     Move        State = "move"
 )
 
-type Layer string
-type Layers []Layer
-const (
-    Ground Layer = "Ground"
-    Air Layer = "Air"
-)
-
-type Type string
-type Types []Type
-const (
-    Troop Type = "Troop"
-    Building Type = "Building"
-    Base Type = "Base"
-    Knight Type = "Knight"
-    Bullet Type = "bullet"
-)
-
 type Size string
 const (
     Small Size = "small"
     Medium Size = "medium"
     Large Size = "large"
     XLarge Size = "xlarge"
+)
+
+type Layer string
+type Layers []Layer
+const (
+    Ground Layer = "Ground"
+    Air Layer = "Air"
 )
 
 func (layers Layers) Contains(layer Layer) bool {
@@ -47,6 +37,16 @@ func (layers Layers) Contains(layer Layer) bool {
     }
     return false
 }
+
+type Type string
+type Types []Type
+const (
+    Troop Type = "Troop"
+    Building Type = "Building"
+    Base Type = "Base"
+    Knight Type = "Knight"
+    Bullet Type = "bullet"
+)
 
 func (types Types) Contains(_type Type) bool {
     for _, t := range types {

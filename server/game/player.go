@@ -103,7 +103,7 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
     player.Pending[len(player.Pending) - 1] = card
 
     position := Vector2{player.Knight.Position.X, releasePoint}
-    game.AddToWaitingCards(card, player.Team, position)
+    game.AddToWaitingCards(card, position, player)
 }
 
 func (player *Player) IncreaseEnergy(amount int) {

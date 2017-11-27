@@ -29,6 +29,10 @@ var unit = {
 	"valkyrie": preload("res://unit/valkyrie/valkyrie.tscn"),
 }
 
+var spell = {
+	"laser": preload("res://spell/laser.tscn"),
+}
+
 var projectile = {
 	"bomber_missile": preload("res://projectile/bomber_missile.tscn"),
 	"bullet": preload("res://projectile/bullet.tscn"),
@@ -151,6 +155,11 @@ var icon = {
 		"on": preload("res://icon/valkyrie_on.png"),
 		"off": preload("res://icon/valkyrie_off.png"),
 		"small": preload("res://icon/valkyrie_small.png"),
+	},
+	"laser" : {
+		"on": preload("res://icon/laser_on.png"),
+		"off": preload("res://icon/laser_off.png"),
+		"small": preload("res://icon/laser_small.png"),
 	},
 }
 
