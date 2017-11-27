@@ -58,7 +58,7 @@ func NewLaser(id int, team Team, knight *Unit) *Spell {
     return &Spell{
         Team:       team,
         Name:       "laser",
-        Damage:     30,
+        Damage:     10,
         Radius:     15,
         Duration:   50,
         Id:         id,

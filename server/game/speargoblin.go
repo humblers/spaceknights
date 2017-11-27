@@ -15,7 +15,7 @@ func NewSpeargoblin(id int, t Team, pos Vector2, offset Vector2) *Unit {
         PostHitDelay:  8,
         Radius:        9,
         Size:          Small,
-        Sight:         100,
+        Sight:         200,
         Range:         80,
         Damage:        24,
         Id:            id,
