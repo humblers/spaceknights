@@ -1,6 +1,7 @@
 package main
 
 func NewValkyrie(id int, t Team, pos Vector2) *Unit {
+    rad, ran := 12.0, 20.0
     return &Unit{
         Team:          t,
         Type:          Troop,
@@ -13,11 +14,13 @@ func NewValkyrie(id int, t Team, pos Vector2) *Unit {
         Speed:         3,
         PreHitDelay:   8,
         PostHitDelay:  6,
-        Radius:        12,
+        Radius:        rad,
         Size:          Medium,
         Sight:         200,
-        Range:         20,
+        Range:         ran,
         Damage:        120,
+        DamageRadius:  rad + ran,
+        DamageCenter:  Self,
         Id:            id,
         Position:      pos,
     }

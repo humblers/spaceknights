@@ -68,11 +68,11 @@ const UNITS = {
 	"bombtower" : {
 		"layer" : "Ground",
 		"hp" : 900,
-		"prehitdelay": 15,
+		"prehitdelay": 10,
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 120,
-		"projectile" : "bullet",
+		"projectile" : "bombtower_missile",
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
@@ -254,6 +254,10 @@ const CARDS = {
 	"bomber" : {
 		"type" : "troop",
 		"cost" : 3000,
+	},
+	"bombtower" : {
+		"type" : "building",
+		"cost" : 5000,
 	},
 	"cannon" : {
 		"type" : "building",

@@ -259,6 +259,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewBarbarian(card.IdStarting + 3, card.Team, card.Position, Vector2{-1, -1}))
     case "bomber":
         g.AddUnit(NewBomber(card.IdStarting, card.Team, card.Position))
+    case "bombtower":
+        g.AddUnit(NewBombtower(card.IdStarting, card.Team, card.Position))
     case "cannon":
         g.AddUnit(NewCannon(card.IdStarting, card.Team, card.Position))
     case "darkprince":

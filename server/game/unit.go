@@ -22,6 +22,12 @@ const (
     XLarge Size = "xlarge"
 )
 
+type DamageCenter int
+const (
+    Target DamageCenter = iota
+    Self
+)
+
 type Layer string
 type Layers []Layer
 const (
@@ -76,6 +82,7 @@ type Unit struct {
     Range        float64 `json:"-"`
     Damage       int     `json:"-"`
     DamageRadius float64 `json:"-"`
+    DamageCenter DamageCenter `json:"-"`
     LifetimeCost int     `json:"-"`
     SpawnThing   string  `json:"-"`
     SpawnSpeed   int     `json:"-"`
@@ -265,11 +272,15 @@ func (u *Unit) HandleAttack() {
         if u.WithinRange(u.Target) {
             u.Target.TakeDamage(u.Damage, u)
             if u.DamageRadius > 0 {
+                from := u
+                if u.DamageCenter == Target {
+                    from = u.Target
+                }
                 for _, unit := range u.Game.Units {
                     if u.Target == unit {
                         continue
                     }
-                    if u.CanTarget(unit) && u.DamageRadius >= u.Target.DistanceTo(unit) - unit.Radius {
+                    if u.CanTarget(unit) && u.DamageRadius >= from.DistanceTo(unit) - unit.Radius {
                         unit.TakeDamage(u.Damage, u)
                     }
                 }
