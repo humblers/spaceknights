@@ -57,7 +57,6 @@ func (types Types) Contains(_type Type) bool {
     return false
 }
 
-
 type Unit struct {
     // invariant
     Team         Team

@@ -3,7 +3,6 @@ extends Node
 const TO_THRESHOLD = 0.5
 
 var starting_y = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
-onready var card_manager = get_tree().get_root().get("card_manager")
 onready var threshold = get_node("Threshold").get_pos().y
 onready var base = get_node("Base")
 
