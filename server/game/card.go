@@ -20,7 +20,7 @@ type WaitingCard struct {
 
 func (c *WaitingCard) GetUnitCount() (count int) {
     switch c.Name {
-    case "barbarianhut", "bomber", "cannon", "darkprince", "giant", "goblinhut", "megaminion", "minipekka", "musketeer", "pekka", "prince", "tombstone", "valkyrie":
+    case "barbarianhut", "bomber", "bombtower", "cannon", "darkprince", "giant", "goblinhut", "megaminion", "minipekka", "musketeer", "pekka", "prince", "tombstone", "valkyrie":
         count = 1
     case "archers":
         count = 2
@@ -41,6 +41,7 @@ var CostMap = map[Card]int{
     "barbarians": 5000,
     "barbarianhut": 7000,
     "bomber": 3000,
+    "bombtower": 5000,
     "cannon": 3000,
     "darkprince": 4000,
     "giant": 5000,
