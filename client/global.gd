@@ -68,7 +68,7 @@ const UNITS = {
 	"bombtower" : {
 		"layer" : "Ground",
 		"hp" : 900,
-		"prehitdelay": 15,
+		"prehitdelay": 10,
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 120,
