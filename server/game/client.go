@@ -179,7 +179,7 @@ func (client *Client) join() error {
 }
 
 func (client *Client) closeConn() {
-    delay := time.After(10 * time.Second)
+    delay := time.After(30 * time.Second)
     select {
     case <-delay:
     }
