@@ -30,8 +30,8 @@ type Input struct {
     id        string
     Move      float64
     Use       struct {
-        Index int
-        Point float64
+        Index    int
+        Position Vector2
     }
 }
 
