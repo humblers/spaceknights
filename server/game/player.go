@@ -79,7 +79,7 @@ func (player *Player) Move(frame int) {
     player.Movements = unhandled
 }
 
-func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
+func (player *Player) UseCard(index int, position Vector2, game *Game) {
     if player.Knight.Hp <= 0 {
         return
     }
@@ -102,7 +102,6 @@ func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
     }
     player.Pending[len(player.Pending) - 1] = card
 
-    position := Vector2{player.Knight.Position.X, releasePoint}
     game.AddToWaitingCards(card, position, player)
 }
 

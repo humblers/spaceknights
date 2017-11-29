@@ -388,7 +388,7 @@ func (game *Game) update() (gameover bool) {
 func (game *Game) apply(input Input) {
     player := game.Player(input.id)
      if input.Use.Index != 0 {
-        player.UseCard(input.Use.Index - 1, input.Use.Point, game)
+        player.UseCard(input.Use.Index - 1, input.Use.Position, game)
     } else {
         player.AddMovement(input.Move, game.Frame)
     }
