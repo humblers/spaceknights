@@ -38,7 +38,7 @@ func main() {
         }
         conn.SetWindowSize(128, 128)
         conn.SetStreamMode(true)
-        conn.SetNoDelay(1, 20, 2, 0)
+        conn.SetNoDelay(1, 20, 2, 1)
         client := NewClient(conn, server)
         go client.Run()
     }
