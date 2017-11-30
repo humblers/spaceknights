@@ -57,32 +57,7 @@ func (player *Player) RepairKnight(game *Game) {
     return
 }
 
-const MovementDelay = 1
-func (player *Player) AddMovement(x float64, frame int) {
-    posX := x
-    if player.Team == Visitor {
-        posX = MapWidth - x
-    }
-    player.Movements = append(player.Movements, &Movement{posX, frame + MovementDelay})
-}
-
-func (player *Player) Move(frame int) {
-    var unhandled []*Movement
-    for _, m := range player.Movements {
-        if frame > m.Frame {
-            player.Knight.InputPositionX = m.PositionX
-        } else {
-            unhandled = append(unhandled, m)
-        }
-    }
-    player.Movements = unhandled
-}
-
 func (player *Player) UseCard(index int, position Vector2, game *Game) {
-    if player.Knight.Hp <= 0 {
-        return
-    }
-
     var card Card = "moveknight"
     if index < len(player.Hand) {
         card = player.Hand[index]
