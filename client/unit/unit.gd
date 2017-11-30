@@ -104,6 +104,9 @@ func get_rotation(unit):
 func set_target_id(unit):
 	target_id = global.dict_get(unit, "TargetId", 0)
 
+func show_speech_bubble():
+	get_node("Body/bubble").show_bubble()
+
 func show_damage_effect():
 	body.set_modulate(Color(1.0, 0.4, 0.4))
 	damage_effect.start()

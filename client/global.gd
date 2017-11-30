@@ -339,11 +339,6 @@ const CARDS = {
 		"type" : "spell",
 		"cost" : 5000,
 	},
-
-	"moveknight" : {
-		"type" : "unknown",
-		"cost" : 0,
-	},
 }
 
 func _ready():
@@ -388,25 +383,31 @@ static func clone(data):
     return to
 
 func is_spell_card(name):
+	if name == "moveknight":
+		return false
 	if CARDS[name].type == "spell":
 		return true
 	return false
 
 func is_unit_card(name):
+	if name == "moveknight":
+		return false
 	if CARDS[name].type in ["troop", "building"]:
 		return true
 	return false
 
+func get_my_knight():
+	for id in knights:
+		var node = knights[id]
+		if node.color == "blue":
+			return node
+
 func get_structures_of_unit(card):
-	var dict = CARDS[card.Name]
+	var dict = dict_get(CARDS, card.Name, {})
 	var name = card.Name
-	var offsets = [ Vector2(0, 0) ]
 	if name == "moveknight":
-		for id in knights:
-			var node = knights[id]
-			if node.color == "blue":
-				name = node.name
-				break
+		name = get_my_knight().name
+	var offsets = [ Vector2(0, 0) ]
 	if dict.has("unitname"):
 		name = dict.unitname
 	if dict.has("unitoffsets"):

@@ -100,6 +100,8 @@ func handle_waiting_cards(frame, cards):
 	for card in cards:
 		if frame + global.CARD_WAIT_FRAME != card.ActivateFrame:
 			continue
+		if card.Name == "moveknight" and card.Team == global.team:
+			global.get_my_knight().show_speech_bubble()
 		if global.is_unit_card(card.Name):
 			var unit_structures = global.get_structures_of_unit(card)
 			if unit_structures.size() > 0:
@@ -109,7 +111,7 @@ func handle_waiting_cards(frame, cards):
 				unit.Id = id
 				create_unit_node(unit, OBJECT_CLIENT_ONLY)
 				id += 1
-		elif global.is_spell_card(card.Name):
+		if global.is_spell_card(card.Name):
 			card.Id = card.IdStarting
 			create_spell_node(card, OBJECT_CLIENT_ONLY)
 
