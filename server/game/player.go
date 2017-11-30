@@ -48,7 +48,7 @@ func (player *Player) RepairKnight(game *Game) {
     if player.Knight.Hp <= 0 && player.Knight.RepairFrame == game.Frame {
         knight := player.Knight
         knight.Hp = 100
-        knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
+        knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
         knight.SpawnFrame = game.Frame + knight.SpawnSpeed
         knight.SpawnStack = 0
         knight.HitFrame = 0
@@ -92,10 +92,11 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
-    player.Energy = player.Energy - CostMap[card]
-    game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
 
-    if card != "moveknight" {
+    if card == "moveknight" {
+        player.Knight.IsDead()
+        return
+    } else {
         next := player.Pending[0]
 
         player.Hand[index] = next
@@ -104,6 +105,9 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
         }
         player.Pending[len(player.Pending) - 1] = card
     }
+
+    player.Energy = player.Energy - CostMap[card]
+    game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
 
     game.AddToWaitingCards(card, position, player)
 }
