@@ -47,7 +47,7 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 func (player *Player) RepairKnight(game *Game) {
     if player.Knight.Hp <= 0 && player.Knight.RepairFrame == game.Frame {
         knight := player.Knight
-        knight.Hp = 100
+        knight.Hp = 500
         knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
         knight.SpawnFrame = game.Frame + knight.SpawnSpeed
         knight.SpawnStack = 0
