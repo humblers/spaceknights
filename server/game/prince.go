@@ -7,7 +7,7 @@ func NewPrince(id int, t Team, pos Vector2) *Unit {
         Name:          "prince",
         Layer:         Ground,
         TargetLayers : Layers{Ground},
-        TargetTypes:   Types{Troop, Building},
+        TargetTypes:   Types{Troop, Building, Knight},
         Hp:            1100,
         InvMass:       1.0/8,
         Speed:         3,

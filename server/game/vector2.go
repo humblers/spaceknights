@@ -34,6 +34,13 @@ func (v Vector2) Divide(c float64) Vector2 {
     }
 }
 
+func (v Vector2) Rotate(c float64) Vector2 {
+    return Vector2{
+        X: v.X * math.Cos(c) - v.Y * math.Sin(c),
+        Y: v.X * math.Sin(c) + v.Y * math.Cos(c),
+    }
+}
+
 func (v Vector2) Truncate(c float64) Vector2 {
     if v.Length() > c {
         return v.Normalize().Multiply(c)
