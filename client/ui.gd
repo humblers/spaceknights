@@ -9,6 +9,7 @@ const LOCATION_RED = 3
 onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
+onready var card4 = get_node("Card4")
 onready var result = get_node("Result")
 onready var guide = get_node("CardGuide")
 
@@ -20,11 +21,13 @@ func connect_ui_signals():
 	card1.connect("input_event", self, "card_input_event", [card1])
 	card2.connect("input_event", self, "card_input_event", [card2])
 	card3.connect("input_event", self, "card_input_event", [card3])
+	card4.connect("input_event", self, "card_input_event", [card4])
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
 	var player = game[global.team][global.id]
 	hand = player.Hand
+	hand.append("moveknight")
 	# update deck and energy
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	for i in range(1, 4):
@@ -46,17 +49,12 @@ func update_changes(game):
 func get_location(pos):
 	if pos.y > global.MAP.height:
 		return LOCATION_UI
-	if pos.y > global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT:
-		return LOCATION_BASE
 	if pos.y < CARD_THRESHOLD_TOP:
 		return LOCATION_RED
 	return LOCATION_BLUE
 
 func pressed_outside_of_UI(pos):
-	var location = get_location(pos)
-	if location == LOCATION_BASE:
-		kcp.send({ "Move" : pos.x })
-	if selected_card and location == LOCATION_BLUE:
+	if selected_card and get_location(pos) == LOCATION_BLUE:
 		use_card(pos)
 
 func back_to_lobby():

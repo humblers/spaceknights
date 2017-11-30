@@ -39,6 +39,8 @@ func delete_dead_units(units):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
+			if node.name in ["shuriken", "space_z"]:
+				global.knights[node.get_name()] = null
 			node.queue_free()
 
 func create_new_units(units):

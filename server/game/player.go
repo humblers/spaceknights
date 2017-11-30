@@ -1,7 +1,6 @@
 package main
 
 import (
-    "log"
     "encoding/json"
     "github.com/golang/glog"
 )
@@ -83,12 +82,12 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
     if player.Knight.Hp <= 0 {
         return
     }
-    card := player.Hand[index]
-    next := player.Pending[0]
 
-    if index >= len(player.Hand) {
-        log.Panicf("invalid card index: %v", index)
+    var card Card = "moveknight"
+    if index < len(player.Hand) {
+        card = player.Hand[index]
     }
+
     if player.Energy < CostMap[card] {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
@@ -96,11 +95,15 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
     player.Energy = player.Energy - CostMap[card]
     game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
 
-    player.Hand[index] = next
-    for i := 1; i < len(player.Pending); i++ {
-        player.Pending[i - 1] = player.Pending[i]
+    if card != "moveknight" {
+        next := player.Pending[0]
+
+        player.Hand[index] = next
+        for i := 1; i < len(player.Pending); i++ {
+            player.Pending[i - 1] = player.Pending[i]
+        }
+        player.Pending[len(player.Pending) - 1] = card
     }
-    player.Pending[len(player.Pending) - 1] = card
 
     game.AddToWaitingCards(card, position, player)
 }

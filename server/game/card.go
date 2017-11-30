@@ -60,6 +60,8 @@ var CostMap = map[Card]int{
     "valkyrie": 4000,
 
     "laser": 5000,
+
+    "moveknight": 0,
 }
 
 // Knuth shuffle

@@ -339,6 +339,11 @@ const CARDS = {
 		"type" : "spell",
 		"cost" : 5000,
 	},
+
+	"moveknight" : {
+		"type" : "unknown",
+		"cost" : 0,
+	},
 }
 
 func _ready():
@@ -396,6 +401,12 @@ func get_structures_of_unit(card):
 	var dict = CARDS[card.Name]
 	var name = card.Name
 	var offsets = [ Vector2(0, 0) ]
+	if name == "moveknight":
+		for id in knights:
+			var node = knights[id]
+			if node.color == "blue":
+				name = node.name
+				break
 	if dict.has("unitname"):
 		name = dict.unitname
 	if dict.has("unitoffsets"):
