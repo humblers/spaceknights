@@ -93,7 +93,6 @@ type Unit struct {
     Game         *Game   `json:"-"`
     State        State
     Position     Vector2
-    InputPositionX float64 `json:"-"`   // for knight movement input
     Destination  Vector2 `json:"-"`
     Heading      Vector2
     Velocity     Vector2 `json:"-"`

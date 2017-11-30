@@ -33,6 +33,5 @@ func NewKnight(t Team, name string) *Unit {
         SpawnFrame:     15,
         Position:       startpos,
         Destination:    startpos,
-        InputPositionX: MapWidth / 2,
     }
 }
