@@ -376,8 +376,10 @@ func (u *Unit) HandleSpawn() {
             u.Game.AddUnit(bullet)
             bullet.Position.Y += u.Radius
             bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 300}
+            bullet.Velocity = Vector2{0, bullet.Speed}
             if bullet.Team == Home {
                 bullet.FlipY()
+                bullet.Velocity.Y *= -1
             }
             u.Game.Stats[u.Team].KnightBulletTotalCount += 1
         default:
@@ -388,20 +390,35 @@ func (u *Unit) HandleSpawn() {
 }
 
 func (u *Unit) ScatterBullets() {
+    var target *Unit
+    players := u.Game.Home
+    if u.Team == Home {
+        players = u.Game.Visitor
+    }
+    for _, player := range players {
+        if !player.Knight.IsDead() {
+            target = player.Knight
+            break
+        }
+    }
+    if target == nil {
+        glog.Infof("target knight not found. skip generate scatter bullets")
+        return
+    }
+    heading := target.Position.Minus(u.Position).Normalize()
     var bulletVectors []Vector2
     switch u.Size {
     case Small:
-        bulletVectors = []Vector2{ {0, 1} }
+        bulletVectors = []Vector2{ heading }
     case Medium, Large, XLarge:
-        bulletVectors = []Vector2{ {-3, 5}, {0, 1}, {3, 5} }
+        bulletVectors = []Vector2{ heading.Rotate(30.0), heading, heading.Rotate(-30.0) }
     }
     for _, vector := range bulletVectors {
         bullet := NewScatteredBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
-        bullet.Heading = vector.Normalize().Multiply(bullet.Speed)
+        bullet.Velocity = vector.Multiply(bullet.Speed)
         if bullet.Team == Home {
             bullet.FlipY()
-            bullet.Heading.Y *= -1
         }
     }
 }
@@ -481,7 +498,7 @@ func (u *Unit) Update() {
         u.HandleSpawn()
         u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
-        if u.IsOutOfScreen() || u.Position.Y == u.Destination.Y {
+        if u.IsOutOfScreen() || u.ReachedMaxY() {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
@@ -495,7 +512,6 @@ func (u *Unit) Update() {
                 }
             }
         }
-        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Base:
         return
     }
@@ -506,10 +522,11 @@ func (u *Unit) SelfRemove() {
 }
 
 func (u *Unit) ReachedMaxY() bool {
-    if u.Name == "knightbullet" && u.Game.Frame < int(PlayTime / FrameInterval) / 2 {
-        maxY := CenterY - TileHeight
+    if u.Name == "knightbullet" {
+        maxY := u.Destination.Y
         posY := u.Position.Y
         if u.Team == Home {
+            maxY = MapHeight - maxY
             posY = MapHeight - posY
         }
         if posY >= float64(maxY) {

@@ -93,10 +93,10 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
         return
     }
 
-    if card == "moveknight" {
-        player.Knight.IsDead()
+    if card == "moveknight" && player.Knight.IsDead() {
         return
-    } else {
+    }
+    if card != "moveknight" {
         next := player.Pending[0]
 
         player.Hand[index] = next

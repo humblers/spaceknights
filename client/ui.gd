@@ -85,6 +85,8 @@ func to_string(stats, team):
 	return text
 
 func get_selected_card_id():
+	if not selected_card:
+		return 0
 	return int(selected_card.get_name().right(1))
 
 func toggle_card_position(node, selected):

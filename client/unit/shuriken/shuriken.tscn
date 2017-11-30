@@ -1,12 +1,12 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/shuriken/red.png" type="Texture" id=2]
 [ext_resource path="res://unit/shuriken/blue.png" type="Texture" id=3]
-[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=4]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -22,8 +22,28 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends Node2D
+
+onready var timer = Timer.new()
+
+func _ready():
+	timer.set_one_shot(true)
+	timer.connect(\"timeout\", self, \"hide_bubble\")
+	timer.set_wait_time(0.9)
+	add_child(timer)
+
+func show_bubble():
+	show()
+	timer.start()
+
+func hide_bubble():
+	hide()"
+
 [node name="shuriken" type="Node2D"]
 
+transform/pos = Vector2( 0.0852547, 0.0852585 )
 script/script = ExtResource( 1 )
 
 [node name="Body" type="AnimatedSprite" parent="."]
@@ -35,7 +55,31 @@ animation = "blue_idle"
 
 transform/pos = Vector2( 0.5, 20 )
 
+[node name="bubble" type="Node2D" parent="Body"]
+
+visibility/visible = false
+transform/pos = Vector2( 12.0035, 11.9769 )
+transform/rot = 180.0
+script/script = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Body/bubble"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 10.0
+margin/top = -20.0
+margin/right = 72.0
+margin/bottom = -6.0
+text = "roger that"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="Hp" type="Position2D" parent="."]
+
+editor/display_folded = true
 
 [node name="blue" type="TextureProgress" parent="Hp"]
 
@@ -46,8 +90,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = -30.0
 margin/top = -2.0
-margin/right = -20.0
-margin/bottom = 3.0
+margin/right = -10.0
+margin/bottom = 4.0
 range/min = 0.0
 range/max = 100.0
 range/step = 1.0
@@ -71,7 +115,7 @@ size_flags/vertical = 0
 margin/left = -30.0
 margin/top = -2.0
 margin/right = -20.0
-margin/bottom = 3.0
+margin/bottom = 4.0
 range/min = 0.0
 range/max = 100.0
 range/step = 1.0
