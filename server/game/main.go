@@ -36,7 +36,7 @@ func main() {
         if err != nil {
             panic(err)
         }
-        conn.SetWindowSize(1024, 1024)
+        conn.SetWindowSize(128, 128)
         conn.SetStreamMode(true)
         conn.SetNoDelay(1, 20, 2, 1)
         client := NewClient(conn, server)
