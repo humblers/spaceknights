@@ -49,6 +49,7 @@ func (player *Player) RepairKnight(game *Game) {
         knight := player.Knight
         knight.Hp = 500
         knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
+        knight.Destination = knight.Position
         knight.SpawnFrame = game.Frame + knight.SpawnSpeed
         knight.SpawnStack = 0
         knight.HitFrame = 0
