@@ -94,6 +94,7 @@ type Unit struct {
     State        State
     Position     Vector2
     InputPositionX float64 `json:"-"`   // for knight movement input
+    Destination  Vector2 `json:"-"`
     Heading      Vector2
     Velocity     Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
@@ -134,6 +135,7 @@ func (u *Unit) IsCore() bool {
 
 func (u *Unit) FlipY() {
     u.Position.Y = MapHeight - u.Position.Y
+    u.Destination.Y = MapHeight - u.Destination.Y
 }
 
 
@@ -370,11 +372,12 @@ func (u *Unit) HandleSpawn() {
             if u.SpawnStack++; u.SpawnStack % 6 > 4 {
                 break
             }
-            bullet := NewKnightBullet(u.Team, Vector2{u.Position.X, TileHeight * 1.5 + u.Radius})
+            bullet := NewKnightBullet(u.Team, u.Position)
             u.Game.AddUnit(bullet)
-            bullet.Heading = Vector2{0, bullet.Speed}
+            bullet.Position.Y += u.Radius
+            bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 300}
             if bullet.Team == Home {
-                bullet.Heading.Y *= -1
+                bullet.FlipY()
             }
             u.Game.Stats[u.Team].KnightBulletTotalCount += 1
         default:
@@ -476,11 +479,9 @@ func (u *Unit) Update() {
             }
         }
         u.HandleSpawn()
-        destination := Vector2{u.InputPositionX, u.Position.Y}
-        u.Velocity = destination.Minus(u.Position).Truncate(u.Speed)
+        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
-        u.Position = u.Position.Plus(u.Heading.Truncate(u.Speed))
-        if u.IsOutOfScreen() || u.ReachedMaxY() {
+        if u.IsOutOfScreen() || u.Position.Y == u.Destination.Y {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
@@ -494,6 +495,7 @@ func (u *Unit) Update() {
                 }
             }
         }
+        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Base:
         return
     }

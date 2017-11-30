@@ -3,7 +3,7 @@ package main
 const (
     MothershipMainHeight = 40
     MothershipSubHeight = 60
-    MothershipBaseHeight = 70
+    MothershipBaseHeight = 10
     MothershipBoosterHeight = 10
 
     MaincoreScore = 3

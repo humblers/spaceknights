@@ -310,6 +310,11 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         if !card.Knight.IsDead() {
             g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
         }
+    case "moveknight":
+        card.Knight.Destination = card.Position
+        if card.Knight.Team == Home {
+            card.Knight.Destination.Y = MapHeight - card.Knight.Destination.Y
+        }
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
