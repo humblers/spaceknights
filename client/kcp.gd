@@ -17,6 +17,7 @@ func connect_server(ip, port):
 	assert(kcp.is_connected() == false)
 	if kcp.connect(ip, port):
 		timer.start()
+		kcp.set_logger(true, true, true, true)
 
 func disconnect_server():
 	assert(kcp.is_connected() == true)
