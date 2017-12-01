@@ -118,7 +118,7 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 100,
+		"hp" : 500,
 		"prehitdelay" : 10,
 		"radius" : 20,
 		"sight" : 140,
@@ -127,7 +127,7 @@ const UNITS = {
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 100,
+		"hp" : 500,
 		"prehitdelay" : 10,
 		"radius" : 31,
 		"sight" : 140,
