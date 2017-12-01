@@ -67,6 +67,8 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 		node.add_to_group(group)
 	if unit.Name in ["shuriken", "space_z"]:
 		global.knights[str(unit.Id)] = node
+		if unit.Team == global.team:
+			node.set_input_event(get_node("UI"), get_node("UI/Card4"))
 
 func create_new_spells(spells):
 	for id in spells:

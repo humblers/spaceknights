@@ -52,6 +52,9 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
+func set_input_event(ui, card):
+	get_node("Select").connect("input_event", ui, "card_input_event", [card])
+
 func update_changes(unit):
 	set_pos(get_position(unit))
 	emit_signal("position_changed", get_pos())
