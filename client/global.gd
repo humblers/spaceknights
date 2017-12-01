@@ -112,9 +112,11 @@ const UNITS = {
 	},
 	"knightbullet" : {
 		"layer" : "Air",
+		"radius" : 12,
 	},
 	"scatteredbullet" : {
 		"layer" : "Air",
+		"radius" : 7,
 	},
 	"shuriken" : {
 		"layer" : "Air",
