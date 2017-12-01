@@ -30,14 +30,8 @@ func update_changes(game):
 	hand.append("moveknight")
 	# update deck and energy
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
-	for i in range(1, 4):
-		var node = get_node("Card" + str(i))
-		var card = hand[i - 1]
-		var postfix = "off"
-		if player.Energy >= global.CARDS[card].cost:
-			postfix = "on"
-		node.set_normal_texture(resource.icon[card][postfix])
 	get_node("Energy").set_value(player.Energy / 100)
+	update_card_texture(player)
 
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
@@ -89,9 +83,22 @@ func get_selected_card_id():
 		return 0
 	return int(selected_card.get_name().right(1))
 
-func toggle_card_position(node, selected):
-	var y = 545 if selected else 565
-	node.set_pos(Vector2(node.get_pos().x, y))
+func update_card_texture(player):
+	for i in range(1, 4):
+		var node = get_node("Card" + str(i))
+		var card = hand[i - 1]
+		var postfix = "off"
+		if player.Energy >= global.CARDS[card].cost:
+			postfix = "on"
+		node.set_normal_texture(resource.icon[card][postfix].normal)
+		node.set_focused_texture(resource.icon[card][postfix].pressed)
+
+func toggle_card_focus(node, selected):
+	selected_card = node
+	node.grab_focus()
+	if not selected:
+		selected_card = null
+		node.release_focus()
 
 func use_card(pos=Vector2(0, 0)):
 	pos.y = global.MAP.height - pos.y
@@ -103,12 +110,10 @@ func use_card(pos=Vector2(0, 0)):
 		"Position" : {"X":pos.x, "Y":pos.y},
 		}
 	})
-	toggle_card_position(selected_card, false)
-	selected_card = null
+	toggle_card_focus(selected_card, false)
 
 func press_card(node):
-	selected_card = node
-	toggle_card_position(node, true)
+	toggle_card_focus(node, true)
 	var id = get_selected_card_id()
 	if global.is_spell_card(hand[id - 1]):
 		use_card()

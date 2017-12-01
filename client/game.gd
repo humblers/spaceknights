@@ -40,7 +40,7 @@ func delete_dead_units(units):
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
 			if node.name in ["shuriken", "space_z"]:
-				global.knights[node.get_name()] = null
+				global.knights.erase(node.get_name())
 			node.queue_free()
 
 func create_new_units(units):
