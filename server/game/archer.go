@@ -15,7 +15,7 @@ func NewArcher(id int, t Team, pos Vector2, offset Vector2) *Unit {
         PostHitDelay:  7,
         Radius:        9,
         Size:          Small,
-        Sight:         200,
+        Sight:         100,
         Range:         80,
         Damage:        40,
         Id:            id,
