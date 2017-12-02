@@ -8,7 +8,7 @@ func _ready():
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
 	get_node("MothershipBG/RedLight").set_z(global.LAYERS.MothershipOver)
 	get_node("MothershipBG/BlueLight").set_z(global.LAYERS.MothershipOver)
-	kcp.connect("packet_received", self, "update_changes")
+	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
 	global.team = "Home" if game.has("Home") else "Visitor"

@@ -27,7 +27,7 @@ func _ready():
 	if not validate_conn() and not connect_to_lobby():
 		print("connect fail. To Do - rollback to launch scene")
 		return
-	timer.set_wait_time(1.0 / kcp.UPDATES_PER_SECOND)
+	timer.set_wait_time(1.0 / tcp.UPDATES_PER_SECOND)
 	timer.connect("timeout", self, "_poll")
 	add_child(timer)
 	timer.start()

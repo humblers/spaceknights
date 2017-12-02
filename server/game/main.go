@@ -2,11 +2,11 @@ package main
 
 import (
     "flag"
-    "math/rand"
     "time"
+    "net"
+    "math/rand"
 
     "github.com/golang/glog"
-    kcp "git.humbler.life/spaceknights/kcp-go"
 )
 
 type User struct{
@@ -26,19 +26,15 @@ func main() {
 
     NewAdmin(server)
 
-    listener, err := kcp.ListenWithOptions(":9999", nil, 2, 2)
+    listener, err := net.Listen("tcp", ":9999")
     if err != nil {
         panic(err)
     }
-    listener.SetDSCP(46)
     for {
-        conn, err := listener.AcceptKCP()
+        conn, err := listener.Accept()
         if err != nil {
             panic(err)
         }
-        conn.SetWindowSize(128, 128)
-        conn.SetStreamMode(true)
-        conn.SetNoDelay(1, 20, 2, 1)
         client := NewClient(conn, server)
         go client.Run()
     }

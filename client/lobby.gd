@@ -149,8 +149,8 @@ func _findgame_response(success, dict):
 			withdraw_match()
 		return
 	find_timer.stop()
-	# kcp connect before scene loading
-	kcp.connect_server(dict.host, 9999)
-	kcp.send({"Id": global.id, "Token": global.id})
-	kcp.send({"SessionId": dict.sid})
+	# tcp connect before scene loading
+	tcp.connect_server(dict.host, 9999)
+	tcp.send({"Id": global.id, "Token": global.id})
+	tcp.send({"SessionId": dict.sid})
 	get_tree().change_scene("res://game.tscn")
