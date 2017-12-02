@@ -14,7 +14,7 @@ func NewPrince(id int, t Team, pos Vector2) *Unit {
         PreHitDelay:   3,
         PostHitDelay:  11,
         Radius:        14,
-        Sight:         200,
+        Sight:         100,
         Range:         15,
         Damage:        200,
         Id:            id,

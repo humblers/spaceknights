@@ -6,7 +6,7 @@ import (
 )
 
 const MaxEnergy = 10000
-const EnergyPerFrame = 70
+const EnergyPerFrame = 200
 const HandSize = 3
 
 type Player struct {

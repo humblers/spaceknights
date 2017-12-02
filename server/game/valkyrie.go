@@ -16,7 +16,7 @@ func NewValkyrie(id int, t Team, pos Vector2) *Unit {
         PostHitDelay:  6,
         Radius:        rad,
         Size:          Medium,
-        Sight:         200,
+        Sight:         100,
         Range:         ran,
         Damage:        120,
         DamageRadius:  rad + ran,

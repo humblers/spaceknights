@@ -374,7 +374,7 @@ func (u *Unit) HandleSpawn() {
             bullet := NewKnightBullet(u.Team, u.Position)
             u.Game.AddUnit(bullet)
             bullet.Position.Y += u.Radius
-            bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 300}
+            bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 400}
             bullet.Velocity = Vector2{0, bullet.Speed}
             if bullet.Team == Home {
                 bullet.FlipY()
