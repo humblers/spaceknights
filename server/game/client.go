@@ -179,10 +179,6 @@ func (client *Client) join() error {
 }
 
 func (client *Client) closeConn() {
-    delay := time.After(30 * time.Second)
-    select {
-    case <-delay:
-    }
     if err := client.conn.Close(); err != nil {
         panic(err)
     }
