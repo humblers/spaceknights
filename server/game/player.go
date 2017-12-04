@@ -49,18 +49,19 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) UpdateKnight() {
+func (player *Player) Update() {
     knight := player.Knight
     knight.ClearEvents()
     if knight.IsDead() {
         if knight.RepairFrame != knight.Game.Frame {
             return
         }
-        knight.Hp = 500
+        knight.Hp = 1000
         knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
         knight.Destination = knight.Position
         knight.SpawnStack = 0
         knight.HitFrame = 0
+        knight.SetSpawn(false)
         knight.Game.AddUnit(knight)
     }
     if knight.IsAttacking() {
@@ -76,7 +77,9 @@ func (player *Player) UpdateKnight() {
             knight.StartAttack()
         }
     }
-    if player.Energy >= ShotCost {
+    incEnergy := true
+    if player.Energy >= ShotCost && !knight.SpawnOff {
+        incEnergy = false
         if knight.HandleSpawn() {
             player.OperateEnergy(-ShotCost)
             knight.Game.Stats[player.Team].EnergyUsed += ShotCost
@@ -85,11 +88,15 @@ func (player *Player) UpdateKnight() {
         knight.SetSpawn(false)
     }
     if player.Energy >= MovingCost && knight.Position != knight.Destination {
+        incEnergy = false
         player.OperateEnergy(-MovingCost)
         knight.Game.Stats[player.Team].EnergyUsed += MovingCost
         knight.Velocity = knight.Destination.Minus(knight.Position).Truncate(knight.Speed)
     } else {
         knight.Velocity = Vector2{0, 0}
+    }
+    if incEnergy {
+        player.OperateEnergy(EnergyPerFrame)
     }
 }
 

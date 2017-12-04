@@ -361,12 +361,10 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     game.ActivateWaitingCards()
     for _, player := range game.Home {
-        player.UpdateKnight()
-        player.OperateEnergy(EnergyPerFrame)
+        player.Update()
     }
     for _, player := range game.Visitor {
-        player.UpdateKnight()
-        player.OperateEnergy(EnergyPerFrame)
+        player.Update()
     }
     for _, unit := range game.Units {
         unit.Update()
