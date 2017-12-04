@@ -69,35 +69,39 @@ func (client *Client) WriteAsync(packet Packet) {
 }
 
 func (client *Client) StopAsync() {
-    close(client.closing)
+    select {
+    case <-client.closing:
+        return
+    default:
+        close(client.closing)
+    }
 }
 
 func (client *Client) readLoop() {
     defer client.loop.Done()
     for {
-        packet, err := client.read(1 * time.Second)
-        if err != nil {
-            if e, ok := err.(net.Error); ok && e.Timeout() {
-                select {
-                case <-client.closing:
-                    return
-                default:
-                    continue    // normal timeout
-                }
-            }
-            panic(err)
-        }
-
-        var input Input
-        if err := packet.Parse(&input); err != nil {
-            panic(err)
-        }
-        input.id = client.id
-
         select {
-        case <-client.closing:
+        case <- client.closing:
             return
-        case client.session.incoming <- input:
+        default:
+            packet, err := client.read(1 * time.Second)
+            if err != nil {
+                if e, ok := err.(net.Error); ok && e.Timeout() {
+                    // normal timeout
+                } else {
+                    glog.Errorf("%#v", err)
+                    client.session.Leave(client)
+                }
+                continue
+            }
+            var input Input
+            if err := packet.Parse(&input); err != nil {
+                panic(err)
+            }
+            input.id = client.id
+            if err := client.session.Send(input); err != nil {
+                panic(err)
+            }
         }
     }
 }
@@ -110,7 +114,8 @@ func (client *Client) writeLoop() {
             return
         case packet := <-client.outgoing:
             if err := client.write(packet, 1 * time.Second); err != nil {
-                glog.Errorf("client %v write error : %v", client, err)
+                glog.Errorf("%#v", err)
+                client.session.Leave(client)
             }
         }
     }
