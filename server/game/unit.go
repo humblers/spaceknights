@@ -86,6 +86,7 @@ type Unit struct {
     LifetimeCost int     `json:"-"`
     SpawnThing   string  `json:"-"`
     SpawnSpeed   int     `json:"-"`
+    SpawnOff     bool
     RepairDelay  int     `json:"-"`
 
     // variant
@@ -331,61 +332,75 @@ func (u *Unit) HasTarget() bool {
     return u.Target != nil && !u.Target.IsDead()
 }
 
-func (u *Unit) HandleSpawn() {
+func (u *Unit) SetSpawn(enable bool) {
+    if u.SpawnOff = !enable; u.SpawnOff {
+        u.SpawnFrame = 0
+    }
+}
+
+func (u *Unit) HandleSpawn() bool {
     if u.SpawnSpeed <= 0 {
-        return
+        return false
     }
 
-    if u.SpawnFrame == 0 || u.SpawnFrame == u.Game.Frame {
-        getSpawnPos := func(radius float64) Vector2 {
-            pos := u.Position
-            if u.Team == Home {
-                pos.Y = MapHeight - pos.Y
-            }
-            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + radius}
-            if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
-                return front
-            }
-            if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
-                pos.X -= u.Radius + radius
-            } else {
-                pos.X += u.Radius + radius
-            }
-            return pos
-        }
-        switch u.SpawnThing {
-        case "barbarians":
-            unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
-            u.Game.AddUnit(unit)
-        case "speargoblin":
-            unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(unit)
-        case "skeleton":
-            unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(unit)
-        case "knightbullet":
-            if u.SpawnStack++; u.SpawnStack % 6 > 4 {
-                break
-            }
-            bullet := NewKnightBullet(u.Team, u.Position)
-            u.Game.AddUnit(bullet)
-            bullet.Position.Y += u.Radius
-            bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 400}
-            bullet.Velocity = Vector2{0, bullet.Speed}
-            if bullet.Team == Home {
-                bullet.FlipY()
-                bullet.Velocity.Y *= -1
-            }
-            u.Game.Stats[u.Team].KnightBulletTotalCount += 1
-        default:
-            glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
-        }
-        u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
+    if u.SpawnOff {
+        return false
     }
+
+    if u.SpawnFrame != 0 && u.SpawnFrame != u.Game.Frame {
+        return false
+    }
+
+    getSpawnPos := func(radius float64) Vector2 {
+        pos := u.Position
+        if u.Team == Home {
+            pos.Y = MapHeight - pos.Y
+        }
+        front := Vector2{X: pos.X, Y: pos.Y + u.Radius + radius}
+        if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
+            return front
+        }
+        if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
+            pos.X -= u.Radius + radius
+        } else {
+            pos.X += u.Radius + radius
+        }
+        return pos
+    }
+    switch u.SpawnThing {
+    case "barbarians":
+        unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
+        u.Game.AddUnit(unit)
+    case "speargoblin":
+        unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(unit)
+    case "skeleton":
+        unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(unit)
+    case "knightbullet":
+        if u.SpawnStack++; u.SpawnStack % 6 > 4 {
+            break
+        }
+        bullet := NewKnightBullet(u.Team, u.Position)
+        u.Game.AddUnit(bullet)
+        bullet.Position.Y += u.Radius
+        bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 400}
+        bullet.Velocity = Vector2{0, bullet.Speed}
+        if bullet.Team == Home {
+            bullet.FlipY()
+            bullet.Velocity.Y *= -1
+        }
+        u.Game.Stats[u.Team].KnightBulletTotalCount += 1
+    default:
+        glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
+        return false
+    }
+    u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
+    return true
 }
 
 func (u *Unit) ScatterBullets() {
@@ -423,9 +438,9 @@ func (u *Unit) ScatterBullets() {
 }
 
 func (u *Unit) Update() {
-    u.ClearEvents()
     switch u.Type {
     case Troop:
+        u.ClearEvents()
         u.Velocity = Vector2{0, 0}
         if u.IsAttacking() {
             u.HandleAttack()
@@ -458,6 +473,7 @@ func (u *Unit) Update() {
             }
         }
     case Building:
+        u.ClearEvents()
         u.TakeDamage(u.LifetimeCost, nil)
         if u.HasAttack() {
             if u.IsAttacking() {
@@ -479,24 +495,8 @@ func (u *Unit) Update() {
             }
         }
         u.HandleSpawn()
-    case Knight:
-        if u.IsAttacking() {
-            u.HandleAttack()
-        } else {
-            if !u.HasTarget() || !u.WithinRange(u.Target) {
-                var filter = func(other *Unit) bool {
-                    return u.WithinRange(other)
-                }
-                u.Target = u.FindNearestTarget(filter)
-            }
-            if u.Target != nil {
-                u.StartAttack()
-                //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
-            }
-        }
-        u.HandleSpawn()
-        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
+        u.ClearEvents()
         if u.IsOutOfScreen() || u.ReachedMaxY() {
             u.SelfRemove()
         } else {
@@ -511,6 +511,7 @@ func (u *Unit) Update() {
                 }
             }
         }
+    case Knight: // knight update handle by player(cost associated)
     case Base:
         return
     }

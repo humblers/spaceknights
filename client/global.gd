@@ -120,7 +120,7 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 500,
+		"hp" : 1000,
 		"prehitdelay" : 10,
 		"radius" : 20,
 		"sight" : 140,
@@ -129,7 +129,7 @@ const UNITS = {
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 500,
+		"hp" : 1000,
 		"prehitdelay" : 10,
 		"radius" : 31,
 		"sight" : 140,
@@ -162,13 +162,13 @@ const UNITS = {
 	},
 	"maincore" : {
 		"layer" : "Mothership",
-		"hp" : 1200,
+		"hp" : 2400,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
 		"layer" : "Mothership",
-		"hp" : 700,
+		"hp" : 1400,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
@@ -341,6 +341,15 @@ const CARDS = {
 		"type" : "spell",
 		"cost" : 5000,
 	},
+	
+	"moveknight" : {
+		"type" : "undecide",
+		"cost" : 1000,
+	},
+	"shoot" : {
+		"type" : "shoot",
+		"cost" : 2000,
+	},
 }
 
 func _ready():
@@ -384,16 +393,17 @@ static func clone(data):
         to = data
     return to
 
+func is_instantly_use_card(name):
+	if CARDS[name].type in ["spell", "shoot"]:
+		return true
+	return false
+
 func is_spell_card(name):
-	if name == "moveknight":
-		return false
 	if CARDS[name].type == "spell":
 		return true
 	return false
 
 func is_unit_card(name):
-	if name == "moveknight":
-		return false
 	if CARDS[name].type in ["troop", "building"]:
 		return true
 	return false

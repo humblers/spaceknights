@@ -231,13 +231,14 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, enable bool, player *Player) {
     waiting := &WaitingCard{
         Name:       card,
         Team:       player.Team,
         Position:   pos,
         IdStarting: g.ObjectCounter,
         ActivateFrame: g.Frame + ActivateAfter,
+        Enable:     enable,
         Knight:     player.Knight,
     }
     count := waiting.GetUnitCount()
@@ -315,6 +316,9 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         if card.Knight.Team == Home {
             card.Knight.Destination.Y = MapHeight - card.Knight.Destination.Y
         }
+    case "shoot":
+        card.Knight.SetSpawn(card.Enable)
+        glog.Infof("knight spawn state : %v", card.Knight.SpawnOff)
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
@@ -355,15 +359,15 @@ func (game *Game) Run(session *Session) {
 
 func (game *Game) update() (gameover bool) {
     game.Frame++
+    game.ActivateWaitingCards()
     for _, player := range game.Home {
-        player.IncreaseEnergy(EnergyPerFrame)
-        player.RepairKnight(game)
+        player.UpdateKnight()
+        player.OperateEnergy(EnergyPerFrame)
     }
     for _, player := range game.Visitor {
-        player.IncreaseEnergy(EnergyPerFrame)
-        player.RepairKnight(game)
+        player.UpdateKnight()
+        player.OperateEnergy(EnergyPerFrame)
     }
-    game.ActivateWaitingCards()
     for _, unit := range game.Units {
         unit.Update()
     }
@@ -391,7 +395,7 @@ func (game *Game) update() (gameover bool) {
 func (game *Game) apply(input Input) {
     player := game.Player(input.id)
      if input.Use.Index != 0 {
-        player.UseCard(input.Use.Index - 1, input.Use.Position, game)
+        player.UseCard(input, game)
     }
 }
 

@@ -12,6 +12,7 @@ onready var body = get_node("Body")
 
 signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
+signal shot_state(enable)
 
 func _ready():
 	set_process(true)
@@ -52,8 +53,9 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_input_event(ui, card):
+func set_ui_event(ui, card):
 	get_node("Select").connect("input_event", ui, "card_input_event", [card])
+	connect("shot_state", ui, "update_knight_shot_state")
 
 func update_changes(unit):
 	set_pos(get_position(unit))
@@ -69,6 +71,7 @@ func update_changes(unit):
 					target_id,
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
+	emit_signal("shot_state", not unit.SpawnOff)
 	body.play("%s_%s" % [color, unit.State])
 	#velocity = get_velocity(unit)
 	#update()

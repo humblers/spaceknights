@@ -32,6 +32,7 @@ type Input struct {
     Use       struct {
         Index    int
         Position Vector2
+        Enable   bool
     }
 }
 

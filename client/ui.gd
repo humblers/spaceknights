@@ -10,11 +10,13 @@ onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var card4 = get_node("Card4")
+onready var card5 = get_node("Card5")
 onready var result = get_node("Result")
 onready var guide = get_node("CardGuide")
 
 var hand
 var selected_card
+var shot_enable = false
 
 func connect_ui_signals():
 	input.connect("mouse_pressed", self, "pressed_outside_of_UI")
@@ -22,12 +24,12 @@ func connect_ui_signals():
 	card2.connect("input_event", self, "card_input_event", [card2])
 	card3.connect("input_event", self, "card_input_event", [card3])
 	card4.connect("input_event", self, "card_input_event", [card4])
+	card5.connect("input_event", self, "card_input_event", [card5])
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
 	var player = game[global.team][global.id]
 	hand = player.Hand
-	hand.append("moveknight")
 	# update deck and energy
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	get_node("Energy").set_value(player.Energy / 100)
@@ -84,7 +86,7 @@ func get_selected_card_id():
 	return int(selected_card.get_name().right(1))
 
 func update_card_texture(player):
-	for i in range(1, 4):
+	for i in range(1, 5):
 		var node = get_node("Card" + str(i))
 		var card = hand[i - 1]
 		var postfix = "off"
@@ -92,8 +94,16 @@ func update_card_texture(player):
 			postfix = "on"
 		node.set_normal_texture(resource.icon[card][postfix].normal)
 		node.set_focused_texture(resource.icon[card][postfix].pressed)
+	var state = "normal"
+	var postfix = "on"
+	if shot_enable:
+		state = "pressed"
+	elif player.Energy < global.CARDS["shoot"].cost:
+		postfix = "off"
+	card5.set_normal_texture(resource.icon["shoot"][postfix][state])
 
 func toggle_card_focus(node, selected):
+	assert(node != null)
 	selected_card = node
 	node.grab_focus()
 	if not selected:
@@ -104,18 +114,22 @@ func use_card(pos=Vector2(0, 0)):
 	pos.y = global.MAP.height - pos.y
 	if global.team == "Visitor":
 		pos.x = global.MAP.width - pos.x
-	tcp.send({
+	var index = get_selected_card_id()
+	var packet = {
 	"Use" : {
-		"Index" : get_selected_card_id(),
+		"Index" : index,
 		"Position" : {"X":pos.x, "Y":pos.y},
 		}
-	})
+	}
+	if index == 5:
+		packet["Use"]["Enable"] = not shot_enable
 	toggle_card_focus(selected_card, false)
+	tcp.send(packet)
 
 func press_card(node):
 	toggle_card_focus(node, true)
 	var id = get_selected_card_id()
-	if global.is_spell_card(hand[id - 1]):
+	if global.is_instantly_use_card(hand[id - 1]):
 		use_card()
 		return
 	var card = hand[id - 1]
@@ -140,6 +154,9 @@ func release_card():
 	if location == LOCATION_BLUE:
 		use_card(pos)
 	deactivate_guide()
+
+func update_knight_shot_state(enable):
+	shot_enable = enable
 
 func card_input_event(event, node):
 	if event.type == InputEvent.MOUSE_BUTTON:

@@ -294,6 +294,28 @@ var icon = {
 		},
 		"small": preload("res://icon/laser_small.png"),
 	},
+	"moveknight" : {
+		"on": {
+			"normal" : preload("res://icon/moveknight_on.png"),
+			"pressed" : preload("res://icon/moveknight_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/moveknight_off.png"),
+			"pressed" : preload("res://icon/moveknight_off.png"),
+		},
+		"small": null,
+	},
+	"shoot" : {
+		"on": {
+			"normal" : preload("res://icon/shoot_on.png"),
+			"pressed" : preload("res://icon/shoot_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/shoot_off.png"),
+			"pressed" : preload("res://icon/shoot_on_pressed.png"),
+		},
+		"small": null,
+	},
 }
 
 var effect = {

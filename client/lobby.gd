@@ -97,7 +97,10 @@ func withdraw_match():
 func shuffle_deck():
 	for child in get_node("Deck/Container").get_children():
 		child.queue_free()
-	deck = global.shuffle_array(global.CARDS.keys())
+	var keys = global.CARDS.keys()
+	keys.erase("moveknight")
+	keys.erase("shoot")
+	deck = global.shuffle_array(keys)
 	deck.resize(6)
 	for card in deck:
 		var label = Label.new()

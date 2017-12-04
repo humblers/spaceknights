@@ -15,6 +15,7 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
+    Enable          bool
     Knight          *Unit
 }
 
@@ -61,7 +62,8 @@ var CostMap = map[Card]int{
 
     "laser": 5000,
 
-    "moveknight": 0,
+    "moveknight": 1000,
+    "shoot": 2000,
 }
 
 // Knuth shuffle
