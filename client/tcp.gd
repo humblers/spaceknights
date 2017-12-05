@@ -40,12 +40,12 @@ func _update():
 		var packet = received.left(pos + 1)
 		received = received.right(pos + 1)
 		dict.parse_json(packet)
-		print("tcp read: " + packet)
+		#print("tcp read: " + packet)
 
 	# write
 	for p in packets:
 		client.put_utf8_string(p)
-		print("tcp write: " + p)
+		#print("tcp write: " + p)
 	packets.clear()
 	
 	# logic

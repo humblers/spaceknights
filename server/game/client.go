@@ -147,6 +147,7 @@ func (client *Client) write(packet Packet, timeout time.Duration) error {
 
 func (client *Client) auth() error {
     packet, err := client.read(1 * time.Second)
+    glog.Infof("auth packet: %v", string(packet))
     if err != nil {
         return err
     }
@@ -164,6 +165,7 @@ func (client *Client) auth() error {
 
 func (client *Client) join() error {
     packet, err := client.read(1 * time.Second)
+    glog.Infof("join packet: %v", string(packet))
     if err != nil {
         return err
     }

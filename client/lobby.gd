@@ -150,6 +150,7 @@ func _findgame_response(success, dict):
 		return
 	find_timer.stop()
 	# tcp connect before scene loading
+	print(dict)
 	tcp.connect_server(dict.host, 9999)
 	tcp.send({"Id": global.id, "Token": global.id})
 	tcp.send({"SessionId": dict.sid})
