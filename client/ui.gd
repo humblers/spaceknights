@@ -16,7 +16,6 @@ onready var guide = get_node("CardGuide")
 
 var hand
 var selected_card
-var shot_enable = false
 
 func connect_ui_signals():
 	input.connect("mouse_pressed", self, "pressed_outside_of_UI")
@@ -33,7 +32,7 @@ func update_changes(game):
 	# update deck and energy
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	get_node("Energy").set_value(player.Energy / 100)
-	update_card_texture(player)
+	update_card_texture(game.Frame, player)
 
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
@@ -85,7 +84,7 @@ func get_selected_card_id():
 		return 0
 	return int(selected_card.get_name().right(1))
 
-func update_card_texture(player):
+func update_card_texture(frame, player):
 	for i in range(1, 5):
 		var node = get_node("Card" + str(i))
 		var card = hand[i - 1]
@@ -96,7 +95,7 @@ func update_card_texture(player):
 		node.set_focused_texture(resource.icon[card][postfix].pressed)
 	var state = "normal"
 	var postfix = "on"
-	if shot_enable:
+	if player.KnightShotRefuse > frame:
 		state = "pressed"
 	elif player.Energy < global.CARDS["shoot"].cost:
 		postfix = "off"
@@ -115,16 +114,13 @@ func use_card(pos=Vector2(0, 0)):
 	if global.team == "Visitor":
 		pos.x = global.MAP.width - pos.x
 	var index = get_selected_card_id()
-	var packet = {
-	"Use" : {
-		"Index" : index,
-		"Position" : {"X":pos.x, "Y":pos.y},
+	tcp.send({
+		"Use" : {
+			"Index" : index,
+			"Position" : {"X":pos.x, "Y":pos.y},
 		}
-	}
-	if index == 5:
-		packet["Use"]["Enable"] = not shot_enable
+	})
 	toggle_card_focus(selected_card, false)
-	tcp.send(packet)
 
 func press_card(node):
 	toggle_card_focus(node, true)
@@ -154,9 +150,6 @@ func release_card():
 	if location == LOCATION_BLUE:
 		use_card(pos)
 	deactivate_guide()
-
-func update_knight_shot_state(enable):
-	shot_enable = enable
 
 func card_input_event(event, node):
 	if event.type == InputEvent.MOUSE_BUTTON:

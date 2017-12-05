@@ -86,7 +86,6 @@ type Unit struct {
     LifetimeCost int     `json:"-"`
     SpawnThing   string  `json:"-"`
     SpawnSpeed   int     `json:"-"`
-    SpawnOff     bool
     RepairDelay  int     `json:"-"`
 
     // variant
@@ -100,7 +99,7 @@ type Unit struct {
     Target       *Unit   `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
-    SpawnStack   int     `json:"-"`
+    SpawnUntil	 int	 `json:"-"`
     RepairFrame  int     `json:"-"`
 
     // event
@@ -332,23 +331,13 @@ func (u *Unit) HasTarget() bool {
     return u.Target != nil && !u.Target.IsDead()
 }
 
-func (u *Unit) SetSpawn(enable bool) {
-    if u.SpawnOff = !enable; u.SpawnOff {
-        u.SpawnFrame = 0
-    }
-}
-
-func (u *Unit) HandleSpawn() bool {
+func (u *Unit) HandleSpawn() {
     if u.SpawnSpeed <= 0 {
-        return false
-    }
-
-    if u.SpawnOff {
-        return false
+        return
     }
 
     if u.SpawnFrame != 0 && u.SpawnFrame != u.Game.Frame {
-        return false
+        return
     }
 
     getSpawnPos := func(radius float64) Vector2 {
@@ -382,9 +371,6 @@ func (u *Unit) HandleSpawn() bool {
         unit.Position = getSpawnPos(unit.Radius)
         u.Game.AddUnit(unit)
     case "knightbullet":
-        if u.SpawnStack++; u.SpawnStack % 6 > 4 {
-            break
-        }
         bullet := NewKnightBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
         bullet.Position.Y += u.Radius
@@ -397,10 +383,9 @@ func (u *Unit) HandleSpawn() bool {
         u.Game.Stats[u.Team].KnightBulletTotalCount += 1
     default:
         glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
-        return false
+        return
     }
     u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
-    return true
 }
 
 func (u *Unit) ScatterBullets() {

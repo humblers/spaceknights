@@ -348,7 +348,7 @@ const CARDS = {
 	},
 	"shoot" : {
 		"type" : "shoot",
-		"cost" : 2000,
+		"cost" : 6000,
 	},
 }
 

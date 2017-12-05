@@ -231,14 +231,13 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, enable bool, player *Player) {
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
     waiting := &WaitingCard{
         Name:       card,
         Team:       player.Team,
         Position:   pos,
         IdStarting: g.ObjectCounter,
         ActivateFrame: g.Frame + ActivateAfter,
-        Enable:     enable,
         Knight:     player.Knight,
     }
     count := waiting.GetUnitCount()
@@ -317,8 +316,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
             card.Knight.Destination.Y = MapHeight - card.Knight.Destination.Y
         }
     case "shoot":
-        card.Knight.SetSpawn(card.Enable)
-        glog.Infof("knight spawn state : %v", card.Knight.SpawnOff)
+        card.Knight.SpawnUntil = g.Frame + 40
+        card.Knight.SpawnFrame = 0
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }

@@ -30,7 +30,7 @@ func NewKnight(t Team, name string) *Unit {
         SpawnThing:     "knightbullet",
         SpawnSpeed:     2,
         RepairDelay:    15,
-        SpawnOff:       true,
+        SpawnUntil:     -1,
         Position:       startpos,
         Destination:    startpos,
     }

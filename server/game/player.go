@@ -9,7 +9,6 @@ const MinEnergy = 0
 const MaxEnergy = 10000
 const EnergyPerFrame = 100
 const MovingCost = 50
-const ShotCost = 60
 const HandSize = 3
 
 type Player struct {
@@ -17,13 +16,8 @@ type Player struct {
     Hand Cards
     Pending Cards `json:"-"`
     Knight *Unit `json:"-"`
+    KnightShotRefuse int
     Energy int
-    Movements []*Movement `json:"-"`
-}
-
-type Movement struct {
-    PositionX float64
-    Frame int
 }
 
 func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
@@ -53,15 +47,14 @@ func (player *Player) Update() {
     knight := player.Knight
     knight.ClearEvents()
     if knight.IsDead() {
-        if knight.RepairFrame != knight.Game.Frame {
+        if knight.RepairFrame == knight.Game.Frame {
             return
         }
         knight.Hp = 1000
         knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
         knight.Destination = knight.Position
-        knight.SpawnStack = 0
         knight.HitFrame = 0
-        knight.SetSpawn(false)
+        knight.SpawnFrame = 0
         knight.Game.AddUnit(knight)
     }
     if knight.IsAttacking() {
@@ -77,26 +70,18 @@ func (player *Player) Update() {
             knight.StartAttack()
         }
     }
-    incEnergy := true
-    if player.Energy >= ShotCost && !knight.SpawnOff {
-        incEnergy = false
-        if knight.HandleSpawn() {
-            player.OperateEnergy(-ShotCost)
-            knight.Game.Stats[player.Team].EnergyUsed += ShotCost
-        }
-    } else {
-        knight.SetSpawn(false)
+
+    if knight.SpawnUntil >= knight.Game.Frame {
+        knight.HandleSpawn()
     }
+
     if player.Energy >= MovingCost && knight.Position != knight.Destination {
-        incEnergy = false
         player.OperateEnergy(-MovingCost)
         knight.Game.Stats[player.Team].EnergyUsed += MovingCost
         knight.Velocity = knight.Destination.Minus(knight.Position).Truncate(knight.Speed)
     } else {
-        knight.Velocity = Vector2{0, 0}
-    }
-    if incEnergy {
         player.OperateEnergy(EnergyPerFrame)
+        knight.Velocity = Vector2{0, 0}
     }
 }
 
@@ -106,32 +91,46 @@ func (player *Player) UseCard(input Input, game *Game) {
         glog.Fatalf("invalid card index: %v", index)
         return
     }
-    card := player.Hand[index]
 
+    card := player.Hand[index]
     if player.Energy < CostMap[card] {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
-    if card == "moveknight" || card == "shoot" {
-        if player.Knight.IsDead() {
-            glog.Infof("knight dead. skip using card: %v", card)
-            return
-        }
-     } else {
-        next := player.Pending[0]
-
-        player.Hand[index] = next
+	exchange := true
+	paycost := true
+	needknight := false
+	switch card {
+	case "moveknight":
+		exchange = false; paycost = false; needknight = true
+	case "laser":
+		needknight = true
+	case "shoot":
+		exchange = false
+		if player.Knight.IsDead() || player.KnightShotRefuse > game.Frame {
+			glog.Infof("skip using card: %v", card)
+			return
+		}
+		player.KnightShotRefuse = game.Frame + ActivateAfter + 40
+	}
+	if needknight && player.Knight.IsDead() {
+	    glog.Infof("skip using card: %v. knight dead", card)
+		return
+	}
+    if exchange {
+        player.Hand[index] = player.Pending[0]
         for i := 1; i < len(player.Pending); i++ {
             player.Pending[i - 1] = player.Pending[i]
         }
         player.Pending[len(player.Pending) - 1] = card
-
+    }
+    if paycost {
         player.OperateEnergy(-CostMap[card])
         game.Stats[player.Team].EnergyUsed += CostMap[card]
     }
 
     position := input.Use.Position
-    game.AddToWaitingCards(card, position, input.Use.Enable, player)
+    game.AddToWaitingCards(card, position, player)
 }
 
 func (player *Player) OperateEnergy(amount int) {
