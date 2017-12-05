@@ -26,6 +26,7 @@ func NewSession(id string, server *Server) *Session {
         clients: make(map[string]*Client),
         join: make(chan *Client),
         joinResult: make(chan error),
+        leave: make(chan *Client),
         incoming: make(chan Input),
         outgoing: make(chan *Game),
         outgoingResult: make(chan error),
