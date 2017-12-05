@@ -1,7 +1,8 @@
 extends Node
 
-const LOBBY_HOST = "http://13.125.74.237"
+#const LOBBY_HOST = "http://13.125.74.237"
 #const LOBBY_HOST = "http://127.0.0.1"
+const LOBBY_HOST = "http://192.168.1.8"
 const LOBBY_PORT = 3333
 const SUCCESS_RESPONSES = [
 	HTTPClient.RESPONSE_OK,

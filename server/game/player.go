@@ -7,9 +7,9 @@ import (
 
 const MinEnergy = 0
 const MaxEnergy = 10000
-const EnergyPerFrame = 200
-const MovingCost = 60
-const ShotCost = 550
+const EnergyPerFrame = 100
+const MovingCost = 50
+const ShotCost = 60
 const HandSize = 3
 
 type Player struct {
