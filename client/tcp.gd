@@ -17,6 +17,7 @@ func _ready():
 func connect_server(ip, port):
 	assert(client.is_connected() == false)
 	if client.connect(ip, port) == OK:
+		packets.clear()
 		timer.start()
 
 func disconnect_server():
