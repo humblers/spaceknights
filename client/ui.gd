@@ -40,10 +40,10 @@ func update_changes(game):
 		global.save_config()
 		input.disconnect("mouse_pressed", self, "move")
 		show_result(game.Result)
-		kcp.disconnect_server()
+		tcp.disconnect_server()
 
 func use_card(i):
-	kcp.send({
+	tcp.send({
 	"Use" : {
 		"Index" : i,
 		"Point" : guide.get_release_point(),
@@ -68,7 +68,7 @@ func move(pos):
 	var maxY = global.MAP.height
 	var minY = global.MAP.height - global.MOTHERSHIP_BASE_HEIGHT
 	if pos.y < maxY && pos.y > minY:
-		kcp.send({ "Move" : pos.x })
+		tcp.send({ "Move" : pos.x })
 
 func back_to_lobby():
 	get_tree().change_scene("res://lobby.tscn")

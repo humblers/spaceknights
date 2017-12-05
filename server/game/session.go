@@ -12,6 +12,7 @@ type Session struct {
     clients map[string]*Client
     join chan *Client
     joinResult chan error
+    leave chan *Client
     incoming chan Input
     outgoing chan *Game
     outgoingResult chan error
@@ -40,10 +41,17 @@ func (session *Session) String() string {
 func (session *Session) Join(client *Client) error {
     select {
     case <-session.closing:
-        return fmt.Errorf("session %v already stopped")
+        return fmt.Errorf("session %v already stopped", session)
     case session.join <- client:
     }
     return <-session.joinResult
+}
+
+func (session *Session) Leave(client *Client) {
+    select {
+    case <- session.closing:
+    case session.leave <- client:
+    }
 }
 
 func (session *Session) Stop() error {
@@ -57,6 +65,15 @@ func (session *Session) Stop() error {
 func (session *Session) Broadcast(game *Game) error {
     session.outgoing <- game
     return <-session.outgoingResult
+}
+
+func (session *Session) Send(input Input) error {
+    select {
+    case <-session.closing:
+        return fmt.Errorf("session %v already stopped", session)
+    case session.incoming <- input:
+        return nil
+    }
 }
 
 func (session *Session) Run(game *Game) {
@@ -83,6 +100,9 @@ func (session *Session) Run(game *Game) {
             }
             session.clients[client.id] = client
             session.joinResult <- nil
+        case client := <-session.leave:
+            delete(session.clients, client.id)
+            client.StopAsync()
         case game := <-session.outgoing:
             for _, client := range session.clients {
                 home := game.Home
