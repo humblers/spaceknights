@@ -67,12 +67,10 @@ func (session *Session) Broadcast(game *Game) error {
     return <-session.outgoingResult
 }
 
-func (session *Session) Send(input Input) error {
+func (session *Session) Send(input Input) {
     select {
     case <-session.closing:
-        return fmt.Errorf("session %v already stopped", session)
     case session.incoming <- input:
-        return nil
     }
 }
 

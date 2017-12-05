@@ -99,9 +99,7 @@ func (client *Client) readLoop() {
                 panic(err)
             }
             input.id = client.id
-            if err := client.session.Send(input); err != nil {
-                panic(err)
-            }
+            client.session.Send(input)
         }
     }
 }
