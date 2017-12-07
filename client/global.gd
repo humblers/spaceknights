@@ -5,7 +5,6 @@ var config = ConfigFile.new()
 var id
 
 var team
-var knights = {}
 
 const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
 const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
@@ -119,6 +118,7 @@ const UNITS = {
 		"radius" : 7,
 	},
 	"shuriken" : {
+		"type" : "knight",
 		"layer" : "Air",
 		"hp" : 1000,
 		"prehitdelay" : 10,
@@ -128,6 +128,7 @@ const UNITS = {
 		"projectile" : "knight_missile",
 	},
 	"space_z" : {
+		"type" : "knight",
 		"layer" : "Air",
 		"hp" : 1000,
 		"prehitdelay" : 10,
@@ -337,11 +338,6 @@ const CARDS = {
 		"cost" : 4000,
 	},
 
-	"laser" : {
-		"type" : "spell",
-		"cost" : 5000,
-	},
-	
 	"moveknight" : {
 		"type" : "undecide",
 		"cost" : 1000,
@@ -393,8 +389,22 @@ static func clone(data):
         to = data
     return to
 
-func is_instantly_use_card(name):
-	if CARDS[name].type in ["spell", "shoot"]:
+const THRESHOLD_BLUE = 310
+
+const LOCATION_UI = 0
+const LOCATION_BASE = 1
+const LOCATION_BLUE = 2
+const LOCATION_RED = 3
+
+func get_location(pos):
+	if pos.y > global.MAP.height:
+		return LOCATION_UI
+	if pos.y < THRESHOLD_BLUE:
+		return LOCATION_RED
+	return LOCATION_BLUE
+
+func is_knight(name):
+	if dict_get(UNITS[name], "type", "") == "knight":
 		return true
 	return false
 
@@ -407,12 +417,6 @@ func is_unit_card(name):
 	if CARDS[name].type in ["troop", "building"]:
 		return true
 	return false
-
-func get_my_knight():
-	for id in knights:
-		var node = knights[id]
-		if node.color == "blue":
-			return node
 
 func get_structures_of_unit(card):
 	var dict = dict_get(CARDS, card.Name, {})

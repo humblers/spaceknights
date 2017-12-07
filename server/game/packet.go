@@ -28,10 +28,9 @@ type Join struct {
 
 type Input struct {
     id        string
-    Use       struct {
-        Index    int
-        Position Vector2
-    }
+    Use		  int
+    State	  State
+    Position  Vector2
 }
 
 type LobbyRequest struct {

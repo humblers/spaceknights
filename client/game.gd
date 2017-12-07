@@ -3,6 +3,8 @@ extends Node
 const OBJECT_DEFAULT = "default"
 const OBJECT_CLIENT_ONLY = "clientonly"
 
+signal use_server_position(b)
+
 func _ready():
 	get_node("MothershipBG/BlueBaseBottom")
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
@@ -18,6 +20,8 @@ func update_changes(game):
 	create_new_spells(game.Spells)
 	delete_finished_spells(game.Spells)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
+	emit_signal("use_server_position",
+			game[global.team][global.id].KnightIdleTo >= game.Frame)
 	update_ui(game)
 
 func opening_finished():
@@ -39,8 +43,6 @@ func delete_dead_units(units):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
-			if node.name in ["shuriken", "space_z"]:
-				global.knights.erase(node.get_name())
 			node.queue_free()
 
 func create_new_units(units):
@@ -65,10 +67,10 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
-	if unit.Name in ["shuriken", "space_z"]:
-		global.knights[str(unit.Id)] = node
-		if unit.Team == global.team:
-			node.set_ui_event(get_node("UI"), get_node("UI/Card4"))
+	if node.color == "blue" and global.is_knight(unit.Name):
+		node.connect("position_changed", get_node("UI"), "update_knight_position")
+		connect("use_server_position", node, "set_use_server_pos")
+		get_node("UI").knight_pos = node.get_pos()
 
 func create_new_spells(spells):
 	for id in spells:

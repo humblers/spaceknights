@@ -97,6 +97,7 @@ type Unit struct {
     Heading      Vector2
     Velocity     Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
+    Targets		 []*Unit `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
     SpawnUntil	 int	 `json:"-"`
@@ -112,17 +113,35 @@ func (u *Unit) String() string {
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
     type Alias Unit
-    var targetId int
-    if u.HasTarget() {
-        targetId = u.Target.Id
+    var data interface{}
+    if u.Type == Knight {
+        var targetIds []int
+        if len(u.Targets) > 0 {
+            for _, target := range u.Targets {
+                targetIds = append(targetIds, target.Id)
+            }
+        }
+        data = &struct{
+            *Alias
+            TargetIds []int `json:",omitempty"`
+        }{
+            Alias: (*Alias)(u),
+            TargetIds: targetIds,
+        }
+    } else {
+        var targetId int
+        if u.HasTarget() {
+            targetId = u.Target.Id
+        }
+        data = &struct{
+            *Alias
+            TargetId int `json:",omitempty"`
+        }{
+            Alias: (*Alias)(u),
+            TargetId: targetId,
+        }
     }
-    return json.Marshal(&struct{
-        *Alias
-        TargetId int `json:",omitempty"`
-    }{
-        Alias: (*Alias)(u),
-        TargetId: targetId,
-    })
+    return json.Marshal(data)
 }
 
 func (u *Unit) IsCore() bool {
@@ -269,27 +288,31 @@ func (u *Unit) HasAttack() bool {
 }
 
 func (u *Unit) HandleAttack() {
-    if u.Game.Frame == u.HitFrame {
-        if u.WithinRange(u.Target) {
-            u.Target.TakeDamage(u.Damage, u)
-            if u.DamageRadius > 0 {
-                from := u
-                if u.DamageCenter == Target {
-                    from = u.Target
+    if u.Game.Frame != u.HitFrame {
+        return
+    }
+    if u.Type != Knight && u.WithinRange(u.Target) {
+        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+        u.Target.TakeDamage(u.Damage, u)
+        if u.DamageRadius > 0 {
+            from := u
+            if u.DamageCenter == Target {
+                from = u.Target
+            }
+            for _, unit := range u.Game.Units {
+                if u.Target == unit {
+                    continue
                 }
-                for _, unit := range u.Game.Units {
-                    if u.Target == unit {
-                        continue
-                    }
-                    if u.CanTarget(unit) && u.DamageRadius >= from.DistanceTo(unit) - unit.Radius {
-                        unit.TakeDamage(u.Damage, u)
-                    }
+                if u.CanTarget(unit) && u.DamageRadius >= from.DistanceTo(unit) - unit.Radius {
+                    unit.TakeDamage(u.Damage, u)
                 }
             }
         }
     }
-    if u.Type != Knight {
-        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    if u.Type == Knight {
+        for _, target := range u.Targets {
+            target.TakeDamage(u.Damage, u)
+        }
     }
 }
 
@@ -333,6 +356,10 @@ func (u *Unit) HasTarget() bool {
 
 func (u *Unit) HandleSpawn() {
     if u.SpawnSpeed <= 0 {
+        return
+    }
+
+    if u.SpawnUntil < u.Game.Frame {
         return
     }
 
@@ -423,9 +450,9 @@ func (u *Unit) ScatterBullets() {
 }
 
 func (u *Unit) Update() {
+    u.ClearEvents()
     switch u.Type {
     case Troop:
-        u.ClearEvents()
         u.Velocity = Vector2{0, 0}
         if u.IsAttacking() {
             u.HandleAttack()
@@ -446,11 +473,11 @@ func (u *Unit) Update() {
                     //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
                 } else {
                     u.State = Move
-					destination := u.Target.Position
-					if u.Layer == Ground {
-						path := u.FindPath(u.Target)
-						destination = u.NextCornerInPath(path)
-					}
+                    destination := u.Target.Position
+                    if u.Layer == Ground {
+                        path := u.FindPath(u.Target)
+                        destination = u.NextCornerInPath(path)
+                    }
                     u.Velocity = destination.Minus(u.Position).Truncate(u.Speed)
                     u.Heading = u.Velocity
                     //glog.Infof("%v moving to %v", u.Name, destination)
@@ -458,7 +485,6 @@ func (u *Unit) Update() {
             }
         }
     case Building:
-        u.ClearEvents()
         u.TakeDamage(u.LifetimeCost, nil)
         if u.HasAttack() {
             if u.IsAttacking() {
@@ -481,7 +507,6 @@ func (u *Unit) Update() {
         }
         u.HandleSpawn()
     case Bullet:
-        u.ClearEvents()
         if u.IsOutOfScreen() || u.ReachedMaxY() {
             u.SelfRemove()
         } else {
@@ -496,7 +521,24 @@ func (u *Unit) Update() {
                 }
             }
         }
-    case Knight: // knight update handle by player(cost associated)
+    case Knight:
+        if u.IsAttacking() {
+            u.HandleAttack()
+        } else if u.State == Attack {
+            u.Targets = u.Targets[:0]
+            for _, other := range u.Game.Units {
+                if u.CanTarget(other) && u.WithinRange(other) {
+                    u.Targets = append(u.Targets, other)
+                    if len(u.Targets) >= 5 {
+                        break
+                    }
+                }
+            }
+            if len(u.Targets) > 0 {
+                u.StartAttack()
+            }
+        }
+        u.HandleSpawn()
     case Base:
         return
     }

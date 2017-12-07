@@ -7,6 +7,11 @@ var color
 var target_id = 0
 var hp = 0
 var damage_effect = Timer.new()
+
+var use_server_pos = true
+var elapsed
+var prev_pos
+
 var hpnode
 onready var body = get_node("Body")
 
@@ -14,19 +19,32 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
-	set_process(true)
+	if color == "blue" and global.is_knight(name):
+		use_server_pos = false
+		prev_pos = get_pos()
+		elapsed = 0
+		input.connect("mouse_dragged", self, "move")
+		set_process(true)
 
 func _process(delta):
 	play_launch_effect(delta)
+	elapsed += delta
+	if not use_server_pos and elapsed > 0.5:
+		update_knight_state()
 
 func initialize(unit):
 	self.name = unit.Name
 	self.color = "blue" if unit.Team == global.team else "red"
+	set_position(get_position(unit))
 	set_base()
 	set_hp()
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
+
+func set_position(pos):
+	set_pos(pos)
+	emit_signal("position_changed", pos)
 
 func set_base():
 	if has_node("Base"):
@@ -38,6 +56,8 @@ func set_hp():
 	if name in ["maincore", "subcore"]:
 		path = "Body/" + path
 	hpnode = get_node(path)
+	if global.is_knight(name):
+		return
 	hpnode.get_node(color).show()
 	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[name], "hp", 100))
 
@@ -52,12 +72,9 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_ui_event(ui, card):
-	get_node("Select").connect("input_event", ui, "card_input_event", [card])
-
 func update_changes(unit):
-	set_pos(get_position(unit))
-	emit_signal("position_changed", get_pos())
+	if use_server_pos:
+		set_position(get_position(unit))
 	body.set_rot(get_rotation(unit))
 	set_target_id(unit)
 	update_hp(unit)
@@ -134,6 +151,7 @@ func set_launch_effect(unit):
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
 	hpnode.hide()
 	body.set_self_opacity(0.7)
+	set_process(true)
 
 func play_launch_effect(delta):
 	if not body.has_node("Launch"):
@@ -142,6 +160,7 @@ func play_launch_effect(delta):
 	if not launch_effect.is_finished(delta):
 		set_pos(launch_effect.update_position(get_pos(), delta))
 		return
+	set_process(false)
 	launch_effect.queue_free()
 	hpnode.show()
 	body.set_self_opacity(1.0)
@@ -150,6 +169,35 @@ func transform_to_guide_node(pos):
 	set_pos(pos)
 	hpnode.hide()
 	body.set_opacity(0.5)
+
+func set_use_server_pos(b):
+	use_server_pos = b
+
+func move(rel_pos):
+	if use_server_pos:
+		return
+	var pos = get_pos() + rel_pos
+	var location = global.get_location(pos)
+	if location == global.LOCATION_RED:
+		pos.y = global.THRESHOLD_BLUE
+	elif location == global.LOCATION_UI:
+		pos.y = global.MAP.height
+	set_position(pos)
+
+func update_knight_state():
+	var state = "move"
+	var pos = get_pos()
+	if (prev_pos - pos).length() < 30:
+		state = "attack"
+	elapsed = 0
+	prev_pos = pos
+	if global.team == "Visitor":
+		pos.y = global.MAP.height - pos.y
+		pos.x = global.MAP.width - pos.x
+	tcp.send({
+		"State" : state,
+		"Position" : { "X" : pos.x, "Y": pos.y },
+	})
 
 func _draw():
 	var unit = global.UNITS[name]

@@ -306,18 +306,16 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
-    case "laser":
-        if !card.Knight.IsDead() {
-            g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
-        }
-    case "moveknight":
-        card.Knight.Destination = card.Position
-        if card.Knight.Team == Home {
-            card.Knight.Destination.Y = MapHeight - card.Knight.Destination.Y
-        }
     case "shoot":
-        card.Knight.SpawnUntil = g.Frame + 40
+        card.Knight.State = Idle
+        card.Knight.Position = card.Position
+        if card.Knight.Team == Home {
+            card.Knight.FlipY()
+        }
+        card.Knight.SpawnUntil = g.Frame + KnightShotCycle
         card.Knight.SpawnFrame = 0
+    case "laser", "moveknight":
+        glog.Errorf("unexpected card name : %v", card.Name) 
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
@@ -360,10 +358,10 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     game.ActivateWaitingCards()
     for _, player := range game.Home {
-        player.Update()
+        player.OperateEnergy(EnergyPerFrame)
     }
     for _, player := range game.Visitor {
-        player.Update()
+        player.OperateEnergy(EnergyPerFrame)
     }
     for _, unit := range game.Units {
         unit.Update()
@@ -391,8 +389,10 @@ func (game *Game) update() (gameover bool) {
 
 func (game *Game) apply(input Input) {
     player := game.Player(input.id)
-     if input.Use.Index != 0 {
+    if input.Use != 0 {
         player.UseCard(input, game)
+    } else {
+        player.SetState(input, game)
     }
 }
 
