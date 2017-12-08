@@ -7,7 +7,7 @@ func NewCannon(id int, t Team, pos Vector2) *Unit {
         Name:          "cannon",
         Layer:         Ground,
         TargetLayers : Layers{Ground},
-        TargetTypes :  Types{Troop, Building, Knight},
+        TargetTypes :  Types{Troop, Building},
         Hp:            450,
         InvMass:       0,
         Speed:         0,

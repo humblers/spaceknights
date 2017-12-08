@@ -9,7 +9,7 @@ var hp = 0
 var damage_effect = Timer.new()
 
 var use_server_pos = true
-var elapsed
+var elapsed = 0
 var prev_pos
 
 var hpnode
@@ -22,7 +22,6 @@ func _ready():
 	if color == "blue" and global.is_knight(name):
 		use_server_pos = false
 		prev_pos = get_pos()
-		elapsed = 0
 		input.connect("mouse_dragged", self, "move")
 		set_process(true)
 

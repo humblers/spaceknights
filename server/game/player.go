@@ -49,7 +49,6 @@ func (player *Player) SetState(input Input, game *Game) {
         case Move, Attack, Idle:
             player.Knight.State = input.State
             player.Knight.Position = input.Position
-            glog.Infof("state accepted : %v(%v)", input.State, input.Position)
         default:
             glog.Warningf("unknown state. refused : %v", input.State)
         }

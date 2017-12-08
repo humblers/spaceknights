@@ -159,7 +159,7 @@ func (u *Unit) FlipY() {
 
 func (u *Unit) TakeDamage(damage int, attacker *Unit) {
     //glog.Infof("take damage : %v, unit : %v", d, u)
-    if u.IsDead() {
+    if u.IsDead() || u.Type == Knight {
         return
     }
     u.Hp -= damage
@@ -174,17 +174,6 @@ func (u *Unit) TakeDamage(damage int, attacker *Unit) {
             u.Game.Stats[attacker.Team].CoreDamageDealt += effectiveDamage
         } else if u.Type == Knight {
             u.Game.Stats[attacker.Team].KnightDamageDealt += effectiveDamage
-        }
-    }
-    if u.IsDead() {
-        switch u.Type {
-        case Troop, Building:
-            if !u.IsCore() {
-                u.ScatterBullets()
-            }
-        case Knight:
-            u.Game.Stats[u.Team].KnightDeadCount++
-            u.RepairFrame = u.Game.Frame + u.RepairDelay
         }
     }
 }
