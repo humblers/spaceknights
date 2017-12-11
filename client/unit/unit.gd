@@ -4,15 +4,15 @@ var velocity = Vector2(0, 0)
 
 var name
 var color
-var target_id = 0
+var target
 var hp = 0
 var damage_effect = Timer.new()
 
 var hpnode
 onready var body = get_node("Body")
 
-signal position_changed(position)
-signal projectile_created(type, target_id, lifetime, initial_position)
+signal position_changed(id, position)
+signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
 	if color == "blue" and global.is_knight(name):
@@ -29,6 +29,10 @@ func initialize(unit):
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
+
+func set_position(pos):
+	set_pos(pos)
+	emit_signal("position_changed", get_name(), pos)
 
 func set_base():
 	if has_node("Base"):
@@ -58,17 +62,17 @@ func set_input_event(ui, card):
 	get_node("Select").connect("input_event", ui, "card_input_event", [card])
 
 func update_changes(unit):
-	set_pos(get_position(unit))
+	set_position(get_position(unit))
 	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
-	set_target_id(unit)
+	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
 			emit_signal("projectile_created",
 					global.UNITS[name].projectile,
-					target_id,
+					target,
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
@@ -104,8 +108,14 @@ func get_rotation(unit):
 	else:
 		return angle + PI
 
-func set_target_id(unit):
-	target_id = global.dict_get(unit, "TargetId", 0)
+func set_target(unit):
+	if unit.has("TargetId"):
+		target = unit.TargetId
+		return
+	if unit.has("TargetIds"):
+		target = unit.TargetIds
+		return
+	target = null
 
 func show_speech_bubble():
 	get_node("Body/bubble").show_bubble()
@@ -130,7 +140,7 @@ func set_launch_effect(unit):
 	else:
 		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[name].radius
 		body.play("red_idle")
-	set_pos(pos)
+	set_position(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
 	hpnode.hide()
 	body.set_self_opacity(0.7)
@@ -140,19 +150,17 @@ func play_launch_effect(delta):
 		return
 	var launch_effect = body.get_node("Launch")
 	if not launch_effect.is_finished(delta):
-		set_pos(launch_effect.update_position(get_pos(), delta))
+		set_position(launch_effect.update_position(get_pos(), delta))
 		return
 	launch_effect.queue_free()
 	hpnode.show()
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
-	set_pos(pos)
+	set_position(pos)
 	hpnode.hide()
 	body.set_opacity(0.5)
 
-<<<<<<< HEAD
-=======
 func release_lock_on_anim(node):
 	node.queue_free()
 
@@ -161,7 +169,6 @@ func move(rel_pos):
 		"Move" : { "X" : rel_pos.x, "Y": rel_pos.y },
 	})
 
->>>>>>> bad5460... Units can attack knights
 func _draw():
 	var unit = global.UNITS[name]
 	if debug.show_radius and unit.has("radius"):

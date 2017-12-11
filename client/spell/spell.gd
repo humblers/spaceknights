@@ -12,7 +12,7 @@ func initialize(spell):
 	var pos = Vector2(spell.Knight.Position.X, 0)
 	if global.team == "Visitor":
 		pos.x = global.MAP.width - pos.x
-	update_position(pos)
+	update_position(get_name(), pos)
 
-func update_position(position):
+func update_position(id, position):
 	set_pos(Vector2(position.x, global.MAP.height / 2))

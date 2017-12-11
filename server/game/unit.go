@@ -97,6 +97,7 @@ type Unit struct {
     Heading      Vector2
     Velocity     Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
+    Targets      Units
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
     SpawnStack   int     `json:"-"`
@@ -112,17 +113,35 @@ func (u *Unit) String() string {
 
 func (u *Unit) MarshalJSON() ([]byte, error) {
     type Alias Unit
-    var targetId int
-    if u.HasTarget() {
-        targetId = u.Target.Id
+    var data interface{}
+    if u.Type == Knight {
+        var targetIds []int
+        if len(u.Targets) > 0 {
+            for _, target := range u.Targets {
+                targetIds = append(targetIds, target.Id)
+            }
+        }
+        data = &struct{
+            *Alias
+            TargetIds []int `json:",omitempty"`
+        }{
+            Alias: (*Alias)(u),
+            TargetIds: targetIds,
+        }
+    } else {
+        var targetId int
+        if u.Target != nil {
+            targetId = u.Target.Id
+        }
+        data = &struct{
+            *Alias
+            TargetId int `json:",omitempty"`
+        }{
+            Alias: (*Alias)(u),
+            TargetId: targetId,
+        }
     }
-    return json.Marshal(&struct{
-        *Alias
-        TargetId int `json:",omitempty"`
-    }{
-        Alias: (*Alias)(u),
-        TargetId: targetId,
-    })
+    return json.Marshal(data)
 }
 
 func (u *Unit) IsCore() bool {
@@ -461,15 +480,17 @@ func (u *Unit) Update() {
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
-            if !u.HasTarget() || !u.WithinRange(u.Target) {
-                var filter = func(other *Unit) bool {
-                    return u.WithinRange(other)
+            u.Targets = u.Targets[:0]
+            for _, other := range u.Game.Units {
+                if u.CanTarget(other) && u.WithinRange(other) {
+                    u.Targets = append(u.Targets, other)
+                    if len(u.Targets) >= 5 {
+                        break
+                    }
                 }
-                u.Target = u.FindNearestTarget(filter)
             }
-            if u.Target != nil {
+            if len(u.Targets) > 0 {
                 u.StartAttack()
-                //glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
             }
         }
         u.HandleSpawn()
@@ -489,24 +510,6 @@ func (u *Unit) Update() {
                 }
             }
         }
-    case Knight:
-        if u.IsAttacking() {
-            u.HandleAttack()
-        } else {
-            u.Targets = u.Targets[:0]
-            for _, other := range u.Game.Units {
-                if u.CanTarget(other) && u.WithinRange(other) {
-                    u.Targets = append(u.Targets, other)
-                    if len(u.Targets) >= 5 {
-                        break
-                    }
-                }
-            }
-            if len(u.Targets) > 0 {
-                u.StartAttack()
-            }
-        }
-        u.HandleSpawn()
     case Base:
         return
     }

@@ -8,7 +8,7 @@ var elapsed = 0
 func _ready():
 	set_fixed_process(true)
 
-func initialize(target, lifetime, position):
+func set_single_target(target, lifetime, position):
 	self.lifetime = lifetime
 	set_pos(position)
 	set_z(global.LAYERS.Projectile)
@@ -16,7 +16,7 @@ func initialize(target, lifetime, position):
 	target_radius = global.UNITS[target.name].radius
 	target.connect("position_changed", self, "update_target_position")
 
-func update_target_position(position):
+func update_target_position(id, position):
 	target_position = position
 
 func _fixed_process(delta):
