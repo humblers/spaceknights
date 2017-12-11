@@ -6,6 +6,9 @@ import (
     "bufio"
     "time"
     "sync"
+    //"bytes"
+    "encoding/binary"
+    //"compress/zlib"
 
     "github.com/golang/glog"
 )
@@ -134,6 +137,21 @@ func (client *Client) write(packet Packet, timeout time.Duration) error {
     if err := client.conn.SetWriteDeadline(time.Now().Add(timeout)); err != nil {
         return err
     }
+    /*
+    var b bytes.Buffer
+    w := zlib.NewWriter(&b)
+    w.Write(packet)
+    w.Close()
+    */
+    if err := binary.Write(client.writer, binary.LittleEndian, uint16(len(packet))); err != nil {
+        panic(err)
+    }
+    /*
+    if err := binary.Write(client.writer, binary.LittleEndian, uint16(len(packet))); err != nil {
+        panic(err)
+    }
+    */
+    //glog.Infof("packet size: %v, compressed: %v", len(packet), b.Len())
     if _, err := client.writer.Write(packet); err != nil {
         return err
     }
