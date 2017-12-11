@@ -122,12 +122,21 @@ func handle_waiting_cards(frame, cards):
 func update_ui(game):
 	get_node("UI").update_changes(game)
 
-func create_projectile(type, target_id, lifetime, initial_position):
-	assert(get_node("Units").has_node(str(target_id)))
-	var node = resource.projectile[type].instance()
-	var target = get_node("Units").get_node(str(target_id))
-	node.initialize(target, lifetime, initial_position)
-	get_node("Projectiles").add_child(node)
+func create_projectile(type, target, lifetime, initial_position):
+	var target_type = typeof(target)
+	var proj_node = resource.projectile[type].instance()
+	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
+		var target_node = get_node("Units").get_node(str(target))
+		proj_node.set_single_target(target_node, lifetime, initial_position)
+	elif target_type in [TYPE_ARRAY, TYPE_INT_ARRAY, TYPE_REAL_ARRAY]:
+		var target_nodes = []
+		for id in target:
+			target_nodes.append(get_node("Units").get_node(str(id)))
+		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
+	else:
+		print("unknown target type(%d)" % target_type)
+		return
+	get_node("Projectiles").add_child(proj_node)
 
 func play_runway_light(team, pos_x):
 	var effect = resource.effect.runway.instance()

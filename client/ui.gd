@@ -78,7 +78,7 @@ func update_card_texture(frame, player):
 		postfix = "off"
 	card4.set_normal_texture(resource.icon["shoot"][postfix][state])
 
-func update_knight_position(pos):
+func update_knight_position(id, pos):
 	knight_pos = pos
 
 func card_input_event(node):

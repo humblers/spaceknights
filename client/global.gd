@@ -124,7 +124,7 @@ const UNITS = {
 		"prehitdelay" : 10,
 		"radius" : 20,
 		"sight" : 140,
-		"range" : 140,
+		"range" : 80,
 		"projectile" : "knight_missile",
 	},
 	"space_z" : {
@@ -134,7 +134,7 @@ const UNITS = {
 		"prehitdelay" : 10,
 		"radius" : 31,
 		"sight" : 140,
-		"range" : 140,
+		"range" : 80,
 		"projectile" : "knight_missile",
 	},
 	"megaminion" : {

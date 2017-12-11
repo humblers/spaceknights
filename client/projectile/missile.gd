@@ -8,8 +8,9 @@ export var spread_divider_on_way1 = 5
 export var spread_divider_on_way2 = 3
 export var damage_radius = 0
 
+var is_multi_target
 var starting_position
-var target_position
+var target_positions = []
 var lifetime
 
 var deploy_offset = rand_range(0, 0.4)
@@ -23,11 +24,26 @@ func _ready():
 	set_animation_track()
 	play()
 
-func initialize(target, lifetime, position):
+func set_single_target(target, lifetime, position):
 	self.lifetime = lifetime
+	is_multi_target = false
 	starting_position = position
-	target_position = target.get_pos()
+	target_positions.append([target.get_name(), target.get_pos()])
 	target.connect("position_changed", self, "update_target_position")
+
+func set_multi_target(target, lifetime, position):
+	self.lifetime = lifetime
+	is_multi_target = true
+	starting_position = position
+	for node in target:
+		target_positions.append([node.get_name(), node.get_pos()])
+		node.connect("position_changed", self, "update_target_position")
+	target_positions.sort_custom(self, "sort_x_order")
+
+func sort_x_order(a, b):
+	if a[1].x < b[1].x:
+		return true
+	return false
 
 func set_animation_player():
 	player.add_animation(ANIM_NAME, anim)
@@ -49,16 +65,22 @@ func play():
 	queue_free()
 
 func set_animation_track():
-	var direction = (target_position - starting_position).normalized()
 	var children = missiles.get_children()
+	var size_factor = target_positions.size() if is_multi_target else children.size()
+	var target_position = target_positions[0][1]
 	for i in range(children.size()):
 		var child = children[i]
+		if is_multi_target:
+			if target_positions.size() - 1 < i:
+				return
+			target_position = target_positions[i][1]
+		var direction = (target_position - starting_position).normalized()
 		var path = child.get_path()
 		var pos_offset
-		if children.size() == 1:
+		if target_positions.size() == 1:
 			pos_offset = -1 if randi() % 2 == 0 else 1
 		else:
-			pos_offset = float(children.size() - 1) / 2 - i
+			pos_offset = float(target_positions.size() - 1) / 2 - i
 		var delay = abs(deploy_offset - 0.1 * i)
 		child.set_z(global.LAYERS.Projectile)
 
@@ -123,16 +145,24 @@ func set_animation_track():
 		anim.track_set_path(visible_track, "%s:visibility/visible" % path)
 		anim.track_insert_key(visible_track, delay, true)
 
-func update_target_position(position):
-	target_position = position
+func update_target_position(id, position):
 	if not player or not anim:
 		return
 	if not player.is_playing():
 		return
-	var direction = (target_position - starting_position).normalized()
+	for info in target_positions:
+		if str(info[0]) == str(id):
+			info[1] = position
 	var children = missiles.get_children()
+	var target_position = target_positions[0][1]
 	for i in range(children.size()):
-		var track = anim.find_track("%s:transform/pos" % children[i].get_path())
+		var child = children[i]
+		if is_multi_target:
+			if target_positions.size() - 1 < i:
+				return
+			target_position = target_positions[i][1]
+		var direction = (target_position - starting_position).normalized()
+		var track = anim.find_track("%s:transform/pos" % child.get_path())
 		anim.track_insert_key(track, lifetime,
 				target_position
 				+ direction.rotated(-PI / children.size() * (2 * i + 1))

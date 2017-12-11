@@ -4,7 +4,7 @@ var velocity = Vector2(0, 0)
 
 var name
 var color
-var target_id = 0
+var target
 var hp = 0
 var damage_effect = Timer.new()
 
@@ -15,8 +15,8 @@ var prev_pos
 var hpnode
 onready var body = get_node("Body")
 
-signal position_changed(position)
-signal projectile_created(type, target_id, lifetime, initial_position)
+signal position_changed(id, position)
+signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
 	if color == "blue" and global.is_knight(name):
@@ -43,7 +43,7 @@ func initialize(unit):
 
 func set_position(pos):
 	set_pos(pos)
-	emit_signal("position_changed", pos)
+	emit_signal("position_changed", get_name(), pos)
 
 func set_base():
 	if has_node("Base"):
@@ -75,14 +75,14 @@ func update_changes(unit):
 	if use_server_pos:
 		set_position(get_position(unit))
 	body.set_rot(get_rotation(unit))
-	set_target_id(unit)
+	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
 			emit_signal("projectile_created",
 					global.UNITS[name].projectile,
-					target_id,
+					target,
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
@@ -120,8 +120,14 @@ func get_rotation(unit):
 	else:
 		return angle + PI
 
-func set_target_id(unit):
-	target_id = global.dict_get(unit, "TargetId", 0)
+func set_target(unit):
+	if unit.has("TargetId"):
+		target = unit.TargetId
+		return
+	if unit.has("TargetIds"):
+		target = unit.TargetIds
+		return
+	target = null
 
 func show_speech_bubble():
 	get_node("Body/bubble").show_bubble()

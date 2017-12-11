@@ -130,7 +130,7 @@ func (u *Unit) MarshalJSON() ([]byte, error) {
         }
     } else {
         var targetId int
-        if u.HasTarget() {
+        if u.Target != nil {
             targetId = u.Target.Id
         }
         data = &struct{
@@ -348,7 +348,7 @@ func (u *Unit) HandleSpawn() {
         return
     }
 
-    if u.SpawnUntil < u.Game.Frame {
+    if u.SpawnUntil != 0 && u.SpawnUntil < u.Game.Frame {
         return
     }
 
