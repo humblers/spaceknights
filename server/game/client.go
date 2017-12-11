@@ -6,9 +6,9 @@ import (
     "bufio"
     "time"
     "sync"
-    //"bytes"
+    "bytes"
     "encoding/binary"
-    //"compress/zlib"
+    "compress/zlib"
 
     "github.com/golang/glog"
 )
@@ -133,26 +133,28 @@ func (client *Client) read(timeout time.Duration) (Packet, error) {
     }
 }
 
+func timeTrack(start time.Time, name string) {
+    elapsed := time.Since(start)
+    glog.Infof("%s took %s", name, elapsed)
+}
+
 func (client *Client) write(packet Packet, timeout time.Duration) error {
+    //defer timeTrack(time.Now(), "client write")
     if err := client.conn.SetWriteDeadline(time.Now().Add(timeout)); err != nil {
         return err
     }
-    /*
     var b bytes.Buffer
     w := zlib.NewWriter(&b)
     w.Write(packet)
     w.Close()
-    */
+    if err := binary.Write(client.writer, binary.LittleEndian, uint16(b.Len())); err != nil {
+        panic(err)
+    }
     if err := binary.Write(client.writer, binary.LittleEndian, uint16(len(packet))); err != nil {
         panic(err)
     }
-    /*
-    if err := binary.Write(client.writer, binary.LittleEndian, uint16(len(packet))); err != nil {
-        panic(err)
-    }
-    */
-    //glog.Infof("packet size: %v, compressed: %v", len(packet), b.Len())
-    if _, err := client.writer.Write(packet); err != nil {
+    //glog.Infof("compressed: %v, decompressed: %v", b.Len(), len(packet))
+    if _, err := client.writer.Write(b.Bytes()); err != nil {
         return err
     }
     if err := client.writer.Flush(); err != nil {

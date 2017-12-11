@@ -1,12 +1,14 @@
 extends Node
 
 const UPDATES_PER_SECOND = 30
+const HEADER_SIZE = 4
 
 var client = StreamPeerTCP.new()
 var timer = Timer.new()
 var packets = []
-var received = []
-var packet_size = 0
+var received_header = false
+var nCompressed = 0
+var nDecompressed = 0
 
 signal packet_received(dict)
 
@@ -36,17 +38,19 @@ func _update():
 	# read
 	var dict = {}
 	var n = client.get_available_bytes()
-	if packet_size <= 0 && n >= 2:
-		packet_size = client.get_u16()
-		n -= 2
-	if n >= packet_size:
-		var ret = client.get_data(packet_size)
+	if not received_header && n >= HEADER_SIZE:
+		nCompressed = client.get_u16()
+		nDecompressed = client.get_u16()
+		n -= HEADER_SIZE
+		received_header = true
+	if received_header and n >= nCompressed:
+		var ret = client.get_data(nCompressed)
 		var err = ret[0]
-		var packet = ret[1]
+		var compressed = ret[1]
 		if err == OK:
-			dict.parse_json(packet.get_string_from_utf8())
-			packet_size = 0
-			print("tcp read: %s" % dict)
+			var decompressed = compressed.decompress(nDecompressed)
+			dict.parse_json(decompressed.get_string_from_utf8())
+			received_header = false
 		else:
 			print("tcp get_data failed: %s" % err)
 
