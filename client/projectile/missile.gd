@@ -11,44 +11,45 @@ export var damage_radius = 0
 var is_multi_target
 var starting_position
 var target_positions = []
-var lifetime
 
 var deploy_offset = rand_range(0, 0.4)
 var anim = Animation.new()
 var player = AnimationPlayer.new()
 
+signal missile_finished
+
 onready var missiles = get_node("Missiles")
 
 func _ready():
-	set_animation_player()
-	set_animation_track()
+	set_missile_anim_track()
 	play()
 
 func set_single_target(target, lifetime, position):
-	self.lifetime = lifetime
+	set_animation_player(lifetime)
 	is_multi_target = false
 	starting_position = position
 	target_positions.append([target.get_name(), target.get_pos()])
 	target.connect("position_changed", self, "update_target_position")
 
 func set_multi_target(target, lifetime, position):
-	self.lifetime = lifetime
+	set_animation_player(lifetime)
 	is_multi_target = true
 	starting_position = position
 	for node in target:
 		target_positions.append([node.get_name(), node.get_pos()])
 		node.connect("position_changed", self, "update_target_position")
 	target_positions.sort_custom(self, "sort_x_order")
+	set_lock_on_anim(target)
 
 func sort_x_order(a, b):
 	if a[1].x < b[1].x:
 		return true
 	return false
 
-func set_animation_player():
+func set_animation_player(length):
 	player.add_animation(ANIM_NAME, anim)
 	player.set_current_animation(ANIM_NAME)
-	anim.set_length(lifetime)
+	anim.set_length(length)
 	anim.set_step(1.0 / global.SERVER_UPDATES_PER_SECOND)
 	add_child(player)
 
@@ -56,15 +57,28 @@ func play():
 	player.play(ANIM_NAME)
 	yield(player, "finished")
 	var explosion
-	for missile in missiles.get_children():
+	var children = missiles.get_children()
+	for i in range(children.size()):
+		if is_multi_target and target_positions.size() - 1 < i:
+			break
+		var missile = children[i]
 		explosion = resource.effect.explosion.missile.instance()
 		explosion.initialize(name, missile.get_pos())
 		add_child(explosion)
 		missile.queue_free()
+	emit_signal("missile_finished")
 	yield(explosion, "finished")
 	queue_free()
 
-func set_animation_track():
+func set_lock_on_anim(targets):
+	for target in targets:
+		var size = global.dict_get(global.UNITS[target.name], "size", "small")
+		var lock_on = resource.effect.lock_on.instance()
+		lock_on.get_node(size).show()
+		target.add_child(lock_on)
+		connect("missile_finished", target, "release_lock_on_anim", [lock_on])
+
+func set_missile_anim_track():
 	var children = missiles.get_children()
 	var size_factor = target_positions.size() if is_multi_target else children.size()
 	var target_position = target_positions[0][1]
@@ -112,11 +126,12 @@ func set_animation_track():
 				target_position
 				+ direction.rotated(-PI / children.size() * (2 * i + 1))
 				* damage_radius / 2)
+		var max_length = anim.get_length()
 		var prev_point
 		for j in range(waypoints.size()):
 			var waypoint = waypoints[j]
 			anim.track_insert_key(pos_track,
-					min(lifetime, lifetime / (waypoints.size() - 1) * j + delay),
+					min(max_length, max_length / (waypoints.size() - 1) * j + delay),
 					waypoint)
 			if prev_point == null:
 				prev_point = waypoint
@@ -136,7 +151,7 @@ func set_animation_track():
 				else:
 					rotation -= PI * 2
 			anim.track_insert_key(rot_track,
-					min(lifetime, lifetime / (rotations.size() - 1) * j + delay),
+					min(max_length, max_length / (rotations.size() - 1) * j + delay),
 					rad2deg(rotation))
 			prev_rot = rotation
 
@@ -146,8 +161,6 @@ func set_animation_track():
 		anim.track_insert_key(visible_track, delay, true)
 
 func update_target_position(id, position):
-	if not player or not anim:
-		return
 	if not player.is_playing():
 		return
 	for info in target_positions:
@@ -163,7 +176,7 @@ func update_target_position(id, position):
 			target_position = target_positions[i][1]
 		var direction = (target_position - starting_position).normalized()
 		var track = anim.find_track("%s:transform/pos" % child.get_path())
-		anim.track_insert_key(track, lifetime,
+		anim.track_insert_key(track, anim.get_length(),
 				target_position
 				+ direction.rotated(-PI / children.size() * (2 * i + 1))
 				* damage_radius / 2)

@@ -178,6 +178,9 @@ func transform_to_guide_node(pos):
 func set_use_server_pos(b):
 	use_server_pos = b
 
+func release_lock_on_anim(node):
+	node.queue_free()
+
 func move(rel_pos):
 	if use_server_pos:
 		return

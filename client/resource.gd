@@ -321,6 +321,7 @@ var icon = {
 var effect = {
 	"launch": preload("res://effect/launch.tscn"),
 	"runway": preload("res://effect/runway.tscn"),
+	"lock_on": preload("res://effect/lock_on.tscn"),
 	"explosion": {
 		"unit": preload("res://effect/explosion/unit.tscn"),
 		"missile": preload("res://effect/explosion/missile.tscn"),
