@@ -45,13 +45,8 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 
 func (player *Player) SetState(input Input, game *Game) {
     if player.KnightIdleTo < game.Frame {
-        switch input.State {
-        case Move, Attack, Idle:
-            player.Knight.State = input.State
-            player.Knight.Position = input.Position
-        default:
-            glog.Warningf("unknown state. refused : %v", input.State)
-        }
+        player.Knight.State = input.State
+        player.Knight.Position = input.Position
     }
 }
 
@@ -73,6 +68,7 @@ func (player *Player) UseCard(input Input, game *Game) {
             return
         }
         player.KnightIdleTo = game.Frame + ActivateAfter + KnightShotCycle
+        player.Knight.State = Prepare
     } else {
         player.Hand[index] = player.Pending[0]
         for i := 1; i < len(player.Pending); i++ {

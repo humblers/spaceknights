@@ -3,8 +3,6 @@ extends Node
 const OBJECT_DEFAULT = "default"
 const OBJECT_CLIENT_ONLY = "clientonly"
 
-signal use_server_position(b)
-
 func _ready():
 	get_node("MothershipBG/BlueBaseBottom")
 	get_node("OpeningAnim").connect("finished", self, "opening_finished")
@@ -15,13 +13,11 @@ func _ready():
 func update_changes(game):
 	global.team = "Home" if game.has("Home") else "Visitor"
 	create_new_units(game.Units)
-	update_units(game.Units)
+	update_units(game)
 	delete_dead_units(game.Units)
 	create_new_spells(game.Spells)
 	delete_finished_spells(game.Spells)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
-	emit_signal("use_server_position",
-			game[global.team][global.id].KnightIdleTo >= game.Frame)
 	update_ui(game)
 
 func opening_finished():
@@ -50,11 +46,15 @@ func create_new_units(units):
 		if not get_node("Units").has_node(str(unit.Id)):
 			create_unit_node(unit)
 
-func update_units(units):
+func update_units(game):
+	var units = game.Units
 	for unit in units:
 		var node = get_node("Units").get_node(str(unit.Id))
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
+		if node.color == "blue" and global.is_knight(unit.Name):
+			node.set_ignore_server(
+					game[global.team][global.id].KnightIdleTo < game.Frame)
 		node.update_changes(unit)
 
 func create_unit_node(unit, group=OBJECT_DEFAULT):
@@ -69,7 +69,6 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 		node.add_to_group(group)
 	if node.color == "blue" and global.is_knight(unit.Name):
 		node.connect("position_changed", get_node("UI"), "update_knight_position")
-		connect("use_server_position", node, "set_use_server_pos")
 		get_node("UI").knight_pos = node.get_pos()
 
 func create_new_spells(spells):

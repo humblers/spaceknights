@@ -8,7 +8,7 @@ var target
 var hp = 0
 var damage_effect = Timer.new()
 
-var use_server_pos = true
+var ignore_server = false
 var elapsed = 0
 var prev_pos
 
@@ -20,7 +20,7 @@ signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
 	if color == "blue" and global.is_knight(name):
-		use_server_pos = false
+		ignore_server = true
 		prev_pos = get_pos()
 		input.connect("mouse_dragged", self, "move")
 		set_process(true)
@@ -28,7 +28,7 @@ func _ready():
 func _process(delta):
 	play_launch_effect(delta)
 	elapsed += delta
-	if not use_server_pos and elapsed > 0.5:
+	if ignore_server and elapsed > 0.5:
 		update_knight_state()
 
 func initialize(unit):
@@ -72,11 +72,9 @@ func set_damage_effect():
 	add_child(damage_effect)
 
 func update_changes(unit):
-	if use_server_pos:
-		set_position(get_position(unit))
 	body.set_rot(get_rotation(unit))
-	set_target(unit)
 	update_hp(unit)
+	set_target(unit)
 	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
@@ -86,8 +84,9 @@ func update_changes(unit):
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
-	#velocity = get_velocity(unit)
-	#update()
+	if ignore_server:
+		return
+	set_position(get_position(unit))
 
 func update_hp(unit):
 	if unit.Hp <= 0:
@@ -175,14 +174,14 @@ func transform_to_guide_node(pos):
 	hpnode.hide()
 	body.set_opacity(0.5)
 
-func set_use_server_pos(b):
-	use_server_pos = b
+func set_ignore_server(b):
+	ignore_server = b
 
 func release_lock_on_anim(node):
 	node.queue_free()
 
 func move(rel_pos):
-	if use_server_pos:
+	if not ignore_server:
 		return
 	var pos = get_pos() + rel_pos
 	var location = global.get_location(pos)

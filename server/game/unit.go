@@ -12,6 +12,7 @@ const (
     Idle        State = "idle"
     Attack      State = "attack"
     Move        State = "move"
+    Prepare		State = "prepare"
 )
 
 type Size string
