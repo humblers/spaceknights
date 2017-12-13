@@ -55,8 +55,6 @@ func set_hp():
 	if name in ["maincore", "subcore"]:
 		path = "Body/" + path
 	hpnode = get_node(path)
-	if global.is_knight(name):
-		return
 	hpnode.get_node(color).show()
 	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[name], "hp", 100))
 

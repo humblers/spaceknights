@@ -3,7 +3,6 @@ extends Node
 onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
-onready var card4 = get_node("Card4")
 onready var result = get_node("Result")
 onready var guide = get_node("CardGuide")
 
@@ -14,7 +13,6 @@ func connect_ui_signals():
 	card1.connect("pressed", self, "card_input_event", [card1])
 	card2.connect("pressed", self, "card_input_event", [card2])
 	card3.connect("pressed", self, "card_input_event", [card3])
-	card4.connect("pressed", self, "card_input_event", [card4])
 	input.connect("second_touched", self, "make_event_local")
 	result.connect("pressed", self, "back_to_lobby")
 
@@ -71,13 +69,6 @@ func update_card_texture(frame, player):
 		if player.Energy >= global.CARDS[card].cost:
 			postfix = "on"
 		node.set_normal_texture(resource.icon[card][postfix].normal)
-	var state = "normal"
-	var postfix = "on"
-	if player.KnightIdleTo > frame:
-		state = "pressed"
-	elif player.Energy < global.CARDS["shoot"].cost:
-		postfix = "off"
-	card4.set_normal_texture(resource.icon["shoot"][postfix][state])
 
 func update_knight_position(id, pos):
 	knight_pos = pos

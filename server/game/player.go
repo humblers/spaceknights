@@ -16,17 +16,14 @@ type Player struct {
     Hand Cards
     Pending Cards `json:"-"`
     Knight *Unit `json:"-"`
-    KnightIdleTo int
     Energy int
 }
 
 func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
     deck.Shuffle()
-    hand := append(Cards{}, deck[:HandSize]...)
-    hand = append(hand, "shoot")
     return &Player{
         Team: team,
-        Hand: hand,
+        Hand: deck[:HandSize],
         Pending: deck[HandSize:],
         Knight: knight,
     }
@@ -43,10 +40,30 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) SetState(input Input, game *Game) {
-    if player.KnightIdleTo < game.Frame {
-        player.Knight.State = input.State
-        player.Knight.Position = input.Position
+func (player *Player) Update() {
+    player.RepairKnight()
+    player.OperateEnergy(EnergyPerFrame)
+}
+
+func (player *Player) RepairKnight() {
+    knight := player.Knight
+    game := knight.Game
+    if knight.IsDead() && knight.RepairFrame == game.Frame {
+        knight.Hp = 1000
+        knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
+        game.AddUnit(knight)
+        player.SetState(Move, knight.Position, game)
+    }
+    return
+}
+
+func (player *Player) SetState(state State, pos Vector2, game *Game) {
+    knight := player.Knight
+    knight.State = state
+    knight.Position = pos
+    switch knight.State {
+    case Move:
+        knight.SpawnFrame = 0
     }
 }
 
@@ -62,20 +79,18 @@ func (player *Player) UseCard(input Input, game *Game) {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
-    if card == "shoot" {
-        if player.KnightIdleTo > game.Frame {
-            glog.Infof("shoot card refused. until: %v, cur: %v", player.KnightIdleTo, game.Frame)
-            return
-        }
-        player.KnightIdleTo = game.Frame + ActivateAfter + KnightShotCycle
-        player.Knight.State = Prepare
-    } else {
-        player.Hand[index] = player.Pending[0]
-        for i := 1; i < len(player.Pending); i++ {
-            player.Pending[i - 1] = player.Pending[i]
-        }
-        player.Pending[len(player.Pending) - 1] = card
+
+    if player.Knight.IsDead() {
+        glog.Infof("knight dead: card(%v), cur(%v), repair(%v)", card, game.Frame, player.Knight.RepairFrame)
+        return
     }
+
+    player.Hand[index] = player.Pending[0]
+    for i := 1; i < len(player.Pending); i++ {
+        player.Pending[i - 1] = player.Pending[i]
+    }
+    player.Pending[len(player.Pending) - 1] = card
+
     player.OperateEnergy(-CostMap[card])
     game.Stats[player.Team].EnergyUsed += CostMap[card]
 

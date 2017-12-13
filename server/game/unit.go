@@ -101,7 +101,6 @@ type Unit struct {
     Targets		 []*Unit `json:"-"`
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
-    SpawnUntil	 int	 `json:"-"`
     RepairFrame  int     `json:"-"`
 
     // event
@@ -160,7 +159,7 @@ func (u *Unit) FlipY() {
 
 func (u *Unit) TakeDamage(damage int, attacker *Unit) {
     //glog.Infof("take damage : %v, unit : %v", d, u)
-    if u.IsDead() || u.Type == Knight {
+    if u.IsDead() {
         return
     }
     u.Hp -= damage
@@ -177,6 +176,10 @@ func (u *Unit) TakeDamage(damage int, attacker *Unit) {
             u.Game.Stats[attacker.Team].KnightDamageDealt += effectiveDamage
         }
     }
+    if u.Type == Knight && u.IsDead() {
+        u.Game.Stats[u.Team].KnightDeadCount++
+        u.RepairFrame = u.Game.Frame + u.RepairDelay
+    }
 }
 
 func (u *Unit) CanTarget(other *Unit) bool {
@@ -187,6 +190,9 @@ func (u *Unit) CanTarget(other *Unit) bool {
         return false
     }
     if !u.TargetLayers.Contains(other.Layer) {
+        return false
+    }
+    if other.Type == Knight && other.State != Attack {
         return false
     }
     return true
@@ -281,8 +287,16 @@ func (u *Unit) HandleAttack() {
     if u.Game.Frame != u.HitFrame {
         return
     }
-    if u.Type != Knight && u.WithinRange(u.Target) {
-        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    if u.Type == Knight {
+        for _, target := range u.Targets {
+            target.TakeDamage(u.Damage, u)
+        }
+        return
+    }
+    if u.WithinRange(u.Target) {
+        if u.Target.Type == Knight && u.Target.State != Attack {
+            return
+        }
         u.Target.TakeDamage(u.Damage, u)
         if u.DamageRadius > 0 {
             from := u
@@ -299,17 +313,15 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
-    if u.Type == Knight {
-        for _, target := range u.Targets {
-            target.TakeDamage(u.Damage, u)
-        }
-    }
 }
 
 func (u *Unit) StartAttack() {
     u.AttackStarted = true
     u.HitFrame = u.Game.Frame + u.PreHitDelay
     u.HandleAttack()
+    if u.Type != Knight {
+        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    }
 }
 
 func (u *Unit) ClearEvents() {
@@ -346,10 +358,6 @@ func (u *Unit) HasTarget() bool {
 
 func (u *Unit) HandleSpawn() {
     if u.SpawnSpeed <= 0 {
-        return
-    }
-
-    if u.SpawnUntil != 0 && u.SpawnUntil < u.Game.Frame {
         return
     }
 
@@ -527,8 +535,8 @@ func (u *Unit) Update() {
             if len(u.Targets) > 0 {
                 u.StartAttack()
             }
+            u.HandleSpawn()
         }
-        u.HandleSpawn()
     case Base:
         return
     }

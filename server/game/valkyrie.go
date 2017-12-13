@@ -8,7 +8,7 @@ func NewValkyrie(id int, t Team, pos Vector2) *Unit {
         Name:          "valkyrie",
         Layer:         Ground,
         TargetLayers : Layers{Ground},
-        TargetTypes:   Types{Troop, Building},
+        TargetTypes:   Types{Troop, Building, Knight},
         Hp:            880,
         InvMass:       1.0/15,
         Speed:         3,

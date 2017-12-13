@@ -306,15 +306,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
-    case "shoot":
-        card.Knight.State = Idle
-        card.Knight.Position = card.Position
-        if card.Knight.Team == Home {
-            card.Knight.FlipY()
-        }
-        card.Knight.SpawnUntil = g.Frame + KnightShotCycle
-        card.Knight.SpawnFrame = 0
-    case "laser", "moveknight":
+    case "laser", "moveknight", "shoot":
         glog.Errorf("unexpected card name : %v", card.Name) 
     default:
         glog.Warningf("invalid card name: %v", card.Name)
@@ -358,10 +350,10 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     game.ActivateWaitingCards()
     for _, player := range game.Home {
-        player.OperateEnergy(EnergyPerFrame)
+        player.Update()
     }
     for _, player := range game.Visitor {
-        player.OperateEnergy(EnergyPerFrame)
+        player.Update()
     }
     for _, unit := range game.Units {
         unit.Update()
@@ -392,7 +384,7 @@ func (game *Game) apply(input Input) {
     if input.Use != 0 {
         player.UseCard(input, game)
     } else {
-        player.SetState(input, game)
+        player.SetState(input.State, input.Position, game)
     }
 }
 

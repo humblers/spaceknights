@@ -52,9 +52,6 @@ func update_units(game):
 		var node = get_node("Units").get_node(str(unit.Id))
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
-		if node.color == "blue" and global.is_knight(unit.Name):
-			node.set_ignore_server(
-					game[global.team][global.id].KnightIdleTo < game.Frame)
 		node.update_changes(unit)
 
 func create_unit_node(unit, group=OBJECT_DEFAULT):
