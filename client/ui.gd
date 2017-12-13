@@ -11,10 +11,11 @@ var hand
 var knight_pos
 
 func connect_ui_signals():
-	card1.connect("input_event", self, "card_input_event", [card1])
-	card2.connect("input_event", self, "card_input_event", [card2])
-	card3.connect("input_event", self, "card_input_event", [card3])
-	card4.connect("input_event", self, "card_input_event", [card4])
+	card1.connect("pressed", self, "card_input_event", [card1])
+	card2.connect("pressed", self, "card_input_event", [card2])
+	card3.connect("pressed", self, "card_input_event", [card3])
+	card4.connect("pressed", self, "card_input_event", [card4])
+	input.connect("second_touched", self, "make_event_local")
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
@@ -81,11 +82,14 @@ func update_card_texture(frame, player):
 func update_knight_position(id, pos):
 	knight_pos = pos
 
-func card_input_event(event, node):
-	if not event.type in [InputEvent.MOUSE_BUTTON, InputEvent.SCREEN_TOUCH]:
-		return
-	if not event.pressed:
-		return
+func make_event_local(event):
+	for i in range(1, 4):
+		var node = get_node("Card" + str(i))
+		var transformed = node.make_input_local(event)
+		if node.get_item_rect().has_point(transformed.pos):
+			card_input_event(node)
+
+func card_input_event(node):
 	var pos = knight_pos
 	pos.y = global.MAP.height - pos.y
 	if global.team == "Visitor":
