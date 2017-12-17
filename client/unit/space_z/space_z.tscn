@@ -1,14 +1,14 @@
 [gd_scene load_steps=28 format=1]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/space_z/blue_idle.png" type="Texture" id=2]
-[ext_resource path="res://unit/space_z/blue_idle01.png" type="Texture" id=3]
+[ext_resource path="res://unit/space_z/blue_attack01.png" type="Texture" id=2]
+[ext_resource path="res://unit/space_z/blue_idle.png" type="Texture" id=3]
 [ext_resource path="res://unit/space_z/red_move01.png" type="Texture" id=4]
 [ext_resource path="res://unit/space_z/red_move02.png" type="Texture" id=5]
 [ext_resource path="res://unit/space_z/red_idle.png" type="Texture" id=6]
 [ext_resource path="res://unit/space_z/blue_move01.png" type="Texture" id=7]
 [ext_resource path="res://unit/space_z/blue_move02.png" type="Texture" id=8]
-[ext_resource path="res://unit/space_z/red_idle01.png" type="Texture" id=9]
+[ext_resource path="res://unit/space_z/red_attack01.png" type="Texture" id=9]
 [ext_resource path="res://unit/space_z/red_prepare01.png" type="Texture" id=10]
 [ext_resource path="res://unit/space_z/red_prepare02.png" type="Texture" id=11]
 [ext_resource path="res://unit/space_z/red_prepare03.png" type="Texture" id=12]
@@ -25,16 +25,17 @@
 [ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=23]
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=24]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=25]
+[ext_resource path="res://unit/knight_shield_M.png" type="Texture" id=26]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "blue_attack",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "blue_idle",
 "speed": 5.0
@@ -54,7 +55,7 @@ animations = [ {
 "name": "blue_move",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "red_attack",
 "speed": 2.0
@@ -70,25 +71,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="GDScript" id=2]
-
-script/source = "extends Node2D
-
-onready var timer = Timer.new()
-
-func _ready():
-	timer.set_one_shot(true)
-	timer.connect(\"timeout\", self, \"hide_bubble\")
-	timer.set_wait_time(0.9)
-	add_child(timer)
-
-func show_bubble():
-	show()
-	timer.start()
-
-func hide_bubble():
-	hide()"
-
 [node name="space_z" type="Node2D"]
 
 script/script = ExtResource( 1 )
@@ -101,29 +83,6 @@ animation = "blue_idle"
 [node name="Shotpoint" type="Position2D" parent="Body"]
 
 transform/pos = Vector2( 0, 29 )
-
-[node name="bubble" type="Node2D" parent="Body"]
-
-editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( 13.2535, 25.3099 )
-transform/rot = 180.0
-script/script = SubResource( 2 )
-
-[node name="Label" type="Label" parent="Body/bubble"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 11.0
-margin/top = -18.0
-margin/right = 73.0
-margin/bottom = -4.0
-text = "roger that"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="Hp" type="Position2D" parent="."]
 
@@ -176,5 +135,10 @@ texture/over = ExtResource( 24 )
 texture/progress = ExtResource( 25 )
 radial_fill/fill_degrees = 360.0
 radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="Shield" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 26 )
 
 

@@ -127,9 +127,6 @@ func set_target(unit):
 		return
 	target = null
 
-func show_speech_bubble():
-	get_node("Body/bubble").show_bubble()
-
 func show_damage_effect():
 	body.set_modulate(Color(1.0, 0.4, 0.4))
 	damage_effect.start()
@@ -194,8 +191,10 @@ func update_knight_state():
 	var pos = get_pos()
 	if (prev_pos - pos).length() > 30:
 		state = "move"
+		get_node("Shield").show()
 	elif state != "idle":
 		state = "attack"
+		get_node("Shield").hide()
 	elapsed = 0
 	prev_pos = pos
 	if global.team == "Visitor":
