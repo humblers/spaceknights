@@ -522,7 +522,7 @@ func (u *Unit) Update() {
     case Knight:
         if u.IsAttacking() {
             u.HandleAttack()
-        } else if u.State == Attack {
+        } else {
             u.Targets = u.Targets[:0]
             for _, other := range u.Game.Units {
                 if u.CanTarget(other) && u.WithinRange(other) {
@@ -535,6 +535,8 @@ func (u *Unit) Update() {
             if len(u.Targets) > 0 {
                 u.StartAttack()
             }
+        }
+        if u.State == Attack {
             u.HandleSpawn()
         }
     case Base:
