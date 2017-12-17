@@ -26,7 +26,7 @@ func NewKnight(t Team, name string) *Unit {
         PostHitDelay:   19,
         Radius:         radius,
         Range:          80,
-        Damage:         200,
+        Damage:         100,
         SpawnThing:     "knightbullet",
         SpawnSpeed:     2,
         RepairDelay:    30,

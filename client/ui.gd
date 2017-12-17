@@ -27,7 +27,6 @@ func update_changes(game):
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
 		global.save_config()
-		input.disconnect("mouse_pressed", self, "pressed_outside_of_UI")
 		show_result(game.Result)
 		tcp.disconnect_server()
 

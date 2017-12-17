@@ -5,6 +5,7 @@ var velocity = Vector2(0, 0)
 var name
 var color
 var target
+var state = "idle"
 var hp = 0
 var damage_effect = Timer.new()
 
@@ -190,9 +191,10 @@ func move(rel_pos):
 	set_position(pos)
 
 func update_knight_state():
-	var state = "move"
 	var pos = get_pos()
-	if (prev_pos - pos).length() < 30:
+	if (prev_pos - pos).length() > 30:
+		state = "move"
+	elif state != "idle":
 		state = "attack"
 	elapsed = 0
 	prev_pos = pos

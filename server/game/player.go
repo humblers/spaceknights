@@ -62,7 +62,7 @@ func (player *Player) SetState(state State, pos Vector2, game *Game) {
     knight.State = state
     knight.Position = pos
     switch knight.State {
-    case Move:
+    case Move, Idle:
         knight.SpawnFrame = 0
     }
 }
