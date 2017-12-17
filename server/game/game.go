@@ -217,6 +217,11 @@ func (g *Game) AddUnit(unit *Unit) {
         unit.Id = g.ObjectCounter
         g.ObjectCounter++
     }
+    if unit.Type != Knight || unit.Type != Bullet {
+        factor := 0.2 * float64(g.Frame / 10 / 30)
+        unit.Hp = int(float64(unit.Hp) * (1.0 + factor))
+        unit.Damage = int(float64(unit.Damage) + (1.0 + factor))
+    }
     unit.Game = g
     unit.State = Idle
     g.Units = append(g.Units, unit)
