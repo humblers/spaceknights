@@ -52,6 +52,7 @@ func update_units(game):
 		var node = get_node("Units").get_node(str(unit.Id))
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
+			node.set_hp(unit)
 		node.update_changes(unit)
 
 func create_unit_node(unit, group=OBJECT_DEFAULT):

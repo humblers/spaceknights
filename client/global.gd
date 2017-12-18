@@ -421,8 +421,6 @@ func is_unit_card(name):
 func get_structures_of_unit(card):
 	var dict = dict_get(CARDS, card.Name, {})
 	var name = card.Name
-	if name == "moveknight":
-		name = get_my_knight().name
 	var offsets = [ Vector2(0, 0) ]
 	if dict.has("unitname"):
 		name = dict.unitname
@@ -433,6 +431,7 @@ func get_structures_of_unit(card):
 		var unit = {
 			"Name" : name,
 			"Team" : card.Team,
+			"Hp" : dict_get(UNITS[name], "hp", 100),
 			"Position" : {
 				"X" : card.Position.X + offset.x * global.dict_get(global.UNITS[name], "radius", 0),
 				"Y" : card.Position.Y + offset.y * global.dict_get(global.UNITS[name], "radius", 0),
