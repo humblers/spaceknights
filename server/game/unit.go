@@ -516,7 +516,7 @@ func (u *Unit) Update() {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
-                if !unit.IsCore() && u.CanTarget(unit) && u.WithinRange(unit) {
+                if u.CanTarget(unit) && u.WithinRange(unit) {
                     unit.TakeDamage(u.Damage, u)
                     u.SelfRemove()
                     if u.Name == "knightbullet" {
