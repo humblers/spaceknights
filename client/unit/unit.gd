@@ -58,6 +58,13 @@ func set_hp(unit):
 	hpnode = get_node(path)
 	hpnode.get_node(color).show()
 	hpnode.get_node(color).set_max(unit.Hp)
+	if name in ["knightbullet", "scatteredbullet", "maincore", "subcore", "base"]:
+		return
+	if not hpnode.has_node("Label"):
+		var label = Label.new()
+		label.set_name("Label")
+		label.set_text(str(unit.Hp))
+		hpnode.add_child(label)
 
 func set_layers():
 	set_z(global.LAYERS[global.UNITS[name].layer])
@@ -94,6 +101,8 @@ func update_hp(unit):
 		show_damage_effect()
 	hp = unit.Hp
 	hpnode.get_node(color).set_value(hp)
+	if hpnode.has_node("Label"):
+		hpnode.get_node("Label").set_text(str(unit.Hp))
 
 func get_velocity(unit):
 	var x = unit.Velocity.X

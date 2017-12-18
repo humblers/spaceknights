@@ -206,7 +206,7 @@ func (g *Game) Join(team Team, user User) {
     g.AddUnit(knight)
 }
 
-func (g *Game) AddUnit(unit *Unit) {
+func (g *Game) AddUnitWithTimeFactor(unit *Unit, useFactor bool) {
     if unit.Team == Home {
         unit.FlipY()
         unit.Heading = Vector2{0, -1}
@@ -217,7 +217,7 @@ func (g *Game) AddUnit(unit *Unit) {
         unit.Id = g.ObjectCounter
         g.ObjectCounter++
     }
-    if unit.Type == Troop {
+    if unit.Type == Troop && useFactor {
         factor := 0.2 * float64(g.Frame / 10 / 30)
         unit.Hp = int(float64(unit.Hp) * (1.0 + factor))
         unit.Damage = int(float64(unit.Damage) + (1.0 + factor))
@@ -225,6 +225,10 @@ func (g *Game) AddUnit(unit *Unit) {
     unit.Game = g
     unit.State = Idle
     g.Units = append(g.Units, unit)
+}
+
+func (g *Game) AddUnit(unit *Unit) {
+    g.AddUnitWithTimeFactor(unit, true)
 }
 
 func (g *Game) AddSpell(spell *Spell) {

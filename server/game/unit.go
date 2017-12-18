@@ -392,19 +392,19 @@ func (u *Unit) HandleSpawn() {
     case "barbarians":
         unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
         unit.Position = getSpawnPos(unit.Radius)
-        u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
-        u.Game.AddUnit(unit)
+        u.Game.AddUnitWithTimeFactor(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}), false)
+        u.Game.AddUnitWithTimeFactor(unit, false)
     case "speargoblin":
         unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
         unit.Position = getSpawnPos(unit.Radius)
-        u.Game.AddUnit(unit)
+        u.Game.AddUnitWithTimeFactor(unit, false)
     case "skeleton":
         unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
         unit.Position = getSpawnPos(unit.Radius)
-        u.Game.AddUnit(unit)
+        u.Game.AddUnitWithTimeFactor(unit, false)
     case "knightbullet":
         bullet := NewKnightBullet(u.Team, u.Position)
-        u.Game.AddUnit(bullet)
+        u.Game.AddUnitWithTimeFactor(bullet, false)
         bullet.Position.Y += u.Radius
         bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 250}
         bullet.Velocity = Vector2{0, bullet.Speed}
