@@ -15,7 +15,7 @@ func NewPekka(id int, t Team, pos Vector2) *Unit {
         PostHitDelay:  12,
         Radius:        13,
         Size:          Medium,
-        Sight:         300,
+        Sight:         150,
         Range:         15,
         Damage:        450,
         Id:            id,

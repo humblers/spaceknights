@@ -7,7 +7,7 @@ import (
 
 const MinEnergy = 0
 const MaxEnergy = 10000
-const EnergyPerFrame = 100
+const EnergyPerFrame = 50
 const KnightShotCycle = 40
 const HandSize = 3
 
