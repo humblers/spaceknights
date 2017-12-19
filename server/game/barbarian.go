@@ -1,6 +1,9 @@
 package main
 
 func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
+    if t == Home {
+        offset = offset.FlipY()
+    }
     return &Unit{
         Team:          t,
         Type:          Troop,

@@ -7,6 +7,7 @@ var color
 var target_id = 0
 var hp = 0
 var damage_effect = Timer.new()
+
 var hpnode
 onready var body = get_node("Body")
 
@@ -14,7 +15,8 @@ signal position_changed(position)
 signal projectile_created(type, target_id, lifetime, initial_position)
 
 func _ready():
-	set_process(true)
+	if color == "blue" and global.is_knight(name):
+		input.connect("mouse_dragged", self, "move")
 
 func _process(delta):
 	play_launch_effect(delta)
@@ -70,8 +72,6 @@ func update_changes(unit):
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
 	body.play("%s_%s" % [color, unit.State])
-	#velocity = get_velocity(unit)
-	#update()
 
 func update_hp(unit):
 	if unit.Hp <= 0:
@@ -151,6 +151,17 @@ func transform_to_guide_node(pos):
 	hpnode.hide()
 	body.set_opacity(0.5)
 
+<<<<<<< HEAD
+=======
+func release_lock_on_anim(node):
+	node.queue_free()
+
+func move(rel_pos):
+	tcp.send({
+		"Move" : { "X" : rel_pos.x, "Y": rel_pos.y },
+	})
+
+>>>>>>> bad5460... Units can attack knights
 func _draw():
 	var unit = global.UNITS[name]
 	if debug.show_radius and unit.has("radius"):

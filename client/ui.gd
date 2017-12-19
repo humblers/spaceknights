@@ -25,7 +25,7 @@ func connect_ui_signals():
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
-	var player = game[global.team][global.id]
+	var player = game.Players[global.id]
 	hand = player.Hand
 	hand.append("moveknight")
 	# update deck and energy
@@ -101,9 +101,6 @@ func toggle_card_focus(node, selected):
 		node.release_focus()
 
 func use_card(pos=Vector2(0, 0)):
-	pos.y = global.MAP.height - pos.y
-	if global.team == "Visitor":
-		pos.x = global.MAP.width - pos.x
 	tcp.send({
 	"Use" : {
 		"Index" : get_selected_card_id(),

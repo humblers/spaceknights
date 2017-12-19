@@ -91,7 +91,7 @@ func (session *Session) Run(game *Game) {
             }
             return
         case client := <-session.join:
-            if p := game.Player(client.id); p == nil {
+            if _, ok := game.Players[client.id]; !ok {
                 session.joinResult <- fmt.Errorf("player %v not exists", client.id)
             }
             if existing, ok := session.clients[client.id]; ok {
@@ -104,18 +104,14 @@ func (session *Session) Run(game *Game) {
             client.StopAsync()
         case game := <-session.outgoing:
             for _, client := range session.clients {
-                home := game.Home
-                visitor := game.Visitor
-                player := game.Player(client.id)
-                // filter enemy info
-                switch player.Team {
-                case Home:
-                    game.Visitor = nil
-                case Visitor:
-                    game.Home = nil;
-                }
+                players := game.Players
+                me := game.Players[client.id]
+                game.Players = game.Players.Filter(
+                    func(p *Player) bool {
+                        return p.Team == me.Team
+                    })
                 client.WriteAsync(NewPacket(game))
-                game.Home = home; game.Visitor = visitor
+                game.Players = players
             }
             session.outgoingResult <- nil
         }

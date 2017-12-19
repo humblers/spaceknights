@@ -10,7 +10,7 @@ const EnergyPerFrame = 200
 const HandSize = 3
 
 type Player struct {
-    Team Team `json:"-"`
+    Team Team
     Hand Cards
     Pending Cards `json:"-"`
     Knight *Unit `json:"-"`
@@ -21,6 +21,17 @@ type Player struct {
 type Movement struct {
     PositionX float64
     Frame int
+}
+type Players map[string]*Player
+
+func (players Players) Filter(f func(*Player) bool) Players {
+    filtered := make(map[string]*Player)
+    for id, player := range players {
+        if f(player) {
+            filtered[id] = player
+        }
+    }
+    return filtered
 }
 
 func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
@@ -44,22 +55,26 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) RepairKnight(game *Game) {
-    if player.Knight.Hp <= 0 && player.Knight.RepairFrame == game.Frame {
-        knight := player.Knight
-        knight.Hp = 500
-        knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
-        knight.Destination = knight.Position
-        knight.SpawnFrame = game.Frame + knight.SpawnSpeed
-        knight.SpawnStack = 0
-        knight.HitFrame = 0
-        game.AddUnit(knight)
-    }
-    return
+func (player *Player) Update() {
+    player.IncreaseEnergy(EnergyPerFrame)
 }
 
-func (player *Player) UseCard(index int, position Vector2, game *Game) {
+func (player *Player) Move(input Input) {
+    offset := input.Position
+    knight := player.Knight
+    switch player.Team {
+    case Home:
+        knight.Position = knight.Position.Plus(offset)
+        knight.Position = knight.Position.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
+    case Visitor:
+        knight.Position = knight.Position.Minus(offset)
+        knight.Position = knight.Position.Clamp(0, MapWidth, 0, CenterY - TileHeight)
+    }
+}
+
+func (player *Player) UseCard(input Input, game *Game) {
     var card Card = "moveknight"
+    index := input.Use - 1
     if index < len(player.Hand) {
         card = player.Hand[index]
     }
@@ -83,8 +98,9 @@ func (player *Player) UseCard(index int, position Vector2, game *Game) {
     }
 
     player.Energy = player.Energy - CostMap[card]
-    game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
+    game.Stats[player.Team].EnergyUsed += CostMap[card]
 
+    position := player.Knight.Position
     game.AddToWaitingCards(card, position, player)
 }
 

@@ -28,11 +28,9 @@ type Join struct {
 
 type Input struct {
     id        string
-    Move      float64
-    Use       struct {
-        Index    int
-        Position Vector2
-    }
+    Move      int
+    Use       int
+    Position  Vector2
 }
 
 type LobbyRequest struct {

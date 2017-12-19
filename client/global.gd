@@ -416,6 +416,8 @@ func get_structures_of_unit(card):
 		offsets = dict.unitoffsets
 	var units = []
 	for offset in offsets:
+		if card.Team == "Home":
+			offset.y = offset.y * -1
 		var unit = {
 			"Name" : name,
 			"Team" : card.Team,
@@ -424,7 +426,5 @@ func get_structures_of_unit(card):
 				"Y" : card.Position.Y + offset.y * global.dict_get(global.UNITS[name], "radius", 0),
 			},
 		}
-		if unit.Team == "Home":
-			unit.Position.Y = global.MAP.height - unit.Position.Y
 		units.append(unit)
 	return units

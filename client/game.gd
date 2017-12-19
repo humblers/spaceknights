@@ -11,7 +11,7 @@ func _ready():
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
-	global.team = "Home" if game.has("Home") else "Visitor"
+	global.team = game.Players[global.id].Team
 	create_new_units(game.Units)
 	update_units(game.Units)
 	delete_dead_units(game.Units)

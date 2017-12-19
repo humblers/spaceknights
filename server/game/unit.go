@@ -132,12 +132,6 @@ func (u *Unit) IsCore() bool {
     return false
 }
 
-func (u *Unit) FlipY() {
-    u.Position.Y = MapHeight - u.Position.Y
-    u.Destination.Y = MapHeight - u.Destination.Y
-}
-
-
 func (u *Unit) TakeDamage(damage int, attacker *Unit) {
     //glog.Infof("take damage : %v, unit : %v", d, u)
     if u.IsDead() {
@@ -336,66 +330,53 @@ func (u *Unit) HandleSpawn() {
         return
     }
 
-    if u.SpawnFrame == 0 || u.SpawnFrame == u.Game.Frame {
-        getSpawnPos := func(radius float64) Vector2 {
-            pos := u.Position
-            if u.Team == Home {
-                pos.Y = MapHeight - pos.Y
-            }
-            front := Vector2{X: pos.X, Y: pos.Y + u.Radius + radius}
-            if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
-                return front
-            }
-            if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
-                pos.X -= u.Radius + radius
-            } else {
-                pos.X += u.Radius + radius
-            }
-            return pos
+    if u.SpawnFrame != 0 && u.SpawnFrame != u.Game.Frame {
+        return
+    }
+
+    getSpawnPos := func(radius float64) Vector2 {
+        pos := u.Position
+        front := u.Position.Plus(u.Heading.Multiply(u.Radius + radius))
+        if Top.Contains(front) || Bottom.Contains(front) || LeftHole.Contains(front) || RightHole.Contains(front) {
+            return front
         }
-        switch u.SpawnThing {
-        case "barbarians":
-            unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
-            u.Game.AddUnit(unit)
-        case "speargoblin":
-            unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(unit)
-        case "skeleton":
-            unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
-            unit.Position = getSpawnPos(unit.Radius)
-            u.Game.AddUnit(unit)
-        case "knightbullet":
-            if u.SpawnStack++; u.SpawnStack % 6 > 4 {
-                break
-            }
-            bullet := NewKnightBullet(u.Team, u.Position)
-            u.Game.AddUnit(bullet)
-            bullet.Position.Y += u.Radius
-            bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 400}
-            bullet.Velocity = Vector2{0, bullet.Speed}
-            if bullet.Team == Home {
-                bullet.FlipY()
-                bullet.Velocity.Y *= -1
-            }
-            u.Game.Stats[u.Team].KnightBulletTotalCount += 1
-        default:
-            glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
+        if pos.X < 200.0 || pos.X > (RightHole.L + RightHole.R) / 2 {
+            pos.X -= u.Radius + radius
+        } else {
+            pos.X += u.Radius + radius
         }
-        u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
+        return pos
+    }
+    switch u.SpawnThing {
+    case "barbarians":
+        unit := NewBarbarian(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(NewBarbarian(0, u.Team, unit.Position, Vector2{0, 0}))
+        u.Game.AddUnit(unit)
+    case "speargoblin":
+        unit := NewSpeargoblin(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(unit)
+    case "skeleton":
+        unit := NewSkeleton(0, u.Team, Vector2{0, 0}, Vector2{0, 0})
+        unit.Position = getSpawnPos(unit.Radius)
+        u.Game.AddUnit(unit)
+    case "knightbullet":
+        bullet := NewKnightBullet(u.Team, u.Position)
+        u.Game.AddUnit(bullet)
+        bullet.Position.Y += u.Radius
+        bullet.Velocity = u.Heading.Multiply(bullet.Speed)
+        u.Game.Stats[u.Team].KnightBulletTotalCount += 1
+    default:
+        glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
+        return
     }
 }
 
 func (u *Unit) ScatterBullets() {
     var target *Unit
-    players := u.Game.Home
-    if u.Team == Home {
-        players = u.Game.Visitor
-    }
-    for _, player := range players {
-        if !player.Knight.IsDead() {
+    for _, player := range u.Game.Players {
+        if player.Team != u.Team && !player.Knight.IsDead() {
             target = player.Knight
             break
         }
@@ -416,9 +397,6 @@ func (u *Unit) ScatterBullets() {
         bullet := NewScatteredBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
         bullet.Velocity = vector.Multiply(bullet.Speed)
-        if bullet.Team == Home {
-            bullet.FlipY()
-        }
     }
 }
 
@@ -432,7 +410,7 @@ func (u *Unit) Update() {
         } else {
             if !u.HasTarget() || !u.WithinRange(u.Target) {
                 var filter = func (other *Unit) bool {
-                    return u.CanSee(other) || other.IsCore()
+                    return u.CanSee(other) || other.Type == Knight
                 }
                 u.Target = u.FindNearestTarget(filter)
             }
@@ -497,7 +475,7 @@ func (u *Unit) Update() {
         u.HandleSpawn()
         u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
-        if u.IsOutOfScreen() || u.ReachedMaxY() {
+        if u.IsOutOfScreen() {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
@@ -511,6 +489,24 @@ func (u *Unit) Update() {
                 }
             }
         }
+    case Knight:
+        if u.IsAttacking() {
+            u.HandleAttack()
+        } else {
+            u.Targets = u.Targets[:0]
+            for _, other := range u.Game.Units {
+                if u.CanTarget(other) && u.WithinRange(other) {
+                    u.Targets = append(u.Targets, other)
+                    if len(u.Targets) >= 5 {
+                        break
+                    }
+                }
+            }
+            if len(u.Targets) > 0 {
+                u.StartAttack()
+            }
+        }
+        u.HandleSpawn()
     case Base:
         return
     }
@@ -518,21 +514,6 @@ func (u *Unit) Update() {
 
 func (u *Unit) SelfRemove() {
     u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
-}
-
-func (u *Unit) ReachedMaxY() bool {
-    if u.Name == "knightbullet" {
-        maxY := u.Destination.Y
-        posY := u.Position.Y
-        if u.Team == Home {
-            maxY = MapHeight - maxY
-            posY = MapHeight - posY
-        }
-        if posY >= float64(maxY) {
-            return true
-        }
-    }
-    return false
 }
 
 func (u *Unit) IsOutOfScreen() bool {
