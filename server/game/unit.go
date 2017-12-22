@@ -405,13 +405,17 @@ func (u *Unit) HandleSpawn() {
     case "knightbullet":
         bullet := NewKnightBullet(u.Team, u.Position)
         u.Game.AddUnitWithTimeFactor(bullet, false)
-        bullet.Position.Y += u.Radius
-        bullet.Destination = Vector2{bullet.Position.X, bullet.Position.Y + 250}
-        bullet.Velocity = Vector2{0, bullet.Speed}
+        posOffset := Vector2{0, u.Radius}
+        desOffset := Vector2{0, 250}
+        velocity := Vector2{0, bullet.Speed}
         if bullet.Team == Home {
-            bullet.FlipY()
-            bullet.Velocity.Y *= -1
+            posOffset = posOffset.FlipY()
+            desOffset = desOffset.FlipY()
+            velocity = velocity.FlipY()
         }
+        bullet.Position = bullet.Position.Plus(posOffset)
+        bullet.Destination = bullet.Position.Plus(desOffset)
+        bullet.Velocity = velocity
         u.Game.Stats[u.Team].KnightBulletTotalCount += 1
     default:
         glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
@@ -448,9 +452,6 @@ func (u *Unit) ScatterBullets() {
         bullet := NewScatteredBullet(u.Team, u.Position)
         u.Game.AddUnit(bullet)
         bullet.Velocity = vector.Multiply(bullet.Speed)
-        if bullet.Team == Home {
-            bullet.FlipY()
-        }
     }
 }
 

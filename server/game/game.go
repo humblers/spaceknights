@@ -208,7 +208,6 @@ func (g *Game) Join(team Team, user User) {
 
 func (g *Game) AddUnitWithTimeFactor(unit *Unit, useFactor bool) {
     if unit.Team == Home {
-        unit.FlipY()
         unit.Heading = Vector2{0, -1}
     } else {
         unit.Heading = Vector2{0, 1}
@@ -240,15 +239,8 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
-    waiting := &WaitingCard{
-        Name:       card,
-        Team:       player.Team,
-        Position:   pos,
-        IdStarting: g.ObjectCounter,
-        ActivateFrame: g.Frame + ActivateAfter,
-        Knight:     player.Knight,
-    }
+func (g *Game) AddToWaitingCards(card Card, player *Player) {
+    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, player.Knight.Position, g.Frame)
     count := waiting.GetUnitCount()
     g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
@@ -315,6 +307,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
+    case "fireball":
+        g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
     case "laser", "moveknight", "shoot":
         glog.Errorf("unexpected card name : %v", card.Name) 
     default:

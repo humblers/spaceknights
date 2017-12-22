@@ -51,6 +51,9 @@ func (player *Player) RepairKnight() {
     if knight.IsDead() && knight.RepairFrame == game.Frame {
         knight.Hp = 1000
         knight.Position = Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
+        if player.Team == Home {
+            knight.Position.Y = MapHeight - knight.Position.Y
+        }
         game.AddUnit(knight)
         player.SetState(Move, knight.Position, game)
     }
@@ -94,8 +97,7 @@ func (player *Player) UseCard(input Input, game *Game) {
     player.OperateEnergy(-CostMap[card])
     game.Stats[player.Team].EnergyUsed += CostMap[card]
 
-    position := input.Position
-    game.AddToWaitingCards(card, position, player)
+    game.AddToWaitingCards(card, player)
 }
 
 func (player *Player) OperateEnergy(amount int) {

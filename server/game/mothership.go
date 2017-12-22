@@ -11,6 +11,15 @@ const (
 )
 
 func NewMothership(t Team) []*Unit {
+    main_position_Y :=  float64(MothershipBaseHeight - MothershipBoosterHeight + MothershipMainHeight / 2)
+    sub_position_Y := float64(MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight / 2)
+    base_position_Y := float64(MothershipBaseHeight / 2)
+    if t == Home {
+        main_position_Y = MapHeight - main_position_Y
+        sub_position_Y = MapHeight - sub_position_Y
+        base_position_Y = MapHeight - base_position_Y
+    }
+
     var mothership []*Unit
     main := &Unit{
         Team:   t,
@@ -22,7 +31,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 20,
         Position: Vector2{
             X: MapWidth / 2,
-            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipMainHeight / 2,
+            Y: main_position_Y,
         },
     }
     left := &Unit{
@@ -35,7 +44,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 30,
         Position: Vector2{
             X: 70,
-            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight / 2,
+            Y: sub_position_Y,
         },
     }
     right := &Unit{
@@ -48,7 +57,7 @@ func NewMothership(t Team) []*Unit {
         Radius: 30,
         Position: Vector2{
             X: 330,
-            Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight / 2,
+            Y: sub_position_Y,
         },
     }
     base := &Unit{
@@ -59,7 +68,7 @@ func NewMothership(t Team) []*Unit {
         InvMass:  0,
         Position: Vector2{
             X: MapWidth / 2,
-            Y: MothershipBaseHeight / 2,
+            Y: base_position_Y,
         },
     }
     mothership = append(mothership, main, left, right, base)

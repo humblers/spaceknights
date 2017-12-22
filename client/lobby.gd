@@ -156,4 +156,4 @@ func _findgame_response(success, dict):
 	tcp.connect_server(dict.host, 9999)
 	tcp.send({"Id": global.id, "Token": global.id})
 	tcp.send({"SessionId": dict.sid})
-	get_tree().change_scene("res://game.tscn")
+	get_tree().change_scene_to(resource.game)

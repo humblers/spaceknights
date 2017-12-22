@@ -12,7 +12,10 @@ func NewKnight(t Team, name string) *Unit {
     default:
         log.Panicf("unknown knight name: %v", name)
     }
-    startpos := Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
+    position := Vector2{MapWidth / 2, MothershipBaseHeight + MothershipMainHeight + TileHeight * 1.5}
+    if t == Home {
+        position.Y = MapHeight - position.Y
+    }
     return &Unit{
         Team:           t,
         Type:           Knight,
@@ -30,7 +33,6 @@ func NewKnight(t Team, name string) *Unit {
         SpawnThing:     "knightbullet",
         SpawnSpeed:     2,
         RepairDelay:    30,
-        Position:       startpos,
-        Destination:    startpos,
+        Position:       position,
     }
 }

@@ -78,21 +78,20 @@ func create_new_spells(spells):
 		var node = get_node("Spells").get_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
+			node.play("active")
 
 func delete_finished_spells(spells):
 	for node in get_node("Spells").get_children():
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not spells.has(node.get_name()):
-			node.queue_free()
+			node.release()
 
 func create_spell_node(spell, group=OBJECT_DEFAULT):
 	var name = spell.Name
 	var node = resource.spell[name].instance()
 	node.initialize(spell)
 	node.set_name(str(spell.Id))
-	var knight = global.knights[str(spell.Knight.Id)]
-	knight.connect("position_changed", node, "update_position")
 	get_node("Spells").add_child(node)
 	if group != OBJECT_DEFAULT:
 		node.add_to_group(group)

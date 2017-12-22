@@ -6,6 +6,13 @@ type Vector2 struct {
     X, Y float64
 }
 
+func (v Vector2) FlipY() Vector2 {
+    return Vector2{
+        X: v.X,
+        Y: -v.Y,
+    }
+}
+
 func (a Vector2) Plus(b Vector2) Vector2 {
     return Vector2{
         X: a.X + b.X,

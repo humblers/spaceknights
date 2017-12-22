@@ -338,6 +338,21 @@ const CARDS = {
 		"cost" : 4000,
 	},
 
+	"fireball" : {
+		"type" : "spell",
+		"cost" : 4000,
+		"range" : 200,
+		"radius" : 50.0,
+		"shape" : "circular",
+	},
+#	"laser" : {
+#		"type" : "spell",
+#		"cost" : 5000,
+#		"range" : 100,
+#		"radius" : 15.0,
+#		"shape" : "linear",
+#	},
+
 	"moveknight" : {
 		"type" : "undecide",
 		"cost" : 1000,
@@ -376,18 +391,28 @@ static func shuffle_array(arr):
 	return arr
 
 static func clone(data):
-    var to
-    if typeof(data) == TYPE_DICTIONARY:
-        to = {}
-        for key in data:
-            to[key] = clone(data[key])
-    elif typeof(data) == TYPE_ARRAY:
-        to = []
-        for value in data:
-            to.append(clone(value))
-    else:
-        to = data
-    return to
+	var to
+	if typeof(data) == TYPE_DICTIONARY:
+		to = {}
+		for key in data:
+			to[key] = clone(data[key])
+	elif typeof(data) == TYPE_ARRAY:
+		to = []
+		for value in data:
+			to.append(clone(value))
+	else:
+		to = data
+	return to
+
+static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
+	var nb_points = 32
+	var points_arc = Vector2Array()
+	for i in range(nb_points+1):
+		var angle_point = angle_from + i*(angle_to-angle_from)/nb_points - 90
+		var point = center + Vector2( cos(deg2rad(angle_point)), sin(deg2rad(angle_point)) ) * radius
+		points_arc.push_back( point )
+	for indexPoint in range(nb_points):
+		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
 const THRESHOLD_BLUE = 310
 
@@ -428,6 +453,8 @@ func get_structures_of_unit(card):
 		offsets = dict.unitoffsets
 	var units = []
 	for offset in offsets:
+		if card.Team == "Home":
+			offset.y = offset.y * -1
 		var unit = {
 			"Name" : name,
 			"Team" : card.Team,
@@ -437,7 +464,5 @@ func get_structures_of_unit(card):
 				"Y" : card.Position.Y + offset.y * global.dict_get(global.UNITS[name], "radius", 0),
 			},
 		}
-		if unit.Team == "Home":
-			unit.Position.Y = global.MAP.height - unit.Position.Y
 		units.append(unit)
 	return units
