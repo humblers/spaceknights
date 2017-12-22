@@ -344,13 +344,13 @@ const CARDS = {
 		"radius" : 50.0,
 		"shape" : "circular",
 	},
-#	"laser" : {
-#		"type" : "spell",
-#		"cost" : 5000,
-#		"range" : 100,
-#		"radius" : 15.0,
-#		"shape" : "linear",
-#	},
+	"laser" : {
+		"type" : "spell",
+		"cost" : 5000,
+		"range" : 150,
+		"radius" : 15.0,
+		"shape" : "linear",
+	},
 }
 
 func _ready():
@@ -449,3 +449,16 @@ func get_structures_of_unit(card):
 		}
 		units.append(unit)
 	return units
+
+func get_scale(cardname, org_size):
+	var card = CARDS[cardname]
+	if card["shape"] == "circular":
+		return Vector2(
+				card["radius"] * 2 / org_size.x,
+				card["radius"] * 2 / org_size.y
+		)
+	if card["shape"] == "linear":
+		return Vector2(
+				card["radius"] * 2 / org_size.x,
+				card["range"] * 2 / org_size.y
+		)

@@ -10,6 +10,7 @@ type Spell struct {
     Team        Team
     Name        string
     Damage      int     `json:"-"`
+    Range       int     `json:"-"`
     Radius      float64 `json:"-"`
     Duration    int     `json:"-"`
 
@@ -39,7 +40,7 @@ func (s *Spell) Update() {
         delete(s.Game.Spells, s.Id)
         return
     }
-    s.Duration-- 
+    s.Duration--
     var filter func(unit *Unit) bool
     switch s.Name {
     case "laser":
@@ -48,6 +49,9 @@ func (s *Spell) Update() {
                 return false
             }
             if math.Abs(s.Position.X - unit.Position.X) > s.Radius + unit.Radius {
+                return false
+            }
+            if math.Abs(s.Position.Y - unit.Position.Y) > float64(s.Range) + unit.Radius {
                 return false
             }
             return true
@@ -63,9 +67,6 @@ func (s *Spell) Update() {
     s.AffectToUnits(filter, func (unit *Unit) {
         unit.TakeDamage(s.Damage, nil)
     })
-//    if needknight && s.Knight.IsDead() {
-//        delete(s.Game.Spells, s.Id)
-//    }
 }
 
 func NewLaser(id int, team Team, pos Vector2) *Spell {
@@ -73,6 +74,7 @@ func NewLaser(id int, team Team, pos Vector2) *Spell {
         Team:       team,
         Name:       "laser",
         Damage:     10,
+        Range:      150,
         Radius:     15,
         Duration:   50,
         Id:         id,
