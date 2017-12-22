@@ -309,7 +309,9 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
     case "fireball":
         g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
-    case "laser", "moveknight", "shoot":
+    case "laser":
+        g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Position))
+    case "moveknight", "shoot":
         glog.Errorf("unexpected card name : %v", card.Name) 
     default:
         glog.Warningf("invalid card name: %v", card.Name)

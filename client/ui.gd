@@ -22,8 +22,8 @@ func update_changes(game):
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	get_node("Energy").set_value(player.Energy / 100)
 	update_card_texture(game.Frame, player)
-	create_spell_indicator()
 	delete_spell_indicator()
+	create_spell_indicator()
 
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
@@ -93,7 +93,9 @@ func delete_spell_indicator():
 	for i in range(1, 4):
 		var card = hand[i - 1]
 		var node_name = "Indicators/Indicator%d" % [i - 1]
-		if not global.is_spell_card(card) and has_node(node_name):
+		if has_node(node_name):
+			if global.is_spell_card(card) and get_node(node_name).name == card:
+				continue
 			get_node(node_name).queue_free()
 
 func update_knight_position(id, pos):

@@ -22,6 +22,8 @@ func NewWaitingCard(id int, team Team, card Card, knightPos Vector2, gameFrame i
     switch card {
     case "fireball":
         offset.Y = 200.0
+    case "laser":
+        offset.Y = 150.0
     }
     if team == Home {
         offset = offset.FlipY()

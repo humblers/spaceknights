@@ -7,9 +7,8 @@ func initialize(spell):
 	if global.team == spell.Team:
 		set_rot(PI)
 	set_z(global.LAYERS.GroundUnder)
-	var card = global.CARDS[spell.Name]
 	var size = get_sprite_frames().get_frame(get_animation(), 0).get_size()
-	set_scale(Vector2(card.radius*2/size.x, card.radius*2/size.y))
+	set_scale(global.get_scale(spell.Name, size))
 	set_pos(get_position(spell))
 
 func release():
