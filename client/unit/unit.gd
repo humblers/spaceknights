@@ -164,23 +164,11 @@ func release_lock_on_anim(node):
 func _draw():
 	var unit = global.UNITS[name]
 	if debug.show_radius and unit.has("radius"):
-		draw_circle_arc(unit["radius"], Color(1.0, 0, 0))
+		global.draw_circle_arc(unit["radius"], Color(1.0, 0, 0), self)
 	if debug.show_sight and unit.has("sight"):
-		draw_circle_arc(unit["sight"], Color(0, 1.0, 0))
+		global.draw_circle_arc(unit["sight"], Color(0, 1.0, 0), self)
 	if debug.show_range and unit.has("range"):
-		draw_circle_arc(unit["range"], Color(0, 0, 1.0))
+		global.draw_circle_arc(unit["range"], Color(0, 0, 1.0), self)
 	if debug.show_velocity and unit.has("radius"):
 		var ahead = velocity.normalized() * (unit.radius + velocity.length())
 		draw_line(Vector2(0, 0), ahead, Color(1.0, 1.0, 0))
-
-func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
-	var nb_points = 32
-	var points_arc = Vector2Array()
-	
-	for i in range(nb_points+1):
-		var angle_point = angle_from + i*(angle_to-angle_from)/nb_points - 90
-		var point = center + Vector2( cos(deg2rad(angle_point)), sin(deg2rad(angle_point)) ) * radius
-		points_arc.push_back( point )
-
-	for indexPoint in range(nb_points):
-		draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)

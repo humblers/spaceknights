@@ -15,7 +15,24 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
-    Knight          *Unit
+}
+
+func NewWaitingCard(id int, team Team, card Card, knightPos Vector2, gameFrame int) *WaitingCard {
+    offset := Vector2{0, 0}
+    switch card {
+    case "fireball":
+        offset.Y = 200.0
+    }
+    if team == Home {
+        offset = offset.FlipY()
+    }
+    return &WaitingCard{
+        Name: card,
+        Team: team,
+        Position: knightPos.Plus(offset),
+        IdStarting: id,
+        ActivateFrame: gameFrame + ActivateAfter,
+    }
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {
@@ -59,6 +76,7 @@ var CostMap = map[Card]int{
     "tombstone": 3000,
     "valkyrie": 4000,
 
+    "fireball": 4000,
     "laser": 5000,
 
     "moveknight": 0,

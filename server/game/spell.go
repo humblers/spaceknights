@@ -16,7 +16,7 @@ type Spell struct {
     // variant
     Id          int     `json:"-"`
     Game        *Game   `json:"-"`
-    Knight      *Unit
+    Position    Vector2
 }
 
 func (s *Spell) String() string {
@@ -25,6 +25,9 @@ func (s *Spell) String() string {
 
 func (s *Spell) AffectToUnits(filter func(*Unit) bool, behavior func(*Unit)) {
     for _, unit := range s.Game.Units {
+        if s.Team == unit.Team {
+            continue
+        }
         if filter(unit) {
             behavior(unit)
         }
@@ -32,29 +35,40 @@ func (s *Spell) AffectToUnits(filter func(*Unit) bool, behavior func(*Unit)) {
 }
 
 func (s *Spell) Update() {
-    s.AffectToUnits(func (unit *Unit) bool {
-        if s.Team == unit.Team {
-            return false
+    if s.Duration < 0 {
+        delete(s.Game.Spells, s.Id)
+        return
+    }
+    s.Duration-- 
+    var filter func(unit *Unit) bool
+    switch s.Name {
+    case "laser":
+        filter = func (unit *Unit) bool {
+            if unit.IsCore() {
+                return false
+            }
+            if math.Abs(s.Position.X - unit.Position.X) > s.Radius + unit.Radius {
+                return false
+            }
+            return true
         }
-        if unit.IsCore() {
-            return false
+    case "fireball":
+        filter = func (unit *Unit) bool {
+            if s.Position.Minus(unit.Position).Length() > s.Radius + unit.Radius {
+                return false
+            }
+            return true
         }
-        if math.Abs(s.Knight.Position.X - unit.Position.X) > s.Radius + unit.Radius {
-            return false
-        }
-        return true
-    }, func (unit *Unit) {
+    }
+    s.AffectToUnits(filter, func (unit *Unit) {
         unit.TakeDamage(s.Damage, nil)
     })
-    if s.Knight.IsDead() {
-        delete(s.Game.Spells, s.Id)
-    }
-    if s.Duration--; s.Duration < 0 {
-        delete(s.Game.Spells, s.Id)
-    }
+//    if needknight && s.Knight.IsDead() {
+//        delete(s.Game.Spells, s.Id)
+//    }
 }
 
-func NewLaser(id int, team Team, knight *Unit) *Spell {
+func NewLaser(id int, team Team, pos Vector2) *Spell {
     return &Spell{
         Team:       team,
         Name:       "laser",
@@ -62,6 +76,17 @@ func NewLaser(id int, team Team, knight *Unit) *Spell {
         Radius:     15,
         Duration:   50,
         Id:         id,
-        Knight:     knight,
+        Position:   pos,
+    }
+}
+
+func NewFireball(id int, team Team, pos Vector2) *Spell {
+    return &Spell{
+        Team:       team,
+        Name:       "fireball",
+        Damage:     500,
+        Radius:     50,
+        Id:         id,
+        Position:   pos,
     }
 }

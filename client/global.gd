@@ -337,10 +337,20 @@ const CARDS = {
 		"cost" : 4000,
 	},
 
-	"laser" : {
+	"fireball" : {
 		"type" : "spell",
-		"cost" : 5000,
+		"cost" : 4000,
+		"range" : 200,
+		"radius" : 50.0,
+		"shape" : "circular",
 	},
+#	"laser" : {
+#		"type" : "spell",
+#		"cost" : 5000,
+#		"range" : 100,
+#		"radius" : 15.0,
+#		"shape" : "linear",
+#	},
 }
 
 func _ready():
@@ -371,18 +381,28 @@ static func shuffle_array(arr):
 	return arr
 
 static func clone(data):
-    var to
-    if typeof(data) == TYPE_DICTIONARY:
-        to = {}
-        for key in data:
-            to[key] = clone(data[key])
-    elif typeof(data) == TYPE_ARRAY:
-        to = []
-        for value in data:
-            to.append(clone(value))
-    else:
-        to = data
-    return to
+	var to
+	if typeof(data) == TYPE_DICTIONARY:
+		to = {}
+		for key in data:
+			to[key] = clone(data[key])
+	elif typeof(data) == TYPE_ARRAY:
+		to = []
+		for value in data:
+			to.append(clone(value))
+	else:
+		to = data
+	return to
+
+static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
+	var nb_points = 32
+	var points_arc = Vector2Array()
+	for i in range(nb_points+1):
+		var angle_point = angle_from + i*(angle_to-angle_from)/nb_points - 90
+		var point = center + Vector2( cos(deg2rad(angle_point)), sin(deg2rad(angle_point)) ) * radius
+		points_arc.push_back( point )
+	for indexPoint in range(nb_points):
+		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
 const CARD_THRESHOLD_TOP = 310
 const LOCATION_UI = 0

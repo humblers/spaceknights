@@ -189,15 +189,8 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
-    waiting := &WaitingCard{
-        Name:       card,
-        Team:       player.Team,
-        Position:   pos,
-        IdStarting: g.ObjectCounter,
-        ActivateFrame: g.Frame + ActivateAfter,
-        Knight:     player.Knight,
-    }
+func (g *Game) AddToWaitingCards(card Card, player *Player) {
+    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, player.Knight.Position, g.Frame)
     count := waiting.GetUnitCount()
     g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
@@ -264,15 +257,10 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
-    case "laser":
-        if !card.Knight.IsDead() {
-            g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
-        }
-    case "moveknight":
-        card.Knight.Destination = card.Position
-        if card.Knight.Team == Home {
-            card.Knight.Destination.Y = MapHeight - card.Knight.Destination.Y
-        }
+    case "fireball":
+        g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
+    case "laser", "moveknight", "shoot":
+        glog.Errorf("unexpected card name : %v", card.Name) 
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }

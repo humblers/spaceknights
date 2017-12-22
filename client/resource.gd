@@ -1,5 +1,7 @@
 extends Node
 
+var game = preload("res://game.tscn")
+
 var unit = {
 	"archer": preload("res://unit/archer/archer.tscn"),
 	"barbarian": preload("res://unit/barbarian/barbarian.tscn"),
@@ -31,6 +33,7 @@ var unit = {
 
 var spell = {
 	"laser": preload("res://spell/laser.tscn"),
+	"fireball": preload("res://spell/fireball.tscn"),
 }
 
 var projectile = {
@@ -283,6 +286,17 @@ var icon = {
 		},
 		"small": preload("res://icon/valkyrie_small.png"),
 	},
+	"fireball" : {
+		"on": {
+			"normal" : preload("res://icon/fireball_on.png"),
+			"pressed" : preload("res://icon/fireball_on.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/fireball_off.png"),
+			"pressed" : preload("res://icon/fireball_off.png"),
+		},
+		"small": preload("res://icon/fireball_small.png"),
+	},
 	"laser" : {
 		"on": {
 			"normal" : preload("res://icon/laser_on.png"),
@@ -303,4 +317,5 @@ var effect = {
 		"unit": preload("res://effect/explosion/unit.tscn"),
 		"missile": preload("res://effect/explosion/missile.tscn"),
 	},
+	"spell_indicator": preload("res://spell_indicator.tscn"),
 }

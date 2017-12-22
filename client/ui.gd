@@ -4,7 +4,6 @@ onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var result = get_node("Result")
-onready var guide = get_node("CardGuide")
 
 var hand
 var selected_card
@@ -126,6 +125,7 @@ func ui_input_event(event, is_card, node):
 			release(is_card, node)
 	if event.type == InputEvent.MOUSE_MOTION:
 		update_guide_position(event.global_pos)
+		update_spell_indicator(event.global_pos)
 
 func add_unit_to_guide(unit):
 	var name = unit.Name
