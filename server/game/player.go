@@ -60,7 +60,6 @@ func (player *Player) Update() {
 }
 
 func (player *Player) Move(input Input) {
-    glog.Infof("called. id(%v), pos(%v)", input.Move, input.Position)
     knight := player.Knight
     knight.Destination = input.Position
     switch player.Team {

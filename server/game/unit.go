@@ -521,7 +521,7 @@ func (u *Unit) Update() {
 }
 
 func (u *Unit) SelfRemove() {
-    u.Game.Units = u.Game.Units.Filter(func(x *Unit) bool { return x.Id != u.Id })
+    delete(u.Game.Units, u.Id)
 }
 
 func (u *Unit) IsOutOfScreen() bool {

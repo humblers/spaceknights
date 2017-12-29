@@ -25,17 +25,11 @@ func opening_finished():
 	get_node("Units").show()
 	get_node("OpeningNodes").queue_free()
 
-func has_id(units, id):
-	for unit in units:
-		if str(unit.Id) == id:
-			return true
-	return false
-
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
-		if not has_id(units, node.get_name()):
+		if not units.has(node.get_name()):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
@@ -44,13 +38,15 @@ func delete_dead_units(units):
 			node.queue_free()
 
 func create_new_units(units):
-	for unit in units:
-		if not get_node("Units").has_node(str(unit.Id)):
+	for id in units:
+		var unit = units[id]
+		if not get_node("Units").has_node(id):
 			create_unit_node(unit)
 
 func update_units(units):
-	for unit in units:
-		var node = get_node("Units").get_node(str(unit.Id))
+	for id in units:
+		var unit = units[id]
+		var node = get_node("Units").get_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
 		node.update_changes(unit)

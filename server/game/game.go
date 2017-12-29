@@ -78,7 +78,7 @@ const (
 type Game struct {
     Frame         int                                        // valid only if > 0
     Players       Players `json:",omitempty"`
-    Units         Units
+    Units         map[int]*Unit
     Spells        map[int]*Spell
     WaitingCards  []*WaitingCard     `json:",omitempty"`
     ObjectCounter int                `json:"-"`
@@ -102,24 +102,18 @@ type Stat struct {
     KnightBulletHitCount int
 }
 
-type Units []*Unit
-func (s Units) Filter(f func(*Unit) bool) Units {
-    var filtered Units
-    for _, x := range s {
-        if f(x) {
-            filtered = append(filtered, x)
+func (game *Game) RemoveDeadUnits() {
+    for id, unit := range(game.Units) {
+        if unit.IsDead() {
+            delete(game.Units, id)
         }
     }
-    return filtered
-}
-
-func (game *Game) RemoveDeadUnits() {
-    game.Units = game.Units.Filter(func(x *Unit) bool { return !x.IsDead() })
 }
 
 func NewGame() *Game {
     g := Game{
         Frame:         1,
+        Units:         make(map[int]*Unit),
         Spells:        make(map[int]*Spell),
         Players:       make(map[string]*Player),
         ObjectCounter: 1,
@@ -183,7 +177,7 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Game = g
     unit.State = Idle
-    g.Units = append(g.Units, unit)
+    g.Units[unit.Id] = unit
 }
 
 func (g *Game) AddSpell(spell *Spell) {
@@ -327,6 +321,7 @@ func (game *Game) update() (gameover bool) {
     }
     game.ActivateWaitingCards()
     for _, unit := range game.Units {
+        glog.Infof("unit(%v)", unit)
         unit.Update()
     }
     game.RemoveDeadUnits()
