@@ -1,15 +1,8 @@
 extends Node
 
-const CARD_THRESHOLD_TOP = 310
-const LOCATION_UI = 0
-const LOCATION_BASE = 1
-const LOCATION_BLUE = 2
-const LOCATION_RED = 3
-
 onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
-onready var card4 = get_node("Card4")
 onready var result = get_node("Result")
 onready var guide = get_node("CardGuide")
 
@@ -18,10 +11,9 @@ var selected_card
 
 func connect_ui_signals():
 	input.connect("mouse_pressed", self, "pressed_outside_of_UI")
-	card1.connect("input_event", self, "card_input_event", [card1])
-	card2.connect("input_event", self, "card_input_event", [card2])
-	card3.connect("input_event", self, "card_input_event", [card3])
-	card4.connect("input_event", self, "card_input_event", [card4])
+	card1.connect("input_event", self, "ui_input_event", [true, card1])
+	card2.connect("input_event", self, "ui_input_event", [true, card2])
+	card3.connect("input_event", self, "ui_input_event", [true, card3])
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
@@ -40,15 +32,8 @@ func update_changes(game):
 		show_result(game.Result)
 		tcp.disconnect_server()
 
-func get_location(pos):
-	if pos.y > global.MAP.height:
-		return LOCATION_UI
-	if pos.y < CARD_THRESHOLD_TOP:
-		return LOCATION_RED
-	return LOCATION_BLUE
-
 func pressed_outside_of_UI(pos):
-	if selected_card and get_location(pos) == LOCATION_BLUE:
+	if selected_card and global.get_location(pos) == global.LOCATION_BLUE:
 		use_card(pos)
 
 func back_to_lobby():
@@ -102,58 +87,62 @@ func toggle_card_focus(node, selected):
 
 func use_card(pos=Vector2(0, 0)):
 	tcp.send({
-	"Use" : {
-		"Index" : get_selected_card_id(),
-		"Position" : {"X":pos.x, "Y":pos.y},
-		}
+		"Use" : get_selected_card_id(),
+		"Position" : {"X" : pos.x, "Y" : pos.y, },
 	})
 	toggle_card_focus(selected_card, false)
 
-func press_card(node):
-	toggle_card_focus(node, true)
-	var id = get_selected_card_id()
-	if global.is_spell_card(hand[id - 1]):
-		use_card()
+func press(is_card, node):
+	if is_card:
+		toggle_card_focus(node, true)
+		var card = {
+			"Name" : hand[get_selected_card_id() - 1],
+			"Team" : "",
+			"Position" : { "X" : 0, "Y" : 0, },
+		}
+		for unit in global.get_structures_of_unit(card):
+			add_unit_to_guide(unit)
 		return
-	var card = hand[id - 1]
-	var units = global.get_structures_of_unit( {
-		"Name" : card,
-		"Team" : "",
-		"Position" : {
-			"X" : 0, "Y" : 0,
-		},
-	} )
-	for unit in units:
-		unit.Team = global.team
-		var name = unit.Name
-		var node = resource.unit[name].instance()
-		node.initialize(unit)
-		guide.add_child(node)
-		node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
+	add_unit_to_guide({"Name":node.name, "Position":{"X":0, "Y":0}})
 
-func release_card():
+func release(is_card, node):
 	var pos = guide.get_pos()
-	var location = get_location(pos)
-	if location == LOCATION_BLUE:
+	release_guide()
+	if global.get_location(pos) != global.LOCATION_BLUE:
+		return
+	if is_card:
 		use_card(pos)
-	deactivate_guide()
+		return
+	tcp.send({
+		"Move" : int(node.get_name()),
+		"Position" : { "X" : pos.x, "Y" : pos.y, },
+	})
 
-func card_input_event(event, node):
+func ui_input_event(event, is_card, node):
 	if event.type == InputEvent.MOUSE_BUTTON:
 		if event.pressed:
-			press_card(node)
+			press(is_card, node)
 		else:
-			release_card()
-
+			release(is_card, node)
 	if event.type == InputEvent.MOUSE_MOTION:
-		var pos = event.global_pos
-		var location = get_location(pos)
-		if location == LOCATION_RED:
-			pos.y = CARD_THRESHOLD_TOP
-		guide.set_pos(pos)
-		guide.hide() if location in [LOCATION_UI, LOCATION_BASE] else guide.show()
+		update_guide_position(event.global_pos)
 
-func deactivate_guide():
+func add_unit_to_guide(unit):
+	var name = unit.Name
+	var node = resource.unit[name].instance()
+	unit.Team = global.team
+	node.initialize(unit)
+	guide.add_child(node)
+	node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
+
+func update_guide_position(pos):
+	var location = global.get_location(pos)
+	if location == global.LOCATION_RED:
+		pos.y = global.CARD_THRESHOLD_TOP
+	guide.set_pos(pos)
+	guide.hide() if location in [global.LOCATION_UI, global.LOCATION_BASE] else guide.show()
+
+func release_guide():
 	guide.hide()
 	guide.set_pos(Vector2(0, 0))
 	for child in guide.get_children():

@@ -68,7 +68,7 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	if unit.Name in ["shuriken", "space_z"]:
 		global.knights[str(unit.Id)] = node
 		if unit.Team == global.team:
-			node.set_input_event(get_node("UI"), get_node("UI/Card4"))
+			node.set_input_event(get_node("UI"))
 
 func create_new_spells(spells):
 	for id in spells:
@@ -102,8 +102,6 @@ func handle_waiting_cards(frame, cards):
 	for card in cards:
 		if frame + global.CARD_WAIT_FRAME != card.ActivateFrame:
 			continue
-		if card.Name == "moveknight" and card.Team == global.team:
-			global.get_my_knight().show_speech_bubble()
 		if global.is_unit_card(card.Name):
 			var unit_structures = global.get_structures_of_unit(card)
 			if unit_structures.size() > 0:

@@ -10,7 +10,7 @@ func NewSkeleton(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Name:          "skeleton",
         Layer:         Ground,
         TargetLayers : Layers{Ground},
-        TargetTypes:   Types{Troop, Building},
+        TargetTypes:   Types{Troop, Building, Knight},
         Hp:            30,
         InvMass:       1.0/2,
         Speed:         4,

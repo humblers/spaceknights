@@ -384,31 +384,32 @@ static func clone(data):
         to = data
     return to
 
+const CARD_THRESHOLD_TOP = 310
+const LOCATION_UI = 0
+const LOCATION_BASE = 1
+const LOCATION_BLUE = 2
+const LOCATION_RED = 3
+
+func get_location(pos):
+	if pos.y > global.MAP.height:
+		return LOCATION_UI
+	if pos.y < CARD_THRESHOLD_TOP:
+		return LOCATION_RED
+	return LOCATION_BLUE
+
 func is_spell_card(name):
-	if name == "moveknight":
-		return false
 	if CARDS[name].type == "spell":
 		return true
 	return false
 
 func is_unit_card(name):
-	if name == "moveknight":
-		return false
 	if CARDS[name].type in ["troop", "building"]:
 		return true
 	return false
 
-func get_my_knight():
-	for id in knights:
-		var node = knights[id]
-		if node.color == "blue":
-			return node
-
 func get_structures_of_unit(card):
 	var dict = dict_get(CARDS, card.Name, {})
 	var name = card.Name
-	if name == "moveknight":
-		name = get_my_knight().name
 	var offsets = [ Vector2(0, 0) ]
 	if dict.has("unitname"):
 		name = dict.unitname

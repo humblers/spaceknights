@@ -14,10 +14,6 @@ onready var body = get_node("Body")
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
 
-func _ready():
-	if color == "blue" and global.is_knight(name):
-		input.connect("mouse_dragged", self, "move")
-
 func _process(delta):
 	play_launch_effect(delta)
 
@@ -58,12 +54,11 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_input_event(ui, card):
-	get_node("Select").connect("input_event", ui, "card_input_event", [card])
+func set_input_event(ui):
+	get_node("Select").connect("input_event", ui, "ui_input_event", [false, self])
 
 func update_changes(unit):
 	set_position(get_position(unit))
-	emit_signal("position_changed", get_pos())
 	body.set_rot(get_rotation(unit))
 	set_target(unit)
 	update_hp(unit)
@@ -144,6 +139,7 @@ func set_launch_effect(unit):
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
 	hpnode.hide()
 	body.set_self_opacity(0.7)
+	set_process(true)
 
 func play_launch_effect(delta):
 	if not body.has_node("Launch"):
@@ -152,6 +148,7 @@ func play_launch_effect(delta):
 	if not launch_effect.is_finished(delta):
 		set_position(launch_effect.update_position(get_pos(), delta))
 		return
+	set_process(false)
 	launch_effect.queue_free()
 	hpnode.show()
 	body.set_self_opacity(1.0)
@@ -163,11 +160,6 @@ func transform_to_guide_node(pos):
 
 func release_lock_on_anim(node):
 	node.queue_free()
-
-func move(rel_pos):
-	tcp.send({
-		"Move" : { "X" : rel_pos.x, "Y": rel_pos.y },
-	})
 
 func _draw():
 	var unit = global.UNITS[name]

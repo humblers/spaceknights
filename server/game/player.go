@@ -60,48 +60,46 @@ func (player *Player) Update() {
 }
 
 func (player *Player) Move(input Input) {
-    offset := input.Position
+    glog.Infof("called. id(%v), pos(%v)", input.Move, input.Position)
     knight := player.Knight
+    knight.Destination = input.Position
     switch player.Team {
     case Home:
-        knight.Position = knight.Position.Plus(offset)
-        knight.Position = knight.Position.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
+        knight.Destination = knight.Destination.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
     case Visitor:
-        knight.Position = knight.Position.Minus(offset)
-        knight.Position = knight.Position.Clamp(0, MapWidth, 0, CenterY - TileHeight)
+        knight.Destination.X = MapWidth - knight.Destination.X
+        knight.Destination.Y = MapHeight - knight.Destination.Y
+        knight.Destination = knight.Destination.Clamp(0, MapWidth, 0, CenterY - TileHeight)
     }
 }
 
 func (player *Player) UseCard(input Input, game *Game) {
-    var card Card = "moveknight"
     index := input.Use - 1
-    if index < len(player.Hand) {
-        card = player.Hand[index]
+    if index >= len(player.Hand) {
+        glog.Errorf("invalid card index(%v)", index)
+        return
     }
+    card := player.Hand[index]
 
     if player.Energy < CostMap[card] {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
 
-    if card == "moveknight" && player.Knight.IsDead() {
-        return
+    player.Hand[index] = player.Pending[0]
+    for i := 1; i < len(player.Pending); i++ {
+        player.Pending[i - 1] = player.Pending[i]
     }
-    if card != "moveknight" {
-        next := player.Pending[0]
-
-        player.Hand[index] = next
-        for i := 1; i < len(player.Pending); i++ {
-            player.Pending[i - 1] = player.Pending[i]
-        }
-        player.Pending[len(player.Pending) - 1] = card
-    }
+    player.Pending[len(player.Pending) - 1] = card
 
     player.Energy = player.Energy - CostMap[card]
     game.Stats[player.Team].EnergyUsed += CostMap[card]
 
-    position := player.Knight.Position
-    game.AddToWaitingCards(card, position, player)
+    if player.Team == Visitor {
+        input.Position.X = MapWidth - input.Position.X
+        input.Position.Y = MapHeight - input.Position.Y
+    }
+    game.AddToWaitingCards(card, input.Position, player)
 }
 
 func (player *Player) IncreaseEnergy(amount int) {

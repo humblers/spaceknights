@@ -282,27 +282,31 @@ func (u *Unit) HasAttack() bool {
 }
 
 func (u *Unit) HandleAttack() {
-    if u.Game.Frame == u.HitFrame {
-        if u.WithinRange(u.Target) {
-            u.Target.TakeDamage(u.Damage, u)
-            if u.DamageRadius > 0 {
-                from := u
-                if u.DamageCenter == Target {
-                    from = u.Target
+    if u.Game.Frame != u.HitFrame {
+        return
+    }
+    if u.Type != Knight && u.WithinRange(u.Target) {
+        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+        u.Target.TakeDamage(u.Damage, u)
+        if u.DamageRadius > 0 {
+            from := u
+            if u.DamageCenter == Target {
+                from = u.Target
+            }
+            for _, unit := range u.Game.Units {
+                if u.Target == unit {
+                    continue
                 }
-                for _, unit := range u.Game.Units {
-                    if u.Target == unit {
-                        continue
-                    }
-                    if u.CanTarget(unit) && u.DamageRadius >= from.DistanceTo(unit) - unit.Radius {
-                        unit.TakeDamage(u.Damage, u)
-                    }
+                if u.CanTarget(unit) && u.DamageRadius >= from.DistanceTo(unit) - unit.Radius {
+                    unit.TakeDamage(u.Damage, u)
                 }
             }
         }
     }
-    if u.Type != Knight {
-        u.Heading = u.Target.Position.Minus(u.Position).Normalize()
+    if u.Type == Knight {
+        for _, target := range u.Targets {
+            target.TakeDamage(u.Damage, u)
+        }
     }
 }
 
@@ -390,6 +394,7 @@ func (u *Unit) HandleSpawn() {
         glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
         return
     }
+    u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
 }
 
 func (u *Unit) ScatterBullets() {
