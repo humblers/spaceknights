@@ -9,12 +9,6 @@ import (
     "github.com/golang/glog"
 )
 
-type User struct{
-    id string
-    knightName string
-    deck Cards
-}
-
 func main() {
     // for glog flag parsing
     flag.Parse()

@@ -398,30 +398,30 @@ func (u *Unit) HandleSpawn() {
 }
 
 func (u *Unit) ScatterBullets() {
-    var target *Unit
-    for _, player := range u.Game.Players {
-        if player.Team != u.Team && !player.Knight.IsDead() {
-            target = player.Knight
-            break
-        }
-    }
-    if target == nil {
-        glog.Infof("target knight not found. skip generate scatter bullets")
-        return
-    }
-    heading := target.Position.Minus(u.Position).Normalize()
-    var bulletVectors []Vector2
-    switch u.Size {
-    case Small:
-        bulletVectors = []Vector2{ heading }
-    case Medium, Large, XLarge:
-        bulletVectors = []Vector2{ heading.Rotate(30.0), heading, heading.Rotate(-30.0) }
-    }
-    for _, vector := range bulletVectors {
-        bullet := NewScatteredBullet(u.Team, u.Position)
-        u.Game.AddUnit(bullet)
-        bullet.Velocity = vector.Multiply(bullet.Speed)
-    }
+//    var target *Unit
+//    for _, player := range u.Game.Players {
+//        if player.Team != u.Team && !player.Knight.IsDead() {
+//            target = player.Knight
+//            break
+//        }
+//    }
+//    if target == nil {
+//        glog.Infof("target knight not found. skip generate scatter bullets")
+//        return
+//    }
+//    heading := target.Position.Minus(u.Position).Normalize()
+//    var bulletVectors []Vector2
+//    switch u.Size {
+//    case Small:
+//        bulletVectors = []Vector2{ heading }
+//    case Medium, Large, XLarge:
+//        bulletVectors = []Vector2{ heading.Rotate(30.0), heading, heading.Rotate(-30.0) }
+//    }
+//    for _, vector := range bulletVectors {
+//        bullet := NewScatteredBullet(u.Team, u.Position)
+//        u.Game.AddUnit(bullet)
+//        bullet.Velocity = vector.Multiply(bullet.Speed)
+//    }
 }
 
 func (u *Unit) Update() {

@@ -2,7 +2,7 @@ package main
 
 import "log"
 
-func NewKnight(t Team, name string) *Unit {
+func NewKnight(t Team, name string, pos_x float64) *Unit {
     var radius float64
     switch name {
     case "shuriken":
@@ -15,9 +15,9 @@ func NewKnight(t Team, name string) *Unit {
     var position Vector2
     switch t {
     case Home:
-        position = Vector2{ MapWidth / 2, MapHeight - TileHeight * 2 }
+        position = Vector2{ pos_x, MapHeight - TileHeight * 2 }
     case Visitor:
-        position = Vector2{ MapWidth / 2, TileHeight * 2 }
+        position = Vector2{ pos_x, TileHeight * 2 }
     }
     return &Unit{
         Team:           t,
@@ -40,4 +40,23 @@ func NewKnight(t Team, name string) *Unit {
         Position:       position,
         Destination:    position,
     }
+}
+
+func NewKnights(t Team, names []string) []*Unit {
+    var knights []*Unit
+    for idx, name := range names {
+        var pos_x float64
+        switch idx {
+        case 0:
+            pos_x = 70.0
+        case 1:
+            pos_x = MapWidth / 2
+        case 2:
+            pos_x = 330.0
+        default:
+            log.Panicf("too many knights(%v)", len(names))
+        }
+        knights = append(knights, NewKnight(t, name, pos_x))
+    }
+    return knights
 }

@@ -13,7 +13,7 @@ type Player struct {
     Team Team
     Hand Cards
     Pending Cards `json:"-"`
-    Knight *Unit `json:"-"`
+    Knights []*Unit `json:"-"`
     Energy int
     Movements []*Movement `json:"-"`
 }
@@ -34,13 +34,13 @@ func (players Players) Filter(f func(*Player) bool) Players {
     return filtered
 }
 
-func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
+func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
     deck.Shuffle()
     return &Player{
         Team: team,
         Hand: deck[:HandSize],
         Pending: deck[HandSize:],
-        Knight: knight,
+        Knights: knights,
     }
 }
 
@@ -60,16 +60,21 @@ func (player *Player) Update() {
 }
 
 func (player *Player) Move(input Input) {
-    knight := player.Knight
-    knight.Destination = input.Position
-    switch player.Team {
-    case Home:
-        knight.Destination = knight.Destination.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
-    case Visitor:
-        knight.Destination.X = MapWidth - knight.Destination.X
-        knight.Destination.Y = MapHeight - knight.Destination.Y
-        knight.Destination = knight.Destination.Clamp(0, MapWidth, 0, CenterY - TileHeight)
+    for _, knight := range player.Knights {
+        if knight.Id != input.Move {
+            continue
+        }
+        knight.Destination = input.Position
+        switch player.Team {
+        case Home:
+            knight.Destination = knight.Destination.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
+        case Visitor:
+            knight.Destination.X = MapWidth - knight.Destination.X
+            knight.Destination.Y = MapHeight - knight.Destination.Y
+            knight.Destination = knight.Destination.Clamp(0, MapWidth, 0, CenterY - TileHeight)
+        }
     }
+
 }
 
 func (player *Player) UseCard(input Input, game *Game) {

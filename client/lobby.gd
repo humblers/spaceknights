@@ -13,6 +13,11 @@ onready var find_match = get_node("Match/Find")
 onready var cancel_match = get_node("Match/Cancel")
 onready var waiting_match = get_node("Match/Waiting")
 onready var shuffle_deck = get_node("Deck/Shuffle")
+onready var knights = [
+	get_node("Knights/VBoxContainer/Left"),
+	get_node("Knights/VBoxContainer/Center"),
+	get_node("Knights/VBoxContainer/Right"),
+]
 
 func _ready():
 	http_lobby.connect("login_response", self, "_login_response")
@@ -25,6 +30,11 @@ func _ready():
 	find_match.connect("pressed", self, "match_candidacy")
 	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
+	var knight_names = ["shuriken", "space_z"]
+	for knight in knights:
+		for name in knight_names:
+			knight.add_item(name)
+		knight.select(randi() % knight_names.size())
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
@@ -73,7 +83,10 @@ func handle_match_buttons():
 func match_candidacy():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/candidacy",
-			{"deck":deck},
+			{
+				"deck":deck,
+				"knights": get_selected_knights(),
+			},
 			"candidacy_response")
 
 func find_game(handle_button=true):
@@ -103,6 +116,12 @@ func shuffle_deck():
 		var label = Label.new()
 		label.set_text(card)
 		get_node("Deck/Container").add_child(label)
+
+func get_selected_knights():
+	var selects = []
+	for knight in knights:
+		selects.append(knight.get_item_text(knight.get_selected()))
+	return selects
 
 func _login_response(success, dict):
 	if not success:

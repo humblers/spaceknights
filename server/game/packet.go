@@ -37,12 +37,12 @@ type LobbyRequest struct {
     SessionId   string
     Home struct {
         UserId  string
-        Knight  string
+        Knights []string
         Deck    Cards
     }
     Visitor struct {
         UserId  string
-        Knight  string
+        Knights []string
         Deck    Cards
     }
     DoNotCreate bool

@@ -127,8 +127,13 @@ func NewGame() *Game {
 func (game *Game) Score(team Team) int {
     score := 0
     for _, player := range game.Players {
-        if player.Team == team && !player.Knight.IsDead() {
-            score += 1
+        if player.Team != team {
+            continue
+        }
+        for _, knight := range player.Knights {
+            if !knight.IsDead() {
+                score += 1
+            }
         }
     }
     return score
@@ -159,10 +164,12 @@ func (game *Game) GetWinner() Team {
 }
 
 func (g *Game) Join(team Team, user User) {
-    knight := NewKnight(team, user.knightName)
-    player := NewPlayer(team, user.deck, knight)
+    knights := NewKnights(team, user.knights)
+    player := NewPlayer(team, user.deck, knights)
     g.Players[user.id] = player
-    g.AddUnit(knight)
+    for _, knight := range knights {
+        g.AddUnit(knight)
+    }
 }
 
 func (g *Game) AddUnit(unit *Unit) {
