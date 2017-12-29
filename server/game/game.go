@@ -189,8 +189,8 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, player *Player) {
-    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, player.Knight.Position, g.Frame)
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
+    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, pos, g.Frame)
     count := waiting.GetUnitCount()
     g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
@@ -311,7 +311,6 @@ func (game *Game) update() (gameover bool) {
     }
     game.ActivateWaitingCards()
     for _, unit := range game.Units {
-        glog.Infof("unit(%v)", unit)
         unit.Update()
     }
     game.RemoveDeadUnits()

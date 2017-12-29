@@ -97,7 +97,7 @@ type Unit struct {
     Heading      Vector2
     Velocity     Vector2 `json:"-"`
     Target       *Unit   `json:"-"`
-    Targets      Units
+    Targets      []*Unit
     HitFrame     int     `json:"-"`
     SpawnFrame   int     `json:"-"`
     SpawnStack   int     `json:"-"`
