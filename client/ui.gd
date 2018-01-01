@@ -93,30 +93,41 @@ func use_card(pos=Vector2(0, 0)):
 	toggle_card_focus(selected_card, false)
 
 func press(is_card, node):
-	if is_card:
-		toggle_card_focus(node, true)
-		var card = {
-			"Name" : hand[get_selected_card_id() - 1],
-			"Team" : "",
-			"Position" : { "X" : 0, "Y" : 0, },
-		}
-		for unit in global.get_structures_of_unit(card):
-			add_unit_to_guide(unit)
+	if not is_card:
+		add_unit_to_guide({"Name":node.name, "Position":{"X":0, "Y":0}})
 		return
-	add_unit_to_guide({"Name":node.name, "Position":{"X":0, "Y":0}})
+
+	toggle_card_focus(node, true)
+	var name = hand[get_selected_card_id() - 1]
+	if global.is_spell_card(name):
+		add_spell_to_guide(name)
+		return
+
+	var card = {
+		"Name" : name,
+		"Team" : "",
+		"Position" : { "X" : 0, "Y" : 0, },
+	}
+	for unit in global.get_structures_of_unit(card):
+		add_unit_to_guide(unit)
 
 func release(is_card, node):
 	var pos = guide.get_pos()
 	release_guide()
-	if global.get_location(pos) != global.LOCATION_BLUE:
+	if not is_card:
+		tcp.send({
+			"Move" : int(node.get_name()),
+			"Position" : { "X" : pos.x, "Y" : pos.y, },
+		})
 		return
-	if is_card:
-		use_card(pos)
-		return
-	tcp.send({
-		"Move" : int(node.get_name()),
-		"Position" : { "X" : pos.x, "Y" : pos.y, },
-	})
+	var name = hand[get_selected_card_id() - 1]
+	var location = global.get_location(pos)
+	if location != global.LOCATION_BLUE:
+		if not global.is_spell_card(name):
+			return
+		if location != global.LOCATION_RED:
+			return
+	use_card(pos)
 
 func ui_input_event(event, is_card, node):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -127,6 +138,11 @@ func ui_input_event(event, is_card, node):
 	if event.type == InputEvent.MOUSE_MOTION:
 		update_guide_position(event.global_pos)
 
+func add_spell_to_guide(name):
+	var node = resource.effect.spell_indicator.instance()
+	node.initialize(name)
+	guide.add_child(node)
+	
 func add_unit_to_guide(unit):
 	var name = unit.Name
 	var node = resource.unit[name].instance()
@@ -138,7 +154,9 @@ func add_unit_to_guide(unit):
 func update_guide_position(pos):
 	var location = global.get_location(pos)
 	if location == global.LOCATION_RED:
-		pos.y = global.CARD_THRESHOLD_TOP
+		var selected = get_selected_card_id()
+		if selected <= 0 or not global.is_spell_card(hand[selected - 1]):
+			pos.y = global.CARD_THRESHOLD_TOP
 	guide.set_pos(pos)
 	guide.hide() if location in [global.LOCATION_UI, global.LOCATION_BASE] else guide.show()
 

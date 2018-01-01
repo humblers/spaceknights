@@ -17,21 +17,11 @@ type WaitingCard struct {
     ActivateFrame   int
 }
 
-func NewWaitingCard(id int, team Team, card Card, knightPos Vector2, gameFrame int) *WaitingCard {
-    offset := Vector2{0, 0}
-    switch card {
-    case "fireball":
-        offset.Y = 200.0
-    case "laser":
-        offset.Y = 150.0
-    }
-    if team == Home {
-        offset = offset.FlipY()
-    }
+func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int) *WaitingCard {
     return &WaitingCard{
         Name: card,
         Team: team,
-        Position: knightPos.Plus(offset),
+        Position: pos,
         IdStarting: id,
         ActivateFrame: gameFrame + ActivateAfter,
     }
