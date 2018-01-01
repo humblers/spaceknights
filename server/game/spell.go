@@ -75,7 +75,7 @@ func NewLaser(id int, team Team, pos Vector2) *Spell {
         Name:       "laser",
         Damage:     10,
         Range:      150,
-        Radius:     15,
+        Radius:     30,
         Duration:   50,
         Id:         id,
         Position:   pos,
@@ -86,7 +86,7 @@ func NewFireball(id int, team Team, pos Vector2) *Spell {
     return &Spell{
         Team:       team,
         Name:       "fireball",
-        Damage:     500,
+        Damage:     350,
         Radius:     50,
         Id:         id,
         Position:   pos,
