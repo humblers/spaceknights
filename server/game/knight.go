@@ -11,12 +11,12 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
     case "shuriken":
         prehitdelay = 3
         posthitdelay = 0
-        radius = 9
-        damage = 30
+        radius = 10
+        damage = 60
     case "space_z":
         prehitdelay = 10
         posthitdelay = 19
-        radius = 12
+        radius = 10
         damage = 200
     default:
         log.Panicf("unknown knight name: %v", name)
