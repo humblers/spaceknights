@@ -97,7 +97,7 @@ const UNITS = {
 	},
 	"giant" : {
 		"layer" : "Ground",
-		"hp" : 2-00,
+		"hp" : 2000,
 		"radius" : 28,
 		"sight" : 150,
 		"range" : 15,
