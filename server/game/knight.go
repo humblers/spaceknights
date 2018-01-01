@@ -3,12 +3,21 @@ package main
 import "log"
 
 func NewKnight(t Team, name string, pos_x float64) *Unit {
+    var prehitdelay int
+    var posthitdelay int
     var radius float64
+    var damage int
     switch name {
     case "shuriken":
+        prehitdelay = 3
+        posthitdelay = 0
         radius = 9
+        damage = 30
     case "space_z":
+        prehitdelay = 10
+        posthitdelay = 19
         radius = 12
+        damage = 200
     default:
         log.Panicf("unknown knight name: %v", name)
     }
@@ -28,11 +37,11 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
         TargetTypes:    Types{Troop, Building},
         Hp:             1000,
         Speed:          6,
-        PreHitDelay:    10,
-        PostHitDelay:   20,
+        PreHitDelay:    prehitdelay,
+        PostHitDelay:   posthitdelay,
         Radius:         radius,
         Range:          80,
-        Damage:         200,
+        Damage:         damage,
         SpawnThing:     "knightbullet",
         SpawnSpeed:     15,
         RepairDelay:    15,

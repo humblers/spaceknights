@@ -114,7 +114,7 @@ func (u *Unit) String() string {
 func (u *Unit) MarshalJSON() ([]byte, error) {
     type Alias Unit
     var data interface{}
-    if u.Type == Knight {
+    if len(u.Targets) > 0 {
         var targetIds []int
         if len(u.Targets) > 0 {
             for _, target := range u.Targets {
@@ -285,7 +285,7 @@ func (u *Unit) HandleAttack() {
     if u.Game.Frame != u.HitFrame {
         return
     }
-    if u.Type != Knight && u.WithinRange(u.Target) {
+    if u.Target != nil && u.WithinRange(u.Target) {
         u.Heading = u.Target.Position.Minus(u.Position).Normalize()
         u.Target.TakeDamage(u.Damage, u)
         if u.DamageRadius > 0 {
@@ -303,7 +303,7 @@ func (u *Unit) HandleAttack() {
             }
         }
     }
-    if u.Type == Knight {
+    if len(u.Targets) > 0 {
         for _, target := range u.Targets {
             target.TakeDamage(u.Damage, u)
         }
@@ -482,23 +482,36 @@ func (u *Unit) Update() {
         }
         u.HandleSpawn()
     case Knight:
-        if u.IsAttacking() {
-            u.HandleAttack()
-        } else {
-            u.Targets = u.Targets[:0]
-            for _, other := range u.Game.Units {
-                if u.CanTarget(other) && u.WithinRange(other) {
-                    u.Targets = append(u.Targets, other)
-                    if len(u.Targets) >= 5 {
-                        break
+        if u.Position == u.Destination {
+            if u.IsAttacking() {
+                u.HandleAttack()
+            } else {
+                switch u.Name {
+                case "shuriken":
+                    var filter = func(other *Unit) bool {
+                        return u.WithinRange(other)
+                    }
+                    u.Target = u.FindNearestTarget(filter)
+                    if u.Target != nil {
+                        u.StartAttack()
+                    }
+                case "space_z":
+                    u.Targets = u.Targets[:0]
+                    for _, other := range u.Game.Units {
+                        if u.CanTarget(other) && u.WithinRange(other) {
+                            u.Targets = append(u.Targets, other)
+                            if len(u.Targets) >= 5 {
+                                break
+                            }
+                        }
+                    }
+                    if len(u.Targets) > 0 {
+                        u.StartAttack()
                     }
                 }
             }
-            if len(u.Targets) > 0 {
-                u.StartAttack()
-            }
         }
-        u.HandleSpawn()
+        //u.HandleSpawn()
         u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
         if u.IsOutOfScreen() {

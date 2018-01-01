@@ -121,11 +121,11 @@ const UNITS = {
 	"shuriken" : {
 		"layer" : "Air",
 		"hp" : 500,
-		"prehitdelay" : 10,
+		"prehitdelay" : 3,
 		"radius" : 20,
 		"sight" : 140,
 		"range" : 80,
-		"projectile" : "knight_missile",
+		"projectile" : "bullet",
 	},
 	"space_z" : {
 		"layer" : "Air",

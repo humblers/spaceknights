@@ -64,6 +64,9 @@ func (player *Player) Move(input Input) {
         if knight.Id != input.Move {
             continue
         }
+        if knight.Position != knight.Destination {
+            continue
+        }
         knight.Destination = input.Position
         switch player.Team {
         case Home:
