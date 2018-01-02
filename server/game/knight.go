@@ -12,12 +12,12 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
         prehitdelay = 3
         posthitdelay = 0
         radius = 10
-        damage = 60
+        damage = 30
     case "space_z":
         prehitdelay = 10
         posthitdelay = 19
         radius = 10
-        damage = 200
+        damage = 100
     default:
         log.Panicf("unknown knight name: %v", name)
     }
@@ -36,7 +36,7 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
         TargetLayers:   Layers{Air, Ground},
         TargetTypes:    Types{Troop, Building},
         Hp:             2000,
-        Speed:          0.6,
+        Speed:          1.2,
         PreHitDelay:    prehitdelay,
         PostHitDelay:   posthitdelay,
         Radius:         radius,

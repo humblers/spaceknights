@@ -9,7 +9,7 @@ import (
 )
 
 const (
-    PlayTime = time.Minute * 3
+    PlayTime = time.Minute * 4
     FrameInterval = time.Millisecond * 100
 )
 
@@ -314,7 +314,7 @@ func (game *Game) update() (gameover bool) {
     game.Frame++
     game.ActivateWaitingCards()
     for _, player := range game.Players {
-        player.Update()
+        player.Update(game)
     }
     game.ActivateWaitingCards()
     for _, unit := range game.Units {

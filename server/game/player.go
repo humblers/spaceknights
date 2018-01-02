@@ -55,8 +55,12 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) Update() {
-    player.IncreaseEnergy(EnergyPerFrame)
+func (player *Player) Update(game *Game) {
+    energy := EnergyPerFrame
+    if game.Frame > int(PlayTime / 4 * 3 / FrameInterval) {
+        energy *= 2
+    }
+    player.IncreaseEnergy(energy)
 }
 
 func (player *Player) Move(input Input) {

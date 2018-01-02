@@ -482,6 +482,7 @@ func (u *Unit) Update() {
         }
         u.HandleSpawn()
     case Knight:
+        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
         if u.Position == u.Destination {
             if u.IsAttacking() {
                 u.HandleAttack()
@@ -511,8 +512,16 @@ func (u *Unit) Update() {
                 }
             }
         }
+        if u.Velocity.Length() == 0 {
+            if u.Team == Home {
+                u.Heading = Vector2{0, -1}
+            } else {
+                u.Heading = Vector2{0, 1}
+            }
+        } else {
+            u.Heading = u.Velocity
+        }
         //u.HandleSpawn()
-        u.Velocity = u.Destination.Minus(u.Position).Truncate(u.Speed)
     case Bullet:
         if u.IsOutOfScreen() {
             u.SelfRemove()

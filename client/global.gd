@@ -126,6 +126,7 @@ const UNITS = {
 		"sight" : 80,
 		"range" : 80,
 		"projectile" : "bullet",
+		"size" : "large",
 	},
 	"space_z" : {
 		"layer" : "Air",
@@ -135,6 +136,7 @@ const UNITS = {
 		"sight" : 80,
 		"range" : 80,
 		"projectile" : "knight_missile",
+		"size" : "large",
 	},
 	"megaminion" : {
 		"layer" : "Air",
