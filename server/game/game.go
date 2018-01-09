@@ -85,6 +85,7 @@ type Game struct {
     Result        *Result            `json:",omitempty"`
     Winner        Team               `json:"-"`
     Stats         map[Team]*Stat     `json:"-"`
+    Motherships   map[Team][]*Unit   `json:"-"`
 }
 
 type Result struct {
@@ -118,6 +119,15 @@ func NewGame() *Game {
         Players:       make(map[string]*Player),
         ObjectCounter: 1,
         Stats:         make(map[Team]*Stat),
+        Motherships:   make(map[Team][]*Unit),
+    }
+    g.Motherships[Home] = NewMothership(Home)
+    g.Motherships[Visitor] = NewMothership(Visitor)
+    for _, u := range g.Motherships[Home] {
+        g.AddUnit(u)
+    }
+    for _, u := range g.Motherships[Visitor] {
+        g.AddUnit(u)
     }
     g.Stats[Home] = &Stat{}
     g.Stats[Visitor] = &Stat{}
@@ -126,14 +136,15 @@ func NewGame() *Game {
 
 func (game *Game) Score(team Team) int {
     score := 0
-    for _, player := range game.Players {
-        if player.Team != team {
+    for _, unit := range game.Motherships[team] {
+        if unit.IsDead() {
             continue
         }
-        for _, knight := range player.Knights {
-            if !knight.IsDead() {
-                score += 1
-            }
+        switch unit.Name {
+        case "maincore":
+            score += MaincoreScore
+        case "subcore":
+            score += SubcoreScore
         }
     }
     return score
