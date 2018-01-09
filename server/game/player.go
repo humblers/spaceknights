@@ -7,7 +7,7 @@ import (
 
 const MaxEnergy = 10000
 const EnergyPerFrame = 55
-const HandSize = 3
+const HandSize = 4
 
 type Player struct {
     Team Team

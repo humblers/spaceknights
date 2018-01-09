@@ -3,6 +3,7 @@ extends Node
 onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
+onready var card4 = get_node("Card4")
 onready var guide = get_node("CardGuide")
 onready var result = get_node("Result")
 
@@ -14,6 +15,7 @@ func connect_ui_signals():
 	card1.connect("input_event", self, "ui_input_event", [true, card1])
 	card2.connect("input_event", self, "ui_input_event", [true, card2])
 	card3.connect("input_event", self, "ui_input_event", [true, card3])
+	card4.connect("input_event", self, "ui_input_event", [true, card4])
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
@@ -69,7 +71,7 @@ func get_selected_card_id():
 	return int(selected_card.get_name().right(1))
 
 func update_card_texture(player):
-	for i in range(1, 4):
+	for i in range(1, 5):
 		var node = get_node("Card" + str(i))
 		var card = hand[i - 1]
 		var postfix = "off"
