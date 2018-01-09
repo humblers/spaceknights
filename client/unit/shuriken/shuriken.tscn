@@ -1,45 +1,40 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/shuriken/red.png" type="Texture" id=2]
-[ext_resource path="res://unit/shuriken/blue.png" type="Texture" id=3]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/shuriken/blue_attack01.png" type="Texture" id=2]
+[ext_resource path="res://unit/shuriken/blue_attack02.png" type="Texture" id=3]
+[ext_resource path="res://unit/shuriken/red_attack01.png" type="Texture" id=4]
+[ext_resource path="res://unit/shuriken/red_attack02.png" type="Texture" id=5]
+[ext_resource path="res://unit/shuriken/blue_idle.png" type="Texture" id=6]
+[ext_resource path="res://unit/shuriken/red_idle.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
-"name": "red_idle",
+"name": "blue_attack",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "red_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "blue_idle",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "red_idle",
+"speed": 5.0
 } ]
-
-[sub_resource type="GDScript" id=2]
-
-script/source = "extends Node2D
-
-onready var timer = Timer.new()
-
-func _ready():
-	timer.set_one_shot(true)
-	timer.connect(\"timeout\", self, \"hide_bubble\")
-	timer.set_wait_time(0.9)
-	add_child(timer)
-
-func show_bubble():
-	show()
-	timer.start()
-
-func hide_bubble():
-	hide()"
 
 [node name="shuriken" type="Node2D"]
 
@@ -55,38 +50,13 @@ animation = "blue_idle"
 
 transform/pos = Vector2( 0.5, 20 )
 
-[node name="bubble" type="Node2D" parent="Body"]
-
-editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( 12.0035, 11.9769 )
-transform/rot = 180.0
-script/script = SubResource( 2 )
-
-[node name="Label" type="Label" parent="Body/bubble"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 10.0
-margin/top = -20.0
-margin/right = 72.0
-margin/bottom = -6.0
-text = "roger that"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
 [node name="Hp" type="Position2D" parent="."]
-
-editor/display_folded = true
 
 [node name="blue" type="TextureProgress" parent="Hp"]
 
 visibility/visible = false
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = -30.0
@@ -101,8 +71,8 @@ range/value = 100.0
 range/exp_edit = false
 range/rounded = false
 texture/under = null
-texture/over = ExtResource( 4 )
-texture/progress = ExtResource( 5 )
+texture/over = ExtResource( 8 )
+texture/progress = ExtResource( 9 )
 radial_fill/fill_degrees = 360.0
 radial_fill/center_offset = Vector2( 0, 0 )
 
@@ -110,7 +80,7 @@ radial_fill/center_offset = Vector2( 0, 0 )
 
 visibility/visible = false
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = -30.0
@@ -125,25 +95,13 @@ range/value = 100.0
 range/exp_edit = false
 range/rounded = false
 texture/under = null
-texture/over = ExtResource( 6 )
-texture/progress = ExtResource( 7 )
+texture/over = ExtResource( 10 )
+texture/progress = ExtResource( 11 )
 radial_fill/fill_degrees = 360.0
 radial_fill/center_offset = Vector2( 0, 0 )
 
-[node name="Select" type="TextureButton" parent="."]
+[node name="Shield" type="Sprite" parent="."]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -20.0
-margin/top = -20.0
-margin/right = 20.0
-margin/bottom = 20.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-params/resize_mode = 0
-params/stretch_mode = 0
+visibility/visible = false
 
 
