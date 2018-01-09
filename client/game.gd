@@ -33,8 +33,6 @@ func delete_dead_units(units):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
-			if node.name in ["shuriken", "space_z"]:
-				global.knights.erase(node.get_name())
 			node.queue_free()
 
 func create_new_units(units):
@@ -61,10 +59,6 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
-	if unit.Name in ["shuriken", "space_z"]:
-		global.knights[str(unit.Id)] = node
-		if unit.Team == global.team:
-			node.set_input_event(get_node("UI"))
 
 func create_new_spells(spells):
 	for id in spells:

@@ -30,7 +30,7 @@ func _ready():
 	find_match.connect("pressed", self, "match_candidacy")
 	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
-	var knight_names = ["shuriken", "space_z"]
+	var knight_names = ["shuriken", "space_z", "freezer"]
 	for knight in knights:
 		for name in knight_names:
 			knight.add_item(name)

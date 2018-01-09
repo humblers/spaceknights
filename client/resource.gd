@@ -11,6 +11,7 @@ var unit = {
 	"bombtower": preload("res://unit/bombtower/bombtower.tscn"),
 	"cannon": preload("res://unit/cannon/cannon.tscn"),
 	"darkprince": preload("res://unit/darkprince/darkprince.tscn"),
+	"freezer": preload("res://unit/freezer/freezer.tscn"),
 	"giant": preload("res://unit/giant/giant.tscn"),
 	"goblinhut": preload("res://unit/goblinhut/goblinhut.tscn"),
 	"knightbullet": preload("res://unit/knightbullet/knightbullet.tscn"),

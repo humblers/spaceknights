@@ -95,6 +95,16 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
+	"freezer" : {
+		"layer" : "Air",
+		"hp" : 2000,
+		"prehitdelay" : 3,
+		"radius" : 10,
+		"sight" : 80,
+		"range" : 80,
+		"projectile" : "bullet",
+		"size" : "large",
+	},
 	"giant" : {
 		"layer" : "Ground",
 		"hp" : 2000,

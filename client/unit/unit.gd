@@ -54,9 +54,6 @@ func set_damage_effect():
 	damage_effect.set_wait_time(0.15)
 	add_child(damage_effect)
 
-func set_input_event(ui):
-	get_node("Select").connect("input_event", ui, "ui_input_event", [false, self])
-
 func update_changes(unit):
 	set_position(get_position(unit))
 	body.set_rot(get_rotation(unit))
