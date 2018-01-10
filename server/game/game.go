@@ -279,6 +279,8 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
     case "laser":
         g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Position))
+    case "freeze":
+        g.AddSpell(NewFreeze(card.IdStarting, card.Team, card.Position))
     case "moveknight", "shoot":
         glog.Errorf("unexpected card name : %v", card.Name) 
     default:

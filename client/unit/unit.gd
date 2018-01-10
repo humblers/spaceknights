@@ -67,7 +67,12 @@ func update_changes(unit):
 					target,
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
-	body.play("%s_%s" % [color, unit.State])
+	if unit.State == "frozen":
+		body.stop()
+		body.set_modulate(Color(3.0, 3.0, 3.0))
+	else:
+		body.set_modulate(Color(1.0, 1.0, 1.0))
+		body.play("%s_%s" % [color, unit.State])
 
 func update_hp(unit):
 	if unit.Hp <= 0:

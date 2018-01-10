@@ -70,6 +70,7 @@ var CostMap = map[Card]int{
 
     "fireball": 4000,
     "laser": 5000,
+    "freeze": 4000,
 
     "moveknight": 0,
 }

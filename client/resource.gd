@@ -35,6 +35,7 @@ var unit = {
 var spell = {
 	"laser": preload("res://spell/laser.tscn"),
 	"fireball": preload("res://spell/fireball.tscn"),
+	"freeze": preload("res://spell/freeze/freeze.tscn"),
 }
 
 var projectile = {
@@ -297,6 +298,17 @@ var icon = {
 			"pressed" : preload("res://icon/fireball_off.png"),
 		},
 		"small": preload("res://icon/fireball_small.png"),
+	},
+	"freeze" : {
+		"on": {
+			"normal" : preload("res://icon/freeze_on.png"),
+			"pressed" : preload("res://icon/freeze_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/freeze_off.png"),
+			"pressed" : preload("res://icon/freeze_off_pressed.png"),
+		},
+		"small": preload("res://icon/freeze_small.png"),
 	},
 	"laser" : {
 		"on": {

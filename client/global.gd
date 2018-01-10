@@ -363,6 +363,13 @@ const CARDS = {
 		"radius" : 15.0,
 		"shape" : "linear",
 	},
+	"freeze" : {
+		"type" : "spell",
+		"cost" : 4000,
+		"range" : 200,
+		"radius" : 50.0,
+		"shape" : "circular",
+	},
 }
 
 func _ready():

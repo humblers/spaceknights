@@ -12,6 +12,7 @@ const (
     Idle        State = "idle"
     Attack      State = "attack"
     Move        State = "move"
+    Frozen     State = "frozen"
 )
 
 type Size string
@@ -87,6 +88,7 @@ type Unit struct {
     SpawnThing   string  `json:"-"`
     SpawnSpeed   int     `json:"-"`
     RepairDelay  int     `json:"-"`
+    FrozenUntil int     `json:"-"`
 
     // variant
     Id           int
@@ -142,6 +144,19 @@ func (u *Unit) MarshalJSON() ([]byte, error) {
         }
     }
     return json.Marshal(data)
+}
+
+func (u *Unit) Freeze(duration int) {
+    u.State = Frozen
+    u.FrozenUntil = u.Game.Frame + duration
+    u.CancelAttack()
+}
+
+func (u *Unit) IsFrozen() bool {
+    if u.FrozenUntil > u.Game.Frame {
+        return true
+    }
+    return false
 }
 
 func (u *Unit) IsCore() bool {
@@ -275,6 +290,10 @@ func (u *Unit) IsAttacking() bool {
     return u.HitFrame > 0 &&
             u.Game.Frame >= u.HitFrame - u.PreHitDelay &&
             u.Game.Frame <= u.HitFrame + u.PostHitDelay
+}
+
+func (u *Unit) CancelAttack() {
+    u.HitFrame = 0
 }
 
 func (u *Unit) HasAttack() bool {
@@ -432,6 +451,9 @@ func (u *Unit) Update() {
         if u.IsAttacking() {
             u.HandleAttack()
         } else {
+            if u.IsFrozen() {
+                return
+            }
             if !u.HasTarget() || !u.WithinRange(u.Target) {
                 var filter = func (other *Unit) bool {
                     return u.CanSee(other) || other.Type == Knight

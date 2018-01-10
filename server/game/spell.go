@@ -5,6 +5,8 @@ import (
     "math"
 )
 
+const FreezeDuration = 50
+
 type Spell struct {
     // invariant
     Team        Team
@@ -41,6 +43,7 @@ func (s *Spell) Update() {
         return
     }
     s.Duration--
+
     var filter func(unit *Unit) bool
     switch s.Name {
     case "laser":
@@ -56,6 +59,9 @@ func (s *Spell) Update() {
             }
             return true
         }
+        s.AffectToUnits(filter, func (unit *Unit) {
+            unit.TakeDamage(s.Damage, nil)
+        })
     case "fireball":
         filter = func (unit *Unit) bool {
             if s.Position.Minus(unit.Position).Length() > s.Radius + unit.Radius {
@@ -63,10 +69,24 @@ func (s *Spell) Update() {
             }
             return true
         }
+        s.AffectToUnits(filter, func (unit *Unit) {
+            unit.TakeDamage(s.Damage, nil)
+        })
+    case "freeze":
+        if s.Duration == FreezeDuration - 1 {
+            filter = func (unit *Unit) bool {
+                if unit.Type == Troop || unit.Type == Building {
+                    if s.Position.Minus(unit.Position).Length() < s.Radius + unit.Radius {
+                        return true
+                    }
+                }
+                return false
+            }
+            s.AffectToUnits(filter, func (unit *Unit) {
+                unit.Freeze(FreezeDuration)
+            })
+        }
     }
-    s.AffectToUnits(filter, func (unit *Unit) {
-        unit.TakeDamage(s.Damage, nil)
-    })
 }
 
 func NewLaser(id int, team Team, pos Vector2) *Spell {
@@ -88,6 +108,17 @@ func NewFireball(id int, team Team, pos Vector2) *Spell {
         Name:       "fireball",
         Damage:     350,
         Radius:     50,
+        Id:         id,
+        Position:   pos,
+    }
+}
+
+func NewFreeze(id int, team Team, pos Vector2) *Spell {
+    return &Spell{
+        Team:       team,
+        Name:       "freeze",
+        Radius:     50,
+        Duration:   FreezeDuration,
         Id:         id,
         Position:   pos,
     }
