@@ -1,0 +1,31 @@
+[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "uniform bool damaged = false;
+uniform bool frozen = false;
+if (frozen) {
+	if (sin(TIME * 10) > 0) {
+		COLOR = COLOR * 3;
+	} else {
+		COLOR = COLOR * 2.7;
+	}
+};
+if (damaged) {
+	COLOR.r = tex(TEXTURE, UV).r + 0.3;
+};",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[resource]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+shader_param/damaged = false
+shader_param/frozen = false
+

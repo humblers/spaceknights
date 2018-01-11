@@ -14,6 +14,9 @@ onready var body = get_node("Body")
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
 
+func _ready():
+	body.set_material(resource.unit_material.duplicate())
+
 func _process(delta):
 	play_launch_effect(delta)
 
@@ -69,9 +72,9 @@ func update_changes(unit):
 					get_node("Body/Shotpoint").get_global_pos())
 	if unit.State == "frozen":
 		body.stop()
-		body.set_modulate(Color(3.0, 3.0, 3.0))
+		body.get_material().set_shader_param("frozen", true)
 	else:
-		body.set_modulate(Color(1.0, 1.0, 1.0))
+		body.get_material().set_shader_param("frozen", false)
 		body.play("%s_%s" % [color, unit.State])
 
 func update_hp(unit):
@@ -118,11 +121,11 @@ func show_speech_bubble():
 	get_node("Body/bubble").show_bubble()
 
 func show_damage_effect():
-	body.set_modulate(Color(1.0, 0.4, 0.4))
+	body.get_material().set_shader_param("damaged", true)
 	damage_effect.start()
 
 func hide_damage_effect():
-	body.set_modulate(Color(1.0, 1.0, 1.0))
+	body.get_material().set_shader_param("damaged", false)
 
 func set_launch_effect(unit):
 	var launch_effect = resource.effect.launch.instance()
