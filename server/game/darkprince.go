@@ -8,7 +8,7 @@ func NewDarkprince(id int, t Team, pos Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
-        Hp:            920,
+        Hp:            1243,
         InvMass:       1.0/8,
         Speed:         3,
         PreHitDelay:   3,
@@ -16,7 +16,8 @@ func NewDarkprince(id int, t Team, pos Vector2) *Unit {
         Radius:        13,
         Sight:         100,
         Range:         15,
-        Damage:        75,
+        Damage:        206,
+        DamageRadius:  30,
         Id:            id,
         Position:      pos,
     }

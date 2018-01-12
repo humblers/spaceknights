@@ -11,7 +11,7 @@ func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
-        Hp:            300,
+        Hp:            636,
         InvMass:       1.0/8,
         Speed:         3,
         PreHitDelay:   3,
@@ -20,7 +20,7 @@ func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Size:          Small,
         Sight:         100,
         Range:         15,
-        Damage:        75,
+        Damage:        159,
         Id:            id,
         Position:      pos.Plus(offset.Multiply(11)),
     }
