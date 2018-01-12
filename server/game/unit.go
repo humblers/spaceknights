@@ -570,7 +570,7 @@ func (u *Unit) IsOutOfRange() bool {
     if u.Team == Home {
         pos_y = MapHeight - pos_y
     }
-    if pos_y > KnightOffsetY + KnightBulletRange {
+    if pos_y > CenterY {
         return true
     }
     return false
