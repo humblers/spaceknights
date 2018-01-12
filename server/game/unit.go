@@ -488,6 +488,9 @@ func (u *Unit) Update() {
             if u.IsAttacking() {
                 u.HandleAttack()
             } else {
+                if u.IsFrozen() {
+                    return
+                }
                 if !u.HasTarget() || !u.WithinRange(u.Target) {
                     var filter = func(other *Unit) bool {
                         return u.WithinRange(other)
