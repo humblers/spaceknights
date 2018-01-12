@@ -154,9 +154,9 @@ func (game *Game) Over() bool {
     switch {
     case game.Frame > int(PlayTime/FrameInterval):
         return true
-    case game.Score(Home) <= 0:
+    case game.Score(Home) < MaincoreScore:
         return true
-    case game.Score(Visitor) <= 0:
+    case game.Score(Visitor) < MaincoreScore:
         return true
     }
     return false

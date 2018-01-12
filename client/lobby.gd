@@ -31,10 +31,12 @@ func _ready():
 	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
 	var knight_names = ["shuriken", "space_z", "freezer"]
+	var index = 0
 	for knight in knights:
 		for name in knight_names:
 			knight.add_item(name)
-		knight.select(randi() % knight_names.size())
+		knight.select(index)
+		index = index + 1
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
@@ -110,8 +112,12 @@ func withdraw_match():
 func shuffle_deck():
 	for child in get_node("Deck/Container").get_children():
 		child.queue_free()
-	deck = global.shuffle_array(global.CARDS.keys())
-	deck.resize(6)
+	var arr = []
+	for name in global.CARDS:
+		if global.CARDS[name].type != "spell":
+			arr.append(name)
+	deck = global.shuffle_array(arr)
+	deck.resize(5)
 	for card in deck:
 		var label = Label.new()
 		label.set_text(card)

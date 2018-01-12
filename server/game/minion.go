@@ -10,7 +10,7 @@ func NewMinion(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Name:          "minion",
         Layer:         Air,
         TargetLayers : Layers{Ground, Air},
-        TargetTypes:   Types{Troop, Building, Knight},
+        TargetTypes:   Types{Troop, Building},
         Hp:            70,
         InvMass:       1.0/5,
         Speed:         4,

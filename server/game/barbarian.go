@@ -10,7 +10,7 @@ func NewBarbarian(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Name:          "barbarian",
         Layer:         Ground,
         TargetLayers : Layers{Ground},
-        TargetTypes:   Types{Troop, Building, Knight},
+        TargetTypes:   Types{Troop, Building},
         Hp:            300,
         InvMass:       1.0/8,
         Speed:         3,

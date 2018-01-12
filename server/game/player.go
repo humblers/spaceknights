@@ -35,6 +35,17 @@ func (players Players) Filter(f func(*Player) bool) Players {
 }
 
 func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
+    for _, knight := range knights {
+        switch knight.Name {
+        case "shuriken":
+            deck = append(deck, "fireball")
+        case "space_z":
+            deck = append(deck, "laser")
+        case "freezer":
+            deck = append(deck, "freeze")
+        }
+    }
+    glog.Infof("player deck: %v", deck)
     deck.Shuffle()
     return &Player{
         Team: team,
@@ -84,6 +95,21 @@ func (player *Player) Move(input Input) {
 
 }
 
+func (player *Player) RemoveCard(card Card) {
+    var filtered Cards
+    for _, c := range player.Hand {
+        if c != card {
+            filtered = append(filtered, c)
+        }
+    }
+    for _, c := range player.Pending {
+        if c != card {
+            filtered = append(filtered, c)
+        }
+    }
+    player.Hand = filtered[:HandSize]
+    player.Pending = filtered[HandSize:]
+}
 func (player *Player) UseCard(input Input, game *Game) {
     index := input.Use - 1
     if index >= len(player.Hand) {

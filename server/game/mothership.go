@@ -62,7 +62,7 @@ func NewMothership(t Team) []*Unit {
             Y: MothershipBaseHeight / 2,
         },
     }
-    mothership = append(mothership, main, left, right, base)
+    mothership = append(mothership, right, main, left, base)
 
     // flip
     for _, u := range mothership {

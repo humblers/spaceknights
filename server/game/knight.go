@@ -2,7 +2,7 @@ package main
 
 import "log"
 
-func NewKnight(t Team, name string, pos_x float64) *Unit {
+func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
     var prehitdelay int
     var posthitdelay int
     var radius float64
@@ -29,9 +29,9 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
     var position Vector2
     switch t {
     case Home:
-        position = Vector2{ pos_x, MapHeight - TileHeight * 2 }
+        position = Vector2{ pos_x, MapHeight - TileHeight * 1 }
     case Visitor:
-        position = Vector2{ pos_x, TileHeight * 2 }
+        position = Vector2{ MapWidth - pos_x, TileHeight * 1 }
     }
     return &Unit{
         Team:           t,
@@ -41,11 +41,11 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
         TargetLayers:   Layers{Air, Ground},
         TargetTypes:    Types{Troop, Building},
         Hp:             2000,
-        Speed:          1.2,
+        Speed:          5,
         PreHitDelay:    prehitdelay,
         PostHitDelay:   posthitdelay,
         Radius:         radius,
-        Range:          80,
+        Range:          160,
         Damage:         damage,
         SpawnThing:     "knightbullet",
         SpawnSpeed:     15,
@@ -53,6 +53,7 @@ func NewKnight(t Team, name string, pos_x float64) *Unit {
         SpawnFrame:     15,
         Position:       position,
         Destination:    position,
+        KnightIndex:    index,
     }
 }
 
@@ -62,15 +63,15 @@ func NewKnights(t Team, names []string) []*Unit {
         var pos_x float64
         switch idx {
         case 0:
-            pos_x = 70.0
+            pos_x = 66
         case 1:
             pos_x = MapWidth / 2
         case 2:
-            pos_x = 330.0
+            pos_x = 333
         default:
             log.Panicf("too many knights(%v)", len(names))
         }
-        knights = append(knights, NewKnight(t, name, pos_x))
+        knights = append(knights, NewKnight(t, name, pos_x, idx))
     }
     return knights
 }
