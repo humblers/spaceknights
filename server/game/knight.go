@@ -2,7 +2,7 @@ package main
 
 import "log"
 
-const KnightBulletRange = 180
+const KnightBulletRange = 200
 const KnightOffsetY = TileHeight * 1
 
 func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
