@@ -98,7 +98,7 @@ func NewLaser(id int, team Team, pos Vector2) *Spell {
     return &Spell{
         Team:       team,
         Name:       "laser",
-        Damage:     150,
+        Damage:     15,
         Range:      150,
         Radius:     20,
         Duration:   50,
