@@ -2,6 +2,9 @@ package main
 
 import "log"
 
+const KnightBulletRange = 180
+const KnightOffsetY = TileHeight * 1
+
 func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
     var prehitdelay int
     var posthitdelay int
@@ -29,9 +32,9 @@ func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
     var position Vector2
     switch t {
     case Home:
-        position = Vector2{ pos_x, MapHeight - TileHeight * 1 }
+        position = Vector2{ pos_x, MapHeight - KnightOffsetY }
     case Visitor:
-        position = Vector2{ MapWidth - pos_x, TileHeight * 1 }
+        position = Vector2{ MapWidth - pos_x, KnightOffsetY }
     }
     return &Unit{
         Team:           t,
@@ -45,12 +48,11 @@ func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
         PreHitDelay:    prehitdelay,
         PostHitDelay:   posthitdelay,
         Radius:         radius,
-        Range:          160,
+        Range:          KnightBulletRange,
         Damage:         damage,
         SpawnThing:     "knightbullet",
-        SpawnSpeed:     15,
+        SpawnSpeed:     10,
         RepairDelay:    15,
-        SpawnFrame:     15,
         Position:       position,
         Destination:    position,
         KnightIndex:    index,

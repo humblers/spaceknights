@@ -543,7 +543,7 @@ func (u *Unit) Update() {
             u.Target = u.FindNearestKnightTarget()
         }
     case Bullet:
-        if u.IsOutOfScreen() {
+        if u.IsOutOfRange() {
             u.SelfRemove()
         } else {
             for _, unit := range u.Game.Units {
@@ -560,6 +560,17 @@ func (u *Unit) Update() {
     case Base:
         return
     }
+}
+
+func (u *Unit) IsOutOfRange() bool {
+    pos_y := u.Position.Y
+    if u.Team == Home {
+        pos_y = MapHeight - pos_y
+    }
+    if pos_y > KnightOffsetY + KnightBulletRange {
+        return true
+    }
+    return false
 }
 
 func (u *Unit) WithinKnightRange(target *Unit) bool {
