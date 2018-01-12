@@ -1,9 +1,6 @@
 package main
 
 func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
-    if t == Home {
-        offset = offset.FlipY()
-    }
     return &Unit{
         Team:          t,
         Type:          Troop,
@@ -11,7 +8,7 @@ func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
-        Hp:            200,
+        Hp:            598,
         InvMass:       1.0/12,
         Speed:         3,
         PreHitDelay:   3,
@@ -19,8 +16,8 @@ func NewMusketeer(id int, t Team, pos Vector2, offset Vector2)  *Unit {
         Radius:        11,
         Size:          Large,
         Sight:         120,
-        Range:         100,
-        Damage:        100,
+        Range:         120,
+        Damage:        176,
         Id:            id,
         Position:      pos.Plus(offset.Multiply(11)),
     }
