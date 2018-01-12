@@ -68,10 +68,13 @@ func (p *Player) MarshalJSON() ([]byte, error) {
 
 func (player *Player) Update(game *Game) {
     energy := EnergyPerFrame
-    if game.Frame > int(PlayTime / 4 * 3 / FrameInterval) {
+    if game.Frame > int(DoubleAfter / FrameInterval) {
         energy *= 2
     }
-    player.IncreaseEnergy(energy)
+    player.Energy += energy
+    if player.Energy >= MaxEnergy {
+        player.Energy = MaxEnergy
+    }
 }
 
 func (player *Player) Move(input Input) {
@@ -137,10 +140,4 @@ func (player *Player) UseCard(input Input, game *Game) {
         input.Position.Y = MapHeight - input.Position.Y
     }
     game.AddToWaitingCards(card, input.Position, player)
-}
-
-func (player *Player) IncreaseEnergy(amount int) {
-    if player.Energy += amount; player.Energy > MaxEnergy {
-        player.Energy = MaxEnergy
-    }
 }

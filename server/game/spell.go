@@ -48,9 +48,6 @@ func (s *Spell) Update() {
     switch s.Name {
     case "laser":
         filter = func (unit *Unit) bool {
-            if unit.IsCore() {
-                return false
-            }
             if math.Abs(s.Position.X - unit.Position.X) > s.Radius + unit.Radius {
                 return false
             }
@@ -60,6 +57,10 @@ func (s *Spell) Update() {
             return true
         }
         s.AffectToUnits(filter, func (unit *Unit) {
+            damage := s.Damage
+            if unit.IsCore() {
+                damage = damage * 35 / 100
+            }
             unit.TakeDamage(s.Damage, nil)
         })
     case "fireball":
@@ -70,6 +71,10 @@ func (s *Spell) Update() {
             return true
         }
         s.AffectToUnits(filter, func (unit *Unit) {
+            damage := s.Damage
+            if unit.IsCore() {
+                damage = damage * 35 / 100
+            }
             unit.TakeDamage(s.Damage, nil)
         })
     case "freeze":

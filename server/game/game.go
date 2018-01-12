@@ -9,7 +9,9 @@ import (
 )
 
 const (
-    PlayTime = time.Minute * 4
+    PlayTime = time.Minute * 3
+    DoubleAfter = time.Minute * 2
+    OverTime = time.Minute * 3
     FrameInterval = time.Millisecond * 100
 )
 
@@ -151,12 +153,17 @@ func (game *Game) Score(team Team) int {
 }
 
 func (game *Game) Over() bool {
+    home := game.Score(Home)
+    visitor := game.Score(Visitor)
     switch {
-    case game.Frame > int(PlayTime/FrameInterval):
+    case home < MaincoreScore:
         return true
-    case game.Score(Home) < MaincoreScore:
+    case visitor < MaincoreScore:
         return true
-    case game.Score(Visitor) < MaincoreScore:
+    case home != visitor && game.Frame > int(PlayTime / FrameInterval):
+        return true
+    }
+    if game.Frame > int((PlayTime + OverTime) / FrameInterval) {
         return true
     }
     return false

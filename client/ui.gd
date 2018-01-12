@@ -6,6 +6,7 @@ onready var card3 = get_node("Card3")
 onready var card4 = get_node("Card4")
 onready var guide = get_node("CardGuide")
 onready var result = get_node("Result")
+onready var remain = get_node("RemainTime")
 
 var hand
 var selected_card
@@ -26,6 +27,7 @@ func update_changes(game):
 	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	get_node("Energy").set_value(player.Energy / 100)
 	update_card_texture(player)
+	update_remain_time(int(game.Frame))
 
 	if game.has("Result"):
 		global.config.set_value("match", global.id, null)
@@ -79,6 +81,15 @@ func update_card_texture(player):
 			postfix = "on"
 		node.set_normal_texture(resource.icon[card][postfix].normal)
 		node.set_focused_texture(resource.icon[card][postfix].pressed)
+
+func update_remain_time(frame):
+	if frame > global.DOUBLE_AFTER:
+		remain.add_color_override("font_color_shadow", Color(1, 0, 0, 1))
+	var remainTime = global.PLAY_TIME - frame
+	if remainTime < 0:
+		remainTime += global.OVER_TIME
+	remainTime /= 10
+	remain.set_text("%d:%02d" % [remainTime / 60, remainTime % 60])
 
 func toggle_card_focus(node, selected):
 	selected_card = node
