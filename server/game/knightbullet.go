@@ -10,7 +10,7 @@ func NewKnightBullet(t Team, pos Vector2) *Unit {
         TargetTypes:   Types{Troop, Building},
         Speed:         20,
         Radius:        12,
-        Damage:        100,
+        Damage:        50,
         Position:      pos,
     }
 }
