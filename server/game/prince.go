@@ -8,7 +8,7 @@ func NewPrince(id int, t Team, pos Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground},
         TargetTypes:   Types{Troop, Building},
-        Hp:            1100,
+        Hp:            1536,
         InvMass:       1.0/8,
         Speed:         3,
         PreHitDelay:   3,
@@ -16,7 +16,7 @@ func NewPrince(id int, t Team, pos Vector2) *Unit {
         Radius:        14,
         Sight:         100,
         Range:         15,
-        Damage:        200,
+        Damage:        325,
         Id:            id,
         Position:      pos,
     }
