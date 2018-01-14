@@ -48,7 +48,7 @@ func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
         PreHitDelay:    prehitdelay,
         PostHitDelay:   posthitdelay,
         Radius:         radius,
-        Range:          KnightBulletRange + 20,
+        Range:          KnightBulletRange,
         Damage:         damage,
         SpawnThing:     "knightbullet",
         SpawnSpeed:     2,
