@@ -65,7 +65,7 @@ func (s *Spell) Update() {
         s.AffectToUnits(filter, func (unit *Unit) {
             damage := s.Damage
             if unit.IsCore() {
-                damage = damage * 15 / 100
+                damage = damage * 10 / 100
             }
             unit.TakeDamage(s.Damage, nil)
         })
@@ -79,7 +79,7 @@ func (s *Spell) Update() {
         s.AffectToUnits(filter, func (unit *Unit) {
             damage := s.Damage
             if unit.IsCore() {
-                damage = damage * 35 / 100
+                damage = damage * 30 / 100
             }
             unit.TakeDamage(s.Damage, nil)
         })

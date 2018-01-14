@@ -369,7 +369,7 @@ const CARDS = {
 	},
 	"freeze" : {
 		"type" : "spell",
-		"cost" : 4000,
+		"cost" : 2000,
 		"range" : 200,
 		"radius" : 60.0,
 		"shape" : "circular",
