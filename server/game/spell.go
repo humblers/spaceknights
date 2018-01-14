@@ -59,7 +59,7 @@ func (s *Spell) Update() {
         s.AffectToUnits(filter, func (unit *Unit) {
             damage := s.Damage
             if unit.IsCore() {
-                damage = damage * 35 / 100
+                damage = damage * 15 / 100
             }
             unit.TakeDamage(s.Damage, nil)
         })
@@ -98,7 +98,7 @@ func NewLaser(id int, team Team, pos Vector2) *Spell {
     return &Spell{
         Team:       team,
         Name:       "laser",
-        Damage:     15,
+        Damage:     12,
         Range:      150,
         Radius:     20,
         Duration:   50,
