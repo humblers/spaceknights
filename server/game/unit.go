@@ -64,6 +64,14 @@ func (types Types) Contains(_type Type) bool {
     return false
 }
 
+type WaitingSpell struct {
+    Spell Card
+    Position Vector2
+    Player *Player
+    Cast bool
+    Finished bool
+}
+
 type Unit struct {
     // invariant
     Team         Team
@@ -90,6 +98,7 @@ type Unit struct {
     RepairDelay  int     `json:"-"`
     FrozenUntil int     `json:"-"`
     KnightIndex int     `json:"-"`
+    InitialPosition Vector2 `json:"-"`
 
     // variant
     Id           int
@@ -105,6 +114,7 @@ type Unit struct {
     SpawnFrame   int     `json:"-"`
     SpawnStack   int     `json:"-"`
     RepairFrame  int     `json:"-"`
+    WaitingSpell *WaitingSpell `json:"-"`
 
     // event
     AttackStarted bool
@@ -525,6 +535,38 @@ func (u *Unit) Update() {
             return
         }
         u.Velocity = Vector2{0, 0}
+        if u.WaitingSpell != nil {
+            if u.WaitingSpell.Finished {
+                movement := u.InitialPosition.Minus(u.Position)
+                if movement.Length() < 0.1 {
+                    u.WaitingSpell = nil
+                } else {
+                    u.Velocity = movement.Truncate(KnightCastSpeed)
+                }
+            } else {
+                destination := u.WaitingSpell.Position
+                if u.WaitingSpell.Spell == "laser" {
+                    if u.Team == Home {
+                        destination.Y += LaserRange + u.Radius
+                    } else {
+                        destination.Y -= LaserRange + u.Radius
+                    }
+                }
+                movement := destination.Minus(u.Position)
+                if movement.Length() < 0.1 {
+                    if !u.WaitingSpell.Cast {
+                        u.Game.AddToWaitingCards(u.WaitingSpell.Spell, u.WaitingSpell.Position, u.WaitingSpell.Player, u)
+                        u.WaitingSpell.Cast = true
+                    }
+                    if u.WaitingSpell.Spell != "laser" {
+                        u.WaitingSpell.Finished = true
+                    }
+                } else {
+                    u.Velocity = movement.Truncate(KnightCastSpeed)
+                }
+            }
+            return
+        }
         if u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target) {
             if math.Abs(u.Position.X - u.Target.Position.X) < 5 {
                 if u.Game.Frame > u.SpawnFrame + u.SpawnSpeed {
@@ -562,6 +604,16 @@ func (u *Unit) Update() {
         }
     case Base:
         return
+    }
+}
+
+func (u *Unit) StartCast(spell Card, position Vector2, player *Player) {
+    u.WaitingSpell = &WaitingSpell{
+        Spell: spell,
+        Position: position,
+        Player: player,
+        Cast: false,
+        Finished: false,
     }
 }
 

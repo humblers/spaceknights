@@ -6,6 +6,8 @@ import (
 )
 
 const FreezeDuration = 50
+const LaserRange = 150
+const KnightCastSpeed = 15
 
 type Spell struct {
     // invariant
@@ -20,6 +22,7 @@ type Spell struct {
     Id          int     `json:"-"`
     Game        *Game   `json:"-"`
     Position    Vector2
+    Knight *Unit `json:"-"`
 }
 
 func (s *Spell) String() string {
@@ -40,6 +43,9 @@ func (s *Spell) AffectToUnits(filter func(*Unit) bool, behavior func(*Unit)) {
 func (s *Spell) Update() {
     if s.Duration < 0 {
         delete(s.Game.Spells, s.Id)
+        if s.Name == "laser" {
+            s.Knight.WaitingSpell.Finished = true
+        }
         return
     }
     s.Duration--
@@ -94,16 +100,17 @@ func (s *Spell) Update() {
     }
 }
 
-func NewLaser(id int, team Team, pos Vector2) *Spell {
+func NewLaser(id int, team Team, pos Vector2, knight *Unit) *Spell {
     return &Spell{
         Team:       team,
         Name:       "laser",
         Damage:     12,
-        Range:      150,
+        Range:      LaserRange,
         Radius:     20,
         Duration:   50,
         Id:         id,
         Position:   pos,
+        Knight: knight,
     }
 }
 

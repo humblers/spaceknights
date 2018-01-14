@@ -139,5 +139,30 @@ func (player *Player) UseCard(input Input, game *Game) {
         input.Position.X = MapWidth - input.Position.X
         input.Position.Y = MapHeight - input.Position.Y
     }
-    game.AddToWaitingCards(card, input.Position, player)
+    k := player.FindKnight(card)
+    if k != nil {
+        k.StartCast(card, input.Position, player)
+    } else {
+        game.AddToWaitingCards(card, input.Position, player, nil)
+    }
+}
+
+func (player *Player) FindKnight(spell Card) *Unit {
+    var name string
+    switch spell {
+    case "fireball":
+        name = "shuriken"
+    case "laser":
+        name = "space_z"
+    case "freeze":
+        name = "freezer"
+    default:
+        return nil
+    }
+    for _, k := range player.Knights {
+        if k.Name == name {
+            return k
+        }
+    }
+    return nil
 }

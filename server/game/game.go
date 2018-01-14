@@ -214,8 +214,8 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
-    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, pos, g.Frame)
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player, knight *Unit) {
+    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, pos, g.Frame, knight)
     count := waiting.GetUnitCount()
     g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
@@ -285,7 +285,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
     case "fireball":
         g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
     case "laser":
-        g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Position))
+        g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Position, card.Knight))
     case "freeze":
         g.AddSpell(NewFreeze(card.IdStarting, card.Team, card.Position))
     case "moveknight", "shoot":

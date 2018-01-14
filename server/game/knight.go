@@ -56,6 +56,7 @@ func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
         Position:       position,
         Destination:    position,
         KnightIndex:    index,
+        InitialPosition: position,
     }
 }
 

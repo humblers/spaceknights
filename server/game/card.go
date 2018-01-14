@@ -15,15 +15,17 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
+    Knight *Unit
 }
 
-func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int) *WaitingCard {
+func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int, knight *Unit) *WaitingCard {
     return &WaitingCard{
         Name: card,
         Team: team,
         Position: pos,
         IdStarting: id,
         ActivateFrame: gameFrame + ActivateAfter,
+        Knight: knight,
     }
 }
 
