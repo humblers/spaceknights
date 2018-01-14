@@ -364,14 +364,14 @@ const CARDS = {
 		"type" : "spell",
 		"cost" : 5000,
 		"range" : 150,
-		"radius" : 15.0,
+		"radius" : 20.0,
 		"shape" : "linear",
 	},
 	"freeze" : {
 		"type" : "spell",
 		"cost" : 4000,
 		"range" : 200,
-		"radius" : 50.0,
+		"radius" : 60.0,
 		"shape" : "circular",
 	},
 }

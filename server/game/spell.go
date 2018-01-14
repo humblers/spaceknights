@@ -5,9 +5,9 @@ import (
     "math"
 )
 
-const FreezeDuration = 50
+const FreezeDuration = 60
 const LaserRange = 150
-const KnightCastSpeed = 15
+const KnightCastSpeed = 30
 
 type Spell struct {
     // invariant
@@ -129,7 +129,7 @@ func NewFreeze(id int, team Team, pos Vector2) *Spell {
     return &Spell{
         Team:       team,
         Name:       "freeze",
-        Radius:     50,
+        Radius:     60,
         Duration:   FreezeDuration,
         Id:         id,
         Position:   pos,
