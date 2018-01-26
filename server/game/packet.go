@@ -28,23 +28,21 @@ type Join struct {
 
 type Input struct {
     id        string
-    Move      float64
-    Use       struct {
-        Index int
-        Point float64
-    }
+    Move      int
+    Use       int
+    Position  Vector2
 }
 
 type LobbyRequest struct {
     SessionId   string
     Home struct {
         UserId  string
-        Knight  string
+        Knights []string
         Deck    Cards
     }
     Visitor struct {
         UserId  string
-        Knight  string
+        Knights []string
         Deck    Cards
     }
     DoNotCreate bool

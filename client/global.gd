@@ -9,7 +9,11 @@ var knights = {}
 
 const CARD_WAIT_FRAME = 10 - 1 # server send snapshot after 1 frame
 const UNIT_LAUNCH_TIME = 0.1 * (CARD_WAIT_FRAME - 1)
+
 const SERVER_UPDATES_PER_SECOND = 10
+const PLAY_TIME = 3 * 60 * SERVER_UPDATES_PER_SECOND
+const DOUBLE_AFTER = 2 * 60 * SERVER_UPDATES_PER_SECOND
+const OVER_TIME = 3 * 60 * SERVER_UPDATES_PER_SECOND
 
 const MOTHERSHIP_BASE_HEIGHT = 60
 const SCREEN_HEIGHT = 640
@@ -32,17 +36,17 @@ const LAYERS = {
 const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
-		"hp" : 100,
+		"hp" : 254,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
-		"range" : 100,
+		"range" : 70,
 		"projectile" : "bullet",
 		"size" : "small",
 	},
 	"barbarian" : {
 		"layer" : "Ground",
-		"hp" : 300,
+		"hp" : 636,
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 15,
@@ -50,109 +54,123 @@ const UNITS = {
 	},
 	"barbarianhut" : {
 		"layer" : "Ground",
-		"hp" : 900,
+		"hp" : 1936,
 		"radius" : 20,
-		"lifetimecost" : 2,
+		"lifetimecost" : 3,
 		"size" : "large",
 	},
 	"bomber" : {
 		"layer" : "Ground",
-		"hp" : 150,
+		"hp" : 311,
 		"prehitdelay" : 10,
 		"radius" : 11,
 		"sight" : 100,
-		"range" : 90,
+		"range" : 80,
 		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},
 	"bombtower" : {
 		"layer" : "Ground",
-		"hp" : 900,
+		"hp" : 1672,
 		"prehitdelay": 10,
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 120,
 		"projectile" : "bombtower_missile",
-		"lifetimecost" : 1,
+		"lifetimecost" : 4,
 		"size" : "large",
 	},
 	"cannon" : {
 		"layer" : "Ground",
-		"hp" : 450,
+		"hp" : 742,
 		"prehitdelay": 5,
 		"radius" : 20,
-		"sight" : 100,
-		"range" : 100,
+		"sight" : 120,
+		"range" : 110,
 		"projectile" : "bullet",
-		"lifetimecost" : 1,
+		"lifetimecost" : 2,
 		"size" : "large",
 	},
 	"darkprince" : {
 		"layer" : "Ground",
-		"hp" : 920,
+		"hp" : 1243,
 		"radius" : 13,
 		"sight" : 100,
 		"range" : 15,
 		"size" : "medium",
 	},
-	"giant" : {
-		"layer" : "Ground",
-		"hp" : 1800,
-		"radius" : 28,
+	"freezer" : {
+		"layer" : "Air",
+		"hp" : 2000,
+		"prehitdelay" : 3,
+		"radius" : 10,
 		"sight" : 200,
+		"range" : 200,
+		"projectile" : "bullet",
+		"size" : "large",
+	},
+		"giant" : {
+		"layer" : "Ground",
+		"hp" : 3344,
+		"radius" : 28,
+		"sight" : 150,
 		"range" : 15,
 		"size" : "xlarge",
 	},
 	"goblinhut" : {
 		"layer" : "Ground",
-		"hp" : 600,
+		"hp" : 1293,
 		"radius" : 28,
-		"lifetimecost" : 1,
+		"lifetimecost" : 2,
 		"size" : "large",
 	},
 	"knightbullet" : {
 		"layer" : "Air",
+		"radius" : 12,
 	},
 	"scatteredbullet" : {
 		"layer" : "Air",
+		"radius" : 7,
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 100,
-		"prehitdelay" : 10,
-		"radius" : 20,
-		"sight" : 140,
-		"range" : 140,
-		"projectile" : "knight_missile",
+		"hp" : 2000,
+		"prehitdelay" : 3,
+		"radius" : 10,
+		"sight" : 200,
+		"range" : 200,
+		"projectile" : "bullet",
+		"size" : "large",
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 100,
+		"hp" : 2000,
 		"prehitdelay" : 10,
-		"radius" : 31,
-		"sight" : 140,
-		"range" : 140,
+		"radius" : 10,
+		"sight" : 200,
+		"range" : 200,
 		"projectile" : "knight_missile",
+		"size" : "large",
 	},
 	"megaminion" : {
 		"layer" : "Air",
-		"hp" : 300,
+		"hp" : 695,
 		"radius" : 20,
-		"sight" : 80,
-		"range" : 50,
+		"sight" : 100,
+		"range" : 20,
 		"size" : "large",
 	},
 	"minion" : {
 		"layer" : "Air",
-		"hp" : 70,
+		"hp" : 190,
 		"radius" : 10,
-		"sight" : 80,
+		"sight" : 100,
 		"range" : 20,
 		"size" : "small",
 	},
 	"minipekka" : {
 		"layer" : "Ground",
-		"hp" : 600,
+		"hp" : 1056,
 		"radius" : 12,
 		"sight" : 100,
 		"range" : 15,
@@ -160,13 +178,13 @@ const UNITS = {
 	},
 	"maincore" : {
 		"layer" : "Mothership",
-		"hp" : 1200,
+		"hp" : 4008,
 		"radius" : 20,
 		"size" : "xlarge",
 	},
 	"subcore" : {
 		"layer" : "Mothership",
-		"hp" : 700,
+		"hp" : 2534,
 		"radius" : 30,
 		"size" : "xlarge",
 	},
@@ -175,17 +193,17 @@ const UNITS = {
 	},
 	"musketeer" : {
 		"layer" : "Ground",
-		"hp" : 200,
+		"hp" : 598,
 		"prehitdelay": 3,
 		"radius" : 11,
-		"sight" : 120,
-		"range" : 120,
+		"sight" : 100,
+		"range" : 85,
 		"projectile" : "bullet",
 		"size" : "large",
 	},
 	"pekka" : {
 		"layer" : "Ground",
-		"hp" : 1800,
+		"hp" : 3458,
 		"radius" : 13,
 		"sight" : 100,
 		"range" : 15,
@@ -193,7 +211,7 @@ const UNITS = {
 	},
 	"prince" : {
 		"layer" : "Ground",
-		"hp" : 1100,
+		"hp" : 1536,
 		"radius" : 14,
 		"sight" : 100,
 		"range" : 15,
@@ -201,7 +219,7 @@ const UNITS = {
 	},
 	"skeleton" : {
 		"layer" : "Ground",
-		"hp" : 30,
+		"hp" : 67,
 		"radius" : 6,
 		"sight" : 100,
 		"range" : 5,
@@ -209,24 +227,24 @@ const UNITS = {
 	},
 	"speargoblin" : {
 		"layer" : "Ground",
-		"hp" : 50,
+		"hp" : 110,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
-		"range" : 100,
+		"range" : 70,
 		"projectile" : "bullet",
 		"size" : "small",
 	},
 	"tombstone" : {
 		"layer" : "Ground",
-		"hp" : 200,
+		"hp" : 422,
 		"radius" : 17,
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
 	"valkyrie" : {
 		"layer" : "Ground",
-		"hp" : 880,
+		"hp" : 1548,
 		"radius": 12,
 		"sight" : 100,
 		"range" : 20,
@@ -335,9 +353,26 @@ const CARDS = {
 		"cost" : 4000,
 	},
 
+	"fireball" : {
+		"type" : "spell",
+		"cost" : 4000,
+		"range" : 200,
+		"radius" : 50.0,
+		"shape" : "circular",
+	},
 	"laser" : {
 		"type" : "spell",
 		"cost" : 5000,
+		"range" : 150,
+		"radius" : 20.0,
+		"shape" : "linear",
+	},
+	"freeze" : {
+		"type" : "spell",
+		"cost" : 2000,
+		"range" : 200,
+		"radius" : 60.0,
+		"shape" : "circular",
 	},
 }
 
@@ -369,18 +404,41 @@ static func shuffle_array(arr):
 	return arr
 
 static func clone(data):
-    var to
-    if typeof(data) == TYPE_DICTIONARY:
-        to = {}
-        for key in data:
-            to[key] = clone(data[key])
-    elif typeof(data) == TYPE_ARRAY:
-        to = []
-        for value in data:
-            to.append(clone(value))
-    else:
-        to = data
-    return to
+	var to
+	if typeof(data) == TYPE_DICTIONARY:
+		to = {}
+		for key in data:
+			to[key] = clone(data[key])
+	elif typeof(data) == TYPE_ARRAY:
+		to = []
+		for value in data:
+			to.append(clone(value))
+	else:
+		to = data
+	return to
+
+static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
+	var nb_points = 32
+	var points_arc = Vector2Array()
+	for i in range(nb_points+1):
+		var angle_point = angle_from + i*(angle_to-angle_from)/nb_points - 90
+		var point = center + Vector2( cos(deg2rad(angle_point)), sin(deg2rad(angle_point)) ) * radius
+		points_arc.push_back( point )
+	for indexPoint in range(nb_points):
+		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
+
+const CARD_THRESHOLD_TOP = 310
+const LOCATION_UI = 0
+const LOCATION_BASE = 1
+const LOCATION_BLUE = 2
+const LOCATION_RED = 3
+
+func get_location(pos):
+	if pos.y > global.MAP.height:
+		return LOCATION_UI
+	if pos.y < CARD_THRESHOLD_TOP:
+		return LOCATION_RED
+	return LOCATION_BLUE
 
 func is_spell_card(name):
 	if CARDS[name].type == "spell":
@@ -393,7 +451,7 @@ func is_unit_card(name):
 	return false
 
 func get_structures_of_unit(card):
-	var dict = CARDS[card.Name]
+	var dict = dict_get(CARDS, card.Name, {})
 	var name = card.Name
 	var offsets = [ Vector2(0, 0) ]
 	if dict.has("unitname"):
@@ -402,6 +460,8 @@ func get_structures_of_unit(card):
 		offsets = dict.unitoffsets
 	var units = []
 	for offset in offsets:
+		if card.Team == "Home":
+			offset.y = offset.y * -1
 		var unit = {
 			"Name" : name,
 			"Team" : card.Team,
@@ -410,7 +470,18 @@ func get_structures_of_unit(card):
 				"Y" : card.Position.Y + offset.y * global.dict_get(global.UNITS[name], "radius", 0),
 			},
 		}
-		if unit.Team == "Home":
-			unit.Position.Y = global.MAP.height - unit.Position.Y
 		units.append(unit)
 	return units
+
+func get_scale(cardname, org_size):
+	var card = CARDS[cardname]
+	if card["shape"] == "circular":
+		return Vector2(
+				card["radius"] * 2 / org_size.x,
+				card["radius"] * 2 / org_size.y
+		)
+	if card["shape"] == "linear":
+		return Vector2(
+				card["radius"] * 2 / org_size.x,
+				card["range"] * 2 / org_size.y
+		)

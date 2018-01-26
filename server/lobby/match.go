@@ -16,9 +16,9 @@ import (
 type Deck []string
 
 type Candidate struct {
-    UserId string
-    Deck   *Deck
-    Knight string
+    UserId  string
+    Deck    *Deck
+    Knights *[]string
 }
 
 type Find struct {
@@ -30,7 +30,7 @@ type MatchManager struct {
     Candidacy  chan *Candidate
     Withdraw   chan string
     FindGame   chan *Find
-    Candidates map[string]*Deck
+    Candidates map[string]*Candidate
     Games      map[string]*Game
 }
 
@@ -38,7 +38,7 @@ func (m *MatchManager) Run() {
     for {
         select {
         case candidate := <- m.Candidacy:
-            m.Candidates[candidate.UserId] = candidate.Deck
+            m.Candidates[candidate.UserId] = candidate
             if len(m.Candidates) < 2 {
                 break
             }
@@ -64,15 +64,16 @@ func (m *MatchManager) MatchingCandidates() {
             break
         }
     }
-    c1, c2 := keys[0], keys[1]
-    d1, d2 := m.Candidates[c1], m.Candidates[c2]
+    id1, id2 := keys[0], keys[1]
+    c1, c2 := m.Candidates[id1], m.Candidates[id2]
     session := &Game{
-        Host:      "13.125.74.237",
+        //Host:      "13.125.74.237",
 		//Host:      "127.0.0.1",
+		Host:      "192.168.1.3",
         SessionID: strconv.FormatInt(time.Now().Unix(), 10),
     }
-    m.Games[c1] = session; m.Games[c2] = session
-    delete(m.Candidates, c1); delete(m.Candidates, c2)
+    m.Games[id1] = session; m.Games[id2] = session
+    delete(m.Candidates, id1); delete(m.Candidates, id2)
 
     conn, err := net.Dial("tcp", "127.0.0.1:9989")
     if err != nil {
@@ -82,16 +83,8 @@ func (m *MatchManager) MatchingCandidates() {
     defer conn.Close()
     conn.Write(NewPacket(SessionRequest{
         SessionId: session.SessionID,
-        Home: Candidate{
-            UserId: c1,
-            Deck:   d1,
-            Knight: "shuriken",
-        },
-        Visitor: Candidate{
-            UserId: c2,
-            Deck:   d2,
-            Knight: "space_z",
-        },
+        Home: *c1,
+        Visitor: *c2,
     }))
     var created bool
     if b, _, err := bufio.NewReader(conn).ReadLine(); err == nil {
@@ -103,7 +96,7 @@ func (m *MatchManager) MatchingCandidates() {
         }
     }
     if !created {
-        delete(m.Games, c1); delete(m.Games, c2)
+        delete(m.Games, id1); delete(m.Games, id2)
     }
 }
 
@@ -140,7 +133,7 @@ func MatchRouter() chi.Router {
         Candidacy:  make(chan *Candidate),
         Withdraw:   make(chan string),
         FindGame:   make(chan *Find),
-        Candidates: make(map[string]*Deck),
+        Candidates: make(map[string]*Candidate),
         Games:      make(map[string]*Game),
     }
     go manager.Run()
@@ -153,7 +146,8 @@ func MatchRouter() chi.Router {
 }
 
 type CandidacyRequest struct {
-    Deck    Deck   `json:"deck"`
+    Deck    Deck        `json:"deck"`
+    Knights []string    `json:"knights"`
 }
 
 func (a *CandidacyRequest) Bind(r *http.Request) error {
@@ -168,8 +162,9 @@ func Candidacy(w http.ResponseWriter, r *http.Request) {
         return
     }
     manager.Candidacy <- &Candidate{
-        UserId: id,
-        Deck:   &data.Deck,
+        UserId:  id,
+        Deck:    &data.Deck,
+        Knights: &data.Knights,
     }
     render.Render(w, r, &CommonSuccess{})
 }

@@ -10,6 +10,8 @@ import (
 
 const (
     PlayTime = time.Minute * 3
+    DoubleAfter = time.Minute * 2
+    OverTime = time.Minute * 3
     FrameInterval = time.Millisecond * 100
 )
 
@@ -77,16 +79,15 @@ const (
 
 type Game struct {
     Frame         int                                        // valid only if > 0
-    Home          map[string]*Player `json:",omitempty"`
-    Visitor       map[string]*Player `json:",omitempty"`
-    Units         Units
+    Players       Players `json:",omitempty"`
+    Units         map[int]*Unit
     Spells        map[int]*Spell
     WaitingCards  []*WaitingCard     `json:",omitempty"`
     ObjectCounter int                `json:"-"`
-    Motherships   map[Team][]*Unit   `json:"-"`
     Result        *Result            `json:",omitempty"`
     Winner        Team               `json:"-"`
     Stats         map[Team]*Stat     `json:"-"`
+    Motherships   map[Team][]*Unit   `json:"-"`
 }
 
 type Result struct {
@@ -104,30 +105,23 @@ type Stat struct {
     KnightBulletHitCount int
 }
 
-type Units []*Unit
-func (s Units) Filter(f func(*Unit) bool) Units {
-    var filtered Units
-    for _, x := range s {
-        if f(x) {
-            filtered = append(filtered, x)
+func (game *Game) RemoveDeadUnits() {
+    for id, unit := range(game.Units) {
+        if unit.IsDead() {
+            delete(game.Units, id)
         }
     }
-    return filtered
-}
-
-func (game *Game) RemoveDeadUnits() {
-    game.Units = game.Units.Filter(func(x *Unit) bool { return !x.IsDead() })
 }
 
 func NewGame() *Game {
     g := Game{
         Frame:         1,
+        Units:         make(map[int]*Unit),
         Spells:        make(map[int]*Spell),
-        Home:          make(map[string]*Player),
-        Visitor:       make(map[string]*Player),
+        Players:       make(map[string]*Player),
         ObjectCounter: 1,
-        Motherships:   make(map[Team][]*Unit),
         Stats:         make(map[Team]*Stat),
+        Motherships:   make(map[Team][]*Unit),
     }
     g.Motherships[Home] = NewMothership(Home)
     g.Motherships[Visitor] = NewMothership(Visitor)
@@ -159,17 +153,20 @@ func (game *Game) Score(team Team) int {
 }
 
 func (game *Game) Over() bool {
+    home := game.Score(Home)
+    visitor := game.Score(Visitor)
     switch {
-    case game.Frame > int(PlayTime/FrameInterval):
-        break
-    case game.Score(Home) < MaincoreScore:
-        break
-    case game.Score(Visitor) < MaincoreScore:
-        break
-    default:
-        return false
+    case home < MaincoreScore:
+        return true
+    case visitor < MaincoreScore:
+        return true
+    case home != visitor && game.Frame > int(PlayTime / FrameInterval):
+        return true
     }
-    return true
+    if game.Frame > int((PlayTime + OverTime) / FrameInterval) {
+        return true
+    }
+    return false
 }
 
 func (game *Game) GetWinner() Team {
@@ -184,31 +181,17 @@ func (game *Game) GetWinner() Team {
     return Draw
 }
 
-func (g *Game) Player(id string) *Player {
-    if p := g.Home[id]; p != nil {
-        return p
-    }
-    if p:= g.Visitor[id]; p != nil {
-        return p
-    }
-    return nil
-}
-
 func (g *Game) Join(team Team, user User) {
-    knight := NewKnight(team, user.knightName)
-    player := NewPlayer(team, user.deck, knight)
-    switch team {
-    case Home:
-        g.Home[user.id] = player
-    case Visitor:
-        g.Visitor[user.id] = player
+    knights := NewKnights(team, user.knights)
+    player := NewPlayer(team, user.deck, knights)
+    g.Players[user.id] = player
+    for _, knight := range knights {
+        g.AddUnit(knight)
     }
-    g.AddUnit(knight)
 }
 
 func (g *Game) AddUnit(unit *Unit) {
     if unit.Team == Home {
-        unit.FlipY()
         unit.Heading = Vector2{0, -1}
     } else {
         unit.Heading = Vector2{0, 1}
@@ -219,7 +202,7 @@ func (g *Game) AddUnit(unit *Unit) {
     }
     unit.Game = g
     unit.State = Idle
-    g.Units = append(g.Units, unit)
+    g.Units[unit.Id] = unit
 }
 
 func (g *Game) AddSpell(spell *Spell) {
@@ -231,15 +214,8 @@ func (g *Game) AddSpell(spell *Spell) {
     g.Spells[spell.Id] = spell
 }
 
-func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player) {
-    waiting := &WaitingCard{
-        Name:       card,
-        Team:       player.Team,
-        Position:   pos,
-        IdStarting: g.ObjectCounter,
-        ActivateFrame: g.Frame + ActivateAfter,
-        Knight:     player.Knight,
-    }
+func (g *Game) AddToWaitingCards(card Card, pos Vector2, player *Player, knight *Unit) {
+    waiting := NewWaitingCard(g.ObjectCounter, player.Team, card, pos, g.Frame, knight)
     count := waiting.GetUnitCount()
     g.ObjectCounter += count
     g.WaitingCards = append(g.WaitingCards, waiting)
@@ -306,24 +282,30 @@ func (g *Game) ActivateCard(card *WaitingCard) {
         g.AddUnit(NewTombstone(card.IdStarting, card.Team, card.Position))
     case "valkyrie":
         g.AddUnit(NewValkyrie(card.IdStarting, card.Team, card.Position))
+    case "fireball":
+        g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
     case "laser":
-        if !card.Knight.IsDead() {
-            g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Knight))
-        }
+        g.AddSpell(NewLaser(card.IdStarting, card.Team, card.Position, card.Knight))
+    case "freeze":
+        g.AddSpell(NewFreeze(card.IdStarting, card.Team, card.Position))
+    case "moveknight", "shoot":
+        glog.Errorf("unexpected card name : %v", card.Name) 
     default:
         glog.Warningf("invalid card name: %v", card.Name)
     }
 }
 
 func (g *Game) String() string {
-    var h, v []string
-    for id, _ := range g.Home {
-        h = append(h, id)
+    var home, visitor []string
+    for id, player := range g.Players {
+        switch player.Team {
+        case Home:
+            home = append(home, id)
+        case Visitor:
+            visitor = append(visitor, id)
+        }
     }
-    for id, _ := range g.Visitor {
-        v = append(v, id)
-    }
-    return fmt.Sprintf("(%v) VS (%v)", strings.Join(h, " + "), strings.Join(v, " + "))
+    return fmt.Sprintf("(%v) VS (%v)", strings.Join(home, " + "), strings.Join(visitor, " + "))
 }
 
 func (game *Game) Run(session *Session) {
@@ -350,15 +332,9 @@ func (game *Game) Run(session *Session) {
 
 func (game *Game) update() (gameover bool) {
     game.Frame++
-    for _, player := range game.Home {
-        player.IncreaseEnergy(EnergyPerFrame)
-        player.RepairKnight(game)
-        player.Move(game.Frame)
-    }
-    for _, player := range game.Visitor {
-        player.IncreaseEnergy(EnergyPerFrame)
-        player.RepairKnight(game)
-        player.Move(game.Frame)
+    game.ActivateWaitingCards()
+    for _, player := range game.Players {
+        player.Update(game)
     }
     game.ActivateWaitingCards()
     for _, unit := range game.Units {
@@ -386,11 +362,11 @@ func (game *Game) update() (gameover bool) {
 }
 
 func (game *Game) apply(input Input) {
-    player := game.Player(input.id)
-     if input.Use.Index != 0 {
-        player.UseCard(input.Use.Index - 1, input.Use.Point, game)
+    player := game.Players[input.id]
+    if input.Use != 0 {
+        player.UseCard(input, game)
     } else {
-        player.AddMovement(input.Move, game.Frame)
+        player.Move(input)
     }
 }
 

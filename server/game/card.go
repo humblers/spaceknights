@@ -15,7 +15,18 @@ type WaitingCard struct {
     Position        Vector2
     IdStarting      int
     ActivateFrame   int
-    Knight          *Unit
+    Knight *Unit
+}
+
+func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int, knight *Unit) *WaitingCard {
+    return &WaitingCard{
+        Name: card,
+        Team: team,
+        Position: pos,
+        IdStarting: id,
+        ActivateFrame: gameFrame + ActivateAfter,
+        Knight: knight,
+    }
 }
 
 func (c *WaitingCard) GetUnitCount() (count int) {
@@ -59,7 +70,11 @@ var CostMap = map[Card]int{
     "tombstone": 3000,
     "valkyrie": 4000,
 
+    "fireball": 4000,
     "laser": 5000,
+    "freeze": 2000,
+
+    "moveknight": 0,
 }
 
 // Knuth shuffle

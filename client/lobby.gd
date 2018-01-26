@@ -13,6 +13,11 @@ onready var find_match = get_node("Match/Find")
 onready var cancel_match = get_node("Match/Cancel")
 onready var waiting_match = get_node("Match/Waiting")
 onready var shuffle_deck = get_node("Deck/Shuffle")
+onready var knights = [
+	get_node("Knights/VBoxContainer/Left"),
+	get_node("Knights/VBoxContainer/Center"),
+	get_node("Knights/VBoxContainer/Right"),
+]
 
 func _ready():
 	http_lobby.connect("login_response", self, "_login_response")
@@ -25,6 +30,13 @@ func _ready():
 	find_match.connect("pressed", self, "match_candidacy")
 	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
+	var knight_names = ["shuriken", "space_z", "freezer"]
+	var index = 0
+	for knight in knights:
+		for name in knight_names:
+			knight.add_item(name)
+		knight.select(index)
+		index = index + 1
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
@@ -73,7 +85,10 @@ func handle_match_buttons():
 func match_candidacy():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/candidacy",
-			{"deck":deck},
+			{
+				"deck":deck,
+				"knights": get_selected_knights(),
+			},
 			"candidacy_response")
 
 func find_game(handle_button=true):
@@ -97,12 +112,22 @@ func withdraw_match():
 func shuffle_deck():
 	for child in get_node("Deck/Container").get_children():
 		child.queue_free()
-	deck = global.shuffle_array(global.CARDS.keys())
-	deck.resize(6)
+	var arr = []
+	for name in global.CARDS:
+		if global.CARDS[name].type != "spell":
+			arr.append(name)
+	deck = global.shuffle_array(arr)
+	deck.resize(5)
 	for card in deck:
 		var label = Label.new()
 		label.set_text(card)
 		get_node("Deck/Container").add_child(label)
+
+func get_selected_knights():
+	var selects = []
+	for knight in knights:
+		selects.append(knight.get_item_text(knight.get_selected()))
+	return selects
 
 func _login_response(success, dict):
 	if not success:
@@ -153,4 +178,4 @@ func _findgame_response(success, dict):
 	tcp.connect_server(dict.host, 9999)
 	tcp.send({"Id": global.id, "Token": global.id})
 	tcp.send({"SessionId": dict.sid})
-	get_tree().change_scene("res://game.tscn")
+	get_tree().change_scene_to(resource.game)

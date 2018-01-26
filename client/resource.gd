@@ -1,5 +1,7 @@
 extends Node
 
+var game = preload("res://game.tscn")
+const unit_material = preload("res://unit/material.tres")
 var unit = {
 	"archer": preload("res://unit/archer/archer.tscn"),
 	"barbarian": preload("res://unit/barbarian/barbarian.tscn"),
@@ -9,6 +11,7 @@ var unit = {
 	"bombtower": preload("res://unit/bombtower/bombtower.tscn"),
 	"cannon": preload("res://unit/cannon/cannon.tscn"),
 	"darkprince": preload("res://unit/darkprince/darkprince.tscn"),
+	"freezer": preload("res://unit/freezer/freezer.tscn"),
 	"giant": preload("res://unit/giant/giant.tscn"),
 	"goblinhut": preload("res://unit/goblinhut/goblinhut.tscn"),
 	"knightbullet": preload("res://unit/knightbullet/knightbullet.tscn"),
@@ -31,6 +34,8 @@ var unit = {
 
 var spell = {
 	"laser": preload("res://spell/laser.tscn"),
+	"fireball": preload("res://spell/fireball.tscn"),
+	"freeze": preload("res://spell/freeze/freeze.tscn"),
 }
 
 var projectile = {
@@ -53,113 +58,267 @@ var unit_base = {
 
 var icon = {
 	"archers": {
-		"on": preload("res://icon/archers_on.png"),
-		"off": preload("res://icon/archers_off.png"),
+		"on": {
+			"normal" : preload("res://icon/archers_on.png"),
+			"pressed" : preload("res://icon/archers_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/archers_off.png"),
+			"pressed" : preload("res://icon/archers_off_pressed.png"),
+		},
 		"small": preload("res://icon/archers_small.png"),
 	},
 	"barbarianhut": {
-		"on": preload("res://icon/barbarianhut_on.png"),
-		"off": preload("res://icon/barbarianhut_off.png"),
+		"on": {
+			"normal" : preload("res://icon/barbarianhut_on.png"),
+			"pressed" : preload("res://icon/barbarianhut_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/barbarianhut_off.png"),
+			"pressed" : preload("res://icon/barbarianhut_off_pressed.png"),
+		},
 		"small": preload("res://icon/barbarianhut_small.png"),
 	},
 	"barbarians": {
-		"on": preload("res://icon/barbarians_on.png"),
-		"off": preload("res://icon/barbarians_off.png"),
+		"on": {
+			"normal" : preload("res://icon/barbarians_on.png"),
+			"pressed" : preload("res://icon/barbarians_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/barbarians_off.png"),
+			"pressed" : preload("res://icon/barbarians_off_pressed.png"),
+		},
 		"small": preload("res://icon/barbarians_small.png"),
 	},
 	"bomber": {
-		"on": preload("res://icon/bomber_on.png"),
-		"off": preload("res://icon/bomber_off.png"),
+		"on": {
+			"normal" : preload("res://icon/bomber_on.png"),
+			"pressed" : preload("res://icon/bomber_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/bomber_off.png"),
+			"pressed" : preload("res://icon/bomber_off_pressed.png"),
+		},
 		"small": preload("res://icon/bomber_small.png"),
 	},
 	"bombtower": {
-		"on": preload("res://icon/bombtower_on.png"),
-		"off": preload("res://icon/bombtower_off.png"),
+		"on": {
+			"normal" : preload("res://icon/bombtower_on.png"),
+			"pressed" : preload("res://icon/bombtower_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/bombtower_off.png"),
+			"pressed" : preload("res://icon/bombtower_off_pressed.png"),
+		},
 		"small": preload("res://icon/bombtower_small.png"),
 	},
 	"cannon": {
-		"on": preload("res://icon/cannon_on.png"),
-		"off": preload("res://icon/cannon_off.png"),
+		"on": {
+			"normal" : preload("res://icon/cannon_on.png"),
+			"pressed" : preload("res://icon/cannon_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/cannon_off.png"),
+			"pressed" : preload("res://icon/cannon_off_pressed.png"),
+		},
 		"small": preload("res://icon/cannon_small.png"),
 	},
 	"darkprince": {
-		"on": preload("res://icon/darkprince_on.png"),
-		"off": preload("res://icon/darkprince_off.png"),
+		"on": {
+			"normal" : preload("res://icon/darkprince_on.png"),
+			"pressed" : preload("res://icon/darkprince_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/darkprince_off.png"),
+			"pressed" : preload("res://icon/darkprince_off_pressed.png"),
+		},
 		"small": preload("res://icon/darkprince_small.png"),
 	},
 	"giant": {
-		"on": preload("res://icon/giant_on.png"),
-		"off": preload("res://icon/giant_off.png"),
+		"on": {
+			"normal" : preload("res://icon/giant_on.png"),
+			"pressed" : preload("res://icon/giant_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/giant_off.png"),
+			"pressed" : preload("res://icon/giant_off_pressed.png"),
+		},
 		"small": preload("res://icon/giant_small.png"),
 	},
 	"goblinhut": {
-		"on": preload("res://icon/goblinhut_on.png"),
-		"off": preload("res://icon/goblinhut_off.png"),
+		"on": {
+			"normal" : preload("res://icon/goblinhut_on.png"),
+			"pressed" : preload("res://icon/goblinhut_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/goblinhut_off.png"),
+			"pressed" : preload("res://icon/goblinhut_off_pressed.png"),
+		},
 		"small": preload("res://icon/goblinhut_small.png"),
 	},
 	"megaminion": {
-		"on": preload("res://icon/megaminion_on.png"),
-		"off": preload("res://icon/megaminion_off.png"),
+		"on": {
+			"normal" : preload("res://icon/megaminion_on.png"),
+			"pressed" : preload("res://icon/megaminion_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/megaminion_off.png"),
+			"pressed" : preload("res://icon/megaminion_off_pressed.png"),
+		},
 		"small": preload("res://icon/megaminion_small.png"),
 	},
 	"minionhorde": {
-		"on": preload("res://icon/minionhorde_on.png"),
-		"off": preload("res://icon/minionhorde_off.png"),
+		"on": {
+			"normal" : preload("res://icon/minionhorde_on.png"),
+			"pressed" : preload("res://icon/minionhorde_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/minionhorde_off.png"),
+			"pressed" : preload("res://icon/minionhorde_off_pressed.png"),
+		},
 		"small": preload("res://icon/minionhorde_small.png"),
 	},
 	"minions": {
-		"on": preload("res://icon/minions_on.png"),
-		"off": preload("res://icon/minions_off.png"),
+		"on": {
+			"normal" : preload("res://icon/minions_on.png"),
+			"pressed" : preload("res://icon/minions_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/minions_off.png"),
+			"pressed" : preload("res://icon/minions_off_pressed.png"),
+		},
 		"small": preload("res://icon/minions_small.png"),
 	},
 	"minipekka": {
-		"on": preload("res://icon/minipekka_on.png"),
-		"off": preload("res://icon/minipekka_off.png"),
+		"on": {
+			"normal" : preload("res://icon/minipekka_on.png"),
+			"pressed" : preload("res://icon/minipekka_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/minipekka_off.png"),
+			"pressed" : preload("res://icon/minipekka_off_pressed.png"),
+		},
 		"small": preload("res://icon/minipekka_small.png"),
 	},
 	"musketeer": {
-		"on": preload("res://icon/musketeer_on.png"),
-		"off": preload("res://icon/musketeer_off.png"),
+		"on": {
+			"normal" : preload("res://icon/musketeer_on.png"),
+			"pressed" : preload("res://icon/musketeer_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/musketeer_off.png"),
+			"pressed" : preload("res://icon/musketeer_off_pressed.png"),
+		},
 		"small": preload("res://icon/musketeer_small.png"),
 	},
 	"pekka": {
-		"on": preload("res://icon/pekka_on.png"),
-		"off": preload("res://icon/pekka_off.png"),
+		"on": {
+			"normal" : preload("res://icon/pekka_on.png"),
+			"pressed" : preload("res://icon/pekka_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/pekka_off.png"),
+			"pressed" : preload("res://icon/pekka_off_pressed.png"),
+		},
 		"small": preload("res://icon/pekka_small.png"),
 	},
 	"prince": {
-		"on": preload("res://icon/prince_on.png"),
-		"off": preload("res://icon/prince_off.png"),
+		"on": {
+			"normal" : preload("res://icon/prince_on.png"),
+			"pressed" : preload("res://icon/prince_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/prince_off.png"),
+			"pressed" : preload("res://icon/prince_off_pressed.png"),
+		},
 		"small": preload("res://icon/prince_small.png"),
 	},
 	"skeletons": {
-		"on": preload("res://icon/skeletons_on.png"),
-		"off": preload("res://icon/skeletons_off.png"),
+		"on": {
+			"normal" : preload("res://icon/skeletons_on.png"),
+			"pressed" : preload("res://icon/skeletons_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/skeletons_off.png"),
+			"pressed" : preload("res://icon/skeletons_off_pressed.png"),
+		},
 		"small": preload("res://icon/skeletons_small.png"),
 	},
 	"speargoblins": {
-		"on": preload("res://icon/speargoblins_on.png"),
-		"off": preload("res://icon/speargoblins_off.png"),
+		"on": {
+			"normal" : preload("res://icon/speargoblins_on.png"),
+			"pressed" : preload("res://icon/speargoblins_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/speargoblins_off.png"),
+			"pressed" : preload("res://icon/speargoblins_off_pressed.png"),
+		},
 		"small": preload("res://icon/speargoblins_small.png"),
 	},
 	"threemusketeers": {
-		"on": preload("res://icon/threemusketeers_on.png"),
-		"off": preload("res://icon/threemusketeers_off.png"),
+		"on": {
+			"normal" : preload("res://icon/threemusketeers_on.png"),
+			"pressed" : preload("res://icon/threemusketeers_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/threemusketeers_off.png"),
+			"pressed" : preload("res://icon/threemusketeers_off_pressed.png"),
+		},
 		"small": preload("res://icon/threemusketeers_small.png"),
 	},
 	"tombstone": {
-		"on": preload("res://icon/tombstone_on.png"),
-		"off": preload("res://icon/tombstone_off.png"),
+		"on": {
+			"normal" : preload("res://icon/tombstone_on.png"),
+			"pressed" : preload("res://icon/tombstone_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/tombstone_off.png"),
+			"pressed" : preload("res://icon/tombstone_off_pressed.png"),
+		},
 		"small": preload("res://icon/tombstone_small.png"),
 	},
 	"valkyrie": {
-		"on": preload("res://icon/valkyrie_on.png"),
-		"off": preload("res://icon/valkyrie_off.png"),
+		"on": {
+			"normal" : preload("res://icon/valkyrie_on.png"),
+			"pressed" : preload("res://icon/valkyrie_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/valkyrie_off.png"),
+			"pressed" : preload("res://icon/valkyrie_off_pressed.png"),
+		},
 		"small": preload("res://icon/valkyrie_small.png"),
 	},
+	"fireball" : {
+		"on": {
+			"normal" : preload("res://icon/fireball_on.png"),
+			"pressed" : preload("res://icon/fireball_on.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/fireball_off.png"),
+			"pressed" : preload("res://icon/fireball_off.png"),
+		},
+		"small": preload("res://icon/fireball_small.png"),
+	},
+	"freeze" : {
+		"on": {
+			"normal" : preload("res://icon/freeze_on.png"),
+			"pressed" : preload("res://icon/freeze_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/freeze_off.png"),
+			"pressed" : preload("res://icon/freeze_off_pressed.png"),
+		},
+		"small": preload("res://icon/freeze_small.png"),
+	},
 	"laser" : {
-		"on": preload("res://icon/laser_on.png"),
-		"off": preload("res://icon/laser_off.png"),
+		"on": {
+			"normal" : preload("res://icon/laser_on.png"),
+			"pressed" : preload("res://icon/laser_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/laser_off.png"),
+			"pressed" : preload("res://icon/laser_off_pressed.png"),
+		},
 		"small": preload("res://icon/laser_small.png"),
 	},
 }
@@ -171,4 +330,5 @@ var effect = {
 		"unit": preload("res://effect/explosion/unit.tscn"),
 		"missile": preload("res://effect/explosion/missile.tscn"),
 	},
+	"spell_indicator": preload("res://spell_indicator.tscn"),
 }

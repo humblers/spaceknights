@@ -4,17 +4,18 @@ var velocity = Vector2(0, 0)
 
 var name
 var color
-var target_id = 0
+var target
 var hp = 0
 var damage_effect = Timer.new()
+
 var hpnode
 onready var body = get_node("Body")
 
-signal position_changed(position)
-signal projectile_created(type, target_id, lifetime, initial_position)
+signal position_changed(id, position)
+signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
-	set_process(true)
+	body.set_material(resource.unit_material.duplicate())
 
 func _process(delta):
 	play_launch_effect(delta)
@@ -27,6 +28,10 @@ func initialize(unit):
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
+
+func set_position(pos):
+	set_pos(pos)
+	emit_signal("position_changed", get_name(), pos)
 
 func set_base():
 	if has_node("Base"):
@@ -53,22 +58,24 @@ func set_damage_effect():
 	add_child(damage_effect)
 
 func update_changes(unit):
-	set_pos(get_position(unit))
-	emit_signal("position_changed", get_pos())
+	set_position(get_position(unit))
 	body.set_rot(get_rotation(unit))
-	set_target_id(unit)
+	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
 		body.set_frame(0)
 		if global.UNITS[name].has("projectile"):
 			emit_signal("projectile_created",
 					global.UNITS[name].projectile,
-					target_id,
+					target,
 					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").get_global_pos())
-	body.play("%s_%s" % [color, unit.State])
-	#velocity = get_velocity(unit)
-	#update()
+	if unit.State == "frozen":
+		body.stop()
+		body.get_material().set_shader_param("frozen", true)
+	else:
+		body.get_material().set_shader_param("frozen", false)
+		body.play("%s_%s" % [color, unit.State])
 
 func update_hp(unit):
 	if unit.Hp <= 0:
@@ -101,15 +108,24 @@ func get_rotation(unit):
 	else:
 		return angle + PI
 
-func set_target_id(unit):
-	target_id = global.dict_get(unit, "TargetId", 0)
+func set_target(unit):
+	if unit.has("TargetId"):
+		target = unit.TargetId
+		return
+	if unit.has("TargetIds"):
+		target = unit.TargetIds
+		return
+	target = null
+
+func show_speech_bubble():
+	get_node("Body/bubble").show_bubble()
 
 func show_damage_effect():
-	body.set_modulate(Color(1.0, 0.4, 0.4))
+	body.get_material().set_shader_param("damaged", true)
 	damage_effect.start()
 
 func hide_damage_effect():
-	body.set_modulate(Color(1.0, 1.0, 1.0))
+	body.get_material().set_shader_param("damaged", false)
 
 func set_launch_effect(unit):
 	var launch_effect = resource.effect.launch.instance()
@@ -124,47 +140,40 @@ func set_launch_effect(unit):
 	else:
 		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[name].radius
 		body.play("red_idle")
-	set_pos(pos)
+	set_position(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
 	hpnode.hide()
 	body.set_self_opacity(0.7)
+	set_process(true)
 
 func play_launch_effect(delta):
 	if not body.has_node("Launch"):
 		return
 	var launch_effect = body.get_node("Launch")
 	if not launch_effect.is_finished(delta):
-		set_pos(launch_effect.update_position(get_pos(), delta))
+		set_position(launch_effect.update_position(get_pos(), delta))
 		return
+	set_process(false)
 	launch_effect.queue_free()
 	hpnode.show()
 	body.set_self_opacity(1.0)
 
 func transform_to_guide_node(pos):
-	set_pos(pos)
+	set_position(pos)
 	hpnode.hide()
 	body.set_opacity(0.5)
+
+func release_lock_on_anim(node):
+	node.queue_free()
 
 func _draw():
 	var unit = global.UNITS[name]
 	if debug.show_radius and unit.has("radius"):
-		draw_circle_arc(unit["radius"], Color(1.0, 0, 0))
+		global.draw_circle_arc(unit["radius"], Color(1.0, 0, 0), self)
 	if debug.show_sight and unit.has("sight"):
-		draw_circle_arc(unit["sight"], Color(0, 1.0, 0))
+		global.draw_circle_arc(unit["sight"], Color(0, 1.0, 0), self)
 	if debug.show_range and unit.has("range"):
-		draw_circle_arc(unit["range"], Color(0, 0, 1.0))
+		global.draw_circle_arc(unit["range"], Color(0, 0, 1.0), self)
 	if debug.show_velocity and unit.has("radius"):
 		var ahead = velocity.normalized() * (unit.radius + velocity.length())
 		draw_line(Vector2(0, 0), ahead, Color(1.0, 1.0, 0))
-
-func draw_circle_arc(radius, color, center = Vector2(0, 0), angle_from = 0, angle_to = 360):
-	var nb_points = 32
-	var points_arc = Vector2Array()
-	
-	for i in range(nb_points+1):
-		var angle_point = angle_from + i*(angle_to-angle_from)/nb_points - 90
-		var point = center + Vector2( cos(deg2rad(angle_point)), sin(deg2rad(angle_point)) ) * radius
-		points_arc.push_back( point )
-
-	for indexPoint in range(nb_points):
-		draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)

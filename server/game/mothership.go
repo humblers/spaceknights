@@ -17,7 +17,7 @@ func NewMothership(t Team) []*Unit {
         Type:   Building,
         Name:   "maincore",
         Layer:  Ground,
-        Hp:     1200,
+        Hp:     4008,
         InvMass: 0,
         Radius: 20,
         Position: Vector2{
@@ -30,7 +30,7 @@ func NewMothership(t Team) []*Unit {
         Type:   Building,
         Name:   "subcore",
         Layer:  Ground,
-        Hp:     700,
+        Hp:     2534,
         InvMass: 0,
         Radius: 30,
         Position: Vector2{
@@ -43,7 +43,7 @@ func NewMothership(t Team) []*Unit {
         Type:   Building,
         Name:   "subcore",
         Layer:  Ground,
-        Hp:     700,
+        Hp:     2534,
         InvMass:   0,
         Radius: 30,
         Position: Vector2{
@@ -62,6 +62,14 @@ func NewMothership(t Team) []*Unit {
             Y: MothershipBaseHeight / 2,
         },
     }
-    mothership = append(mothership, main, left, right, base)
+    mothership = append(mothership, right, main, left, base)
+
+    // flip
+    for _, u := range mothership {
+        if u.Team == Home {
+            u.Position.X = MapWidth - u.Position.X
+            u.Position.Y = MapHeight - u.Position.Y
+        }
+    }
     return mothership
 }

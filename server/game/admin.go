@@ -7,6 +7,12 @@ import (
     "github.com/golang/glog"
 )
 
+type User struct{
+    id string
+    knights []string
+    deck Cards
+}
+
 type Admin struct {
     Listener    net.Listener
     Server      *Server
@@ -64,14 +70,14 @@ func (a *Admin) HandleClient(conn net.Conn) {
     game := NewGame()
     game.Join(Home, User{
         id:         req.Home.UserId,
-        knightName: req.Home.Knight,
+        knights:    req.Home.Knights,
         deck:       req.Home.Deck,
         //custom deck
         //deck: Cards{ "goblinhut", "skeletons", "speargoblins", "minipekka", "giant", "minipekka", "giant", },
     })
     game.Join(Visitor, User{
         id:         req.Visitor.UserId,
-        knightName: req.Visitor.Knight,
+        knights:    req.Visitor.Knights,
         deck:       req.Visitor.Deck,
 
     })

@@ -1,6 +1,9 @@
 package main
 
 func NewArcher(id int, t Team, pos Vector2, offset Vector2) *Unit {
+    if t == Home {
+        offset = offset.FlipY()
+    }
     return &Unit{
         Team:          t,
         Type:          Troop,
@@ -8,16 +11,16 @@ func NewArcher(id int, t Team, pos Vector2, offset Vector2) *Unit {
         Layer:         Ground,
         TargetLayers : Layers{Ground, Air},
         TargetTypes:   Types{Troop, Building},
-        Hp:            100,
+        Hp:            254,
         InvMass:       1.0/6,
         Speed:         3,
         PreHitDelay:   4,
         PostHitDelay:  7,
         Radius:        9,
         Size:          Small,
-        Sight:         200,
-        Range:         80,
-        Damage:        40,
+        Sight:         100,
+        Range:         70,
+        Damage:        86,
         Id:            id,
         Position:      pos.Plus(offset.Multiply(9)),
     }

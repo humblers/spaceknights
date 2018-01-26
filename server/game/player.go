@@ -1,20 +1,19 @@
 package main
 
 import (
-    "log"
     "encoding/json"
     "github.com/golang/glog"
 )
 
 const MaxEnergy = 10000
-const EnergyPerFrame = 70
-const HandSize = 3
+const EnergyPerFrame = 40
+const HandSize = 4
 
 type Player struct {
-    Team Team `json:"-"`
+    Team Team
     Hand Cards
     Pending Cards `json:"-"`
-    Knight *Unit `json:"-"`
+    Knights []*Unit `json:"-"`
     Energy int
     Movements []*Movement `json:"-"`
 }
@@ -23,14 +22,36 @@ type Movement struct {
     PositionX float64
     Frame int
 }
+type Players map[string]*Player
 
-func NewPlayer(team Team, deck Cards, knight *Unit) *Player {
+func (players Players) Filter(f func(*Player) bool) Players {
+    filtered := make(map[string]*Player)
+    for id, player := range players {
+        if f(player) {
+            filtered[id] = player
+        }
+    }
+    return filtered
+}
+
+func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
+    for _, knight := range knights {
+        switch knight.Name {
+        case "shuriken":
+            deck = append(deck, "fireball")
+        case "space_z":
+            deck = append(deck, "laser")
+        case "freezer":
+            deck = append(deck, "freeze")
+        }
+    }
+    glog.Infof("player deck: %v", deck)
     deck.Shuffle()
     return &Player{
         Team: team,
         Hand: deck[:HandSize],
         Pending: deck[HandSize:],
-        Knight: knight,
+        Knights: knights,
     }
 }
 
@@ -45,69 +66,103 @@ func (p *Player) MarshalJSON() ([]byte, error) {
     })
 }
 
-func (player *Player) RepairKnight(game *Game) {
-    if player.Knight.Hp <= 0 && player.Knight.RepairFrame == game.Frame {
-        knight := player.Knight
-        knight.Hp = 100
-        knight.Position.X = MapWidth / 2; knight.Position.Y = TileHeight * 1.5
-        knight.SpawnFrame = game.Frame + knight.SpawnSpeed
-        knight.SpawnStack = 0
-        knight.HitFrame = 0
-        game.AddUnit(knight)
+func (player *Player) Update(game *Game) {
+    energy := EnergyPerFrame
+    if game.Frame > int(DoubleAfter / FrameInterval) {
+        energy *= 2
     }
-    return
+    player.Energy += energy
+    if player.Energy >= MaxEnergy {
+        player.Energy = MaxEnergy
+    }
 }
 
-const MovementDelay = 1
-func (player *Player) AddMovement(x float64, frame int) {
-    posX := x
-    if player.Team == Visitor {
-        posX = MapWidth - x
-    }
-    player.Movements = append(player.Movements, &Movement{posX, frame + MovementDelay})
-}
-
-func (player *Player) Move(frame int) {
-    var unhandled []*Movement
-    for _, m := range player.Movements {
-        if frame > m.Frame {
-            player.Knight.InputPositionX = m.PositionX
-        } else {
-            unhandled = append(unhandled, m)
+func (player *Player) Move(input Input) {
+    for _, knight := range player.Knights {
+        if knight.Id != input.Move {
+            continue
+        }
+        if knight.Position != knight.Destination {
+            continue
+        }
+        knight.Destination = input.Position
+        switch player.Team {
+        case Home:
+            knight.Destination = knight.Destination.Clamp(0, MapWidth, CenterY + TileHeight, MapHeight)
+        case Visitor:
+            knight.Destination.X = MapWidth - knight.Destination.X
+            knight.Destination.Y = MapHeight - knight.Destination.Y
+            knight.Destination = knight.Destination.Clamp(0, MapWidth, 0, CenterY - TileHeight)
         }
     }
-    player.Movements = unhandled
+
 }
 
-func (player *Player) UseCard(index int, releasePoint float64, game *Game) {
-    if player.Knight.Hp <= 0 {
+func (player *Player) RemoveCard(card Card) {
+    var filtered Cards
+    for _, c := range player.Hand {
+        if c != card {
+            filtered = append(filtered, c)
+        }
+    }
+    for _, c := range player.Pending {
+        if c != card {
+            filtered = append(filtered, c)
+        }
+    }
+    player.Hand = filtered[:HandSize]
+    player.Pending = filtered[HandSize:]
+}
+func (player *Player) UseCard(input Input, game *Game) {
+    index := input.Use - 1
+    if index >= len(player.Hand) {
+        glog.Errorf("invalid card index(%v)", index)
         return
     }
     card := player.Hand[index]
-    next := player.Pending[0]
 
-    if index >= len(player.Hand) {
-        log.Panicf("invalid card index: %v", index)
-    }
     if player.Energy < CostMap[card] {
         glog.Infof("not enough energy for %v: %v", card, player.Energy)
         return
     }
-    player.Energy = player.Energy - CostMap[card]
-    game.Stats[player.Team].EnergyUsed += CostMap[card] / 1000
 
-    player.Hand[index] = next
+    player.Hand[index] = player.Pending[0]
     for i := 1; i < len(player.Pending); i++ {
         player.Pending[i - 1] = player.Pending[i]
     }
     player.Pending[len(player.Pending) - 1] = card
 
-    position := Vector2{player.Knight.Position.X, releasePoint}
-    game.AddToWaitingCards(card, position, player)
+    player.Energy = player.Energy - CostMap[card]
+    game.Stats[player.Team].EnergyUsed += CostMap[card]
+
+    if player.Team == Visitor {
+        input.Position.X = MapWidth - input.Position.X
+        input.Position.Y = MapHeight - input.Position.Y
+    }
+    k := player.FindKnight(card)
+    if k != nil {
+        k.StartCast(card, input.Position, player)
+    } else {
+        game.AddToWaitingCards(card, input.Position, player, nil)
+    }
 }
 
-func (player *Player) IncreaseEnergy(amount int) {
-    if player.Energy += amount; player.Energy > MaxEnergy {
-        player.Energy = MaxEnergy
+func (player *Player) FindKnight(spell Card) *Unit {
+    var name string
+    switch spell {
+    case "fireball":
+        name = "shuriken"
+    case "laser":
+        name = "space_z"
+    case "freeze":
+        name = "freezer"
+    default:
+        return nil
     }
+    for _, k := range player.Knights {
+        if k.Name == name {
+            return k
+        }
+    }
+    return nil
 }

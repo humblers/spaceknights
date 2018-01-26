@@ -11,7 +11,7 @@ func _ready():
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
-	global.team = "Home" if game.has("Home") else "Visitor"
+	global.team = game.Players[global.id].Team
 	create_new_units(game.Units)
 	update_units(game.Units)
 	delete_dead_units(game.Units)
@@ -25,30 +25,26 @@ func opening_finished():
 	get_node("Units").show()
 	get_node("OpeningNodes").queue_free()
 
-func has_id(units, id):
-	for unit in units:
-		if str(unit.Id) == id:
-			return true
-	return false
-
 func delete_dead_units(units):
 	for node in get_node("Units").get_children():
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
-		if not has_id(units, node.get_name()):
+		if not units.has(node.get_name()):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
 			add_child(effect)
 			node.queue_free()
 
 func create_new_units(units):
-	for unit in units:
-		if not get_node("Units").has_node(str(unit.Id)):
+	for id in units:
+		var unit = units[id]
+		if not get_node("Units").has_node(id):
 			create_unit_node(unit)
 
 func update_units(units):
-	for unit in units:
-		var node = get_node("Units").get_node(str(unit.Id))
+	for id in units:
+		var unit = units[id]
+		var node = get_node("Units").get_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
 		node.update_changes(unit)
@@ -63,10 +59,6 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
-	if unit.Name in ["shuriken", "space_z"]:
-		global.knights[str(unit.Id)] = node
-		if unit.Team == global.team:
-			node.connect("position_changed", get_node("UI/CardGuide"), "update_guide_position")
 
 func create_new_spells(spells):
 	for id in spells:
@@ -77,21 +69,20 @@ func create_new_spells(spells):
 		var node = get_node("Spells").get_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
+			node.play("active")
 
 func delete_finished_spells(spells):
 	for node in get_node("Spells").get_children():
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not spells.has(node.get_name()):
-			node.queue_free()
+			node.release()
 
 func create_spell_node(spell, group=OBJECT_DEFAULT):
 	var name = spell.Name
 	var node = resource.spell[name].instance()
 	node.initialize(spell)
 	node.set_name(str(spell.Id))
-	var knight = global.knights[str(spell.Knight.Id)]
-	knight.connect("position_changed", node, "update_position")
 	get_node("Spells").add_child(node)
 	if group != OBJECT_DEFAULT:
 		node.add_to_group(group)
@@ -109,19 +100,28 @@ func handle_waiting_cards(frame, cards):
 				unit.Id = id
 				create_unit_node(unit, OBJECT_CLIENT_ONLY)
 				id += 1
-		elif global.is_spell_card(card.Name):
+		if global.is_spell_card(card.Name):
 			card.Id = card.IdStarting
 			create_spell_node(card, OBJECT_CLIENT_ONLY)
 
 func update_ui(game):
 	get_node("UI").update_changes(game)
 
-func create_projectile(type, target_id, lifetime, initial_position):
-	assert(get_node("Units").has_node(str(target_id)))
-	var node = resource.projectile[type].instance()
-	var target = get_node("Units").get_node(str(target_id))
-	node.initialize(target, lifetime, initial_position)
-	get_node("Projectiles").add_child(node)
+func create_projectile(type, target, lifetime, initial_position):
+	var target_type = typeof(target)
+	var proj_node = resource.projectile[type].instance()
+	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
+		var target_node = get_node("Units").get_node(str(target))
+		proj_node.set_single_target(target_node, lifetime, initial_position)
+	elif target_type in [TYPE_ARRAY, TYPE_INT_ARRAY, TYPE_REAL_ARRAY]:
+		var target_nodes = []
+		for id in target:
+			target_nodes.append(get_node("Units").get_node(str(id)))
+		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
+	else:
+		print("unknown target type(%d)" % target_type)
+		return
+	get_node("Projectiles").add_child(proj_node)
 
 func play_runway_light(team, pos_x):
 	var effect = resource.effect.runway.instance()

@@ -6,6 +6,20 @@ type Vector2 struct {
     X, Y float64
 }
 
+func (v Vector2) FlipY() Vector2 {
+    return Vector2{
+        X: v.X,
+        Y: -v.Y,
+    }
+}
+
+func (v Vector2) Clamp(minX, maxX, minY, maxY float64) Vector2 {
+    return Vector2{
+        X: math.Min(math.Max(minX, v.X), maxX),
+        Y: math.Min(math.Max(minY, v.Y), maxY),
+    }
+}
+
 func (a Vector2) Plus(b Vector2) Vector2 {
     return Vector2{
         X: a.X + b.X,
@@ -31,6 +45,13 @@ func (v Vector2) Divide(c float64) Vector2 {
     return Vector2{
         X: v.X / c,
         Y: v.Y / c,
+    }
+}
+
+func (v Vector2) Rotate(c float64) Vector2 {
+    return Vector2{
+        X: v.X * math.Cos(c) - v.Y * math.Sin(c),
+        Y: v.X * math.Sin(c) + v.Y * math.Cos(c),
     }
 }
 
