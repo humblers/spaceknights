@@ -248,7 +248,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
 	case "goblinhut":
 		g.AddUnit(NewGoblinhut(card.IdStarting, card.Team, card.Position))
 	case "hogrider":
-		g.AddUnit(NewHogrider(card.IdStarting, card.Team, card.Position))	
+		g.AddUnit(NewHogrider(card.IdStarting, card.Team, card.Position))
 	case "megaminion":
 		g.AddUnit(NewMegaminion(card.IdStarting, card.Team, card.Position))
 	case "minionhorde":

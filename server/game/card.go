@@ -58,7 +58,7 @@ var CostMap = map[Card]int{
 	"darkprince":      4000,
 	"giant":           5000,
 	"goblinhut":       5000,
-	"hogrider":		   4000,
+	"hogrider":        4000,
 	"megaminion":      3000,
 	"minionhorde":     5000,
 	"minions":         3000,
