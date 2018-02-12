@@ -10,7 +10,7 @@ func NewPrince(id int, t Team, pos Vector2) *Unit {
 		TargetTypes:  Types{Troop, Building},
 		Hp:           1536,
 		InvMass:      1.0 / 8,
-		Speed:        3,
+		Speed:        4.5,
 		PreHitDelay:  3,
 		PostHitDelay: 11,
 		Radius:       14,

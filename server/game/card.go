@@ -32,7 +32,7 @@ func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int, kn
 
 func (c *WaitingCard) GetUnitCount() (count int) {
 	switch c.Name {
-	case "barbarianhut", "bomber", "bombtower", "cannon", "darkprince", "giant", "goblinhut", "megaminion", "minipekka", "musketeer", "pekka", "prince", "tombstone", "valkyrie":
+	case "barbarianhut", "bomber", "bombtower", "cannon", "darkprince", "giant", "goblinhut", "hogrider", "megaminion", "minipekka", "musketeer", "pekka", "prince", "tombstone", "valkyrie":
 		count = 1
 	case "archers":
 		count = 2
@@ -58,6 +58,7 @@ var CostMap = map[Card]int{
 	"darkprince":      4000,
 	"giant":           5000,
 	"goblinhut":       5000,
+	"hogrider":		   4000,
 	"megaminion":      3000,
 	"minionhorde":     5000,
 	"minions":         3000,
