@@ -109,7 +109,15 @@ const UNITS = {
 		"projectile" : "bullet",
 		"size" : "large",
 	},
-		"giant" : {
+	"hogrider" : {
+		"layer" : "Ground",
+		"hp" : 1408,
+		"radius" : 14,
+		"sight" : 120,
+		"range" : 15,
+		"size" : "medium",
+	},
+	"giant" : {
 		"layer" : "Ground",
 		"hp" : 3344,
 		"radius" : 28,
