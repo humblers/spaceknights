@@ -301,6 +301,10 @@ const CARDS = {
 		"type" : "building",
 		"cost" : 5000,
 	},
+	"hogrider" : {
+		"type" : "troop",
+		"cost" : 4000,
+	},
 	"megaminion" : {
 		"type" : "troop",
 		"cost" : 3000,
