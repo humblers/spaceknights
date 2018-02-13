@@ -14,6 +14,7 @@ var unit = {
 	"freezer": preload("res://unit/freezer/freezer.tscn"),
 	"giant": preload("res://unit/giant/giant.tscn"),
 	"goblinhut": preload("res://unit/goblinhut/goblinhut.tscn"),
+	"hogrider": preload("res://unit/hogrider/hogrider.tscn"),
 	"knightbullet": preload("res://unit/knightbullet/knightbullet.tscn"),
 	"maincore": preload("res://unit/maincore/maincore.tscn"),
 	"megaminion": preload("res://unit/megaminion/megaminion.tscn"),
@@ -155,6 +156,17 @@ var icon = {
 			"pressed" : preload("res://icon/goblinhut_off_pressed.png"),
 		},
 		"small": preload("res://icon/goblinhut_small.png"),
+	},
+	"hogrider": {
+		"on": {
+			"normal" : preload("res://icon/hogrider_on.png"),
+			"pressed" : preload("res://icon/hogrider_on_pressed.png"),
+		},
+		"off": {
+			"normal" : preload("res://icon/hogrider_off.png"),
+			"pressed" : preload("res://icon/hogrider_off_pressed.png"),
+		},
+		"small": preload("res://icon/hogrider_small.png"),
 	},
 	"megaminion": {
 		"on": {
