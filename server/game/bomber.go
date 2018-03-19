@@ -7,7 +7,7 @@ func NewBomber(id int, t Team, pos Vector2) *Unit {
 		Name:         "bomber",
 		Layer:        Ground,
 		TargetLayers: Layers{Ground},
-		TargetTypes:  Types{Building, Troop},
+		TargetTypes:  Types{Building, Troop, Knight},
 		Hp:           311,
 		InvMass:      1.0 / 5,
 		Speed:        3,

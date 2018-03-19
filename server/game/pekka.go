@@ -7,7 +7,7 @@ func NewPekka(id int, t Team, pos Vector2) *Unit {
 		Name:         "pekka",
 		Layer:        Ground,
 		TargetLayers: Layers{Ground},
-		TargetTypes:  Types{Troop, Building},
+		TargetTypes:  Types{Troop, Building, Knight},
 		Hp:           3458,
 		InvMass:      1.0 / 25,
 		Speed:        2.25,

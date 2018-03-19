@@ -84,12 +84,11 @@ type Game struct {
 	Players       Players `json:",omitempty"`
 	Units         map[int]*Unit
 	Spells        map[int]*Spell
-	WaitingCards  []*WaitingCard   `json:",omitempty"`
-	ObjectCounter int              `json:"-"`
-	Result        *Result          `json:",omitempty"`
-	Winner        Team             `json:"-"`
-	Stats         map[Team]*Stat   `json:"-"`
-	Motherships   map[Team][]*Unit `json:"-"`
+	WaitingCards  []*WaitingCard `json:",omitempty"`
+	ObjectCounter int            `json:"-"`
+	Result        *Result        `json:",omitempty"`
+	Winner        Team           `json:"-"`
+	Stats         map[Team]*Stat `json:"-"`
 }
 
 type Result struct {
@@ -108,9 +107,9 @@ type Stat struct {
 }
 
 func (game *Game) RemoveDeadUnits() {
-	for id, unit := range game.Units {
+	for _, unit := range game.Units {
 		if unit.IsDead() {
-			delete(game.Units, id)
+			unit.SelfRemove()
 		}
 	}
 }
@@ -123,14 +122,12 @@ func NewGame() *Game {
 		Players:       make(map[string]*Player),
 		ObjectCounter: 1,
 		Stats:         make(map[Team]*Stat),
-		Motherships:   make(map[Team][]*Unit),
 	}
-	g.Motherships[Home] = NewMothership(Home)
-	g.Motherships[Visitor] = NewMothership(Visitor)
-	for _, u := range g.Motherships[Home] {
+
+	for _, u := range NewMothership(Home) {
 		g.AddUnit(u)
 	}
-	for _, u := range g.Motherships[Visitor] {
+	for _, u := range NewMothership(Visitor) {
 		g.AddUnit(u)
 	}
 	g.Stats[Home] = &Stat{}
@@ -140,21 +137,30 @@ func NewGame() *Game {
 
 func (game *Game) Score(team Team) int {
 	score := 0
-	for _, unit := range game.Motherships[team] {
-		if unit.IsDead() {
+	for _, player := range game.Players {
+		if player.Team != team {
 			continue
 		}
-		switch unit.Name {
-		case "maincore":
-			score += MaincoreScore
-		case "subcore":
-			score += SubcoreScore
+		for _, knight := range player.Knights {
+			if knight.IsDead() {
+				continue
+			}
+			switch knight.Name {
+			case "space_z":
+				score += MaincoreScore
+			default:
+				score += SubcoreScore
+			}
 		}
 	}
 	return score
 }
 
 func (game *Game) Over() bool {
+	//	if len(game.Players) > 2 {
+	//		return false
+	//	}
+
 	home := game.Score(Home)
 	visitor := game.Score(Visitor)
 	switch {
