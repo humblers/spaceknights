@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"math"
+
+	"github.com/golang/glog"
 )
 
 type State string
@@ -472,7 +473,7 @@ func (u *Unit) Update() {
 			}
 			if !u.HasTarget() || !u.WithinRange(u.Target) {
 				var filter = func(other *Unit) bool {
-					return u.CanSee(other) || other.IsCore()
+					return u.CanSee(other) || (other.Type == Knight && other.WaitingSpell == nil)
 				}
 				u.Target = u.FindNearestTarget(filter)
 			}
@@ -523,22 +524,6 @@ func (u *Unit) Update() {
 		}
 		u.HandleSpawn()
 	case Knight:
-		if u.Game.Motherships[u.Team][u.KnightIndex].IsDead() {
-			u.SelfRemove()
-			for _, player := range u.Game.Players {
-				if player.Team == u.Team {
-					switch u.Name {
-					case "shuriken":
-						player.RemoveCard("fireball")
-					case "space_z":
-						player.RemoveCard("laser")
-					case "freezer":
-						player.RemoveCard("freeze")
-					}
-				}
-			}
-			return
-		}
 		u.Velocity = Vector2{0, 0}
 		if u.WaitingSpell != nil {
 			if u.WaitingSpell.Finished {
@@ -683,6 +668,20 @@ func (u *Unit) FindNearestKnightTarget() *Unit {
 }
 
 func (u *Unit) SelfRemove() {
+	var cardName Card
+	switch u.Name {
+	case "shuriken":
+		cardName = "fireball"
+	case "space_z":
+		cardName = "laser"
+	case "freezer":
+		cardName = "freeze"
+	}
+	if cardName != "" {
+		for _, player := range u.Game.Players {
+			player.RemoveCard(cardName)
+		}
+	}
 	delete(u.Game.Units, u.Id)
 }
 
