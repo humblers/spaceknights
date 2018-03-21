@@ -101,7 +101,7 @@ const UNITS = {
 	},
 	"freezer" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
 		"radius" : 10,
 		"sight" : 200,
@@ -142,7 +142,7 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
 		"radius" : 10,
 		"sight" : 200,
@@ -152,7 +152,7 @@ const UNITS = {
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 4008 * 2 / 3,
 		"prehitdelay" : 10,
 		"radius" : 10,
 		"sight" : 200,

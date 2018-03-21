@@ -557,7 +557,7 @@ func (u *Unit) Update() {
 			}
 			return
 		}
-		if u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target) {
+		if u.HasTargetInKnightFirefield() {
 			if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
 				if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
 					bullet := NewKnightBullet(u.Team, u.Position)
@@ -576,6 +576,9 @@ func (u *Unit) Update() {
 			}
 		} else {
 			u.Target = u.FindNearestKnightTarget()
+			if !u.HasTargetInKnightFirefield() {
+				u.Velocity = u.InitialPosition.Minus(u.Position).Truncate(u.Speed)
+			}
 		}
 	case Bullet:
 		if u.IsOutOfRange() {
@@ -652,6 +655,11 @@ func (u *Unit) IsInMyArea(target *Unit) bool {
 	}
 	return false
 }
+
+func (u *Unit) HasTargetInKnightFirefield() bool {
+	return u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target)
+}
+
 func (u *Unit) FindNearestKnightTarget() *Unit {
 	var target *Unit
 	var distance float64
