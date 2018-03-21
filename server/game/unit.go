@@ -381,7 +381,13 @@ func (u *Unit) IsDead() bool {
 }
 
 func (u *Unit) HasTarget() bool {
-	return u.Target != nil && !u.Target.IsDead()
+	if u.Target == nil {
+		return false
+	}
+	if u.Target.IsDead() {
+		return false
+	}
+	return u.Target.Type != Knight || u.Target.WaitingSpell == nil
 }
 
 func (u *Unit) HandleSpawn() {
@@ -473,7 +479,13 @@ func (u *Unit) Update() {
 			}
 			if !u.HasTarget() || !u.WithinRange(u.Target) {
 				var filter = func(other *Unit) bool {
-					return u.CanSee(other) || (other.Type == Knight && other.WaitingSpell == nil)
+					if u.CanSee(other) && other.Type != Knight {
+						return true
+					}
+					if other.Type == Knight && other.WaitingSpell == nil {
+						return true
+					}
+					return false
 				}
 				u.Target = u.FindNearestTarget(filter)
 			}
@@ -481,7 +493,7 @@ func (u *Unit) Update() {
 				u.State = Idle
 				glog.Warningf("no target found : %v", u.Name)
 			} else {
-				if u.WithinRange(u.Target) {
+				if u.WithinRange(u.Target) && (u.Target.Type != Knight || u.Target.WaitingSpell == nil) {
 					u.State = Attack
 					u.StartAttack()
 					//glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
