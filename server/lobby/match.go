@@ -68,7 +68,7 @@ func (m *MatchManager) MatchingCandidates() {
 	c1, c2 := m.Candidates[id1], m.Candidates[id2]
 	session := &Game{
 		//Host: "13.125.74.237",
-		Host:      "127.0.0.1",
+		Host: "127.0.0.1",
 		//Host:      "192.168.1.3",
 		SessionID: strconv.FormatInt(time.Now().Unix(), 10),
 	}
