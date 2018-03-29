@@ -1,12 +1,12 @@
 extends AnimatedSprite
 
-var name
+var a_name
 
 func _ready():
-	play(name)
+	play(a_name)
 	yield(self, "finished")
 	queue_free()
 
 func initialize(name, pos):
-	self.name = name
+	a_name = name
 	set_pos(pos)

@@ -1,12 +1,12 @@
 extends AnimatedSprite
 
-var name
+var s_name
 
 func _ready():
 	play("prepare")
 
 func initialize(spell):
-	name = spell.Name
+	s_name = spell.Name
 	if global.team == spell.Team:
 		set_rot(PI)
 	set_z(global.LAYERS.GroundUnder)
@@ -15,7 +15,7 @@ func initialize(spell):
 	set_pos(get_position(spell))
 
 func release():
-	if name == "freeze":
+	if s_name == "freeze":
 		queue_free()
 		return
 	if get_sprite_frames().get_animation_loop(get_animation()):

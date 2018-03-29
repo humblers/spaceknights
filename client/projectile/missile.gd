@@ -2,7 +2,7 @@ extends Node
 
 const ANIM_NAME = "waypoints"
 
-export var name = ""
+export var m_name = ""
 export var missile_spread = 10
 export var spread_divider_on_way1 = 5
 export var spread_divider_on_way2 = 3
@@ -58,7 +58,7 @@ func play():
 	var explosion
 	for missile in missiles.get_children():
 		explosion = resource.effect.explosion.missile.instance()
-		explosion.initialize(name, missile.get_pos())
+		explosion.initialize(m_name, missile.get_pos())
 		add_child(explosion)
 		missile.queue_free()
 	yield(explosion, "finished")

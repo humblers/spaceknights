@@ -8,7 +8,7 @@ var find_stack = 0
 onready var id_holder = get_node("Auth/IDPlaceholder")
 onready var login = get_node("Auth/Login")
 onready var logout = get_node("Auth/Logout")
-onready var match = get_node("Match")
+onready var match_root = get_node("Match")
 onready var find_match = get_node("Match/Find")
 onready var cancel_match = get_node("Match/Cancel")
 onready var waiting_match = get_node("Match/Waiting")
@@ -70,9 +70,9 @@ func logout():
 
 func handle_match_buttons():
 	if not global.id:
-		match.hide()
+		match_root.hide()
 		return
-	match.show()
+	match_root.show()
 	if finding:
 		find_match.hide()
 		waiting_match.show()
