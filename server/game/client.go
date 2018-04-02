@@ -129,7 +129,7 @@ func (client *Client) read(timeout time.Duration) (Packet, error) {
 	if b, err := client.reader.ReadBytes('\n'); err != nil {
 		return nil, err
 	} else {
-		return Packet(b), nil
+		return Packet(b[4:]), nil
 	}
 }
 

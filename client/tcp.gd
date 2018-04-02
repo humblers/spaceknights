@@ -18,22 +18,22 @@ func _ready():
 	add_child(timer)
 
 func connect_server(ip, port):
-	assert(client.is_connected() == false)
-	if client.connect(ip, port) == OK:
+	assert(client.is_connected_to_host() == false)
+	if client.connect_to_host(ip, port) == OK:
 		packets.clear()
 		timer.start()
 
 func disconnect_server():
-	assert(client.is_connected() == true)
+	assert(client.is_connected_to_host() == true)
 	timer.stop()
-	client.disconnect()
+	client.disconnect_from_host()
 
 func send(dict):
-	var packet = dict.to_json() + '\n'
+	var packet = to_json(dict) + '\n'
 	packets.append(packet)
 	
 func _update():
-	assert(client.is_connected() == true)
+	assert(client.is_connected_to_host() == true)
 
 	# read
 	var dict = {}
@@ -48,8 +48,8 @@ func _update():
 		var err = ret[0]
 		var compressed = ret[1]
 		if err == OK:
-			var decompressed = compressed.decompress(nDecompressed)
-			dict.parse_json(decompressed.get_string_from_utf8())
+			var decompressed = compressed.decompress(nDecompressed, File.COMPRESSION_DEFLATE)
+			dict = parse_json(decompressed.get_string_from_utf8())
 			received_header = false
 		else:
 			print("tcp get_data failed: %s" % err)
