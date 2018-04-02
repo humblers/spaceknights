@@ -5,9 +5,9 @@ const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
 	get_node("MothershipBG/BlueBaseBottom")
-	get_node("OpeningAnim").connect("finished", self, "opening_finished")
-	get_node("MothershipBG/RedLight").set_z(global.LAYERS.MothershipOver)
-	get_node("MothershipBG/BlueLight").set_z(global.LAYERS.MothershipOver)
+	get_node("OpeningAnim").connect("animation_finished", self, "opening_finished")
+	get_node("MothershipBG/RedLight").z_index = global.LAYERS.MothershipOver
+	get_node("MothershipBG/BlueLight").z_index = global.LAYERS.MothershipOver
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
@@ -20,7 +20,7 @@ func update_changes(game):
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
 
-func opening_finished():
+func opening_finished(anim):
 	get_node("UI").connect_ui_signals()
 	get_node("Units").show()
 	get_node("OpeningNodes").queue_free()
@@ -31,7 +31,7 @@ func delete_dead_units(units):
 			continue
 		if not units.has(node.get_name()):
 			var effect = resource.effect.explosion.unit.instance()
-			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
+			effect.initialize(global.dict_get(global.UNITS[node.u_name], "size", "small"), node.position)
 			add_child(effect)
 			node.queue_free()
 
@@ -130,13 +130,13 @@ func play_runway_light(team, pos_x):
 	if global.team == team:
 		color = "Blue"
 		pos.y = global.MAP.height - pos.y
-		effect.set_rot(PI)
+		effect.rotation = PI
 	if global.team == "Visitor":
 		pos.x = global.MAP.width - pos.x
 	get_node("MothershipBG/%sLight" % color).hide()
-	effect.set_pos(pos)
+	effect.position = pos
 	add_child(effect)
 	effect.play()
-	yield(effect, "finished")
+	yield(effect, "animation_finished")
 	effect.queue_free()
 	get_node("MothershipBG/%sLight" % color).show()

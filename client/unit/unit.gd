@@ -30,7 +30,7 @@ func initialize(unit):
 	debug.connect("option_changed", self, "update")
 
 func set_position(pos):
-	set_pos(pos)
+	self.position = pos
 	emit_signal("position_changed", get_name(), pos)
 
 func set_base():
@@ -47,9 +47,9 @@ func set_hp():
 	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[u_name], "hp", 100))
 
 func set_layers():
-	set_z(global.LAYERS[global.UNITS[u_name].layer])
-	hpnode.set_z_as_relative(false)
-	hpnode.set_z(global.LAYERS.UI)
+	self.z_index = global.LAYERS[global.UNITS[u_name].layer]
+	hpnode.z_as_relative = false
+	hpnode.z_index = global.LAYERS.UI
 
 func set_damage_effect():
 	damage_effect.set_one_shot(true)
@@ -59,7 +59,7 @@ func set_damage_effect():
 
 func update_changes(unit):
 	set_position(get_position(unit))
-	body.set_rot(get_rotation(unit))
+	body.rotation = get_rotation(unit)
 	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
@@ -69,7 +69,7 @@ func update_changes(unit):
 					global.UNITS[u_name].projectile,
 					target,
 					float(global.UNITS[u_name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-					get_node("Body/Shotpoint").get_global_pos())
+					get_node("Body/Shotpoint").global_position)
 	if unit.State == "frozen":
 		body.stop()
 		body.get_material().set_shader_param("frozen", true)
@@ -135,7 +135,7 @@ func set_launch_effect(unit):
 	var destination = pos.y
 	if global.team == unit.Team:
 		pos.y = global.SCREEN_HEIGHT - global.UNITS[u_name].radius
-		body.set_rot(PI)
+		body.rotation = PI
 		body.play("blue_idle")
 	else:
 		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[u_name].radius
@@ -143,7 +143,7 @@ func set_launch_effect(unit):
 	set_position(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[u_name], "size", "small"))
 	hpnode.hide()
-	body.set_self_opacity(0.7)
+	body.self_modulate = Color(1, 1, 1, 0.7)
 	set_process(true)
 
 func play_launch_effect(delta):
@@ -151,17 +151,17 @@ func play_launch_effect(delta):
 		return
 	var launch_effect = body.get_node("Launch")
 	if not launch_effect.is_finished(delta):
-		set_position(launch_effect.update_position(get_pos(), delta))
+		set_position(launch_effect.update_position(position, delta))
 		return
 	set_process(false)
 	launch_effect.queue_free()
 	hpnode.show()
-	body.set_self_opacity(1.0)
+	body.self_modulate = Color(1, 1, 1, 1.0)
 
 func transform_to_guide_node(pos):
 	set_position(pos)
 	hpnode.hide()
-	body.set_opacity(0.5)
+	body.modulate = Color(1, 1, 1, 0.5)
 
 func release_lock_on_anim(node):
 	node.queue_free()

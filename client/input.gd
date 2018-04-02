@@ -12,10 +12,10 @@ func _ready():
 func _unhandled_input(event):
 	# UI intercepted input not seen on here
 	if event is InputEventMouseButton and event.pressed:
-		emit_signal("mouse_pressed", event.pos)
+		emit_signal("mouse_pressed", event.position)
 	
 	if pressed and event is InputEventMouseMotion:
-		emit_signal("mouse_dragged", event.relative_pos.x)
+		emit_signal("mouse_dragged", event.relative.x)
 	
 	if event is InputEventKey and event.pressed:
 		emit_signal("key_pressed", event.scancode)

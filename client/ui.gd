@@ -13,10 +13,10 @@ var selected_card
 
 func connect_ui_signals():
 	input.connect("mouse_pressed", self, "pressed_outside_of_UI")
-	card1.connect("input_event", self, "ui_input_event", [true, card1])
-	card2.connect("input_event", self, "ui_input_event", [true, card2])
-	card3.connect("input_event", self, "ui_input_event", [true, card3])
-	card4.connect("input_event", self, "ui_input_event", [true, card4])
+	card1.connect("gui_input", self, "ui_input_event", [true, card1])
+	card2.connect("gui_input", self, "ui_input_event", [true, card2])
+	card3.connect("gui_input", self, "ui_input_event", [true, card3])
+	card4.connect("gui_input", self, "ui_input_event", [true, card4])
 	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
@@ -125,7 +125,7 @@ func press(is_card, node):
 		add_unit_to_guide(unit)
 
 func release(is_card, node):
-	var pos = guide.get_pos()
+	var pos = guide.position
 	release_guide()
 	if not is_card:
 		tcp.send({
@@ -143,13 +143,13 @@ func release(is_card, node):
 	use_card(pos)
 
 func ui_input_event(event, is_card, node):
-	if event.type == InputEvent.MOUSE_BUTTON:
+	if event is InputEventMouseButton:
 		if event.pressed:
 			press(is_card, node)
 		else:
 			release(is_card, node)
-	if event.type == InputEvent.MOUSE_MOTION:
-		update_guide_position(event.global_pos)
+	if event is InputEventMouseMotion:
+		update_guide_position(event.global_position)
 
 func add_spell_to_guide(name):
 	var node = resource.effect.spell_indicator.instance()
@@ -170,11 +170,11 @@ func update_guide_position(pos):
 		var selected = get_selected_card_id()
 		if selected <= 0 or not global.is_spell_card(hand[selected - 1]):
 			pos.y = global.CARD_THRESHOLD_TOP
-	guide.set_pos(pos)
+	guide.position = pos
 	guide.hide() if location in [global.LOCATION_UI, global.LOCATION_BASE] else guide.show()
 
 func release_guide():
 	guide.hide()
-	guide.set_pos(Vector2(0, 0))
+	guide.position = Vector2(0, 0)
 	for child in guide.get_children():
 		child.queue_free()
