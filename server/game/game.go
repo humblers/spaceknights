@@ -16,9 +16,9 @@ const (
 )
 
 const (
-	MapWidth   = 400
-	MapHeight  = 560
-	TileHeight = 20
+	MapWidth   = 320
+	MapHeight  = 480
+	TileHeight = 16
 	CenterX    = MapWidth / 2
 	CenterY    = MapHeight / 2
 )
@@ -31,10 +31,10 @@ type Area struct {
 }
 
 var (
-	Top       = &Area{0, 260, 0, 400}
-	Bottom    = &Area{300, 560, 0, 400}
-	LeftHole  = &Area{260, 300, 60, 80}
-	RightHole = &Area{260, 300, 320, 340}
+	Top       = &Area{0, 208, 0, 320}
+	Bottom    = &Area{240, 480, 0, 320}
+	LeftHole  = &Area{208, 240, 48, 64}
+	RightHole = &Area{260, 300, 256, 272}
 )
 var (
 	LeftHoleTL  = Vector2{LeftHole.L, LeftHole.T}

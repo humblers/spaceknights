@@ -1,69 +1,104 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/shuriken/blue_attack01.png" type="Texture" id=2]
-[ext_resource path="res://unit/shuriken/blue_attack02.png" type="Texture" id=3]
-[ext_resource path="res://unit/shuriken/red_attack01.png" type="Texture" id=4]
-[ext_resource path="res://unit/shuriken/red_attack02.png" type="Texture" id=5]
-[ext_resource path="res://unit/shuriken/blue_idle.png" type="Texture" id=6]
-[ext_resource path="res://unit/shuriken/red_idle.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
+[ext_resource path="res://unit/shuriken/gunner-red.png" type="Texture" id=2]
+[ext_resource path="res://unit/shuriken/gunner-blue.png" type="Texture" id=3]
+[ext_resource path="res://unit/shuriken/bomber-blue.png" type="Texture" id=4]
+[ext_resource path="res://unit/shuriken/bomber-red.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 2 ) ],
 "loop": true,
-"name": "blue_attack",
+"name": "red_idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "red_attack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 6 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "blue_idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": true,
-"name": "red_idle",
+"name": "blue_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "red_attack",
 "speed": 5.0
 } ]
 
-[node name="shuriken" type="Node2D"]
+[node name="shuriken" type="Node2D" index="0"]
 
 position = Vector2( 0.0852547, 0.0852585 )
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Body" type="AnimatedSprite" parent="."]
+[node name="Body" type="AnimatedSprite" parent="." index="0"]
 
 frames = SubResource( 1 )
 animation = "blue_idle"
 
-[node name="Shotpoint" type="Position2D" parent="Body"]
+[node name="Shotpoint" type="Position2D" parent="Body" index="0"]
 
 position = Vector2( 0.5, 20 )
 
-[node name="Hp" type="Position2D" parent="."]
+[node name="Hp" type="Position2D" parent="." index="1"]
 
-
-[node name="blue" type="TextureProgress" parent="Hp"]
+[node name="blue" type="TextureProgress" parent="Hp" index="0"]
 
 visible = false
-focus_ignore_mouse = true
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = -30.0
 margin_top = -2.0
 margin_right = -10.0
 margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="red" type="TextureProgress" parent="Hp" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -20.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 min_value = 0.0
 max_value = 100.0
 step = 1.0
@@ -76,31 +111,10 @@ texture_over = ExtResource( 8 )
 texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
 
-[node name="red" type="TextureProgress" parent="Hp"]
-
-visible = false
-focus_ignore_mouse = true
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 0
-margin_left = -30.0
-margin_top = -2.0
-margin_right = -20.0
-margin_bottom = 4.0
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 100.0
-exp_edit = false
-rounded = false
-texture_under = null
-texture_over = ExtResource( 10 )
-texture_progress = ExtResource( 11 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-
-[node name="Shield" type="Sprite" parent="."]
+[node name="Shield" type="Sprite" parent="." index="2"]
 
 visible = false
+
+

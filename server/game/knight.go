@@ -66,11 +66,11 @@ func NewKnights(t Team, names []string) []*Unit {
 		var pos_x float64
 		switch idx {
 		case 0:
-			pos_x = 66
+			pos_x = 56
 		case 1:
 			pos_x = MapWidth / 2
 		case 2:
-			pos_x = 333
+			pos_x = 264
 		default:
 			log.Panicf("too many knights(%v)", len(names))
 		}

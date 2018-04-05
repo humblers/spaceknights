@@ -18,7 +18,7 @@
 [ext_resource path="res://effect/mothership/light_red_07.png" type="Texture" id=16]
 [ext_resource path="res://background.png" type="Texture" id=17]
 [ext_resource path="res://background_tilecheck.png" type="Texture" id=18]
-[ext_resource path="res://shield_close.png" type="Texture" id=19]
+[ext_resource path="res://shield_open.png" type="Texture" id=19]
 [ext_resource path="res://ui.gd" type="Script" id=20]
 [ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=21]
 [ext_resource path="res://icon/archers_small.png" type="Texture" id=22]
@@ -29,7 +29,7 @@
 [ext_resource path="res://icon/archers_off.png" type="Texture" id=27]
 [ext_resource path="res://icon/moveknight_on.png" type="Texture" id=28]
 [ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=29]
-[ext_resource path="res://shield_open.png" type="Texture" id=30]
+[ext_resource path="res://shield_close.png" type="Texture" id=30]
 [ext_resource path="res://effect/anchor_open01.png" type="Texture" id=31]
 [ext_resource path="res://effect/anchor_open02.png" type="Texture" id=32]
 [ext_resource path="res://effect/anchor_open03.png" type="Texture" id=33]
@@ -164,7 +164,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 19 ), ExtResource( 30 ) ]
+"values": [ ExtResource( 30 ), ExtResource( 19 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("OpeningNodes/Mothership/Red:position")
@@ -208,13 +208,21 @@ animations = [ {
 [node name="game" type="Node" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Rendering", "Shadow Atlas", "Transform" ]
 
-[node name="MothershipBG" type="Node" parent="." index="0"]
+[node name="MothershipBG" type="CanvasLayer" parent="." index="0"]
+
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 0.9, 1 )
+transform = Transform2D( 0.9, 0, 0, 1, 0, 0 )
 
 [node name="BlueBaseBottom" type="Sprite" parent="MothershipBG" index="0"]
 
 position = Vector2( 200, 600 )
 texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="BlueLight" type="AnimatedSprite" parent="MothershipBG" index="1"]
 
@@ -223,7 +231,7 @@ rotation = 3.14159
 z_as_relative = false
 frames = SubResource( 1 )
 animation = "default"
-frame = 23
+frame = 21
 playing = true
 _sections_unfolded = [ "Transform" ]
 
@@ -233,30 +241,42 @@ position = Vector2( 200, -57 )
 z_as_relative = false
 frames = SubResource( 2 )
 animation = "default"
-frame = 13
+frame = 11
 playing = true
 _sections_unfolded = [ "Z Index" ]
 
-[node name="Units" type="Node2D" parent="." index="1"]
+[node name="Battlefield" type="CanvasLayer" parent="." index="1"]
 
-visible = false
+layer = 0
+offset = Vector2( 20, 32 )
+rotation = 0.0
+scale = Vector2( 0.333333, 0.333333 )
+transform = Transform2D( 0.333333, 0, 0, 0.333333, 20, 32 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Spells" type="Node2D" parent="." index="2"]
+[node name="Units" type="Node2D" parent="Battlefield" index="0"]
 
-[node name="Projectiles" type="Node" parent="." index="3"]
+_sections_unfolded = [ "Transform" ]
 
-[node name="Background" type="CanvasLayer" parent="." index="4"]
+[node name="Spells" type="Node" parent="Battlefield" index="1"]
 
-layer = -1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Projectiles" type="Node" parent="Battlefield" index="2"]
+
+[node name="Background" type="CanvasLayer" parent="." index="2"]
+
+layer = -2
 offset = Vector2( 0, 0 )
 rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+scale = Vector2( 0.333333, 0.333333 )
+transform = Transform2D( 0.333333, 0, 0, 0.333333, 0, 0 )
 
 [node name="Stars" type="Sprite" parent="Background" index="0"]
 
-position = Vector2( 200, 320 )
+position = Vector2( 540, 960 )
 texture = ExtResource( 17 )
+_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
 
 [node name="Tile" type="Sprite" parent="Background" index="1"]
 
@@ -269,13 +289,13 @@ texture = ExtResource( 18 )
 position = Vector2( 200, 280 )
 texture = ExtResource( 19 )
 
-[node name="UI" type="CanvasLayer" parent="." index="5"]
+[node name="UI" type="CanvasLayer" parent="." index="3"]
 
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+scale = Vector2( 0.9, 1 )
+transform = Transform2D( 0.9, 0, 0, 1, 0, 0 )
 script = ExtResource( 20 )
 
 [node name="RemainTime" type="Label" parent="UI" index="0"]
@@ -284,8 +304,8 @@ anchor_left = 1.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 0.0
-margin_left = 50.0
-margin_bottom = 14.0
+margin_right = 31.0
+margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -299,6 +319,7 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="Next" type="TextureRect" parent="UI" index="1"]
 
@@ -544,7 +565,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="OpeningAnim" type="AnimationPlayer" parent="." index="6"]
+[node name="OpeningAnim" type="AnimationPlayer" parent="." index="4"]
 
 root_node = NodePath("..")
 autoplay = "opening"
@@ -554,7 +575,7 @@ playback_speed = 1.0
 anims/opening = SubResource( 7 )
 blend_times = [  ]
 
-[node name="OpeningNodes" type="Node2D" parent="." index="7"]
+[node name="OpeningNodes" type="Node2D" parent="." index="5"]
 
 editor/display_folded = true
 visible = false
