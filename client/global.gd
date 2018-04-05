@@ -18,8 +18,8 @@ const OVER_TIME = 3 * 60 * SERVER_UPDATES_PER_SECOND
 const MOTHERSHIP_BASE_HEIGHT = 60
 const SCREEN_HEIGHT = 640
 const MAP = {
-	"width" : 400,
-	"height" : 560,
+	"width" : 320,
+	"height" : 480,
 }
 
 const LAYERS = {
