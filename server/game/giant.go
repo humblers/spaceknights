@@ -7,7 +7,7 @@ func NewGiant(id int, t Team, pos Vector2) *Unit {
 		Name:         "giant",
 		Layer:        Ground,
 		TargetLayers: Layers{Ground},
-		TargetTypes:  Types{Building},
+		TargetTypes:  Types{Building, Knight},
 		Hp:           3344,
 		InvMass:      1.0 / 100,
 		Speed:        2.25,

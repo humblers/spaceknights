@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"math"
+
+	"github.com/golang/glog"
 )
 
 type State string
@@ -380,7 +381,13 @@ func (u *Unit) IsDead() bool {
 }
 
 func (u *Unit) HasTarget() bool {
-	return u.Target != nil && !u.Target.IsDead()
+	if u.Target == nil {
+		return false
+	}
+	if u.Target.IsDead() {
+		return false
+	}
+	return u.Target.Type != Knight || u.Target.WaitingSpell == nil
 }
 
 func (u *Unit) HandleSpawn() {
@@ -472,7 +479,13 @@ func (u *Unit) Update() {
 			}
 			if !u.HasTarget() || !u.WithinRange(u.Target) {
 				var filter = func(other *Unit) bool {
-					return u.CanSee(other) || other.IsCore()
+					if u.CanSee(other) && other.Type != Knight {
+						return true
+					}
+					if other.Type == Knight && other.WaitingSpell == nil {
+						return true
+					}
+					return false
 				}
 				u.Target = u.FindNearestTarget(filter)
 			}
@@ -480,7 +493,7 @@ func (u *Unit) Update() {
 				u.State = Idle
 				glog.Warningf("no target found : %v", u.Name)
 			} else {
-				if u.WithinRange(u.Target) {
+				if u.WithinRange(u.Target) && (u.Target.Type != Knight || u.Target.WaitingSpell == nil) {
 					u.State = Attack
 					u.StartAttack()
 					//glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
@@ -523,22 +536,6 @@ func (u *Unit) Update() {
 		}
 		u.HandleSpawn()
 	case Knight:
-		if u.Game.Motherships[u.Team][u.KnightIndex].IsDead() {
-			u.SelfRemove()
-			for _, player := range u.Game.Players {
-				if player.Team == u.Team {
-					switch u.Name {
-					case "shuriken":
-						player.RemoveCard("fireball")
-					case "space_z":
-						player.RemoveCard("laser")
-					case "freezer":
-						player.RemoveCard("freeze")
-					}
-				}
-			}
-			return
-		}
 		u.Velocity = Vector2{0, 0}
 		if u.WaitingSpell != nil {
 			if u.WaitingSpell.Finished {
@@ -572,7 +569,7 @@ func (u *Unit) Update() {
 			}
 			return
 		}
-		if u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target) {
+		if u.HasTargetInKnightFirefield() {
 			if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
 				if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
 					bullet := NewKnightBullet(u.Team, u.Position)
@@ -591,6 +588,9 @@ func (u *Unit) Update() {
 			}
 		} else {
 			u.Target = u.FindNearestKnightTarget()
+			if !u.HasTargetInKnightFirefield() {
+				u.Velocity = u.InitialPosition.Minus(u.Position).Truncate(u.Speed)
+			}
 		}
 	case Bullet:
 		if u.IsOutOfRange() {
@@ -667,6 +667,11 @@ func (u *Unit) IsInMyArea(target *Unit) bool {
 	}
 	return false
 }
+
+func (u *Unit) HasTargetInKnightFirefield() bool {
+	return u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target)
+}
+
 func (u *Unit) FindNearestKnightTarget() *Unit {
 	var target *Unit
 	var distance float64
@@ -683,6 +688,20 @@ func (u *Unit) FindNearestKnightTarget() *Unit {
 }
 
 func (u *Unit) SelfRemove() {
+	var cardName Card
+	switch u.Name {
+	case "shuriken":
+		cardName = "fireball"
+	case "space_z":
+		cardName = "laser"
+	case "freezer":
+		cardName = "freeze"
+	}
+	if cardName != "" {
+		for _, player := range u.Game.Players {
+			player.RemoveCard(cardName)
+		}
+	}
 	delete(u.Game.Units, u.Id)
 }
 

@@ -64,7 +64,7 @@ func (s *Spell) Update() {
 		}
 		s.AffectToUnits(filter, func(unit *Unit) {
 			damage := s.Damage
-			if unit.IsCore() {
+			if unit.IsCore() || unit.Type == Knight {
 				damage = damage * 10 / 100
 			}
 			unit.TakeDamage(s.Damage, nil)
@@ -78,7 +78,7 @@ func (s *Spell) Update() {
 		}
 		s.AffectToUnits(filter, func(unit *Unit) {
 			damage := s.Damage
-			if unit.IsCore() {
+			if unit.IsCore() || unit.Type == Knight {
 				damage = damage * 30 / 100
 			}
 			unit.TakeDamage(s.Damage, nil)

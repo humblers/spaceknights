@@ -33,10 +33,8 @@ func _ready():
 	var knight_names = ["shuriken", "space_z", "freezer"]
 	var index = 0
 	for knight in knights:
-		for name in knight_names:
-			knight.add_item(name)
-		knight.select(index)
-		index = index + 1
+		knight.add_item(knight_names[index])
+		index += 1
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
