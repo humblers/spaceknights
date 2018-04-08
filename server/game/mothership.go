@@ -51,19 +51,18 @@ func NewMothership(t Team) []*Unit {
 	//			Y: MothershipBaseHeight - MothershipBoosterHeight + MothershipSubHeight/2,
 	//		},
 	//	}
-	base := &Unit{
-		Team:    t,
-		Type:    Base,
-		Name:    "base",
-		Layer:   Ground,
-		InvMass: 0,
-		Position: Vector2{
-			X: MapWidth / 2,
-			Y: MothershipBaseHeight / 2,
-		},
-	}
+	//	base := &Unit{
+	//		Team:    t,
+	//		Type:    Base,
+	//		Name:    "base",
+	//		Layer:   Ground,
+	//		InvMass: 0,
+	//		Position: Vector2{
+	//			X: MapWidth / 2,
+	//			Y: MothershipBaseHeight / 2,
+	//		},
+	//	}
 	//mothership = append(mothership, right, main, left, base)
-	mothership = append(mothership, base)
 
 	// flip
 	for _, u := range mothership {

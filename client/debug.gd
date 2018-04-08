@@ -24,3 +24,7 @@ func on_key_pressed(key):
 	elif key == KEY_F4:
 		show_velocity = not show_velocity
 		emit_signal("option_changed")
+	elif key == KEY_F9:
+		OS.window_size = Vector2(720, 1280)
+	elif key == KEY_F10:
+		OS.window_size = Vector2(1080, 1920)
