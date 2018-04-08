@@ -34,7 +34,7 @@ var (
 	Top       = &Area{0, 208, 0, 320}
 	Bottom    = &Area{240, 480, 0, 320}
 	LeftHole  = &Area{208, 240, 48, 64}
-	RightHole = &Area{260, 300, 256, 272}
+	RightHole = &Area{208, 240, 256, 272}
 )
 var (
 	LeftHoleTL  = Vector2{LeftHole.L, LeftHole.T}
