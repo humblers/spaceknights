@@ -103,10 +103,9 @@ func get_position(unit):
 
 func get_rotation(unit):
 	var angle = atan2(unit.Heading.X, unit.Heading.Y)
-	if global.team == "Home":
-		return angle
-	else:
-		return angle + PI
+	if global.team == "Visitor":
+		angle += PI
+	return -angle
 
 func set_target(unit):
 	if unit.has("TargetId"):
