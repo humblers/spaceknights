@@ -4,7 +4,7 @@ onready var card1 = get_node("Card1")
 onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var card4 = get_node("Card4")
-onready var guide = get_node("CardGuide")
+onready var guide = get_node("FieldOffset/CardGuide")
 onready var result = get_node("Result")
 onready var remain = get_node("RemainTime")
 
@@ -125,7 +125,7 @@ func press(is_card, node):
 		add_unit_to_guide(unit)
 
 func release(is_card, node):
-	var pos = guide.position
+	var pos = guide.position / 3
 	release_guide()
 	if not is_card:
 		tcp.send({
@@ -165,12 +165,13 @@ func add_unit_to_guide(unit):
 	node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
 
 func update_guide_position(pos):
+	pos = get_node("FieldOffset").to_local(pos) / 3
 	var location = global.get_location(pos)
 	if location == global.LOCATION_RED:
 		var selected = get_selected_card_id()
 		if selected <= 0 or not global.is_spell_card(hand[selected - 1]):
 			pos.y = global.CARD_THRESHOLD_TOP
-	guide.position = pos
+	guide.position = pos * 3
 	guide.hide() if location in [global.LOCATION_UI, global.LOCATION_BASE] else guide.show()
 
 func release_guide():

@@ -439,14 +439,14 @@ static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), a
 	for indexPoint in range(nb_points):
 		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
-const CARD_THRESHOLD_TOP = 310
+const CARD_THRESHOLD_TOP = 256
 const LOCATION_UI = 0
 const LOCATION_BASE = 1
 const LOCATION_BLUE = 2
 const LOCATION_RED = 3
 
 func get_location(pos):
-	if pos.y > global.MAP.height:
+	if pos.y > global.MAP.height + 32:
 		return LOCATION_UI
 	if pos.y < CARD_THRESHOLD_TOP:
 		return LOCATION_RED

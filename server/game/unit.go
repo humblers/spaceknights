@@ -542,10 +542,12 @@ func (u *Unit) Update() {
 				movement := u.InitialPosition.Minus(u.Position)
 				if movement.Length() < 0.1 {
 					u.WaitingSpell = nil
+					u.State = Idle
 				} else {
 					u.Velocity = movement.Truncate(KnightCastSpeed)
 				}
 			} else {
+				u.State = Attack
 				destination := u.WaitingSpell.Position
 				if u.WaitingSpell.Spell == "laser" {
 					if u.Team == Home {
@@ -653,15 +655,15 @@ func (u *Unit) IsInMyArea(target *Unit) bool {
 	}
 	switch u.KnightIndex {
 	case 0:
-		if pos_x < 133 {
+		if pos_x <= 106 {
 			return true
 		}
 	case 1:
-		if pos_x > 133 && pos_x < 266 {
+		if pos_x > 106 && pos_x < 213 {
 			return true
 		}
 	case 2:
-		if pos_x > 266 {
+		if pos_x >= 213 {
 			return true
 		}
 	}

@@ -233,7 +233,7 @@ rotation = 3.14159
 z_as_relative = false
 frames = SubResource( 1 )
 animation = "default"
-frame = 26
+frame = 9
 playing = true
 _sections_unfolded = [ "Transform" ]
 
@@ -243,28 +243,31 @@ position = Vector2( 200, -57 )
 z_as_relative = false
 frames = SubResource( 2 )
 animation = "default"
-frame = 16
+frame = 29
 playing = true
-_sections_unfolded = [ "Z Index" ]
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Battlefield" type="CanvasLayer" parent="." index="1"]
 
 layer = 0
 offset = Vector2( 20, 32 )
 rotation = 0.0
-scale = Vector2( 0.333333, 0.333333 )
-transform = Transform2D( 0.333333, 0, 0, 0.333333, 20, 32 )
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 20, 32 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Units" type="Node2D" parent="Battlefield" index="0"]
 
+scale = Vector2( 0.333333, 0.333333 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Spells" type="Node" parent="Battlefield" index="1"]
 
 _sections_unfolded = [ "Transform" ]
 
-[node name="Projectiles" type="Node" parent="Battlefield" index="2"]
+[node name="Projectiles" type="Node2D" parent="Battlefield" index="2"]
+
+_sections_unfolded = [ "Transform" ]
 
 [node name="Background" type="CanvasLayer" parent="." index="2"]
 
@@ -534,12 +537,16 @@ group = null
 texture_normal = ExtResource( 30 )
 texture_focused = ExtResource( 31 )
 
-[node name="CardGuide" type="Position2D" parent="UI" index="9"]
+[node name="FieldOffset" type="Position2D" parent="UI" index="9"]
+
+position = Vector2( 18, 32 )
+scale = Vector2( 0.37037, 0.333333 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
+
+[node name="CardGuide" type="Position2D" parent="UI/FieldOffset" index="0"]
 
 visible = false
-position = Vector2( 20, 32 )
 rotation = 3.14159
-scale = Vector2( 0.333333, 0.33333 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Result" type="Button" parent="UI" index="10"]
