@@ -31,7 +31,7 @@ func initialize(unit):
 
 func set_position(pos):
 	self.position = pos * 3
-	emit_signal("position_changed", get_name(), pos)
+	emit_signal("position_changed", get_name(), self.global_position)
 
 func set_base():
 	if has_node("Base"):
@@ -69,7 +69,7 @@ func update_changes(unit):
 					global.UNITS[u_name].projectile,
 					target,
 					float(global.UNITS[u_name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-					get_node("Body/Shotpoint").position)
+					get_node("Body/Shotpoint").global_position)
 	if unit.State == "frozen":
 		body.stop()
 		body.get_material().set_shader_param("frozen", true)
