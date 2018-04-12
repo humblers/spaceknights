@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg_blue.png" type="Texture" id=2]
@@ -63,35 +63,48 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="Shader" id=3]
+
+code = "shader_type canvas_item;
+
+void fragment() {
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+
+render_priority = 0
+shader = SubResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
 
 size = 16
 use_mipmaps = false
 use_filter = false
 font_data = ExtResource( 23 )
 
-[sub_resource type="StyleBoxEmpty" id=4]
+[sub_resource type="StyleBoxEmpty" id=6]
 
 content_margin_left = -1.0
 content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=7]
 
 size = 40
 use_mipmaps = false
 use_filter = false
 font_data = ExtResource( 23 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=8]
 
 size = 15
 use_mipmaps = false
 use_filter = false
 font_data = ExtResource( 23 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 
 length = 2.0
 loop = false
@@ -193,7 +206,7 @@ tracks/7/keys = {
 "values": [ Vector2( 200, -117 ), Vector2( 200, -57 ) ]
 }
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=10]
 
 animations = [ {
 "frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ],
@@ -233,7 +246,7 @@ rotation = 3.14159
 z_as_relative = false
 frames = SubResource( 1 )
 animation = "default"
-frame = 9
+frame = 12
 playing = true
 _sections_unfolded = [ "Transform" ]
 
@@ -243,7 +256,7 @@ position = Vector2( 200, -57 )
 z_as_relative = false
 frames = SubResource( 2 )
 animation = "default"
-frame = 29
+frame = 2
 playing = true
 _sections_unfolded = [ "Transform", "Z Index" ]
 
@@ -279,15 +292,14 @@ transform = Transform2D( 0.333333, 0, 0, 0.333333, 0, 0 )
 
 [node name="Stars" type="Sprite" parent="Background" index="0"]
 
+material = SubResource( 4 )
 position = Vector2( 540, 960 )
 texture = ExtResource( 17 )
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
+_sections_unfolded = [ "Material", "Offset", "Transform", "Z Index" ]
 
 [node name="Tile" type="Sprite" parent="Background" index="1"]
 
-visible = false
-position = Vector2( 540, 960 )
-scale = Vector2( 3, 3 )
+position = Vector2( 540, 816 )
 texture = ExtResource( 18 )
 _sections_unfolded = [ "Transform" ]
 
@@ -301,7 +313,7 @@ texture = ExtResource( 19 )
 
 position = Vector2( 48, 792 )
 texture = ExtResource( 20 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="debri-center" type="Sprite" parent="Background" index="4"]
 
@@ -339,7 +351,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "3:00"
 align = 1
 valign = 1
@@ -539,7 +551,7 @@ texture_focused = ExtResource( 31 )
 
 [node name="FieldOffset" type="Position2D" parent="UI" index="9"]
 
-position = Vector2( 18, 32 )
+position = Vector2( 22, 32 )
 scale = Vector2( 0.37037, 0.333333 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
@@ -563,12 +575,12 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 4 )
-custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -588,7 +600,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Game Over"
@@ -605,7 +617,7 @@ autoplay = "opening"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/opening = SubResource( 7 )
+anims/opening = SubResource( 9 )
 blend_times = [  ]
 
 [node name="OpeningNodes" type="Node2D" parent="." index="5"]
@@ -616,7 +628,7 @@ visible = false
 [node name="AnchorLeft" type="AnimatedSprite" parent="OpeningNodes" index="0"]
 
 position = Vector2( 70, 280 )
-frames = SubResource( 8 )
+frames = SubResource( 10 )
 animation = "open"
 frame = 3
 playing = true
@@ -624,7 +636,7 @@ playing = true
 [node name="AnchorRight" type="AnimatedSprite" parent="OpeningNodes" index="1"]
 
 position = Vector2( 330, 280 )
-frames = SubResource( 8 )
+frames = SubResource( 10 )
 animation = "open"
 frame = 3
 playing = true
