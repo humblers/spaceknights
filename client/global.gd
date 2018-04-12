@@ -19,7 +19,7 @@ const MOTHERSHIP_BASE_HEIGHT = 60
 const SCREEN_HEIGHT = 640
 const MAP = {
 	"width" : 320,
-	"height" : 480,
+	"height" : 544,
 }
 
 const LAYERS = {
@@ -439,7 +439,7 @@ static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), a
 	for indexPoint in range(nb_points):
 		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
-const CARD_THRESHOLD_TOP = 256
+const CARD_THRESHOLD_TOP = 288
 const LOCATION_UI = 0
 const LOCATION_BASE = 1
 const LOCATION_BLUE = 2
