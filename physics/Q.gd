@@ -8,46 +8,45 @@ const N = 16
 const MAX = (1 << (M + N - 1)) - 1
 const MIN = -(MAX + 1)
 const ONE = 1 << N
+const EPSILON = 1 << N/2
 
-func CheckRange(x):
-	assert(x >= MIN and x <= MAX)
+func Overflow(x):
+	return x < MIN and x > MAX
 
-# overflow/underflow check for parameters skipped, only output value validated
+func Underflow(x, res):
+	return x != 0 and res == 0
+
 func Add(x, y):
-#	CheckRange(x)
-#	CheckRange(y)
 	var sum = x + y
-	CheckRange(sum)
+	assert(not Overflow(sum))
 	return sum
 	
 func Sub(x, y):
-#	CheckRange(x)
-#	CheckRange(y)
 	var diff = x - y
-	CheckRange(diff)
+	assert(not Overflow(diff))
 	return diff
 	
 func Mul(x, y):
-#	CheckRange(x)
-#	CheckRange(y)
-	var res = (x * y) >> N
-	CheckRange(res)
+	var temp = x * y
+	var res = temp >> N
+	assert(not Overflow(res))
+	if Underflow(temp, res):
+		return EPSILON
 	return res
 	
 func Div(x, y):
-#	CheckRange(x)
-#	CheckRange(y)
 	var res = (x << N) / y
-	CheckRange(res)
+	assert(not Overflow(res))
+	if Underflow(x, res):
+		return EPSILON
 	return res
 
 func Abs(x):
 	return x if x > 0 else -x
 
 func Pow2(x):
-#	CheckRange(x)
 	var res = Mul(x, x)
-	CheckRange(res)
+	assert(not Overflow(res))
 	return res
 
 # Reference
@@ -84,7 +83,7 @@ func ToInt(q):
 
 func FromInt(i):
 	var q = i * ONE
-	CheckRange(q)
+	assert(not Overflow(q))
 	return q
 
 func ToFloat(q):
@@ -92,7 +91,7 @@ func ToFloat(q):
 
 func FromFloat(f):
 	var q = int(f * ONE)
-	CheckRange(q)
+	assert(not Overflow(q))
 	return q
 
 func Test():

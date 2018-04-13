@@ -54,7 +54,7 @@ func CreateBox(mass, position, width, height):
 		"Id": counter,
 		"Shape": "Box",
 		"Mass": mass,
-		"Restitution": Q.Div(Q.ONE, Q.FromInt(10)),
+		"Restitution": Q.Div(Q.ONE, Q.FromInt(2)),
 		"InvMass": 0 if mass == 0 else Q.Div(Q.ONE, mass),
 		"Velocity": Vec2.Create(0, 0),
 		"Position": Vec2.Create(position.X, position.Y),
@@ -124,15 +124,15 @@ func BoxVsBox(a, b):
 		if y_overlap > 0:
 			if x_overlap < y_overlap:
 				if rel_pos.X < 0:
-					c.Normal = Vec2.Create(Q.FromInt(-1), 0)
+					c.Normal = Vec2.Create(-Q.ONE, 0)
 				else:
-					c.Normal = Vec2.Create(Q.FromInt(1), 0)
+					c.Normal = Vec2.Create(Q.ONE, 0)
 				c.Penetration = x_overlap
 			else:
 				if rel_pos.Y < 0:
-					c.Normal = Vec2.Create(0, Q.FromInt(-1))
+					c.Normal = Vec2.Create(0, -Q.ONE)
 				else:
-					c.Normal = Vec2.Create(0, Q.FromInt(1))
+					c.Normal = Vec2.Create(0, Q.ONE)
 				c.Penetration = y_overlap
 	return c
 
@@ -140,8 +140,9 @@ func CircleVsCircle(a, b):
 	var c = { "A": a, "B": b }
 	var rel_pos = Vec2.Sub(b.Position, a.Position)
 	var radii = Q.Add(a.Radius, b.Radius)
-	var d = Vec2.Length(rel_pos)
-	if d < radii:
+	var d_squared = Vec2.LengthSquared(rel_pos)
+	if d_squared < Q.Pow2(radii):
+		var d = Q.Sqrt(d_squared)
 		if d != 0:
 			c.Penetration = Q.Sub(radii, d)
 			c.Normal = Vec2.Div(rel_pos, d)
@@ -159,21 +160,30 @@ func BoxVsCircle(a, b):
 	closest.X = Q.Clamp(closest.X, -x_extent, x_extent)
 	closest.Y = Q.Clamp(closest.Y, -y_extent, y_extent)
 	var inside = false
+	var x_dist = 0
+	var y_dist = 0
 	if Vec2.Equal(rel_pos, closest):
 		inside = true
-		var x_dist = Q.Sub(x_extent, Q.Abs(closest.X))
-		var y_dist = Q.Sub(y_extent, Q.Abs(closest.Y))
+		x_dist = Q.Sub(x_extent, Q.Abs(closest.X))
+		y_dist = Q.Sub(y_extent, Q.Abs(closest.Y))
 		if x_dist < y_dist:
-			closest.X = x_extent if closest.X > 0 else -x_extent
+			closest.X = x_extent if rel_pos.X > 0 else -x_extent
 		else:
-			closest.Y = y_extent if closest.Y > 0 else -y_extent
+			closest.Y = y_extent if rel_pos.Y > 0 else -y_extent
 	var normal = Vec2.Sub(rel_pos, closest)
-	var d = Vec2.Length(normal)
+	var d_squared = Vec2.LengthSquared(normal)
 	var r = b.Radius
-	if d > r and not inside:
+	if d_squared > Q.Pow2(r) and not inside:
 		return c
-	c.Normal = Vec2.Div(normal, -d if inside else d)
-	c.Penetration = r - d
+	var d = Q.Sqrt(d_squared)
+	if d == 0:
+		if x_dist == 0:
+			c.Normal = Vec2.Create(Q.ONE if rel_pos.X > 0 else -Q.ONE, 0)
+		else:
+			c.Normal = Vec2.Create(0, Q.ONE if rel_pos.Y > 0 else -Q.ONE)
+	else:
+		c.Normal = Vec2.Div(normal, -d if inside else d)
+	c.Penetration = r + d if inside else r - d
 	return c
 
 func ResolveCollision(c):
