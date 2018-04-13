@@ -21,6 +21,7 @@ extends Node
 #	var InvMass
 #	var Velocity
 #	var Position
+#	var PrevPosition
 #	var Force
 #	var Node
 
@@ -28,9 +29,9 @@ var counter = 0
 var bodies = {}
 var collisions = []
 var dt = Q.Div(Q.ONE, Q.FromInt(60))
-var gravityScale = Q.FromInt(5)
+var gravityScale = Q.FromInt(50)
 var gravity = Vec2.Create(0, Q.Mul(Q.FromInt(10), gravityScale))
-var iterations = 10
+var iterations = 3
 
 func CreateCircle(mass, position, radius):
 	counter += 1
@@ -42,6 +43,7 @@ func CreateCircle(mass, position, radius):
 		"InvMass": 0 if mass == 0 else Q.Div(Q.ONE, mass),
 		"Velocity": Vec2.Create(0, 0),
 		"Position": Vec2.Create(position.X, position.Y),
+		"PrevPosition": Vec2.Create(position.X, position.Y),
 		"Force": Vec2.Create(0, 0),
 		"Radius": radius,
 	}
@@ -58,6 +60,7 @@ func CreateBox(mass, position, width, height):
 		"InvMass": 0 if mass == 0 else Q.Div(Q.ONE, mass),
 		"Velocity": Vec2.Create(0, 0),
 		"Position": Vec2.Create(position.X, position.Y),
+		"PrevPosition": Vec2.Create(position.X, position.Y),
 		"Force": Vec2.Create(0, 0),
 		"Width": width,
 		"Height": height,
@@ -83,6 +86,7 @@ func Step():
 		for c in collisions:
 			ResolveCollision(c)
 	for b in bodies.values():
+		b.PrevPosition = Vec2.Create(b.Position.X, b.Position.Y)
 		Move(b)
 	for c in collisions:
 		PositionalCorrection(c)

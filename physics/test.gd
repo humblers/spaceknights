@@ -1,8 +1,11 @@
 extends Node
 
 const scale = 10
+const physics_frame_per_step = 6
 var width = ProjectSettings.get("display/window/size/width")
 var height = ProjectSettings.get("display/window/size/height")
+var physics_frame = 0
+var elapsed_from_last_step = 0
 
 func _ready():
 	set_process_input(true)
@@ -20,15 +23,22 @@ func _ready():
 	b.Node = n
 
 func _physics_process(delta):
-	Physics.Step()
+	if physics_frame % physics_frame_per_step == 0:
+		Physics.Step()
+		elapsed_from_last_step = 0
+	physics_frame += 1
 
 func _process(delta):
+	elapsed_from_last_step += delta
+	var t = elapsed_from_last_step / (float(physics_frame_per_step) / Engine.iterations_per_second)
 	for b in Physics.bodies.values():
 		var pos = WorldToPixelPosition(b.Position)
 		if pos.x <  0 || pos.x > width || pos.y < 0 || pos.y > height:
 			Physics.RemoveBody(b)
 			b.Node.queue_free()
-		b.Node.position = WorldToPixelPosition(b.Position)
+		var prev = WorldToPixelPosition(b.PrevPosition)
+		var curr = WorldToPixelPosition(b.Position)
+		b.Node.position = prev.linear_interpolate(curr, t)
 
 func PixelToWorldValue(v):
 	return Q.Div(Q.FromInt(v), Q.FromInt(scale))
