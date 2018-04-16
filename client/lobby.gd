@@ -116,7 +116,7 @@ func shuffle_deck():
 			arr.append(name)
 	deck = global.shuffle_array(arr)
 	deck.resize(5)
-	deck = ["archers", "archers", "archers", "archers", "archers",]
+	#deck = ["archers", "archers", "archers", "archers", "archers",]
 	for card in deck:
 		var label = Label.new()
 		label.set_text(card)
