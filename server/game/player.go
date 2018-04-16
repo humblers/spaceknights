@@ -36,7 +36,7 @@ func (players Players) Filter(f func(*Player) bool) Players {
 	return filtered
 }
 
-func NewPlayer(team Team, deck Cards, knights []*Unit, instruct *InstructManager) *Player {
+func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
 	for _, knight := range knights {
 		switch knight.Name {
 		case "shuriken":
@@ -50,11 +50,10 @@ func NewPlayer(team Team, deck Cards, knights []*Unit, instruct *InstructManager
 	glog.Infof("player deck: %v", deck)
 	deck.Shuffle()
 	return &Player{
-		Team:            team,
-		Hand:            deck[:HandSize],
-		Pending:         deck[HandSize:],
-		Knights:         knights,
-		InstructManager: instruct,
+		Team:    team,
+		Hand:    deck[:HandSize],
+		Pending: deck[HandSize:],
+		Knights: knights,
 	}
 }
 
