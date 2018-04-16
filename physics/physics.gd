@@ -99,7 +99,7 @@ func Move(b):
 		return
 	Vec2.AddInplace(b.Position, Vec2.Mul(b.Velocity, dt))
 
-func CheckCollision(a, b):
+static func CheckCollision(a, b):
 	if a.Shape == "Box" && b.Shape == "Box":
 		return BoxVsBox(a, b)
 	if a.Shape == "Circle" && b.Shape == "Circle":
@@ -115,7 +115,7 @@ func ApplyForce(b):
 	var accel = Vec2.Add(gravity, Vec2.Mul(b.Force, b.InvMass))
 	Vec2.AddInplace(b.Velocity, Vec2.Mul(accel, dt))
 	
-func BoxVsBox(a, b):
+static func BoxVsBox(a, b):
 	var c = { "A": a, "B": b }
 	var rel_pos = Vec2.Sub(b.Position, a.Position)
 	var a_extent = a.Width
@@ -140,7 +140,7 @@ func BoxVsBox(a, b):
 				c.Penetration = y_overlap
 	return c
 
-func CircleVsCircle(a, b):
+static func CircleVsCircle(a, b):
 	var c = { "A": a, "B": b }
 	var rel_pos = Vec2.Sub(b.Position, a.Position)
 	var radii = Q.Add(a.Radius, b.Radius)
@@ -155,7 +155,7 @@ func CircleVsCircle(a, b):
 			c.Normal = Vec2.Create(Q.ONE, 0)
 	return c
 
-func BoxVsCircle(a, b):
+static func BoxVsCircle(a, b):
 	var c = { "A": a, "B": b }
 	var rel_pos = Vec2.Sub(b.Position, a.Position)
 	var closest = Vec2.Create(rel_pos.X, rel_pos.Y)
@@ -190,7 +190,7 @@ func BoxVsCircle(a, b):
 	c.Penetration = r + d if inside else r - d
 	return c
 
-func ResolveCollision(c):
+static func ResolveCollision(c):
 	var a = c.A
 	var b = c.B
 	var rel_vel = Vec2.Sub(b.Velocity, a.Velocity)
@@ -204,7 +204,7 @@ func ResolveCollision(c):
 	Vec2.SubInplace(a.Velocity, Vec2.Mul(impluse, a.InvMass))
 	Vec2.AddInplace(b.Velocity, Vec2.Mul(impluse, b.InvMass))
 
-func PositionalCorrection(collision):
+static func PositionalCorrection(collision):
 	var a = collision.A
 	var b = collision.B
 	# 0.25
