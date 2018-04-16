@@ -5,9 +5,7 @@ const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
 	get_node("MothershipBG/BlueBaseBottom")
-	get_node("OpeningAnim").connect("animation_finished", self, "opening_finished")
-	get_node("MothershipBG/RedLight").z_index = global.LAYERS.MothershipOver
-	get_node("MothershipBG/BlueLight").z_index = global.LAYERS.MothershipOver
+	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
@@ -20,10 +18,6 @@ func update_changes(game):
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
 
-func opening_finished(anim):
-	get_node("UI").connect_ui_signals()
-	get_node("Battlefield/Units").show()
-	get_node("OpeningNodes").queue_free()
 
 func delete_dead_units(units):
 	for node in get_node("Battlefield/Units").get_children():
@@ -135,10 +129,10 @@ func play_runway_light(team, pos_x):
 		effect.rotation = PI
 	if global.team == "Visitor":
 		pos.x = global.MAP.width - pos.x
-	get_node("MothershipBG/%sLight" % color).hide()
+	
 	effect.position = pos
 	add_child(effect)
 	effect.play()
 	yield(effect, "animation_finished")
 	effect.queue_free()
-	get_node("MothershipBG/%sLight" % color).show()
+	
