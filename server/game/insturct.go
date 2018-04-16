@@ -1,28 +1,15 @@
 package main
 
+import "math/rand"
+
 type InstructManager struct {
 	Player *Player
 }
 
-func NewInstructManager() *InstructManager {
-	return &InstructManager{}
-}
-
-func (i *InstructManager) SetPlayer(player *Player) {
-	i.Player = player
-}
-
-func (i *InstructManager) BuildDeck() Cards {
-	unitCards := make(Cards, 0, len(CostMap))
-	for name, _ := range CostMap {
-		if name == "fireball" || name == "laser" || name == "freeze" {
-			continue
-		}
-		unitCards = append(unitCards, name)
+func NewInstructManager(player *Player) *InstructManager {
+	return &InstructManager{
+		Player: player,
 	}
-
-	unitCards.Shuffle()
-	return unitCards[:HandSize]
 }
 
 func (i *InstructManager) Update(game *Game) {
@@ -61,7 +48,7 @@ func (i *InstructManager) Update(game *Game) {
 		cost -= CostMap[card]
 		i.Player.UseCard(Input{
 			Use:      index + 1,
-			Position: pos,
+			Position: i.GenerateInputPosition(card, pos),
 		}, game)
 	}
 }
@@ -77,4 +64,18 @@ func (i *InstructManager) Determine(team Team, name string, pos Vector2, prevPos
 		return pos, cost
 	}
 	return pos, 1000
+}
+
+func (i *InstructManager) GenerateInputPosition(card Card, pos Vector2) Vector2 {
+	res := pos
+	if k := i.Player.FindKnight(card); k == nil {
+		res = Vector2{float64(rand.Intn(MapWidth / 2)), pos.Y}
+		if pos.X > MapWidth/2 {
+			res.X += MapWidth / 2
+		}
+		if pos.Y < MapHeight/2 {
+			res.Y = MapHeight/2 + float64(rand.Intn(MapHeight/2))
+		}
+	}
+	return res
 }
