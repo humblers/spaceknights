@@ -56,6 +56,50 @@ func (m *MatchManager) Run() {
 	}
 }
 
+func (m *MatchManager) RequestGameSession(candidates ...*Candidate) bool {
+	if len(candidates) < 1 {
+		glog.Errorf("at least 1 candidate required")
+		return false
+	}
+	if len(candidates) > 2 {
+		glog.Errorf("maximum 2 candidate supported")
+		return false
+	}
+	game := &Game{
+		//Host:      "13.125.74.237",
+		Host:      "127.0.0.1",
+		SessionID: strconv.FormatInt(time.Now().Unix(), 10),
+	}
+	req := SessionRequest{
+		SessionId: game.SessionID,
+	}
+	for i, candidate := range candidates {
+		m.Games[candidate.UserId] = game
+		switch i {
+		case 0:
+			req.Home = *candidate
+		case 1:
+			req.Visitor = *candidate
+		}
+	}
+	conn, err := net.Dial("tcp", "127.0.0.1:9989")
+	if err != nil {
+		glog.Errorf("game server connect fail:%v", err)
+		return false
+	}
+	defer conn.Close()
+	conn.Write(NewPacket(req))
+	if b, _, err := bufio.NewReader(conn).ReadLine(); err == nil {
+		packet := Packet(b)
+		var resp SessionResponse
+		if err := packet.Parse(&resp); err == nil {
+			glog.Infof("game session(%v, %v) create req result : %v", game.Host, game.SessionID, resp.Created)
+			return resp.Created
+		}
+	}
+	return false
+}
+
 func (m *MatchManager) MatchingCandidates() {
 	keys := make([]string, 0, 2)
 	for key := range m.Candidates {
@@ -65,39 +109,9 @@ func (m *MatchManager) MatchingCandidates() {
 		}
 	}
 	id1, id2 := keys[0], keys[1]
-	c1, c2 := m.Candidates[id1], m.Candidates[id2]
-	session := &Game{
-		//Host: "13.125.74.237",
-		//Host:      "127.0.0.1",
-		Host:      "192.168.1.6",
-		SessionID: strconv.FormatInt(time.Now().Unix(), 10),
-	}
-	m.Games[id1] = session
-	m.Games[id2] = session
 	delete(m.Candidates, id1)
 	delete(m.Candidates, id2)
-
-	conn, err := net.Dial("tcp", "127.0.0.1:9989")
-	if err != nil {
-		glog.Errorf("game server connect fail:%v", err)
-		return
-	}
-	defer conn.Close()
-	conn.Write(NewPacket(SessionRequest{
-		SessionId: session.SessionID,
-		Home:      *c1,
-		Visitor:   *c2,
-	}))
-	var created bool
-	if b, _, err := bufio.NewReader(conn).ReadLine(); err == nil {
-		packet := Packet(b)
-		var resp SessionResponse
-		if err := packet.Parse(&resp); err == nil {
-			created = resp.Created
-			glog.Infof("game session(%v, %v) create req result : %v", session.Host, session.SessionID, created)
-		}
-	}
-	if !created {
+	if created := m.RequestGameSession(m.Candidates[id1], m.Candidates[id2]); !created {
 		delete(m.Games, id1)
 		delete(m.Games, id2)
 	}
@@ -145,22 +159,18 @@ func MatchRouter() chi.Router {
 	r := chi.NewRouter()
 	r.Post("/find", FindGame)
 	r.Post("/candidacy", Candidacy)
+	r.Post("/instruct", Instruct)
 	r.Post("/withdraw", WithDraw)
 	return r
 }
 
-type CandidacyRequest struct {
-	Deck    Deck     `json:"deck"`
-	Knights []string `json:"knights"`
-}
-
-func (a *CandidacyRequest) Bind(r *http.Request) error {
+func (a *Player) Bind(r *http.Request) error {
 	return nil
 }
 
 func Candidacy(w http.ResponseWriter, r *http.Request) {
 	id, _ := session.GetString(r, "id")
-	data := &CandidacyRequest{}
+	data := &Player{}
 	if err := render.Bind(r, data); err != nil {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
@@ -170,6 +180,21 @@ func Candidacy(w http.ResponseWriter, r *http.Request) {
 		Deck:    &data.Deck,
 		Knights: &data.Knights,
 	}
+	render.Render(w, r, &CommonSuccess{})
+}
+
+func Instruct(w http.ResponseWriter, r *http.Request) {
+	id, _ := session.GetString(r, "id")
+	data := &Player{}
+	if err := render.Bind(r, data); err != nil {
+		render.Render(w, r, ErrInvalidRequest(err))
+		return
+	}
+	manager.RequestGameSession(&Candidate{
+		UserId:  id,
+		Deck:    &data.Deck,
+		Knights: &data.Knights,
+	})
 	render.Render(w, r, &CommonSuccess{})
 }
 

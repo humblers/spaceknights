@@ -10,6 +10,7 @@ onready var login = get_node("Auth/Login")
 onready var logout = get_node("Auth/Logout")
 onready var match_root = get_node("Match")
 onready var find_match = get_node("Match/Find")
+onready var instruct_match = get_node("Match/Instruct")
 onready var cancel_match = get_node("Match/Cancel")
 onready var waiting_match = get_node("Match/Waiting")
 onready var shuffle_deck = get_node("Deck/Shuffle")
@@ -28,6 +29,7 @@ func _ready():
 	login.connect("pressed", self, "login_manually")
 	logout.connect("pressed", self, "logout")
 	find_match.connect("pressed", self, "match_candidacy")
+	instruct_match.connect("pressed", self, "instruct")
 	cancel_match.connect("pressed", self, "withdraw_match")
 	shuffle_deck.connect("pressed", self, "shuffle_deck")
 	var knight_names = ["shuriken", "space_z", "freezer"]
@@ -73,16 +75,27 @@ func handle_match_buttons():
 	match_root.show()
 	if finding:
 		find_match.hide()
+		instruct_match.hide()
 		waiting_match.show()
 		cancel_match.show()
 		return
 	find_match.show()
+	instruct_match.show()
 	waiting_match.hide()
 	cancel_match.hide()
 
 func match_candidacy():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/candidacy",
+			{
+				"deck":deck,
+				"knights": get_selected_knights(),
+			},
+			"candidacy_response")
+
+func instruct():
+	http_lobby.request(HTTPClient.METHOD_POST,
+			"/match/instruct",
 			{
 				"deck":deck,
 				"knights": get_selected_knights(),
