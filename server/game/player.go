@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+
 	"github.com/golang/glog"
 )
 
@@ -10,12 +11,13 @@ const EnergyPerFrame = 40
 const HandSize = 4
 
 type Player struct {
-	Team      Team
-	Hand      Cards
-	Pending   Cards   `json:"-"`
-	Knights   []*Unit `json:"-"`
-	Energy    int
-	Movements []*Movement `json:"-"`
+	Team            Team
+	Hand            Cards
+	Pending         Cards   `json:"-"`
+	Knights         []*Unit `json:"-"`
+	Energy          int
+	Movements       []*Movement      `json:"-"`
+	InstructManager *InstructManager `json:"-"`
 }
 
 type Movement struct {
@@ -34,7 +36,7 @@ func (players Players) Filter(f func(*Player) bool) Players {
 	return filtered
 }
 
-func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
+func NewPlayer(team Team, deck Cards, knights []*Unit, instruct *InstructManager) *Player {
 	for _, knight := range knights {
 		switch knight.Name {
 		case "shuriken":
@@ -48,10 +50,11 @@ func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
 	glog.Infof("player deck: %v", deck)
 	deck.Shuffle()
 	return &Player{
-		Team:    team,
-		Hand:    deck[:HandSize],
-		Pending: deck[HandSize:],
-		Knights: knights,
+		Team:            team,
+		Hand:            deck[:HandSize],
+		Pending:         deck[HandSize:],
+		Knights:         knights,
+		InstructManager: instruct,
 	}
 }
 
@@ -74,6 +77,9 @@ func (player *Player) Update(game *Game) {
 	player.Energy += energy
 	if player.Energy >= MaxEnergy {
 		player.Energy = MaxEnergy
+	}
+	if player.InstructManager != nil {
+		player.InstructManager.Update(game)
 	}
 }
 

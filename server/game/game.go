@@ -190,8 +190,19 @@ func (game *Game) GetWinner() Team {
 }
 
 func (g *Game) Join(team Team, user User) {
-	knights := NewKnights(team, user.knights)
-	player := NewPlayer(team, user.deck, knights)
+	var instructor *InstructManager
+	deck := user.deck
+	knightNames := user.knights
+	if user.id == "" {
+		instructor = NewInstructManager()
+		deck = instructor.BuildDeck()
+		knightNames = []string{"shuriken", "space_z", "freezer"}
+	}
+	knights := NewKnights(team, knightNames)
+	player := NewPlayer(team, deck, knights, instructor)
+	if instructor != nil {
+		instructor.SetPlayer(player)
+	}
 	g.Players[user.id] = player
 	for _, knight := range knights {
 		g.AddUnit(knight)
