@@ -3,15 +3,15 @@ extends Node
 # Q format fixed point number
 # https://en.wikipedia.org/wiki/Q_(number_format)
 
-const M = 16
-const N = 16
+const M = 24
+const N = 8
 const MAX = (1 << (M + N - 1)) - 1
 const MIN = -(MAX + 1)
 const ONE = 1 << N
 const EPSILON = 1 << N/2
 
 static func Overflow(x):
-	return x < MIN and x > MAX
+	return x < MIN or x > MAX
 
 static func Underflow(x, res):
 	return x != 0 and res == 0
