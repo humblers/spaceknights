@@ -53,3 +53,8 @@ static func Length(v):
 
 static func Normalize(v):
 	return Div(v, Length(v))
+
+static func Truncate(v, s):
+	if LengthSquared(v) > Q.Pow2(s):
+		return Mul(Normalize(v), s)
+	return v

@@ -114,6 +114,8 @@ func ApplyForce(b):
 		return
 	var accel = Vec2.Add(GRAVITY, Vec2.Mul(b.Force, b.InvMass))
 	Vec2.AddInplace(b.Velocity, Vec2.Mul(accel, DT))
+	if b.has("MaxSpeed"):
+		b.Velocity = Vec2.Truncate(b.Velocity, b.MaxSpeed)
 	
 static func BoxVsBox(a, b):
 	var c = { "A": a, "B": b }

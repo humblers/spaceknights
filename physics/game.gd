@@ -2,7 +2,7 @@ extends Node
 
 const SCALE = 1
 const FRAME_PER_STEP = 1
-const AI_STEP_PER_PHYSICS_STEP = 6
+const AI_STEP_PER_PHYSICS_STEP = 1
 
 var frame = 0
 var elapsed = 0
