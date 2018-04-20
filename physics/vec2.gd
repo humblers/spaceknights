@@ -1,5 +1,7 @@
 extends Node
 
+const ZERO = {"X": 0, "Y": 0}
+
 static func Create(x, y):
 	return {
 		"X": x,
@@ -40,8 +42,14 @@ static func DivInplace(v, s):
 static func Dot(a, b):
 	return Q.Add(Q.Mul(a.X, b.X), Q.Mul(a.Y, b.Y))
 
+static func Cross(a, b):
+	return Q.Sub(Q.Mul(a.X, b.Y), Q.Mul(a.Y, b.X))
+
 static func LengthSquared(v):
 	return Q.Add(Q.Pow2(v.X), Q.Pow2(v.Y))
 
 static func Length(v):
 	return Q.Sqrt(LengthSquared(v))
+
+static func Normalize(v):
+	return Div(v, Length(v))

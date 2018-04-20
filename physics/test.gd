@@ -1,11 +1,7 @@
 extends Node
 
-const scale = 10
-const physics_frame_per_step = 6
 var width = ProjectSettings.get("display/window/size/width")
 var height = ProjectSettings.get("display/window/size/height")
-var physics_frame = 0
-var elapsed_from_last_step = 0
 
 func _ready():
 	set_process_input(true)
@@ -21,40 +17,6 @@ func _ready():
 	n.color = Color(0, 0, 1)
 	add_child(n)
 	b.Node = n
-
-func _physics_process(delta):
-	if physics_frame % physics_frame_per_step == 0:
-		Physics.Step()
-		elapsed_from_last_step = 0
-	physics_frame += 1
-
-func _process(delta):
-	elapsed_from_last_step += delta
-	var t = elapsed_from_last_step / (float(physics_frame_per_step) / Engine.iterations_per_second)
-	for b in Physics.bodies.values():
-		var pos = WorldToPixelPosition(b.Position)
-		if pos.x <  0 || pos.x > width || pos.y < 0 || pos.y > height:
-			Physics.RemoveBody(b)
-			b.Node.queue_free()
-		var prev = WorldToPixelPosition(b.PrevPosition)
-		var curr = WorldToPixelPosition(b.Position)
-		b.Node.position = prev.linear_interpolate(curr, t)
-
-func PixelToWorldValue(v):
-	return Q.Div(Q.FromInt(v), Q.FromInt(scale))
-
-func WorldToPixelValue(v):
-	return Q.ToFloat(v)
-
-func PixelToWorldPosition(p):
-	var x = int(p.x - width/2) / scale
-	var y = int(p.y - height/2) / scale
-	return Vec2.Create(Q.FromInt(x), Q.FromInt(y))
-
-func WorldToPixelPosition(p):
-	var x = Q.ToFloat(p.X) * scale + width/2
-	var y = Q.ToFloat(p.Y) * scale + height/2
-	return Vector2(x, y)
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:

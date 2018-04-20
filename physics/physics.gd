@@ -25,13 +25,13 @@ extends Node
 #	var Force
 #	var Node
 
+const ITERATIONS = 3
+var DT = Q.Div(Q.ONE, Q.FromInt(60))
+var GRAVITY = Vec2.Create(0, Q.FromInt(0))
+
 var counter = 0
 var bodies = {}
 var collisions = []
-var dt = Q.Div(Q.ONE, Q.FromInt(60))
-var gravityScale = Q.FromInt(50)
-var gravity = Vec2.Create(0, Q.Mul(Q.FromInt(10), gravityScale))
-var iterations = 3
 
 func CreateCircle(mass, position, radius):
 	counter += 1
@@ -82,7 +82,7 @@ func Step():
 				collisions.append(c)
 	for b in bodies.values():
 		ApplyForce(b)
-	for i in range(iterations):
+	for i in range(ITERATIONS):
 		for c in collisions:
 			ResolveCollision(c)
 	for b in bodies.values():
@@ -97,7 +97,7 @@ func Step():
 func Move(b):
 	if b.Mass == 0:
 		return
-	Vec2.AddInplace(b.Position, Vec2.Mul(b.Velocity, dt))
+	Vec2.AddInplace(b.Position, Vec2.Mul(b.Velocity, DT))
 
 static func CheckCollision(a, b):
 	if a.Shape == "Box" && b.Shape == "Box":
@@ -112,8 +112,8 @@ static func CheckCollision(a, b):
 func ApplyForce(b):
 	if b.Mass == 0:
 		return
-	var accel = Vec2.Add(gravity, Vec2.Mul(b.Force, b.InvMass))
-	Vec2.AddInplace(b.Velocity, Vec2.Mul(accel, dt))
+	var accel = Vec2.Add(GRAVITY, Vec2.Mul(b.Force, b.InvMass))
+	Vec2.AddInplace(b.Velocity, Vec2.Mul(accel, DT))
 	
 static func BoxVsBox(a, b):
 	var c = { "A": a, "B": b }
