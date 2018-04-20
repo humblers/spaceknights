@@ -118,8 +118,8 @@ func FindPath(from, to, radius):
 						portals = [RightHoleToTop, TopToLeftHole]
 					else:
 						portals = [RightHoleToBottom, BottomToLeftHole]
-		Shield:
-			return null
+#		Shield:
+#			return null
 	portals.append({"Left": to, "Right": to})
 	return portals
 

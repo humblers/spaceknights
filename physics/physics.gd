@@ -39,7 +39,7 @@ func CreateCircle(mass, position, radius):
 		"Id": counter,
 		"Shape": "Circle",
 		"Mass": mass,
-		"Restitution": Q.Div(Q.ONE, Q.FromInt(2)),
+		"Restitution": 0, #Q.Div(Q.ONE, Q.FromInt(2)),
 		"InvMass": 0 if mass == 0 else Q.Div(Q.ONE, mass),
 		"Velocity": Vec2.Create(0, 0),
 		"Position": Vec2.Create(position.X, position.Y),
