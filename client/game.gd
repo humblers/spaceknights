@@ -4,11 +4,15 @@ const OBJECT_DEFAULT = "default"
 const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
+	self.offset.x += get_camera_x_offset()
 	get_node("MothershipBG/BlueBaseBottom")
 	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
+	if debug.size_changed:
+		debug.size_changed = false
+		self.offset.x += get_camera_x_offset()
 	global.team = game.Players[global.id].Team
 	create_new_units(game.Units)
 	update_units(game.Units)
@@ -17,7 +21,6 @@ func update_changes(game):
 	delete_finished_spells(game.Spells)
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
-
 
 func delete_dead_units(units):
 	for node in get_node("Battlefield/Units").get_children():
@@ -113,7 +116,7 @@ func create_projectile(type, target, lifetime, initial_position):
 		var target_nodes = []
 		for id in target:
 			target_nodes.append(get_node("Battlefield/Units").get_node(str(id)))
-		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
+		proj_node.set_multi_target(target_nodes, lifetime, initial_position, projectiles)
 	else:
 		print("unknown target type(%d)" % target_type)
 		return
@@ -136,3 +139,11 @@ func play_runway_light(team, pos_x):
 	yield(effect, "animation_finished")
 	effect.queue_free()
 	
+func get_camera_x_offset():
+	var ow = ProjectSettings.get_setting("display/window/size/width")
+	var oh = ProjectSettings.get_setting("display/window/size/height")
+	var size = get_viewport().size
+	var ratio = 1- (size.y * ow / size.x / oh)
+	if ratio < 1:
+		return -ow * ratio / 2
+	return 0

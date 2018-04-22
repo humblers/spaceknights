@@ -1,26 +1,32 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
-[ext_resource path="res://mother_ship-blue.png" type="Texture" id=2]
-[ext_resource path="res://mother_ship-red.png" type="Texture" id=3]
-[ext_resource path="res://bg-eoparu.png" type="Texture" id=4]
-[ext_resource path="res://bg-kinetica.png" type="Texture" id=5]
-[ext_resource path="res://bg-mandarin.png" type="Texture" id=6]
-[ext_resource path="res://bg-naptione.png" type="Texture" id=7]
-[ext_resource path="res://background_tilecheck.png" type="Texture" id=8]
-[ext_resource path="res://shield_open.png" type="Texture" id=9]
-[ext_resource path="res://debri-side.png" type="Texture" id=10]
-[ext_resource path="res://debri-center.png" type="Texture" id=11]
-[ext_resource path="res://ui.gd" type="Script" id=12]
-[ext_resource path="res://icon/archers_small.png" type="Texture" id=13]
-[ext_resource path="res://next_panel.png" type="Texture" id=14]
-[ext_resource path="res://energybar_bot.png" type="Texture" id=15]
-[ext_resource path="res://energybar_top.png" type="Texture" id=16]
-[ext_resource path="res://energybar_inside.png" type="Texture" id=17]
-[ext_resource path="res://icon/archers_off.png" type="Texture" id=18]
-[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=19]
-[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=20]
-[ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=21]
+[ext_resource path="res://bg-eoparu.png" type="Texture" id=2]
+[ext_resource path="res://bg-kinetica.png" type="Texture" id=3]
+[ext_resource path="res://bg-mandarin.png" type="Texture" id=4]
+[ext_resource path="res://bg-naptione.png" type="Texture" id=5]
+[ext_resource path="res://background_tilecheck.png" type="Texture" id=6]
+[ext_resource path="res://debri-side.png" type="Texture" id=7]
+[ext_resource path="res://debri-center.png" type="Texture" id=8]
+[ext_resource path="res://mother_ship-blue.png" type="Texture" id=9]
+[ext_resource path="res://mother_ship-red.png" type="Texture" id=10]
+[ext_resource path="res://ui.gd" type="Script" id=11]
+[ext_resource path="res://icon/archers_small.png" type="Texture" id=12]
+[ext_resource path="res://next_panel.png" type="Texture" id=13]
+[ext_resource path="res://energybar_bot.png" type="Texture" id=14]
+[ext_resource path="res://energybar_top.png" type="Texture" id=15]
+[ext_resource path="res://energybar_inside.png" type="Texture" id=16]
+[ext_resource path="res://icon/archers_off.png" type="Texture" id=17]
+[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=18]
+[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=19]
+[ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=20]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+content_margin_left = -1.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -50,62 +56,49 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 
-[sub_resource type="StyleBoxEmpty" id=6]
-
-content_margin_left = -1.0
-content_margin_right = -1.0
-content_margin_top = -1.0
-content_margin_bottom = -1.0
-
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=6]
 
 size = 16
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 21 )
+font_data = ExtResource( 20 )
 _sections_unfolded = [ "Font" ]
 
-[node name="game" type="Node" index="0"]
+[node name="game" type="Camera2D" index="0"]
 
+anchor_mode = 0
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
+editor_draw_screen = true
+editor_draw_limits = false
+editor_draw_drag_margin = false
 script = ExtResource( 1 )
 _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Rendering", "Shadow Atlas", "Transform" ]
 
-[node name="MothershipBG" type="CanvasLayer" parent="." index="0"]
+[node name="Battlefield" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
-layer = -1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 0.9, 1 )
-transform = Transform2D( 0.9, 0, 0, 1, 0, 0 )
-
-[node name="BlueBaseBottom" type="Sprite" parent="MothershipBG" index="0"]
-
-position = Vector2( 199.415, 599.129 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="RedBase" type="Sprite" parent="MothershipBG" index="1"]
-
-position = Vector2( 198.717, 7.24153 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Battlefield" type="CanvasLayer" parent="." index="1"]
-
-layer = 0
-offset = Vector2( 20, 32 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 20, 32 )
+position = Vector2( 60, 96 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Units" type="Node2D" parent="Battlefield" index="0"]
 
 position = Vector2( 0, 1 )
-scale = Vector2( 0.333333, 0.333333 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Spells" type="Node" parent="Battlefield" index="1"]
@@ -116,79 +109,76 @@ _sections_unfolded = [ "Transform" ]
 
 _sections_unfolded = [ "Transform" ]
 
-[node name="Background" type="CanvasLayer" parent="." index="2"]
-
-editor/display_folded = true
-layer = -2
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 0.333333, 0.333333 )
-transform = Transform2D( 0.333333, 0, 0, 0.333333, 0, 0 )
+[node name="Background" type="Node2D" parent="." index="1"]
 
 [node name="bg-eoparu" type="Sprite" parent="Background" index="0"]
 
 visible = false
 position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="bg-kinetica" type="Sprite" parent="Background" index="1"]
 
 visible = false
 position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="bg-mandarin" type="Sprite" parent="Background" index="2"]
 
 visible = false
 position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="bg-naptione" type="Sprite" parent="Background" index="3"]
 
 position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Tile" type="Sprite" parent="Background" index="4"]
 
 visible = false
 position = Vector2( 539.56, 912 )
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Shield" type="Sprite" parent="Background" index="5"]
-
-visible = false
-position = Vector2( 200, 280 )
-texture = ExtResource( 9 )
-
-[node name="debri-left" type="Sprite" parent="Background" index="6"]
+[node name="debri-left" type="Sprite" parent="Background" index="5"]
 
 position = Vector2( 48, 888 )
-texture = ExtResource( 10 )
+texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="debri-center" type="Sprite" parent="Background" index="7"]
+[node name="debri-center" type="Sprite" parent="Background" index="6"]
 
 position = Vector2( 540, 888 )
 scale = Vector2( 1.45055, 1 )
-texture = ExtResource( 11 )
+texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="debri-right" type="Sprite" parent="Background" index="8"]
+[node name="debri-right" type="Sprite" parent="Background" index="7"]
 
 position = Vector2( 1032, 888 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BlueBaseBottom" type="Sprite" parent="Background" index="8"]
+
+position = Vector2( 540, 1789 )
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="RedBase" type="Sprite" parent="Background" index="9"]
+
+position = Vector2( 540, 72 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="UI" type="CanvasLayer" parent="." index="3"]
+[node name="UI" type="Node2D" parent="." index="2"]
 
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 0.9, 1 )
-transform = Transform2D( 0.9, 0, 0, 1, 0, 0 )
-script = ExtResource( 12 )
+script = ExtResource( 11 )
 
 [node name="RemainTime" type="Label" parent="UI" index="0"]
 
@@ -219,17 +209,19 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
 margin_left = 12.0
-margin_top = 597.0
+margin_top = 1785.0
 margin_right = 42.0
-margin_bottom = -7.0
+margin_bottom = -110.0
+rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Panel" type="TextureRect" parent="UI" index="2"]
 
@@ -238,28 +230,31 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
 margin_left = 12.0
-margin_top = 587.0
+margin_top = 1757.0
 margin_right = 42.0
-margin_bottom = 25.0
+margin_bottom = -160.0
+rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 14 )
+texture = ExtResource( 13 )
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="Energy" type="TextureProgress" parent="UI" index="3"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 55.0
-margin_top = -14.0
-margin_right = 371.0
+margin_left = 115.0
+margin_top = 1870.0
+margin_right = 401.0
+margin_bottom = -36.0
+rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -273,9 +268,9 @@ page = 0.0
 value = 50.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 15 )
-texture_over = ExtResource( 16 )
-texture_progress = ExtResource( 17 )
+texture_under = ExtResource( 14 )
+texture_over = ExtResource( 15 )
+texture_progress = ExtResource( 16 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -284,13 +279,14 @@ _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 [node name="Card1" type="TextureButton" parent="UI" index="4"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 66.0
-margin_top = -58.0
-margin_right = 144.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = 146.0
+margin_top = 1742.0
+margin_right = 204.0
+margin_bottom = -120.0
+rect_scale = Vector2( 2.1, 2.1 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -302,19 +298,20 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 17 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="Card2" type="TextureButton" parent="UI" index="5"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 146.0
-margin_top = -58.0
-margin_right = 224.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = 386.0
+margin_top = 1742.0
+margin_right = 444.0
+margin_bottom = -120.0
+rect_scale = Vector2( 2.1, 2.1 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -326,19 +323,20 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 18 )
-_sections_unfolded = [ "Margin", "Rect" ]
+texture_normal = ExtResource( 17 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Card3" type="TextureButton" parent="UI" index="6"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 226.0
-margin_top = -58.0
-margin_right = 304.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = 626.0
+margin_top = 1742.0
+margin_right = 684.0
+margin_bottom = -120.0
+rect_scale = Vector2( 2.1, 2.1 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -350,19 +348,20 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 18 )
-_sections_unfolded = [ "Margin", "Rect" ]
+texture_normal = ExtResource( 17 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Card4" type="TextureButton" parent="UI" index="7"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 306.0
-margin_top = -58.0
-margin_right = 384.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = 866.0
+margin_top = 1742.0
+margin_right = 924.0
+margin_bottom = -120.0
+rect_scale = Vector2( 2.1, 2.1 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -374,8 +373,8 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 18 )
-_sections_unfolded = [ "Grow Direction", "Margin", "Rect" ]
+texture_normal = ExtResource( 17 )
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="Card_" type="TextureButton" parent="UI" index="8"]
 
@@ -399,13 +398,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 19 )
-texture_focused = ExtResource( 20 )
+texture_normal = ExtResource( 18 )
+texture_focused = ExtResource( 19 )
 
 [node name="FieldOffset" type="Position2D" parent="UI" index="9"]
 
-position = Vector2( 22, 32 )
-scale = Vector2( 0.37037, 0.333333 )
+position = Vector2( 60, 96 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="CardGuide" type="Position2D" parent="UI/FieldOffset" index="0"]
@@ -428,12 +426,12 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-custom_styles/hover = SubResource( 2 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 5 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
