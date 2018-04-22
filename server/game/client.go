@@ -99,6 +99,7 @@ func (client *Client) readLoop() {
 			}
 			var input Input
 			if err := packet.Parse(&input); err != nil {
+				glog.Errorf("packet(%v)", string(packet))
 				panic(err)
 			}
 			input.id = client.id
