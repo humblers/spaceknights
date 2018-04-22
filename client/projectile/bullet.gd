@@ -12,12 +12,12 @@ func set_single_target(target, lifetime, position, parent):
 	self.lifetime = lifetime
 	self.position = position
 	self.z_index = global.LAYERS.Projectile
-	target_position = parent.to_local(target.global_position)
+	target_position = target.position
 	target_radius = global.UNITS[target.u_name].radius
 	target.connect("position_changed", self, "update_target_position")
 
 func update_target_position(id, position):
-	target_position = get_parent().to_local(position)
+	target_position = position
 
 func _physics_process(delta):
 	elapsed += delta
