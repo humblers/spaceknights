@@ -4,7 +4,7 @@ const OBJECT_DEFAULT = "default"
 const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
-	self.offset.x += get_camera_x_offset()
+	self.offset.x = get_camera_x_offset()
 	get_node("MothershipBG/BlueBaseBottom")
 	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
@@ -12,7 +12,7 @@ func _ready():
 func update_changes(game):
 	if debug.size_changed:
 		debug.size_changed = false
-		self.offset.x += get_camera_x_offset()
+		self.offset.x = get_camera_x_offset()
 	global.team = game.Players[global.id].Team
 	create_new_units(game.Units)
 	update_units(game.Units)
@@ -106,7 +106,6 @@ func update_ui(game):
 
 func create_projectile(type, target, lifetime, initial_position):
 	var projectiles = get_node("Battlefield/Projectiles")
-	initial_position = projectiles.to_local(initial_position)
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:

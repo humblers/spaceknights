@@ -31,7 +31,7 @@ func initialize(unit):
 
 func set_position(pos):
 	self.position = pos * 3
-	emit_signal("position_changed", get_name(), self.global_position)
+	emit_signal("position_changed", get_name(), self.position)
 
 func set_base():
 	if has_node("Base"):
