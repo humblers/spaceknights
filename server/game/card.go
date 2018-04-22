@@ -76,8 +76,6 @@ var CostMap = map[Card]int{
 	"fireball": 4000,
 	"laser":    5000,
 	"freeze":   2000,
-
-	"moveknight": 0,
 }
 
 func CreateRandomDeck() Cards {
