@@ -48,12 +48,12 @@ var projectile = {
 
 var unit_base = {
 	"bombtower": {
-		"blue": preload("res://unit/bombtower/blue_base.png"),
-		"red": preload("res://unit/bombtower/red_base.png"),
+		"blue": preload("res://unit/bombtower/cannon-base.png"),
+		"red": preload("res://unit/bombtower/cannon-base.png"),
 	},
 	"cannon": {
-		"blue": preload("res://unit/cannon/blue_base.png"),
-		"red": preload("res://unit/cannon/red_base.png"),
+		"blue": preload("res://unit/cannon/cannon-base.png"),
+		"red": preload("res://unit/cannon/cannon-base.png"),
 	},
 }
 

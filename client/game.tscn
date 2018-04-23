@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg-eoparu.png" type="Texture" id=2]
@@ -11,15 +11,15 @@
 [ext_resource path="res://mother_ship-blue.png" type="Texture" id=9]
 [ext_resource path="res://mother_ship-red.png" type="Texture" id=10]
 [ext_resource path="res://ui.gd" type="Script" id=11]
-[ext_resource path="res://icon/archers_small.png" type="Texture" id=12]
-[ext_resource path="res://next_panel.png" type="Texture" id=13]
-[ext_resource path="res://energybar_bot.png" type="Texture" id=14]
-[ext_resource path="res://energybar_top.png" type="Texture" id=15]
-[ext_resource path="res://energybar_inside.png" type="Texture" id=16]
-[ext_resource path="res://icon/archers_off.png" type="Texture" id=17]
-[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=18]
-[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=19]
-[ext_resource path="res://font/godom.ttf" type="DynamicFontData" id=20]
+[ext_resource path="res://font/godom_font.tres" type="DynamicFont" id=12]
+[ext_resource path="res://icon/archers_small.png" type="Texture" id=13]
+[ext_resource path="res://next_panel.png" type="Texture" id=14]
+[ext_resource path="res://energybar_bot.png" type="Texture" id=15]
+[ext_resource path="res://energybar_top.png" type="Texture" id=16]
+[ext_resource path="res://energybar_inside.png" type="Texture" id=17]
+[ext_resource path="res://icon/archers_off.png" type="Texture" id=18]
+[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=19]
+[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=20]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -55,14 +55,6 @@ content_margin_left = -1.0
 content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
-
-[sub_resource type="DynamicFont" id=6]
-
-size = 16
-use_mipmaps = false
-use_filter = false
-font_data = ExtResource( 20 )
-_sections_unfolded = [ "Font" ]
 
 [node name="game" type="Camera2D" index="0"]
 
@@ -192,21 +184,23 @@ anchor_left = 1.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 0.0
-margin_right = 31.0
-margin_bottom = 19.0
+margin_left = -200.0
+margin_bottom = 100.0
+grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
+custom_fonts/font = ExtResource( 12 )
 text = "3:00"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "custom_fonts" ]
 
 [node name="Next" type="TextureRect" parent="UI" index="1"]
 
@@ -225,7 +219,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
@@ -246,7 +240,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
@@ -274,9 +268,9 @@ page = 0.0
 value = 50.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 14 )
-texture_over = ExtResource( 15 )
-texture_progress = ExtResource( 16 )
+texture_under = ExtResource( 15 )
+texture_over = ExtResource( 16 )
+texture_progress = ExtResource( 17 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -304,7 +298,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 17 )
+texture_normal = ExtResource( 18 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="Card2" type="TextureButton" parent="UI" index="5"]
@@ -329,7 +323,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 17 )
+texture_normal = ExtResource( 18 )
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Card3" type="TextureButton" parent="UI" index="6"]
@@ -354,7 +348,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 17 )
+texture_normal = ExtResource( 18 )
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Card4" type="TextureButton" parent="UI" index="7"]
@@ -379,7 +373,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 17 )
+texture_normal = ExtResource( 18 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="Card_" type="TextureButton" parent="UI" index="8"]
@@ -404,8 +398,8 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 18 )
-texture_focused = ExtResource( 19 )
+texture_normal = ExtResource( 19 )
+texture_focused = ExtResource( 20 )
 
 [node name="FieldOffset" type="Position2D" parent="UI" index="9"]
 
@@ -438,14 +432,13 @@ custom_styles/pressed = SubResource( 2 )
 custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 4 )
 custom_styles/normal = SubResource( 5 )
-custom_fonts/font = SubResource( 6 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
 flat = false
 align = 1
-_sections_unfolded = [ "Anchor", "Margin", "custom_styles" ]
+_sections_unfolded = [ "Anchor", "Margin", "custom_fonts", "custom_styles" ]
 
 [node name="Label" type="Label" parent="UI/Result" index="0"]
 
@@ -459,6 +452,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Game Over"
@@ -467,6 +461,6 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor" ]
+_sections_unfolded = [ "Anchor", "custom_fonts" ]
 
 
