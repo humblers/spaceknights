@@ -199,7 +199,7 @@ func (g *Game) Join(team Team, user User) {
 		knightNames = []string{"shuriken", "space_z", "freezer"}
 	}
 	knights := NewKnights(team, knightNames)
-	player := NewPlayer(team, deck, knights)
+	player := NewPlayer(team, deck, knights, g.Frame)
 	if user.id == "" {
 		player.InstructManager = NewInstructManager(player)
 	}

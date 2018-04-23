@@ -7,6 +7,7 @@ import (
 )
 
 const MaxEnergy = 10000
+const StartEnergy = 7000
 const EnergyPerFrame = 40
 const HandSize = 4
 
@@ -36,7 +37,7 @@ func (players Players) Filter(f func(*Player) bool) Players {
 	return filtered
 }
 
-func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
+func NewPlayer(team Team, deck Cards, knights []*Unit, frame int) *Player {
 	for _, knight := range knights {
 		switch knight.Name {
 		case "shuriken":
@@ -54,6 +55,7 @@ func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
 		Hand:    deck[:HandSize],
 		Pending: deck[HandSize:],
 		Knights: knights,
+		Energy:  StartEnergy + EnergyPerFrame*frame,
 	}
 }
 
