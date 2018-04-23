@@ -8,7 +8,7 @@ var elapsed = 0
 func _ready():
 	set_physics_process(true)
 
-func set_single_target(target, lifetime, position, parent):
+func set_single_target(target, lifetime, position):
 	self.lifetime = lifetime
 	self.position = position
 	self.z_index = global.LAYERS.Projectile
