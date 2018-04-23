@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://projectile/missile.gd" type="Script" id=1]
 [ext_resource path="res://projectile/missile_L_01.png" type="Texture" id=2]
@@ -13,37 +13,42 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="BombtowerMissile" type="Node"]
+[node name="BombtowerMissile" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
-name = "bombtower"
+m_name = ""
 missile_spread = 50
 spread_divider_on_way1 = 5
 spread_divider_on_way2 = 3
 damage_radius = 30
 
-[node name="Missiles" type="Node" parent="."]
+[node name="Missiles" type="Node2D" parent="." index="0"]
 
+[node name="Missile0" type="AnimatedSprite" parent="Missiles" index="0"]
 
-[node name="Missile0" type="AnimatedSprite" parent="Missiles"]
+visible = false
+position = Vector2( 740, 848 )
+rotation = -1.09956
+frames = SubResource( 1 )
+animation = "move"
+playing = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Missile1" type="AnimatedSprite" parent="Missiles" index="1"]
 
 visible = false
 frames = SubResource( 1 )
 animation = "move"
 frame = 1
 playing = true
+_sections_unfolded = [ "Transform" ]
 
-[node name="Missile1" type="AnimatedSprite" parent="Missiles"]
+[node name="Missile2" type="AnimatedSprite" parent="Missiles" index="2"]
 
 visible = false
 frames = SubResource( 1 )
 animation = "move"
 playing = true
+_sections_unfolded = [ "Transform" ]
 
-[node name="Missile2" type="AnimatedSprite" parent="Missiles"]
 
-visible = false
-frames = SubResource( 1 )
-animation = "move"
-frame = 1
-playing = true

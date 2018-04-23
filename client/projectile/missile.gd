@@ -24,14 +24,14 @@ func _ready():
 	set_animation_track()
 	play()
 
-func set_single_target(target, lifetime, position, parent):
+func set_single_target(target, lifetime, position):
 	self.lifetime = lifetime
 	is_multi_target = false
 	starting_position = position
 	target_positions.append([target.get_name(), target.position])
 	target.connect("position_changed", self, "update_target_position")
 
-func set_multi_target(target, lifetime, position, parent):
+func set_multi_target(target, lifetime, position):
 	self.lifetime = lifetime
 	is_multi_target = true
 	starting_position = position
@@ -126,7 +126,7 @@ func set_animation_track():
 
 		# set waypoint rotation
 		var rot_track = anim.add_track(Animation.TYPE_VALUE)
-		anim.track_set_path(rot_track, "%s:rotation" % path)
+		anim.track_set_path(rot_track, "%s:rotation_degrees" % path)
 		var prev_rot
 		for j in range(rotations.size()):
 			var rotation = rotations[j]
@@ -164,6 +164,4 @@ func update_target_position(id, position):
 		var direction = (target_position - starting_position).normalized()
 		var track = anim.find_track("%s:position" % child.get_path())
 		anim.track_insert_key(track, lifetime,
-				target_position
-				+ direction.rotated(-PI / children.size() * (2 * i + 1))
-				* damage_radius / 2)
+				target_position)

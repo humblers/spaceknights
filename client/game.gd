@@ -106,16 +106,17 @@ func update_ui(game):
 
 func create_projectile(type, target, lifetime, initial_position):
 	var projectiles = get_node("Battlefield/Projectiles")
+	initial_position = projectiles.to_local(initial_position)
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
 		var target_node = get_node("Battlefield/Units").get_node(str(target))
-		proj_node.set_single_target(target_node, lifetime, initial_position, projectiles)
+		proj_node.set_single_target(target_node, lifetime, initial_position)
 	elif target_type in [TYPE_ARRAY, TYPE_INT_ARRAY, TYPE_REAL_ARRAY]:
 		var target_nodes = []
 		for id in target:
 			target_nodes.append(get_node("Battlefield/Units").get_node(str(id)))
-		proj_node.set_multi_target(target_nodes, lifetime, initial_position, projectiles)
+		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
 	else:
 		print("unknown target type(%d)" % target_type)
 		return
