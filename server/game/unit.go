@@ -571,29 +571,57 @@ func (u *Unit) Update() {
 			}
 			return
 		}
-		if u.HasTargetInKnightFirefield() {
-			if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
-				if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
-					bullet := NewKnightBullet(u.Team, u.Position)
-					u.Game.AddUnit(bullet)
-					if u.Team == Home {
-						bullet.Position.Y -= u.Radius
-					} else {
-						bullet.Position.Y += u.Radius
+		switch u.Name {
+		case "shuriken", "freezer":
+			if u.HasAttack() {
+				if u.IsAttacking() {
+					u.HandleAttack()
+				} else {
+					if u.IsFrozen() {
+						return
 					}
-					bullet.Velocity = u.Heading.Multiply(bullet.Speed)
-					u.Game.Stats[u.Team].KnightBulletTotalCount += 1
-					u.SpawnFrame = u.Game.Frame
+					if !u.HasTarget() || !u.WithinRange(u.Target) {
+						var filter = func(other *Unit) bool {
+							return u.WithinRange(other)
+						}
+						u.Target = u.FindNearestTarget(filter)
+					}
+					if u.Target == nil {
+						u.Heading = Vector2{0, 1}
+						if u.Team == Home {
+							u.Heading.Y *= -1
+						}
+					} else {
+						u.StartAttack()
+					}
+				}
+			}
+		case "space_z":
+			if u.HasTargetInKnightFirefield() {
+				if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
+					if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
+						bullet := NewKnightBullet(u.Team, u.Position)
+						u.Game.AddUnit(bullet)
+						if u.Team == Home {
+							bullet.Position.Y -= u.Radius
+						} else {
+							bullet.Position.Y += u.Radius
+						}
+						bullet.Velocity = u.Heading.Multiply(bullet.Speed)
+						u.Game.Stats[u.Team].KnightBulletTotalCount += 1
+						u.SpawnFrame = u.Game.Frame
+					}
+				} else {
+					u.Velocity = Vector2{u.Target.Position.X, u.Position.Y}.Minus(u.Position).Truncate(u.Speed)
 				}
 			} else {
-				u.Velocity = Vector2{u.Target.Position.X, u.Position.Y}.Minus(u.Position).Truncate(u.Speed)
-			}
-		} else {
-			u.Target = u.FindNearestKnightTarget()
-			if !u.HasTargetInKnightFirefield() {
-				u.Velocity = u.InitialPosition.Minus(u.Position).Truncate(u.Speed)
+				u.Target = u.FindNearestKnightTarget()
+				if !u.HasTargetInKnightFirefield() {
+					u.Velocity = u.InitialPosition.Minus(u.Position).Truncate(u.Speed)
+				}
 			}
 		}
+
 	case Bullet:
 		if u.IsOutOfRange() {
 			u.SelfRemove()
