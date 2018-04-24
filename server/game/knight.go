@@ -6,29 +6,33 @@ const KnightBulletRange = 200
 const KnightOffsetY = TileHeight * 1
 
 func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
-	var hp int
-	var prehitdelay, posthitdelay int
-	var radius float64
-	var damage int
+	unit := &Unit{
+		Team:         t,
+		Type:         Knight,
+		Name:         name,
+		Layer:        Ground,
+		TargetLayers: Layers{Air, Ground},
+		TargetTypes:  Types{Troop, Building},
+		Speed:        5,
+		KnightIndex:  index,
+	}
 	switch name {
-	case "shuriken":
-		hp = 2534
-		prehitdelay = 3
-		posthitdelay = 0
-		radius = 10
-		damage = 30
+	case "shuriken", "freezer":
+		unit.Hp = 2534 * 2 / 3
+		unit.PreHitDelay = 3
+		unit.PostHitDelay = 0
+		unit.Radius = 10
+		unit.Damage = 30 / 2
+		unit.Range = 112
 	case "space_z":
-		hp = 4008
-		prehitdelay = 10
-		posthitdelay = 19
-		radius = 10
-		damage = 100
-	case "freezer":
-		hp = 2534
-		prehitdelay = 3
-		posthitdelay = 0
-		radius = 10
-		damage = 30
+		unit.Hp = 4008 * 2 / 3
+		unit.PreHitDelay = 10
+		unit.PostHitDelay = 19
+		unit.Radius = 10
+		unit.Damage = 100 / 2
+		unit.Range = KnightBulletRange
+		unit.SpawnThing = "knightbullet"
+		unit.SpawnSpeed = 2
 	default:
 		log.Panicf("unknown knight name: %v", name)
 	}
@@ -36,31 +40,14 @@ func NewKnight(t Team, name string, pos_x float64, index int) *Unit {
 	switch t {
 	case Home:
 		position = Vector2{pos_x, MapHeight - KnightOffsetY}
+
 	case Visitor:
 		position = Vector2{MapWidth - pos_x, KnightOffsetY}
 	}
-	return &Unit{
-		Team:            t,
-		Type:            Knight,
-		Name:            name,
-		Layer:           Ground,
-		TargetLayers:    Layers{Air, Ground},
-		TargetTypes:     Types{Troop, Building},
-		Hp:              hp * 2 / 3,
-		Speed:           5,
-		PreHitDelay:     prehitdelay,
-		PostHitDelay:    posthitdelay,
-		Radius:          radius,
-		Range:           KnightBulletRange,
-		Damage:          damage / 2,
-		SpawnThing:      "knightbullet",
-		SpawnSpeed:      2,
-		RepairDelay:     15,
-		Position:        position,
-		Destination:     position,
-		KnightIndex:     index,
-		InitialPosition: position,
-	}
+	unit.Position = position
+	unit.Destination = position
+	unit.InitialPosition = position
+	return unit
 }
 
 func NewKnights(t Team, names []string) []*Unit {
