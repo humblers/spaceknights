@@ -1,25 +1,59 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
-[ext_resource path="res://bg-eoparu.png" type="Texture" id=2]
-[ext_resource path="res://bg-kinetica.png" type="Texture" id=3]
-[ext_resource path="res://bg-mandarin.png" type="Texture" id=4]
-[ext_resource path="res://bg-naptione.png" type="Texture" id=5]
-[ext_resource path="res://background_tilecheck.png" type="Texture" id=6]
-[ext_resource path="res://debri-side.png" type="Texture" id=7]
-[ext_resource path="res://debri-center.png" type="Texture" id=8]
-[ext_resource path="res://mother_ship-blue.png" type="Texture" id=9]
-[ext_resource path="res://mother_ship-red.png" type="Texture" id=10]
-[ext_resource path="res://ui.gd" type="Script" id=11]
-[ext_resource path="res://font/godom_font.tres" type="DynamicFont" id=12]
-[ext_resource path="res://icon/archers_small.png" type="Texture" id=13]
-[ext_resource path="res://next_panel.png" type="Texture" id=14]
+[ext_resource path="res://bg_tanatos.png" type="Texture" id=2]
+[ext_resource path="res://background_tilecheck.png" type="Texture" id=3]
+[ext_resource path="res://debri-left.png" type="Texture" id=4]
+[ext_resource path="res://debri-mid.png" type="Texture" id=5]
+[ext_resource path="res://debri-right.png" type="Texture" id=6]
+[ext_resource path="res://blue_base.png" type="Texture" id=7]
+[ext_resource path="res://red_base.png" type="Texture" id=8]
+[ext_resource path="res://ui.gd" type="Script" id=9]
+[ext_resource path="res://font/arialbd.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://icon/archers_small.png" type="Texture" id=11]
+[ext_resource path="res://bt_next_bot.png" type="Texture" id=12]
+[ext_resource path="res://unit/archer/archer.tscn" type="PackedScene" id=13]
+[ext_resource path="res://bt_next_top.png" type="Texture" id=14]
 [ext_resource path="res://energybar_bot.png" type="Texture" id=15]
 [ext_resource path="res://energybar_top.png" type="Texture" id=16]
 [ext_resource path="res://energybar_inside.png" type="Texture" id=17]
-[ext_resource path="res://icon/archers_off.png" type="Texture" id=18]
-[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=19]
-[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=20]
+[ext_resource path="res://bt_ready_bot.png" type="Texture" id=18]
+[ext_resource path="res://bt_ready_top.png" type="Texture" id=19]
+[ext_resource path="res://bt_wait_bot.png" type="Texture" id=20]
+[ext_resource path="res://bt_wait_top.png" type="Texture" id=21]
+[ext_resource path="res://icon/moveknight_on.png" type="Texture" id=22]
+[ext_resource path="res://icon/moveknight_pressed.png" type="Texture" id=23]
+[ext_resource path="res://font/godom_font.tres" type="DynamicFont" id=24]
+
+[sub_resource type="DynamicFont" id=8]
+
+size = 18
+use_mipmaps = false
+use_filter = true
+extra_spacing_bottom = -5
+font_data = ExtResource( 10 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Font/fallback", "Resource", "Settings" ]
+
+[sub_resource type="DynamicFont" id=7]
+
+size = 48
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 10 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFontData" id=9]
+
+font_path = "res://font/arial.ttf"
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="DynamicFont" id=6]
+
+size = 50
+use_mipmaps = false
+use_filter = false
+font_data = SubResource( 9 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -103,69 +137,47 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Background" type="Node2D" parent="." index="1"]
 
-[node name="bg-eoparu" type="Sprite" parent="Background" index="0"]
+[node name="bg-tanatos" type="Sprite" parent="Background" index="0"]
 
-visible = false
-position = Vector2( 561.08, 958.973 )
+position = Vector2( 540, 960 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bg-kinetica" type="Sprite" parent="Background" index="1"]
-
-visible = false
-position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bg-mandarin" type="Sprite" parent="Background" index="2"]
-
-visible = false
-position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="bg-naptione" type="Sprite" parent="Background" index="3"]
-
-position = Vector2( 561.08, 958.973 )
-texture = ExtResource( 5 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Tile" type="Sprite" parent="Background" index="4"]
+[node name="Tile" type="Sprite" parent="Background" index="1"]
 
 visible = false
 position = Vector2( 539.56, 912 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="debri-left" type="Sprite" parent="Background" index="2"]
+
+position = Vector2( 16, 870 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="debri-center" type="Sprite" parent="Background" index="3"]
+
+position = Vector2( 540, 899 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="debri-right" type="Sprite" parent="Background" index="4"]
+
+position = Vector2( 1079, 875 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="debri-left" type="Sprite" parent="Background" index="5"]
+[node name="BlueBaseBottom" type="Sprite" parent="Background" index="5"]
 
-position = Vector2( 48, 888 )
+position = Vector2( 540, 1785 )
 texture = ExtResource( 7 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
-
-[node name="debri-center" type="Sprite" parent="Background" index="6"]
-
-position = Vector2( 540, 888 )
-scale = Vector2( 1.45055, 1 )
-texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="debri-right" type="Sprite" parent="Background" index="7"]
-
-position = Vector2( 1032, 888 )
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="BlueBaseBottom" type="Sprite" parent="Background" index="8"]
-
-position = Vector2( 540, 1789 )
-texture = ExtResource( 9 )
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="RedBase" type="Sprite" parent="Background" index="9"]
+[node name="RedBase" type="Sprite" parent="Background" index="6"]
 
-position = Vector2( 540, 72 )
-texture = ExtResource( 10 )
+position = Vector2( 540, 110 )
+texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="UI" type="CanvasLayer" parent="." index="2"]
@@ -175,17 +187,19 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-script = ExtResource( 11 )
+script = ExtResource( 9 )
 _sections_unfolded = [ "Pause" ]
 
-[node name="RemainTime" type="Label" parent="UI" index="0"]
+[node name="Ping" type="Label" parent="UI" index="0"]
 
 anchor_left = 1.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 0.0
-margin_left = -200.0
-margin_bottom = 100.0
+margin_left = -1070.0
+margin_top = 10.0
+margin_right = -913.0
+margin_bottom = 59.0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -193,8 +207,35 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = ExtResource( 12 )
-text = "3:00"
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "PING   - 0.054 / ms
+FPS     42"
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="RemainTime" type="Label" parent="UI" index="1"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -635.0
+margin_top = -12.0
+margin_right = -435.0
+margin_bottom = 88.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 7 )
+text = "2:41"
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -202,8 +243,36 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "custom_fonts" ]
 
-[node name="Next" type="TextureRect" parent="UI" index="1"]
+[node name="Limit" type="Label" parent="UI/RemainTime" index="0"]
 
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -215.0
+margin_top = 10.0
+margin_right = -155.0
+margin_bottom = 60.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "LIMIT"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Next" type="TextureRect" parent="UI" index="2"]
+
+visible = false
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
@@ -211,7 +280,7 @@ anchor_bottom = 1.0
 margin_left = -528.0
 margin_top = 1785.0
 margin_right = -498.0
-margin_bottom = -110.0
+margin_bottom = -105.0
 rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -219,21 +288,52 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
-[node name="Panel" type="TextureRect" parent="UI" index="2"]
+[node name="Panel" type="TextureRect" parent="UI" index="3"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -528.0
-margin_top = 1757.0
-margin_right = -498.0
-margin_bottom = -160.0
-rect_scale = Vector2( 3, 3 )
+margin_left = -490.0
+margin_top = 1735.0
+margin_right = -350.0
+margin_bottom = -65.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 12 )
+stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[node name="archer_icon1" parent="UI" index="4" instance=ExtResource( 13 )]
+
+position = Vector2( 87.7924, 1792.14 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="archer_icon2" parent="UI" index="5" instance=ExtResource( 13 )]
+
+position = Vector2( 147.666, 1792.14 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Panel2" type="TextureRect" parent="UI" index="6"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -490.0
+margin_top = 1735.0
+margin_right = -350.0
+margin_bottom = -65.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -244,17 +344,16 @@ texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="Energy" type="TextureProgress" parent="UI" index="3"]
+[node name="Energy" type="TextureProgress" parent="UI" index="7"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -425.0
-margin_top = 1870.0
-margin_right = -139.0
-margin_bottom = -36.0
-rect_scale = Vector2( 3, 3 )
+margin_left = -450.0
+margin_top = 1890.0
+margin_right = 444.0
+margin_bottom = -10.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -274,19 +373,72 @@ texture_progress = ExtResource( 17 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
-_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
 
-[node name="Card1" type="TextureButton" parent="UI" index="4"]
+[node name="Min" type="Label" parent="UI/Energy" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -944.0
+margin_top = -15.0
+margin_right = -884.0
+margin_bottom = 35.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "MIN"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Max" type="Label" parent="UI/Energy" index="1"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -4.0
+margin_top = -15.0
+margin_right = 56.0
+margin_bottom = 35.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "MAX"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Card1" type="TextureButton" parent="UI" index="8"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -394.0
-margin_top = 1742.0
-margin_right = -336.0
-margin_bottom = -120.0
-rect_scale = Vector2( 2.1, 2.1 )
+margin_left = -325.0
+margin_top = 1755.0
+margin_right = -145.0
+margin_bottom = -45.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -299,19 +451,77 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 18 )
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Textures" ]
+
+[node name="archer_icon3" parent="UI" index="9" instance=ExtResource( 13 )]
+
+position = Vector2( 274, 1812.49 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="archer_icon4" parent="UI" index="10" instance=ExtResource( 13 )]
+
+position = Vector2( 333.873, 1812.49 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Card1Panel" type="TextureRect" parent="UI" index="11"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -325.0
+margin_top = 1755.0
+margin_right = -145.0
+margin_bottom = -45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 19 )
+stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="Card2" type="TextureButton" parent="UI" index="5"]
+[node name="Cost" type="Label" parent="UI/Card1Panel" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -186.0
+margin_top = -10.0
+margin_right = -136.0
+margin_bottom = 51.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Card2" type="TextureButton" parent="UI" index="12"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -154.0
-margin_top = 1742.0
-margin_right = -96.0
-margin_bottom = -120.0
-rect_scale = Vector2( 2.1, 2.1 )
+margin_left = -110.0
+margin_top = 1755.0
+margin_right = 70.0
+margin_bottom = -45.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -324,59 +534,234 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 18 )
-_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
 
-[node name="Card3" type="TextureButton" parent="UI" index="6"]
+[node name="archer_icon6" parent="UI" index="13" instance=ExtResource( 13 )]
 
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 86.0
-margin_top = 1742.0
-margin_right = 144.0
-margin_bottom = -120.0
-rect_scale = Vector2( 2.1, 2.1 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 18 )
-_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+position = Vector2( 489.545, 1814.29 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
 
-[node name="Card4" type="TextureButton" parent="UI" index="7"]
+[node name="archer_icon5" parent="UI" index="14" instance=ExtResource( 13 )]
+
+position = Vector2( 549.419, 1814.29 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Card2Panel2" type="TextureRect" parent="UI" index="15"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 326.0
-margin_top = 1742.0
-margin_right = 384.0
-margin_bottom = -120.0
-rect_scale = Vector2( 2.1, 2.1 )
+margin_left = -110.0
+margin_top = 1755.0
+margin_right = 70.0
+margin_bottom = -45.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
+mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_normal = ExtResource( 18 )
+texture = ExtResource( 19 )
+stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="Card_" type="TextureButton" parent="UI" index="8"]
+[node name="Cost2" type="Label" parent="UI/Card2Panel2" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -186.0
+margin_top = -10.0
+margin_right = -136.0
+margin_bottom = 51.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Card3" type="TextureButton" parent="UI" index="16"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 105.0
+margin_top = 1755.0
+margin_right = 285.0
+margin_bottom = -45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 20 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
+
+[node name="archer_icon8" parent="UI" index="17" instance=ExtResource( 13 )]
+
+position = Vector2( 707.485, 1813.09 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="archer_icon7" parent="UI" index="18" instance=ExtResource( 13 )]
+
+position = Vector2( 767.359, 1813.09 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Card3Panel3" type="TextureRect" parent="UI" index="19"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 105.0
+margin_top = 1755.0
+margin_right = 285.0
+margin_bottom = -45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 21 )
+stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[node name="Cost3" type="Label" parent="UI/Card3Panel3" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -186.0
+margin_top = -10.0
+margin_right = -136.0
+margin_bottom = 51.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Card4" type="TextureButton" parent="UI" index="20"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 320.0
+margin_top = 1755.0
+margin_right = 500.0
+margin_bottom = -45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 20 )
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Textures" ]
+
+[node name="archer_icon9" parent="UI" index="21" instance=ExtResource( 13 )]
+
+position = Vector2( 922.432, 1811.89 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="archer_icon10" parent="UI" index="22" instance=ExtResource( 13 )]
+
+position = Vector2( 982.305, 1811.89 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Card4Panel4" type="TextureRect" parent="UI" index="23"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 320.0
+margin_top = 1755.0
+margin_right = 500.0
+margin_bottom = -45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 21 )
+stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[node name="Cost4" type="Label" parent="UI/Card4Panel4" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -186.0
+margin_top = -10.0
+margin_right = -136.0
+margin_bottom = 51.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Card_" type="TextureButton" parent="UI" index="24"]
 
 visible = false
 anchor_left = 0.0
@@ -398,10 +783,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 19 )
-texture_focused = ExtResource( 20 )
+texture_normal = ExtResource( 22 )
+texture_focused = ExtResource( 23 )
 
-[node name="FieldOffset" type="Position2D" parent="UI" index="9"]
+[node name="FieldOffset" type="Position2D" parent="UI" index="25"]
 
 position = Vector2( 60, 96 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
@@ -412,7 +797,7 @@ visible = false
 rotation = 3.14159
 _sections_unfolded = [ "Transform" ]
 
-[node name="Result" type="Button" parent="UI" index="10"]
+[node name="Result" type="Button" parent="UI" index="26"]
 
 visible = false
 anchor_left = 0.5
@@ -452,7 +837,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = ExtResource( 12 )
+custom_fonts/font = ExtResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Game Over"
