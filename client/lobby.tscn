@@ -1,15 +1,111 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://lobby.gd" type="Script" id=1]
+[ext_resource path="res://bg_lobby.png" type="Texture" id=2]
+[ext_resource path="res://bt_login.png" type="Texture" id=3]
+[ext_resource path="res://bt_logout.png" type="Texture" id=4]
+[ext_resource path="res://bt_match.png" type="Texture" id=5]
+[ext_resource path="res://bt_instruct.png" type="Texture" id=6]
+[ext_resource path="res://bt_cancel.png" type="Texture" id=7]
+[ext_resource path="res://bt_waiting.png" type="Texture" id=8]
+[ext_resource path="res://unit/unit.gd" type="Script" id=9]
+[ext_resource path="res://unit/archer/archer-red.png" type="Texture" id=10]
+[ext_resource path="res://unit/archer/archer-blue.png" type="Texture" id=11]
+[ext_resource path="res://font/City Bold Italic.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://bt_shuffle.png" type="Texture" id=13]
+[ext_resource path="res://unit/freezer/freezer.tscn" type="PackedScene" id=14]
+[ext_resource path="res://bt_left_arrow.png" type="Texture" id=15]
+[ext_resource path="res://bt_right_arrow.png" type="Texture" id=16]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+content_margin_left = -1.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+draw_center = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
+border_blend = false
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
+
+[sub_resource type="DynamicFontData" id=2]
+
+font_path = "res://font/arial.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 36
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 2 )
+_sections_unfolded = [ "Font", "Resource", "Settings" ]
+
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "red_attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": false,
+"name": "blue_attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "blue_move",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "red_move",
+"speed": 5.0
+} ]
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 36
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 12 )
+_sections_unfolded = [ "Font", "Settings" ]
 
 [node name="lobby" type="Node"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Pause" ]
 
-[node name="Auth" type="Position2D" parent="." index="0"]
+[node name="Background" type="Node" parent="." index="0"]
+
+[node name="Bg_lobby" type="Sprite" parent="Background" index="0"]
+
+position = Vector2( 540, 961.851 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Auth" type="Position2D" parent="." index="1"]
 
 position = Vector2( 540, 450 )
-scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Login" type="Button" parent="Auth" index="0"]
@@ -18,9 +114,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 40.0
+margin_left = 150.0
+margin_top = -180.0
+margin_right = 409.0
+margin_bottom = -123.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -32,10 +129,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "LOG IN"
-flat = false
+icon = ExtResource( 3 )
+flat = true
 align = 1
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags" ]
 
 [node name="Logout" type="Button" parent="Auth" index="1"]
 
@@ -44,9 +141,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 40.0
+margin_left = 150.0
+margin_top = -180.0
+margin_right = 250.0
+margin_bottom = -140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -58,20 +156,22 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "LOG OUT"
-flat = false
+icon = ExtResource( 4 )
+flat = true
 align = 1
+_sections_unfolded = [ "Rect" ]
 
 [node name="IDPlaceholder" type="LineEdit" parent="Auth" index="2"]
 
+show_behind_parent = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -70.0
-margin_top = -50.0
-margin_right = 70.0
-margin_bottom = -26.0
+margin_left = -320.0
+margin_top = -235.0
+margin_right = 210.0
+margin_bottom = -185.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -79,55 +179,33 @@ mouse_filter = 0
 mouse_default_cursor_shape = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 align = 1
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "place id"
-placeholder_alpha = 0.6
+placeholder_alpha = 0.9
 caret_blink = false
 caret_blink_speed = 0.65
 caret_position = 0
+_sections_unfolded = [ "Anchor", "Caret", "Grow Direction", "Hint", "Margin", "Material", "Placeholder", "Rect", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="IDLabel" type="Label" parent="Auth" index="3"]
+[node name="Match" type="Position2D" parent="." index="2"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -120.0
-margin_top = -50.0
-margin_right = -80.0
-margin_bottom = -26.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "ID :"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Match" type="Position2D" parent="." index="1"]
-
-visible = false
 position = Vector2( 750, 900 )
-scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Find" type="Button" parent="Match" index="0"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 40.0
+margin_left = -550.0
+margin_top = 820.0
+margin_right = -350.0
+margin_bottom = 920.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -139,22 +217,26 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "MATCH FIND"
-flat = false
+flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
+[node name="Sprite" type="Sprite" parent="Match/Find" index="0"]
+
+position = Vector2( 170, 50 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Transform" ]
+
 [node name="Instruct" type="Button" parent="Match" index="1"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = 50.0
-margin_right = 50.0
-margin_bottom = 90.0
+margin_left = -100.0
+margin_top = 820.0
+margin_right = 100.0
+margin_bottom = 920.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -166,29 +248,65 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "INSTRUCT"
-flat = false
+flat = true
 align = 1
 _sections_unfolded = [ "Margin", "Rect" ]
 
-[node name="Waiting" type="Label" parent="Match" index="2"]
+[node name="Sprite2" type="Sprite" parent="Match/Instruct" index="0"]
+
+position = Vector2( 170, 50 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Cancel" type="Button" parent="Match" index="2"]
 
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = 100.0
-margin_right = 50.0
-margin_bottom = 140.0
+margin_left = -550.0
+margin_top = 820.0
+margin_right = -350.0
+margin_bottom = 920.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite4" type="Sprite" parent="Match/Cancel" index="0"]
+
+position = Vector2( 170, 50 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Waiting" type="Label" parent="Match" index="3"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -100.0
+margin_top = 820.0
+margin_right = 100.0
+margin_bottom = 920.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-text = "WAITING..."
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -196,36 +314,16 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
-[node name="Cancel" type="Button" parent="Match" index="3"]
+[node name="Sprite3" type="Sprite" parent="Match/Waiting" index="0"]
 
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "CANCEL"
-flat = false
-align = 1
+position = Vector2( 170, 50 )
+texture = ExtResource( 8 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Deck" type="Position2D" parent="." index="2"]
+[node name="Deck" type="Position2D" parent="." index="3"]
 
 position = Vector2( 250, 870 )
-scale = Vector2( 3, 3 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Container" type="VBoxContainer" parent="Deck" index="0"]
 
@@ -233,8 +331,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
+margin_left = -224.0
+margin_top = -296.0
+margin_right = 808.0
 margin_bottom = 100.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -243,6 +342,187 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="archer" type="Node2D" parent="Deck/Container" index="0"]
+
+position = Vector2( 135, 45 )
+script = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Deck/Container/archer" index="0"]
+
+rotation = 3.14159
+frames = SubResource( 4 )
+animation = "blue_attack"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Label" type="Label" parent="Deck/Container/archer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 350.0
+margin_top = -25.0
+margin_right = 485.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "ARCHER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="archer2" type="Node2D" parent="Deck/Container" index="1"]
+
+position = Vector2( 135, 206 )
+script = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Deck/Container/archer2" index="0"]
+
+rotation = 3.14159
+frames = SubResource( 4 )
+animation = "blue_attack"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Label" type="Label" parent="Deck/Container/archer2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 350.0
+margin_top = -25.0
+margin_right = 485.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "ARCHER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="archer3" type="Node2D" parent="Deck/Container" index="2"]
+
+position = Vector2( 135, 365 )
+script = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Deck/Container/archer3" index="0"]
+
+rotation = 3.14159
+frames = SubResource( 4 )
+animation = "blue_attack"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Label" type="Label" parent="Deck/Container/archer3" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 350.0
+margin_top = -25.0
+margin_right = 485.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "ARCHER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="archer4" type="Node2D" parent="Deck/Container" index="3"]
+
+position = Vector2( 925, 125 )
+script = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Deck/Container/archer4" index="0"]
+
+rotation = 3.14159
+frames = SubResource( 4 )
+animation = "blue_attack"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Label" type="Label" parent="Deck/Container/archer4" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -440.0
+margin_top = -25.0
+margin_right = -305.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "ARCHER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="archer5" type="Node2D" parent="Deck/Container" index="4"]
+
+position = Vector2( 925, 285 )
+script = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Deck/Container/archer5" index="0"]
+
+rotation = 3.14159
+frames = SubResource( 4 )
+animation = "blue_attack"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Label" type="Label" parent="Deck/Container/archer5" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -440.0
+margin_top = -25.0
+margin_right = -305.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "ARCHER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
 
 [node name="Shuffle" type="Button" parent="Deck" index="1"]
 
@@ -250,10 +530,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = 110.0
-margin_right = 50.0
-margin_bottom = 150.0
+margin_left = 440.0
+margin_top = 100.0
+margin_right = 1070.0
+margin_bottom = 170.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -265,14 +545,14 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Shuffle"
-flat = false
+icon = ExtResource( 13 )
+flat = true
 align = 1
+_sections_unfolded = [ "Rect" ]
 
-[node name="Knights" type="Position2D" parent="." index="3"]
+[node name="Knights" type="Position2D" parent="." index="4"]
 
 position = Vector2( 250, 1410 )
-scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Knights" index="0"]
@@ -281,9 +561,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -50.0
-margin_right = 50.0
-margin_bottom = 100.0
+margin_left = -187.0
+margin_top = -170.0
+margin_right = 737.0
+margin_bottom = 189.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -294,6 +575,7 @@ alignment = 0
 
 [node name="Left" type="OptionButton" parent="Knights/VBoxContainer" index="0"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -319,13 +601,13 @@ selected = -1
 
 [node name="Center" type="OptionButton" parent="Knights/VBoxContainer" index="1"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 34.0
 margin_right = 39.0
-margin_bottom = 54.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -345,13 +627,13 @@ selected = -1
 
 [node name="Right" type="OptionButton" parent="Knights/VBoxContainer" index="2"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 68.0
 margin_right = 39.0
-margin_bottom = 88.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -368,5 +650,262 @@ flat = false
 align = 0
 items = [  ]
 selected = -1
+
+[node name="Left2" type="Node2D" parent="Knights/VBoxContainer" index="3"]
+
+editor/display_folded = true
+position = Vector2( 830, 65 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="freezer" parent="Knights/VBoxContainer/Left2" index="0" instance=ExtResource( 14 )]
+
+position = Vector2( -12.0703, 1.29871 )
+rotation = 3.14159
+
+[node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Left2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -520.0
+margin_top = -20.0
+margin_right = -482.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 15 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Rbutton" type="Button" parent="Knights/VBoxContainer/Left2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -195.0
+margin_top = -20.0
+margin_right = -157.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 16 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Name" type="Label" parent="Knights/VBoxContainer/Left2" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -420.0
+margin_top = -25.0
+margin_right = -270.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "FREEZER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="Center2" type="Node2D" parent="Knights/VBoxContainer" index="4"]
+
+editor/display_folded = true
+position = Vector2( 830, 190 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="freezer" parent="Knights/VBoxContainer/Center2" index="0" instance=ExtResource( 14 )]
+
+position = Vector2( -12.0703, 1.29871 )
+rotation = 3.14159
+
+[node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Center2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -520.0
+margin_top = -20.0
+margin_right = -482.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 15 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Rbutton" type="Button" parent="Knights/VBoxContainer/Center2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -195.0
+margin_top = -20.0
+margin_right = -157.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 16 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Name" type="Label" parent="Knights/VBoxContainer/Center2" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -420.0
+margin_top = -25.0
+margin_right = -270.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "FREEZER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
+
+[node name="Right2" type="Node2D" parent="Knights/VBoxContainer" index="5"]
+
+position = Vector2( 830, 320 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="freezer" parent="Knights/VBoxContainer/Right2" index="0" instance=ExtResource( 14 )]
+
+position = Vector2( -12.0703, 1.29871 )
+rotation = 3.14159
+
+[node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Right2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -520.0
+margin_top = -20.0
+margin_right = -482.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 15 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Rbutton" type="Button" parent="Knights/VBoxContainer/Right2" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -195.0
+margin_top = -20.0
+margin_right = -157.0
+margin_bottom = 15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 16 )
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Name" type="Label" parent="Knights/VBoxContainer/Right2" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -420.0
+margin_top = -25.0
+margin_right = -270.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "FREEZER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_fonts" ]
 
 
