@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://lobby.gd" type="Script" id=1]
 [ext_resource path="res://bg_lobby.png" type="Texture" id=2]
@@ -8,18 +8,17 @@
 [ext_resource path="res://bt_instruct.png" type="Texture" id=6]
 [ext_resource path="res://bt_cancel.png" type="Texture" id=7]
 [ext_resource path="res://bt_waiting.png" type="Texture" id=8]
-[ext_resource path="res://unit/archer/archer-blue.png" type="Texture" id=9]
-[ext_resource path="res://unit/archer/archer-red.png" type="Texture" id=10]
-[ext_resource path="res://font/City Bold Italic.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://bt_shuffle.png" type="Texture" id=12]
-[ext_resource path="res://unit/freezer/gunner.png" type="Texture" id=13]
-[ext_resource path="res://unit/freezer/bomber.png" type="Texture" id=14]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=15]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=16]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=17]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=18]
-[ext_resource path="res://bt_left_arrow.png" type="Texture" id=19]
-[ext_resource path="res://bt_right_arrow.png" type="Texture" id=20]
+[ext_resource path="res://unit/archer/idle.png" type="Texture" id=9]
+[ext_resource path="res://font/City Bold Italic.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://bt_shuffle.png" type="Texture" id=11]
+[ext_resource path="res://unit/freezer/gunner.png" type="Texture" id=12]
+[ext_resource path="res://unit/freezer/bomber.png" type="Texture" id=13]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=14]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=15]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=16]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=17]
+[ext_resource path="res://bt_left_arrow.png" type="Texture" id=18]
+[ext_resource path="res://bt_right_arrow.png" type="Texture" id=19]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -66,22 +65,7 @@ _sections_unfolded = [ "Font", "Resource", "Settings" ]
 animations = [ {
 "frames": [ ExtResource( 9 ) ],
 "loop": true,
-"name": "blue_move",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 10 ) ],
-"loop": true,
-"name": "red_attack",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": false,
-"name": "blue_attack",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 10 ) ],
-"loop": true,
-"name": "red_move",
+"name": "default",
 "speed": 5.0
 } ]
 _sections_unfolded = [ "Resource" ]
@@ -91,18 +75,18 @@ _sections_unfolded = [ "Resource" ]
 size = 36
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 11 )
+font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
-"frames": [ ExtResource( 13 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
+"frames": [ ExtResource( 13 ) ],
 "loop": true,
 "name": "attack",
 "speed": 5.0
@@ -390,7 +374,7 @@ _sections_unfolded = [ "Transform" ]
 
 rotation = 3.14159
 frames = SubResource( 4 )
-animation = "blue_attack"
+animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deck/Container/archer" index="1"]
@@ -425,7 +409,7 @@ _sections_unfolded = [ "Transform" ]
 
 rotation = 3.14159
 frames = SubResource( 4 )
-animation = "blue_attack"
+animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deck/Container/archer2" index="1"]
@@ -460,7 +444,7 @@ _sections_unfolded = [ "Transform" ]
 
 rotation = 3.14159
 frames = SubResource( 4 )
-animation = "blue_attack"
+animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deck/Container/archer3" index="1"]
@@ -495,7 +479,7 @@ _sections_unfolded = [ "Transform" ]
 
 rotation = 3.14159
 frames = SubResource( 4 )
-animation = "blue_attack"
+animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deck/Container/archer4" index="1"]
@@ -530,7 +514,7 @@ _sections_unfolded = [ "Transform" ]
 
 rotation = 3.14159
 frames = SubResource( 4 )
-animation = "blue_attack"
+animation = "default"
 _sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deck/Container/archer5" index="1"]
@@ -577,7 +561,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 12 )
+icon = ExtResource( 11 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -762,8 +746,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 15 )
-texture_progress = ExtResource( 16 )
+texture_over = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -793,8 +777,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 17 )
-texture_progress = ExtResource( 18 )
+texture_over = ExtResource( 16 )
+texture_progress = ExtResource( 17 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -842,7 +826,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 19 )
+icon = ExtResource( 18 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -868,7 +852,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 20 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -975,8 +959,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 15 )
-texture_progress = ExtResource( 16 )
+texture_over = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1006,8 +990,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 17 )
-texture_progress = ExtResource( 18 )
+texture_over = ExtResource( 16 )
+texture_progress = ExtResource( 17 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1055,7 +1039,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 19 )
+icon = ExtResource( 18 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -1081,7 +1065,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 20 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -1188,8 +1172,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 15 )
-texture_progress = ExtResource( 16 )
+texture_over = ExtResource( 14 )
+texture_progress = ExtResource( 15 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1219,8 +1203,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 17 )
-texture_progress = ExtResource( 18 )
+texture_over = ExtResource( 16 )
+texture_progress = ExtResource( 17 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1268,7 +1252,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 19 )
+icon = ExtResource( 18 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -1294,7 +1278,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 20 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
