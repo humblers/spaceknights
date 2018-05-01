@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://lobby.gd" type="Script" id=1]
 [ext_resource path="res://bg_lobby.png" type="Texture" id=2]
@@ -8,14 +8,18 @@
 [ext_resource path="res://bt_instruct.png" type="Texture" id=6]
 [ext_resource path="res://bt_cancel.png" type="Texture" id=7]
 [ext_resource path="res://bt_waiting.png" type="Texture" id=8]
-[ext_resource path="res://unit/unit.gd" type="Script" id=9]
+[ext_resource path="res://unit/archer/archer-blue.png" type="Texture" id=9]
 [ext_resource path="res://unit/archer/archer-red.png" type="Texture" id=10]
-[ext_resource path="res://unit/archer/archer-blue.png" type="Texture" id=11]
-[ext_resource path="res://font/City Bold Italic.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://bt_shuffle.png" type="Texture" id=13]
-[ext_resource path="res://unit/freezer/freezer.tscn" type="PackedScene" id=14]
-[ext_resource path="res://bt_left_arrow.png" type="Texture" id=15]
-[ext_resource path="res://bt_right_arrow.png" type="Texture" id=16]
+[ext_resource path="res://font/City Bold Italic.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://bt_shuffle.png" type="Texture" id=12]
+[ext_resource path="res://unit/freezer/gunner.png" type="Texture" id=13]
+[ext_resource path="res://unit/freezer/bomber.png" type="Texture" id=14]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=15]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=16]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=17]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=18]
+[ext_resource path="res://bt_left_arrow.png" type="Texture" id=19]
+[ext_resource path="res://bt_right_arrow.png" type="Texture" id=20]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -60,20 +64,20 @@ _sections_unfolded = [ "Font", "Resource", "Settings" ]
 [sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "blue_move",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "red_attack",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 11 ) ],
+"frames": [ ExtResource( 9 ) ],
 "loop": false,
 "name": "blue_attack",
 "speed": 10.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": true,
-"name": "blue_move",
-"speed": 5.0
 }, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
@@ -87,8 +91,41 @@ _sections_unfolded = [ "Resource" ]
 size = 36
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 12 )
+font_data = ExtResource( 11 )
 _sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="SpriteFrames" id=6]
+
+animations = [ {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+} ]
+
+[sub_resource type="GDScript" id=7]
+
+script/source = "extends Node2D
+
+onready var timer = Timer.new()
+
+func _ready():
+	timer.set_one_shot(true)
+	timer.connect(\"timeout\", self, \"hide_bubble\")
+	timer.set_wait_time(0.9)
+	add_child(timer)
+
+func show_bubble():
+	show()
+	timer.start()
+
+func hide_bubble():
+	hide()"
 
 [node name="lobby" type="Node"]
 
@@ -347,7 +384,6 @@ _sections_unfolded = [ "Rect" ]
 [node name="archer" type="Node2D" parent="Deck/Container" index="0"]
 
 position = Vector2( 135, 45 )
-script = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Body" type="AnimatedSprite" parent="Deck/Container/archer" index="0"]
@@ -383,7 +419,6 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 [node name="archer2" type="Node2D" parent="Deck/Container" index="1"]
 
 position = Vector2( 135, 206 )
-script = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Body" type="AnimatedSprite" parent="Deck/Container/archer2" index="0"]
@@ -419,7 +454,6 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 [node name="archer3" type="Node2D" parent="Deck/Container" index="2"]
 
 position = Vector2( 135, 365 )
-script = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Body" type="AnimatedSprite" parent="Deck/Container/archer3" index="0"]
@@ -455,7 +489,6 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 [node name="archer4" type="Node2D" parent="Deck/Container" index="3"]
 
 position = Vector2( 925, 125 )
-script = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Body" type="AnimatedSprite" parent="Deck/Container/archer4" index="0"]
@@ -491,7 +524,6 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 [node name="archer5" type="Node2D" parent="Deck/Container" index="4"]
 
 position = Vector2( 925, 285 )
-script = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Body" type="AnimatedSprite" parent="Deck/Container/archer5" index="0"]
@@ -545,7 +577,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 13 )
+icon = ExtResource( 12 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -653,14 +685,141 @@ selected = -1
 
 [node name="Left2" type="Node2D" parent="Knights/VBoxContainer" index="3"]
 
-editor/display_folded = true
 position = Vector2( 830, 65 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="freezer" parent="Knights/VBoxContainer/Left2" index="0" instance=ExtResource( 14 )]
+[node name="freezer" type="Node2D" parent="Knights/VBoxContainer/Left2" index="0"]
 
 position = Vector2( -12.0703, 1.29871 )
 rotation = 3.14159
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Knights/VBoxContainer/Left2/freezer" index="0"]
+
+frames = SubResource( 6 )
+animation = "idle"
+flip_v = true
+
+[node name="Shotpoint" type="Position2D" parent="Knights/VBoxContainer/Left2/freezer/Body" index="0"]
+
+position = Vector2( 0, 28 )
+
+[node name="bubble" type="Node2D" parent="Knights/VBoxContainer/Left2/freezer/Body" index="1"]
+
+visible = false
+position = Vector2( 12.0035, 11.9769 )
+script = SubResource( 7 )
+
+[node name="Label" type="Label" parent="Knights/VBoxContainer/Left2/freezer/Body/bubble" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_top = -20.0
+margin_right = 72.0
+margin_bottom = -6.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "roger that"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Hp" type="Position2D" parent="Knights/VBoxContainer/Left2/freezer" index="1"]
+
+editor/display_folded = true
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="TextureProgress" parent="Knights/VBoxContainer/Left2/freezer/Hp" index="0"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -10.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 15 )
+texture_progress = ExtResource( 16 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="red" type="TextureProgress" parent="Knights/VBoxContainer/Left2/freezer/Hp" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -20.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Select" type="TextureButton" parent="Knights/VBoxContainer/Left2/freezer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
 
 [node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Left2" index="1"]
 
@@ -683,7 +842,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 15 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -709,7 +868,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 16 )
+icon = ExtResource( 20 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -739,14 +898,141 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 
 [node name="Center2" type="Node2D" parent="Knights/VBoxContainer" index="4"]
 
-editor/display_folded = true
 position = Vector2( 830, 190 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="freezer" parent="Knights/VBoxContainer/Center2" index="0" instance=ExtResource( 14 )]
+[node name="freezer" type="Node2D" parent="Knights/VBoxContainer/Center2" index="0"]
 
 position = Vector2( -12.0703, 1.29871 )
 rotation = 3.14159
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Knights/VBoxContainer/Center2/freezer" index="0"]
+
+frames = SubResource( 6 )
+animation = "idle"
+flip_v = true
+
+[node name="Shotpoint" type="Position2D" parent="Knights/VBoxContainer/Center2/freezer/Body" index="0"]
+
+position = Vector2( 0, 28 )
+
+[node name="bubble" type="Node2D" parent="Knights/VBoxContainer/Center2/freezer/Body" index="1"]
+
+visible = false
+position = Vector2( 12.0035, 11.9769 )
+script = SubResource( 7 )
+
+[node name="Label" type="Label" parent="Knights/VBoxContainer/Center2/freezer/Body/bubble" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_top = -20.0
+margin_right = 72.0
+margin_bottom = -6.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "roger that"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Hp" type="Position2D" parent="Knights/VBoxContainer/Center2/freezer" index="1"]
+
+editor/display_folded = true
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="TextureProgress" parent="Knights/VBoxContainer/Center2/freezer/Hp" index="0"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -10.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 15 )
+texture_progress = ExtResource( 16 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="red" type="TextureProgress" parent="Knights/VBoxContainer/Center2/freezer/Hp" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -20.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Select" type="TextureButton" parent="Knights/VBoxContainer/Center2/freezer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
 
 [node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Center2" index="1"]
 
@@ -769,7 +1055,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 15 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -795,7 +1081,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 16 )
+icon = ExtResource( 20 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -828,10 +1114,138 @@ _sections_unfolded = [ "Rect", "custom_fonts" ]
 position = Vector2( 830, 320 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="freezer" parent="Knights/VBoxContainer/Right2" index="0" instance=ExtResource( 14 )]
+[node name="freezer" type="Node2D" parent="Knights/VBoxContainer/Right2" index="0"]
 
 position = Vector2( -12.0703, 1.29871 )
 rotation = 3.14159
+_sections_unfolded = [ "Transform" ]
+
+[node name="Body" type="AnimatedSprite" parent="Knights/VBoxContainer/Right2/freezer" index="0"]
+
+frames = SubResource( 6 )
+animation = "idle"
+flip_v = true
+
+[node name="Shotpoint" type="Position2D" parent="Knights/VBoxContainer/Right2/freezer/Body" index="0"]
+
+position = Vector2( 0, 28 )
+
+[node name="bubble" type="Node2D" parent="Knights/VBoxContainer/Right2/freezer/Body" index="1"]
+
+visible = false
+position = Vector2( 12.0035, 11.9769 )
+script = SubResource( 7 )
+
+[node name="Label" type="Label" parent="Knights/VBoxContainer/Right2/freezer/Body/bubble" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 10.0
+margin_top = -20.0
+margin_right = 72.0
+margin_bottom = -6.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "roger that"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Hp" type="Position2D" parent="Knights/VBoxContainer/Right2/freezer" index="1"]
+
+editor/display_folded = true
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="TextureProgress" parent="Knights/VBoxContainer/Right2/freezer/Hp" index="0"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -10.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 15 )
+texture_progress = ExtResource( 16 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="red" type="TextureProgress" parent="Knights/VBoxContainer/Right2/freezer/Hp" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -30.0
+margin_top = -2.0
+margin_right = -20.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = null
+texture_over = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Select" type="TextureButton" parent="Knights/VBoxContainer/Right2/freezer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
 
 [node name="Lbutton" type="Button" parent="Knights/VBoxContainer/Right2" index="1"]
 
@@ -854,7 +1268,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 15 )
+icon = ExtResource( 19 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -880,7 +1294,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 16 )
+icon = ExtResource( 20 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]

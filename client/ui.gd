@@ -5,7 +5,7 @@ onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var card4 = get_node("Card4")
 onready var guide = get_node("FieldOffset/CardGuide")
-onready var result = get_node("Result")
+onready var result = get_node("ResultUI/Result")
 onready var remain = get_node("RemainTime")
 
 var hand

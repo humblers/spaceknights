@@ -10,6 +10,7 @@ var damage_effect = Timer.new()
 
 var hpnode
 onready var body = get_node("Body")
+onready var anim = get_node("Anim")
 
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
@@ -71,11 +72,11 @@ func update_changes(unit):
 					float(global.UNITS[u_name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 					get_node("Body/Shotpoint").global_position)
 	if unit.State == "frozen":
-		body.stop()
+		anim.stop()
 		body.get_material().set_shader_param("frozen", true)
 	else:
 		body.get_material().set_shader_param("frozen", false)
-		body.play("%s_%s" % [color, unit.State])
+		anim.play(unit.State)
 
 func update_hp(unit):
 	if unit.Hp <= 0:
@@ -115,9 +116,6 @@ func set_target(unit):
 		target = unit.TargetIds
 		return
 	target = null
-
-func show_speech_bubble():
-	get_node("Body/bubble").show_bubble()
 
 func show_damage_effect():
 	body.get_material().set_shader_param("damaged", true)

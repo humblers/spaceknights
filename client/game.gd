@@ -22,7 +22,8 @@ func update_changes(game):
 	update_ui(game)
 
 func delete_dead_units(units):
-	for node in get_node("Battlefield/Units").get_children():
+	var nodes = get_node("red/Units").get_children() + get_node("blue/Units").get_children()
+	for node in nodes:
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not units.has(node.get_name()):
@@ -34,13 +35,13 @@ func delete_dead_units(units):
 func create_new_units(units):
 	for id in units:
 		var unit = units[id]
-		if not get_node("Battlefield/Units").has_node(id):
+		if not get_node("red/Units").has_node(id) and not get_node("blue/Units").has_node(id):
 			create_unit_node(unit)
 
 func update_units(units):
 	for id in units:
 		var unit = units[id]
-		var node = get_node("Battlefield/Units").get_node(id)
+		var node = get_unit_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
 		node.update_changes(unit)
@@ -51,24 +52,24 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	node.initialize(unit)
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
-	get_node("Battlefield/Units").add_child(node)
+	get_node("%s/Units" % node.color).add_child(node)
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
 
 func create_new_spells(spells):
 	for id in spells:
-		if not get_node("Battlefield/Spells").has_node(id):
+		if not get_node("Spells").has_node(id):
 			var spell = spells[id]
 			spell.Id = id
 			create_spell_node(spell)
-		var node = get_node("Battlefield/Spells").get_node(id)
+		var node = get_node("Spells").get_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
 			node.play("active")
 
 func delete_finished_spells(spells):
-	for node in get_node("Battlefield/Spells").get_children():
+	for node in get_node("Spells").get_children():
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not spells.has(node.get_name()):
@@ -79,7 +80,7 @@ func create_spell_node(spell, group=OBJECT_DEFAULT):
 	var node = resource.spell[name].instance()
 	node.initialize(spell)
 	node.set_name(str(spell.Id))
-	get_node("Battlefield/Spells").add_child(node)
+	get_node("Spells").add_child(node)
 	if group != OBJECT_DEFAULT:
 		node.add_to_group(group)
 
@@ -104,23 +105,30 @@ func update_ui(game):
 	get_node("UI").update_changes(game)
 
 func create_projectile(type, target, lifetime, initial_position):
-	var projectiles = get_node("Battlefield/Projectiles")
+	var projectiles = get_node("Projectiles")
 	initial_position = projectiles.to_local(initial_position)
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
-		var target_node = get_node("Battlefield/Units").get_node(str(target))
+		var target_node = get_unit_node(str(target))
 		proj_node.set_single_target(target_node, lifetime, initial_position)
 	elif target_type in [TYPE_ARRAY, TYPE_INT_ARRAY, TYPE_REAL_ARRAY]:
 		var target_nodes = []
 		for id in target:
-			target_nodes.append(get_node("Battlefield/Units").get_node(str(id)))
+			target_nodes.append(get_unit_node(str(id)))
 		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
 	else:
 		print("unknown target type(%d)" % target_type)
 		return
 	projectiles.add_child(proj_node)
 
+func get_unit_node(id):
+	if get_node("red/Units").has_node(id):
+		return get_node("red/Units").get_node(id)
+	if get_node("blue/Units").has_node(id):
+		return get_node("blue/Units").get_node(id)
+	return null
+	
 func play_runway_light(team, pos_x):
 	var effect = resource.effect.runway.instance()
 	var color = "Red"
