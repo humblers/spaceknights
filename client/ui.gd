@@ -22,9 +22,8 @@ func connect_ui_signals():
 func update_changes(game):
 	var player = game.Players[global.id]
 	hand = player.Hand
-	hand.append("moveknight")
 	# update deck and energy
-	get_node("Next").set_texture(resource.icon[player.Next]["small"])
+#	get_node("Next").set_texture(resource.icon[player.Next]["small"])
 	get_node("Energy").set_value(player.Energy / 100)
 	update_card_texture(player)
 	update_remain_time(int(game.Frame))
@@ -74,13 +73,8 @@ func get_selected_card_id():
 
 func update_card_texture(player):
 	for i in range(1, 5):
-		var node = get_node("Card" + str(i))
-		var card = hand[i - 1]
-		var postfix = "off"
-		if player.Energy >= global.CARDS[card].cost:
-			postfix = "on"
-		node.set_normal_texture(resource.icon[card][postfix].normal)
-		node.set_focused_texture(resource.icon[card][postfix].pressed)
+		get_node("Card%d" % i).update(player.Energy, hand[i - 1])
+
 
 func update_remain_time(frame):
 	if frame > global.DOUBLE_AFTER:
@@ -162,7 +156,7 @@ func add_unit_to_guide(unit):
 	unit.Team = global.team
 	node.initialize(unit)
 	guide.add_child(node)
-	node.transform_to_guide_node(Vector2(unit.Position.X, unit.Position.Y))
+	node.transform_to_ui_node(Vector2(unit.Position.X, unit.Position.Y), Color(1, 1, 1, 0.5))
 
 func update_guide_position(pos):
 	pos = get_node("FieldOffset").to_local(pos) / 3

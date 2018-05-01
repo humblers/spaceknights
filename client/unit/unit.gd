@@ -10,7 +10,7 @@ var damage_effect = Timer.new()
 
 var hpnode
 onready var body = get_node("Body")
-onready var anim = get_node("Anim")
+onready var anim = get_node("AnimationPlayer")
 
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
@@ -64,7 +64,7 @@ func update_changes(unit):
 	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
-		body.set_frame(0)
+		anim.stop()
 		if global.UNITS[u_name].has("projectile"):
 			emit_signal("projectile_created",
 					global.UNITS[u_name].projectile,
@@ -76,7 +76,8 @@ func update_changes(unit):
 		body.get_material().set_shader_param("frozen", true)
 	else:
 		body.get_material().set_shader_param("frozen", false)
-		anim.play(unit.State)
+		if anim.current_animation != unit.State or not anim.is_playing():
+			anim.play(unit.State)
 
 func update_hp(unit):
 	if unit.Hp <= 0:
@@ -104,7 +105,7 @@ func get_position(unit):
 
 func get_rotation(unit):
 	var angle = atan2(unit.Heading.X, unit.Heading.Y)
-	if global.team == "Visitor":
+	if global.team == "Home":
 		angle += PI
 	return -angle
 
@@ -133,10 +134,10 @@ func set_launch_effect(unit):
 	if global.team == unit.Team:
 		pos.y = global.SCREEN_HEIGHT - global.UNITS[u_name].radius
 		body.rotation = PI
-		body.play("blue_idle")
+		anim.play("idle")
 	else:
 		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[u_name].radius
-		body.play("red_idle")
+		anim.play("idle")
 	set_position(pos)
 	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[u_name], "size", "small"))
 	hpnode.hide()
@@ -155,10 +156,11 @@ func play_launch_effect(delta):
 	hpnode.show()
 	body.self_modulate = Color(1, 1, 1, 1.0)
 
-func transform_to_guide_node(pos):
+func transform_to_ui_node(pos=Vector2(0, 0), color=Color(1, 1, 1, 1)):
 	set_position(pos)
 	hpnode.hide()
-	body.modulate = Color(1, 1, 1, 0.5)
+	self.z_index = 0
+	body.modulate = color
 
 func release_lock_on_anim(node):
 	node.queue_free()

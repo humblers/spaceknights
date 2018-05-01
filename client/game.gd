@@ -106,7 +106,7 @@ func update_ui(game):
 
 func create_projectile(type, target, lifetime, initial_position):
 	var projectiles = get_node("Projectiles")
-	initial_position = projectiles.to_local(initial_position)
+	#initial_position = projectiles.to_local(initial_position)
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
