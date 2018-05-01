@@ -88,6 +88,7 @@ func CreateRandomDeck() Cards {
 	}
 
 	unitCards.Shuffle()
+	unitCards = Cards{"archers", "archers", "archers", "archers", "archers"}
 	return unitCards[:HandSize]
 }
 
