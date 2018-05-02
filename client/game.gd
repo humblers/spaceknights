@@ -5,6 +5,8 @@ const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
 	self.offset.x = get_camera_x_offset()
+	$red.texture = $red/Units.get_texture()
+	$blue.texture = $blue/Units.get_texture()
 	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
 

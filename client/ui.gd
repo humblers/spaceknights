@@ -5,7 +5,7 @@ onready var card2 = get_node("Card2")
 onready var card3 = get_node("Card3")
 onready var card4 = get_node("Card4")
 onready var guide = get_node("FieldOffset/CardGuide")
-onready var result = get_node("ResultUI/Result")
+onready var result = get_node("Result")
 onready var remain = get_node("RemainTime")
 
 var hand
@@ -17,7 +17,6 @@ func connect_ui_signals():
 	card2.connect("gui_input", self, "ui_input_event", [true, card2])
 	card3.connect("gui_input", self, "ui_input_event", [true, card3])
 	card4.connect("gui_input", self, "ui_input_event", [true, card4])
-	result.connect("pressed", self, "back_to_lobby")
 
 func update_changes(game):
 	var player = game.Players[global.id]
@@ -32,39 +31,13 @@ func update_changes(game):
 		global.config.set_value("match", global.id, null)
 		global.save_config()
 		input.disconnect("mouse_pressed", self, "pressed_outside_of_UI")
-		show_result(game.Result)
+		result.show()
+		result.show_result(game.Result)
 		tcp.disconnect_server()
 
 func pressed_outside_of_UI(pos):
 	if selected_card and global.get_location(pos) == global.LOCATION_BLUE:
 		use_card(pos)
-
-func back_to_lobby():
-	get_tree().change_scene("res://lobby.tscn")
-
-func show_result(data):
-	var winner
-	if data.Winner == "Draw":
-		winner = "Draw"
-	elif data.Winner == global.team:
-		winner = "You Win"
-	else:
-		winner = "You Lose"
-	
-	var stats = ""
-	stats += to_string(data.Stats, global.team) + "\n"
-	stats += to_string(data.Stats, "Visitor" if global.team == "Home" else "Home")
-	
-	result.get_node("Label").set_text(winner + "\n\n" + stats)
-	result.show()
-
-func to_string(stats, team):
-	var text = "[MyTeam]" if team == global.team else "[EnemyTeam]"
-	text += "\n"
-	var stat = stats[team]
-	for key in stat:
-		text += key + ": " + str(stat[key]) + "\n"
-	return text
 
 func get_selected_card_id():
 	if not selected_card:
