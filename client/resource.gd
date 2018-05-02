@@ -6,7 +6,6 @@ var unit = {
 	"archer": preload("res://unit/archer/archer.tscn"),
 	"barbarian": preload("res://unit/barbarian/main.tscn"),
 	"barbarianhut": preload("res://unit/barbarianhut/barbarianhut.tscn"),
-	"base": preload("res://unit/base/base.tscn"),
 	"bomber": preload("res://unit/bomber/bomber.tscn"),
 	"bombtower": preload("res://unit/bombtower/bombtower.tscn"),
 	"cannon": preload("res://unit/cannon/cannon.tscn"),
@@ -44,17 +43,6 @@ var projectile = {
 	"bombtower_missile": preload("res://projectile/bombtower_missile.tscn"),
 	"bullet": preload("res://projectile/bullet.tscn"),
 	"knight_missile": preload("res://projectile/knight_missile.tscn"),
-}
-
-var unit_base = {
-	"bombtower": {
-		"blue": preload("res://unit/bombtower/cannon-base.png"),
-		"red": preload("res://unit/bombtower/cannon-base.png"),
-	},
-	"cannon": {
-		"blue": preload("res://unit/cannon/cannon-base.png"),
-		"red": preload("res://unit/cannon/cannon-base.png"),
-	},
 }
 
 var effect = {

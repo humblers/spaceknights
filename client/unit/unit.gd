@@ -24,7 +24,6 @@ func _process(delta):
 func initialize(unit):
 	self.u_name = unit.Name
 	self.color = "blue" if unit.Team == global.team else "red"
-	set_base()
 	set_hp()
 	set_layers()
 	set_damage_effect()
@@ -33,11 +32,6 @@ func initialize(unit):
 func set_position(pos):
 	self.position = pos * 3
 	emit_signal("position_changed", get_name(), self.position)
-
-func set_base():
-	if has_node("Base"):
-		var texture = resource.unit_base[u_name][color]
-		get_node("Base").set_texture(texture)
 
 func set_hp():
 	var path = "Hp"
