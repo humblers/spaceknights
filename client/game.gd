@@ -130,24 +130,10 @@ func get_unit_node(id):
 	if get_node("blue/Units").has_node(id):
 		return get_node("blue/Units").get_node(id)
 	return null
-	
+
 func play_runway_light(team, pos_x):
-	var effect = resource.effect.runway.instance()
-	var color = "Red"
-	var pos = Vector2(pos_x, -10)
-	if global.team == team:
-		color = "Blue"
-		pos.y = global.MAP.height - pos.y
-		effect.rotation = PI
-	if global.team == "Visitor":
-		pos.x = global.MAP.width - pos.x
-	
-	effect.position = pos
-	add_child(effect)
-	effect.play()
-	yield(effect, "animation_finished")
-	effect.queue_free()
-	
+	pass
+
 func get_camera_x_offset():
 	var ow = ProjectSettings.get_setting("display/window/size/width")
 	var oh = ProjectSettings.get_setting("display/window/size/height")

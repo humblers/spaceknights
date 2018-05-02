@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/freezer/bomber.png" type="Texture" id=2]
+[ext_resource path="res://unit/freezer/gunner.png" type="Texture" id=2]
 [ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=3]
 [ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=4]
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=5]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=6]
-[ext_resource path="res://unit/freezer/gunner.png" type="Texture" id=7]
+[ext_resource path="res://unit/freezer/bomber.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 
@@ -15,26 +15,7 @@ length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ ExtResource( 2 ) ]
-}
-
-[sub_resource type="Animation" id=2]
-
-resource_name = "idle"
-length = 0.01
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Body:texture")
+tracks/0/path = NodePath("Body/Sprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -46,17 +27,39 @@ tracks/0/keys = {
 "values": [ ExtResource( 7 ) ]
 }
 
+[sub_resource type="Animation" id=2]
+
+resource_name = "idle"
+length = 0.01
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ) ]
+}
+
 [node name="freezer" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
-[node name="Body" type="Sprite" parent="." index="0"]
+[node name="Body" type="Node2D" parent="." index="0"]
 
-texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="0"]
+[node name="Sprite" type="Sprite" parent="Body" index="0"]
+
+texture = ExtResource( 2 )
+
+[node name="Shotpoint" type="Position2D" parent="Body" index="1"]
 
 position = Vector2( 0, 28 )
 

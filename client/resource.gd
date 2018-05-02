@@ -58,8 +58,6 @@ var unit_base = {
 }
 
 var effect = {
-	"launch": preload("res://effect/launch.tscn"),
-	"runway": preload("res://effect/runway.tscn"),
 	"explosion": {
 		"unit": preload("res://effect/explosion/unit.tscn"),
 		"missile": preload("res://effect/explosion/missile.tscn"),

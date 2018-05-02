@@ -126,23 +126,7 @@ func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
 
 func set_launch_effect(unit):
-	var launch_effect = resource.effect.launch.instance()
-	launch_effect.set_name("Launch")
-	body.add_child(launch_effect)
-	var pos = get_position(unit)
-	var destination = pos.y
-	if global.team == unit.Team:
-		pos.y = global.SCREEN_HEIGHT - global.UNITS[u_name].radius
-		body.rotation = PI
-		anim.play("idle")
-	else:
-		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[u_name].radius
-		anim.play("idle")
-	set_position(pos)
-	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[u_name], "size", "small"))
-	hpnode.hide()
-	body.self_modulate = Color(1, 1, 1, 0.7)
-	set_process(true)
+	pass
 
 func play_launch_effect(delta):
 	if not body.has_node("Launch"):
