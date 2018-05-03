@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://effect/particle-T-2.png" type="Texture" id=1]
-[ext_resource path="res://effect/effect-ice_ring.png" type="Texture" id=2]
-[ext_resource path="res://effect/particle-T-3.png" type="Texture" id=3]
-[ext_resource path="res://effect/effect-ice_cloud.png" type="Texture" id=4]
+[ext_resource path="res://effect/particle-T-3.png" type="Texture" id=2]
+[ext_resource path="res://effect/effect-ice_cloud.png" type="Texture" id=3]
 
 [sub_resource type="ParticlesMaterial" id=1]
 
@@ -45,61 +44,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Emission Shape", "Scale", "Trail" ]
 
-[sub_resource type="Curve" id=2]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.236798, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=3]
-
-flags = 4
-width = 2048
-curve = SubResource( 2 )
-
-[sub_resource type="ParticlesMaterial" id=4]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 3
-emission_point_count = 1
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 60.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 2.0
-scale_random = 0.0
-scale_curve = SubResource( 3 )
-color = Color( 1, 1, 1, 0.563529 )
-hue_variation = 0.0
-hue_variation_random = 0.1
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color" ]
-
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=2]
 
 render_priority = 0
 trail_divisor = 1
@@ -139,18 +84,18 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Scale" ]
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=3]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.573349, 0.828776, 0.878906, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=7]
+[sub_resource type="GradientTexture" id=4]
 
 flags = 4
-gradient = SubResource( 6 )
+gradient = SubResource( 3 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=5]
 
 render_priority = 0
 trail_divisor = 1
@@ -180,7 +125,7 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.8
 scale_random = 0.0
-color_ramp = SubResource( 7 )
+color_ramp = SubResource( 4 )
 hue_variation = 1.0
 hue_variation_random = 0.05
 anim_speed = 0.0
@@ -188,13 +133,11 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Emission Shape", "Scale" ]
 
 [node name="Node" type="Node" index="0"]
 
 [node name="center" type="Particles2D" parent="." index="0"]
 
-position = Vector2( 407.113, 506.025 )
 rotation = -3.14159
 z_index = -1
 emitting = true
@@ -215,41 +158,18 @@ texture = ExtResource( 1 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material" ]
+_sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="circle" type="Particles2D" parent="." index="1"]
+[node name="particles" type="Particles2D" parent="." index="1"]
 
-visible = false
-emitting = true
-amount = 1
-lifetime = 3.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 4 )
-texture = ExtResource( 2 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material" ]
-
-[node name="particles" type="Particles2D" parent="." index="2"]
-
-position = Vector2( 407.113, 506.025 )
+scale = Vector2( 1.5, 1.5 )
 z_index = -1
 emitting = true
 amount = 20
-lifetime = 1.5
+lifetime = 1.0
 one_shot = false
 preprocess = 0.0
-speed_scale = 1.0
+speed_scale = 1.5
 explosiveness = 1.0
 randomness = 0.0
 fixed_fps = 0
@@ -257,16 +177,15 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+process_material = SubResource( 2 )
+texture = ExtResource( 2 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="cloud" type="Particles2D" parent="." index="3"]
+[node name="cloud" type="Particles2D" parent="." index="2"]
 
-position = Vector2( 407.113, 506.025 )
 emitting = true
 amount = 5
 lifetime = 1.0
@@ -280,8 +199,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 8 )
-texture = ExtResource( 4 )
+process_material = SubResource( 5 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
