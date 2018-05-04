@@ -1,72 +1,27 @@
 extends Node
 
-var deck
 var finding = false
 var find_timer = Timer.new()
 var find_stack = 0
 
-onready var id_holder = get_node("Auth/IDPlaceholder")
-onready var login = get_node("Auth/Login")
-onready var logout = get_node("Auth/Logout")
 onready var match_root = get_node("Match")
 onready var find_match = get_node("Match/Find")
 onready var instruct_match = get_node("Match/Instruct")
 onready var cancel_match = get_node("Match/Cancel")
 onready var waiting_match = get_node("Match/Waiting")
-onready var shuffle_deck = get_node("Deck/Shuffle")
-onready var knights = [
-	get_node("Knights/VBoxContainer/Left"),
-	get_node("Knights/VBoxContainer/Center"),
-	get_node("Knights/VBoxContainer/Right"),
-]
 
 func _ready():
-	http_lobby.connect("login_response", self, "_login_response")
 	http_lobby.connect("candidacy_response", self, "_candidacy_response")
 	http_lobby.connect("withdraw_response", self, "_withdraw_response")
 	http_lobby.connect("findgame_response", self, "_findgame_response")
-	http_lobby.connect("logout_response", self, "_logout_response")
-	login.connect("pressed", self, "login_manually")
-	logout.connect("pressed", self, "logout")
 	find_match.connect("pressed", self, "match_candidacy")
 	instruct_match.connect("pressed", self, "instruct")
 	cancel_match.connect("pressed", self, "withdraw_match")
-	shuffle_deck.connect("pressed", self, "shuffle_deck")
-	var knight_names = ["shuriken", "space_z", "freezer"]
-	var index = 0
-	for knight in knights:
-		knight.add_item(knight_names[index])
-		index += 1
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
-	shuffle_deck()
-	try_auto_login()
-
-func try_auto_login():
-	if not global.config.has_section("login"):
-		return
-	for id in global.config.get_section_keys("login"):
-		var token = global.config.get_value("login", id)
-		global.config.set_value("login", id, null)
-		global.save_config()
-		http_lobby.request(HTTPClient.METHOD_POST,
-				"/login/dev",
-				{"id":id, "token":token},
-				"login_response")
-		return
-
-func login_manually():
-	http_lobby.request(HTTPClient.METHOD_POST,
-			"/login/dev",
-			{"id":id_holder.get_text()},
-			"login_response")
-
-func logout():
-	http_lobby.request(HTTPClient.METHOD_POST,
-			"/logout",
-			{},
-			"logout_response")
+	$Auth.connect("auth_updated", self, "handle_match_buttons")
+	$Auth.try_auto_login()
 
 func handle_match_buttons():
 	if not global.id:
@@ -88,8 +43,8 @@ func match_candidacy():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/candidacy",
 			{
-				"deck":deck,
-				"knights": get_selected_knights(),
+				"deck": $Deck.get_selected_units(),
+				"knights": $Deck.get_selected_knights(),
 			},
 			"candidacy_response")
 
@@ -97,8 +52,8 @@ func instruct():
 	http_lobby.request(HTTPClient.METHOD_POST,
 			"/match/instruct",
 			{
-				"deck":deck,
-				"knights": get_selected_knights(),
+				"deck": $Deck.get_selected_units(),
+				"knights": $Deck.get_selected_knights(),
 			},
 			"candidacy_response")
 
@@ -119,52 +74,6 @@ func withdraw_match():
 			{},
 			"withdraw_response")
 	handle_match_buttons()
-
-func shuffle_deck():
-	for child in get_node("Deck/Container").get_children():
-		child.queue_free()
-	var arr = []
-	for name in global.CARDS:
-		if global.CARDS[name].type != "spell":
-			arr.append(name)
-	deck = global.shuffle_array(arr)
-	deck.resize(5)
-	for card in deck:
-		var label = Label.new()
-		label.set_text(card)
-		get_node("Deck/Container").add_child(label)
-
-func get_selected_knights():
-	var selects = []
-	for knight in knights:
-		selects.append(knight.get_item_text(knight.get_selected()))
-	return selects
-
-func _login_response(success, dict):
-	if not success:
-		print("login failed : ", dict)
-		return
-	global.id = dict.id
-	global.config.set_value("login", global.id, dict.token)
-	global.save_config()
-	id_holder.set_text(global.id)
-	id_holder.set_editable(false)
-	id_holder.set_focus_mode(Control.FOCUS_NONE)
-	login.hide()
-	logout.show()
-	handle_match_buttons()
-	find_game(false)
-
-func _logout_response(success, dict):
-	handle_match_buttons()
-	logout.hide()
-	login.show()
-	id_holder.set_focus_mode(Control.FOCUS_ALL)
-	id_holder.set_editable(true)
-	id_holder.set_text("")
-	global.config.set_value("login", global.id, null)
-	global.save_config()
-	global.id = null
 
 func _candidacy_response(success, dict):
 	if not success:
