@@ -45,26 +45,24 @@ static func Abs(x):
 	return x if x > 0 else -x
 
 static func Pow2(x):
-	var res = Mul(x, x)
-	assert(not Overflow(res))
+	return Mul(x, x)
+
+# https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)
+static func Sqrt(num):
+	var res = 0
+	num <<= N
+	var bit = 1 << (M + N + N) - 2
+	while bit > num:
+		bit >>= 2
+	while bit != 0:
+		if num >= res + bit:
+			num -= res + bit
+			res = (res >> 1) + bit
+		else:
+			res >>= 1
+		bit >>= 2
 	return res
-
-# Reference
-# https://github.com/erincatto/Box2D/blob/ff2fa5cb92c0fb7cf357ddfded6152be1629386c/Contributions/Enhancements/FixedPoint/Fixed.h#L434
-static func Sqrt(x):
-	var m = 0
-	var root = 0
-	var left = x << N
-	m = 1 << (M + N + N) - 2
-	while m > 0:
-		if (left & -m) > root:
-			root += m
-			left -= root
-			root += m
-		root >>= 1
-		m >>= 2
-	return root
-
+	
 static func Min(x, y):
 	return x if x < y else y
 
