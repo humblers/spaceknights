@@ -1,5 +1,9 @@
 extends Node
 
+# TODO: change internal representation to c struct using GDNative
+# (if not possible, modify engine code directly)
+# at least, change the dictionary representation to an array
+
 const ZERO = {"X": 0, "Y": 0}
 
 static func Create(x, y):
