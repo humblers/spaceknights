@@ -8,7 +8,7 @@ const N = 8
 const MAX = (1 << (M + N - 1)) - 1
 const MIN = -(MAX + 1)
 const ONE = 1 << N
-const EPSILON = 1 << N/2
+const EPSILON = 1
 
 static func Overflow(x):
 	return x < MIN or x > MAX
