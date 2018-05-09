@@ -12,7 +12,7 @@
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
@@ -21,10 +21,10 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 
 length = 1.5
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Shoulder-L/Arm:flip_h")
@@ -279,9 +279,9 @@ tracks/20/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 
-length = 0.1
+length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -393,9 +393,9 @@ tracks/8/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
-length = 0.1
+length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -528,6 +528,20 @@ z_index = -1
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Z Index" ]
 
+[node name="BoosterL" type="Position2D" parent="Body/Under" index="0"]
+
+position = Vector2( -12, 17 )
+rotation = 0.349066
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BoosterR" type="Position2D" parent="Body/Under" index="1"]
+
+position = Vector2( 12, 17 )
+rotation = -0.349066
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
 [node name="Shoulder-R" type="Sprite" parent="Body" index="2"]
 
 position = Vector2( 27, 3 )
@@ -541,13 +555,17 @@ z_index = -1
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
 
-[node name="ChainSaw" type="AnimatedSprite" parent="Body/Shoulder-R/Arm" index="0"]
+[node name="DrillingsparkR" type="Position2D" parent="Body/Shoulder-R/Arm" index="0"]
+
+position = Vector2( 0, -24 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ChainSaw" type="AnimatedSprite" parent="Body/Shoulder-R/Arm" index="1"]
 
 position = Vector2( 0, -14 )
 z_index = -2
-frames = SubResource( 6 )
+frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Animation", "Material", "Transform" ]
 
@@ -566,12 +584,18 @@ texture = ExtResource( 5 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
 
-[node name="ChainSaw" type="AnimatedSprite" parent="Body/Shoulder-L/Arm" index="0"]
+[node name="DrillingsparkL" type="Position2D" parent="Body/Shoulder-L/Arm" index="0"]
+
+position = Vector2( 0, -24 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ChainSaw" type="AnimatedSprite" parent="Body/Shoulder-L/Arm" index="1"]
 
 position = Vector2( 0, -14 )
 z_index = -2
-frames = SubResource( 6 )
+frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Animation", "Material", "Transform" ]
 
@@ -649,9 +673,9 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 3 )
-anims/idle = SubResource( 4 )
-anims/move = SubResource( 5 )
+anims/attack = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/move = SubResource( 4 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
