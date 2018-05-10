@@ -1,0 +1,39 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+
+code = "shader_type canvas_item;
+
+uniform float outline_width=2.0;
+uniform vec4 outline_color: hint_color;
+
+void fragment(){
+	vec4 col = textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0);
+	vec2 ps = SCREEN_PIXEL_SIZE;
+	float a;
+	float maxa=col.a;
+	float mina=col.a;
+	a=textureLod(SCREEN_TEXTURE, SCREEN_UV+vec2(0,-outline_width)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=textureLod(SCREEN_TEXTURE, SCREEN_UV+vec2(0,outline_width)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=textureLod(SCREEN_TEXTURE, SCREEN_UV+vec2(-outline_width,0)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=textureLod(SCREEN_TEXTURE, SCREEN_UV+vec2(outline_width,0)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	
+	COLOR=mix(col, outline_color, maxa-mina);
+}"
+
+[resource]
+
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/outline_width = 1.0
+shader_param/outline_color = Color( 0.808594, 0.151611, 0.151611, 1 )
+_sections_unfolded = [ "shader_param" ]
+

@@ -73,17 +73,13 @@ shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 0.875, 0.199417, 0.0888672, 1 )
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ViewportTexture" id=3]
 
-render_priority = 0
-shader = SubResource( 1 )
-shader_param/damaged = false
-shader_param/frozen = false
-shader_param/outline_width = 1.0
-shader_param/outline_color = Color( 0.224042, 0.107849, 0.890625, 1 )
-_sections_unfolded = [ "shader_param" ]
+resource_local_to_scene = true
+flags = 0
+viewport_path = NodePath("red/Units")
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 
 size = 16
 use_mipmaps = false
@@ -91,7 +87,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Resource", "Settings" ]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 
 size = 48
 use_mipmaps = false
@@ -99,7 +95,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 
 size = 16
 use_mipmaps = false
@@ -107,7 +103,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="game" type="Camera2D" index="0"]
+[node name="game" type="Camera2D"]
 
 anchor_mode = 0
 rotating = false
@@ -182,13 +178,15 @@ position = Vector2( 540, 110 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="red" type="Sprite" parent="." index="1"]
+[node name="Units" type="Sprite" parent="." index="1"]
 
 material = SubResource( 2 )
+use_parent_material = true
 position = Vector2( 540, 912 )
+texture = SubResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
-[node name="Units" type="Viewport" parent="red" index="0"]
+[node name="Viewport" type="Viewport" parent="Units" index="0"]
 
 arvr = false
 size = Vector2( 960, 1632 )
@@ -198,7 +196,7 @@ transparent_bg = true
 msaa = 0
 hdr = true
 disable_3d = true
-usage = 1
+usage = 0
 debug_draw = 0
 render_target_v_flip = true
 render_target_clear_mode = 0
@@ -215,51 +213,18 @@ shadow_atlas_quad_2 = 3
 shadow_atlas_quad_3 = 4
 _sections_unfolded = [ "Render Target", "Rendering", "Transform" ]
 
-[node name="blue" type="Sprite" parent="." index="2"]
-
-material = SubResource( 3 )
-position = Vector2( 540, 912 )
-_sections_unfolded = [ "Material", "Transform", "Z Index" ]
-
-[node name="Units" type="Viewport" parent="blue" index="0"]
-
-arvr = false
-size = Vector2( 960, 1632 )
-own_world = false
-world = null
-transparent_bg = true
-msaa = 0
-hdr = true
-disable_3d = true
-usage = 1
-debug_draw = 0
-render_target_v_flip = true
-render_target_clear_mode = 0
-render_target_update_mode = 2
-audio_listener_enable_2d = false
-audio_listener_enable_3d = false
-physics_object_picking = false
-gui_disable_input = false
-gui_snap_controls_to_pixels = true
-shadow_atlas_size = 0
-shadow_atlas_quad_0 = 2
-shadow_atlas_quad_1 = 2
-shadow_atlas_quad_2 = 3
-shadow_atlas_quad_3 = 4
-_sections_unfolded = [ "Render Target", "Rendering", "Transform" ]
-
-[node name="Spells" type="Node2D" parent="." index="3"]
+[node name="Spells" type="Node2D" parent="." index="2"]
 
 position = Vector2( 60, 96 )
 scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Projectiles" type="Node2D" parent="." index="4"]
+[node name="Projectiles" type="Node2D" parent="." index="3"]
 
 position = Vector2( 60, 96 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="UI" type="CanvasLayer" parent="." index="5"]
+[node name="UI" type="CanvasLayer" parent="." index="4"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -286,7 +251,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "PING   - 0.054 / ms
 FPS     42"
@@ -313,7 +278,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "2:41"
 align = 1
 valign = 1
@@ -339,7 +304,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "LIMIT"
 align = 1

@@ -16,6 +16,11 @@ signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
+	var outline_node = body.get_node('Outline')
+	if outline_node != null:
+		var outline_color = Color(0, 0, 1) if color == "blue" else Color(1, 0, 0)
+		outline_node.set_material(resource.unit_outline.duplicate())
+		outline_node.get_material().set_shader_param("outline_color", outline_color)
 	body.set_material(resource.unit_material.duplicate())
 
 func _process(delta):

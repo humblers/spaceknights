@@ -2,6 +2,7 @@ extends Node
 
 var game = preload("res://game.tscn")
 const unit_material = preload("res://unit/material.tres")
+const unit_outline = preload("res://unit/outline.tres")
 var unit = {
 	"archer": preload("res://unit/archer/archer.tscn"),
 	"barbarian": preload("res://unit/barbarian/main.tscn"),
