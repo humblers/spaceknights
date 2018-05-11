@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/megaminion/idle.png" type="Texture" id=2]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=3]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=6]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=3]
+[ext_resource path="res://unit/minion/flame.tscn" type="PackedScene" id=4]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=8]
 
 [sub_resource type="Gradient" id=1]
 
@@ -136,27 +138,33 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterL" type="Position2D" parent="Body" index="1"]
+[node name="Outline" type="Sprite" parent="Body" index="1"]
+
+texture = ExtResource( 3 )
+
+[node name="Node" parent="Body/Outline" index="0" instance=ExtResource( 4 )]
+
+[node name="BoosterL" type="Position2D" parent="Body" index="2"]
 
 position = Vector2( -6.5, 35 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterR" type="Position2D" parent="Body" index="2"]
+[node name="BoosterR" type="Position2D" parent="Body" index="3"]
 
 position = Vector2( 6.5, 35 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FlameL" type="Position2D" parent="Body" index="3"]
+[node name="FlameL" type="Position2D" parent="Body" index="4"]
 
 position = Vector2( -10, -42 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FlameR" type="Position2D" parent="Body" index="4"]
+[node name="FlameR" type="Position2D" parent="Body" index="5"]
 
 position = Vector2( 10, -42 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Flashing-green" type="Particles2D" parent="Body" index="5"]
+[node name="FlashingGreen" type="Particles2D" parent="Body" index="6"]
 
 position = Vector2( -53, 20.5 )
 rotation = -0.733038
@@ -181,7 +189,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Flashing-red" type="Particles2D" parent="Body" index="6"]
+[node name="FlashingRed" type="Particles2D" parent="Body" index="7"]
 
 position = Vector2( 53, 20.5 )
 rotation = 0.733038
@@ -214,7 +222,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="blue" type="TextureProgress" parent="Hp" index="0"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -237,8 +244,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 3 )
-texture_progress = ExtResource( 4 )
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -268,8 +275,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false

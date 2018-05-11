@@ -1,14 +1,15 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/hogrider/guide.png" type="Texture" id=2]
 [ext_resource path="res://unit/hogrider/drill_2.png" type="Texture" id=3]
 [ext_resource path="res://unit/hogrider/drill_1.png" type="Texture" id=4]
 [ext_resource path="res://unit/hogrider/body.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -23,7 +24,7 @@ _sections_unfolded = [ "Resource" ]
 [sub_resource type="Animation" id=2]
 
 resource_name = "attack-end"
-length = 1.0
+length = 0.01
 loop = false
 step = 0.1
 
@@ -398,12 +399,16 @@ _sections_unfolded = [ "Transform" ]
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Position2D" parent="Body" index="4"]
+[node name="Outline" type="Sprite" parent="Body" index="4"]
+
+texture = ExtResource( 6 )
+
+[node name="Booster" type="Position2D" parent="Body" index="5"]
 
 position = Vector2( 0, 18 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Spark" type="Position2D" parent="Body" index="5"]
+[node name="Spark" type="Position2D" parent="Body" index="6"]
 
 position = Vector2( 0, -60 )
 _sections_unfolded = [ "Transform" ]
@@ -438,8 +443,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -469,8 +474,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
