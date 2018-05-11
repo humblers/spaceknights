@@ -1,13 +1,12 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/megaminion/idle.png" type="Texture" id=2]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=3]
-[ext_resource path="res://unit/minion/flame.tscn" type="PackedScene" id=4]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=4]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=7]
 
 [sub_resource type="Gradient" id=1]
 
@@ -114,6 +113,54 @@ _sections_unfolded = [ "Color" ]
 length = 0.01
 loop = false
 step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 
@@ -141,8 +188,6 @@ _sections_unfolded = [ "Transform" ]
 [node name="Outline" type="Sprite" parent="Body" index="1"]
 
 texture = ExtResource( 3 )
-
-[node name="Node" parent="Body/Outline" index="0" instance=ExtResource( 4 )]
 
 [node name="BoosterL" type="Position2D" parent="Body" index="2"]
 
@@ -222,6 +267,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="blue" type="TextureProgress" parent="Hp" index="0"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -244,8 +290,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -275,8 +321,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false

@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/shuriken/gunner.png" type="Texture" id=2]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=3]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=6]
-[ext_resource path="res://unit/shuriken/bomber.png" type="Texture" id=7]
+[ext_resource path="res://unit/shuriken/bomber.png" type="Texture" id=2]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=3]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=4]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/shuriken/gunner.png" type="Texture" id=8]
 
 [sub_resource type="Animation" id=1]
 
@@ -24,7 +25,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 7 ) ]
+"values": [ ExtResource( 2 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -43,7 +44,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 8 ) ]
 }
 
 [node name="shuriken" type="Node2D" index="0"]
@@ -57,9 +58,23 @@ _sections_unfolded = [ "Transform" ]
 
 texture = ExtResource( 2 )
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="1"]
+[node name="Outline" type="Sprite" parent="Body" index="1"]
+
+texture = ExtResource( 3 )
+
+[node name="Shotpoint" type="Position2D" parent="Body" index="2"]
 
 position = Vector2( 0, -49 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BoosterL" type="Position2D" parent="Body" index="3"]
+
+position = Vector2( -31, 55.5 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BoosterR" type="Position2D" parent="Body" index="4"]
+
+position = Vector2( 31, 55.5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Hp" type="Position2D" parent="." index="1"]
@@ -92,8 +107,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 3 )
-texture_progress = ExtResource( 4 )
+texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -123,8 +138,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false

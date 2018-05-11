@@ -5,13 +5,22 @@
 [ext_resource path="res://unit/minipekka/arm.png" type="Texture" id=3]
 [ext_resource path="res://unit/minipekka/body.png" type="Texture" id=4]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=9]
-[ext_resource path="res://effect/bladetrail_1.png" type="Texture" id=10]
-[ext_resource path="res://effect/bladetrail_2.png" type="Texture" id=11]
-[ext_resource path="res://effect/bladetrail_3.png" type="Texture" id=12]
+[ext_resource path="res://effect/bladetrail_1.png" type="Texture" id=6]
+[ext_resource path="res://effect/bladetrail_2.png" type="Texture" id=7]
+[ext_resource path="res://effect/bladetrail_3.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=11]
+[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=12]
+
+[sub_resource type="SpriteFrames" id=6]
+
+animations = [ {
+"frames": [ null, ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), null ],
+"loop": true,
+"name": "sword",
+"speed": 5.0
+} ]
 
 [sub_resource type="Animation" id=1]
 
@@ -212,7 +221,7 @@ tracks/15/keys = {
 "values": [ -40.0, -40.0, -40.0, -40.0, -40.0, -40.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("sword-ani:frame")
+tracks/16/path = NodePath("Body/SwordAni:frame")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -224,7 +233,7 @@ tracks/16/keys = {
 "values": [ 0, 0, 1, 2, 3, 4, 4 ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("sword-ani2:frame")
+tracks/17/path = NodePath("Body/SwordAni2:frame")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -983,15 +992,6 @@ tracks/14/keys = {
 "values": [ -40.0, -40.0, -40.0 ]
 }
 
-[sub_resource type="SpriteFrames" id=6]
-
-animations = [ {
-"frames": [ null, ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), null ],
-"loop": true,
-"name": "sword",
-"speed": 5.0
-} ]
-
 [node name="minipekka" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
@@ -1003,12 +1003,10 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotate" type="Node2D" parent="Body" index="0"]
 
-editor/display_folded = true
-
 [node name="Sword" type="Sprite" parent="Body/Rotate" index="0"]
 
-position = Vector2( 24, -22 )
-rotation = -1.5708
+position = Vector2( 30.5, -21 )
+rotation = -1.0472
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -26 )
@@ -1017,6 +1015,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ArmL" type="Sprite" parent="Body/Rotate" index="1"]
 
 position = Vector2( -24, 4 )
+rotation = -0.261799
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -8 )
@@ -1025,6 +1024,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ArmR" type="Sprite" parent="Body/Rotate" index="2"]
 
 position = Vector2( 24, 4 )
+rotation = 0.261799
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -8 )
@@ -1047,22 +1047,40 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( -10, 16 )
 rotation = 0.698132
-scale = Vector2( 1, 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="BoosterR" type="Position2D" parent="Body/Rotate" index="6"]
 
 position = Vector2( 10, 16 )
 rotation = -0.698132
-scale = Vector2( 1, 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Hitposition" type="Position2D" parent="." index="1"]
+[node name="Hitposition" type="Position2D" parent="Body" index="1"]
 
 position = Vector2( 0, -60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Hp" type="Position2D" parent="." index="2"]
+[node name="SwordAni" type="AnimatedSprite" parent="Body" index="2"]
+
+modulate = Color( 0, 0.976563, 1, 0.806627 )
+position = Vector2( 25.5969, 16.2277 )
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 6 )
+animation = "sword"
+frame = 4
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="SwordAni2" type="AnimatedSprite" parent="Body" index="3"]
+
+modulate = Color( 0, 0, 0, 0.425451 )
+position = Vector2( 25.5969, 16.2277 )
+scale = Vector2( 2.2, 2.2 )
+frames = SubResource( 6 )
+animation = "sword"
+frame = 4
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Hp" type="Position2D" parent="." index="1"]
 
 position = Vector2( 0, 10 )
 scale = Vector2( 5, 3 )
@@ -1093,8 +1111,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1124,13 +1142,13 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 11 )
+texture_progress = ExtResource( 12 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -1143,25 +1161,5 @@ anims/move-end = SubResource( 3 )
 anims/move-loop = SubResource( 4 )
 anims/move-pre = SubResource( 5 )
 blend_times = [  ]
-
-[node name="sword-ani" type="AnimatedSprite" parent="." index="4"]
-
-modulate = Color( 0, 0.976563, 1, 0.806627 )
-position = Vector2( 25.5969, 16.2277 )
-scale = Vector2( 2.5, 2.5 )
-frames = SubResource( 6 )
-animation = "sword"
-frame = 4
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="sword-ani2" type="AnimatedSprite" parent="." index="5"]
-
-modulate = Color( 0, 0, 0, 0.425451 )
-position = Vector2( 25.5969, 16.2277 )
-scale = Vector2( 2.2, 2.2 )
-frames = SubResource( 6 )
-animation = "sword"
-frame = 4
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 

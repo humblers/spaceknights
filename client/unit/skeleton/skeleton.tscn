@@ -1,13 +1,14 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/skeleton/drill_1.png" type="Texture" id=2]
 [ext_resource path="res://unit/skeleton/drill_2.png" type="Texture" id=3]
 [ext_resource path="res://unit/skeleton/body.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -15,7 +16,7 @@ animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 20.0
 } ]
 
 [sub_resource type="Animation" id=2]
@@ -43,6 +44,18 @@ resource_name = "idle"
 length = 0.01
 loop = false
 step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Drill:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=4]
 
@@ -62,18 +75,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ false ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Drill:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
 
 [node name="skelecton" type="Node2D" index="0"]
 
@@ -87,11 +88,27 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 0, -18 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
+playing = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Sprite" parent="Body" index="1"]
 
 texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Outline" type="Sprite" parent="Body" index="2"]
+
+texture = ExtResource( 5 )
+
+[node name="Spark" type="Position2D" parent="Body" index="3"]
+
+position = Vector2( 0, -37 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Booster" type="Position2D" parent="Body" index="4"]
+
+position = Vector2( 0, 13.5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Hp" type="Position2D" parent="." index="1"]
@@ -125,8 +142,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -156,8 +173,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
