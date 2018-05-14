@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://effect/cloud_1.png" type="Texture" id=1]
+[ext_resource path="res://effect/circle.png" type="Texture" id=1]
 
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.438385, 0.0664063, 1, 0, 0, 0, 1 )
+colors = PoolColorArray( 1, 0.9375, 0, 1, 1, 0, 0.609375, 1 )
 
 [sub_resource type="GradientTexture" id=2]
 
@@ -18,7 +18,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.477496, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0493994 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.145386 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=4]
 
@@ -31,52 +31,55 @@ curve = SubResource( 3 )
 render_priority = 0
 trail_divisor = 1
 emission_shape = 1
-emission_sphere_radius = 1.0
+emission_sphere_radius = 0.01
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
-spread = 60.0
+spread = 0.0
 flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
+initial_velocity = 0.0
 initial_velocity_random = 0.0
-angular_velocity = 180.0
+angular_velocity = 0.0
 angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 50.0
-linear_accel_random = 1.0
-radial_accel = 60.0
-radial_accel_random = 1.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 damping = 0.0
 damping_random = 0.0
-angle = 90.0
+angle = 180.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
-hue_variation = 1.0
-hue_variation_random = 0.05
+hue_variation = 0.0
+hue_variation_random = 0.0
 anim_speed = 0.0
 anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Hue Variation" ]
+_sections_unfolded = [ "Color", "Gravity" ]
 
-[node name="Node" type="Node" index="0"]
+[node name="Bullet" type="Node2D" index="0"]
 
-[node name="Particles2D" type="Particles2D" parent="." index="0"]
+_sections_unfolded = [ "Transform" ]
 
-emitting = false
-amount = 8
-lifetime = 1.0
-one_shot = true
+[node name="bulletLarge" type="Particles2D" parent="." index="0"]
+
+scale = Vector2( 0.3, 3 )
+emitting = true
+amount = 10
+lifetime = 0.1
+one_shot = false
 preprocess = 0.0
-speed_scale = 2.0
+speed_scale = 1.0
 explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
@@ -89,6 +92,6 @@ texture = ExtResource( 1 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time" ]
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 

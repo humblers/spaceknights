@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/barbarian/body.png" type="Texture" id=2]
@@ -8,10 +8,11 @@
 [ext_resource path="res://unit/barbarian/chain_saw-1.png" type="Texture" id=6]
 [ext_resource path="res://unit/barbarian/chain_saw-2.png" type="Texture" id=7]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=10]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=11]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=12]
+[ext_resource path="res://effect/circle.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=11]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=12]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=13]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -21,6 +22,135 @@ animations = [ {
 "name": "default",
 "speed": 10.0
 } ]
+
+[sub_resource type="Gradient" id=7]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 0.968506, 0.496094, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=8]
+
+flags = 4
+gradient = SubResource( 7 )
+width = 2048
+
+[sub_resource type="Curve" id=9]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.27855, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=10]
+
+flags = 4
+width = 2048
+curve = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 40, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 90.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 10.0
+damping_random = 0.5
+angle = 0.0
+angle_random = 0.0
+scale = 1.5
+scale_random = 0.0
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+
+[sub_resource type="Gradient" id=12]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=13]
+
+flags = 4
+gradient = SubResource( 12 )
+width = 2048
+
+[sub_resource type="Curve" id=14]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.489258 ), 2.70302, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=15]
+
+flags = 4
+width = 2048
+curve = SubResource( 14 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, -10, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 30.0
+angular_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.5
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 13 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
 
 [sub_resource type="Animation" id=2]
 
@@ -372,7 +502,14 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id=4]
 
-resource_name = "move"
+resource_name = "move-end"
+length = 0.01
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "move-loop"
 length = 0.4
 loop = true
 step = 0.1
@@ -617,13 +754,6 @@ tracks/19/keys = {
 "values": [ 0.0, 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=5]
-
-resource_name = "move-end"
-length = 0.01
-loop = false
-step = 0.1
-
 [sub_resource type="Animation" id=6]
 
 length = 0.4
@@ -810,6 +940,37 @@ tracks/14/keys = {
 "values": [ true, true, true ]
 }
 
+[sub_resource type="Animation" id=17]
+
+resource_name = "spark"
+length = 0.2
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Effect/spark:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Effect/glow:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
 [node name="barbarian" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
@@ -831,7 +992,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Under" type="Sprite" parent="Body/Rotate" index="1"]
 
-position = Vector2( 0, 14.2509 )
+position = Vector2( 0, 10 )
 z_index = -1
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
@@ -846,7 +1007,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 [node name="Arm" type="Sprite" parent="Body/Rotate/ShoulderR" index="0"]
 
 editor/display_folded = true
-position = Vector2( 4, -10 )
+position = Vector2( 4, -12 )
 z_index = -1
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Z Index" ]
@@ -870,7 +1031,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Arm" type="Sprite" parent="Body/Rotate/ShoulderL" index="0"]
 
-position = Vector2( -4, -10 )
+position = Vector2( -4, -12 )
 z_index = -1
 texture = ExtResource( 5 )
 flip_h = true
@@ -884,23 +1045,72 @@ frames = SubResource( 1 )
 animation = "default"
 _sections_unfolded = [ "Animation", "Material", "Transform" ]
 
+[node name="BoosterL" type="Position2D" parent="Body/Rotate" index="4"]
+
+position = Vector2( -12, 32 )
+rotation = 0.349066
+_sections_unfolded = [ "Transform" ]
+
+[node name="BoosterR" type="Position2D" parent="Body/Rotate" index="5"]
+
+position = Vector2( 12, 32 )
+rotation = -0.349066
+_sections_unfolded = [ "Transform" ]
+
 [node name="Outline" type="Sprite" parent="Body" index="1"]
 
 texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 200, 200 )
 _sections_unfolded = [ "Region" ]
 
-[node name="BoosterL" type="Position2D" parent="Body" index="2"]
+[node name="Effect" type="Node2D" parent="Body" index="2"]
 
-position = Vector2( -12, 32 )
-rotation = 0.349066
-_sections_unfolded = [ "Transform" ]
+editor/display_folded = true
+position = Vector2( -0.975342, -50.7185 )
 
-[node name="BoosterR" type="Position2D" parent="Body" index="3"]
+[node name="spark" type="Particles2D" parent="Body/Effect" index="0"]
 
-position = Vector2( 12, 32 )
-rotation = -0.349066
-_sections_unfolded = [ "Transform" ]
+emitting = false
+amount = 60
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.1
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 11 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="glow" type="Particles2D" parent="Body/Effect" index="1"]
+
+emitting = false
+amount = 5
+lifetime = 0.8
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 16 )
+texture = ExtResource( 9 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time" ]
 
 [node name="DrillingsparkL" type="Position2D" parent="." index="1"]
 
@@ -937,8 +1147,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -968,8 +1178,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 11 )
-texture_progress = ExtResource( 12 )
+texture_over = ExtResource( 12 )
+texture_progress = ExtResource( 13 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -986,6 +1196,7 @@ anims/idle = SubResource( 3 )
 anims/move = SubResource( 4 )
 anims/move-end = SubResource( 5 )
 anims/move-pre = SubResource( 6 )
+anims/spark = SubResource( 17 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause", "Playback Options" ]
 
