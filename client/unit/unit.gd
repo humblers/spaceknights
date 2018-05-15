@@ -1,5 +1,9 @@
 extends Node2D
 
+const IMMUTABLE = 0
+const WINGED = 1
+const ARMED = 2
+
 var velocity = Vector2(0, 0)
 
 var u_name
@@ -84,18 +88,25 @@ func update_changes(unit):
 							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 							get_node("Body/Shotpoint").global_position)
 
-#	if unit.TransformStarted:
-#		if unit.Form == "winged":
-#			anim.play("transform", -1, true)
-#		elif unit.Form == "armed":
-#			anim.play("transform")
+	if unit.TransformStarted:
+		if unit.Form == WINGED:
+			anim.play_backwards("transform")
+		elif unit.Form == ARMED:
+			anim.play("transform")
+	if unit.State == "move":
+		var a = "move"
+		match int(unit.Form):
+			WINGED:
+				a += "_winged"
+			ARMED:
+				a += "_armed"
+		if anim.current_animation != a or not anim.is_playing():
+			anim.play(a)
 	if unit.State == "frozen":
 		anim.stop()
 		body.get_material().set_shader_param("frozen", true)
 	else:
 		body.get_material().set_shader_param("frozen", false)
-		if anim.current_animation != unit.State or not anim.is_playing():
-			anim.play(unit.State)
 
 func update_hp(unit):
 	if unit.Hp <= 0:
