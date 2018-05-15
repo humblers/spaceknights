@@ -1,15 +1,16 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/space_z/idle.png" type="Texture" id=2]
 [ext_resource path="res://effect/circle.png" type="Texture" id=3]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=4]
-[ext_resource path="res://effect/ring.png" type="Texture" id=5]
-[ext_resource path="res://effect/cloud_1.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
+[ext_resource path="res://projectile/creator.gd" type="Script" id=5]
+[ext_resource path="res://effect/ring.png" type="Texture" id=6]
+[ext_resource path="res://effect/cloud_1.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
 
 [sub_resource type="Gradient" id=1]
 
@@ -871,7 +872,7 @@ length = 0.01
 loop = false
 step = 0.1
 
-[node name="space_z" type="Node2D" index="0"]
+[node name="space_z" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -939,6 +940,12 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 
 texture = ExtResource( 4 )
 
+[node name="Shotpoint" type="Position2D" parent="Body" index="4"]
+
+position = Vector2( 0, -52 )
+script = ExtResource( 5 )
+_sections_unfolded = [ "Transform" ]
+
 [node name="BoosterL" type="Position2D" parent="." index="1"]
 
 position = Vector2( -26.5, 102 )
@@ -954,12 +961,7 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 26.5, 102 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Shotpoint" type="Position2D" parent="." index="4"]
-
-position = Vector2( 0, -2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Charge" type="Node2D" parent="." index="5"]
+[node name="Charge" type="Node2D" parent="." index="4"]
 
 editor/display_folded = true
 
@@ -981,7 +983,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1031,7 +1033,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="End" type="Node2D" parent="." index="6"]
+[node name="End" type="Node2D" parent="." index="5"]
 
 editor/display_folded = true
 
@@ -1101,7 +1103,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 34 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1129,7 +1131,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Drawing", "Pause", "Process Material", "Time", "Transform" ]
 
-[node name="Fire" type="Node2D" parent="." index="7"]
+[node name="Fire" type="Node2D" parent="." index="6"]
 
 editor/display_folded = true
 
@@ -1199,13 +1201,13 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 50 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Hp" type="Position2D" parent="." index="8"]
+[node name="Hp" type="Position2D" parent="." index="7"]
 
 editor/display_folded = true
 scale = Vector2( 3, 3 )
@@ -1236,8 +1238,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1267,13 +1269,13 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="8"]
 
 root_node = NodePath("..")
 autoplay = ""

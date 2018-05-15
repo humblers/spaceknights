@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 var target_radius
 var target_position
@@ -8,9 +8,9 @@ var elapsed = 0
 func _ready():
 	set_physics_process(true)
 
-func set_single_target(target, lifetime, position):
+func set_single_target(target, lifetime, initial_position):
 	self.lifetime = lifetime
-	self.position = position
+	self.position = initial_position
 	self.z_index = global.LAYERS.Projectile
 	target_position = target.position
 	target_radius = global.UNITS[target.u_name].radius

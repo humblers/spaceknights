@@ -13,7 +13,6 @@ onready var body = get_node("Body")
 onready var anim = get_node("AnimationPlayer")
 
 signal position_changed(id, position)
-signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
 	var outline_node = body.get_node('Outline')
@@ -63,13 +62,14 @@ func update_changes(unit):
 	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
-		anim.stop()
-		if global.UNITS[u_name].has("projectile"):
-			emit_signal("projectile_created",
-					global.UNITS[u_name].projectile,
-					target,
-					float(global.UNITS[u_name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-					get_node("Body/Shotpoint").global_position)
+		anim.play(unit.State)
+		get_node("Body/Shotpoint").projectile_create(u_name, target)
+
+#	if unit.TransformStarted:
+#		if unit.Form == "winged":
+#			anim.play("transform", -1, true)
+#		elif unit.Form == "armed":
+#			anim.play("transform")
 	if unit.State == "frozen":
 		anim.stop()
 		body.get_material().set_shader_param("frozen", true)

@@ -51,7 +51,7 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	var node = resource.unit[name].instance()
 	node.initialize(unit)
 	node.set_name(str(unit.Id))
-	node.connect("projectile_created", self, "create_projectile")
+	node.get_node("Body/Shotpoint").connect("projectile_created", self, "create_projectile")
 	get_node("Units/Viewport").add_child(node)
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
@@ -106,7 +106,6 @@ func update_ui(game):
 
 func create_projectile(type, target, lifetime, initial_position):
 	var projectiles = get_node("Projectiles")
-	#initial_position = projectiles.to_local(initial_position)
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:

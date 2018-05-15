@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/freezer/freezer_leg.png" type="Texture" id=2]
@@ -6,37 +6,38 @@
 [ext_resource path="res://unit/freezer/freezer_roid.png" type="Texture" id=4]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=5]
 [ext_resource path="res://effect/cloud_1.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
-[ext_resource path="res://unit/freezer/freezer_fighter.png" type="Texture" id=11]
+[ext_resource path="res://projectile/creator.gd" type="Script" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
+[ext_resource path="res://unit/freezer/freezer_fighter.png" type="Texture" id=12]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.4198, 0.242188, 1, 1, 0.9375, 0, 1 )
 
-[sub_resource type="GradientTexture" id=5]
+[sub_resource type="GradientTexture" id=2]
 
 flags = 4
-gradient = SubResource( 4 )
+gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=3]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.172136 ), 0.0, 2.93127, 0, 0, Vector2( 1, 0.719008 ), -1.09271, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
+[sub_resource type="CurveTexture" id=4]
 
 flags = 4
 width = 2048
-curve = SubResource( 6 )
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=5]
 
 render_priority = 0
 trail_divisor = 1
@@ -66,8 +67,8 @@ angle = 100.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 5 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -77,9 +78,8 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Initial Velocity", "Radial Accel", "Scale" ]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=6]
 
-resource_name = "attack"
 length = 0.01
 loop = false
 step = 0.1
@@ -297,7 +297,7 @@ tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 11 ) ]
+"values": [ ExtResource( 12 ) ]
 }
 tracks/18/type = "value"
 tracks/18/path = NodePath("Body/Body:rotation_degrees")
@@ -312,9 +312,8 @@ tracks/18/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=7]
 
-resource_name = "idle"
 length = 0.01
 loop = false
 step = 0.1
@@ -547,7 +546,7 @@ tracks/18/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 
 resource_name = "muzzleflash"
 length = 0.5
@@ -578,9 +577,8 @@ tracks/1/keys = {
 "values": [ false, true, true, false ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=9]
 
-resource_name = "transform"
 length = 1.0
 loop = false
 step = 0.1
@@ -810,7 +808,7 @@ tracks/18/keys = {
 "times": PoolRealArray( 0, 0.1, 0.7, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 11 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ) ]
+"values": [ ExtResource( 12 ), ExtResource( 12 ), ExtResource( 4 ), ExtResource( 4 ), ExtResource( 4 ) ]
 }
 tracks/19/type = "value"
 tracks/19/path = NodePath("Body/Body:position")
@@ -837,7 +835,7 @@ tracks/20/keys = {
 "values": [ 0.0, 0.0 ]
 }
 
-[node name="freezer" type="Node2D" index="0"]
+[node name="freezer" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -909,7 +907,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 8 )
+process_material = SubResource( 5 )
 texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
@@ -933,29 +931,33 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 8 )
+process_material = SubResource( 5 )
 texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointL" type="Position2D" parent="Body" index="7"]
+[node name="Shotpoint" type="Node2D" parent="Body" index="7"]
+
+script = ExtResource( 7 )
+
+[node name="Left" type="Position2D" parent="Body/Shotpoint" index="0"]
 
 position = Vector2( -52, -54 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointR" type="Position2D" parent="Body" index="8"]
+[node name="Right" type="Position2D" parent="Body/Shotpoint" index="1"]
 
 position = Vector2( 52, -54 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterL" type="Position2D" parent="Body" index="9"]
+[node name="BoosterL" type="Position2D" parent="Body" index="8"]
 
 position = Vector2( -30, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterR" type="Position2D" parent="Body" index="10"]
+[node name="BoosterR" type="Position2D" parent="Body" index="9"]
 
 position = Vector2( 30, 60 )
 _sections_unfolded = [ "Transform" ]
@@ -990,8 +992,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1021,8 +1023,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1034,10 +1036,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 1 )
-anims/idle = SubResource( 2 )
-anims/muzzleflash = SubResource( 9 )
-anims/transform = SubResource( 3 )
+anims/attack = SubResource( 6 )
+anims/idle = SubResource( 7 )
+anims/muzzleflash = SubResource( 8 )
+anims/transform = SubResource( 9 )
 blend_times = [  ]
 
 

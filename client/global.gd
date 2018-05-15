@@ -41,7 +41,7 @@ const UNITS = {
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
-		"projectile" : "bullet",
+		"projectile" : "archer",
 		"size" : "small",
 	},
 	"barbarian" : {
