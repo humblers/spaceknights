@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://effect/circle.png" type="Texture" id=1]
-[ext_resource path="res://projectile/bullet.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.9375, 0, 1, 1, 0, 0.609375, 1 )
+colors = PoolColorArray( 1, 0.914551, 0.453125, 1, 1, 0.140625, 0, 0 )
 
 [sub_resource type="GradientTexture" id=2]
 
@@ -19,7 +18,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0, 0.145386 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.117957, 0.996974 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.757469 ), -0.300095, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=4]
 
@@ -31,8 +30,58 @@ curve = SubResource( 3 )
 
 render_priority = 0
 trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 0.01
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 0.0
+gravity = Vector3( 0, 130, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+
+[sub_resource type="Gradient" id=7]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 0.551575, 0.0742188, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=8]
+
+flags = 4
+gradient = SubResource( 7 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=6]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
@@ -57,8 +106,7 @@ angle = 180.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 8 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -66,17 +114,22 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Gravity" ]
+_sections_unfolded = [ "Color", "Initial Velocity" ]
 
-[node name="bullet" type="Particles2D"]
+[node name="bullet" type="Node2D" index="0"]
 
-scale = Vector2( 0.3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BulletTrail" type="Particles2D" parent="." index="0"]
+
+position = Vector2( 0, 40 )
+scale = Vector2( 1, 8 )
 emitting = true
-amount = 10
-lifetime = 0.1
+amount = 60
+lifetime = 0.8
 one_shot = false
-preprocess = 0.0
-speed_scale = 1.0
+preprocess = 1.0
+speed_scale = 6.0
 explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
@@ -89,7 +142,53 @@ texture = ExtResource( 1 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-script = ExtResource( 2 )
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+_sections_unfolded = [ "Process Material", "Transform" ]
+
+[node name="Bullet" type="Particles2D" parent="." index="1"]
+
+scale = Vector2( 0.8, 3 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 6 )
+texture = ExtResource( 1 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+
+[node name="Sprite" type="Light2D" parent="." index="2"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 1 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
 
 

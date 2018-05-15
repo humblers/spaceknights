@@ -1,9 +1,9 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/musketeer/idle.png" type="Texture" id=2]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=3]
-[ext_resource path="res://effect/cloud_1.png" type="Texture" id=4]
+[ext_resource path="res://unit/archer/muzzleflash.tscn" type="PackedScene" id=4]
 [ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=5]
 [ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=6]
 [ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=7]
@@ -109,107 +109,35 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Gradient" id=11]
+[sub_resource type="Animation" id=12]
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.0117188, 0.312836, 0.419882, 0.974365, 1, 0.53125, 0.679569 )
-
-[sub_resource type="GradientTexture" id=12]
-
-flags = 4
-gradient = SubResource( 11 )
-width = 2048
-
-[sub_resource type="Curve" id=13]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.252455, 0.978514 ), 0.0, -2.25142, 0, 0, Vector2( 1, 0 ), -2.2026, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=14]
-
-flags = 4
-width = 2048
-curve = SubResource( 13 )
-
-[sub_resource type="ParticlesMaterial" id=15]
-
-render_priority = 0
-trail_divisor = 3
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 500, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 30.0
-angular_velocity_random = 0.5
-orbit_velocity = 5.0
-orbit_velocity_random = 0.2
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 180.0
-angle_random = 1.0
-scale = 1.0
-scale_random = 0.2
-scale_curve = SubResource( 14 )
-color_ramp = SubResource( 12 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angle", "Color", "Gravity", "Initial Velocity" ]
-
-[sub_resource type="Animation" id=7]
-
-length = 0.01
+length = 1.1
 loop = false
-step = 0.1
-
-[sub_resource type="Animation" id=8]
-
-length = 0.01
-loop = false
-step = 0.1
-
-[sub_resource type="Animation" id=9]
-
-length = 0.01
-loop = false
-step = 0.1
-
-[sub_resource type="Animation" id=10]
-
-resource_name = "muzzleflash"
-length = 0.3
-loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Effect2/muzzleflash:emitting")
+tracks/0/path = NodePath("Body/Muzzleflash/Muzzleflash:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, true, false ]
+"values": [ false, true, true, false, false ]
 }
+
+[sub_resource type="Animation" id=13]
+
+length = 0.01
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=14]
+
+length = 0.01
+loop = false
+step = 0.1
 
 [node name="musketeer" type="Node2D" index="0"]
 
@@ -275,33 +203,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 
 texture = ExtResource( 3 )
 
-[node name="Effect2" type="Node2D" parent="Body" index="4"]
-
-position = Vector2( 0, -39 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="muzzleflash" type="Particles2D" parent="Body/Effect2" index="0"]
-
-scale = Vector2( 0.2, 1 )
-emitting = true
-amount = 10
-lifetime = 0.2
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 1.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 15 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+[node name="Muzzleflash" parent="Body" index="4" instance=ExtResource( 4 )]
 
 [node name="Shotpoint" type="Position2D" parent="Body" index="5"]
 
@@ -391,10 +293,9 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 7 )
-anims/idle = SubResource( 8 )
-anims/move = SubResource( 9 )
-anims/muzzleflash = SubResource( 10 )
+anims/attack = SubResource( 12 )
+anims/idle = SubResource( 13 )
+anims/move = SubResource( 14 )
 blend_times = [  ]
 
 

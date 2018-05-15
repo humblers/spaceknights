@@ -3,7 +3,7 @@
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/archer/idle.png" type="Texture" id=2]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=3]
-[ext_resource path="res://effect/cloud_1.png" type="Texture" id=4]
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=4]
 [ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=5]
 [ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=6]
 [ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=7]
@@ -12,7 +12,7 @@
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.0117188, 0.312836, 0.419882, 0.974365, 1, 0.53125, 0.679569 )
+colors = PoolColorArray( 1, 0.726563, 0, 0.408824, 1, 1, 1, 0.624314 )
 
 [sub_resource type="GradientTexture" id=2]
 
@@ -25,7 +25,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.252455, 0.978514 ), 0.0, -2.25142, 0, 0, Vector2( 1, 0 ), -2.2026, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, -0.266692, 0, 0, Vector2( 0.993484, 0.303413 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=4]
 
@@ -36,21 +36,20 @@ curve = SubResource( 3 )
 [sub_resource type="ParticlesMaterial" id=5]
 
 render_priority = 0
-trail_divisor = 3
-emission_shape = 1
-emission_sphere_radius = 1.0
+trail_divisor = 1
+emission_shape = 0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
-spread = 0.0
+spread = 45.0
 flatness = 0.0
-gravity = Vector3( 0, 500, 0 )
+gravity = Vector3( 0, 600, 0 )
 initial_velocity = 0.0
 initial_velocity_random = 0.0
-angular_velocity = 30.0
-angular_velocity_random = 0.5
-orbit_velocity = 5.0
-orbit_velocity_random = 0.2
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 linear_accel = 0.0
 linear_accel_random = 0.0
 radial_accel = 0.0
@@ -59,10 +58,10 @@ tangential_accel = 0.0
 tangential_accel_random = 0.0
 damping = 0.0
 damping_random = 0.0
-angle = 180.0
+angle = 90.0
 angle_random = 1.0
 scale = 1.0
-scale_random = 0.2
+scale_random = 1.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 hue_variation = 0.0
@@ -72,7 +71,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Angle", "Color", "Gravity", "Initial Velocity" ]
+_sections_unfolded = [ "Color", "Gravity" ]
 
 [sub_resource type="Gradient" id=6]
 
@@ -180,7 +179,7 @@ length = 0.6
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Effect/muzzleflash:emitting")
+tracks/0/path = NodePath("Body/Effect/Muzzleflash:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -223,17 +222,17 @@ texture = ExtResource( 3 )
 
 [node name="Effect" type="Node2D" parent="Body" index="2"]
 
-[node name="muzzleflash" type="Particles2D" parent="Body/Effect" index="0"]
+[node name="Muzzleflash" type="Particles2D" parent="Body/Effect" index="0"]
 
-position = Vector2( 0, -65 )
-scale = Vector2( 0.2, 1 )
+position = Vector2( 0, -70 )
+scale = Vector2( 0.4, 0.6 )
 emitting = false
-amount = 10
+amount = 4
 lifetime = 0.2
 one_shot = false
 preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 1.0
+speed_scale = 6.0
+explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
@@ -245,7 +244,7 @@ texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="FlashingRed" type="Particles2D" parent="Body/Effect" index="1"]
 

@@ -1,13 +1,24 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/bomber/idle.png" type="Texture" id=2]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=3]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=4]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/bomber/bomber_hatch1.png" type="Texture" id=3]
+[ext_resource path="res://unit/bomber/bomber_hatch.png" type="Texture" id=4]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
+
+[sub_resource type="SpriteFrames" id=15]
+
+animations = [ {
+"frames": [ null, ExtResource( 3 ), ExtResource( 4 ), null ],
+"loop": false,
+"name": "hatchopen",
+"speed": 5.0
+} ]
 
 [sub_resource type="Gradient" id=1]
 
@@ -176,17 +187,113 @@ _sections_unfolded = [ "Color", "Hue Variation" ]
 
 [sub_resource type="Animation" id=12]
 
+length = 2.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Effect/FireL1:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Effect/FireR1:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Effect/FireL2:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Effect/FireR2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Effect/FireL3:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/Effect/FireR3:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Body/HatchL:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1, 0.8, 0.9, 0.9, 1, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 2, 1, 1, 0, 0, 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Body/HatchR:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.1, 0.8, 0.9, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 2, 1, 0, 0 ]
+}
+
+[sub_resource type="Animation" id=13]
+
 length = 0.01
 loop = false
 step = 0.1
 
 [sub_resource type="Animation" id=14]
-
-length = 0.01
-loop = false
-step = 0.1
-
-[sub_resource type="Animation" id=15]
 
 length = 0.01
 loop = false
@@ -198,11 +305,25 @@ script = ExtResource( 1 )
 
 [node name="Body" type="Node2D" parent="." index="0"]
 
-[node name="Sprite" type="Sprite" parent="Body" index="0"]
+[node name="Main" type="Sprite" parent="Body" index="0"]
 
 texture = ExtResource( 2 )
 
-[node name="FlashingGreen" type="Particles2D" parent="Body" index="1"]
+[node name="HatchL" type="AnimatedSprite" parent="Body" index="1"]
+
+position = Vector2( -32, 1 )
+frames = SubResource( 15 )
+animation = "hatchopen"
+_sections_unfolded = [ "Transform" ]
+
+[node name="HatchR" type="AnimatedSprite" parent="Body" index="2"]
+
+position = Vector2( 32, 1 )
+frames = SubResource( 15 )
+animation = "hatchopen"
+_sections_unfolded = [ "Transform" ]
+
+[node name="FlashingGreen" type="Particles2D" parent="Body" index="3"]
 
 position = Vector2( -43.5, 36 )
 scale = Vector2( 2, 4 )
@@ -226,7 +347,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="FlashingRed" type="Particles2D" parent="Body" index="2"]
+[node name="FlashingRed" type="Particles2D" parent="Body" index="4"]
 
 position = Vector2( 43.5, 36 )
 scale = Vector2( 2, 4 )
@@ -250,17 +371,17 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="3"]
+[node name="Outline" type="Sprite" parent="Body" index="5"]
 
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
-[node name="Effect" type="Node2D" parent="Body" index="4"]
+[node name="Effect" type="Node2D" parent="Body" index="6"]
 
 [node name="FireL1" type="Particles2D" parent="Body/Effect" index="0"]
 
 position = Vector2( -32, -12 )
 scale = Vector2( 0.7, 0.7 )
-emitting = true
+emitting = false
 amount = 8
 lifetime = 1.0
 one_shot = false
@@ -274,65 +395,17 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="FireL2" type="Particles2D" parent="Body/Effect" index="1"]
-
-position = Vector2( -32, 4 )
-scale = Vector2( 0.7, 0.7 )
-emitting = true
-amount = 8
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 11 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
-
-[node name="FireL3" type="Particles2D" parent="Body/Effect" index="2"]
-
-position = Vector2( -32, 20 )
-scale = Vector2( 0.7, 0.7 )
-emitting = true
-amount = 8
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 11 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
-
-[node name="FireL4" type="Particles2D" parent="Body/Effect" index="3"]
+[node name="FireR1" type="Particles2D" parent="Body/Effect" index="1"]
 
 position = Vector2( 32, -12 )
 scale = Vector2( 0.7, 0.7 )
-emitting = true
+emitting = false
 amount = 8
 lifetime = 1.0
 one_shot = false
@@ -346,17 +419,41 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="FireL6" type="Particles2D" parent="Body/Effect" index="4"]
+[node name="FireL2" type="Particles2D" parent="Body/Effect" index="2"]
+
+position = Vector2( -32, 4 )
+scale = Vector2( 0.7, 0.7 )
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 11 )
+texture = ExtResource( 6 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Transform" ]
+
+[node name="FireR2" type="Particles2D" parent="Body/Effect" index="3"]
 
 position = Vector2( 32, 4 )
 scale = Vector2( 0.7, 0.7 )
-emitting = true
+emitting = false
 amount = 8
 lifetime = 1.0
 one_shot = false
@@ -370,17 +467,41 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="FireL5" type="Particles2D" parent="Body/Effect" index="5"]
+[node name="FireL3" type="Particles2D" parent="Body/Effect" index="4"]
+
+position = Vector2( -32, 20 )
+scale = Vector2( 0.7, 0.7 )
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 11 )
+texture = ExtResource( 6 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Transform" ]
+
+[node name="FireR3" type="Particles2D" parent="Body/Effect" index="5"]
 
 position = Vector2( 32, 20 )
 scale = Vector2( 0.7, 0.7 )
-emitting = true
+emitting = false
 amount = 8
 lifetime = 1.0
 one_shot = false
@@ -394,13 +515,13 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Shotpoint" type="Node2D" parent="Body" index="5"]
+[node name="Shotpoint" type="Node2D" parent="Body" index="7"]
 
 editor/display_folded = true
 
@@ -434,7 +555,7 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 31.5, 20 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Position2D" parent="Body" index="6"]
+[node name="Booster" type="Position2D" parent="Body" index="8"]
 
 position = Vector2( 0, 36 )
 _sections_unfolded = [ "Transform" ]
@@ -469,8 +590,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 5 )
-texture_progress = ExtResource( 6 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -500,8 +621,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -514,8 +635,8 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 12 )
-anims/idle = SubResource( 14 )
-anims/move = SubResource( 15 )
+anims/idle = SubResource( 13 )
+anims/move = SubResource( 14 )
 blend_times = [  ]
 
 
