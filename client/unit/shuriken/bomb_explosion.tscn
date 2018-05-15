@@ -1,13 +1,16 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://effect/cloud_1.png" type="Texture" id=1]
 [ext_resource path="res://effect/cloud_2.png" type="Texture" id=2]
 [ext_resource path="res://effect/explosion_1.png" type="Texture" id=3]
+[ext_resource path="res://effect/target_circle1.png" type="Texture" id=4]
+[ext_resource path="res://effect/target_circle2.png" type="Texture" id=5]
+[ext_resource path="res://effect/target_arrow.png" type="Texture" id=6]
 
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0, 0, 1, 1, 0.609375, 0, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0.609375, 0, 0.182314 )
 
 [sub_resource type="GradientTexture" id=2]
 
@@ -53,7 +56,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Scale", "Trail" ]
+_sections_unfolded = [ "Color", "Trail" ]
 
 [sub_resource type="Gradient" id=4]
 
@@ -70,7 +73,8 @@ width = 2048
 
 render_priority = 0
 trail_divisor = 1
-emission_shape = 0
+emission_shape = 1
+emission_sphere_radius = 1.0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
@@ -103,12 +107,12 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color" ]
+_sections_unfolded = [ "Color", "Emission Shape" ]
 
 [sub_resource type="Gradient" id=7]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.351746, 0.0351563, 1 )
 
 [sub_resource type="GradientTexture" id=8]
 
@@ -117,6 +121,57 @@ gradient = SubResource( 7 )
 width = 2048
 
 [sub_resource type="ParticlesMaterial" id=9]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 60.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 180.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 8 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Gravity" ]
+
+[sub_resource type="Gradient" id=10]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=11]
+
+flags = 4
+gradient = SubResource( 10 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=12]
 
 render_priority = 0
 trail_divisor = 1
@@ -153,10 +208,10 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Animation" ]
 
-[sub_resource type="ParticlesMaterial" id=10]
+[sub_resource type="ParticlesMaterial" id=13]
 
 render_priority = 0
-next_pass = SubResource( 9 )
+next_pass = SubResource( 12 )
 trail_divisor = 1
 emission_shape = 0
 flag_align_y = false
@@ -190,23 +245,23 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=14]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.84375 ), 0.0, 0.0, 0, 0, Vector2( 0.971832, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
+[sub_resource type="CurveTexture" id=15]
 
 flags = 4
 width = 2048
-curve = SubResource( 11 )
+curve = SubResource( 14 )
 
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="ParticlesMaterial" id=16]
 
 render_priority = 0
-next_pass = SubResource( 10 )
+next_pass = SubResource( 13 )
 trail_divisor = 1
 emission_shape = 0
 flag_align_y = false
@@ -233,8 +288,8 @@ angle = 90.0
 angle_random = 0.5
 scale = 3.0
 scale_random = 0.5
-scale_curve = SubResource( 12 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 11 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -244,44 +299,265 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Gradient" id=19]
 
-resource_name = "explosion"
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.624314, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=20]
+
+flags = 4
+gradient = SubResource( 19 )
+width = 2048
+
+[sub_resource type="Curve" id=21]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.368942, 0, 0, Vector2( 0.249539, 0 ), -24.8393, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=22]
+
+flags = 4
+width = 2048
+curve = SubResource( 21 )
+
+[sub_resource type="ParticlesMaterial" id=23]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 20 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+
+[sub_resource type="Gradient" id=24]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 0, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=25]
+
+flags = 4
+gradient = SubResource( 24 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=26]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 25 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Hue Variation" ]
+
+[sub_resource type="Curve" id=27]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.248712, 0.21481 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=28]
+
+flags = 4
+width = 2048
+curve = SubResource( 27 )
+
+[sub_resource type="ParticlesMaterial" id=29]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 28 )
+color = Color( 1, 1, 1, 1 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Scale" ]
+
+[sub_resource type="Animation" id=17]
+
 length = 5.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("center:emitting")
+tracks/0/path = NodePath("Center:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 3.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 3.7, 3.9, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, true, false ]
+"values": [ false, true, true, false, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("cloud:emitting")
+tracks/1/path = NodePath("Cloud:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 4.2, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, true, false ]
+"values": [ false, true, true, false, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("center2:emitting")
+tracks/2/path = NodePath("Spark:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 4.7, 5 ),
+"times": PoolRealArray( 0, 0.1, 4, 4.1, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Center2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 3.4, 3.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false, false ]
+}
+
+[sub_resource type="Animation" id=18]
+
+resource_name = "targeting"
+length = 2.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("BomingPoint/Target1:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 1.8, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BomingPoint/Target2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 1.8, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BomingPoint/Arrow:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 1.8, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, true, false ]
@@ -289,14 +565,14 @@ tracks/2/keys = {
 
 [node name="Node" type="Node" index="0"]
 
-[node name="center" type="Particles2D" parent="." index="0"]
+[node name="Center" type="Particles2D" parent="." index="0"]
 
 rotation = -3.14159
 z_index = -1
 emitting = false
 amount = 8
 lifetime = 1.0
-one_shot = true
+one_shot = false
 preprocess = 0.0
 speed_scale = 1.0
 explosiveness = 1.0
@@ -313,14 +589,14 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="cloud" type="Particles2D" parent="." index="1"]
+[node name="Cloud" type="Particles2D" parent="." index="1"]
 
-emitting = true
-amount = 40
-lifetime = 3.0
-one_shot = true
+emitting = false
+amount = 30
+lifetime = 1.0
+one_shot = false
 preprocess = 1.0
-speed_scale = 1.0
+speed_scale = 2.0
 explosiveness = 0.0
 randomness = 1.0
 fixed_fps = 0
@@ -333,38 +609,130 @@ texture = ExtResource( 2 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
+_sections_unfolded = [ "Process Material" ]
 
-[node name="center2" type="Particles2D" parent="." index="2"]
+[node name="Spark" type="Particles2D" parent="." index="2"]
 
-emitting = true
-amount = 5
-lifetime = 5.0
-one_shot = true
-preprocess = 0.0
-speed_scale = 1.0
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 30
+lifetime = 1.5
+one_shot = false
+preprocess = 0.5
+speed_scale = 2.0
 explosiveness = 1.0
-randomness = 0.0
+randomness = 1.0
 fixed_fps = 0
 fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 13 )
+process_material = SubResource( 9 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="Center2" type="Particles2D" parent="." index="3"]
+
+emitting = false
+amount = 10
+lifetime = 2.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.3
+randomness = 1.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 16 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+[node name="BomingPoint" type="Node2D" parent="." index="4"]
+
+[node name="Target1" type="Particles2D" parent="BomingPoint" index="0"]
+
+emitting = false
+amount = 1
+lifetime = 1.0
+one_shot = false
+preprocess = 1.0
+speed_scale = 0.5
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 23 )
+texture = ExtResource( 4 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time" ]
+
+[node name="Target2" type="Particles2D" parent="BomingPoint" index="1"]
+
+emitting = false
+amount = 2
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 0.5
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 26 )
+texture = ExtResource( 5 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time" ]
+
+[node name="Arrow" type="Particles2D" parent="BomingPoint" index="2"]
+
+emitting = false
+amount = 1
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.5
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 29 )
+texture = ExtResource( 6 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
 
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 14 )
+anims/explosion = SubResource( 17 )
+anims/targeting = SubResource( 18 )
 blend_times = [  ]
 
 
