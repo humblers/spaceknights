@@ -37,7 +37,7 @@ const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
 		"hp" : 254,
-		"prehitdelay" : 4,
+		"prehitdelay" : 1,
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
