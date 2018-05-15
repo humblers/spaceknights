@@ -51,7 +51,7 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	var node = resource.unit[name].instance()
 	node.initialize(unit)
 	node.set_name(str(unit.Id))
-	node.get_node("Body/Shotpoint").connect("projectile_created", self, "create_projectile")
+	node.connect("projectile_created", self, "create_projectile")
 	get_node("Units/Viewport").add_child(node)
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)

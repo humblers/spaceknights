@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/shuriken/shuriken_leg.png" type="Texture" id=2]
@@ -9,12 +9,10 @@
 [ext_resource path="res://unit/shuriken/shuriken_head.png" type="Texture" id=7]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=8]
 [ext_resource path="res://effect/explosion_1.png" type="Texture" id=9]
-[ext_resource path="res://projectile/creator.gd" type="Script" id=10]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=11]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=12]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=13]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=14]
-[ext_resource path="res://unit/shuriken/shuriken_roid.png" type="Texture" id=15]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=11]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=12]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=13]
 
 [sub_resource type="Gradient" id=1]
 
@@ -497,7 +495,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 15 ) ]
+"values": [ ExtResource( 5 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Body/Body:position")
@@ -870,7 +868,7 @@ tracks/14/keys = {
 "times": PoolRealArray( 0, 0.4, 0.6, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ), ExtResource( 5 ), ExtResource( 15 ), ExtResource( 15 ) ]
+"values": [ ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ) ]
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("Body/Body:rotation_degrees")
@@ -1107,15 +1105,19 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
+[node name="Shotpoint" type="Node2D" parent="Body" index="10"]
+
+position = Vector2( 0, -63 )
+
 [node name="Left" type="Position2D" parent="Body/Shotpoint" index="0"]
 
-position = Vector2( -42, -44 )
-_sections_unfolded = [ "Transform" ]
+position = Vector2( -42, 0 )
+_sections_unfolded = [ "Process Material", "Transform" ]
 
 [node name="Right" type="Position2D" parent="Body/Shotpoint" index="1"]
 
-position = Vector2( 42, -44 )
-_sections_unfolded = [ "Transform" ]
+position = Vector2( 42, 0 )
+_sections_unfolded = [ "Process Material", "Transform" ]
 
 [node name="BoosterL" type="Position2D" parent="Body" index="11"]
 
@@ -1157,8 +1159,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 11 )
-texture_progress = ExtResource( 12 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1188,8 +1190,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 13 )
-texture_progress = ExtResource( 14 )
+texture_over = ExtResource( 12 )
+texture_progress = ExtResource( 13 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false

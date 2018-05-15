@@ -6,6 +6,7 @@ var u_name
 var color
 var target
 var hp = 0
+var shot_child_idx = 0
 var damage_effect = Timer.new()
 
 var hpnode
@@ -13,6 +14,7 @@ onready var body = get_node("Body")
 onready var anim = get_node("AnimationPlayer")
 
 signal position_changed(id, position)
+signal projectile_created(type, target, lifetime, initial_position)
 
 func _ready():
 	var outline_node = body.get_node('Outline')
@@ -63,7 +65,24 @@ func update_changes(unit):
 	update_hp(unit)
 	if unit.AttackStarted:
 		anim.play(unit.State)
-		get_node("Body/Shotpoint").projectile_create(u_name, target)
+		var data = global.UNITS[u_name]
+		if data.has("projectile"):
+			match u_name:
+				"archer":
+					shot_child_idx += 1
+					if shot_child_idx >= get_node("Body/Shotpoint").get_child_count():
+						shot_child_idx = 0
+					emit_signal("projectile_created",
+							data.projectile,
+							target,
+							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
+							get_node("Body/Shotpoint").get_child(shot_child_idx).global_position)
+				_:
+					emit_signal("projectile_created",
+							data.projectile,
+							target,
+							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
+							get_node("Body/Shotpoint").global_position)
 
 #	if unit.TransformStarted:
 #		if unit.Form == "winged":
