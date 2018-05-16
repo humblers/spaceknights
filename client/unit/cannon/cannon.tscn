@@ -1,14 +1,17 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/turret-base.png" type="Texture" id=2]
 [ext_resource path="res://unit/cannon/head.png" type="Texture" id=3]
 [ext_resource path="res://unit/transparent.png" type="Texture" id=4]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=9]
+[ext_resource path="res://effect/bullet_shell.png" type="Texture" id=5]
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=6]
+[ext_resource path="res://effect/speare.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=11]
+
 
 [sub_resource type="Gradient" id=1]
 
@@ -60,6 +63,70 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
+[sub_resource type="Gradient" id=12]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.472656, 0.40228, 0.252945, 1, 0, 0, 0, 0.11051 )
+
+[sub_resource type="GradientTexture" id=13]
+
+flags = 4
+gradient = SubResource( 12 )
+width = 2048
+
+[sub_resource type="Curve" id=14]
+
+min_value = -200.0
+max_value = 200.0
+bake_resolution = 100
+_data = [ Vector2( 0.122331, 199.785 ), 0.0, 10445.0, 0, 0, Vector2( 0.252838, -200 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=15]
+
+flags = 4
+width = 2048
+curve = SubResource( 14 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 80, 20, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 100.0
+linear_accel_random = 0.0
+linear_accel_curve = SubResource( 15 )
+radial_accel = 30.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 30.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 13 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color" ]
+
 [sub_resource type="Gradient" id=4]
 
 offsets = PoolRealArray( 0, 1 )
@@ -76,7 +143,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.00348929, 0.200646 ), 0.0, 1.13659, 0, 0, Vector2( 1, 0.496112 ), -1.84297, 0.0, 0, 0 ]
+_data = [ Vector2( 0.00348929, 0.200646 ), 0.0, 1.13659, 0, 0, Vector2( 1, 0.597542 ), -1.84297, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=7]
 
@@ -94,7 +161,7 @@ flag_rotate_y = false
 flag_disable_z = true
 spread = 0.0
 flatness = 0.0
-gravity = Vector3( 0, -900, 0 )
+gravity = Vector3( 0, -120, 0 )
 initial_velocity = 0.0
 initial_velocity_random = 0.0
 angular_velocity = 180.0
@@ -122,48 +189,60 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color" ]
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
 
 [sub_resource type="Animation" id=9]
 
 length = 0.8
-loop = true
+loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Turret:position")
+tracks/0/path = NodePath("Body/Turret/Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Effect/Muzzleflash:emitting")
+tracks/1/path = NodePath("Body/Turret/Effect/Muzzleflash:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, false ]
+"values": [ false, true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Effect/Muzzleflash:one_shot")
+tracks/2/path = NodePath("Body/Turret/Effect/Light2D:enabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0.1, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Turret/Effect/Shell:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -192,19 +271,18 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Turret" type="Node2D" parent="Body" index="0"]
 
-editor/display_folded = true
-position = Vector2( 0, 0.0660586 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Head" type="Sprite" parent="Body/Turret" index="0"]
 
-position = Vector2( 0, -13 )
+editor/display_folded = true
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Offset", "Transform" ]
+offset = Vector2( 0, -10 )
+_sections_unfolded = [ "Offset", "Region", "Transform" ]
 
-[node name="Flashing" type="Particles2D" parent="Body/Turret" index="1"]
+[node name="Flashing" type="Particles2D" parent="Body/Turret/Head" index="0"]
 
-position = Vector2( 0, 6.5 )
+position = Vector2( 0, 9.5 )
 scale = Vector2( 6, 2 )
 emitting = true
 amount = 1
@@ -226,16 +304,41 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="1"]
+[node name="Outline" type="Sprite" parent="Body/Turret" index="1"]
 
 texture = ExtResource( 4 )
 
-[node name="Effect" type="Node2D" parent="Body" index="2"]
+[node name="Effect" type="Node2D" parent="Body/Turret" index="2"]
 
-position = Vector2( 0, -63 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Muzzleflash" type="Particles2D" parent="Body/Effect" index="0"]
+[node name="Shell" type="Particles2D" parent="Body/Turret/Effect" index="0"]
 
+position = Vector2( 20.5, 4 )
+scale = Vector2( 0.5, 0.5 )
+emitting = false
+amount = 1
+lifetime = 2.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 4.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 16 )
+texture = ExtResource( 5 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="Muzzleflash" type="Particles2D" parent="Body/Turret/Effect" index="1"]
+
+position = Vector2( 0, -80 )
 scale = Vector2( 1, 1.5 )
 emitting = false
 amount = 8
@@ -251,13 +354,39 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="3"]
+[node name="Light2D" type="Light2D" parent="Body/Turret/Effect" index="2"]
+
+position = Vector2( 0, -50 )
+enabled = false
+editor_only = false
+texture = ExtResource( 7 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 0.825684, 1, 0.203125, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Shotpoint" type="Position2D" parent="Body" index="1"]
 
 position = Vector2( 0, -52 )
 _sections_unfolded = [ "Transform" ]
@@ -292,8 +421,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -323,8 +452,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
