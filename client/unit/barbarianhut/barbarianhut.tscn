@@ -1,14 +1,15 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/barbarianhut/base.png" type="Texture" id=2]
 [ext_resource path="res://unit/barbarianhut/door2.png" type="Texture" id=3]
 [ext_resource path="res://unit/barbarianhut/door1.png" type="Texture" id=4]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=9]
+[ext_resource path="res://effect/speare.png" type="Texture" id=5]
+[ext_resource path="res://unit/transparent.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=10]
 
 [sub_resource type="Gradient" id=1]
 
@@ -113,6 +114,30 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( 0, -15 ), Vector2( 0, -15 ), Vector2( -24, -15 ), Vector2( -24, -15 ), Vector2( 0, -15 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Light2D:enabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/Light2D2:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [sub_resource type="Animation" id=5]
 
@@ -191,18 +216,21 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="DoorLargeR" type="Sprite" parent="Body" index="1"]
 
+editor/display_folded = true
+light_mask = 2
 z_index = 1
 texture = ExtResource( 3 )
 offset = Vector2( 33.5, 0 )
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="DoorSmallR" type="Sprite" parent="Body/DoorLargeR" index="0"]
 
+light_mask = 2
 position = Vector2( 0, -15 )
 z_index = -1
 texture = ExtResource( 4 )
 offset = Vector2( 14, 0 )
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="FlashingR" type="Particles2D" parent="Body/DoorLargeR" index="1"]
 
@@ -254,20 +282,23 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="DoorLargeL" type="Sprite" parent="Body" index="2"]
 
+editor/display_folded = true
+light_mask = 2
 z_index = 1
 texture = ExtResource( 3 )
 offset = Vector2( -33.5, 0 )
 flip_h = true
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="DoorSmallL" type="Sprite" parent="Body/DoorLargeL" index="0"]
 
+light_mask = 2
 position = Vector2( 0, -15 )
 z_index = -1
 texture = ExtResource( 4 )
 offset = Vector2( -14, 0 )
 flip_h = true
-_sections_unfolded = [ "Offset", "Transform", "Z Index" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="FlashingL" type="Particles2D" parent="Body/DoorLargeL" index="1"]
 
@@ -317,11 +348,63 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="3"]
+[node name="Light2D" type="Light2D" parent="Body" index="3"]
 
+position = Vector2( -40, 0 )
+enabled = false
+editor_only = false
 texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 0.376471, 0.576471, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="4"]
+[node name="Light2D2" type="Light2D" parent="Body" index="4"]
+
+position = Vector2( 40, 0 )
+enabled = false
+editor_only = false
+texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 0.376471, 0.576471, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Outline" type="Sprite" parent="Body" index="5"]
+
+texture = ExtResource( 6 )
+
+[node name="Shotpoint" type="Position2D" parent="Body" index="6"]
 
 position = Vector2( 0, 10 )
 
@@ -352,8 +435,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -383,8 +466,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
