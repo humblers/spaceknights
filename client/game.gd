@@ -5,7 +5,8 @@ const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
 	self.offset.x = get_camera_x_offset()
-	get_node("Units").texture = get_node("Units/Viewport").get_texture()
+	get_node("blue").texture = get_node("blue/Units").get_texture()
+	get_node("red").texture = get_node("red/Units").get_texture()
 	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
 
@@ -23,19 +24,20 @@ func update_changes(game):
 	update_ui(game)
 
 func delete_dead_units(units):
-	for node in get_node("Units/Viewport").get_children():
+	var nodes = get_node("blue/Units").get_children() + get_node("red/Units").get_children()
+	for node in nodes:
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not units.has(node.get_name()):
 			var effect = resource.effect.explosion.unit.instance()
 			effect.initialize(global.dict_get(global.UNITS[node.u_name], "size", "small"), node.position)
 			add_child(effect)
-			node.queue_free()
+			node.delete()
 
 func create_new_units(units):
 	for id in units:
 		var unit = units[id]
-		if not get_node("Units/Viewport").has_node(id):
+		if not get_unit_node(id):
 			create_unit_node(unit)
 
 func update_units(units):
@@ -50,9 +52,11 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	var name = unit.Name
 	var node = resource.unit[name].instance()
 	node.initialize(unit)
+	node.effect_over = $EffectOver
+	node.effect_under = $EffectUnder
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
-	get_node("Units/Viewport").add_child(node)
+	get_node("%s/Units" % node.color).add_child(node)
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
@@ -122,8 +126,10 @@ func create_projectile(type, target, lifetime, initial_position):
 	projectiles.add_child(proj_node)
 
 func get_unit_node(id):
-	if get_node("Units/Viewport").has_node(id):
-		return get_node("Units/Viewport").get_node(id)
+	if get_node("blue/Units").has_node(id):
+		return get_node("blue/Units/%s" % id)
+	if get_node("red/Units").has_node(id):
+		return get_node("red/Units/%s" % id)
 	return null
 
 func play_runway_light(team, pos_x):

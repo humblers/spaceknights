@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg_tanatos.png" type="Texture" id=2]
@@ -19,12 +19,9 @@
 [ext_resource path="res://ui/card.tscn" type="PackedScene" id=17]
 [ext_resource path="res://ui/result/result.tscn" type="PackedScene" id=18]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=10]
 
 code = "shader_type canvas_item;
-
-uniform bool damaged = false;
-uniform bool frozen = false;
 
 uniform float outline_width=2.0;
 uniform vec4 outline_color: hint_color;
@@ -49,31 +46,66 @@ void fragment(){
 	mina=min(a,mina);
 	
 	COLOR=mix(col, outline_color, maxa-mina);
-
-	if (frozen) {
-	    if (sin(TIME * 10.0) > 0.0) {
-	        COLOR = COLOR * 3.0;
-	    } else {
-	        COLOR = COLOR * 2.7;
-	    }
-	}
-
-	if (damaged) {
-	    COLOR.r = texture(TEXTURE, UV).r + 0.3;
-	}
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=11]
 
 render_priority = 0
-shader = SubResource( 1 )
-shader_param/damaged = false
-shader_param/frozen = false
+shader = SubResource( 10 )
 shader_param/outline_width = 1.0
-shader_param/outline_color = Color( 0.875, 0.199417, 0.0888672, 1 )
+shader_param/outline_color = Color( 0, 0, 1, 1 )
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="ViewportTexture" id=12]
+
+resource_local_to_scene = true
+flags = 0
+viewport_path = NodePath("blue/Units")
+
+[sub_resource type="Shader" id=4]
+
+code = "shader_type canvas_item;
+
+uniform float outline_width=2.0;
+uniform vec4 outline_color: hint_color;
+
+void fragment(){
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa=col.a;
+	float mina=col.a;
+	a=texture(TEXTURE, UV+vec2(0,-outline_width)*ps).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=texture(TEXTURE, UV+vec2(0,outline_width)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=texture(TEXTURE, UV+vec2(-outline_width,0)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	a=texture(TEXTURE, UV+vec2(outline_width,0)*ps, 0.0).a;
+	maxa=max(a,maxa);
+	mina=min(a,mina);
+	
+	COLOR=mix(col, outline_color, maxa-mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+
+render_priority = 0
+shader = SubResource( 4 )
+shader_param/outline_width = 1.0
+shader_param/outline_color = Color( 1, 0, 0, 1 )
+_sections_unfolded = [ "shader_param" ]
+
+[sub_resource type="ViewportTexture" id=6]
+
+resource_local_to_scene = true
+flags = 0
+viewport_path = NodePath("red/Units")
+
+[sub_resource type="DynamicFont" id=7]
 
 size = 16
 use_mipmaps = false
@@ -81,7 +113,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Resource", "Settings" ]
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=8]
 
 size = 48
 use_mipmaps = false
@@ -89,7 +121,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=9]
 
 size = 16
 use_mipmaps = false
@@ -97,7 +129,7 @@ use_filter = true
 font_data = ExtResource( 10 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="game" type="Camera2D"]
+[node name="game" type="Camera2D" index="0"]
 
 anchor_mode = 0
 rotating = false
@@ -126,6 +158,7 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Background" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="bg-tanatos" type="Sprite" parent="Background" index="0"]
@@ -172,14 +205,18 @@ position = Vector2( 540, 110 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Units" type="Sprite" parent="." index="1"]
+[node name="EffectUnder" type="Node2D" parent="." index="1"]
 
-material = SubResource( 2 )
-use_parent_material = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="Sprite" parent="." index="2"]
+
+material = SubResource( 11 )
 position = Vector2( 540, 912 )
+texture = SubResource( 12 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
-[node name="Viewport" type="Viewport" parent="Units" index="0"]
+[node name="Units" type="Viewport" parent="blue" index="0"]
 
 arvr = false
 size = Vector2( 960, 1632 )
@@ -189,7 +226,7 @@ transparent_bg = true
 msaa = 0
 hdr = true
 disable_3d = true
-usage = 0
+usage = 1
 debug_draw = 0
 render_target_v_flip = true
 render_target_clear_mode = 0
@@ -204,20 +241,58 @@ shadow_atlas_quad_0 = 2
 shadow_atlas_quad_1 = 2
 shadow_atlas_quad_2 = 3
 shadow_atlas_quad_3 = 4
-_sections_unfolded = [ "Render Target", "Rendering", "Transform" ]
+_sections_unfolded = [ "Render Target", "Rendering" ]
 
-[node name="Spells" type="Node2D" parent="." index="2"]
+[node name="red" type="Sprite" parent="." index="3"]
+
+material = SubResource( 5 )
+position = Vector2( 540, 912 )
+texture = SubResource( 6 )
+_sections_unfolded = [ "Material", "Transform", "Z Index" ]
+
+[node name="Units" type="Viewport" parent="red" index="0"]
+
+arvr = false
+size = Vector2( 960, 1632 )
+own_world = false
+world = null
+transparent_bg = true
+msaa = 0
+hdr = true
+disable_3d = true
+usage = 1
+debug_draw = 0
+render_target_v_flip = true
+render_target_clear_mode = 0
+render_target_update_mode = 2
+audio_listener_enable_2d = false
+audio_listener_enable_3d = false
+physics_object_picking = false
+gui_disable_input = false
+gui_snap_controls_to_pixels = true
+shadow_atlas_size = 0
+shadow_atlas_quad_0 = 2
+shadow_atlas_quad_1 = 2
+shadow_atlas_quad_2 = 3
+shadow_atlas_quad_3 = 4
+_sections_unfolded = [ "Render Target", "Rendering" ]
+
+[node name="EffectOver" type="Node2D" parent="." index="4"]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="Spells" type="Node2D" parent="." index="5"]
 
 position = Vector2( 60, 96 )
 scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Projectiles" type="Node2D" parent="." index="3"]
+[node name="Projectiles" type="Node2D" parent="." index="6"]
 
 position = Vector2( 60, 96 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="UI" type="CanvasLayer" parent="." index="4"]
+[node name="UI" type="CanvasLayer" parent="." index="7"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -244,7 +319,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "PING   - 0.054 / ms
 FPS     42"
@@ -271,7 +346,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 8 )
 text = "2:41"
 align = 1
 valign = 1
@@ -297,7 +372,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "LIMIT"
 align = 1

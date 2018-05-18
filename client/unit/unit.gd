@@ -13,20 +13,21 @@ var hp = 0
 var shot_child_idx = 0
 var damage_effect = Timer.new()
 
+var effect_over
+var effect_under
+
 var hpnode
 onready var body = get_node("Body")
 onready var anim = get_node("AnimationPlayer")
 
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
+signal queued_free
 
 func _ready():
-	var outline_node = body.get_node('Outline')
-	if outline_node != null:
-		var outline_color = Color(0, 0, 1) if color == "blue" else Color(1, 0, 0)
-		outline_node.set_material(resource.unit_outline.duplicate())
-		outline_node.get_material().set_shader_param("outline_color", outline_color)
 	body.set_material(resource.unit_material.duplicate())
+	clone_effect_nodes("EffectOver", effect_over)
+	clone_effect_nodes("EffectUnder", effect_under)
 
 func _process(delta):
 	play_launch_effect(delta)
@@ -154,6 +155,45 @@ func show_damage_effect():
 func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
 
+func clone_effect_nodes(org_node_name, dst):
+	if effect_over == null:
+		return
+	var root = find_node(org_node_name)
+	if root == null:
+		return
+	var paths = []
+	for pos_node in root.get_children():
+		for effect_node in pos_node.get_children():
+			var dup_node = effect_node.duplicate()
+			dup_node.set_script(resource.effect_script.duplicate())
+			dup_node.set_pos_node(pos_node)
+			connect("queued_free", dup_node, "delete")
+			dst.add_child(dup_node)
+			paths.append( { 
+					"org_path" : get_path_to(effect_node),
+					"dst_path" : dup_node.get_path(),
+			} )
+			effect_node.queue_free()
+	clone_animations_for_effect(paths)
+
+func clone_animations_for_effect(effect_paths):
+	if effect_paths.size() <= 0:
+		return
+	var player = AnimationPlayer.new()
+	for anim_name in anim.get_animation_list():
+		var animation = anim.get_animation(anim_name).duplicate()
+		for index in range(animation.get_track_count()):
+			var track_path = String(animation.track_get_path(index))
+			for path in effect_paths:
+				var replaced = track_path.replace(path.org_path, path.dst_path)
+				if replaced != track_path:
+					animation.track_set_path(index, replaced)
+					break
+		player.add_animation(anim_name, animation)
+	anim.queue_free()
+	add_child(player)
+	anim = player
+
 func set_launch_effect(unit):
 	pass
 
@@ -175,8 +215,9 @@ func transform_to_ui_node(pos=Vector2(0, 0), color=Color(1, 1, 1, 1)):
 	self.z_index = 0
 	body.modulate = color
 
-func release_lock_on_anim(node):
-	node.queue_free()
+func delete():
+	emit_signal("queued_free")
+	self.queue_free()
 
 func _draw():
 	var unit = global.UNITS[u_name]
