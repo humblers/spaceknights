@@ -1,15 +1,14 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/archer/idle.png" type="Texture" id=2]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=3]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=4]
-[ext_resource path="res://effect/speare.png" type="Texture" id=5]
-[ext_resource path="res://effect/circle.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=10]
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=3]
+[ext_resource path="res://effect/speare.png" type="Texture" id=4]
+[ext_resource path="res://effect/circle.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=9]
 
 [sub_resource type="Gradient" id=1]
 
@@ -270,7 +269,7 @@ length = 0.01
 loop = true
 step = 0.1
 
-[node name="archer" type="Node2D"]
+[node name="archer" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -284,11 +283,7 @@ _sections_unfolded = [ "Material", "Offset" ]
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="1"]
-
-texture = ExtResource( 3 )
-
-[node name="Effect" type="Node2D" parent="Body" index="2"]
+[node name="Effect" type="Node2D" parent="Body" index="1"]
 
 [node name="Muzzleflash" type="Particles2D" parent="Body/Effect" index="0"]
 
@@ -309,7 +304,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -320,7 +315,7 @@ _sections_unfolded = [ "Process Material", "Time", "Visibility" ]
 position = Vector2( 0, -55 )
 enabled = false
 editor_only = false
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 1, 1, 1 )
@@ -391,7 +386,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="EffectUnder" type="Node2D" parent="Body" index="3"]
+[node name="EffectUnder" type="Node2D" parent="Body" index="2"]
 
 [node name="BoosterL" type="Position2D" parent="Body/EffectUnder" index="0"]
 
@@ -416,7 +411,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -446,7 +441,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -475,7 +470,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -505,13 +500,13 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Shotpoint" type="Node2D" parent="Body" index="4"]
+[node name="Shotpoint" type="Node2D" parent="Body" index="3"]
 
 position = Vector2( 0, -52 )
 _sections_unfolded = [ "Transform" ]
@@ -552,8 +547,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -584,8 +579,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
