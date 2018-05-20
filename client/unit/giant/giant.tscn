@@ -1,15 +1,14 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/giant/drill_1.png" type="Texture" id=2]
 [ext_resource path="res://unit/giant/drill_2.png" type="Texture" id=3]
 [ext_resource path="res://unit/giant/body.png" type="Texture" id=4]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://effect/circle.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=10]
+[ext_resource path="res://effect/circle.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -149,7 +148,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity" ]
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=12]
 
 length = 0.01
 loop = true
@@ -179,7 +178,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=13]
 
 length = 0.01
 loop = false
@@ -209,7 +208,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 
 length = 0.01
 loop = false
@@ -239,14 +238,14 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=15]
 
 resource_name = "spark"
 length = 0.3
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Effect1/spark:emitting")
+tracks/0/path = NodePath("Body/EffectOver/DrillingL/spark:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -258,7 +257,7 @@ tracks/0/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Effect1/glow:emitting")
+tracks/1/path = NodePath("Body/EffectOver/DrillingL/glow:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -270,7 +269,7 @@ tracks/1/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Effect2/spark:emitting")
+tracks/2/path = NodePath("Body/EffectOver/DrillingR/spark:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -282,7 +281,7 @@ tracks/2/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Effect2/glow:emitting")
+tracks/3/path = NodePath("Body/EffectOver/DrillingR/glow:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -294,7 +293,7 @@ tracks/3/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Effect1/spark:scale")
+tracks/4/path = NodePath("Body/EffectOver/DrillingL/spark:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -306,7 +305,7 @@ tracks/4/keys = {
 "values": [ Vector2( 1.4, 1.4 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Effect2/spark:scale")
+tracks/5/path = NodePath("Body/EffectOver/DrillingR/spark:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -329,8 +328,6 @@ script = ExtResource( 1 )
 position = Vector2( -26, -52 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
-playing = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="DrillR" type="AnimatedSprite" parent="Body" index="1"]
@@ -338,7 +335,7 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 26, -52 )
 frames = SubResource( 1 )
 animation = "default"
-playing = true
+frame = 1
 flip_h = true
 _sections_unfolded = [ "Transform" ]
 
@@ -348,18 +345,18 @@ scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="3"]
+[node name="EffectOver" type="Node2D" parent="Body" index="3"]
 
-texture = ExtResource( 5 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Effect1" type="Node2D" parent="Body" index="4"]
+[node name="DrillingL" type="Position2D" parent="Body/EffectOver" index="0"]
 
-editor/display_folded = true
 position = Vector2( -26, -76 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="spark" type="Particles2D" parent="Body/Effect1" index="0"]
+[node name="spark" type="Particles2D" parent="Body/EffectOver/DrillingL" index="0"]
 
+position = Vector2( 26, 76 )
 scale = Vector2( 1.4, 1.4 )
 emitting = false
 amount = 60
@@ -381,8 +378,9 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="glow" type="Particles2D" parent="Body/Effect1" index="1"]
+[node name="glow" type="Particles2D" parent="Body/EffectOver/DrillingL" index="1"]
 
+position = Vector2( 26, 76 )
 emitting = false
 amount = 5
 lifetime = 0.8
@@ -397,19 +395,18 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material" ]
+_sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Effect2" type="Node2D" parent="Body" index="5"]
+[node name="DrillingR" type="Position2D" parent="Body/EffectOver" index="1"]
 
-editor/display_folded = true
 position = Vector2( 26, -76 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="spark" type="Particles2D" parent="Body/Effect2" index="0"]
+[node name="spark" type="Particles2D" parent="Body/EffectOver/DrillingR" index="0"]
 
 scale = Vector2( 1.4, 1.4 )
 emitting = false
@@ -432,7 +429,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="glow" type="Particles2D" parent="Body/Effect2" index="1"]
+[node name="glow" type="Particles2D" parent="Body/EffectOver/DrillingR" index="1"]
 
 emitting = false
 amount = 5
@@ -448,30 +445,20 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="BoosterL" type="Position2D" parent="Body" index="6"]
+[node name="BoosterL" type="Position2D" parent="Body/EffectOver" index="2"]
 
 position = Vector2( -25, 43 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterR" type="Position2D" parent="Body" index="7"]
+[node name="BoosterR" type="Position2D" parent="Body/EffectOver" index="3"]
 
 position = Vector2( 25, 43 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="SparkL" type="Position2D" parent="Body" index="8"]
-
-position = Vector2( -26, -73 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="SparkR" type="Position2D" parent="Body" index="9"]
-
-position = Vector2( 26, -73 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Hp" type="Position2D" parent="." index="1"]
@@ -504,8 +491,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -535,8 +522,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -548,10 +535,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 14 )
-anims/idle = SubResource( 15 )
-anims/move = SubResource( 16 )
-anims/spark = SubResource( 17 )
+anims/attack = SubResource( 12 )
+anims/idle = SubResource( 13 )
+anims/move = SubResource( 14 )
+anims/spark = SubResource( 15 )
 blend_times = [  ]
 
 

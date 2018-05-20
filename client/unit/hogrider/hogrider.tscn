@@ -1,16 +1,15 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/hogrider/guide.png" type="Texture" id=2]
 [ext_resource path="res://unit/hogrider/drill_2.png" type="Texture" id=3]
 [ext_resource path="res://unit/hogrider/drill_1.png" type="Texture" id=4]
 [ext_resource path="res://unit/hogrider/body.png" type="Texture" id=5]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=6]
-[ext_resource path="res://effect/circle.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=10]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=11]
+[ext_resource path="res://effect/circle.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -499,7 +498,7 @@ length = 0.3
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Effect/spark:emitting")
+tracks/0/path = NodePath("Body/EffectOver/Drilling/Spark:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -511,7 +510,7 @@ tracks/0/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Effect/glow:emitting")
+tracks/1/path = NodePath("Body/EffectOver/Drilling/Glow:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -534,14 +533,14 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="GuideL" type="Sprite" parent="Body" index="0"]
 
-position = Vector2( -28.8558, -5 )
+position = Vector2( -30, -5 )
 texture = ExtResource( 2 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="GuideR" type="Sprite" parent="Body" index="1"]
 
-position = Vector2( 28.8558, -5 )
+position = Vector2( 30, -5 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
@@ -558,16 +557,18 @@ _sections_unfolded = [ "Transform" ]
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="4"]
+[node name="EffectOver" type="Node2D" parent="Body" index="4"]
 
-texture = ExtResource( 6 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="Effect" type="Node2D" parent="Body" index="5"]
+[node name="Drilling" type="Position2D" parent="Body/EffectOver" index="0"]
 
 position = Vector2( 0, -60 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="spark" type="Particles2D" parent="Body/Effect" index="0"]
+[node name="Spark" type="Particles2D" parent="Body/EffectOver/Drilling" index="0"]
 
+position = Vector2( 0, 60 )
 emitting = false
 amount = 60
 lifetime = 1.0
@@ -588,8 +589,9 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="glow" type="Particles2D" parent="Body/Effect" index="1"]
+[node name="Glow" type="Particles2D" parent="Body/EffectOver/Drilling" index="1"]
 
+position = Vector2( 0, 60 )
 emitting = false
 amount = 5
 lifetime = 0.8
@@ -604,20 +606,15 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="Booster" type="Position2D" parent="Body" index="6"]
+[node name="Booster" type="Position2D" parent="Body/EffectOver" index="1"]
 
 position = Vector2( 0, 18 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Spark" type="Position2D" parent="Body" index="7"]
-
-position = Vector2( 0, -60 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Hp" type="Position2D" parent="." index="1"]
@@ -650,8 +647,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -681,8 +678,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 10 )
-texture_progress = ExtResource( 11 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false

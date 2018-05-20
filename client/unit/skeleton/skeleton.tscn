@@ -1,17 +1,15 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/skeleton/drill_1.png" type="Texture" id=2]
 [ext_resource path="res://unit/skeleton/drill_2.png" type="Texture" id=3]
 [ext_resource path="res://unit/skeleton/body.png" type="Texture" id=4]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://effect/circle.png" type="Texture" id=6]
-[ext_resource path="res://effect/speare.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=10]
-[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=11]
-
+[ext_resource path="res://effect/circle.png" type="Texture" id=5]
+[ext_resource path="res://effect/speare.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_S_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_S_inside.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -151,31 +149,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity" ]
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=12]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.875, 1, 0.99707, 1, 0.148438, 0.620789, 1, 0 )
 
-[sub_resource type="GradientTexture" id=16]
+[sub_resource type="GradientTexture" id=13]
 
 flags = 4
-gradient = SubResource( 15 )
+gradient = SubResource( 12 )
 width = 2048
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=14]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.285156 ), -3.9737, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=18]
+[sub_resource type="CurveTexture" id=15]
 
 flags = 4
 width = 2048
-curve = SubResource( 17 )
+curve = SubResource( 14 )
 
-[sub_resource type="ParticlesMaterial" id=19]
+[sub_resource type="ParticlesMaterial" id=16]
 
 render_priority = 0
 trail_divisor = 90
@@ -204,8 +202,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 18 )
-color_ramp = SubResource( 16 )
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 13 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -215,7 +213,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Trail" ]
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=17]
 
 length = 0.01
 loop = false
@@ -233,7 +231,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Sparkpoint/Spark:emitting")
+tracks/1/path = NodePath("Body/EffectOver/Sparkpoint/Spark:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -245,7 +243,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Sparkpoint/Light2D:enabled")
+tracks/2/path = NodePath("Body/EffectOver/Sparkpoint/Light2D:enabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -257,7 +255,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Sparkpoint/Glow:emitting")
+tracks/3/path = NodePath("Body/EffectOver/Sparkpoint/Glow:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -269,7 +267,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Boosterpoint/Booster:emitting")
+tracks/4/path = NodePath("Body/EffectOver/Boosterpoint/Booster:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -281,7 +279,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=18]
 
 length = 0.01
 loop = false
@@ -299,7 +297,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Sparkpoint/Spark:emitting")
+tracks/1/path = NodePath("Body/EffectOver/Sparkpoint/Spark:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -311,7 +309,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Sparkpoint/Glow:emitting")
+tracks/2/path = NodePath("Body/EffectOver/Sparkpoint/Glow:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -323,7 +321,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Sparkpoint/Light2D:enabled")
+tracks/3/path = NodePath("Body/EffectOver/Sparkpoint/Light2D:enabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -335,7 +333,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Boosterpoint/Booster:emitting")
+tracks/4/path = NodePath("Body/EffectOver/Boosterpoint/Booster:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -347,7 +345,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=19]
 
 length = 0.01
 loop = false
@@ -365,7 +363,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Sparkpoint/Spark:emitting")
+tracks/1/path = NodePath("Body/EffectOver/Sparkpoint/Spark:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -377,7 +375,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Sparkpoint/Glow:emitting")
+tracks/2/path = NodePath("Body/EffectOver/Sparkpoint/Glow:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -389,7 +387,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Sparkpoint/Light2D:enabled")
+tracks/3/path = NodePath("Body/EffectOver/Sparkpoint/Light2D:enabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -422,21 +420,16 @@ _sections_unfolded = [ "Transform" ]
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="2"]
+[node name="EffectOver" type="Node2D" parent="Body" index="2"]
 
-texture = ExtResource( 5 )
-
-[node name="Effect" type="Node2D" parent="Body" index="3"]
-
-position = Vector2( 0, -38 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Sparkpoint" type="Position2D" parent="Body" index="4"]
+[node name="Sparkpoint" type="Position2D" parent="Body/EffectOver" index="0"]
 
 position = Vector2( 0, -37 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Spark" type="Particles2D" parent="Body/Sparkpoint" index="0"]
+[node name="Spark" type="Particles2D" parent="Body/EffectOver/Sparkpoint" index="0"]
 
 position = Vector2( 0, -1 )
 emitting = true
@@ -459,7 +452,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Glow" type="Particles2D" parent="Body/Sparkpoint" index="1"]
+[node name="Glow" type="Particles2D" parent="Body/EffectOver/Sparkpoint" index="1"]
 
 position = Vector2( 0, -1 )
 emitting = true
@@ -476,18 +469,18 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 11 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Sparkpoint" index="2"]
+[node name="Light2D" type="Light2D" parent="Body/EffectOver/Sparkpoint" index="2"]
 
 position = Vector2( 0, -1 )
 enabled = true
 editor_only = false
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 1, 1, 1, 1 )
@@ -507,14 +500,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Boosterpoint" type="Position2D" parent="Body" index="5"]
+[node name="Boosterpoint" type="Position2D" parent="Body/EffectOver" index="1"]
 
-position = Vector2( 0, 13.5 )
+position = Vector2( 0, 18 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Particles2D" parent="Body/Boosterpoint" index="0"]
+[node name="Booster" type="Particles2D" parent="Body/EffectOver/Boosterpoint" index="0"]
 
-position = Vector2( 0, 5 )
 scale = Vector2( 0.3, 0.5 )
 emitting = false
 amount = 16
@@ -529,8 +521,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 19 )
-texture = ExtResource( 6 )
+process_material = SubResource( 16 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -567,8 +559,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -598,8 +590,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 10 )
-texture_progress = ExtResource( 11 )
+texture_over = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -611,9 +603,9 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 12 )
-anims/idle = SubResource( 13 )
-anims/move = SubResource( 14 )
+anims/attack = SubResource( 17 )
+anims/idle = SubResource( 18 )
+anims/move = SubResource( 19 )
 blend_times = [  ]
 
 

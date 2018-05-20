@@ -1,14 +1,13 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/tombstone/body.png" type="Texture" id=2]
 [ext_resource path="res://unit/tombstone/elevator.png" type="Texture" id=3]
 [ext_resource path="res://unit/tombstone/gate.png" type="Texture" id=4]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=8]
 
 [sub_resource type="Gradient" id=1]
 
@@ -60,31 +59,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=4]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.796875, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=11]
+[sub_resource type="GradientTexture" id=5]
 
 flags = 4
-gradient = SubResource( 10 )
+gradient = SubResource( 4 )
 width = 2048
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=6]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=13]
+[sub_resource type="CurveTexture" id=7]
 
 flags = 4
 width = 2048
-curve = SubResource( 12 )
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=14]
+[sub_resource type="ParticlesMaterial" id=8]
 
 render_priority = 0
 trail_divisor = 1
@@ -113,8 +112,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 13 )
-color_ramp = SubResource( 11 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -124,7 +123,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Gravity" ]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 
 length = 5.0
 loop = false
@@ -286,7 +285,7 @@ tracks/12/keys = {
 "values": [ true, true, true, true, true, true ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Effect/Spark:emitting")
+tracks/13/path = NodePath("Body/EffectOver/Spark/LeftTop:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -298,7 +297,7 @@ tracks/13/keys = {
 "values": [ false, true, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Effect/Spark3:emitting")
+tracks/14/path = NodePath("Body/EffectOver/Spark/LeftBottom:emitting")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -310,7 +309,7 @@ tracks/14/keys = {
 "values": [ false, true, false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Effect/Spark2:emitting")
+tracks/15/path = NodePath("Body/EffectOver/Spark/RightTop:emitting")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -322,7 +321,7 @@ tracks/15/keys = {
 "values": [ false, true, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Effect/Spark4:emitting")
+tracks/16/path = NodePath("Body/EffectOver/Spark/RightBottom:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -334,19 +333,19 @@ tracks/16/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=10]
 
 length = 0.01
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 
 length = 0.01
 loop = false
 step = 0.1
 
-[node name="tombstone" type="Node2D" index="0"]
+[node name="tombstone" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -430,13 +429,11 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="4"]
+[node name="EffectOver" type="Node2D" parent="Body" index="4"]
 
-texture = ExtResource( 5 )
+[node name="Spark" type="Position2D" parent="Body/EffectOver" index="0"]
 
-[node name="Effect" type="Node2D" parent="Body" index="5"]
-
-[node name="Spark" type="Particles2D" parent="Body/Effect" index="0"]
+[node name="LeftTop" type="Particles2D" parent="Body/EffectOver/Spark" index="0"]
 
 position = Vector2( -15, -36 )
 scale = Vector2( 2, 2 )
@@ -453,14 +450,14 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 14 )
+process_material = SubResource( 8 )
 texture = null
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Spark3" type="Particles2D" parent="Body/Effect" index="1"]
+[node name="LeftBottom" type="Particles2D" parent="Body/EffectOver/Spark" index="1"]
 
 position = Vector2( -15, 36 )
 scale = Vector2( 2, 2 )
@@ -477,14 +474,14 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 14 )
+process_material = SubResource( 8 )
 texture = null
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Spark2" type="Particles2D" parent="Body/Effect" index="2"]
+[node name="RightTop" type="Particles2D" parent="Body/EffectOver/Spark" index="2"]
 
 position = Vector2( 15, -36 )
 scale = Vector2( 2, 2 )
@@ -501,14 +498,14 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 14 )
+process_material = SubResource( 8 )
 texture = null
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Spark4" type="Particles2D" parent="Body/Effect" index="3"]
+[node name="RightBottom" type="Particles2D" parent="Body/EffectOver/Spark" index="3"]
 
 position = Vector2( 15, 36 )
 scale = Vector2( 2, 2 )
@@ -525,14 +522,14 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 14 )
+process_material = SubResource( 8 )
 texture = null
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="6"]
+[node name="Shotpoint" type="Position2D" parent="Body" index="5"]
 
 position = Vector2( 0, 10 )
 
@@ -567,8 +564,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -598,8 +595,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 8 )
-texture_progress = ExtResource( 9 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -611,9 +608,9 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 7 )
-anims/idle = SubResource( 8 )
-anims/move = SubResource( 9 )
+anims/attack = SubResource( 9 )
+anims/idle = SubResource( 10 )
+anims/move = SubResource( 11 )
 blend_times = [  ]
 
 

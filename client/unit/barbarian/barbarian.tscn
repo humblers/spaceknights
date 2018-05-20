@@ -266,7 +266,7 @@ tracks/8/keys = {
 "values": [ Vector2( -4, -12 ), Vector2( -4.0049, -16.0909 ), Vector2( -1.40684, -19.4404 ), Vector2( -4, -12 ), Vector2( -4, -12 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Effect/spark:emitting")
+tracks/9/path = NodePath("Body/EffectOver/Hit/Spark:emitting")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -278,7 +278,7 @@ tracks/9/keys = {
 "values": [ false, false, true, true, false, false ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Effect/glow:emitting")
+tracks/10/path = NodePath("Body/EffectOver/Hit/Glow:emitting")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -397,7 +397,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Arm" type="Sprite" parent="Body/Rotate/ShoulderR" index="0"]
 
-position = Vector2( 4, -10 )
+position = Vector2( 4, -12 )
 z_index = -1
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Z Index" ]
@@ -421,7 +421,7 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Arm" type="Sprite" parent="Body/Rotate/ShoulderL" index="0"]
 
-position = Vector2( -4, -10 )
+position = Vector2( -4, -12 )
 z_index = -1
 texture = ExtResource( 5 )
 flip_h = true
@@ -454,11 +454,13 @@ texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 200, 200 )
 _sections_unfolded = [ "Region" ]
 
-[node name="Effect" type="Node2D" parent="Body" index="2"]
+[node name="EffectOver" type="Node2D" parent="Body" index="2"]
 
 position = Vector2( -0.975342, -50.7185 )
 
-[node name="spark" type="Particles2D" parent="Body/Effect" index="0"]
+[node name="Hit" type="Position2D" parent="Body/EffectOver" index="0"]
+
+[node name="Spark" type="Particles2D" parent="Body/EffectOver/Hit" index="0"]
 
 scale = Vector2( 2, 2 )
 emitting = false
@@ -481,7 +483,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="glow" type="Particles2D" parent="Body/Effect" index="1"]
+[node name="Glow" type="Particles2D" parent="Body/EffectOver/Hit" index="1"]
 
 emitting = false
 amount = 5
@@ -501,14 +503,9 @@ texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="DrillingsparkL" type="Position2D" parent="." index="1"]
-
-position = Vector2( 0, -50 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Hp" type="Position2D" parent="." index="2"]
+[node name="Hp" type="Position2D" parent="." index="1"]
 
 scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
@@ -575,7 +572,7 @@ radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 
 root_node = NodePath("..")
 autoplay = ""

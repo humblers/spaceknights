@@ -7,7 +7,7 @@ const unit_outline = preload("res://unit/outline.tres")
 
 var unit = {
 	"archer": preload("res://unit/archer/archer.tscn"),
-	"barbarian": preload("res://unit/barbarian/main.tscn"),
+	"barbarian": preload("res://unit/barbarian/barbarian.tscn"),
 	"barbarianhut": preload("res://unit/barbarianhut/barbarianhut.tscn"),
 	"bomber": preload("res://unit/bomber/bomber.tscn"),
 	"bombtower": preload("res://unit/bombtower/bombtower.tscn"),

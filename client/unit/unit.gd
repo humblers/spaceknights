@@ -82,12 +82,15 @@ func update_changes(unit):
 							target,
 							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 							get_node("Body/Shotpoint").get_child(shot_child_idx).global_position)
+				"freezer", "shuriken", "space_z":
+					# not prepared
+					pass
 				_:
 					emit_signal("projectile_created",
 							data.projectile,
 							target,
 							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-							get_node("Body/Shotpoint").global_position)
+							find_node("Shotpoint").global_position)
 
 	if unit.TransformStarted:
 		if unit.Form == WINGED:
@@ -155,21 +158,29 @@ func show_damage_effect():
 func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
 
+func find_child_nodes(root, mask, recursive=true, ret = []):
+	for child in root.get_children():
+		if mask in child.name:
+			ret.append(child)
+		if recursive:
+			find_child_nodes(child, mask, recursive, ret)
+	return ret
+
 func clone_effect_nodes(org_node_name, dst):
-	if effect_over == null:
+	if dst == null:
 		return
-	var root = find_node(org_node_name)
-	if root == null:
-		return
+	var effects = []
+	for node in find_child_nodes(self, org_node_name):
+		effects += node.get_children()
 	var paths = []
-	for pos_node in root.get_children():
+	for pos_node in effects:
 		for effect_node in pos_node.get_children():
 			var dup_node = effect_node.duplicate()
 			dup_node.set_script(resource.effect_script.duplicate())
 			dup_node.set_pos_node(pos_node)
 			connect("queued_free", dup_node, "delete")
 			dst.add_child(dup_node)
-			paths.append( { 
+			paths.append( {
 					"org_path" : get_path_to(effect_node),
 					"dst_path" : dup_node.get_path(),
 			} )
@@ -217,7 +228,7 @@ func transform_to_ui_node(pos=Vector2(0, 0), color=Color(1, 1, 1, 1)):
 
 func delete():
 	emit_signal("queued_free")
-	self.queue_free()
+	queue_free()
 
 func _draw():
 	var unit = global.UNITS[u_name]

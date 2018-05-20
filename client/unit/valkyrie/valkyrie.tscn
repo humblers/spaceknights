@@ -1,28 +1,28 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/valkyrie/circle.png" type="Texture" id=2]
 [ext_resource path="res://unit/valkyrie/arm.png" type="Texture" id=3]
 [ext_resource path="res://unit/valkyrie/body.png" type="Texture" id=4]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=5]
-[ext_resource path="res://unit/valkyrie/force_field.tscn" type="PackedScene" id=6]
+[ext_resource path="res://effect/ring.png" type="Texture" id=5]
+[ext_resource path="res://unit/valkyrie/attack.png" type="Texture" id=6]
 [ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=7]
 [ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.180392, 0.694118, 0.858824, 1 )
 
-[sub_resource type="GradientTexture" id=8]
+[sub_resource type="GradientTexture" id=2]
 
 flags = 4
-gradient = SubResource( 7 )
+gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=9]
+[sub_resource type="ParticlesMaterial" id=3]
 
 render_priority = 0
 trail_divisor = 1
@@ -51,7 +51,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -61,9 +61,202 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity", "Initial Velocity" ]
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Gradient" id=8]
 
-resource_name = "attack_loop"
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.769531, 0.854156, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=9]
+
+flags = 4
+gradient = SubResource( 8 )
+width = 2048
+
+[sub_resource type="Curve" id=10]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0.00231461, 1 ), 0.0, -0.97499, 0, 0, Vector2( 1, 1 ), -1.02377, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+
+flags = 4
+width = 2048
+curve = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Scale" ]
+
+[sub_resource type="Gradient" id=13]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.57811, 0.855469, 0.835967, 0.0662745, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=14]
+
+flags = 4
+gradient = SubResource( 13 )
+width = 2048
+
+[sub_resource type="Curve" id=15]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.875977 ), 0.0, -0.890535, 0, 0, Vector2( 1, 0.800781 ), -0.696374, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=16]
+
+flags = 4
+width = 2048
+curve = SubResource( 15 )
+
+[sub_resource type="ParticlesMaterial" id=17]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 30.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 360.0
+angle_random = 0.5
+scale = 1.0
+scale_random = 1.0
+scale_curve = SubResource( 16 )
+color_ramp = SubResource( 14 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Scale" ]
+
+[sub_resource type="Gradient" id=18]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.33698 )
+
+[sub_resource type="GradientTexture" id=19]
+
+flags = 4
+gradient = SubResource( 18 )
+width = 2048
+
+[sub_resource type="Curve" id=20]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0 ), 0.0, 2.11479, 0, 0, Vector2( 0.754498, 0.972656 ), -0.129087, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=21]
+
+flags = 4
+width = 2048
+curve = SubResource( 20 )
+
+[sub_resource type="ParticlesMaterial" id=22]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 21 )
+color_ramp = SubResource( 19 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Gravity", "Initial Velocity", "Scale" ]
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "attack"
 length = 4.0
 loop = false
 step = 0.1
@@ -92,7 +285,7 @@ tracks/1/keys = {
 "values": [ 30.0, 30.0, 30.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Field/orb:emitting")
+tracks/2/path = NodePath("EffectOver/ForceField/orb:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -104,7 +297,7 @@ tracks/2/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Field/spark:emitting")
+tracks/3/path = NodePath("EffectOver/ForceField/spark:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -116,7 +309,7 @@ tracks/3/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Field/radiation:emitting")
+tracks/4/path = NodePath("EffectOver/ForceField/radiation:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -128,9 +321,8 @@ tracks/4/keys = {
 "values": [ false, true, false, false ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 
-resource_name = "attack_pre"
 length = 0.4
 loop = false
 step = 0.1
@@ -339,7 +531,7 @@ tracks/16/keys = {
 "values": [ Vector2( 1.2, 1.2 ), Vector2( 1.2, 1.2 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Field/radiation:emitting")
+tracks/17/path = NodePath("EffectOver/ForceField/radiation:emitting")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -351,13 +543,13 @@ tracks/17/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 
 length = 0.01
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 
 length = 0.4
 loop = false
@@ -407,7 +599,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ArmL" type="Sprite" parent="Body/Rotate" index="0"]
 
 editor/display_folded = true
-rotation = 0.349066
+rotation = -0.523599
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 3 )
 offset = Vector2( -24, -9 )
@@ -431,7 +623,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 9 )
+process_material = SubResource( 3 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -441,7 +633,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 [node name="ArmR" type="Sprite" parent="Body/Rotate" index="1"]
 
 editor/display_folded = true
-rotation = -0.349066
+rotation = 0.523599
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 3 )
 offset = Vector2( 24, -9 )
@@ -464,12 +656,19 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 9 )
+process_material = SubResource( 3 )
 texture = null
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="EffectOver" type="Node2D" parent="Body/Rotate" index="2"]
+
+[node name="Booster" type="Position2D" parent="Body/Rotate/EffectOver" index="0"]
+
+position = Vector2( 0, 22 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Sprite" parent="Body" index="2"]
 
@@ -477,28 +676,75 @@ scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="3"]
+[node name="EffectOver" type="Node2D" parent="." index="1"]
 
+[node name="ForceField" type="Position2D" parent="EffectOver" index="0"]
+
+[node name="orb" type="Particles2D" parent="EffectOver/ForceField" index="0"]
+
+emitting = false
+amount = 1
+lifetime = 5.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 12 )
 texture = ExtResource( 5 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material" ]
 
-[node name="Booster" type="Position2D" parent="Body" index="4"]
-
-position = Vector2( 0, 22 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Field" parent="." index="1" instance=ExtResource( 6 )]
-
-[node name="orb" parent="Field" index="0"]
+[node name="spark" type="Particles2D" parent="EffectOver/ForceField" index="1"]
 
 emitting = false
+amount = 2
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.5
+randomness = 1.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 17 )
+texture = ExtResource( 6 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="spark" parent="Field" index="1"]
+[node name="radiation" type="Particles2D" parent="EffectOver/ForceField" index="2"]
 
 emitting = false
-
-[node name="radiation" parent="Field" index="2"]
-
-emitting = false
+amount = 1
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 22 )
+texture = ExtResource( 5 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material" ]
 
 [node name="Hp" type="Position2D" parent="." index="2"]
 
@@ -574,11 +820,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack_loop = SubResource( 10 )
-anims/attack_pre = SubResource( 4 )
-anims/idle = SubResource( 5 )
-anims/move = SubResource( 6 )
+anims/attack = SubResource( 4 )
+anims/attack_pre = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/move = SubResource( 7 )
 blend_times = [  ]
 
 
-[editable path="Field"]

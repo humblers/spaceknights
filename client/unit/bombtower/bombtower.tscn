@@ -1,16 +1,14 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/turret-base.png" type="Texture" id=2]
 [ext_resource path="res://unit/bombtower/head.png" type="Texture" id=3]
-[ext_resource path="res://unit/transparent.png" type="Texture" id=4]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://effect/speare.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=10]
-
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=4]
+[ext_resource path="res://effect/speare.png" type="Texture" id=5]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=6]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=9]
 
 [sub_resource type="Gradient" id=1]
 
@@ -197,7 +195,7 @@ length = 0.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Effect/FireL:emitting")
+tracks/0/path = NodePath("Body/EffectOver/TurretLT/Fire:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -209,7 +207,7 @@ tracks/0/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Effect/FireR:emitting")
+tracks/1/path = NodePath("Body/EffectOver/TurretRT/Fire:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -221,7 +219,7 @@ tracks/1/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Effect/BackfireL:emitting")
+tracks/2/path = NodePath("Body/EffectOver/TurretLB/Smoke:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -233,7 +231,7 @@ tracks/2/keys = {
 "values": [ false, true, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Effect/BackfireR:emitting")
+tracks/3/path = NodePath("Body/EffectOver/TurretRB/Smoke:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -245,7 +243,7 @@ tracks/3/keys = {
 "values": [ false, true, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Effect/LightL:enabled")
+tracks/4/path = NodePath("Body/EffectOver/TurretLT/Light:enabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -257,7 +255,7 @@ tracks/4/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Effect/LightR:enabled")
+tracks/5/path = NodePath("Body/EffectOver/TurretRT/Light:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -269,7 +267,7 @@ tracks/5/keys = {
 "values": [ false, true, true, false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Effect/LightL2:enabled")
+tracks/6/path = NodePath("Body/EffectOver/TurretLB/Light:enabled")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -281,7 +279,7 @@ tracks/6/keys = {
 "values": [ false, true, false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Effect/LightR2:enabled")
+tracks/7/path = NodePath("Body/EffectOver/TurretRB/Light:enabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -305,7 +303,7 @@ length = 0.01
 loop = false
 step = 0.1
 
-[node name="bombtower" type="Node2D" index="0"]
+[node name="bombtower" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -345,15 +343,16 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Outline" type="Sprite" parent="Body" index="1"]
+[node name="EffectOver" type="Node2D" parent="Body" index="1"]
 
-texture = ExtResource( 4 )
+[node name="TurretLT" type="Position2D" parent="Body/EffectOver" index="0"]
 
-[node name="Effect" type="Node2D" parent="Body" index="2"]
-
-[node name="FireL" type="Particles2D" parent="Body/Effect" index="0"]
-
+editor/display_folded = true
 position = Vector2( -30, -45 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Fire" type="Particles2D" parent="Body/EffectOver/TurretLT" index="0"]
+
 emitting = false
 amount = 8
 lifetime = 1.0
@@ -368,38 +367,46 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
+_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Transform" ]
 
-[node name="FireR" type="Particles2D" parent="Body/Effect" index="1"]
+[node name="Light" type="Light2D" parent="Body/EffectOver/TurretLT" index="1"]
 
-position = Vector2( 30, -45 )
-emitting = false
-amount = 8
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 8 )
+position = Vector2( -2, 13.5 )
+enabled = false
+editor_only = false
 texture = ExtResource( 5 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 1, 1, 1, 1 )
+energy = 0.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
 
-[node name="BackfireL" type="Particles2D" parent="Body/Effect" index="2"]
+[node name="TurretLB" type="Position2D" parent="Body/EffectOver" index="1"]
 
+editor/display_folded = true
 position = Vector2( -30, 35 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Smoke" type="Particles2D" parent="Body/EffectOver/TurretLB" index="0"]
+
 emitting = false
 amount = 12
 lifetime = 1.0
@@ -414,15 +421,100 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 13 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="BackfireR" type="Particles2D" parent="Body/Effect" index="3"]
+[node name="Light" type="Light2D" parent="Body/EffectOver/TurretLB" index="1"]
 
+position = Vector2( 0.5, 3 )
+enabled = false
+editor_only = false
+texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 2.0
+color = Color( 0.992188, 0.519833, 0.0620117, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="TurretRT" type="Position2D" parent="Body/EffectOver" index="2"]
+
+editor/display_folded = true
+position = Vector2( 30, -45 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Fire" type="Particles2D" parent="Body/EffectOver/TurretRT" index="0"]
+
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 8 )
+texture = ExtResource( 4 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Transform" ]
+
+[node name="Light" type="Light2D" parent="Body/EffectOver/TurretRT" index="1"]
+
+position = Vector2( 2, 13.5 )
+enabled = false
+editor_only = false
+texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 1, 1, 1, 1 )
+energy = 0.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="TurretRB" type="Position2D" parent="Body/EffectOver" index="3"]
+
+editor/display_folded = true
 position = Vector2( 30, 35 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Smoke" type="Particles2D" parent="Body/EffectOver/TurretRB" index="0"]
+
 emitting = false
 amount = 12
 lifetime = 1.0
@@ -437,70 +529,18 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 13 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="LightL" type="Light2D" parent="Body/Effect" index="4"]
+[node name="Light" type="Light2D" parent="Body/EffectOver/TurretRB" index="1"]
 
-position = Vector2( -32, -31.5 )
+position = Vector2( -0.5, 3 )
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
-offset = Vector2( 0, 0 )
-texture_scale = 3.0
-color = Color( 1, 1, 1, 1 )
-energy = 0.5
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="LightR" type="Light2D" parent="Body/Effect" index="5"]
-
-position = Vector2( 32, -31.5 )
-enabled = false
-editor_only = false
-texture = ExtResource( 6 )
-offset = Vector2( 0, 0 )
-texture_scale = 3.0
-color = Color( 1, 1, 1, 1 )
-energy = 0.5
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="LightL2" type="Light2D" parent="Body/Effect" index="6"]
-
-position = Vector2( -29.5, 38 )
-enabled = false
-editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.992188, 0.519833, 0.0620117, 1 )
@@ -521,38 +561,14 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="LightR2" type="Light2D" parent="Body/Effect" index="7"]
+[node name="Shotpoint" type="Node2D" parent="Body" index="2"]
 
-position = Vector2( 29.5, 38 )
-enabled = false
-editor_only = false
-texture = ExtResource( 6 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 0.992188, 0.519833, 0.0620117, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="ShotpointL" type="Position2D" parent="Body" index="3"]
+[node name="Left" type="Position2D" parent="Body/Shotpoint" index="0"]
 
 position = Vector2( -29, -26 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointR" type="Position2D" parent="Body" index="4"]
+[node name="Right" type="Position2D" parent="Body/Shotpoint" index="1"]
 
 position = Vector2( 29, -26 )
 _sections_unfolded = [ "Transform" ]
@@ -587,8 +603,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -618,8 +634,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
