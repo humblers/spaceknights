@@ -30,4 +30,4 @@ func _physics_process(delta):
 	var direction = (target_position - position).normalized()
 	var speed = (position.distance_to(target_position) - target_radius) / remaining
 	self.position = position + direction * speed * delta
-	self.rotation = direction.angle() - PI / 2
+	self.rotation = direction.angle() + PI / 2
