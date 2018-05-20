@@ -128,6 +128,7 @@ func AdjustPath(path, radius):
 		for k in portal:
 			var pos = portal[k]
 			match pos:
+				# portal reference 보고 조정하는걸로 수정하자. golang이랑 sync 맞추기 위해
 				LeftHoleTL, RightHoleTL:
 					portal[k] = Vec2.Add(pos, Vec2.Create(radius, -radius))
 				LeftHoleTR, RightHoleTR:

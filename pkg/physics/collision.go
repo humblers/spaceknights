@@ -2,9 +2,9 @@ package physics
 
 import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 
-const (
-	penetrationPercent = fixed.Tenth * 2 // 0.2
-	penetrationSlop    = fixed.Hundredth // 0.01
+var (
+	penetrationPercent = fixed.One.Div(fixed.FromInt(5))   // 0.2
+	penetrationSlop    = fixed.One.Div(fixed.FromInt(100)) // 0.01
 )
 
 type collision struct {
@@ -12,6 +12,13 @@ type collision struct {
 	b           *body
 	normal      fixed.Vec2
 	penetration fixed.Number
+}
+
+func newCollision(a, b *body) *collision {
+	return &collision{
+		a: a,
+		b: b,
+	}
 }
 
 func checkCollision(a, b Body) *collision {
@@ -35,15 +42,12 @@ func checkCollision(a, b Body) *collision {
 }
 
 func boxVSbox(a, b *box) *collision {
-	c := &collision{
-		a: a.body,
-		b: b.body,
-	}
 	relPos := b.pos.Sub(a.pos)
 	overlapX := a.width.Add(b.width).Sub(relPos.X.Abs())
 	if overlapX > 0 {
 		overlapY := a.height.Add(b.height).Sub(relPos.Y.Abs())
 		if overlapY > 0 {
+			c := newCollision(a.body, b.body)
 			if overlapX < overlapY {
 				c.penetration = overlapX
 				if relPos.X < 0 {
@@ -59,36 +63,31 @@ func boxVSbox(a, b *box) *collision {
 					c.normal = fixed.Vec2{0, fixed.One}
 				}
 			}
+			return c
 		}
 	}
-	return c
+	return nil
 }
 
 func circleVScircle(a, b *circle) *collision {
-	c := &collision{
-		a: a.body,
-		b: b.body,
-	}
 	relPos := b.pos.Sub(a.pos)
 	radii := a.radius.Add(b.radius)
 	d := relPos.LengthSquared()
 	if d < radii.Mul(radii) {
 		d := d.Sqrt()
+		c := newCollision(a.body, b.body)
 		c.penetration = radii.Sub(d)
 		if d != 0 {
 			c.normal = relPos.Div(d)
 		} else {
 			c.normal = fixed.Vec2{fixed.One, 0}
 		}
+		return c
 	}
-	return c
+	return nil
 }
 
 func boxVScircle(a *box, b *circle) *collision {
-	c := &collision{
-		a: a.body,
-		b: b.body,
-	}
 	relPos := b.pos.Sub(a.pos)
 	closest := relPos
 	xExtent := a.width
@@ -120,8 +119,9 @@ func boxVScircle(a *box, b *circle) *collision {
 	d := normal.LengthSquared()
 	r := b.radius
 	if d > r.Mul(r) && !inside {
-		return c
+		return nil
 	}
+	c := newCollision(a.body, b.body)
 	d = d.Sqrt()
 	if d == 0 {
 		if xDist == 0 {

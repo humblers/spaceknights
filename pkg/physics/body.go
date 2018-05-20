@@ -2,14 +2,17 @@ package physics
 
 import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 
-const restitution = fixed.Tenth * 5 // 0.5
+var (
+	restitution = fixed.One.Div(fixed.Two)         // 0.5
+	dt          = fixed.One.Div(fixed.FromInt(60)) // 1/60
+)
 
 type Body interface {
 	Id() int
 	//	Velocity() fixed.Vec2
 	//	Position() fixed.Vec2
-	ApplyForce()
-	Move()
+	applyForce()
+	move()
 }
 
 type body struct {
@@ -62,7 +65,7 @@ func newBody(id int, mass fixed.Number, pos fixed.Vec2) *body {
 	}
 }
 
-func (b *body) ApplyForce() {
+func (b *body) applyForce() {
 	if b.mass == 0 {
 		return
 	}
@@ -72,7 +75,7 @@ func (b *body) ApplyForce() {
 	b.force.Y = 0
 }
 
-func (b *body) Move() {
+func (b *body) move() {
 	if b.mass == 0 {
 		return
 	}

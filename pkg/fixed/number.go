@@ -15,12 +15,9 @@ const (
 	max     Number = (1 << (m + n - 1)) - 1
 	min     Number = -(max + 1)
 	epsilon Number = 1
-)
 
-const (
-	One       Number = scale
-	Tenth     Number = One >> 1
-	Hundredth Number = Tenth >> 1
+	One Number = scale
+	Two Number = One << 1
 )
 
 var logger = log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
