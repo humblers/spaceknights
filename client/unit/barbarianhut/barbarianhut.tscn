@@ -198,24 +198,50 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( 0, -15 ), Vector2( 0, -15 ), Vector2( -24, -15 ), Vector2( -24, -15 ), Vector2( 0, -15 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/Light2D:enabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/Light2D2:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [node name="barbarianhut" type="Node2D" index="0"]
 
+light_mask = 0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Body" type="Node2D" parent="." index="0"]
 
-_sections_unfolded = [ "Transform" ]
+light_mask = 0
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Base" type="Sprite" parent="Body" index="0"]
 
+light_mask = 4
 texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Visibility" ]
 
 [node name="DoorLargeR" type="Sprite" parent="Body" index="1"]
 
-light_mask = 2
 z_index = 1
 texture = ExtResource( 3 )
 offset = Vector2( 33.5, 0 )
@@ -223,7 +249,6 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="DoorSmallR" type="Sprite" parent="Body/DoorLargeR" index="0"]
 
-light_mask = 2
 position = Vector2( 0, -15 )
 z_index = -1
 texture = ExtResource( 4 )
@@ -280,7 +305,6 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="DoorLargeL" type="Sprite" parent="Body" index="2"]
 
-light_mask = 2
 z_index = 1
 texture = ExtResource( 3 )
 offset = Vector2( -33.5, 0 )
@@ -289,7 +313,6 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="DoorSmallL" type="Sprite" parent="Body/DoorLargeL" index="0"]
 
-light_mask = 2
 position = Vector2( 0, -15 )
 z_index = -1
 texture = ExtResource( 4 )
@@ -347,6 +370,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Body" index="3"]
 
+light_mask = 0
 position = Vector2( -40, 0 )
 enabled = false
 editor_only = false
@@ -361,7 +385,7 @@ range_z_min = -1024
 range_z_max = 1024
 range_layer_min = 0
 range_layer_max = 0
-range_item_cull_mask = 1
+range_item_cull_mask = 4
 shadow_enabled = false
 shadow_color = Color( 0, 0, 0, 0 )
 shadow_buffer_size = 2048
@@ -369,10 +393,11 @@ shadow_gradient_length = 0.0
 shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Range", "Visibility" ]
 
 [node name="Light2D2" type="Light2D" parent="Body" index="4"]
 
+light_mask = 0
 position = Vector2( 40, 0 )
 enabled = false
 editor_only = false
@@ -387,7 +412,7 @@ range_z_min = -1024
 range_z_max = 1024
 range_layer_min = 0
 range_layer_max = 0
-range_item_cull_mask = 1
+range_item_cull_mask = 4
 shadow_enabled = false
 shadow_color = Color( 0, 0, 0, 0 )
 shadow_buffer_size = 2048
@@ -395,7 +420,7 @@ shadow_gradient_length = 0.0
 shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
 
 [node name="Shotpoint" type="Position2D" parent="Body" index="5"]
 

@@ -278,6 +278,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/EffectOver/Boosterpoint/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=18]
 
@@ -344,6 +356,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/EffectOver/Boosterpoint/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=19]
 
@@ -398,6 +422,30 @@ tracks/3/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/EffectOver/Boosterpoint/Booster:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/EffectOver/Boosterpoint/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="skelecton" type="Node2D" index="0"]
 
@@ -411,8 +459,6 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 0, -18 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
-playing = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Sprite" parent="Body" index="1"]
@@ -432,7 +478,8 @@ _sections_unfolded = [ "Transform" ]
 [node name="Spark" type="Particles2D" parent="Body/EffectOver/Sparkpoint" index="0"]
 
 position = Vector2( 0, -1 )
-emitting = true
+scale = Vector2( 2, 2 )
+emitting = false
 amount = 60
 lifetime = 1.0
 one_shot = false
@@ -455,7 +502,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 [node name="Glow" type="Particles2D" parent="Body/EffectOver/Sparkpoint" index="1"]
 
 position = Vector2( 0, -1 )
-emitting = true
+emitting = false
 amount = 5
 lifetime = 0.8
 one_shot = false
@@ -478,13 +525,13 @@ _sections_unfolded = [ "Process Material" ]
 [node name="Light2D" type="Light2D" parent="Body/EffectOver/Sparkpoint" index="2"]
 
 position = Vector2( 0, -1 )
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 1, 1, 1 )
-energy = 0.5
+texture_scale = 2.0
+color = Color( 1, 0.39975, 0.136719, 1 )
+energy = 2.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -502,13 +549,13 @@ shadow_item_cull_mask = 1
 
 [node name="Boosterpoint" type="Position2D" parent="Body/EffectOver" index="1"]
 
-position = Vector2( 0, 18 )
+position = Vector2( 0, 19 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Booster" type="Particles2D" parent="Body/EffectOver/Boosterpoint" index="0"]
 
 scale = Vector2( 0.3, 0.5 )
-emitting = false
+emitting = true
 amount = 16
 lifetime = 1.0
 one_shot = false
@@ -527,6 +574,30 @@ normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="Light2D" type="Light2D" parent="Body/EffectOver/Boosterpoint" index="1"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 2.0
+color = Color( 0.175781, 0.459106, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
 
 [node name="Hp" type="Position2D" parent="." index="1"]
 

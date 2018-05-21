@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/turret-base.png" type="Texture" id=2]
@@ -11,60 +11,10 @@
 [ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=9]
 [ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=10]
 
-[sub_resource type="Gradient" id=1]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0, 0.643137, 0.368627, 1 )
-
-[sub_resource type="GradientTexture" id=2]
-
-flags = 4
-gradient = SubResource( 1 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=3]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 2 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color" ]
-
 [sub_resource type="Gradient" id=4]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.0585938, 1, 0.757294, 1, 1, 0.684448, 0.0820313, 1 )
+colors = PoolColorArray( 1, 0.779297, 0.117188, 1, 1, 0.785736, 0.535156, 0 )
 
 [sub_resource type="GradientTexture" id=5]
 
@@ -191,7 +141,7 @@ _sections_unfolded = [ "Color" ]
 
 [sub_resource type="Animation" id=14]
 
-length = 0.8
+length = 0.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
@@ -207,7 +157,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Turret/EffectOver/Muzzle/Flash:emitting")
+tracks/1/path = NodePath("Body/Turret/EffectOver/Muzzleflash:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -219,7 +169,7 @@ tracks/1/keys = {
 "values": [ false, true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Turret/EffectOver/Muzzle/Light2D:enabled")
+tracks/2/path = NodePath("Body/Turret/EffectOver/Light2D:enabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -243,7 +193,7 @@ tracks/3/keys = {
 "values": [ false, true, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Turret/EffectOver/Muzzle/Flash:visible")
+tracks/4/path = NodePath("Body/Turret/EffectOver/Muzzleflash:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -254,12 +204,72 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Body/Turret/EffectOver/Cartridge/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [sub_resource type="Animation" id=15]
 
 length = 0.01
 loop = false
 step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Turret/EffectOver/Muzzleflash:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Turret/EffectOver/Light2D:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Turret/EffectOver/Cartridge/Ejection:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Turret/EffectOver/Cartridge/Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=16]
 
@@ -267,7 +277,7 @@ length = 0.01
 loop = false
 step = 0.1
 
-[node name="cannon" type="Node2D"]
+[node name="cannon" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -285,47 +295,22 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Head" type="Sprite" parent="Body/Turret" index="0"]
 
-editor/display_folded = true
 texture = ExtResource( 3 )
 offset = Vector2( 0, -10 )
 _sections_unfolded = [ "Offset", "Region", "Transform" ]
-
-[node name="Flashing" type="Particles2D" parent="Body/Turret/Head" index="0"]
-
-position = Vector2( 0, 9.5 )
-scale = Vector2( 6, 2 )
-emitting = true
-amount = 1
-lifetime = 2.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 3 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
 
 [node name="EffectOver" type="Node2D" parent="Body/Turret" index="1"]
 
 _sections_unfolded = [ "Transform" ]
 
-[node name="Muzzle" type="Position2D" parent="Body/Turret/EffectOver" index="0"]
+[node name="Shotpoint" type="Position2D" parent="Body/Turret/EffectOver" index="0"]
 
-position = Vector2( 0, -80 )
+position = Vector2( 0, -52 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Flash" type="Particles2D" parent="Body/Turret/EffectOver/Muzzle" index="0"]
+[node name="Muzzleflash" type="Particles2D" parent="Body/Turret/EffectOver" index="1"]
 
-visible = false
+position = Vector2( 0, -80 )
 scale = Vector2( 1, 1.5 )
 emitting = false
 amount = 8
@@ -347,15 +332,15 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Turret/EffectOver/Muzzle" index="1"]
+[node name="Light2D" type="Light2D" parent="Body/Turret/EffectOver" index="2"]
 
-position = Vector2( 0, 30 )
+position = Vector2( 0, -40 )
 enabled = false
 editor_only = false
 texture = ExtResource( 5 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
-color = Color( 0.825684, 1, 0.203125, 1 )
+color = Color( 1, 0.595337, 0.203125, 1 )
 energy = 2.0
 mode = 0
 range_height = 0.0
@@ -373,7 +358,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Cartridge" type="Position2D" parent="Body/Turret/EffectOver" index="1"]
+[node name="Cartridge" type="Position2D" parent="Body/Turret/EffectOver" index="3"]
 
 position = Vector2( 21, 4 )
 _sections_unfolded = [ "Transform" ]
@@ -401,10 +386,29 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Shotpoint" type="Position2D" parent="Body" index="1"]
+[node name="Light2D" type="Light2D" parent="Body/Turret/EffectOver/Cartridge" index="1"]
 
-position = Vector2( 0, -52 )
-_sections_unfolded = [ "Transform" ]
+enabled = false
+editor_only = false
+texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.683441, 0.0117188, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
 
 [node name="Hp" type="Position2D" parent="." index="2"]
 
