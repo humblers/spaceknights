@@ -19,7 +19,7 @@
 [ext_resource path="res://ui/card.tscn" type="PackedScene" id=17]
 [ext_resource path="res://ui/result/result.tscn" type="PackedScene" id=18]
 
-[sub_resource type="Shader" id=10]
+[sub_resource type="Shader" id=1]
 
 code = "shader_type canvas_item;
 
@@ -48,15 +48,15 @@ void fragment(){
 	COLOR=mix(col, outline_color, maxa-mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=11]
+[sub_resource type="ShaderMaterial" id=2]
 
 render_priority = 0
-shader = SubResource( 10 )
+shader = SubResource( 1 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 0, 0, 1, 1 )
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="ViewportTexture" id=12]
+[sub_resource type="ViewportTexture" id=3]
 
 resource_local_to_scene = true
 flags = 0
@@ -158,11 +158,12 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Background" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
+light_mask = 16384
 _sections_unfolded = [ "Transform" ]
 
 [node name="bg-tanatos" type="Sprite" parent="Background" index="0"]
 
+light_mask = 16384
 position = Vector2( 540, 960 )
 z_index = -1
 texture = ExtResource( 2 )
@@ -171,6 +172,7 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 [node name="Tile" type="Sprite" parent="Background" index="1"]
 
 visible = false
+light_mask = 16384
 position = Vector2( 539.56, 912 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
@@ -203,7 +205,7 @@ _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 position = Vector2( 540, 110 )
 texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="EffectUnder" type="Node2D" parent="." index="1"]
 
@@ -211,9 +213,9 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="blue" type="Sprite" parent="." index="2"]
 
-material = SubResource( 11 )
+material = SubResource( 2 )
 position = Vector2( 540, 912 )
-texture = SubResource( 12 )
+texture = SubResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="Units" type="Viewport" parent="blue" index="0"]
