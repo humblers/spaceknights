@@ -29,9 +29,11 @@ func delete_dead_units(units):
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not units.has(node.get_name()):
-			var effect = resource.effect.explosion.unit.instance()
-			effect.initialize(global.dict_get(global.UNITS[node.u_name], "size", "small"), node.position)
-			add_child(effect)
+			var size = global.dict_get(global.UNITS[node.u_name], "size", "small")
+			size = size.replace("xlarge", "large")
+			var explosion = resource.effect.explosion.unit[size].instance()
+			explosion.position = node.position
+			get_node("EffectOver").add_child(explosion)
 			node.delete()
 
 func create_new_units(units):

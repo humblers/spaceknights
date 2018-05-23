@@ -48,8 +48,11 @@ var projectile = {
 
 var effect = {
 	"explosion": {
-		"unit": preload("res://effect/explosion/unit.tscn"),
-		"missile": preload("res://effect/explosion/missile.tscn"),
+		"unit": {
+			"large" : preload("res://effect/explosion/large.tscn"),
+			"medium" : preload("res://effect/explosion/medium.tscn"),
+			"small" : preload("res://effect/explosion/small.tscn"),
+		}
 	},
 	"spell_indicator": preload("res://spell_indicator.tscn"),
 }

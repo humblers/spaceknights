@@ -57,11 +57,11 @@ func play():
 	yield(player, "animation_finished")
 	var explosion
 	for missile in missiles.get_children():
-		explosion = resource.effect.explosion.missile.instance()
-		explosion.initialize(m_name, missile.position)
-		add_child(explosion)
+#		explosion = resource.effect.explosion.missile.instance()
+#		explosion.initialize(m_name, missile.position)
+#		add_child(explosion)
 		missile.queue_free()
-	yield(explosion, "animation_finished")
+#	yield(explosion, "animation_finished")
 	queue_free()
 
 func set_animation_track():
