@@ -42,6 +42,8 @@ var projectile = {
 	"archer" : preload("res://unit/archer/bullet.tscn"),
 	"cannon" : preload("res://unit/cannon/bullet.tscn"),
 	"freezer" : preload("res://unit/freezer/bullet.tscn"),
+	"musketeer" : preload("res://unit/musketeer/bullet.tscn"),
+	"speargoblin" : preload("res://unit/speargoblin/bullet.tscn"),
 	"shuriken" : preload("res://unit/shuriken/bullet.tscn"),
 	"bomber_missile": preload("res://projectile/bomber_missile.tscn"),
 	"bombtower_missile": preload("res://projectile/bombtower_missile.tscn"),
