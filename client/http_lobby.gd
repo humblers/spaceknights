@@ -2,7 +2,7 @@ extends Node
 
 #const LOBBY_HOST = "http://13.125.74.237"
 const LOBBY_HOST = "http://127.0.0.1"
-#const LOBBY_HOST = "http://192.168.1.3"
+#const LOBBY_HOST = "http://192.168.1.6"
 const LOBBY_PORT = 3333
 const SUCCESS_RESPONSES = [
 	HTTPClient.RESPONSE_OK,
@@ -12,7 +12,7 @@ const SUCCESS_RESPONSES = [
 var http = HTTPClient.new()
 var timer = Timer.new()
 
-var response_body = RawArray()
+var response_body = PoolByteArray()
 var cookie_str = ""
 
 var req_queue = []
@@ -25,7 +25,7 @@ signal findgame_response(success, ret)
 signal logout_response(success, ret)
 
 func _ready():
-	if not validate_conn() and not connect_to_lobby():
+	if not connect_to_lobby():
 		print("connect fail. To Do - rollback to launch scene")
 		return
 	timer.set_wait_time(1.0 / tcp.UPDATES_PER_SECOND)
@@ -38,7 +38,7 @@ func emit_reserved_signal(code, text):
 	var ret = {}
 	if code in SUCCESS_RESPONSES:
 		success = true
-		ret.parse_json(text)
+		ret = parse_json(text)
 	if reserved_signal != null:
 		emit_signal(reserved_signal, success, ret)
 		reserved_signal = null
@@ -73,7 +73,7 @@ func _poll():
 		response_body = response_body + chunk
 		var text = response_body.get_string_from_utf8()
 		print("bytes got: ",response_body.size(), ", raw text: ", text)
-		response_body = RawArray()
+		response_body = PoolByteArray()
 		emit_reserved_signal(http.get_response_code(), text)
 
 	if req_queue.size() <= 0:
@@ -88,7 +88,7 @@ func _poll():
 	var url = next_request[1]
 	var body = ""
 	if method == HTTPClient.METHOD_POST:
-		body = next_request[2].to_json()
+		body = to_json(next_request[2])
 		headers = headers + [
 			"Content-Type: application/json",
 			"Content-Length: %d" % body.length(),
@@ -102,7 +102,7 @@ func _poll():
 		emit_reserved_signal(-999, {"error":"unknown"})
 
 func connect_to_lobby():
-	var err = http.connect(LOBBY_HOST, LOBBY_PORT)
+	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
 		return false
 	while( http.get_status() == HTTPClient.STATUS_CONNECTING 
@@ -115,9 +115,9 @@ func connect_to_lobby():
 	return true
 
 func validate_conn():
-	var conn = http.get_connection()
-	if conn == null or not conn.is_connected():
-		return false
+#	var conn = http.get_connection()
+#	if conn == null or not conn.is_connected():
+#		return false
 	return true
 
 func request(method, path, params, signal_name, use_cookie=true):

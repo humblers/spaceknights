@@ -16,9 +16,9 @@ const (
 )
 
 const (
-	MapWidth   = 400
-	MapHeight  = 560
-	TileHeight = 20
+	MapWidth   = 320
+	MapHeight  = 544
+	TileHeight = 16
 	CenterX    = MapWidth / 2
 	CenterY    = MapHeight / 2
 )
@@ -31,10 +31,10 @@ type Area struct {
 }
 
 var (
-	Top       = &Area{0, 260, 0, 400}
-	Bottom    = &Area{300, 560, 0, 400}
-	LeftHole  = &Area{260, 300, 60, 80}
-	RightHole = &Area{260, 300, 320, 340}
+	Top       = &Area{0, 240, 0, 320}
+	Bottom    = &Area{272, 544, 0, 320}
+	LeftHole  = &Area{240, 272, 48, 64}
+	RightHole = &Area{240, 272, 256, 272}
 )
 var (
 	LeftHoleTL  = Vector2{LeftHole.L, LeftHole.T}
@@ -84,12 +84,11 @@ type Game struct {
 	Players       Players `json:",omitempty"`
 	Units         map[int]*Unit
 	Spells        map[int]*Spell
-	WaitingCards  []*WaitingCard   `json:",omitempty"`
-	ObjectCounter int              `json:"-"`
-	Result        *Result          `json:",omitempty"`
-	Winner        Team             `json:"-"`
-	Stats         map[Team]*Stat   `json:"-"`
-	Motherships   map[Team][]*Unit `json:"-"`
+	WaitingCards  []*WaitingCard `json:",omitempty"`
+	ObjectCounter int            `json:"-"`
+	Result        *Result        `json:",omitempty"`
+	Winner        Team           `json:"-"`
+	Stats         map[Team]*Stat `json:"-"`
 }
 
 type Result struct {
@@ -108,9 +107,9 @@ type Stat struct {
 }
 
 func (game *Game) RemoveDeadUnits() {
-	for id, unit := range game.Units {
+	for _, unit := range game.Units {
 		if unit.IsDead() {
-			delete(game.Units, id)
+			unit.SelfRemove()
 		}
 	}
 }
@@ -123,14 +122,12 @@ func NewGame() *Game {
 		Players:       make(map[string]*Player),
 		ObjectCounter: 1,
 		Stats:         make(map[Team]*Stat),
-		Motherships:   make(map[Team][]*Unit),
 	}
-	g.Motherships[Home] = NewMothership(Home)
-	g.Motherships[Visitor] = NewMothership(Visitor)
-	for _, u := range g.Motherships[Home] {
+
+	for _, u := range NewMothership(Home) {
 		g.AddUnit(u)
 	}
-	for _, u := range g.Motherships[Visitor] {
+	for _, u := range NewMothership(Visitor) {
 		g.AddUnit(u)
 	}
 	g.Stats[Home] = &Stat{}
@@ -140,21 +137,30 @@ func NewGame() *Game {
 
 func (game *Game) Score(team Team) int {
 	score := 0
-	for _, unit := range game.Motherships[team] {
-		if unit.IsDead() {
+	for _, player := range game.Players {
+		if player.Team != team {
 			continue
 		}
-		switch unit.Name {
-		case "maincore":
-			score += MaincoreScore
-		case "subcore":
-			score += SubcoreScore
+		for _, knight := range player.Knights {
+			if knight.IsDead() {
+				continue
+			}
+			switch knight.Name {
+			case "space_z":
+				score += MaincoreScore
+			default:
+				score += SubcoreScore
+			}
 		}
 	}
 	return score
 }
 
 func (game *Game) Over() bool {
+	//	if len(game.Players) > 2 {
+	//		return false
+	//	}
+
 	home := game.Score(Home)
 	visitor := game.Score(Visitor)
 	switch {
@@ -184,8 +190,19 @@ func (game *Game) GetWinner() Team {
 }
 
 func (g *Game) Join(team Team, user User) {
-	knights := NewKnights(team, user.knights)
-	player := NewPlayer(team, user.deck, knights)
+	deck := user.deck
+	if len(deck) < HandSize {
+		deck = CreateRandomDeck()
+	}
+	knightNames := user.knights
+	if len(knightNames) < 3 {
+		knightNames = []string{"shuriken", "space_z", "freezer"}
+	}
+	knights := NewKnights(team, knightNames)
+	player := NewPlayer(team, deck, knights, g.Frame)
+	if user.id == "" {
+		player.InstructManager = NewInstructManager(player)
+	}
 	g.Players[user.id] = player
 	for _, knight := range knights {
 		g.AddUnit(knight)

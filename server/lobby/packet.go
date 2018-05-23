@@ -22,6 +22,11 @@ type Game struct {
 	SessionID string `json:"sid"`
 }
 
+type Player struct {
+	Deck    Deck     `json:"deck"`
+	Knights []string `json:"knights"`
+}
+
 type SessionRequest struct {
 	SessionId   string
 	Home        Candidate

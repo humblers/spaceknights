@@ -7,7 +7,7 @@ func NewHogrider(id int, t Team, pos Vector2) *Unit {
 		Name:         "hogrider",
 		Layer:        Ground,
 		TargetLayers: Layers{Ground},
-		TargetTypes:  Types{Building},
+		TargetTypes:  Types{Building, Knight},
 		Hp:           1408,
 		InvMass:      18.0 / 100,
 		Speed:        6,

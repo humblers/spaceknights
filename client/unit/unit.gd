@@ -1,55 +1,61 @@
 extends Node2D
 
+const IMMUTABLE = 0
+const WINGED = 1
+const ARMED = 2
+
 var velocity = Vector2(0, 0)
 
-var name
+var u_name
 var color
 var target
 var hp = 0
+var shot_child_idx = 0
 var damage_effect = Timer.new()
+
+var effect_over
+var effect_under
 
 var hpnode
 onready var body = get_node("Body")
+onready var anim = get_node("AnimationPlayer")
 
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
+signal queued_free
 
 func _ready():
 	body.set_material(resource.unit_material.duplicate())
+	clone_effect_nodes("EffectOver", effect_over)
+	clone_effect_nodes("EffectUnder", effect_under)
 
 func _process(delta):
 	play_launch_effect(delta)
 
 func initialize(unit):
-	self.name = unit.Name
+	self.u_name = unit.Name
 	self.color = "blue" if unit.Team == global.team else "red"
-	set_base()
 	set_hp()
 	set_layers()
 	set_damage_effect()
 	debug.connect("option_changed", self, "update")
 
 func set_position(pos):
-	set_pos(pos)
-	emit_signal("position_changed", get_name(), pos)
-
-func set_base():
-	if has_node("Base"):
-		var texture = resource.unit_base[name][color]
-		get_node("Base").set_texture(texture)
+	self.position = pos * 3
+	emit_signal("position_changed", get_name(), self.position)
 
 func set_hp():
 	var path = "Hp"
-	if name in ["maincore", "subcore"]:
+	if u_name in ["maincore", "subcore"]:
 		path = "Body/" + path
 	hpnode = get_node(path)
 	hpnode.get_node(color).show()
-	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[name], "hp", 100))
+	hpnode.get_node(color).set_max(global.dict_get(global.UNITS[u_name], "hp", 100))
 
 func set_layers():
-	set_z(global.LAYERS[global.UNITS[name].layer])
-	hpnode.set_z_as_relative(false)
-	hpnode.set_z(global.LAYERS.UI)
+	self.z_index = global.LAYERS[global.UNITS[u_name].layer]
+	hpnode.z_as_relative = false
+	hpnode.z_index = global.LAYERS.UI
 
 func set_damage_effect():
 	damage_effect.set_one_shot(true)
@@ -59,28 +65,59 @@ func set_damage_effect():
 
 func update_changes(unit):
 	set_position(get_position(unit))
-	body.set_rot(get_rotation(unit))
+	body.rotation = get_rotation(unit)
 	set_target(unit)
 	update_hp(unit)
 	if unit.AttackStarted:
-		body.set_frame(0)
-		if global.UNITS[name].has("projectile"):
-			emit_signal("projectile_created",
-					global.UNITS[name].projectile,
-					target,
-					float(global.UNITS[name].prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
-					get_node("Body/Shotpoint").get_global_pos())
+		anim.play(unit.State)
+		var data = global.UNITS[u_name]
+		if data.has("projectile"):
+			match u_name:
+				"archer":
+					shot_child_idx += 1
+					if shot_child_idx >= get_node("Body/Shotpoint").get_child_count():
+						shot_child_idx = 0
+					emit_signal("projectile_created",
+							data.projectile,
+							target,
+							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
+							get_node("Body/Shotpoint").get_child(shot_child_idx).global_position)
+				"freezer", "shuriken", "space_z":
+					# not prepared
+					pass
+				_:
+					emit_signal("projectile_created",
+							data.projectile,
+							target,
+							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
+							find_node("Shotpoint").global_position)
+
+	if unit.TransformStarted:
+		if unit.Form == WINGED:
+			anim.play_backwards("transform")
+		elif unit.Form == ARMED:
+			anim.play("transform")
+	if unit.SpawnStarted:
+		anim.play("spawn")
+	if unit.State == "move":
+		var a = "move"
+		match int(unit.Form):
+			WINGED:
+				a += "_winged"
+			ARMED:
+				a += "_armed"
+		if anim.current_animation != a or not anim.is_playing():
+			anim.play(a)
 	if unit.State == "frozen":
-		body.stop()
+		anim.stop()
 		body.get_material().set_shader_param("frozen", true)
 	else:
 		body.get_material().set_shader_param("frozen", false)
-		body.play("%s_%s" % [color, unit.State])
 
 func update_hp(unit):
 	if unit.Hp <= 0:
 		return
-	if hp - global.dict_get(global.UNITS[name], "lifetimecost", 0) > unit.Hp:
+	if hp - global.dict_get(global.UNITS[u_name], "lifetimecost", 0) > unit.Hp:
 		show_damage_effect()
 	hp = unit.Hp
 	hpnode.get_node(color).set_value(hp)
@@ -104,9 +141,8 @@ func get_position(unit):
 func get_rotation(unit):
 	var angle = atan2(unit.Heading.X, unit.Heading.Y)
 	if global.team == "Home":
-		return angle
-	else:
-		return angle + PI
+		angle += PI
+	return -angle
 
 func set_target(unit):
 	if unit.has("TargetId"):
@@ -117,9 +153,6 @@ func set_target(unit):
 		return
 	target = null
 
-func show_speech_bubble():
-	get_node("Body/bubble").show_bubble()
-
 func show_damage_effect():
 	body.get_material().set_shader_param("damaged", true)
 	damage_effect.start()
@@ -127,47 +160,80 @@ func show_damage_effect():
 func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
 
+func find_child_nodes(root, mask, recursive=true, ret = []):
+	for child in root.get_children():
+		if mask in child.name:
+			ret.append(child)
+		if recursive:
+			find_child_nodes(child, mask, recursive, ret)
+	return ret
+
+func clone_effect_nodes(org_node_name, dst):
+	if dst == null:
+		return
+	var effects = []
+	for node in find_child_nodes(self, org_node_name):
+		effects += node.get_children()
+	var paths = []
+	for pos_node in effects:
+		for effect_node in pos_node.get_children():
+			var dup_node = effect_node.duplicate()
+			dup_node.set_script(resource.effect_script.duplicate())
+			dup_node.set_pos_node(pos_node)
+			connect("queued_free", dup_node, "delete")
+			dst.add_child(dup_node)
+			paths.append( {
+					"org_path" : get_path_to(effect_node),
+					"dst_path" : dup_node.get_path(),
+			} )
+			effect_node.queue_free()
+	clone_animations_for_effect(paths)
+
+func clone_animations_for_effect(effect_paths):
+	if effect_paths.size() <= 0:
+		return
+	var player = AnimationPlayer.new()
+	for anim_name in anim.get_animation_list():
+		var animation = anim.get_animation(anim_name).duplicate()
+		for index in range(animation.get_track_count()):
+			var track_path = String(animation.track_get_path(index))
+			for path in effect_paths:
+				var replaced = track_path.replace(path.org_path, path.dst_path)
+				if replaced != track_path:
+					animation.track_set_path(index, replaced)
+					break
+		player.add_animation(anim_name, animation)
+	anim.queue_free()
+	add_child(player)
+	anim = player
+
 func set_launch_effect(unit):
-	var launch_effect = resource.effect.launch.instance()
-	launch_effect.set_name("Launch")
-	body.add_child(launch_effect)
-	var pos = get_position(unit)
-	var destination = pos.y
-	if global.team == unit.Team:
-		pos.y = global.SCREEN_HEIGHT - global.UNITS[name].radius
-		body.set_rot(PI)
-		body.play("blue_idle")
-	else:
-		pos.y = global.MAP.height - global.SCREEN_HEIGHT + global.UNITS[name].radius
-		body.play("red_idle")
-	set_position(pos)
-	launch_effect.initialize(pos.y, destination, global.dict_get(global.UNITS[name], "size", "small"))
-	hpnode.hide()
-	body.set_self_opacity(0.7)
-	set_process(true)
+	pass
 
 func play_launch_effect(delta):
 	if not body.has_node("Launch"):
 		return
 	var launch_effect = body.get_node("Launch")
 	if not launch_effect.is_finished(delta):
-		set_position(launch_effect.update_position(get_pos(), delta))
+		set_position(launch_effect.update_position(position, delta))
 		return
 	set_process(false)
 	launch_effect.queue_free()
 	hpnode.show()
-	body.set_self_opacity(1.0)
+	body.self_modulate = Color(1, 1, 1, 1.0)
 
-func transform_to_guide_node(pos):
+func transform_to_ui_node(pos=Vector2(0, 0), color=Color(1, 1, 1, 1)):
 	set_position(pos)
 	hpnode.hide()
-	body.set_opacity(0.5)
+	self.z_index = 0
+	body.modulate = color
 
-func release_lock_on_anim(node):
-	node.queue_free()
+func delete():
+	emit_signal("queued_free")
+	queue_free()
 
 func _draw():
-	var unit = global.UNITS[name]
+	var unit = global.UNITS[u_name]
 	if debug.show_radius and unit.has("radius"):
 		global.draw_circle_arc(unit["radius"], Color(1.0, 0, 0), self)
 	if debug.show_sight and unit.has("sight"):

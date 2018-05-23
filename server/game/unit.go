@@ -3,17 +3,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"math"
+
+	"github.com/golang/glog"
 )
 
 type State string
 
 const (
-	Idle   State = "idle"
-	Attack State = "attack"
-	Move   State = "move"
-	Frozen State = "frozen"
+	Idle      State = "idle"
+	Attack    State = "attack"
+	Move      State = "move"
+	Frozen    State = "frozen"
+	Transform State = "transform"
 )
 
 type Size string
@@ -77,52 +79,65 @@ type WaitingSpell struct {
 	Finished bool
 }
 
+type Form int
+
+const (
+	Immutable Form = iota
+	Winged
+	Armed
+)
+
 type Unit struct {
 	// invariant
-	Team            Team
-	Type            Type `json:"-"`
-	Name            string
-	Layer           Layer  `json:"-"`
-	TargetLayers    Layers `json:"-"`
-	TargetTypes     Types  `json:"-"`
-	Hp              int
-	InvMass         float64      `json:"-"`
-	Speed           float64      `json:"-"`
-	PreHitDelay     int          `json:"-"`
-	PostHitDelay    int          `json:"-"`
-	Radius          float64      `json:"-"`
-	Size            Size         `json:"-"`
-	Sight           float64      `json:"-"`
-	Range           float64      `json:"-"`
-	Damage          int          `json:"-"`
-	DamageRadius    float64      `json:"-"`
-	DamageCenter    DamageCenter `json:"-"`
-	LifetimeCost    int          `json:"-"`
-	SpawnThing      string       `json:"-"`
-	SpawnSpeed      int          `json:"-"`
-	RepairDelay     int          `json:"-"`
-	FrozenUntil     int          `json:"-"`
-	KnightIndex     int          `json:"-"`
-	InitialPosition Vector2      `json:"-"`
+	Team              Team
+	Type              Type `json:"-"`
+	Name              string
+	Layer             Layer  `json:"-"`
+	TargetLayers      Layers `json:"-"`
+	TargetTypes       Types  `json:"-"`
+	Hp                int
+	InvMass           float64      `json:"-"`
+	Speed             float64      `json:"-"`
+	PreHitDelay       int          `json:"-"`
+	PostHitDelay      int          `json:"-"`
+	Radius            float64      `json:"-"`
+	Size              Size         `json:"-"`
+	Sight             float64      `json:"-"`
+	Range             float64      `json:"-"`
+	Damage            int          `json:"-"`
+	DamageRadius      float64      `json:"-"`
+	DamageCenter      DamageCenter `json:"-"`
+	LifetimeCost      int          `json:"-"`
+	SpawnThing        string       `json:"-"`
+	SpawnSpeed        int          `json:"-"`
+	RepairDelay       int          `json:"-"`
+	FrozenUntil       int          `json:"-"`
+	KnightIndex       int          `json:"-"`
+	InitialPosition   Vector2      `json:"-"`
+	TransformDuration int          `json:"-"`
 
 	// variant
-	Id           int
-	Game         *Game `json:"-"`
-	State        State
-	Position     Vector2
-	Destination  Vector2 `json:"-"`
-	Heading      Vector2
-	Velocity     Vector2 `json:"-"`
-	Target       *Unit   `json:"-"`
-	Targets      []*Unit
-	HitFrame     int           `json:"-"`
-	SpawnFrame   int           `json:"-"`
-	SpawnStack   int           `json:"-"`
-	RepairFrame  int           `json:"-"`
-	WaitingSpell *WaitingSpell `json:"-"`
+	Id            int
+	Game          *Game `json:"-"`
+	State         State
+	Position      Vector2
+	Destination   Vector2 `json:"-"`
+	Heading       Vector2
+	Velocity      Vector2 `json:"-"`
+	Target        *Unit   `json:"-"`
+	Targets       []*Unit
+	DecisionFrame int           `json:"-"`
+	SpawnFrame    int           `json:"-"`
+	SpawnStack    int           `json:"-"`
+	RepairFrame   int           `json:"-"`
+	WaitingSpell  *WaitingSpell `json:"-"`
+	Form          Form
 
 	// event
-	AttackStarted bool
+	AttackStarted    bool
+	MoveStarted      bool
+	TransformStarted bool
+	SpawnStarted     bool
 }
 
 func (u *Unit) String() string {
@@ -302,14 +317,41 @@ func (u *Unit) WithinRange(other *Unit) bool {
 	return false
 }
 
+func (u *Unit) IsTransforming() bool {
+	return u.DecisionFrame > 0 &&
+		u.Game.Frame < u.DecisionFrame &&
+		u.State == Transform
+}
+
+func (u *Unit) StartTransform() {
+	u.TransformStarted = true
+	u.DecisionFrame += u.Game.Frame + u.TransformDuration
+}
+
+func (u *Unit) PickForm() Form {
+	if u.TransformDuration <= 0 {
+		return Immutable
+	}
+	switch u.Name {
+	case "darkprince", "prince":
+		if u.DistanceTo(u.Target) < u.Range+u.Radius+u.Target.Radius+15 {
+			return Armed
+		}
+		return Winged
+	default:
+		panic("transform duration positive, but have no rule for pick form(%v), u.Name")
+	}
+}
+
 func (u *Unit) IsAttacking() bool {
-	return u.HitFrame > 0 &&
-		u.Game.Frame >= u.HitFrame-u.PreHitDelay &&
-		u.Game.Frame <= u.HitFrame+u.PostHitDelay
+	return u.DecisionFrame > 0 &&
+		u.Game.Frame >= u.DecisionFrame-u.PreHitDelay &&
+		u.Game.Frame <= u.DecisionFrame+u.PostHitDelay &&
+		u.State == Attack
 }
 
 func (u *Unit) CancelAttack() {
-	u.HitFrame = 0
+	u.DecisionFrame = 0
 }
 
 func (u *Unit) HasAttack() bool {
@@ -317,7 +359,7 @@ func (u *Unit) HasAttack() bool {
 }
 
 func (u *Unit) HandleAttack() {
-	if u.Game.Frame != u.HitFrame {
+	if u.Game.Frame != u.DecisionFrame {
 		return
 	}
 	if u.Target != nil && u.WithinRange(u.Target) {
@@ -347,12 +389,14 @@ func (u *Unit) HandleAttack() {
 
 func (u *Unit) StartAttack() {
 	u.AttackStarted = true
-	u.HitFrame = u.Game.Frame + u.PreHitDelay
+	u.DecisionFrame = u.Game.Frame + u.PreHitDelay
 	u.HandleAttack()
 }
 
 func (u *Unit) ClearEvents() {
 	u.AttackStarted = false
+	u.TransformStarted = false
+	u.SpawnStarted = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -380,7 +424,13 @@ func (u *Unit) IsDead() bool {
 }
 
 func (u *Unit) HasTarget() bool {
-	return u.Target != nil && !u.Target.IsDead()
+	if u.Target == nil {
+		return false
+	}
+	if u.Target.IsDead() {
+		return false
+	}
+	return u.Target.Type != Knight || u.Target.WaitingSpell == nil
 }
 
 func (u *Unit) HandleSpawn() {
@@ -429,6 +479,7 @@ func (u *Unit) HandleSpawn() {
 		glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
 		return
 	}
+	u.SpawnStarted = true
 	u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
 }
 
@@ -472,7 +523,13 @@ func (u *Unit) Update() {
 			}
 			if !u.HasTarget() || !u.WithinRange(u.Target) {
 				var filter = func(other *Unit) bool {
-					return u.CanSee(other) || other.IsCore()
+					if u.CanSee(other) && other.Type != Knight {
+						return true
+					}
+					if other.Type == Knight && other.WaitingSpell == nil {
+						return true
+					}
+					return false
 				}
 				u.Target = u.FindNearestTarget(filter)
 			}
@@ -480,12 +537,16 @@ func (u *Unit) Update() {
 				u.State = Idle
 				glog.Warningf("no target found : %v", u.Name)
 			} else {
-				if u.WithinRange(u.Target) {
+				if form := u.PickForm(); form != u.Form {
+					u.Form = form
+					u.State = Transform
+					u.StartTransform()
+				} else if u.WithinRange(u.Target) && (u.Target.Type != Knight || u.Target.WaitingSpell == nil) {
 					u.State = Attack
 					u.StartAttack()
 					//glog.Infof("attacking %v, Hp : %v", u.Target.Name, u.Target.Hp)
-				} else {
-					u.State = Move
+				}
+				if !u.IsAttacking() {
 					destination := u.Target.Position
 					if u.Layer == Ground {
 						path := u.FindPath(u.Target)
@@ -493,6 +554,9 @@ func (u *Unit) Update() {
 					}
 					u.Velocity = destination.Minus(u.Position).Truncate(u.Speed)
 					u.Heading = u.Velocity
+					if !u.IsTransforming() {
+						u.State = Move
+					}
 					//glog.Infof("%v moving to %v", u.Name, destination)
 				}
 			}
@@ -523,22 +587,6 @@ func (u *Unit) Update() {
 		}
 		u.HandleSpawn()
 	case Knight:
-		if u.Game.Motherships[u.Team][u.KnightIndex].IsDead() {
-			u.SelfRemove()
-			for _, player := range u.Game.Players {
-				if player.Team == u.Team {
-					switch u.Name {
-					case "shuriken":
-						player.RemoveCard("fireball")
-					case "space_z":
-						player.RemoveCard("laser")
-					case "freezer":
-						player.RemoveCard("freeze")
-					}
-				}
-			}
-			return
-		}
 		u.Velocity = Vector2{0, 0}
 		if u.WaitingSpell != nil {
 			if u.WaitingSpell.Finished {
@@ -549,6 +597,7 @@ func (u *Unit) Update() {
 					u.Velocity = movement.Truncate(KnightCastSpeed)
 				}
 			} else {
+				u.State = Idle
 				destination := u.WaitingSpell.Position
 				if u.WaitingSpell.Spell == "laser" {
 					if u.Team == Home {
@@ -572,26 +621,58 @@ func (u *Unit) Update() {
 			}
 			return
 		}
-		if u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target) {
-			if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
-				if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
-					bullet := NewKnightBullet(u.Team, u.Position)
-					u.Game.AddUnit(bullet)
-					if u.Team == Home {
-						bullet.Position.Y -= u.Radius
-					} else {
-						bullet.Position.Y += u.Radius
+		switch u.Name {
+		case "shuriken", "freezer":
+			if u.HasAttack() {
+				if u.IsAttacking() {
+					u.HandleAttack()
+				} else {
+					if u.IsFrozen() {
+						return
 					}
-					bullet.Velocity = u.Heading.Multiply(bullet.Speed)
-					u.Game.Stats[u.Team].KnightBulletTotalCount += 1
-					u.SpawnFrame = u.Game.Frame
+					if !u.HasTarget() || !u.WithinRange(u.Target) {
+						var filter = func(other *Unit) bool {
+							return u.WithinRange(other)
+						}
+						u.Target = u.FindNearestTarget(filter)
+					}
+					if u.Target == nil {
+						u.Heading = Vector2{0, 1}
+						if u.Team == Home {
+							u.Heading.Y *= -1
+						}
+					} else {
+						u.State = Attack
+						u.StartAttack()
+					}
+				}
+			}
+		case "space_z":
+			if u.HasTargetInKnightFirefield() {
+				if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
+					if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
+						bullet := NewKnightBullet(u.Team, u.Position)
+						u.Game.AddUnit(bullet)
+						if u.Team == Home {
+							bullet.Position.Y -= u.Radius
+						} else {
+							bullet.Position.Y += u.Radius
+						}
+						bullet.Velocity = u.Heading.Multiply(bullet.Speed)
+						u.Game.Stats[u.Team].KnightBulletTotalCount += 1
+						u.SpawnFrame = u.Game.Frame
+					}
+				} else {
+					u.Velocity = Vector2{u.Target.Position.X, u.Position.Y}.Minus(u.Position).Truncate(u.Speed)
 				}
 			} else {
-				u.Velocity = Vector2{u.Target.Position.X, u.Position.Y}.Minus(u.Position).Truncate(u.Speed)
+				u.Target = u.FindNearestKnightTarget()
+				if !u.HasTargetInKnightFirefield() {
+					u.Velocity = u.InitialPosition.Minus(u.Position).Truncate(u.Speed)
+				}
 			}
-		} else {
-			u.Target = u.FindNearestKnightTarget()
 		}
+
 	case Bullet:
 		if u.IsOutOfRange() {
 			u.SelfRemove()
@@ -653,20 +734,25 @@ func (u *Unit) IsInMyArea(target *Unit) bool {
 	}
 	switch u.KnightIndex {
 	case 0:
-		if pos_x < 133 {
+		if pos_x <= 106 {
 			return true
 		}
 	case 1:
-		if pos_x > 133 && pos_x < 266 {
+		if pos_x > 106 && pos_x < 213 {
 			return true
 		}
 	case 2:
-		if pos_x > 266 {
+		if pos_x >= 213 {
 			return true
 		}
 	}
 	return false
 }
+
+func (u *Unit) HasTargetInKnightFirefield() bool {
+	return u.HasTarget() && u.IsInMyArea(u.Target) && u.WithinKnightRange(u.Target)
+}
+
 func (u *Unit) FindNearestKnightTarget() *Unit {
 	var target *Unit
 	var distance float64
@@ -683,6 +769,20 @@ func (u *Unit) FindNearestKnightTarget() *Unit {
 }
 
 func (u *Unit) SelfRemove() {
+	var cardName Card
+	switch u.Name {
+	case "shuriken":
+		cardName = "fireball"
+	case "space_z":
+		cardName = "laser"
+	case "freezer":
+		cardName = "freeze"
+	}
+	if cardName != "" {
+		for _, player := range u.Game.Players {
+			player.RemoveCard(cardName)
+		}
+	}
 	delete(u.Game.Units, u.Id)
 }
 

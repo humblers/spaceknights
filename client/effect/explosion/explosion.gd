@@ -1,12 +1,6 @@
-extends AnimatedSprite
-
-var name
+extends Node2D
 
 func _ready():
-	play(name)
-	yield(self, "finished")
+	self.position += Vector2(60, 96)
+	yield($AnimationPlayer, "animation_finished")
 	queue_free()
-
-func initialize(name, pos):
-	self.name = name
-	set_pos(pos)

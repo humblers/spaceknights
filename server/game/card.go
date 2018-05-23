@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/golang/glog"
 	"math/rand"
+
+	"github.com/golang/glog"
 )
 
 type Card string
@@ -72,11 +73,22 @@ var CostMap = map[Card]int{
 	"tombstone":       3000,
 	"valkyrie":        4000,
 
-	"fireball": 4000,
-	"laser":    5000,
-	"freeze":   2000,
+	"fireball": 11000,
+	"laser":    11000,
+	"freeze":   11000,
+}
 
-	"moveknight": 0,
+func CreateRandomDeck() Cards {
+	unitCards := make(Cards, 0, len(CostMap))
+	for name, _ := range CostMap {
+		if name == "fireball" || name == "laser" || name == "freeze" {
+			continue
+		}
+		unitCards = append(unitCards, name)
+	}
+
+	unitCards.Shuffle()
+	return unitCards[:HandSize]
 }
 
 // Knuth shuffle

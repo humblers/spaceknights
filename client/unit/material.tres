@@ -1,31 +1,34 @@
-[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="CanvasItemShader" id=1]
+[sub_resource type="Shader" id=1]
 
-_code = {
-"fragment": "uniform bool damaged = false;
+code = "shader_type canvas_item;
+
+uniform bool damaged = false;
 uniform bool frozen = false;
-if (frozen) {
-	if (sin(TIME * 10) > 0) {
-		COLOR = COLOR * 3;
-	} else {
-		COLOR = COLOR * 2.7;
+
+void fragment(){
+	vec4 col = texture(TEXTURE, UV);
+	COLOR = col;
+
+	if (frozen) {
+	    if (sin(TIME * 10.0) > 0.0) {
+	        COLOR = COLOR * 3.0;
+	    } else {
+	        COLOR = COLOR * 2.7;
+	    }
 	}
-};
-if (damaged) {
-	COLOR.r = tex(TEXTURE, UV).r + 0.3;
-};",
-"fragment_ofs": 0,
-"light": "",
-"light_ofs": 0,
-"vertex": "",
-"vertex_ofs": 0
-}
+
+	if (damaged) {
+	    COLOR.r = texture(TEXTURE, UV).r + 0.3;
+	}
+}"
 
 [resource]
 
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
+render_priority = 0
+shader = SubResource( 1 )
 shader_param/damaged = false
 shader_param/frozen = false
+_sections_unfolded = [ "shader_param" ]
 

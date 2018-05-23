@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 var target_radius
 var target_position
@@ -6,28 +6,28 @@ var lifetime
 var elapsed = 0
 
 func _ready():
-	set_fixed_process(true)
+	set_physics_process(true)
 
-func set_single_target(target, lifetime, position):
+func set_single_target(target, lifetime, initial_position):
 	self.lifetime = lifetime
-	set_pos(position)
-	set_z(global.LAYERS.Projectile)
-	target_position = target.get_pos()
-	target_radius = global.UNITS[target.name].radius
+	self.position = initial_position
+	self.z_index = global.LAYERS.Projectile
+	target_position = target.position
+	target_radius = global.UNITS[target.u_name].radius
 	target.connect("position_changed", self, "update_target_position")
 
 func update_target_position(id, position):
 	target_position = position
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	elapsed += delta
 	var remaining = lifetime - elapsed
 	if remaining <= 0:
 		queue_free()
 		return
 
-	var position = get_pos()
+	var position = self.position
 	var direction = (target_position - position).normalized()
 	var speed = (position.distance_to(target_position) - target_radius) / remaining
-	set_pos(position + direction * speed * delta)
-	set_rot(direction.angle())
+	self.position = position + direction * speed * delta
+	self.rotation = direction.angle() + PI / 2

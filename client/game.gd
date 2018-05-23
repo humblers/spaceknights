@@ -4,13 +4,16 @@ const OBJECT_DEFAULT = "default"
 const OBJECT_CLIENT_ONLY = "clientonly"
 
 func _ready():
-	get_node("MothershipBG/BlueBaseBottom")
-	get_node("OpeningAnim").connect("finished", self, "opening_finished")
-	get_node("MothershipBG/RedLight").set_z(global.LAYERS.MothershipOver)
-	get_node("MothershipBG/BlueLight").set_z(global.LAYERS.MothershipOver)
+	self.offset.x = get_camera_x_offset()
+	get_node("blue").texture = get_node("blue/Units").get_texture()
+	get_node("red").texture = get_node("red/Units").get_texture()
+	get_node("UI").connect_ui_signals()
 	tcp.connect("packet_received", self, "update_changes")
 
 func update_changes(game):
+	if debug.size_changed:
+		debug.size_changed = false
+		self.offset.x = get_camera_x_offset()
 	global.team = game.Players[global.id].Team
 	create_new_units(game.Units)
 	update_units(game.Units)
@@ -20,31 +23,30 @@ func update_changes(game):
 	handle_waiting_cards(game.Frame, global.dict_get(game, "WaitingCards", []))
 	update_ui(game)
 
-func opening_finished():
-	get_node("UI").connect_ui_signals()
-	get_node("Units").show()
-	get_node("OpeningNodes").queue_free()
-
 func delete_dead_units(units):
-	for node in get_node("Units").get_children():
+	var nodes = get_node("blue/Units").get_children() + get_node("red/Units").get_children()
+	for node in nodes:
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			continue
 		if not units.has(node.get_name()):
-			var effect = resource.effect.explosion.unit.instance()
-			effect.initialize(global.dict_get(global.UNITS[node.name], "size", "small"), node.get_pos())
-			add_child(effect)
-			node.queue_free()
+			var size = global.dict_get(global.UNITS[node.u_name], "size", "small")
+			if size.begins_with("large"):
+				size = "medium"
+			var explosion = resource.effect.explosion.unit[size].instance()
+			explosion.position = node.position
+			get_node("EffectOver").add_child(explosion)
+			node.delete()
 
 func create_new_units(units):
 	for id in units:
 		var unit = units[id]
-		if not get_node("Units").has_node(id):
+		if not get_unit_node(id):
 			create_unit_node(unit)
 
 func update_units(units):
 	for id in units:
 		var unit = units[id]
-		var node = get_node("Units").get_node(id)
+		var node = get_unit_node(id)
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
 			node.remove_from_group(OBJECT_CLIENT_ONLY)
 		node.update_changes(unit)
@@ -53,9 +55,11 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	var name = unit.Name
 	var node = resource.unit[name].instance()
 	node.initialize(unit)
+	node.effect_over = $EffectOver
+	node.effect_under = $EffectUnder
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
-	get_node("Units").add_child(node)
+	get_node("%s/Units" % node.color).add_child(node)
 	if group == OBJECT_CLIENT_ONLY:
 		node.set_launch_effect(unit)
 		node.add_to_group(group)
@@ -108,35 +112,37 @@ func update_ui(game):
 	get_node("UI").update_changes(game)
 
 func create_projectile(type, target, lifetime, initial_position):
+	var projectiles = get_node("Projectiles")
 	var target_type = typeof(target)
 	var proj_node = resource.projectile[type].instance()
 	if target_type in [TYPE_INT, TYPE_REAL, TYPE_STRING]:
-		var target_node = get_node("Units").get_node(str(target))
+		var target_node = get_unit_node(str(target))
 		proj_node.set_single_target(target_node, lifetime, initial_position)
 	elif target_type in [TYPE_ARRAY, TYPE_INT_ARRAY, TYPE_REAL_ARRAY]:
 		var target_nodes = []
 		for id in target:
-			target_nodes.append(get_node("Units").get_node(str(id)))
+			target_nodes.append(get_unit_node(str(id)))
 		proj_node.set_multi_target(target_nodes, lifetime, initial_position)
 	else:
 		print("unknown target type(%d)" % target_type)
 		return
-	get_node("Projectiles").add_child(proj_node)
+	projectiles.add_child(proj_node)
+
+func get_unit_node(id):
+	if get_node("blue/Units").has_node(id):
+		return get_node("blue/Units/%s" % id)
+	if get_node("red/Units").has_node(id):
+		return get_node("red/Units/%s" % id)
+	return null
 
 func play_runway_light(team, pos_x):
-	var effect = resource.effect.runway.instance()
-	var color = "Red"
-	var pos = Vector2(pos_x, -10)
-	if global.team == team:
-		color = "Blue"
-		pos.y = global.MAP.height - pos.y
-		effect.set_rot(PI)
-	if global.team == "Visitor":
-		pos.x = global.MAP.width - pos.x
-	get_node("MothershipBG/%sLight" % color).hide()
-	effect.set_pos(pos)
-	add_child(effect)
-	effect.play()
-	yield(effect, "finished")
-	effect.queue_free()
-	get_node("MothershipBG/%sLight" % color).show()
+	pass
+
+func get_camera_x_offset():
+	var ow = ProjectSettings.get_setting("display/window/size/width")
+	var oh = ProjectSettings.get_setting("display/window/size/height")
+	var size = get_viewport().size
+	var ratio = 1- (size.y * ow / size.x / oh)
+	if ratio < 1:
+		return -ow * ratio / 2
+	return 0

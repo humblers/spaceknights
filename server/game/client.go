@@ -126,10 +126,16 @@ func (client *Client) read(timeout time.Duration) (Packet, error) {
 	if err := client.conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		return nil, err
 	}
-	if b, err := client.reader.ReadBytes('\n'); err != nil {
+	var size uint32
+	if err := binary.Read(client.reader, binary.LittleEndian, &size); err != nil {
 		return nil, err
 	} else {
-		return Packet(b), nil
+		p := make([]byte, size)
+		if _, err := client.reader.Read(p); err != nil {
+			return nil, err
+		} else {
+			return Packet(p), nil
+		}
 	}
 }
 

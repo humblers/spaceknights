@@ -18,8 +18,8 @@ const OVER_TIME = 3 * 60 * SERVER_UPDATES_PER_SECOND
 const MOTHERSHIP_BASE_HEIGHT = 60
 const SCREEN_HEIGHT = 640
 const MAP = {
-	"width" : 400,
-	"height" : 560,
+	"width" : 320,
+	"height" : 544,
 }
 
 const LAYERS = {
@@ -37,11 +37,11 @@ const UNITS = {
 	"archer" : {
 		"layer" : "Ground",
 		"hp" : 254,
-		"prehitdelay" : 4,
+		"prehitdelay" : 1,
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
-		"projectile" : "bullet",
+		"projectile" : "archer",
 		"size" : "small",
 	},
 	"barbarian" : {
@@ -83,11 +83,11 @@ const UNITS = {
 	"cannon" : {
 		"layer" : "Ground",
 		"hp" : 742,
-		"prehitdelay": 5,
+		"prehitdelay": 2,
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 110,
-		"projectile" : "bullet",
+		"projectile" : "cannon",
 		"lifetimecost" : 2,
 		"size" : "large",
 	},
@@ -101,12 +101,12 @@ const UNITS = {
 	},
 	"freezer" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
 		"radius" : 10,
 		"sight" : 200,
 		"range" : 200,
-		"projectile" : "bullet",
+		"projectile" : "freezer",
 		"size" : "large",
 	},
 	"hogrider" : {
@@ -142,17 +142,17 @@ const UNITS = {
 	},
 	"shuriken" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
 		"radius" : 10,
 		"sight" : 200,
 		"range" : 200,
-		"projectile" : "bullet",
+		"projectile" : "shuriken",
 		"size" : "large",
 	},
 	"space_z" : {
 		"layer" : "Air",
-		"hp" : 2000,
+		"hp" : 4008 * 2 / 3,
 		"prehitdelay" : 10,
 		"radius" : 10,
 		"sight" : 200,
@@ -206,7 +206,7 @@ const UNITS = {
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 85,
-		"projectile" : "bullet",
+		"projectile" : "musketeer",
 		"size" : "large",
 	},
 	"pekka" : {
@@ -240,7 +240,7 @@ const UNITS = {
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
-		"projectile" : "bullet",
+		"projectile" : "speargoblin",
 		"size" : "small",
 	},
 	"tombstone" : {
@@ -367,21 +367,21 @@ const CARDS = {
 
 	"fireball" : {
 		"type" : "spell",
-		"cost" : 4000,
+		"cost" : 11000,
 		"range" : 200,
 		"radius" : 50.0,
 		"shape" : "circular",
 	},
 	"laser" : {
 		"type" : "spell",
-		"cost" : 5000,
+		"cost" : 11000,
 		"range" : 150,
 		"radius" : 20.0,
 		"shape" : "linear",
 	},
 	"freeze" : {
 		"type" : "spell",
-		"cost" : 2000,
+		"cost" : 11000,
 		"range" : 200,
 		"radius" : 60.0,
 		"shape" : "circular",
@@ -439,14 +439,14 @@ static func draw_circle_arc(radius, color, canvasitem, center = Vector2(0, 0), a
 	for indexPoint in range(nb_points):
 		canvasitem.draw_line(points_arc[indexPoint], points_arc[indexPoint+1], color)
 
-const CARD_THRESHOLD_TOP = 310
+const CARD_THRESHOLD_TOP = 288
 const LOCATION_UI = 0
 const LOCATION_BASE = 1
 const LOCATION_BLUE = 2
 const LOCATION_RED = 3
 
 func get_location(pos):
-	if pos.y > global.MAP.height:
+	if pos.y > global.MAP.height + 32:
 		return LOCATION_UI
 	if pos.y < CARD_THRESHOLD_TOP:
 		return LOCATION_RED

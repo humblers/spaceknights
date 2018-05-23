@@ -1,27 +1,27 @@
 extends AnimatedSprite
 
-var name
+var s_name
 
 func _ready():
 	play("prepare")
 
 func initialize(spell):
-	name = spell.Name
+	s_name = spell.Name
 	if global.team == spell.Team:
-		set_rot(PI)
-	set_z(global.LAYERS.GroundUnder)
+		self.rotation = PI
+	self.z_index = global.LAYERS.GroundUnder
 	var size = get_sprite_frames().get_frame(get_animation(), 0).get_size()
-	set_scale(global.get_scale(spell.Name, size))
-	set_pos(get_position(spell))
+	self.scale = global.get_scale(spell.Name, size)
+	self.position = get_position(spell)
 
 func release():
-	if name == "freeze":
+	if s_name == "freeze":
 		queue_free()
 		return
 	if get_sprite_frames().get_animation_loop(get_animation()):
 		queue_free()
 		return
-	yield(self, "finished")
+	yield(self, "animation_finished")
 	queue_free()
 
 func get_position(spell):
@@ -33,4 +33,4 @@ func get_position(spell):
 		return Vector2(global.MAP.width - x, global.MAP.height - y)
 
 func update_position(id, position):
-	set_pos(Vector2(position.x, global.MAP.height / 2))
+	self.position = Vector2(position.x, global.MAP.height / 2)

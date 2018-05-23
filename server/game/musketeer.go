@@ -7,7 +7,7 @@ func NewMusketeer(id int, t Team, pos Vector2, offset Vector2) *Unit {
 		Name:         "musketeer",
 		Layer:        Ground,
 		TargetLayers: Layers{Ground, Air},
-		TargetTypes:  Types{Troop, Building},
+		TargetTypes:  Types{Troop, Building, Knight},
 		Hp:           598,
 		InvMass:      1.0 / 12,
 		Speed:        3,

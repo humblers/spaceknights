@@ -2,20 +2,23 @@ package main
 
 import (
 	"encoding/json"
+
 	"github.com/golang/glog"
 )
 
 const MaxEnergy = 10000
+const StartEnergy = 7000
 const EnergyPerFrame = 40
 const HandSize = 4
 
 type Player struct {
-	Team      Team
-	Hand      Cards
-	Pending   Cards   `json:"-"`
-	Knights   []*Unit `json:"-"`
-	Energy    int
-	Movements []*Movement `json:"-"`
+	Team            Team
+	Hand            Cards
+	Pending         Cards   `json:"-"`
+	Knights         []*Unit `json:"-"`
+	Energy          int
+	Movements       []*Movement      `json:"-"`
+	InstructManager *InstructManager `json:"-"`
 }
 
 type Movement struct {
@@ -34,7 +37,7 @@ func (players Players) Filter(f func(*Player) bool) Players {
 	return filtered
 }
 
-func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
+func NewPlayer(team Team, deck Cards, knights []*Unit, frame int) *Player {
 	for _, knight := range knights {
 		switch knight.Name {
 		case "shuriken":
@@ -52,6 +55,7 @@ func NewPlayer(team Team, deck Cards, knights []*Unit) *Player {
 		Hand:    deck[:HandSize],
 		Pending: deck[HandSize:],
 		Knights: knights,
+		Energy:  StartEnergy + EnergyPerFrame*frame,
 	}
 }
 
@@ -74,6 +78,9 @@ func (player *Player) Update(game *Game) {
 	player.Energy += energy
 	if player.Energy >= MaxEnergy {
 		player.Energy = MaxEnergy
+	}
+	if player.InstructManager != nil {
+		player.InstructManager.Update(game)
 	}
 }
 
