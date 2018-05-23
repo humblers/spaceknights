@@ -87,7 +87,7 @@ const UNITS = {
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 110,
-		"projectile" : "bullet",
+		"projectile" : "cannon",
 		"lifetimecost" : 2,
 		"size" : "large",
 	},
@@ -106,7 +106,7 @@ const UNITS = {
 		"radius" : 10,
 		"sight" : 200,
 		"range" : 200,
-		"projectile" : "bullet",
+		"projectile" : "freezer",
 		"size" : "large",
 	},
 	"hogrider" : {
@@ -147,7 +147,7 @@ const UNITS = {
 		"radius" : 10,
 		"sight" : 200,
 		"range" : 200,
-		"projectile" : "bullet",
+		"projectile" : "shuriken",
 		"size" : "large",
 	},
 	"space_z" : {

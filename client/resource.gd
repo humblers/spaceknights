@@ -40,6 +40,9 @@ var spell = {
 
 var projectile = {
 	"archer" : preload("res://unit/archer/bullet.tscn"),
+	"cannon" : preload("res://unit/cannon/bullet.tscn"),
+	"freezer" : preload("res://unit/freezer/bullet.tscn"),
+	"shuriken" : preload("res://unit/shuriken/bullet.tscn"),
 	"bomber_missile": preload("res://projectile/bomber_missile.tscn"),
 	"bombtower_missile": preload("res://projectile/bombtower_missile.tscn"),
 	"bullet": preload("res://projectile/bullet.tscn"),
