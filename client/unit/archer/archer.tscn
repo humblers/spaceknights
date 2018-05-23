@@ -10,18 +10,18 @@
 [ext_resource path="res://unit/hpbar_red_S_edge.png" type="Texture" id=8]
 [ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=9]
 
-[sub_resource type="Gradient" id=20]
+[sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0, 0, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=21]
+[sub_resource type="GradientTexture" id=2]
 
 flags = 4
-gradient = SubResource( 20 )
+gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=22]
+[sub_resource type="ParticlesMaterial" id=3]
 
 render_priority = 0
 trail_divisor = 1
@@ -50,7 +50,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 21 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -352,6 +352,18 @@ tracks/8/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("Body/Shotpoint/Center/Muzzleflash:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=18]
 
@@ -591,7 +603,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 22 )
+process_material = SubResource( 3 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -633,7 +645,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Particles2D" type="Particles2D" parent="Body/EffectUnder/BoosterL" index="0"]
 
 scale = Vector2( 0.3, 0.7 )
-emitting = true
+emitting = false
 amount = 16
 lifetime = 1.0
 one_shot = false
@@ -656,7 +668,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 [node name="Light2D" type="Light2D" parent="Body/EffectUnder/BoosterL" index="1"]
 
 position = Vector2( 7, 0 )
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
@@ -688,7 +700,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Particles2D" type="Particles2D" parent="Body/EffectUnder/BoosterLsub" index="0"]
 
 scale = Vector2( 0.2, 0.4 )
-emitting = true
+emitting = false
 amount = 16
 lifetime = 1.0
 one_shot = false
@@ -716,7 +728,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Particles2D" type="Particles2D" parent="Body/EffectUnder/BoosterR" index="0"]
 
 scale = Vector2( 0.3, 0.7 )
-emitting = true
+emitting = false
 amount = 16
 lifetime = 1.0
 one_shot = false
@@ -739,7 +751,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 [node name="Light2D2" type="Light2D" parent="Body/EffectUnder/BoosterR" index="1"]
 
 position = Vector2( -7, 0 )
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
@@ -771,7 +783,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Particles2D" type="Particles2D" parent="Body/EffectUnder/BoosterRsub" index="0"]
 
 scale = Vector2( 0.2, 0.4 )
-emitting = true
+emitting = false
 amount = 16
 lifetime = 1.0
 one_shot = false
@@ -802,6 +814,7 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Muzzleflash" type="Particles2D" parent="Body/Shotpoint/Center" index="0"]
 
+visible = false
 position = Vector2( 0, -18 )
 scale = Vector2( 0.3, 0.6 )
 emitting = false

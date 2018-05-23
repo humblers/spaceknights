@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game.gd" type="Script" id=1]
 [ext_resource path="res://bg-tanatos_screen.png" type="Texture" id=2]
@@ -23,20 +23,21 @@
 [ext_resource path="res://meteor-middle.png" type="Texture" id=21]
 [ext_resource path="res://meteor-small.png" type="Texture" id=22]
 [ext_resource path="res://meteor-big.png" type="Texture" id=23]
-[ext_resource path="res://blue_base.png" type="Texture" id=24]
-[ext_resource path="res://red_base.png" type="Texture" id=25]
-[ext_resource path="res://debries-ani.tres" type="Animation" id=26]
-[ext_resource path="res://meteor-ani.tres" type="Animation" id=27]
-[ext_resource path="res://ui.gd" type="Script" id=28]
-[ext_resource path="res://font/arialbd.ttf" type="DynamicFontData" id=29]
-[ext_resource path="res://icon.png" type="Texture" id=30]
-[ext_resource path="res://bt_next_bot.png" type="Texture" id=31]
-[ext_resource path="res://bt_next_top.png" type="Texture" id=32]
-[ext_resource path="res://energybar_bot.png" type="Texture" id=33]
-[ext_resource path="res://energybar_top.png" type="Texture" id=34]
-[ext_resource path="res://energybar_inside.png" type="Texture" id=35]
-[ext_resource path="res://ui/card.tscn" type="PackedScene" id=36]
-[ext_resource path="res://ui/result/result.tscn" type="PackedScene" id=37]
+[ext_resource path="res://effect/explosion_2.png" type="Texture" id=24]
+[ext_resource path="res://blue_base.png" type="Texture" id=25]
+[ext_resource path="res://red_base.png" type="Texture" id=26]
+[ext_resource path="res://debries-ani.tres" type="Animation" id=27]
+[ext_resource path="res://meteor-ani.tres" type="Animation" id=28]
+[ext_resource path="res://ui.gd" type="Script" id=29]
+[ext_resource path="res://font/arialbd.ttf" type="DynamicFontData" id=30]
+[ext_resource path="res://icon.png" type="Texture" id=31]
+[ext_resource path="res://bt_next_bot.png" type="Texture" id=32]
+[ext_resource path="res://bt_next_top.png" type="Texture" id=33]
+[ext_resource path="res://energybar_bot.png" type="Texture" id=34]
+[ext_resource path="res://energybar_top.png" type="Texture" id=35]
+[ext_resource path="res://energybar_inside.png" type="Texture" id=36]
+[ext_resource path="res://ui/card.tscn" type="PackedScene" id=37]
+[ext_resource path="res://ui/result/result.tscn" type="PackedScene" id=38]
 
 [sub_resource type="Animation" id=1]
 
@@ -237,6 +238,57 @@ tracks/15/keys = {
 "values": [ 6.0, 0.01, 6.0, 0.01 ]
 }
 
+[sub_resource type="Gradient" id=11]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 0.869904, 0.425781, 1, 1, 0.304199, 0.0625, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+
+flags = 4
+gradient = SubResource( 11 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=13]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 0.0
+flatness = 0.0
+gravity = Vector3( 120, 30, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 12 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity" ]
+
 [sub_resource type="Shader" id=2]
 
 code = "shader_type canvas_item;
@@ -328,7 +380,7 @@ viewport_path = NodePath("red/Units")
 size = 16
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 29 )
+font_data = ExtResource( 30 )
 _sections_unfolded = [ "Font", "Resource", "Settings" ]
 
 [sub_resource type="DynamicFont" id=9]
@@ -336,7 +388,7 @@ _sections_unfolded = [ "Font", "Resource", "Settings" ]
 size = 48
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 29 )
+font_data = ExtResource( 30 )
 _sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 
 [sub_resource type="DynamicFont" id=10]
@@ -344,7 +396,7 @@ _sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 size = 16
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 29 )
+font_data = ExtResource( 30 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="game" type="Camera2D" index="0"]
@@ -717,7 +769,7 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Background" index="7"]
 
-modulate = Color( 1, 1, 1, 0.875007 )
+modulate = Color( 1, 1, 1, 0.999995 )
 position = Vector2( 1080.95, 1004.08 )
 enabled = false
 editor_only = false
@@ -725,7 +777,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.772278, 0.289063, 1 )
-energy = 2.62627
+energy = 2.99999
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -744,26 +796,49 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="meteorMd" type="Sprite" parent="Background" index="8"]
 
-editor/display_folded = true
-modulate = Color( 0.238281, 0.238281, 0.238281, 1 )
-position = Vector2( -181.373, 1666.35 )
-rotation = -0.0129283
-scale = Vector2( 0.51005, 0.51005 )
+modulate = Color( 0.253906, 0.253906, 0.253906, 1 )
+position = Vector2( -149.835, 1650.72 )
+rotation = -0.0258567
+scale = Vector2( 0.5201, 0.5201 )
 texture = ExtResource( 21 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="meteorSm" type="Sprite" parent="Background" index="9"]
+[node name="spark" type="Particles2D" parent="Background" index="9"]
+
+position = Vector2( 1055.75, 1010.7 )
+rotation = -0.523597
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 30
+lifetime = 1.0
+one_shot = false
+preprocess = 1.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 13 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="meteorSm" type="Sprite" parent="Background" index="10"]
 
 position = Vector2( 16.7187, 835.035 )
 texture = ExtResource( 22 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="meteorLg" type="Sprite" parent="Background" index="10"]
+[node name="meteorLg" type="Sprite" parent="Background" index="11"]
 
-editor/display_folded = true
-position = Vector2( -127.839, 1751.54 )
-rotation = 3.14159
-scale = Vector2( 0.2, 0.2 )
+position = Vector2( 1733.11, -95.8665 )
+rotation = 1.74845e-07
+scale = Vector2( 3, 3 )
 texture = ExtResource( 23 )
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
@@ -771,11 +846,11 @@ _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
 enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 24 )
 offset = Vector2( 0, 0 )
 texture_scale = 4.0
-color = Color( 0.324219, 0.588196, 1, 1 )
-energy = 0.01
+color = Color( 1, 0.260254, 0.0625, 1 )
+energy = 2.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -791,36 +866,36 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="BlueBaseBottom" type="Sprite" parent="Background" index="11"]
+[node name="BlueBaseBottom" type="Sprite" parent="Background" index="12"]
 
 position = Vector2( 540, 1785 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="RedBase" type="Sprite" parent="Background" index="12"]
+[node name="RedBase" type="Sprite" parent="Background" index="13"]
 
 position = Vector2( 540, 110 )
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Debriesplayer" type="AnimationPlayer" parent="Background" index="13"]
+[node name="Debriesplayer" type="AnimationPlayer" parent="Background" index="14"]
 
 root_node = NodePath("..")
 autoplay = "debries-ani"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/debries-ani = ExtResource( 26 )
+anims/debries-ani = ExtResource( 27 )
 blend_times = [  ]
 
-[node name="Meteorplayer" type="AnimationPlayer" parent="Background" index="14"]
+[node name="Meteorplayer" type="AnimationPlayer" parent="Background" index="15"]
 
 root_node = NodePath("..")
 autoplay = "meteor-ani"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/meteor-ani = ExtResource( 27 )
+anims/meteor-ani = ExtResource( 28 )
 blend_times = [  ]
 
 [node name="EffectUnder" type="Node2D" parent="." index="1"]
@@ -917,7 +992,7 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-script = ExtResource( 28 )
+script = ExtResource( 29 )
 _sections_unfolded = [ "Pause" ]
 
 [node name="Ping" type="Label" parent="UI" index="0"]
@@ -1018,7 +1093,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
@@ -1038,7 +1113,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 31 )
+texture = ExtResource( 32 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
@@ -1058,7 +1133,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
@@ -1086,9 +1161,9 @@ page = 0.0
 value = 50.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 33 )
-texture_over = ExtResource( 34 )
-texture_progress = ExtResource( 35 )
+texture_under = ExtResource( 34 )
+texture_over = ExtResource( 35 )
+texture_progress = ExtResource( 36 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1146,19 +1221,19 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Size Flags", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="Card1" parent="UI" index="6" instance=ExtResource( 36 )]
+[node name="Card1" parent="UI" index="6" instance=ExtResource( 37 )]
 
-[node name="Card2" parent="UI" index="7" instance=ExtResource( 36 )]
+[node name="Card2" parent="UI" index="7" instance=ExtResource( 37 )]
 
 margin_left = -110.0
 margin_right = 70.0
 
-[node name="Card3" parent="UI" index="8" instance=ExtResource( 36 )]
+[node name="Card3" parent="UI" index="8" instance=ExtResource( 37 )]
 
 margin_left = 105.0
 margin_right = 285.0
 
-[node name="Card4" parent="UI" index="9" instance=ExtResource( 36 )]
+[node name="Card4" parent="UI" index="9" instance=ExtResource( 37 )]
 
 margin_left = 320.0
 margin_right = 500.0
@@ -1173,7 +1248,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 visible = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="Result" parent="UI" index="11" instance=ExtResource( 37 )]
+[node name="Result" parent="UI" index="11" instance=ExtResource( 38 )]
 
 visible = false
 
