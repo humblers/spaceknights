@@ -367,21 +367,21 @@ const CARDS = {
 
 	"fireball" : {
 		"type" : "spell",
-		"cost" : 4000,
+		"cost" : 11000,
 		"range" : 200,
 		"radius" : 50.0,
 		"shape" : "circular",
 	},
 	"laser" : {
 		"type" : "spell",
-		"cost" : 5000,
+		"cost" : 11000,
 		"range" : 150,
 		"radius" : 20.0,
 		"shape" : "linear",
 	},
 	"freeze" : {
 		"type" : "spell",
-		"cost" : 2000,
+		"cost" : 11000,
 		"range" : 200,
 		"radius" : 60.0,
 		"shape" : "circular",
