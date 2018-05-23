@@ -10,6 +10,7 @@ func _ready():
 
 func try_auto_login():
 	if not global.config.has_section("login"):
+		emit_signal("auth_updated")
 		return
 	for id in global.config.get_section_keys("login"):
 		var token = global.config.get_value("login", id)
@@ -20,6 +21,7 @@ func try_auto_login():
 				{"id":id, "token":token},
 				"login_response")
 		return
+	emit_signal("auth_updated")
 
 func login_manually():
 	http_lobby.request(HTTPClient.METHOD_POST,

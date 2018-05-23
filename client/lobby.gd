@@ -20,8 +20,12 @@ func _ready():
 	find_timer.connect("timeout", self, "find_game")
 	find_timer.set_wait_time(0.1)
 	add_child(find_timer)
-	$Auth.connect("auth_updated", self, "handle_match_buttons")
+	$Auth.connect("auth_updated", self, "auth_updated")
 	$Auth.try_auto_login()
+
+func auth_updated():
+	handle_match_buttons()
+	find_game(false)
 
 func handle_match_buttons():
 	if not global.id:

@@ -109,12 +109,12 @@ func (m *MatchManager) MatchingCandidates() {
 		}
 	}
 	id1, id2 := keys[0], keys[1]
-	delete(m.Candidates, id1)
-	delete(m.Candidates, id2)
 	if created := m.RequestGameSession(m.Candidates[id1], m.Candidates[id2]); !created {
 		delete(m.Games, id1)
 		delete(m.Games, id2)
 	}
+	delete(m.Candidates, id1)
+	delete(m.Candidates, id2)
 }
 
 func (m *MatchManager) IsGameRunning(game *Game) (res bool) {
