@@ -97,6 +97,8 @@ func update_changes(unit):
 			anim.play_backwards("transform")
 		elif unit.Form == ARMED:
 			anim.play("transform")
+	if unit.SpawnStarted:
+		anim.play("spawn")
 	if unit.State == "move":
 		var a = "move"
 		match int(unit.Form):

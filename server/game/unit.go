@@ -137,6 +137,7 @@ type Unit struct {
 	AttackStarted    bool
 	MoveStarted      bool
 	TransformStarted bool
+	SpawnStarted     bool
 }
 
 func (u *Unit) String() string {
@@ -395,6 +396,7 @@ func (u *Unit) StartAttack() {
 func (u *Unit) ClearEvents() {
 	u.AttackStarted = false
 	u.TransformStarted = false
+	u.SpawnStarted = false
 }
 
 func (u *Unit) FindNearestTarget(filter func(*Unit) bool) *Unit {
@@ -477,6 +479,7 @@ func (u *Unit) HandleSpawn() {
 		glog.Errorf("unknown spawn thing : %v", u.SpawnThing)
 		return
 	}
+	u.SpawnStarted = true
 	u.SpawnFrame = u.Game.Frame + u.SpawnSpeed
 }
 
