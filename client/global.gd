@@ -83,7 +83,7 @@ const UNITS = {
 	"cannon" : {
 		"layer" : "Ground",
 		"hp" : 742,
-		"prehitdelay": 5,
+		"prehitdelay": 2,
 		"radius" : 20,
 		"sight" : 120,
 		"range" : 110,

@@ -20,7 +20,7 @@ func NewArcher(id int, t Team, pos Vector2, offset Vector2) *Unit {
 		Size:         Small,
 		Sight:        100,
 		Range:        70,
-		Damage:       86,
+		Damage:       43,
 		Id:           id,
 		Position:     pos.Plus(offset.Multiply(9)),
 	}
