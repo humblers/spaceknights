@@ -206,7 +206,7 @@ const UNITS = {
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 85,
-		"projectile" : "bullet",
+		"projectile" : "musketeer",
 		"size" : "large",
 	},
 	"pekka" : {
@@ -240,7 +240,7 @@ const UNITS = {
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
-		"projectile" : "bullet",
+		"projectile" : "speargoblin",
 		"size" : "small",
 	},
 	"tombstone" : {
