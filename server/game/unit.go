@@ -332,7 +332,7 @@ func (u *Unit) PickForm() Form {
 		return Immutable
 	}
 	switch u.Name {
-	case "darkprince":
+	case "darkprince", "prince":
 		if u.DistanceTo(u.Target) < u.Range+u.Radius+u.Target.Radius+15 {
 			return Armed
 		}
