@@ -572,7 +572,44 @@ tracks/7/keys = {
 
 _sections_unfolded = [ "Transform" ]
 
-[node name="rotatable" type="Node2D" parent="." index="0"]
+[node name="Body" type="Node2D" parent="." index="0"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Material", "Offset" ]
+
+[node name="Sprite" type="Sprite" parent="Body" index="0"]
+
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Effect" type="Node2D" parent="Body" index="1"]
+
+[node name="FlashingRed" type="Particles2D" parent="Body/Effect" index="0"]
+
+position = Vector2( 31.9186, 28.5814 )
+rotation = -0.314159
+scale = Vector2( 2, 4 )
+emitting = true
+amount = 1
+lifetime = 2.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 3 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="FlashingGreen" type="Particles2D" parent="Body/Effect" index="1"]
 
 _sections_unfolded = [ "Transform" ]
 
@@ -884,6 +921,8 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="blue" type="TextureProgress" parent="Hp" index="0"]
 
+visible = false
+light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -911,11 +950,12 @@ texture_progress = ExtResource( 6 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
-_sections_unfolded = [ "Margin", "Radial Fill", "Rect", "Textures" ]
+_sections_unfolded = [ "Visibility" ]
 
 [node name="red" type="TextureProgress" parent="Hp" index="1"]
 
 visible = false
+light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -943,6 +983,7 @@ texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
+_sections_unfolded = [ "Visibility" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 
