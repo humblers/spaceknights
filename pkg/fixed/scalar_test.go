@@ -8,7 +8,7 @@ import (
 func TestFromInt(t *testing.T) {
 	cases := []struct {
 		x    int
-		want Number
+		want Scalar
 	}{
 		{1, One},
 		{1 << m, max},        // saturation
@@ -22,9 +22,9 @@ func TestFromInt(t *testing.T) {
 	}
 }
 
-func TestNumber_ToInt(t *testing.T) {
+func TestScalar_ToInt(t *testing.T) {
 	cases := []struct {
-		x    Number
+		x    Scalar
 		want int
 	}{
 		{One, 1},
@@ -40,7 +40,7 @@ func TestNumber_ToInt(t *testing.T) {
 func TestFromFloat(t *testing.T) {
 	cases := []struct {
 		x    float64
-		want Number
+		want Scalar
 	}{
 		{1.0, One},
 		{float64(1 << m), max},                 // saturation
@@ -55,9 +55,9 @@ func TestFromFloat(t *testing.T) {
 	}
 }
 
-func TestNumber_ToFloat(t *testing.T) {
+func TestScalar_ToFloat(t *testing.T) {
 	cases := []struct {
-		x    Number
+		x    Scalar
 		want float64
 	}{
 		{One, 1.0},
@@ -70,9 +70,9 @@ func TestNumber_ToFloat(t *testing.T) {
 	}
 }
 
-func TestNumber_Add(t *testing.T) {
+func TestScalar_Add(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One, One * 2},
 		{max, epsilon, max},  // saturation
@@ -86,9 +86,9 @@ func TestNumber_Add(t *testing.T) {
 	}
 }
 
-func TestNumber_Sub(t *testing.T) {
+func TestScalar_Sub(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One, 0},
 		{max, -epsilon, max}, // saturation
@@ -102,9 +102,9 @@ func TestNumber_Sub(t *testing.T) {
 	}
 }
 
-func TestNumber_Mul(t *testing.T) {
+func TestScalar_Mul(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One, One},
 		{max, One + epsilon, max},           // saturation
@@ -120,9 +120,9 @@ func TestNumber_Mul(t *testing.T) {
 	}
 }
 
-func TestNumber_Div(t *testing.T) {
+func TestScalar_Div(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One, One},
 		{max, One - epsilon, max},           // saturation
@@ -138,9 +138,9 @@ func TestNumber_Div(t *testing.T) {
 	}
 }
 
-func TestNumber_Abs(t *testing.T) {
+func TestScalar_Abs(t *testing.T) {
 	cases := []struct {
-		x, want Number
+		x, want Scalar
 	}{
 		{One, One},
 		{-One, One},
@@ -154,9 +154,9 @@ func TestNumber_Abs(t *testing.T) {
 	}
 }
 
-func TestNumber_Clamp(t *testing.T) {
+func TestScalar_Clamp(t *testing.T) {
 	cases := []struct {
-		x, min, max, want Number
+		x, min, max, want Scalar
 	}{
 		{One, One * 2, One * 3, One * 2},
 		{One * 3, One, One * 2, One * 2},
@@ -170,9 +170,9 @@ func TestNumber_Clamp(t *testing.T) {
 	}
 }
 
-func TestNumber_Sqrt(t *testing.T) {
+func TestScalar_Sqrt(t *testing.T) {
 	cases := []struct {
-		x, want Number
+		x, want Scalar
 	}{
 		{One, One},
 		{One * 4, One * 2},
@@ -187,7 +187,7 @@ func TestNumber_Sqrt(t *testing.T) {
 
 func TestMin(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One * 2, One},
 	}
@@ -201,7 +201,7 @@ func TestMin(t *testing.T) {
 
 func TestMax(t *testing.T) {
 	cases := []struct {
-		x, y, want Number
+		x, y, want Scalar
 	}{
 		{One, One * 2, One * 2},
 	}

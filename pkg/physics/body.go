@@ -2,55 +2,30 @@ package physics
 
 import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 
-var (
-	restitution = fixed.One.Div(fixed.Two)         // 0.5
-	dt          = fixed.One.Div(fixed.FromInt(60)) // 1/60
-)
-
-type Body interface {
-	Id() int
-	//	Velocity() fixed.Vec2
-	//	Position() fixed.Vec2
-	applyForce()
-	move()
-}
-
 type body struct {
 	id    int
-	mass  fixed.Number
-	imass fixed.Number
-	rest  fixed.Number // restitution
-	vel   fixed.Vec2
-	pos   fixed.Vec2
-	force fixed.Vec2
+	mass  fixed.Scalar
+	imass fixed.Scalar
+	rest  fixed.Scalar // restitution
+	pos   fixed.Vector
+	vel   fixed.Vector
+	force fixed.Vector
+
+	shape  shape
+	radius fixed.Scalar
+	width  fixed.Scalar
+	height fixed.Scalar
 }
 
-type box struct {
-	width, height fixed.Number
-	*body
-}
+type shape string
 
-type circle struct {
-	radius fixed.Number
-	*body
-}
+const (
+	box    shape = "box"
+	circle shape = "circle"
+)
 
-func (b *body) Id() int {
-	return b.id
-}
-
-/*
-func (b *body) Velocity() fixed.Vec2 {
-	return b.vel
-}
-
-func (b *body) Position() fixed.Vec2 {
-	return b.pos
-}
-*/
-
-func newBody(id int, mass fixed.Number, pos fixed.Vec2) *body {
-	var imass fixed.Number
+func newBody(id int, mass, rest fixed.Scalar, pos fixed.Vector) *body {
+	var imass fixed.Scalar
 	if mass == 0 {
 		imass = 0
 	} else {
@@ -60,22 +35,33 @@ func newBody(id int, mass fixed.Number, pos fixed.Vec2) *body {
 		id:    id,
 		mass:  mass,
 		imass: imass,
-		rest:  restitution,
+		rest:  rest,
 		pos:   pos,
 	}
 }
 
-func (b *body) applyForce() {
+func (b *body) setAsBox(width, height fixed.Scalar) {
+	b.shape = box
+	b.width = width
+	b.height = height
+}
+
+func (b *body) setAsCircle(radius fixed.Scalar) {
+	b.shape = circle
+	b.radius = radius
+}
+
+func (b *body) applyForce(gravity fixed.Vector, dt fixed.Scalar) {
 	if b.mass == 0 {
 		return
 	}
-	accel := b.force.Mul(b.imass)
+	accel := b.force.Mul(b.imass).Add(gravity)
 	b.vel = b.vel.Add(accel.Mul(dt))
 	b.force.X = 0
 	b.force.Y = 0
 }
 
-func (b *body) move() {
+func (b *body) move(dt fixed.Scalar) {
 	if b.mass == 0 {
 		return
 	}

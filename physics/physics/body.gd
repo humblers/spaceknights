@@ -1,41 +1,60 @@
-extends Node
+extends Reference
 
-var gravity_x = 0
-var gravity_y = number.FromInt(50)
-var restitution = number.Div(number.ONE, number.TWO)	# 0.5
-var dt = number.Div(number.ONE, number.FromInt(60))		# 1/60
+var id = 0
+var mass = 0
+var imass = 0
+var rest = 0	# restitution
+var pos_x = 0
+var pos_y = 0
+var vel_x = 0
+var vel_y = 0
+var force_x = 0
+var force_y = 0
 
-static func NewBody(id, mass, pos_x, pos_y):
-	return {
-		"id": id,
-		"mass": mass,
-		"imass": 0 if mass == 0 else number.Div(number.ONE, mass),
-		"rest": restitution,
-		"pos_x": pos_x,
-		"pos_y": pos_y,
-		"vel_x": 0,
-		"vel_y": 0,
-		"force_x": 0,
-		"force_y": 0,
+# geometry
+var shape = ""
+var radius = 0
+var width = 0
+var height = 0
 
-		# client only
-		"prev_pos_x": pos_x,
-		"prev_pos_y": pos_y,
-		"node": null
-	}
+# client only
+var prev_pos_x = 0
+var prev_pos_y = 0
+var node = null
 
-static func ApplyForce(b):
+func _init(id, mass, rest, pos_x, pos_y):
+	self.id = id
+	self.mass = mass
+	self.imass = 0 if mass == 0 else scalar.Div(scalar.One, mass)
+	self.rest = rest
+	self.pos_x = pos_x
+	self.pos_y = pos_y
+	self.prev_pos_x = self.pos_x
+	self.prev_pos_y = self.pos_y
+
+func setAsBox(width, height):
+	self.shape = "box"
+	self.width = width
+	self.height = height
+
+func setAsCircle(radius):
+	self.shape = "circle"
+	self.radius = radius
+
+func applyForce(gravity_x, gravity_y, dt):
 	if mass == 0:
 		return
-	var accel_x = number.Add(number.Mul(force_x, imass), gravity_x)
-	var accel_y = number.Add(number.Mul(force_y, imass), gravity_y)
-	b.vel_x = number.Add(b.vel_x, number.Mul(accel_x, dt))
-	b.vel_y = number.Add(b.vel_y, number.Mul(accel_y, dt))
-	b.force_x = 0
-	b.force_y = 0	
+	var accel_x = scalar.Add(scalar.Mul(force_x, imass), gravity_x)
+	var accel_y = scalar.Add(scalar.Mul(force_y, imass), gravity_y)
+	vel_x = scalar.Add(vel_x, scalar.Mul(accel_x, dt))
+	vel_y = scalar.Add(vel_y, scalar.Mul(accel_y, dt))
+	force_x = 0
+	force_y = 0
 
-static func Move(b):
+func move(dt):
 	if mass == 0:
 		return
-	b.pos_x = number.Add(b.pos_x, number.Mul(vel_x, dt))
-	b.pos_y = number.Add(b.pos_y, number.Mul(vel_y, dt))
+	prev_pos_x = pos_x
+	prev_pos_y = pos_y
+	pos_x = scalar.Add(pos_x, scalar.Mul(vel_x, dt))
+	pos_y = scalar.Add(pos_y, scalar.Mul(vel_y, dt))

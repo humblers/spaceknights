@@ -4,11 +4,11 @@ import (
 	"testing"
 )
 
-func TestVec2_Add(t *testing.T) {
+func TestVector_Add(t *testing.T) {
 	cases := []struct {
-		x, y, want Vec2
+		x, y, want Vector
 	}{
-		{Vec2{One, 0}, Vec2{0, One}, Vec2{One, One}},
+		{Vector{One, 0}, Vector{0, One}, Vector{One, One}},
 	}
 	for _, c := range cases {
 		got := c.x.Add(c.y)
@@ -18,11 +18,11 @@ func TestVec2_Add(t *testing.T) {
 	}
 }
 
-func TestVec2_Sub(t *testing.T) {
+func TestVector_Sub(t *testing.T) {
 	cases := []struct {
-		x, y, want Vec2
+		x, y, want Vector
 	}{
-		{Vec2{One, One}, Vec2{0, One}, Vec2{One, 0}},
+		{Vector{One, One}, Vector{0, One}, Vector{One, 0}},
 	}
 	for _, c := range cases {
 		got := c.x.Sub(c.y)
@@ -32,13 +32,13 @@ func TestVec2_Sub(t *testing.T) {
 	}
 }
 
-func TestVec2_Mul(t *testing.T) {
+func TestVector_Mul(t *testing.T) {
 	cases := []struct {
-		x    Vec2
-		s    Number
-		want Vec2
+		x    Vector
+		s    Scalar
+		want Vector
 	}{
-		{Vec2{One, One}, One * 2, Vec2{One * 2, One * 2}},
+		{Vector{One, One}, One * 2, Vector{One * 2, One * 2}},
 	}
 	for _, c := range cases {
 		got := c.x.Mul(c.s)
@@ -48,13 +48,13 @@ func TestVec2_Mul(t *testing.T) {
 	}
 }
 
-func TestVec2_Div(t *testing.T) {
+func TestVector_Div(t *testing.T) {
 	cases := []struct {
-		x    Vec2
-		s    Number
-		want Vec2
+		x    Vector
+		s    Scalar
+		want Vector
 	}{
-		{Vec2{One * 2, One * 2}, One * 2, Vec2{One, One}},
+		{Vector{One * 2, One * 2}, One * 2, Vector{One, One}},
 	}
 	for _, c := range cases {
 		got := c.x.Div(c.s)
@@ -64,12 +64,12 @@ func TestVec2_Div(t *testing.T) {
 	}
 }
 
-func TestVec2_Dot(t *testing.T) {
+func TestVector_Dot(t *testing.T) {
 	cases := []struct {
-		x, y Vec2
-		want Number
+		x, y Vector
+		want Scalar
 	}{
-		{Vec2{One, 0}, Vec2{0, One}, 0},
+		{Vector{One, 0}, Vector{0, One}, 0},
 	}
 	for _, c := range cases {
 		got := c.x.Dot(c.y)
@@ -79,12 +79,12 @@ func TestVec2_Dot(t *testing.T) {
 	}
 }
 
-func TestVec2_Cross(t *testing.T) {
+func TestVector_Cross(t *testing.T) {
 	cases := []struct {
-		x, y Vec2
-		want Number
+		x, y Vector
+		want Scalar
 	}{
-		{Vec2{One, 0}, Vec2{0, One}, One},
+		{Vector{One, 0}, Vector{0, One}, One},
 	}
 	for _, c := range cases {
 		got := c.x.Cross(c.y)
@@ -94,12 +94,12 @@ func TestVec2_Cross(t *testing.T) {
 	}
 }
 
-func TestVec2_LengthSquared(t *testing.T) {
+func TestVector_LengthSquared(t *testing.T) {
 	cases := []struct {
-		x    Vec2
-		want Number
+		x    Vector
+		want Scalar
 	}{
-		{Vec2{One * 3, One * 4}, One * 25},
+		{Vector{One * 3, One * 4}, One * 25},
 	}
 	for _, c := range cases {
 		got := c.x.LengthSquared()
@@ -109,12 +109,12 @@ func TestVec2_LengthSquared(t *testing.T) {
 	}
 }
 
-func TestVec2_Length(t *testing.T) {
+func TestVector_Length(t *testing.T) {
 	cases := []struct {
-		x    Vec2
-		want Number
+		x    Vector
+		want Scalar
 	}{
-		{Vec2{One * 3, One * 4}, One * 5},
+		{Vector{One * 3, One * 4}, One * 5},
 	}
 	for _, c := range cases {
 		got := c.x.Length()
@@ -124,12 +124,12 @@ func TestVec2_Length(t *testing.T) {
 	}
 }
 
-func TestVec2_Normalized(t *testing.T) {
+func TestVector_Normalized(t *testing.T) {
 	cases := []struct {
-		x, want Vec2
+		x, want Vector
 	}{
-		{Vec2{One / 2, 0}, Vec2{One, 0}},
-		{Vec2{One * 2, 0}, Vec2{One, 0}},
+		{Vector{One / 2, 0}, Vector{One, 0}},
+		{Vector{One * 2, 0}, Vector{One, 0}},
 	}
 	for _, c := range cases {
 		got := c.x.Normalized()
@@ -139,14 +139,14 @@ func TestVec2_Normalized(t *testing.T) {
 	}
 }
 
-func TestVec2_Truncated(t *testing.T) {
+func TestVector_Truncated(t *testing.T) {
 	cases := []struct {
-		x    Vec2
-		s    Number
-		want Vec2
+		x    Vector
+		s    Scalar
+		want Vector
 	}{
-		{Vec2{One / 2, 0}, One, Vec2{One / 2, 0}},
-		{Vec2{One * 2, 0}, One, Vec2{One, 0}},
+		{Vector{One / 2, 0}, One, Vector{One / 2, 0}},
+		{Vector{One * 2, 0}, One, Vector{One, 0}},
 	}
 	for _, c := range cases {
 		got := c.x.Truncated(c.s)
