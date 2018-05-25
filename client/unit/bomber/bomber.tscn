@@ -448,19 +448,19 @@ tracks/15/keys = {
 "values": [ false, true, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Boosterpoint/Booster:emitting")
+tracks/16/path = NodePath("Body/Shotpoint/MissileSmokeL4/FireL4/LightL4:enabled")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ false, true, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Shotpoint/MissileSmokeL4/FireL4/LightL4:enabled")
+tracks/17/path = NodePath("Body/Shotpoint/MissileSmokeR4/FireR4/LightR4:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -472,16 +472,28 @@ tracks/17/keys = {
 "values": [ false, true, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Shotpoint/MissileSmokeR4/FireR4/LightR4:enabled")
+tracks/18/path = NodePath("Body/Boosterpoint/Booster:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0, 0.5, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ false ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Body/Boosterpoint/Light2D:enabled")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=19]
@@ -501,6 +513,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Boosterpoint/Light2D:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=20]
 
@@ -514,6 +538,18 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Boosterpoint/Light2D:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -610,7 +646,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="FireL1" type="Particles2D" parent="Body/Shotpoint/MissileSmokeL" index="0"]
 
-editor/display_folded = true
 position = Vector2( -0.5, -2 )
 rotation = 0.698132
 scale = Vector2( 0.7, 0.7 )
@@ -1074,7 +1109,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Boosterpoint" type="Position2D" parent="Body" index="6"]
 
-editor/display_folded = true
 position = Vector2( 0, 36 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1083,8 +1117,8 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 0, 10 )
 scale = Vector2( 0.4, 0.8 )
 emitting = false
-amount = 16
-lifetime = 1.0
+amount = 4
+lifetime = 1.4
 one_shot = false
 preprocess = 0.0
 speed_scale = 5.0
@@ -1101,6 +1135,30 @@ normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="Light2D" type="Light2D" parent="Body/Boosterpoint" index="1"]
+
+enabled = false
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.2
+color = Color( 0.316406, 0.727631, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
 
 [node name="Hp" type="Position2D" parent="." index="1"]
 
