@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://test/circle.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node2D
+
+const mass = 10
+const radius = 30
+const speed = 100
+
+onready var target = get_node(\"../enemy\")
+
+var world
+var nav
+var body
+
+func _ready():
+	get_node(\"circle\").radius = radius
+	get_node(\"circle\").color = Color(0, 0, 1)
+
+func Init(world, nav, pos_x, pos_y):
+	self.world = world
+	self.nav = nav
+	body = world.AddCircle(
+		scalar.FromInt(mass),
+		world.FromPixel(radius),
+		world.FromPixel(pos_x),
+		world.FromPixel(pos_y)
+	)
+	body.node = self
+
+func Update():
+	var corner = nav.FindNextCornerInPath(
+		body.pos_x,
+		body.pos_y,
+		target.body.pos_x,
+		target.body.pos_y,
+		body.radius
+	)
+	var dir_x = scalar.Sub(corner[0], body.pos_x)
+	var dir_y = scalar.Sub(corner[1], body.pos_y)
+	var l = vector.Length(dir_x, dir_y)
+	var n_x = scalar.Div(dir_x, l)
+	var n_y = scalar.Div(dir_y, l)
+	body.vel_x = scalar.Mul(n_x, world.FromPixel(speed))
+	body.vel_y = scalar.Mul(n_y, world.FromPixel(speed))
+"
+
+[node name="unit" type="Node2D" index="0"]
+
+script = SubResource( 1 )
+
+[node name="circle" parent="." index="0" instance=ExtResource( 1 )]
+
+

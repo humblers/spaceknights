@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+var Vec2 = preload(\"res://fixed/vec2_ref.gd\")
+
+func _ready():
+	TestAdd()
+	TestSub()
+	TestMul()
+	TestDiv()
+	TestDot()
+	TestCross()
+	TestLengthSquared()
+	TestLength()
+	TestNormalized()
+	TestTruncated()
+	print(\"done\")
+	
+func TestAdd():
+	var cases = [
+		[Vec2.new(number.ONE, 0), Vec2.new(0, number.ONE), Vec2.new(number.ONE, number.ONE)],
+	]
+	for c in cases:
+		var got = c[0].Add(c[1])
+		if not got.Equal(c[2]):
+			print(\"%s.Add(%s) == %s, want %s\" % [c[0].ToString(), c[1].ToString(), got.ToString(), c[2].ToString()])
+
+func TestSub():
+	var cases = [
+		[Vec2.new(number.ONE, number.ONE), Vec2.new(0, number.ONE), Vec2.new(number.ONE, 0)],
+	]
+	for c in cases:
+		var got = c[0].Sub(c[1])
+		if not got.Equal(c[2]):
+			print(\"%s.Sub(%s) == %s, want %s\" % [c[0].ToString(), c[1].ToString(), got.ToString(), c[2].ToString()])
+
+func TestMul():
+	var cases = [
+		[Vec2.new(number.ONE, number.ONE), number.ONE * 2, Vec2.new(number.ONE * 2, number.ONE * 2)],
+	]
+	for c in cases:
+		var got = c[0].Mul(c[1])
+		if not got.Equal(c[2]):
+			print(\"%s.Mul(%s) == %s, want %s\" % [c[0].ToString(), c[1], got.ToString(), c[2].ToString()])
+
+
+func TestDiv():
+	var cases = [
+		[Vec2.new(number.ONE * 2, number.ONE * 2), number.ONE * 2, Vec2.new(number.ONE, number.ONE)],
+	]
+	for c in cases:
+		var got = c[0].Div(c[1])
+		if not got.Equal(c[2]):
+			print(\"%s.Div(%s) == %s, want %s\" % [c[0].ToString(), c[1], got.ToString(), c[2].ToString()])
+
+
+func TestDot():
+	var cases = [
+		[Vec2.new(number.ONE, 0), Vec2.new(0, number.ONE), 0],
+	]
+	for c in cases:
+		var got = c[0].Dot(c[1])
+		if got != c[2]:
+			print(\"%s.Dot(%s) == %s, want %s\" % [c[0].ToString(), c[1].ToString(), got, c[2]])
+
+func TestCross():
+	var cases = [
+		[Vec2.new(number.ONE, 0), Vec2.new(0, number.ONE), number.ONE],
+	]
+	for c in cases:
+		var got = c[0].Cross(c[1])
+		if got != c[2]:
+			print(\"%s.Cross(%s) == %s, want %s\" % [c[0].ToString(), c[1].ToString(), got, c[2]])
+
+func TestLengthSquared():
+	var cases = [
+		[Vec2.new(number.ONE * 3, number.ONE * 4), number.ONE * 25],
+	]
+	for c in cases:
+		var got = c[0].LengthSquared()
+		if got != c[1]:
+			print(\"%s.LengthSquared() == %s, want %s\" % [c[0].ToString(), got, c[1]])
+
+func TestLength():
+	var cases = [
+		[Vec2.new(number.ONE * 3, number.ONE * 4), number.ONE * 5],
+	]
+	for c in cases:
+		var got = c[0].Length()
+		if got != c[1]:
+			print(\"%s.Length() == %s, want %s\" % [c[0].ToString(), got, c[1]])
+
+func TestNormalized():
+	var cases = [
+		[Vec2.new(number.ONE / 2, 0), Vec2.new(number.ONE, 0)],
+		[Vec2.new(number.ONE * 2, 0), Vec2.new(number.ONE, 0)],
+	]
+	for c in cases:
+		var got = c[0].Normalized()
+		if not got.Equal(c[1]):
+			print(\"%s.Normalized() == %s, want %s\" % [c[0].ToString(), got.ToString(), c[1].ToString()])
+
+func TestTruncated():
+	var cases = [
+		[Vec2.new(number.ONE / 2, 0), number.ONE, Vec2.new(number.ONE / 2, 0)],
+		[Vec2.new(number.ONE * 2, 0), number.ONE, Vec2.new(number.ONE, 0)],
+	]
+	for c in cases:
+		var got = c[0].Truncated(c[1])
+		if not got.Equal(c[2]):
+			print(\"%s.Truncated(%s) == %s, want %s\" % [c[0].ToString(), c[1], got.ToString(), c[2].ToString()])
+"
+
+[node name="vec2_test" type="Node"]
+
+script = SubResource( 1 )
+
+

@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+const vec2 = preload(\"res://fixed/vec2_dic.gd\")
+const world = preload(\"res://physics/world_dic.gd\")
+
+const SCALE = 10
+const FRAME_PER_STEP = 1
+
+var frame = 0
+var elapsed = 0
+
+var width = ProjectSettings.get(\"display/window/size/width\")
+var height = ProjectSettings.get(\"display/window/size/height\")
+
+var w = world.new()
+
+func _ready():
+	set_process_input(true)
+	set_physics_process(true)
+	set_process(true)
+	var b = w.AddBox(
+		0,
+		PixelToWorldScalar(400),
+		PixelToWorldScalar(20),
+		PixelToWorldVector(Vector2(500, 1500))
+	)
+	var n = preload(\"res://box.tscn\").instance()
+	n.width = 400
+	n.height = 20
+	n.color = Color(0, 0, 1)
+	add_child(n)
+	b.node = n
+
+func _input(event):
+	if event is InputEventMouseButton and not event.pressed:
+		if event.button_index == BUTTON_LEFT:
+			var b = w.AddCircle(
+				PixelToWorldScalar(10),
+				PixelToWorldScalar(30),
+				PixelToWorldVector(event.position)
+			)
+			var n = preload(\"res://circle.tscn\").instance()
+			n.radius = 30
+			add_child(n)
+			b.node = n
+		if event.button_index == BUTTON_RIGHT:
+			var b = w.AddBox(
+				PixelToWorldScalar(10),
+				PixelToWorldScalar(30),
+				PixelToWorldScalar(30),
+				PixelToWorldVector(event.position)
+			)
+			var n = preload(\"res://box.tscn\").instance()
+			n.width = 30
+			n.height = 30
+			add_child(n)
+			b.node = n
+
+func _process(delta):
+	elapsed += delta
+	var t = elapsed / (float(FRAME_PER_STEP) / Engine.iterations_per_second)
+	for b in w.bodies:
+		var prev = WorldToPixelPosition(b.prev_pos)
+		var curr = WorldToPixelPosition(b.pos)
+		b.node.position = prev.linear_interpolate(curr, t)
+		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
+			w.RemoveBody(b)
+			b.node.queue_free()
+
+func _physics_process(delta):
+	if frame % FRAME_PER_STEP == 0:
+		w.Step()
+		elapsed = 0
+	frame += 1
+
+func PixelToWorldScalar(s):
+	return number.FromInt(int(s) / SCALE)
+
+func WorldToPixelScalar(s):
+	return number.ToFloat(s) * SCALE
+
+func PixelToWorldVector(p):
+	return vec2.New(PixelToWorldScalar(p.x), PixelToWorldScalar(p.y))
+
+func WorldToPixelPosition(p):
+	return Vector2(WorldToPixelScalar(p.X), WorldToPixelScalar(p.Y))"
+
+[node name="Node" type="Node"]
+
+script = SubResource( 1 )
+
+

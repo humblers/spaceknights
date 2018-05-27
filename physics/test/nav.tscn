@@ -1,0 +1,113 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+const world = preload(\"res://physics/world.gd\")
+const map = preload(\"res://nav/thanatos.gd\")
+const STEP_PER_SEC = 10
+
+var frame = 0
+var elapsed = 0
+
+var world_scale = scalar.Div(scalar.One, scalar.FromInt(10))
+var params = {
+	\"scale\": scalar.Div(scalar.One, scalar.FromInt(10)),
+	\"dt\": scalar.Div(scalar.One, scalar.FromInt(STEP_PER_SEC)),
+	\"gravity_y\": 0,
+	\"restitution\": 0,
+}
+var w = world.new(params)
+var nav = map.new(params.scale)
+
+var width = ProjectSettings.get(\"display/window/size/width\")
+var height = ProjectSettings.get(\"display/window/size/height\")
+
+func _ready():
+	set_process_input(true)
+	set_physics_process(true)
+	set_process(true)
+	CreateMap()
+	CreateEnemy()
+
+func CreateMap():
+	for o in nav.GetObstacles():
+		var width = w.ToPixel(scalar.Div(scalar.Sub(o.r, o.l), scalar.Two))
+		var height = w.ToPixel(scalar.Div(scalar.Sub(o.b, o.t), scalar.Two))
+		var x = w.ToPixel(scalar.Div(scalar.Add(o.l, o.r), scalar.Two))
+		var y = w.ToPixel(scalar.Div(scalar.Add(o.t, o.b), scalar.Two))
+		var b = w.AddBox(
+			scalar.FromInt(0),
+			w.FromPixel(width),
+			w.FromPixel(height),
+			w.FromPixel(x),
+			w.FromPixel(y)
+		)
+		var n = preload(\"res://test/box.tscn\").instance()
+		b.node = n
+		n.width = width
+		n.height = height
+		n.position = Vector2(x, y)
+		n.color = Color(0, 1, 0)
+		add_child(n)
+
+func CreateEnemy():
+	var b = w.AddBox(
+		scalar.FromInt(0),
+		w.FromPixel(25),
+		w.FromPixel(25),
+		w.FromPixel(500),
+		w.FromPixel(100)
+	)
+	var n = preload(\"res://test/box.tscn\").instance()
+	b.node = n
+	n.name = \"enemy\"
+	n.body = b
+	n.width = 25
+	n.height = 25
+	n.position = Vector2(500, 100)
+	n.color = Color(1, 0, 0)
+	add_child(n)
+
+func _input(event):
+	if event is InputEventMouseButton and not event.pressed:
+		var x = int(event.position.x)
+		var y = int(event.position.y)
+		var n = preload(\"res://test/unit.tscn\").instance()
+		n.Init(w, nav, x, y)
+		n.position = event.position
+		add_child(n)
+
+func _process(delta):
+	elapsed += delta
+	var t = elapsed * STEP_PER_SEC
+	for b in w.bodies:
+		var prev = Vector2(
+			w.ToPixel(b.prev_pos_x),
+			w.ToPixel(b.prev_pos_y)
+		)
+		var curr = Vector2(
+			w.ToPixel(b.pos_x),
+			w.ToPixel(b.pos_y)
+		)
+		b.node.position = prev.linear_interpolate(curr, t)
+		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
+			w.RemoveBody(b)
+			b.node.queue_free()
+
+func _physics_process(delta):
+	if frame % (Engine.iterations_per_second / STEP_PER_SEC) == 0:
+		for b in w.bodies:
+			if b.node.has_method(\"Update\"):
+				b.node.Update()
+		w.Step()
+		elapsed = 0
+	frame += 1
+"
+
+[node name="nav" type="Node"]
+
+script = SubResource( 1 )
+
+
