@@ -3,6 +3,7 @@ package hash_test
 import (
 	"testing"
 
+	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 	. "git.humbler.games/spaceknights/spaceknights/pkg/hash"
 )
 
@@ -80,6 +81,22 @@ func TestHash_Slice_Int(t *testing.T) {
 		{in: []int64{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
 		{in: []int32{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
 		{in: []uint32{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
+	}
+	for _, c := range cases {
+		if got := HashDJB2(c.in); got != c.want {
+			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
+		}
+	}
+}
+
+func TestHash_Fixed(t *testing.T) {
+	cases := []struct {
+		in   interface{}
+		want uint32
+	}{
+		{in: fixed.One, want: 243109},
+		{in: fixed.FromInt(1<<15 - 1), want: 2147595685},
+		{in: fixed.Vector{X: fixed.One, Y: fixed.One}, want: 2405797},
 	}
 	for _, c := range cases {
 		if got := HashDJB2(c.in); got != c.want {

@@ -3,6 +3,8 @@ package hash
 import (
 	"fmt"
 	"reflect"
+
+	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 )
 
 const INITIAL_HASH uint32 = 5381
@@ -66,6 +68,19 @@ func HashDJB2(in interface{}, opt ...uint32) uint32 {
 		for i := 0; i < len(v); i++ {
 			hash_in = hash_djb2_one_32(uint32(v[i]&(1<<32-1)), hash_in)
 		}
+	case *fixed.Scalar:
+		hash_in = uint32(*v & (1<<32 - 1))
+	case fixed.Scalar:
+		hash_in = uint32(v & (1<<32 - 1))
+	case []fixed.Scalar:
+		hash_in = hash_djb2_one_32(0)
+		for i := 0; i < len(v); i++ {
+			hash_in = hash_djb2_one_32(uint32(v[i]&(1<<32-1)), hash_in)
+		}
+	case *fixed.Vector:
+		hash_in = hash_djb2_one_32(uint32((*v).X&(1<<32-1)), uint32((*v).Y&(1<<32-1)))
+	case fixed.Vector:
+		hash_in = hash_djb2_one_32(uint32(v.X&(1<<32-1)), uint32(v.Y&(1<<32-1)))
 	case *string:
 		hash_in = hash_djb2([]byte(*v))
 	case string:

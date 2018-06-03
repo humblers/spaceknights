@@ -83,13 +83,13 @@ func (w *World) Step() {
 }
 
 func (w *World) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) *body {
-	b := addBody(mass, pos)
+	b := w.addBody(mass, pos)
 	b.setAsBox(width, height)
 	return b
 }
 
-func (w *World) AddCircle(mass, radius, pos_x, pos_y int) *body {
-	b := addBody(mass, pos)
+func (w *World) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) *body {
+	b := w.addBody(mass, pos)
 	b.setAsCircle(radius)
 	return b
 }
