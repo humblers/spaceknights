@@ -67,5 +67,5 @@ func digest(h=djb2.INITIAL_HASH):
 			shape, radius, width, height
 	]
 	for e in elems:
-		h = djb2.HashDJB2(e, h)
+		h = djb2.Hash(e, h)
 	return h

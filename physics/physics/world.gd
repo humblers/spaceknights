@@ -86,7 +86,7 @@ func RemoveBody(b):
 			return
 
 func digest(h=djb2.INITIAL_HASH):
-	h = djb2.HashDJB2(counter, h)
+	h = djb2.Hash(counter, h)
 	for b in bodies:
 		h = b.digest(h)
 	for c in collisions:

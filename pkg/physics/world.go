@@ -1,8 +1,8 @@
 package physics
 
 import (
+	"git.humbler.games/spaceknights/spaceknights/pkg/djb2"
 	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
-	"git.humbler.games/spaceknights/spaceknights/pkg/hash"
 )
 
 type World struct {
@@ -118,7 +118,7 @@ func (w *World) RemoveBody(body *body) {
 }
 
 func (w *World) digest(opt ...uint32) uint32 {
-	h := hash.HashDJB2(uint32(w.counter), opt...)
+	h := djb2.Hash(uint32(w.counter), opt...)
 	for _, b := range w.bodies {
 		h = b.digest(h)
 	}

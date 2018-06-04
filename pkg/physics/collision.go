@@ -1,8 +1,8 @@
 package physics
 
 import (
+	"git.humbler.games/spaceknights/spaceknights/pkg/djb2"
 	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
-	"git.humbler.games/spaceknights/spaceknights/pkg/hash"
 )
 
 type collision struct {
@@ -42,8 +42,8 @@ func (c *collision) resolve() {
 }
 
 func (c *collision) digest(opt ...uint32) uint32 {
-	h := hash.HashDJB2(c.penetration, opt...)
-	h = hash.HashDJB2(c.normal, h)
+	h := djb2.Hash(c.penetration, opt...)
+	h = djb2.Hash(c.normal, h)
 	h = c.a.digest(h)
 	return c.b.digest(h)
 }

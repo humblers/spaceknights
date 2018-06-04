@@ -1,10 +1,10 @@
-package hash_test
+package djb2_test
 
 import (
 	"testing"
 
+	. "git.humbler.games/spaceknights/spaceknights/pkg/djb2"
 	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
-	. "git.humbler.games/spaceknights/spaceknights/pkg/hash"
 )
 
 func TestHash_Chain(t *testing.T) {
@@ -17,7 +17,7 @@ func TestHash_Chain(t *testing.T) {
 		{in: []int64{1<<63 - 1, 1<<48 - 1, 1<<32 - 1}, prev: 0, want: 2086472482},
 	}
 	for _, c := range cases {
-		if got := HashDJB2(c.in, c.prev); got != c.want {
+		if got := Hash(c.in, c.prev); got != c.want {
 			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
 		}
 	}
@@ -42,7 +42,7 @@ func TestHash_Int(t *testing.T) {
 		{in: &uint32_val, want: 2147661220},
 	}
 	for _, c := range cases {
-		if got := HashDJB2(c.in); got != c.want {
+		if got := Hash(c.in); got != c.want {
 			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
 		}
 	}
@@ -64,7 +64,7 @@ func TestHash_String(t *testing.T) {
 		{in: &sample_bytes, want: HASH},
 	}
 	for _, c := range cases {
-		if got := HashDJB2(c.in); got != c.want {
+		if got := Hash(c.in); got != c.want {
 			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
 		}
 	}
@@ -83,7 +83,7 @@ func TestHash_Slice_Int(t *testing.T) {
 		{in: []uint32{1<<31 - 1, 1<<16 - 1}, want: 2341103720},
 	}
 	for _, c := range cases {
-		if got := HashDJB2(c.in); got != c.want {
+		if got := Hash(c.in); got != c.want {
 			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
 		}
 	}
@@ -99,7 +99,7 @@ func TestHash_Fixed(t *testing.T) {
 		{in: fixed.Vector{X: fixed.One, Y: fixed.One}, want: 195782794},
 	}
 	for _, c := range cases {
-		if got := HashDJB2(c.in); got != c.want {
+		if got := Hash(c.in); got != c.want {
 			t.Errorf("Hash (%v), got(%v), want (%v)", c.in, got, c.want)
 		}
 	}

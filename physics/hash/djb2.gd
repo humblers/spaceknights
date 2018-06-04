@@ -3,7 +3,8 @@ extends Node
 const INITIAL_HASH = 5381
 
 # calling hash() for cast result value to uint32
-static func HashDJB2(input, prev = INITIAL_HASH):
+static func Hash(input, prev = INITIAL_HASH):
+	assert(typeof(input) != TYPE_OBJECT)
 	return hash(((prev << 5) + prev) + hash(input))
 
 ## set of test functions for hash result
@@ -17,21 +18,21 @@ static func HashDJB2(input, prev = INITIAL_HASH):
 #		[(1 << 31) - 1, 2147661220],
 #	]
 #	for c in cases_int:
-#		assert(HashDJB2(c[0]) == c[1])
+#		assert(Hash(c[0]) == c[1])
 #
 #	var cases_str = [
 #		["a", 355243],
 #		["spaceknights", 2910229102],
 #	]
 #	for c in cases_str:
-#		assert(HashDJB2(c[0]) == c[1])
+#		assert(Hash(c[0]) == c[1])
 #
 #	var cases_arr = [
 #		[[(1<<63) - 1, (1<<48) - 1, (1<<32) - 1, (1<<16) - 1], 134358278],
 #		[[(1<<32) - 1, (1<<32) - 1, (1<<32) - 1, (1<<16) - 1], 134358278],
 #	]
 #	for c in cases_arr:
-#		assert(HashDJB2(c[0]) == c[1])
+#		assert(Hash(c[0]) == c[1])
 #
 #	var cases_fixed = [
 #		[scalar.One, 243109],
@@ -40,7 +41,7 @@ static func HashDJB2(input, prev = INITIAL_HASH):
 #		[[scalar.One, scalar.One], 195782794]
 #	]
 #	for c in cases_fixed:
-#		assert(HashDJB2(c[0]) == c[1])
+#		assert(Hash(c[0]) == c[1])
 #
 #	var body = load("res://physics/body.gd")
 #	var b = body.new(

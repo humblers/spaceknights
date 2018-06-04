@@ -37,7 +37,7 @@ func resolve():
 	b.vel_y = scalar.Add(b.vel_y, scalar.Mul(impulse_y, b.imass))
 
 func digest(h=djb2.INITIAL_HASH):
-	h = djb2.HashDJB2(penetration, h)
-	h = djb2.HashDJB2([normal_x, normal_y], h)
+	h = djb2.Hash(penetration, h)
+	h = djb2.Hash([normal_x, normal_y], h)
 	h = a.digest(h)
 	return b.digest(h)
