@@ -38,6 +38,17 @@ func _ready():
 	n.position = Vector2(500, 1500)
 	n.color = Color(0, 0, 1)
 	add_child(n)
+	var c = w.AddCircle(
+		scalar.FromInt(10),
+		w.FromPixel(30),
+		w.FromPixel(500),
+		w.FromPixel(200)
+	)
+	var nc = preload(\"res://test/circle.tscn\").instance()
+	c.node = nc
+	nc.radius = 30
+	nc.position = Vector2(500, 200)
+	add_child(nc)
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
@@ -87,9 +98,13 @@ func _process(delta):
 			w.RemoveBody(b)
 			b.node.queue_free()
 
+var step_cnt = 0
 func _physics_process(delta):
 	if frame % (Engine.iterations_per_second / STEP_PER_SEC) == 0:
 		w.Step()
+		if step_cnt < 10:
+			print(w.digest())
+		step_cnt += 1
 		elapsed = 0
 	frame += 1
 "

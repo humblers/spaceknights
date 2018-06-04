@@ -58,3 +58,14 @@ func move(dt):
 	prev_pos_y = pos_y
 	pos_x = scalar.Add(pos_x, scalar.Mul(vel_x, dt))
 	pos_y = scalar.Add(pos_y, scalar.Mul(vel_y, dt))
+
+func digest(h=djb2.INITIAL_HASH):
+	var elems = [id, mass, imass, rest,
+			[pos_x, pos_y],
+			[vel_x, vel_y],
+			[force_x, force_y],
+			shape, radius, width, height
+	]
+	for e in elems:
+		h = djb2.HashDJB2(e, h)
+	return h

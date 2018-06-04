@@ -13,7 +13,7 @@ func TestBody_Hash(t *testing.T) {
 		body *body
 		want uint32
 	}{
-		{body: b, want: 866701722},
+		{body: b, want: 2771927977},
 	}
 	for _, c := range cases {
 		if got := c.body.digest(); got != c.want {

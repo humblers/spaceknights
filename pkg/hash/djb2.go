@@ -77,10 +77,15 @@ func HashDJB2(in interface{}, opt ...uint32) uint32 {
 		for i := 0; i < len(v); i++ {
 			hash_in = hash_djb2_one_32(uint32(v[i]&(1<<32-1)), hash_in)
 		}
+	// work same as type:[]uint32,len:2
 	case *fixed.Vector:
-		hash_in = hash_djb2_one_32(uint32((*v).X&(1<<32-1)), uint32((*v).Y&(1<<32-1)))
+		hash_in = hash_djb2_one_32(0)
+		hash_in = hash_djb2_one_32(uint32((*v).X&(1<<32-1)), hash_in)
+		hash_in = hash_djb2_one_32(uint32((*v).Y&(1<<32-1)), hash_in)
 	case fixed.Vector:
-		hash_in = hash_djb2_one_32(uint32(v.X&(1<<32-1)), uint32(v.Y&(1<<32-1)))
+		hash_in = hash_djb2_one_32(0)
+		hash_in = hash_djb2_one_32(uint32(v.X&(1<<32-1)), hash_in)
+		hash_in = hash_djb2_one_32(uint32(v.Y&(1<<32-1)), hash_in)
 	case *string:
 		hash_in = hash_djb2([]byte(*v))
 	case string:

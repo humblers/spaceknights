@@ -78,9 +78,9 @@ func TestHash_Slice_Int(t *testing.T) {
 		{in: []int64{1<<63 - 1, 1<<48 - 1, 1<<32 - 1, 1<<16 - 1}, want: 134358278},
 		{in: []int64{1<<32 - 1, 1<<32 - 1, 1<<32 - 1, 1<<16 - 1}, want: 134358278},
 
-		{in: []int64{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
-		{in: []int32{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
-		{in: []uint32{1<<31 - 1, 1<<16 - 1}, want: 2340926147},
+		{in: []int64{1<<31 - 1, 1<<16 - 1}, want: 2341103720},
+		{in: []int32{1<<31 - 1, 1<<16 - 1}, want: 2341103720},
+		{in: []uint32{1<<31 - 1, 1<<16 - 1}, want: 2341103720},
 	}
 	for _, c := range cases {
 		if got := HashDJB2(c.in); got != c.want {
@@ -96,7 +96,7 @@ func TestHash_Fixed(t *testing.T) {
 	}{
 		{in: fixed.One, want: 243109},
 		{in: fixed.FromInt(1<<15 - 1), want: 2147595685},
-		{in: fixed.Vector{X: fixed.One, Y: fixed.One}, want: 2405797},
+		{in: fixed.Vector{X: fixed.One, Y: fixed.One}, want: 195782794},
 	}
 	for _, c := range cases {
 		if got := HashDJB2(c.in); got != c.want {

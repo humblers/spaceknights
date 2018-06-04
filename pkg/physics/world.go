@@ -1,6 +1,9 @@
 package physics
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+import (
+	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+	"git.humbler.games/spaceknights/spaceknights/pkg/hash"
+)
 
 type World struct {
 	counter    int
@@ -19,7 +22,7 @@ type World struct {
 func NewWorld(params map[string]fixed.Scalar) *World {
 	w := &World{
 		scale:               fixed.One,
-		dt:                  fixed.One.Div(fixed.FromInt(60)),
+		dt:                  fixed.One.Div(fixed.FromInt(10)),
 		iterations:          3,
 		gravity:             fixed.Vector{0, fixed.FromInt(1000)},
 		restitution:         fixed.One.Div(fixed.Two),
@@ -112,6 +115,14 @@ func (w *World) RemoveBody(body *body) {
 			return
 		}
 	}
+}
+
+func (w *World) digest(opt ...uint32) uint32 {
+	h := hash.HashDJB2(uint32(w.counter), opt...)
+	for _, b := range w.bodies {
+		h = b.digest(h)
+	}
+	return h
 }
 
 func checkCollision(a, b *body) *collision {
