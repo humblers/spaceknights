@@ -42,12 +42,12 @@ func _ready():
 		scalar.FromInt(10),
 		w.FromPixel(30),
 		w.FromPixel(500),
-		w.FromPixel(200)
+		w.FromPixel(100)
 	)
 	var nc = preload(\"res://test/circle.tscn\").instance()
 	c.node = nc
 	nc.radius = 30
-	nc.position = Vector2(500, 200)
+	nc.position = Vector2(500, 100)
 	add_child(nc)
 
 func _input(event):
@@ -94,17 +94,16 @@ func _process(delta):
 			w.ToPixel(b.pos_y)
 		)
 		b.node.position = prev.linear_interpolate(curr, t)
-		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
-			w.RemoveBody(b)
-			b.node.queue_free()
 
-var step_cnt = 0
 func _physics_process(delta):
 	if frame % (Engine.iterations_per_second / STEP_PER_SEC) == 0:
 		w.Step()
-		if step_cnt < 10:
-			print(w.digest())
-		step_cnt += 1
+		for b in w.bodies:
+			var xl = w.FromPixel(width)
+			var yl = w.FromPixel(height)
+			if b.pos_x < 0 or b.pos_x > xl or b.pos_y < 0 or b.pos_y > yl:
+				w.RemoveBody(b)
+				b.node.queue_free()
 		elapsed = 0
 	frame += 1
 "

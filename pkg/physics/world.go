@@ -111,7 +111,7 @@ func (w *World) RemoveBody(body *body) {
 			// https://github.com/golang/go/wiki/SliceTricks#delete-without-preserving-order
 			bodies[i] = bodies[len(bodies)-1]
 			bodies[len(bodies)-1] = nil
-			bodies = bodies[:len(bodies)-1]
+			w.bodies = bodies[:len(bodies)-1]
 			return
 		}
 	}
@@ -121,6 +121,9 @@ func (w *World) digest(opt ...uint32) uint32 {
 	h := hash.HashDJB2(uint32(w.counter), opt...)
 	for _, b := range w.bodies {
 		h = b.digest(h)
+	}
+	for _, c := range w.collisions {
+		h = c.digest(h)
 	}
 	return h
 }
