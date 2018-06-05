@@ -55,7 +55,7 @@ func Hash(in interface{}, opt ...uint32) uint32 {
 	case []int64:
 		hash_in = hashOne(0)
 		for i := 0; i < len(v); i++ {
-			hash_in = hashOne(uint32(v[i]&(1<<32-1)), hash_in)
+			hash_in = hashOne(uint32(v[i]), hash_in)
 		}
 	case *fixed.Scalar:
 		hash_in = uint32(*v)
@@ -64,17 +64,17 @@ func Hash(in interface{}, opt ...uint32) uint32 {
 	case []fixed.Scalar:
 		hash_in = hashOne(0)
 		for i := 0; i < len(v); i++ {
-			hash_in = hashOne(uint32(v[i]&(1<<32-1)), hash_in)
+			hash_in = hashOne(uint32(v[i]), hash_in)
 		}
 	// work same as type:[]uint32,len:2
 	case *fixed.Vector:
 		hash_in = hashOne(0)
-		hash_in = hashOne(uint32((*v).X&(1<<32-1)), hash_in)
-		hash_in = hashOne(uint32((*v).Y&(1<<32-1)), hash_in)
+		hash_in = hashOne(uint32((*v).X), hash_in)
+		hash_in = hashOne(uint32((*v).Y), hash_in)
 	case fixed.Vector:
 		hash_in = hashOne(0)
-		hash_in = hashOne(uint32(v.X&(1<<32-1)), hash_in)
-		hash_in = hashOne(uint32(v.Y&(1<<32-1)), hash_in)
+		hash_in = hashOne(uint32(v.X), hash_in)
+		hash_in = hashOne(uint32(v.Y), hash_in)
 	case *string:
 		hash_in = hashBytes([]byte(*v))
 	case string:
