@@ -1,6 +1,9 @@
 package physics
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+import (
+	"git.humbler.games/spaceknights/spaceknights/pkg/djb2"
+	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+)
 
 type body struct {
 	id    int
@@ -66,4 +69,12 @@ func (b *body) move(dt fixed.Scalar) {
 		return
 	}
 	b.pos = b.pos.Add(b.vel.Mul(dt))
+}
+
+func (b *body) digest(opt ...uint32) uint32 {
+	h := djb2.Hash(uint32(b.id), opt...)
+	for _, e := range []interface{}{b.mass, b.imass, b.rest, b.pos, b.vel, b.force, []byte(b.shape), b.radius, b.width, b.height} {
+		h = djb2.Hash(e, h)
+	}
+	return h
 }

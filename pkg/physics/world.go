@@ -1,6 +1,9 @@
 package physics
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+import (
+	"git.humbler.games/spaceknights/spaceknights/pkg/djb2"
+	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+)
 
 type World struct {
 	counter    int
@@ -19,7 +22,7 @@ type World struct {
 func NewWorld(params map[string]fixed.Scalar) *World {
 	w := &World{
 		scale:               fixed.One,
-		dt:                  fixed.One.Div(fixed.FromInt(60)),
+		dt:                  fixed.One.Div(fixed.FromInt(10)),
 		iterations:          3,
 		gravity:             fixed.Vector{0, fixed.FromInt(1000)},
 		restitution:         fixed.One.Div(fixed.Two),
@@ -83,13 +86,13 @@ func (w *World) Step() {
 }
 
 func (w *World) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) *body {
-	b := addBody(mass, pos)
+	b := w.addBody(mass, pos)
 	b.setAsBox(width, height)
 	return b
 }
 
-func (w *World) AddCircle(mass, radius, pos_x, pos_y int) *body {
-	b := addBody(mass, pos)
+func (w *World) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) *body {
+	b := w.addBody(mass, pos)
 	b.setAsCircle(radius)
 	return b
 }
@@ -108,10 +111,21 @@ func (w *World) RemoveBody(body *body) {
 			// https://github.com/golang/go/wiki/SliceTricks#delete-without-preserving-order
 			bodies[i] = bodies[len(bodies)-1]
 			bodies[len(bodies)-1] = nil
-			bodies = bodies[:len(bodies)-1]
+			w.bodies = bodies[:len(bodies)-1]
 			return
 		}
 	}
+}
+
+func (w *World) digest(opt ...uint32) uint32 {
+	h := djb2.Hash(uint32(w.counter), opt...)
+	for _, b := range w.bodies {
+		h = b.digest(h)
+	}
+	for _, c := range w.collisions {
+		h = c.digest(h)
+	}
+	return h
 }
 
 func checkCollision(a, b *body) *collision {

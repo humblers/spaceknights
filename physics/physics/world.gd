@@ -85,6 +85,14 @@ func RemoveBody(b):
 			bodies.pop_back()
 			return
 
+func digest(h=djb2.INITIAL_HASH):
+	h = djb2.Hash(counter, h)
+	for b in bodies:
+		h = b.digest(h)
+	for c in collisions:
+		h = c.digest(h)
+	return h
+
 static func checkCollision(a, b):
 	if a.shape == "box":
 		if b.shape == "box":
