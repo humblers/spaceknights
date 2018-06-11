@@ -80,7 +80,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
 
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
 "frames": [ null, ExtResource( 6 ), ExtResource( 7 ), null ],
@@ -444,9 +444,8 @@ tracks/28/keys = {
 "values": [ Vector2( -20, -5 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 
-resource_name = "idle"
 length = 0.01
 loop = false
 step = 0.1
@@ -703,9 +702,8 @@ tracks/20/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
-resource_name = "move"
 length = 0.01
 loop = false
 step = 0.1
@@ -1683,6 +1681,8 @@ tracks/2/keys = {
 
 [node name="EffectUnder" type="Node2D" parent="main" index="0"]
 
+editor/display_folded = true
+
 [node name="Boosterpoint" type="Position2D" parent="main/EffectUnder" index="0"]
 
 editor/display_folded = true
@@ -1693,7 +1693,7 @@ _sections_unfolded = [ "Transform" ]
 
 light_mask = 2
 scale = Vector2( 0.3, 0.6 )
-emitting = false
+emitting = true
 amount = 8
 lifetime = 1.4
 one_shot = false
@@ -1715,7 +1715,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Vis
 
 [node name="Light2D" type="Light2D" parent="main/EffectUnder/Boosterpoint" index="1"]
 
-enabled = false
+enabled = true
 editor_only = false
 texture = ExtResource( 1 )
 offset = Vector2( 0, 0 )
@@ -1740,12 +1740,12 @@ _sections_unfolded = [ "Range" ]
 
 [node name="Body" type="Sprite" parent="main" index="1"]
 
-editor/display_folded = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="UpperarmL" type="Sprite" parent="main/Body" index="0"]
 
+editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -18, -5 )
 texture = ExtResource( 3 )
@@ -1806,7 +1806,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="KnifeTrail" type="AnimatedSprite" parent="main/Body/UpperarmL/LowerarmL/KnifeLeft/EffectOver/Effectpoint" index="0"]
 
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "knifetrail"
 _sections_unfolded = [ "Transform" ]
 
@@ -1838,6 +1838,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="UpperarmR" type="Sprite" parent="main/Body" index="1"]
 
+editor/display_folded = true
 show_behind_parent = true
 position = Vector2( 18, -5 )
 texture = ExtResource( 3 )
@@ -1901,7 +1902,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="KnifeTrail2" type="AnimatedSprite" parent="main/Body/UpperarmR/LowerarmR/KnifeRight/EffectOver/Effectpoint" index="0"]
 
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "knifetrail"
 flip_h = true
 _sections_unfolded = [ "Transform" ]
@@ -1931,6 +1932,15 @@ shadow_gradient_length = 0.0
 shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="EffectOver" type="Node2D" parent="main" index="2"]
+
+editor/display_folded = true
+
+[node name="HitPoint" type="Position2D" parent="main/EffectOver" index="0"]
+
+position = Vector2( 0, -65 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Hp" type="Position2D" parent="." index="1"]
@@ -2013,17 +2023,19 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 7 )
-anims/idle = SubResource( 6 )
-anims/move = SubResource( 8 )
+anims/idle = SubResource( 8 )
+anims/move = SubResource( 9 )
 blend_times = [  ]
 
 [node name="energyshield" type="Node2D" parent="." index="3"]
 
+editor/display_folded = true
 scale = Vector2( 0.7, 0.7 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Shield" type="Sprite" parent="energyshield" index="0"]
 
+editor/display_folded = true
 visible = false
 modulate = Color( 0.671875, 0.746216, 1, 0 )
 self_modulate = Color( 0.00762939, 0.567794, 0.976563, 1 )
