@@ -1,0 +1,199 @@
+package game
+
+import "net"
+import "log"
+import "time"
+import "sync"
+import "bufio"
+import "runtime"
+
+type Server interface {
+	Run()
+	Stop()
+}
+
+type server struct {
+	sync.RWMutex
+	games map[string]*game
+
+	caddr     string
+	laddr     string
+	clistener *net.TCPListener
+	llistener *net.TCPListener
+
+	cwg sync.WaitGroup
+	lwg sync.WaitGroup
+	gwg sync.WaitGroup
+
+	logger *log.Logger
+
+	numGR int // # of goroutine for leek detection
+}
+
+func NewServer(caddr, laddr string, logger *log.Logger) Server {
+	return &server{
+		games:  make(map[string]*game),
+		caddr:  caddr,
+		laddr:  laddr,
+		logger: logger,
+	}
+}
+
+func (s *server) Run() {
+	s.numGR = runtime.NumGoroutine()
+	s.listenClients()
+	s.listenLobby()
+}
+
+func (s *server) listenClients() {
+	addr, err := net.ResolveTCPAddr("tcp", s.caddr)
+	if err != nil {
+		panic(err)
+	}
+	listener, err := net.ListenTCP("tcp", addr)
+	if err != nil {
+		panic(err)
+	}
+	s.clistener = listener
+
+	s.cwg.Add(1)
+	go func() {
+		defer s.cwg.Done()
+		defer s.closeListener(s.clistener)
+		for {
+			if conn, err := s.clistener.Accept(); err != nil {
+				if e, ok := err.(net.Error); ok && e.Timeout() {
+					break
+				}
+				panic(err)
+			} else {
+				s.cwg.Add(1)
+				go func() {
+					defer s.cwg.Done()
+					c := newClient(conn, s, s.logger)
+					c.run()
+				}()
+			}
+		}
+	}()
+
+}
+
+func (s *server) listenLobby() {
+	addr, err := net.ResolveTCPAddr("tcp", s.laddr)
+	if err != nil {
+		panic(err)
+	}
+	listener, err := net.ListenTCP("tcp", addr)
+	if err != nil {
+		panic(err)
+	}
+	s.llistener = listener
+
+	s.lwg.Add(1)
+	go func() {
+		defer s.lwg.Done()
+		defer s.closeListener(s.llistener)
+		for {
+			if conn, err := s.llistener.Accept(); err != nil {
+				if e, ok := err.(net.Error); ok && e.Timeout() {
+					break
+				}
+				panic(err)
+			} else {
+				s.lwg.Add(1)
+				go func() {
+					defer s.lwg.Done()
+					defer func() {
+						if err := conn.Close(); err != nil {
+							panic(err)
+						}
+					}()
+					if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
+						panic(err)
+					}
+					reader := bufio.NewReader(conn)
+					b, err := reader.ReadBytes('\n')
+					if err != nil {
+						panic(err)
+					}
+					var req LobbyRequest
+					if err := packet(b).parse(&req); err != nil {
+						panic(err)
+					}
+					var exists bool
+					if s.findGame(req.SessionId) != nil {
+						exists = true
+					}
+					resp := LobbyResponse{
+						Exists: exists,
+					}
+					if exists || req.DoNotCreate {
+						if _, err := conn.Write(newPacket(resp)); err != nil {
+							panic(err)
+						}
+						return
+					}
+					s.runGame(GameConfig{
+						Id: req.SessionId,
+						Players: []Player{
+							Player{"Alice"},
+							Player{"Bob"},
+						},
+					})
+					resp.Created = true
+					if _, err := conn.Write(newPacket(resp)); err != nil {
+						panic(err)
+					}
+				}()
+			}
+		}
+	}()
+}
+
+func (s *server) closeListener(l *net.TCPListener) {
+	if err := l.Close(); err != nil {
+		panic(err)
+	}
+}
+
+func (s *server) Stop() {
+	// prevent game creation
+	if err := s.llistener.SetDeadline(time.Now()); err != nil {
+		panic(err)
+	}
+	s.lwg.Wait()
+
+	// wait clients
+	if err := s.clistener.SetDeadline(time.Now()); err != nil {
+		panic(err)
+	}
+	s.cwg.Wait()
+
+	// wait running games
+	s.gwg.Wait()
+
+	curr := runtime.NumGoroutine()
+	if curr != s.numGR {
+		s.logger.Printf("go routine leek detected: %v -> %v", s.numGR, curr)
+	}
+}
+
+func (s *server) findGame(id string) *game {
+	s.RLock()
+	game := s.games[id]
+	s.RUnlock()
+	return game
+}
+
+func (s *server) runGame(cfg GameConfig) {
+	g := newGame(cfg.Players)
+	s.gwg.Add(1)
+	go func() {
+		defer s.gwg.Done()
+		g.run()
+	}()
+	s.Lock()
+	s.games[cfg.Id] = g
+	s.Unlock()
+}
