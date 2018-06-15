@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/freezer/freezer_leg.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=11]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=12]
 [ext_resource path="res://unit/freezer/freezer_fighter.png" type="Texture" id=13]
+[ext_resource path="res://sound/Shield Hit.wav" type="AudioStream" id=14]
 
 [sub_resource type="Gradient" id=1]
 
@@ -2099,7 +2100,7 @@ tracks/24/keys = {
 "values": [ false ]
 }
 
-[node name="freezer" type="Node2D" index="0"]
+[node name="freezer" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -2561,5 +2562,21 @@ anims/default_winged = SubResource( 24 )
 anims/idle = SubResource( 25 )
 anims/transform = SubResource( 26 )
 blend_times = [  ]
+
+[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = null
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+
+stream = ExtResource( 14 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 

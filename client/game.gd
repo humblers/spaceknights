@@ -24,6 +24,7 @@ func update_changes(game):
 	update_ui(game)
 
 func delete_dead_units(units):
+	
 	var nodes = get_node("blue/Units").get_children() + get_node("red/Units").get_children()
 	for node in nodes:
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
@@ -35,6 +36,7 @@ func delete_dead_units(units):
 			var explosion = resource.effect.explosion.unit[size].instance()
 			explosion.position = node.position
 			get_node("EffectOver").add_child(explosion)
+			get_node("sound_explo").play()
 			node.delete()
 
 func create_new_units(units):

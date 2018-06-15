@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/shuriken/shuriken_leg.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=14]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=15]
 [ext_resource path="res://unit/shuriken/shuriken_fighter.png" type="Texture" id=16]
+[ext_resource path="res://sound/Shield Hit.wav" type="AudioStream" id=17]
 
 [sub_resource type="Gradient" id=1]
 
@@ -1699,7 +1700,7 @@ tracks/32/keys = {
 "values": [ false, false ]
 }
 
-[node name="shuriken" type="Node2D" index="0"]
+[node name="shuriken" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -1712,7 +1713,6 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( 0, 5.5 )
 texture = ExtResource( 2 )
-flip_v = true
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="ArmL" type="Sprite" parent="Body" index="1"]
@@ -1724,7 +1724,7 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="ArmR" type="Sprite" parent="Body" index="2"]
 
-position = Vector2( 47.5, 0 )
+position = Vector2( 47.5, 4 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1737,6 +1737,7 @@ _sections_unfolded = [ "Offset", "Transform" ]
 [node name="Main" type="Sprite" parent="Body" index="4"]
 
 position = Vector2( 0, 7 )
+rotation = 0.00887596
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1958,7 +1959,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 [node name="LightR" type="Light2D" parent="Body/Effect/ShotpointR" index="1"]
 
 position = Vector2( 0, 24.5 )
-enabled = false
+enabled = true
 editor_only = false
 texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
@@ -2012,7 +2013,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Body/Effect/BoosterpointL" index="1"]
 
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
@@ -2065,7 +2066,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Light2D2" type="Light2D" parent="Body/Effect/BoosterpointR" index="1"]
 
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
@@ -2171,5 +2172,21 @@ anims/attack_winged = SubResource( 18 )
 anims/idle = SubResource( 19 )
 anims/transform = SubResource( 20 )
 blend_times = [  ]
+
+[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = null
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+
+stream = ExtResource( 17 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 

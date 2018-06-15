@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/space_z/idle.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=8]
 [ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=9]
 [ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=10]
+[ext_resource path="res://sound/poton_beam.wav" type="AudioStream" id=11]
 
 [sub_resource type="Gradient" id=1]
 
@@ -1163,7 +1164,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 
-[node name="space_z" type="Node2D" index="0"]
+[node name="space_z" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -1759,5 +1760,21 @@ anims/attack = SubResource( 56 )
 anims/idle = SubResource( 57 )
 anims/move = SubResource( 58 )
 blend_times = [  ]
+
+[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = ExtResource( 11 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+
+stream = ExtResource( 11 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 

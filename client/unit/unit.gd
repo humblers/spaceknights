@@ -70,6 +70,7 @@ func update_changes(unit):
 	update_hp(unit)
 	if unit.AttackStarted:
 		anim.play(unit.State)
+		get_node("sound_fire").play()
 		var data = global.UNITS[u_name]
 		if data.has("projectile"):
 			match u_name:
@@ -82,6 +83,7 @@ func update_changes(unit):
 							target,
 							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 							get_node("Body/Shotpoint").get_child(shot_child_idx).global_position)
+					#get_node("sound_fire").play()
 				"freezer", "shuriken", "space_z":
 					# not prepared
 					pass
@@ -156,6 +158,7 @@ func set_target(unit):
 func show_damage_effect():
 	body.get_material().set_shader_param("damaged", true)
 	damage_effect.start()
+	get_node("sound_hit").play()
 
 func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
