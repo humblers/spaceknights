@@ -958,20 +958,28 @@ anims/idle = SubResource( 21 )
 anims/move = SubResource( 22 )
 blend_times = [  ]
 
-[node name="sound_fire" type="AudioStreamPlayer" parent="." index="5"]
+[node name="Sound" type="Node2D" parent="." index="5"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
 stream = ExtResource( 12 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "unit"
+area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="6"]
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
 stream = ExtResource( 13 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 

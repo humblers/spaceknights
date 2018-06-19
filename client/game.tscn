@@ -47,9 +47,9 @@
 [ext_resource path="res://energybar_inside.png" type="Texture" id=45]
 [ext_resource path="res://ui/card.tscn" type="PackedScene" id=46]
 [ext_resource path="res://ui/result/result.tscn" type="PackedScene" id=47]
-[ext_resource path="res://sound/underground_hall_loop1.ogg" type="AudioStream" id=48]
-[ext_resource path="res://sound/Eyes_of_Glory.ogg" type="AudioStream" id=49]
-[ext_resource path="res://sound/Explosion 3.wav" type="AudioStream" id=50]
+[ext_resource path="res://sound/Explosion 3.wav" type="AudioStream" id=48]
+[ext_resource path="res://sound/underground_hall_loop1.ogg" type="AudioStream" id=49]
+[ext_resource path="res://sound/Eyes_of_Glory.ogg" type="AudioStream" id=50]
 
 [sub_resource type="Gradient" id=1]
 
@@ -766,12 +766,14 @@ _sections_unfolded = [ "Audio Listener", "GUI", "Physics", "Render Target", "Ren
 
 [node name="Background" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 light_mask = 16384
 position = Vector2( 540, 960 )
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
 
 [node name="Newworks" type="Node2D" parent="Background" index="0"]
 
+editor/display_folded = true
 position = Vector2( -540, -960 )
 
 [node name="bg-tanatos_screen" type="Sprite" parent="Background/Newworks" index="0"]
@@ -988,7 +990,6 @@ _sections_unfolded = [ "Range", "Transform" ]
 
 [node name="mothership-far" type="Node2D" parent="Background/Newworks" index="5"]
 
-editor/display_folded = true
 position = Vector2( 967.453, 1435.53 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -1012,6 +1013,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Fire" type="Node2D" parent="Background/Newworks/mothership-far" index="2"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Fireing-trail11" type="Particles2D" parent="Background/Newworks/mothership-far/Fire" index="0"]
@@ -1316,6 +1318,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Explosion" type="Node2D" parent="Background/Newworks/mothership-far" index="3"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Background/Newworks/mothership-far/Explosion" index="0"]
@@ -1593,12 +1596,12 @@ blend_times = [  ]
 
 [node name="new_mothership" type="Node2D" parent="Background/Newworks" index="9"]
 
+editor/display_folded = true
 position = Vector2( 540, 960 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="new_mothership-blue" type="Node2D" parent="Background/Newworks/new_mothership" index="0"]
 
-editor/display_folded = true
 position = Vector2( 90, 980 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1705,7 +1708,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="basetotalL" type="Node2D" parent="Background/Newworks/new_mothership/new_mothership-blue" index="9"]
 
-editor/display_folded = true
 scale = Vector2( 1, -1 )
 _sections_unfolded = [ "Transform" ]
 
@@ -2516,6 +2518,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="UI" type="CanvasLayer" parent="." index="7"]
 
+editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -2780,28 +2783,49 @@ _sections_unfolded = [ "Transform" ]
 
 visible = false
 
-[node name="BGM1" type="AudioStreamPlayer" parent="." index="8"]
+[node name="sound_explo" type="AudioStreamPlayer" parent="." index="8"]
 
 stream = ExtResource( 48 )
-volume_db = 0.0
-autoplay = true
-mix_target = 0
-bus = "Master"
-
-[node name="BGM2" type="AudioStreamPlayer" parent="." index="9"]
-
-stream = ExtResource( 49 )
-volume_db = 0.0
-autoplay = true
-mix_target = 0
-bus = "Master"
-
-[node name="sound_explo" type="AudioStreamPlayer" parent="." index="10"]
-
-stream = ExtResource( 50 )
-volume_db = 0.0
+volume_db = -10.0
 autoplay = false
 mix_target = 0
+bus = "unit"
+
+[node name="Area2D" type="Area2D" parent="." index="9"]
+
+position = Vector2( 540, 965 )
+scale = Vector2( 17, 30 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Audio Bus", "Transform" ]
+
+[node name="BGM1" type="AudioStreamPlayer2D" parent="Area2D" index="0"]
+
+stream = ExtResource( 49 )
+volume_db = 2.0
+autoplay = true
+max_distance = 5000.0
+attenuation = 1.0
 bus = "Master"
+area_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="BGM2" type="AudioStreamPlayer2D" parent="Area2D" index="1"]
+
+stream = ExtResource( 50 )
+volume_db = -2.0
+autoplay = true
+max_distance = 5000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Sound" type="Node2D" parent="." index="10"]
 
 

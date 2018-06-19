@@ -15,6 +15,7 @@ var damage_effect = Timer.new()
 
 var effect_over
 var effect_under
+var sound
 
 var hpnode
 onready var body = get_node("Body")
@@ -23,11 +24,14 @@ onready var anim = get_node("AnimationPlayer")
 signal position_changed(id, position)
 signal projectile_created(type, target, lifetime, initial_position)
 signal queued_free
+signal sound_fire
+signal sound_hit
 
 func _ready():
 	body.set_material(resource.unit_material.duplicate())
 	clone_effect_nodes("EffectOver", effect_over)
 	clone_effect_nodes("EffectUnder", effect_under)
+	clone_sound_nodes("Sound", sound)
 
 func _process(delta):
 	play_launch_effect(delta)
@@ -70,7 +74,8 @@ func update_changes(unit):
 	update_hp(unit)
 	if unit.AttackStarted:
 		anim.play(unit.State)
-		get_node("sound_fire").play()
+		#get_node("sound_fire").play()
+		emit_signal("sound_fire")
 		var data = global.UNITS[u_name]
 		if data.has("projectile"):
 			match u_name:
@@ -158,7 +163,7 @@ func set_target(unit):
 func show_damage_effect():
 	body.get_material().set_shader_param("damaged", true)
 	damage_effect.start()
-	get_node("sound_hit").play()
+	emit_signal("sound_hit")
 
 func hide_damage_effect():
 	body.get_material().set_shader_param("damaged", false)
@@ -191,7 +196,23 @@ func clone_effect_nodes(org_node_name, dst):
 			} )
 			effect_node.queue_free()
 	clone_animations_for_effect(paths)
-
+	
+func clone_sound_nodes(org_node_name, dst):
+	if dst == null:
+		return
+	
+	var sound_node = get_node(org_node_name)
+	if sound_node == null:
+		return
+	var pos_node = sound_node.get_child(0)	
+	var dup_node = pos_node.duplicate()
+	dup_node.set_script(resource.sound_script.duplicate())
+	dup_node.set_pos_node(pos_node)
+	connect("queued_free", dup_node, "delete")
+	connect("sound_fire", dup_node, "sound_fire")
+	connect("sound_hit", dup_node, "sound_hit")
+	dst.add_child(dup_node)
+	
 func clone_animations_for_effect(effect_paths):
 	if effect_paths.size() <= 0:
 		return

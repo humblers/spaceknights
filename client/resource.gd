@@ -63,3 +63,4 @@ var effect = {
 }
 
 const effect_script = preload("res://effect/effect.gd")
+const sound_script = preload("res://sound/sound.gd")

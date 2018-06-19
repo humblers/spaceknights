@@ -397,7 +397,7 @@ tracks/5/keys = {
 "values": [ false, true ]
 }
 
-[node name="barbarianhut" type="Node2D"]
+[node name="barbarianhut" type="Node2D" index="0"]
 
 light_mask = 0
 script = ExtResource( 1 )
@@ -899,12 +899,18 @@ anims/move = SubResource( 12 )
 anims/spawn = SubResource( 13 )
 blend_times = [  ]
 
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="3"]
+[node name="Sound" type="Node2D" parent="." index="3"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
 stream = ExtResource( 10 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 

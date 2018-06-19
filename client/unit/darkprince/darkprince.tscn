@@ -1259,12 +1259,12 @@ tracks/26/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="StreamTexture" id=23]
+[sub_resource type="StreamTexture" id=17]
 
 flags = 4
 load_path = "res://.import/lancer-body.png-46dd0b8e06aede2c93702f5b70599eb8.stex"
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=18]
 
 length = 0.01
 loop = false
@@ -1627,10 +1627,10 @@ tracks/29/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ SubResource( 23 ) ]
+"values": [ SubResource( 17 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=19]
 
 length = 0.4
 loop = false
@@ -1972,7 +1972,7 @@ tracks/27/keys = {
 "values": [ true, true ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=20]
 
 length = 0.01
 loop = false
@@ -2302,7 +2302,7 @@ tracks/26/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=21]
 
 length = 0.01
 loop = false
@@ -2653,7 +2653,7 @@ tracks/28/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ SubResource( 23 ) ]
+"values": [ SubResource( 17 ) ]
 }
 tracks/29/type = "value"
 tracks/29/path = NodePath("Body/Main/Body:rotation_degrees")
@@ -3046,7 +3046,7 @@ tracks/30/keys = {
 "values": [ false, true, false, true, false ]
 }
 
-[node name="darkprince" type="Node2D" index="0"]
+[node name="darkprince" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -3505,28 +3505,36 @@ playback_speed = 1.0
 anims/attack = SubResource( 14 )
 anims/default_armed = SubResource( 15 )
 anims/default_winged = SubResource( 16 )
-anims/idle = SubResource( 24 )
-anims/move-armed-pre = SubResource( 25 )
-anims/move_armed = SubResource( 26 )
-anims/move_winged = SubResource( 27 )
+anims/idle = SubResource( 18 )
+anims/move-armed-pre = SubResource( 19 )
+anims/move_armed = SubResource( 20 )
+anims/move_winged = SubResource( 21 )
 anims/transform = SubResource( 22 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
-[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+[node name="Sound" type="Node2D" parent="." index="3"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
 stream = ExtResource( 19 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "delay"
+area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
 stream = ExtResource( 20 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 

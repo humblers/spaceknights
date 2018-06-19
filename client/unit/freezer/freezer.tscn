@@ -2100,7 +2100,7 @@ tracks/24/keys = {
 "values": [ false ]
 }
 
-[node name="freezer" type="Node2D"]
+[node name="freezer" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -2563,20 +2563,30 @@ anims/idle = SubResource( 25 )
 anims/transform = SubResource( 26 )
 blend_times = [  ]
 
-[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+[node name="Sound" type="Node2D" parent="." index="3"]
 
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+
+position = Vector2( 42.6924, -33.0096 )
 stream = null
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "unit"
+area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
+position = Vector2( 42.6924, -33.0096 )
 stream = ExtResource( 14 )
-volume_db = 0.0
+volume_db = -2.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 
