@@ -586,9 +586,11 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Effect" type="Node2D" parent="Body" index="1"]
 
+editor/display_folded = true
+
 [node name="FlashingRed" type="Particles2D" parent="Body/Effect" index="0"]
 
-position = Vector2( 31.9186, 28.5814 )
+position = Vector2( 31.5, 20 )
 rotation = -0.314159
 scale = Vector2( 2, 4 )
 emitting = true
@@ -613,13 +615,34 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="FlashingGreen" type="Particles2D" parent="Body/Effect" index="1"]
 
-_sections_unfolded = [ "Transform" ]
+position = Vector2( -31.5, 20 )
+rotation = 0.314159
+scale = Vector2( 2, 4 )
+emitting = true
+amount = 1
+lifetime = 2.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 6 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="EffectUnder" type="Node2D" parent="rotatable" index="0"]
 
 [node name="BoosterL" type="Position2D" parent="rotatable/EffectUnder" index="0"]
 
-position = Vector2( -25, 39 )
+position = Vector2( -25, 30 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Particles2D" type="Particles2D" parent="rotatable/EffectUnder/BoosterL" index="0"]
@@ -674,7 +697,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="BoosterLsub" type="Position2D" parent="rotatable/EffectUnder" index="1"]
 
-position = Vector2( -37, 13 )
+position = Vector2( -37, 10 )
 rotation = 0.698132
 _sections_unfolded = [ "Transform" ]
 
@@ -704,7 +727,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="BoosterR" type="Position2D" parent="rotatable/EffectUnder" index="2"]
 
-position = Vector2( 25, 39 )
+position = Vector2( 25, 30 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Particles2D" type="Particles2D" parent="rotatable/EffectUnder/BoosterR" index="0"]
@@ -759,7 +782,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="BoosterRsub" type="Position2D" parent="rotatable/EffectUnder" index="3"]
 
-position = Vector2( 37, 13 )
+position = Vector2( 37, 10 )
 rotation = -0.698132
 _sections_unfolded = [ "Transform" ]
 
@@ -854,7 +877,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 [node name="Shotpoint" type="Node2D" parent="rotatable/Position2D" index="2"]
 
 editor/display_folded = true
-position = Vector2( 0, -52 )
+position = Vector2( 0, -42 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Center" type="Position2D" parent="rotatable/Position2D/Shotpoint" index="0"]
@@ -988,7 +1011,23 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Visibility" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+[node name="sound_fire" type="AudioStreamPlayer" parent="." index="2"]
+
+stream = ExtResource( 10 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="sound_hit" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = ExtResource( 11 )
+volume_db = 0.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -999,31 +1038,5 @@ anims/attack = SubResource( 18 )
 anims/idle = SubResource( 19 )
 anims/move = SubResource( 20 )
 blend_times = [  ]
-
-[node name="Sound" type="Node2D" parent="." index="3"]
-
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
-
-stream = ExtResource( 10 )
-volume_db = 0.0
-autoplay = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "unit"
-area_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
-
-stream = ExtResource( 11 )
-volume_db = 0.0
-autoplay = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "hit"
-area_mask = 1
-_sections_unfolded = [ "Transform" ]
 
 
