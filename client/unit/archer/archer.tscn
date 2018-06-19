@@ -571,7 +571,7 @@ tracks/7/keys = {
 "values": [ true ]
 }
 
-[node name="archer" type="Node2D" index="0"]
+[node name="archer" type="Node2D"]
 
 _sections_unfolded = [ "Transform" ]
 
@@ -1011,23 +1011,7 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Visibility" ]
 
-[node name="sound_fire" type="AudioStreamPlayer" parent="." index="2"]
-
-stream = ExtResource( 10 )
-volume_db = 0.0
-autoplay = false
-mix_target = 0
-bus = "Master"
-
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="3"]
-
-stream = ExtResource( 11 )
-volume_db = 0.0
-autoplay = false
-mix_target = 0
-bus = "Master"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -1038,5 +1022,29 @@ anims/attack = SubResource( 18 )
 anims/idle = SubResource( 19 )
 anims/move = SubResource( 20 )
 blend_times = [  ]
+
+[node name="Sound" type="Node2D" parent="." index="3"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+
+stream = ExtResource( 10 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "unit"
+area_mask = 1
+
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+
+stream = ExtResource( 11 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 

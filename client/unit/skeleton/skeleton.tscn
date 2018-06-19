@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://effect/energy_shield1.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://unit/hpbar_red_S_inside.png" type="Texture" id=14]
 [ext_resource path="res://sound/DRILL.wav" type="AudioStream" id=15]
 [ext_resource path="res://sound/Shield Hit.wav" type="AudioStream" id=16]
+[ext_resource path="res://sound/NEEDLE.wav" type="AudioStream" id=17]
 
 [sub_resource type="ParticlesMaterial" id=1]
 
@@ -5303,5 +5304,29 @@ volume_db = 0.0
 autoplay = false
 mix_target = 0
 bus = "Master"
+
+[node name="Sound" type="Node2D" parent="." index="6"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+
+stream = ExtResource( 17 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "filter+delay"
+area_mask = 1
+
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+
+stream = ExtResource( 16 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 

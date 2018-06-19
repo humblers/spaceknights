@@ -22,31 +22,31 @@ animations = [ {
 "speed": 20.0
 } ]
 
-[sub_resource type="Gradient" id=25]
+[sub_resource type="Gradient" id=2]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=26]
+[sub_resource type="GradientTexture" id=3]
 
 flags = 4
-gradient = SubResource( 25 )
+gradient = SubResource( 2 )
 width = 2048
 
-[sub_resource type="Curve" id=27]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.000664171, 0 ), 0.0, 0.971592, 0, 0, Vector2( 1, 1 ), 0.0695606, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=28]
+[sub_resource type="CurveTexture" id=5]
 
 flags = 4
 width = 2048
-curve = SubResource( 27 )
+curve = SubResource( 4 )
 
-[sub_resource type="ParticlesMaterial" id=29]
+[sub_resource type="ParticlesMaterial" id=6]
 
 render_priority = 0
 trail_divisor = 1
@@ -76,8 +76,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 28 )
-color_ramp = SubResource( 26 )
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -730,7 +730,7 @@ tracks/11/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=25]
 
 resource_name = "rcs"
 length = 2.0
@@ -977,7 +977,7 @@ tracks/19/keys = {
 "values": [ false, true, false, true, false ]
 }
 
-[node name="giant" type="Node2D" index="0"]
+[node name="giant" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -1032,7 +1032,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 29 )
+process_material = SubResource( 6 )
 texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
@@ -1086,7 +1086,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 29 )
+process_material = SubResource( 6 )
 texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
@@ -1140,7 +1140,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 29 )
+process_material = SubResource( 6 )
 texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
@@ -1194,7 +1194,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 29 )
+process_material = SubResource( 6 )
 texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
@@ -1568,23 +1568,31 @@ playback_speed = 1.0
 anims/attack = SubResource( 22 )
 anims/idle = SubResource( 23 )
 anims/move = SubResource( 24 )
-anims/rcs = SubResource( 30 )
+anims/rcs = SubResource( 25 )
 blend_times = [  ]
 
-[node name="sound_fire" type="AudioStreamPlayer" parent="." index="3"]
+[node name="Sound" type="Node2D" parent="." index="3"]
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
 stream = ExtResource( 11 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "delay"
+area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer" parent="." index="4"]
+[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
 stream = ExtResource( 12 )
 volume_db = 0.0
 autoplay = false
-mix_target = 0
-bus = "Master"
+max_distance = 2000.0
+attenuation = 1.0
+bus = "hit"
+area_mask = 1
 
 
