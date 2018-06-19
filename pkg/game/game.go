@@ -1,15 +1,19 @@
 package game
 
 import "fmt"
+import "log"
 import "time"
+import "strings"
 
-const playTime = time.Minute * 3
-const frameInterval = time.Millisecond * 100
+//const playTime = time.Minute * 3
+const playTime = time.Second * 30
+const stepInterval = time.Millisecond * 100
 
 type game struct {
-	frame   int
+	step    int
 	players map[string]*player
-	inputs  map[int][]Input
+	actions map[int][]Action
+	sent    packet
 
 	joinc   chan *client
 	leavec  chan *client
@@ -18,12 +22,13 @@ type game struct {
 	left    chan error
 	applied chan error
 	quit    chan struct{}
+	logger  *log.Logger
 }
 
-func newGame(players []Player) *game {
+func newGame(players []Player, l *log.Logger) *game {
 	g := &game{
 		players: make(map[string]*player),
-		inputs:  make(map[int][]Input),
+		actions: make(map[int][]Action),
 
 		joinc:   make(chan *client),
 		leavec:  make(chan *client),
@@ -32,11 +37,20 @@ func newGame(players []Player) *game {
 		left:    make(chan error),
 		applied: make(chan error),
 		quit:    make(chan struct{}),
+		logger:  l,
 	}
 	for _, p := range players {
 		g.players[p.Id] = &player{}
 	}
 	return g
+}
+
+func (g *game) String() string {
+	var ids []string
+	for id, _ := range g.players {
+		ids = append(ids, id)
+	}
+	return fmt.Sprintf("game (%v)", strings.Join(ids, " VS "))
 }
 
 func (g *game) join(c *client) error {
@@ -51,7 +65,7 @@ func (g *game) join(c *client) error {
 func (g *game) leave(c *client) error {
 	select {
 	case <-g.quit:
-		return fmt.Errorf("%v already ended", g)
+		return nil
 	case g.leavec <- c:
 	}
 	return <-g.left
@@ -73,12 +87,14 @@ func (g *game) handleJoin(c *client) error {
 	}
 	existing := p.client
 	if existing == c {
-		return nil
+		panic("this should not happen")
 	}
 	if existing != nil {
 		existing.stop()
 	}
 	p.client = c
+	c.write(g.sent) // send previous game states
+	g.logger.Print(string(g.sent))
 	return nil
 }
 
@@ -96,22 +112,22 @@ func (g *game) handleLeave(c *client) error {
 }
 
 func (g *game) handleApply(i Input) error {
-	var frame int
-	if g.frame > i.Frame {
-		frame = g.frame
+	var step int
+	if g.step > i.Step {
+		step = g.step
 	} else {
-		frame = i.Frame
+		step = i.Step
 	}
-	g.inputs[frame] = append(g.inputs[frame], i)
+	g.actions[step] = append(g.actions[step], i.Action)
 	return nil
 }
 
 func (g *game) over() bool {
-	return g.frame > int(playTime/frameInterval)
+	return g.step > int(playTime/stepInterval)
 }
 
 func (g *game) run() {
-	ticker := time.NewTicker(frameInterval)
+	ticker := time.NewTicker(stepInterval)
 	defer ticker.Stop()
 	for !g.over() {
 		select {
@@ -135,13 +151,20 @@ func (g *game) run() {
 }
 
 func (g *game) broadcast() {
+	state := State{
+		Step:    g.step,
+		Actions: g.actions[g.step],
+	}
+	packet := newPacket(state)
+	g.sent = append(g.sent, packet...)
 	for _, p := range g.players {
 		if p.client != nil {
-			p.client.write(newPacket(g.inputs[g.frame]))
+			p.client.write(packet)
+			g.logger.Print(string(packet))
 		}
 	}
 }
 
 func (g *game) update() {
-	g.frame++
+	g.step++
 }

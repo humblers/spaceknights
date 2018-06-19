@@ -6,7 +6,11 @@ script/source = "extends Node
 
 const world = preload(\"res://physics/world.gd\")
 const map = preload(\"res://nav/thanatos.gd\")
+const PLAYTIME_SEC = 30
 const STEP_PER_SEC = 10
+const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
+const PACKET_WINDOW = 5
+const INPUT_DELAY_STEP = 10
 
 var frame = 0
 var elapsed = 0
@@ -25,11 +29,17 @@ var width = ProjectSettings.get(\"display/window/size/width\")
 var height = ProjectSettings.get(\"display/window/size/height\")
 
 func _ready():
+	tcp.connect(\"disconnected\", self, \"stop\")
 	set_process_input(true)
 	set_physics_process(true)
 	set_process(true)
 	CreateMap()
 	CreateEnemy()
+
+func stop():
+	set_process_input(false)
+	set_physics_process(false)
+	set_process(false)
 
 func CreateMap():
 	for o in nav.GetObstacles():
@@ -74,14 +84,19 @@ func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		var x = int(event.position.x)
 		var y = int(event.position.y)
-		var n = preload(\"res://test/unit.tscn\").instance()
-		n.Init(w, nav, x, y)
-		n.position = event.position
-		add_child(n)
+		tcp.Send({
+				\"Step\": w.step + INPUT_DELAY_STEP,
+				\"Action\": {
+					\"Id\": \"Alice\",
+					\"PosX\": x,
+					\"PosY\": y,
+				},
+		})
+		
 
 func _process(delta):
 	elapsed += delta
-	var t = elapsed * STEP_PER_SEC
+	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
 	for b in w.bodies:
 		var prev = Vector2(
 			w.ToPixel(b.prev_pos_x),
@@ -92,21 +107,44 @@ func _process(delta):
 			w.ToPixel(b.pos_y)
 		)
 		b.node.position = prev.linear_interpolate(curr, t)
-		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
-			w.RemoveBody(b)
-			b.node.queue_free()
+#		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
+#			w.RemoveBody(b)
+#			b.node.queue_free()
 
 func _physics_process(delta):
-	if frame % (Engine.iterations_per_second / STEP_PER_SEC) == 0:
-		for b in w.bodies:
-			if b.node.has_method(\"Update\"):
-				b.node.Update()
-		w.Step()
-		elapsed = 0
+	if frame % FRAME_PER_STEP == 0:
+		var iterations = 1
+		var n = tcp.received.size()
+		if n <= 0:
+			print(\"not enough packets\")
+			iterations = 0
+		if n > PACKET_WINDOW:
+			print(\"too many packets %s\" % [n])
+			iterations = min(10, n)
+		for i in range(iterations):
+			simulate(tcp.received.pop_front())
 	frame += 1
-"
 
-[node name="nav" type="Node"]
+func simulate(packet):
+	var state = parse_json(packet)
+	apply(state)
+	for b in w.bodies:
+		if b.node.has_method(\"Update\"):
+			b.node.Update()
+	w.Step()
+	elapsed = 0
+
+func apply(state):
+	if state.Actions != null:
+		for action in state.Actions:
+			var n = preload(\"res://test/unit.tscn\").instance()
+			var pos = Vector2(action.PosX, action.PosY)
+			n.Init(w, nav, int(pos.x), int(pos.y))
+			n.position = pos
+			add_child(n)
+	"
+
+[node name="nav" type="Node" index="0"]
 
 script = SubResource( 1 )
 

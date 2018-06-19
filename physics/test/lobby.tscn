@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+func _ready():
+	tcp.Connect(\"127.0.0.1\", 9999)
+	tcp.connect(\"connected\", self, \"load_game\")
+
+func load_game():
+	tcp.Send({\"Id\": \"Alice\", \"Token\": \"Alice\"})
+	tcp.Send({\"GameId\": \"BEEF\"})
+	get_tree().change_scene(\"res://test/nav.tscn\")
+"
+
+[node name="lobby" type="Node" index="0"]
+
+script = SubResource( 1 )
+
+

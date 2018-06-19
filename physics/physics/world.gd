@@ -3,6 +3,7 @@ extends Reference
 const body = preload("res://physics/body.gd")
 const collision = preload("res://physics/collision.gd")
 
+var step = 0
 var counter = 0
 var bodies = []
 var collisions = []
@@ -55,6 +56,7 @@ func Step():
 		b.move(dt)
 	for c in collisions:
 		c.positionalCorrect(correctionThreshold, correctionPercent)
+	step += 1
 
 func AddBox(mass, width, height, pos_x, pos_y):
 	var b = addBody(mass, pos_x, pos_y)

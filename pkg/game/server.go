@@ -1,11 +1,13 @@
 package game
 
+import "os"
 import "net"
 import "log"
 import "time"
 import "sync"
 import "bufio"
 import "runtime"
+import "runtime/pprof"
 
 type Server interface {
 	Run()
@@ -27,7 +29,7 @@ type server struct {
 
 	logger *log.Logger
 
-	numGR int // # of goroutine for leek detection
+	numGR int // # of goroutine for leak detection
 }
 
 func NewServer(caddr, laddr string, logger *log.Logger) Server {
@@ -40,9 +42,19 @@ func NewServer(caddr, laddr string, logger *log.Logger) Server {
 }
 
 func (s *server) Run() {
+	s.logger.Print("server starting")
 	s.numGR = runtime.NumGoroutine()
 	s.listenClients()
 	s.listenLobby()
+
+	// temporary for debugging
+	s.runGame(GameConfig{
+		Id: "BEEF",
+		Players: []Player{
+			Player{"Alice"},
+			Player{"Bob"},
+		},
+	})
 }
 
 func (s *server) listenClients() {
@@ -175,8 +187,11 @@ func (s *server) Stop() {
 
 	curr := runtime.NumGoroutine()
 	if curr != s.numGR {
-		s.logger.Printf("go routine leek detected: %v -> %v", s.numGR, curr)
+		s.logger.Printf("go routine leak detected: %v -> %v", s.numGR, curr)
+		pprof.Lookup("goroutine").WriteTo(os.Stderr, 2)
 	}
+
+	s.logger.Print("server stopped")
 }
 
 func (s *server) findGame(id string) *game {
@@ -187,13 +202,22 @@ func (s *server) findGame(id string) *game {
 }
 
 func (s *server) runGame(cfg GameConfig) {
-	g := newGame(cfg.Players)
+	g := newGame(cfg.Players, s.logger)
 	s.gwg.Add(1)
 	go func() {
 		defer s.gwg.Done()
+		defer s.logger.Printf("%v stopped", g)
+		defer s.removeGame(cfg.Id)
+		s.logger.Printf("%v starting", g)
 		g.run()
 	}()
 	s.Lock()
 	s.games[cfg.Id] = g
+	s.Unlock()
+}
+
+func (s *server) removeGame(id string) {
+	s.Lock()
+	delete(s.games, id)
 	s.Unlock()
 }
