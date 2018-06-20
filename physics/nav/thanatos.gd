@@ -224,7 +224,7 @@ func narrowPath(path, radius):
 				new_path.append(p)
 	return new_path
 	
-func nextCornerInPath(path, start_x, start_y):
+static func nextCornerInPath(path, start_x, start_y):
 	assert(len(path) > 0)
 	var portalLeft_x = path[0].left_x
 	var portalLeft_y = path[0].left_y
@@ -259,3 +259,15 @@ func nextCornerInPath(path, start_x, start_y):
 			right_x = newRight_x
 			right_y = newRight_y
 	return [portalLeft_x, portalLeft_y]
+
+static func Width(area):
+	return scalar.Div(scalar.Sub(area.r, area.l), scalar.Two)
+
+static func Height(area):
+	return scalar.Div(scalar.Sub(area.b, area.t), scalar.Two)
+
+static func PosX(area):
+	return scalar.Div(scalar.Add(area.l, area.r), scalar.Two)
+
+static func PosY(area):
+	return scalar.Div(scalar.Add(area.t, area.b), scalar.Two)

@@ -12,20 +12,16 @@ var received = []
 signal connected
 signal disconnected
 
+func _ready():
+	set_physics_process(true)
+
 func Connect(ip, port):
 	var err = client.connect_to_host(ip, port)
-	if err == OK:
-		set_physics_process(true)
-	else:
+	if err != OK:
 		print("tcp Connect failed: %s" % err)
 
 func Disconnect():
 	client.disconnect_from_host()
-	client_connected = false
-	send_buf = ""
-	receive_buf = ""
-	received = []
-	set_physics_process(false)
 
 func Send(dict):
 	if client_connected:
@@ -60,7 +56,7 @@ func read():
 			received.append(packet)
 	else:
 		print("tcp read failed: %s" % err)
-		Disconnect()
+		client_connected = false
 		emit_signal("disconnected")
 
 func write():
@@ -72,5 +68,5 @@ func write():
 			send_buf = send_buf.right(n)
 		else:
 			print("tcp write failed: %s" % err)
-			Disconnect()
+			client_connected = false
 			emit_signal("disconnected")

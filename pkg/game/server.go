@@ -9,6 +9,8 @@ import "bufio"
 import "runtime"
 import "runtime/pprof"
 
+import "git.humbler.games/spaceknights/spaceknights/pkg/nav"
+
 type Server interface {
 	Run()
 	Stop()
@@ -17,6 +19,7 @@ type Server interface {
 type server struct {
 	sync.RWMutex
 	games map[string]*game
+	_map  nav.Map
 
 	caddr     string
 	laddr     string
@@ -34,7 +37,9 @@ type server struct {
 
 func NewServer(caddr, laddr string, logger *log.Logger) Server {
 	return &server{
-		games:  make(map[string]*game),
+		games: make(map[string]*game),
+		_map:  nav.NewThanatos(params["scale"]),
+
 		caddr:  caddr,
 		laddr:  laddr,
 		logger: logger,
@@ -202,7 +207,7 @@ func (s *server) findGame(id string) *game {
 }
 
 func (s *server) runGame(cfg GameConfig) {
-	g := newGame(cfg.Players, s.logger)
+	g := newGame(s._map, cfg.Players, s.logger)
 	s.gwg.Add(1)
 	go func() {
 		defer s.gwg.Done()

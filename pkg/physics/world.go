@@ -7,7 +7,7 @@ import (
 
 type World struct {
 	counter    int
-	bodies     []*body
+	bodies     []*Body
 	collisions []*collision
 
 	scale               fixed.Scalar
@@ -85,29 +85,29 @@ func (w *World) Step() {
 	}
 }
 
-func (w *World) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) *body {
+func (w *World) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) *Body {
 	b := w.addBody(mass, pos)
 	b.setAsBox(width, height)
 	return b
 }
 
-func (w *World) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) *body {
+func (w *World) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) *Body {
 	b := w.addBody(mass, pos)
 	b.setAsCircle(radius)
 	return b
 }
 
-func (w *World) addBody(mass fixed.Scalar, pos fixed.Vector) *body {
+func (w *World) addBody(mass fixed.Scalar, pos fixed.Vector) *Body {
 	b := newBody(w.counter, mass, w.restitution, pos)
 	w.bodies = append(w.bodies, b)
 	w.counter++
 	return b
 }
 
-func (w *World) RemoveBody(body *body) {
+func (w *World) RemoveBody(b *Body) {
 	bodies := w.bodies
 	for i := 0; i < len(bodies); i++ {
-		if bodies[i].id == body.id {
+		if bodies[i].id == b.id {
 			// https://github.com/golang/go/wiki/SliceTricks#delete-without-preserving-order
 			bodies[i] = bodies[len(bodies)-1]
 			bodies[len(bodies)-1] = nil
@@ -117,7 +117,7 @@ func (w *World) RemoveBody(body *body) {
 	}
 }
 
-func (w *World) digest(opt ...uint32) uint32 {
+func (w *World) Digest(opt ...uint32) uint32 {
 	h := djb2.Hash(uint32(w.counter), opt...)
 	for _, b := range w.bodies {
 		h = b.digest(h)
@@ -128,7 +128,7 @@ func (w *World) digest(opt ...uint32) uint32 {
 	return h
 }
 
-func checkCollision(a, b *body) *collision {
+func checkCollision(a, b *Body) *collision {
 	switch a.shape {
 	case box:
 		switch b.shape {
@@ -148,8 +148,8 @@ func checkCollision(a, b *body) *collision {
 	panic("unknown shapes")
 }
 
-func boxVSbox(a, b *body) *collision {
-	relPos := b.pos.Sub(a.pos)
+func boxVSbox(a, b *Body) *collision {
+	relPos := b.Pos.Sub(a.Pos)
 	overlapX := a.width.Add(b.width).Sub(relPos.X.Abs())
 	if overlapX > 0 {
 		overlapY := a.height.Add(b.height).Sub(relPos.Y.Abs())
@@ -176,9 +176,9 @@ func boxVSbox(a, b *body) *collision {
 	return nil
 }
 
-func circleVScircle(a, b *body) *collision {
-	relPos := b.pos.Sub(a.pos)
-	radii := a.radius.Add(b.radius)
+func circleVScircle(a, b *Body) *collision {
+	relPos := b.Pos.Sub(a.Pos)
+	radii := a.Radius.Add(b.Radius)
 	d := relPos.LengthSquared()
 	if d < radii.Mul(radii) {
 		d := d.Sqrt()
@@ -194,8 +194,8 @@ func circleVScircle(a, b *body) *collision {
 	return nil
 }
 
-func boxVScircle(a *body, b *body) *collision {
-	relPos := b.pos.Sub(a.pos)
+func boxVScircle(a, b *Body) *collision {
+	relPos := b.Pos.Sub(a.Pos)
 	closest := relPos
 	xExtent := a.width
 	yExtent := a.height
@@ -222,7 +222,7 @@ func boxVScircle(a *body, b *body) *collision {
 	}
 	normal := relPos.Sub(closest)
 	d := normal.LengthSquared()
-	r := b.radius
+	r := b.Radius
 	if d > r.Mul(r) && !inside {
 		return nil
 	}

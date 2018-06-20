@@ -50,6 +50,7 @@ type Action struct {
 type State struct {
 	Step    int
 	Actions []Action
+	Hash    uint32
 }
 
 type GameConfig struct {

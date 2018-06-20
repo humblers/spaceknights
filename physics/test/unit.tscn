@@ -10,7 +10,7 @@ const mass = 10
 const radius = 30
 const speed = 100
 
-onready var target = get_node(\"../enemy\")
+onready var target = get_node(\"../../enemy\")
 
 var world
 var nav
@@ -20,7 +20,7 @@ func _ready():
 	get_node(\"circle\").radius = radius
 	get_node(\"circle\").color = Color(0, 0, 1)
 
-func Init(world, nav, pos_x, pos_y):
+func init(world, nav, pos_x, pos_y):
 	self.world = world
 	self.nav = nav
 	body = world.AddCircle(
@@ -31,7 +31,9 @@ func Init(world, nav, pos_x, pos_y):
 	)
 	body.node = self
 
-func Update():
+func update(step):
+#	if step % 5 != 0:
+#		return
 	var corner = nav.FindNextCornerInPath(
 		body.pos_x,
 		body.pos_y,
@@ -48,7 +50,7 @@ func Update():
 	body.vel_y = scalar.Mul(n_y, world.FromPixel(speed))
 "
 
-[node name="unit" type="Node2D" index="0"]
+[node name="unit" type="Node2D"]
 
 script = SubResource( 1 )
 

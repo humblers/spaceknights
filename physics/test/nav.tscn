@@ -6,21 +6,20 @@ script/source = "extends Node
 
 const world = preload(\"res://physics/world.gd\")
 const map = preload(\"res://nav/thanatos.gd\")
-const PLAYTIME_SEC = 30
 const STEP_PER_SEC = 10
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
 const INPUT_DELAY_STEP = 10
 
+var step = 0
 var frame = 0
 var elapsed = 0
 
-var world_scale = scalar.Div(scalar.One, scalar.FromInt(10))
 var params = {
 	\"scale\": scalar.Div(scalar.One, scalar.FromInt(10)),
 	\"dt\": scalar.Div(scalar.One, scalar.FromInt(STEP_PER_SEC)),
 	\"gravity_y\": 0,
-	\"restitution\": 0,
+	\"restitution\": scalar.Div(scalar.One, scalar.FromInt(10)),
 }
 var w = world.new(params)
 var nav = map.new(params.scale)
@@ -28,13 +27,18 @@ var nav = map.new(params.scale)
 var width = ProjectSettings.get(\"display/window/size/width\")
 var height = ProjectSettings.get(\"display/window/size/height\")
 
+var to_stop = false
+
 func _ready():
-	tcp.connect(\"disconnected\", self, \"stop\")
+	tcp.connect(\"disconnected\", self, \"request_stop\")
 	set_process_input(true)
 	set_physics_process(true)
 	set_process(true)
 	CreateMap()
 	CreateEnemy()
+
+func request_stop():
+	to_stop = true
 
 func stop():
 	set_process_input(false)
@@ -43,10 +47,10 @@ func stop():
 
 func CreateMap():
 	for o in nav.GetObstacles():
-		var width = w.ToPixel(scalar.Div(scalar.Sub(o.r, o.l), scalar.Two))
-		var height = w.ToPixel(scalar.Div(scalar.Sub(o.b, o.t), scalar.Two))
-		var x = w.ToPixel(scalar.Div(scalar.Add(o.l, o.r), scalar.Two))
-		var y = w.ToPixel(scalar.Div(scalar.Add(o.t, o.b), scalar.Two))
+		var width = w.ToPixel(nav.Width(o))
+		var height = w.ToPixel(nav.Height(o))
+		var x = w.ToPixel(nav.PosX(o))
+		var y = w.ToPixel(nav.PosY(o))
 		var b = w.AddBox(
 			scalar.FromInt(0),
 			w.FromPixel(width),
@@ -85,7 +89,7 @@ func _input(event):
 		var x = int(event.position.x)
 		var y = int(event.position.y)
 		tcp.Send({
-				\"Step\": w.step + INPUT_DELAY_STEP,
+				\"Step\": step + INPUT_DELAY_STEP,
 				\"Action\": {
 					\"Id\": \"Alice\",
 					\"PosX\": x,
@@ -116,22 +120,34 @@ func _physics_process(delta):
 		var iterations = 1
 		var n = tcp.received.size()
 		if n <= 0:
+			if to_stop:
+				stop()
+				return
 			print(\"not enough packets\")
 			iterations = 0
 		if n > PACKET_WINDOW:
 			print(\"too many packets %s\" % [n])
 			iterations = min(10, n)
 		for i in range(iterations):
-			simulate(tcp.received.pop_front())
+			update(tcp.received.pop_front())
 	frame += 1
 
-func simulate(packet):
+func update(packet):
 	var state = parse_json(packet)
 	apply(state)
-	for b in w.bodies:
-		if b.node.has_method(\"Update\"):
-			b.node.Update()
+	for node in $units.get_children():
+		node.update(step)
 	w.Step()
+	
+	# validate
+	if step != state.Step:
+		print(\"step mismatch: %s - %s\" % [step, state.Step])
+	var client_hash = w.Digest()
+	var server_hash = state.Hash
+	if client_hash != server_hash:
+		print(\"desync detected: %s - %s\" % [client_hash, server_hash])
+
+	step += 1
 	elapsed = 0
 
 func apply(state):
@@ -139,13 +155,16 @@ func apply(state):
 		for action in state.Actions:
 			var n = preload(\"res://test/unit.tscn\").instance()
 			var pos = Vector2(action.PosX, action.PosY)
-			n.Init(w, nav, int(pos.x), int(pos.y))
+			n.init(w, nav, int(pos.x), int(pos.y))
 			n.position = pos
-			add_child(n)
-	"
+			$units.add_child(n)
+	
+"
 
 [node name="nav" type="Node" index="0"]
 
 script = SubResource( 1 )
+
+[node name="units" type="Node" parent="." index="0"]
 
 
