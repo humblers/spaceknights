@@ -89,7 +89,7 @@ func update_changes(unit):
 							float(data.prehitdelay + 1) / global.SERVER_UPDATES_PER_SECOND,
 							get_node("Body/Shotpoint").get_child(shot_child_idx).global_position)
 					#get_node("sound_fire").play()
-				"freezer", "shuriken", "space_z":
+				"frost", "legion", "astra":
 					# not prepared
 					pass
 				_:
