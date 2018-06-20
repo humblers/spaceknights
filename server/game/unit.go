@@ -647,7 +647,7 @@ func (u *Unit) Update() {
 					}
 				}
 			}
-		case "astra":
+		case "astra", "nagmash", "lancer", "judge":
 			if u.HasTargetInKnightFirefield() {
 				if math.Abs(u.Position.X-u.Target.Position.X) < 5 {
 					if u.Game.Frame > u.SpawnFrame+u.SpawnSpeed {
