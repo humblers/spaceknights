@@ -18,7 +18,7 @@ func NewPsabu(id int, t Team, pos Vector2) *Unit {
 		Sight:        150,
 		Range:        15,
 		Damage:       678,
-		DamageRadius:  60,
+		DamageRadius: 60,
 		Id:           id,
 		Position:     pos,
 	}

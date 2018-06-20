@@ -18,7 +18,7 @@ func NewPanzerkunstler(id int, t Team, pos Vector2) *Unit {
 		Sight:        150,
 		Range:        15,
 		Damage:       598,
-		DamageRadius:  50,
+		DamageRadius: 50,
 		Id:           id,
 		Position:     pos,
 	}
