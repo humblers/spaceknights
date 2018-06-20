@@ -33,7 +33,7 @@ func NewWaitingCard(id int, team Team, card Card, pos Vector2, gameFrame int, kn
 
 func (c *WaitingCard) GetUnitCount() (count int) {
 	switch c.Name {
-	case "barrack", "blaster", "blastturret", "cannon", "jouster", "giant", "sentryshelter", "drillram", "gargoyleking", "berserker", "starfire", "ogre", "champion", "pixiegeode", "enforcer", "panzerkunstler", "psabu", "shadowvision", "wasp" :
+	case "barrack", "blaster", "blastturret", "cannon", "jouster", "giant", "sentryshelter", "drillram", "gargoyleking", "berserker", "starfire", "ogre", "champion", "pixiegeode", "enforcer", "panzerkunstler", "psabu", "shadowvision", "wasp":
 		count = 1
 	case "archers":
 		count = 2
@@ -52,33 +52,33 @@ func (c *WaitingCard) GetUnitCount() (count int) {
 }
 
 var CostMap = map[Card]int{
-	"archers":         3000,
-	"footman":      5000,
-	"barrack":    7000,
-	"blaster":          3000,
-	"blastturret":       5000,
-	"cannon":          3000,
-	"jouster":      4000,
-	"giant":           5000,
-	"sentryshelter":       5000,
-	"drillram":        4000,
-	"gargoyleking":      3000,
-	"gargoylehorde":     5000,
-	"gargoyles":         3000,
-	"berserker":       4000,
+	"archers":        3000,
+	"footman":        5000,
+	"barrack":        7000,
+	"blaster":        3000,
+	"blastturret":    5000,
+	"cannon":         3000,
+	"jouster":        4000,
+	"giant":          5000,
+	"sentryshelter":  5000,
+	"drillram":       4000,
+	"gargoyleking":   3000,
+	"gargoylehorde":  5000,
+	"gargoyles":      3000,
+	"berserker":      4000,
 	"starfire":       4000,
 	"ogre":           7000,
-	"champion":          5000,
-	"pixie":       1000,
-	"sentry":    2000,
-	"threestarfire": 9000,
-	"pixiegeode":       3000,
-	"felhound":        2000,
-	"panzerkunstler":        5000,
-	"psabu":        7000,
-	"shadowvision":        4000,
+	"champion":       5000,
+	"pixie":          1000,
+	"sentry":         2000,
+	"threestarfire":  9000,
+	"pixiegeode":     3000,
+	"felhound":       2000,
+	"panzerkunstler": 5000,
+	"psabu":          7000,
+	"shadowvision":   4000,
 	"trainee":        2000,
-	"wasp":        5000,
+	"wasp":           5000,
 
 	"fireball": 11000,
 	"laser":    11000,

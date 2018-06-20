@@ -308,7 +308,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
 		g.AddUnit(NewFelhound(card.IdStarting, card.Team, card.Position, Vector2{1, 1}))
 		g.AddUnit(NewFelhound(card.IdStarting+1, card.Team, card.Position, Vector2{1, -1}))
 		g.AddUnit(NewFelhound(card.IdStarting+2, card.Team, card.Position, Vector2{-1, 1}))
-		g.AddUnit(NewFelhound(card.IdStarting+3, card.Team, card.Position, Vector2{-1, -1}))	
+		g.AddUnit(NewFelhound(card.IdStarting+3, card.Team, card.Position, Vector2{-1, -1}))
 	case "panzerkunstler":
 		g.AddUnit(NewPanzerkunstler(card.IdStarting, card.Team, card.Position))
 	case "psabu":
@@ -320,7 +320,7 @@ func (g *Game) ActivateCard(card *WaitingCard) {
 		g.AddUnit(NewTrainee(card.IdStarting+1, card.Team, card.Position, Vector2{1, -1}))
 		g.AddUnit(NewTrainee(card.IdStarting+2, card.Team, card.Position, Vector2{-1, -1}))
 	case "wasp":
-		g.AddUnit(NewWasp(card.IdStarting, card.Team, card.Position))	
+		g.AddUnit(NewWasp(card.IdStarting, card.Team, card.Position))
 	case "fireball":
 		g.AddSpell(NewFireball(card.IdStarting, card.Team, card.Position))
 	case "laser":
