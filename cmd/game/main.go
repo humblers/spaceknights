@@ -3,6 +3,7 @@ package main
 import "os"
 import "os/signal"
 import "log"
+import "fmt"
 import "git.humbler.games/spaceknights/spaceknights/pkg/game"
 
 func main() {
@@ -13,7 +14,9 @@ func main() {
 	server := game.NewServer(":9999", ":9989", logger)
 	server.Run()
 	select {
-	case <-c:
+	case sig := <-c:
+		fmt.Fprintln(os.Stderr, "")
+		logger.Printf("Got %v signal. Aborting...", sig)
 		server.Stop()
 	}
 }

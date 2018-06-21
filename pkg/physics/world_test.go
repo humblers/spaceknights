@@ -20,7 +20,7 @@ func TestWorld_HashStatic(t *testing.T) {
 		pos)
 	for i := 0; i < 10; i++ {
 		sw.Step()
-		if got := sw.digest(); got != 2406999703 {
+		if got := sw.Digest(); got != 2406999703 {
 			t.Errorf("Hash(%v), got(%v), want(%v)", sw, got, 2406999703)
 		}
 	}
@@ -62,12 +62,12 @@ func TestWorld_HashDynamic(t *testing.T) {
 	for i, h := range hash_results {
 		dw.Step()
 		for _, b := range dw.bodies {
-			x, y := b.pos.X, b.pos.Y
+			x, y := b.Pos.X, b.Pos.Y
 			if x < 0 || x > dw.FromPixel(1000) || y < 0 || y > dw.FromPixel(1700) {
 				dw.RemoveBody(b)
 			}
 		}
-		if got := dw.digest(); got != h {
+		if got := dw.Digest(); got != h {
 			t.Errorf("Hash(%v), got(%v), want(%v), index(%v)", dw, got, h, i)
 		}
 	}

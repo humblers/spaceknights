@@ -27,7 +27,7 @@ static func ToInt(s):
 static func FromFloat(f):
 	var val = int(saturated(f * scale))
 	if f != 0 && val == 0:
-		print("underflow")
+		#print("underflow")
 		if f < 0:
 			return -epsilon
 		return epsilon
@@ -94,8 +94,8 @@ static func saturated(x):
 
 static func underflow(_in, out):
 	var b = (_in != 0 and out == 0)
-	if b:
-		print("underflow")
+#	if b:
+#		print("underflow")
 	return b
 
 static func Min(x, y):

@@ -7,16 +7,19 @@ script/source = "extends Node
 const world = preload(\"res://physics/world.gd\")
 const map = preload(\"res://nav/thanatos.gd\")
 const STEP_PER_SEC = 10
+const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
+const PACKET_WINDOW = 5
+const INPUT_DELAY_STEP = 10
 
+var step = 0
 var frame = 0
 var elapsed = 0
 
-var world_scale = scalar.Div(scalar.One, scalar.FromInt(10))
 var params = {
 	\"scale\": scalar.Div(scalar.One, scalar.FromInt(10)),
 	\"dt\": scalar.Div(scalar.One, scalar.FromInt(STEP_PER_SEC)),
 	\"gravity_y\": 0,
-	\"restitution\": 0,
+	\"restitution\": scalar.Div(scalar.One, scalar.FromInt(10)),
 }
 var w = world.new(params)
 var nav = map.new(params.scale)
@@ -24,19 +27,30 @@ var nav = map.new(params.scale)
 var width = ProjectSettings.get(\"display/window/size/width\")
 var height = ProjectSettings.get(\"display/window/size/height\")
 
+var to_stop = false
+
 func _ready():
+	tcp.connect(\"disconnected\", self, \"request_stop\")
 	set_process_input(true)
 	set_physics_process(true)
 	set_process(true)
 	CreateMap()
 	CreateEnemy()
 
+func request_stop():
+	to_stop = true
+
+func stop():
+	set_process_input(false)
+	set_physics_process(false)
+	set_process(false)
+
 func CreateMap():
 	for o in nav.GetObstacles():
-		var width = w.ToPixel(scalar.Div(scalar.Sub(o.r, o.l), scalar.Two))
-		var height = w.ToPixel(scalar.Div(scalar.Sub(o.b, o.t), scalar.Two))
-		var x = w.ToPixel(scalar.Div(scalar.Add(o.l, o.r), scalar.Two))
-		var y = w.ToPixel(scalar.Div(scalar.Add(o.t, o.b), scalar.Two))
+		var width = w.ToPixel(nav.Width(o))
+		var height = w.ToPixel(nav.Height(o))
+		var x = w.ToPixel(nav.PosX(o))
+		var y = w.ToPixel(nav.PosY(o))
 		var b = w.AddBox(
 			scalar.FromInt(0),
 			w.FromPixel(width),
@@ -74,14 +88,19 @@ func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		var x = int(event.position.x)
 		var y = int(event.position.y)
-		var n = preload(\"res://test/unit.tscn\").instance()
-		n.Init(w, nav, x, y)
-		n.position = event.position
-		add_child(n)
+		tcp.Send({
+				\"Step\": step + INPUT_DELAY_STEP,
+				\"Action\": {
+					\"Id\": \"Alice\",
+					\"PosX\": x,
+					\"PosY\": y,
+				},
+		})
+		
 
 func _process(delta):
 	elapsed += delta
-	var t = elapsed * STEP_PER_SEC
+	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
 	for b in w.bodies:
 		var prev = Vector2(
 			w.ToPixel(b.prev_pos_x),
@@ -92,22 +111,60 @@ func _process(delta):
 			w.ToPixel(b.pos_y)
 		)
 		b.node.position = prev.linear_interpolate(curr, t)
-		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
-			w.RemoveBody(b)
-			b.node.queue_free()
+#		if b.node.position.x < 0 or b.node.position.x > width or b.node.position.y < 0 or b.node.position.y > height:
+#			w.RemoveBody(b)
+#			b.node.queue_free()
 
 func _physics_process(delta):
-	if frame % (Engine.iterations_per_second / STEP_PER_SEC) == 0:
-		for b in w.bodies:
-			if b.node.has_method(\"Update\"):
-				b.node.Update()
-		w.Step()
-		elapsed = 0
+	if frame % FRAME_PER_STEP == 0:
+		var iterations = 1
+		var n = tcp.received.size()
+		if n <= 0:
+			if to_stop:
+				stop()
+				return
+			print(\"not enough packets\")
+			iterations = 0
+		if n > PACKET_WINDOW:
+			print(\"too many packets %s\" % [n])
+			iterations = min(10, n)
+		for i in range(iterations):
+			update(tcp.received.pop_front())
 	frame += 1
+
+func update(packet):
+	var state = parse_json(packet)
+	apply(state)
+	for node in $units.get_children():
+		node.update(step)
+	w.Step()
+	
+	# validate
+	if step != state.Step:
+		print(\"step mismatch: %s - %s\" % [step, state.Step])
+	var client_hash = w.Digest()
+	var server_hash = state.Hash
+	if client_hash != server_hash:
+		print(\"desync detected: %s - %s\" % [client_hash, server_hash])
+
+	step += 1
+	elapsed = 0
+
+func apply(state):
+	if state.Actions != null:
+		for action in state.Actions:
+			var n = preload(\"res://test/unit.tscn\").instance()
+			var pos = Vector2(action.PosX, action.PosY)
+			n.init(w, nav, int(pos.x), int(pos.y))
+			n.position = pos
+			$units.add_child(n)
+	
 "
 
-[node name="nav" type="Node"]
+[node name="nav" type="Node" index="0"]
 
 script = SubResource( 1 )
+
+[node name="units" type="Node" parent="." index="0"]
 
 

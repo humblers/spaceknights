@@ -13,6 +13,7 @@ func newPacket(in interface{}) packet {
 	if err != nil {
 		panic(err)
 	}
+	b = append(b, '\n')
 	return packet(b)
 }
 
@@ -35,11 +36,21 @@ type Player struct {
 }
 
 type Input struct {
-	Id    string
-	Frame int
-	Card  string
-	PosX  int
-	PosY  int
+	Step   int
+	Action Action
+}
+
+type Action struct {
+	Id   string
+	Card string
+	PosX int
+	PosY int
+}
+
+type State struct {
+	Step    int
+	Actions []Action
+	Hash    uint32
 }
 
 type GameConfig struct {

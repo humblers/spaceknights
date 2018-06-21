@@ -3,8 +3,15 @@ package nav
 import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
 
 type Map interface {
-	GetObstacles() []*area
-	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar)
+	GetObstacles() []Area
+	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
+}
+
+type Area interface {
+	Width() fixed.Scalar
+	Height() fixed.Scalar
+	PosX() fixed.Scalar
+	PosY() fixed.Scalar
 }
 
 type area struct {
@@ -122,8 +129,8 @@ func NewThanatos(scale fixed.Scalar) *Thanatos {
 	return t
 }
 
-func (t *Thanatos) GetObstacles() []*area {
-	return []*area{t.leftshield, t.centershield, t.rightshield}
+func (t *Thanatos) GetObstacles() []Area {
+	return []Area{t.leftshield, t.centershield, t.rightshield}
 }
 
 func (t *Thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector {
@@ -266,4 +273,20 @@ func nextCornerInPath(path []*portal, start fixed.Vector) fixed.Vector {
 		}
 	}
 	return portalLeft
+}
+
+func (a *area) Width() fixed.Scalar {
+	return a.r.Sub(a.l).Div(fixed.Two)
+}
+
+func (a *area) Height() fixed.Scalar {
+	return a.b.Sub(a.t).Div(fixed.Two)
+}
+
+func (a *area) PosX() fixed.Scalar {
+	return a.l.Add(a.r).Div(fixed.Two)
+}
+
+func (a *area) PosY() fixed.Scalar {
+	return a.t.Add(a.b).Div(fixed.Two)
 }

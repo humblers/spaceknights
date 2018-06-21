@@ -1,10 +1,8 @@
 package game
 
-import "io"
 import "fmt"
 import "net"
 import "log"
-import "sync"
 import "time"
 import "bufio"
 
@@ -14,7 +12,6 @@ type client struct {
 	conn   net.Conn
 	server *server
 	reader *bufio.Reader
-	wg     sync.WaitGroup
 	logger *log.Logger
 }
 
@@ -27,7 +24,13 @@ func newClient(conn net.Conn, s *server, l *log.Logger) *client {
 	}
 }
 
+func (c *client) String() string {
+	return fmt.Sprintf("client %v(%v)", c.id, c.conn.RemoteAddr())
+}
+
 func (c *client) run() {
+	c.logger.Printf("%v starting", c)
+	defer c.logger.Printf("%v stopped", c)
 	defer c.closeConn()
 	if err := c.auth(); err != nil {
 		c.logger.Print(err)
@@ -38,21 +41,19 @@ func (c *client) run() {
 		return
 	}
 	defer c.leave()
+	if err := c.conn.SetReadDeadline(time.Time{}); err != nil { // no timeout
+		panic(err)
+	}
 	for {
 		if b, err := c.reader.ReadBytes('\n'); err != nil {
-			if err == io.EOF {
-				break // client disconnected
-			}
-			if e, ok := err.(net.Error); ok && e.Timeout() {
-				break // client.stop() called
-			}
-			panic(err)
+			c.logger.Print(err) // for debugging
+			break
 		} else {
 			var input Input
 			if err := packet(b).parse(&input); err != nil {
 				panic(err)
 			}
-			input.Id = c.id
+			input.Action.Id = c.id
 			if err := c.game.apply(input); err != nil {
 				c.logger.Print(err)
 				break
@@ -63,12 +64,8 @@ func (c *client) run() {
 
 func (c *client) write(p packet) {
 	if _, err := c.conn.Write(p); err != nil {
-		if err == io.EOF {
-			// client disconnected
-			c.logger.Print(err) // just for debugging
-			return
-		}
-		panic(err)
+		c.logger.Print(err) // for debugging
+		c.stop()
 	}
 }
 

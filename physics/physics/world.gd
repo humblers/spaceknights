@@ -85,7 +85,7 @@ func RemoveBody(b):
 			bodies.pop_back()
 			return
 
-func digest(h=djb2.INITIAL_HASH):
+func Digest(h=djb2.INITIAL_HASH):
 	h = djb2.Hash(counter, h)
 	for b in bodies:
 		h = b.digest(h)
