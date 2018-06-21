@@ -260,7 +260,7 @@ const UNITS = {
 	},
 	"felhound" : {
 		"layer" : "Ground",
-		"hp" : 636,
+		"hp" : 80,
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 15,
@@ -314,7 +314,7 @@ const UNITS = {
 	},
 	"shadowvision" : {
 		"layer" : "Air",
-		"hp" : 695,
+		"hp" : 800,
 		"prehitdelay" : 19,
 		"radius" : 20,
 		"sight" : 100,
@@ -324,7 +324,7 @@ const UNITS = {
 	},
 	"trainee" : {
 		"layer" : "Ground",
-		"hp" : 636,
+		"hp" : 120,
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 15,
@@ -332,7 +332,7 @@ const UNITS = {
 	},
 	"wasp" : {
 		"layer" : "Air",
-		"hp" : 695,
+		"hp" : 1000,
 		"prehitdelay" : 7,
 		"radius" : 20,
 		"sight" : 100,

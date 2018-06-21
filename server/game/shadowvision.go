@@ -8,7 +8,7 @@ func NewShadowvision(id int, t Team, pos Vector2) *Unit {
 		Layer:        Air,
 		TargetLayers: Layers{Ground, Air},
 		TargetTypes:  Types{Troop, Building, Knight},
-		Hp:           695,
+		Hp:           800,
 		InvMass:      1.0 / 20,
 		Speed:        3,
 		PreHitDelay:  19,

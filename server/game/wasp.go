@@ -8,7 +8,7 @@ func NewWasp(id int, t Team, pos Vector2) *Unit {
 		Layer:        Air,
 		TargetLayers: Layers{Ground, Air},
 		TargetTypes:  Types{Building, Knight},
-		Hp:           695,
+		Hp:           1000,
 		InvMass:      1.0 / 20,
 		Speed:        3,
 		PreHitDelay:  7,
@@ -17,7 +17,7 @@ func NewWasp(id int, t Team, pos Vector2) *Unit {
 		Size:         Large,
 		Sight:        100,
 		Range:        20,
-		Damage:       258,
+		Damage:       300,
 		Id:           id,
 		Position:     pos,
 	}

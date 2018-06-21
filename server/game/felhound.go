@@ -11,7 +11,7 @@ func NewFelhound(id int, t Team, pos Vector2, offset Vector2) *Unit {
 		Layer:        Ground,
 		TargetLayers: Layers{Ground},
 		TargetTypes:  Types{Troop, Building, Knight},
-		Hp:           636,
+		Hp:           80,
 		InvMass:      1.0 / 8,
 		Speed:        3,
 		PreHitDelay:  15,
@@ -20,7 +20,7 @@ func NewFelhound(id int, t Team, pos Vector2, offset Vector2) *Unit {
 		Size:         Small,
 		Sight:        100,
 		Range:        15,
-		Damage:       159,
+		Damage:       80,
 		Id:           id,
 		Position:     pos.Plus(offset.Multiply(11)),
 	}
