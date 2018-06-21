@@ -207,7 +207,7 @@ func (g *game) broadcast() {
 	for _, p := range g.players {
 		if p.client != nil {
 			p.client.write(packet)
-			g.logger.Print(string(packet))
+			//g.logger.Print(string(packet))
 		}
 	}
 }
@@ -218,7 +218,6 @@ func (g *game) update() {
 			u := &unit{}
 			u.init(g.world, g._map, action.PosX, action.PosY)
 			g.units = append(g.units, u)
-			g.logger.Print("unit added!!!!")
 		}
 	}
 	for _, unit := range g.units {
