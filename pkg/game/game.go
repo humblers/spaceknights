@@ -41,10 +41,10 @@ type game struct {
 	logger  *log.Logger
 }
 
-func newGame(m nav.Map, players []Player, l *log.Logger) *game {
+func newGame(cfg Config, l *log.Logger) *game {
 	g := &game{
 		world: physics.NewWorld(params),
-		_map:  m,
+		_map:  nav.NewThanatos(params["scale"]),
 
 		players: make(map[string]*player),
 		actions: make(map[int][]Action),
@@ -58,7 +58,7 @@ func newGame(m nav.Map, players []Player, l *log.Logger) *game {
 		quit:    make(chan struct{}),
 		logger:  l,
 	}
-	for _, p := range players {
+	for _, p := range cfg.Players {
 		g.players[p.Id] = &player{}
 	}
 	g.createMap()
@@ -168,7 +168,7 @@ func (g *game) handleApply(i Input) error {
 }
 
 func (g *game) over() bool {
-	return g.step > int(playTime/stepInterval)
+	return g.step >= int(playTime/stepInterval)
 }
 
 func (g *game) run() {

@@ -53,7 +53,7 @@ type State struct {
 	Hash    uint32
 }
 
-type GameConfig struct {
+type Config struct {
 	Id      string
 	MapName string
 	Players []Player
