@@ -11,7 +11,12 @@ const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
 const INPUT_DELAY_STEP = 10
 
+var cfg = {
+	\"Id\": \"BEEF\",
+	\"Players\": [{\"Id\": \"Alice\"}, {\"Id\": \"Bob\"}],
+}
 var step = 0
+var states = []
 var frame = 0
 var elapsed = 0
 
@@ -28,10 +33,15 @@ var width = ProjectSettings.get(\"display/window/size/width\")
 var height = ProjectSettings.get(\"display/window/size/height\")
 
 var to_stop = false
+var replay = false
 
 func _ready():
-	tcp.connect(\"disconnected\", self, \"request_stop\")
-	set_process_input(true)
+	replay = scene_switcher.get_param(\"replay\")
+	if replay:
+		load_replay()
+	else:
+		tcp.connect(\"disconnected\", self, \"request_stop\")
+		set_process_input(true)
 	set_physics_process(true)
 	set_process(true)
 	CreateMap()
@@ -41,9 +51,11 @@ func request_stop():
 	to_stop = true
 
 func stop():
-	set_process_input(false)
 	set_physics_process(false)
 	set_process(false)
+	if not replay:
+		set_process_input(false)
+		save_replay()
 
 func CreateMap():
 	for o in nav.GetObstacles():
@@ -117,23 +129,32 @@ func _process(delta):
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
-		var iterations = 1
-		var n = tcp.received.size()
-		if n <= 0:
-			if to_stop:
+		if replay:
+			if states.size() > 0:
+				update(states.pop_front())
+			else:
 				stop()
-				return
-			print(\"not enough packets\")
-			iterations = 0
-		if n > PACKET_WINDOW:
-			print(\"too many packets %s\" % [n])
-			iterations = min(10, n)
-		for i in range(iterations):
-			update(tcp.received.pop_front())
+		else:
+			var iterations = 1
+			var n = tcp.received.size()
+			if n <= 0:
+				if to_stop:
+					stop()
+					return
+				print(\"not enough packets\")
+				iterations = 0
+			if n > PACKET_WINDOW:
+				print(\"too many packets %s\" % [n])
+				iterations = min(10, n)
+			for i in range(iterations):
+				var state = parse_json(tcp.received.pop_front())
+				update(state)
+	
 	frame += 1
 
-func update(packet):
-	var state = parse_json(packet)
+func update(state):
+	if not replay:
+		states.append(state)
 	apply(state)
 	for node in $units.get_children():
 		node.update(step)
@@ -158,7 +179,25 @@ func apply(state):
 			n.init(w, nav, int(pos.x), int(pos.y))
 			n.position = pos
 			$units.add_child(n)
-	
+
+func save_replay():
+	var f = File.new()
+	f.open(\"user://replay\", File.WRITE)
+	f.store_line(to_json(cfg))
+	for s in states:
+		f.store_line(to_json(s))
+	f.close()
+
+func load_replay():
+	var f = File.new()
+	f.open(\"user://replay\", File.READ)
+	cfg = parse_json(f.get_line())
+	while true:
+		var line = f.get_line()
+		if line == \"\":
+			break
+		var s = parse_json(line)
+		states.append(s)
 "
 
 [node name="nav" type="Node" index="0"]

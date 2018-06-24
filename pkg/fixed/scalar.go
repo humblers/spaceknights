@@ -46,7 +46,7 @@ func (x Scalar) ToInt() int {
 func FromFloat(x float64) Scalar {
 	val := Scalar(x * scale).saturated()
 	if x != 0 && val == 0 {
-		logger.Println("underflow")
+		//logger.Println("underflow")
 		if x < 0 {
 			return -epsilon
 		}
@@ -141,7 +141,7 @@ func (x Scalar) saturated() Scalar {
 func underflow(in Scalar, out Scalar) bool {
 	b := (in != 0 && out == 0)
 	if b {
-		logger.Println("underflow")
+		//logger.Println("underflow")
 	}
 	return b
 }
