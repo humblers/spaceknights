@@ -1,8 +1,8 @@
 package game
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
-import "git.humbler.games/spaceknights/spaceknights/pkg/physics"
-import "git.humbler.games/spaceknights/spaceknights/pkg/nav"
+import "github.com/humblers/spaceknights/pkg/fixed"
+import "github.com/humblers/spaceknights/pkg/physics"
+import "github.com/humblers/spaceknights/pkg/nav"
 
 type unit struct {
 	world *physics.World

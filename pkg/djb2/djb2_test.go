@@ -3,8 +3,8 @@ package djb2_test
 import (
 	"testing"
 
-	. "git.humbler.games/spaceknights/spaceknights/pkg/djb2"
-	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+	. "github.com/humblers/spaceknights/pkg/djb2"
+	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 func TestHash_Chain(t *testing.T) {

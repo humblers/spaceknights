@@ -6,7 +6,7 @@ import "flag"
 import "bufio"
 import "encoding/json"
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/game"
+import "github.com/humblers/spaceknights/pkg/game"
 
 func main() {
 	path := flag.String("path", "", "path to the replay file")

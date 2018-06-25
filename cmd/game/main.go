@@ -4,7 +4,7 @@ import "os"
 import "os/signal"
 import "log"
 import "fmt"
-import "git.humbler.games/spaceknights/spaceknights/pkg/game"
+import "github.com/humblers/spaceknights/pkg/game"
 
 func main() {
 	c := make(chan os.Signal)

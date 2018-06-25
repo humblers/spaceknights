@@ -3,7 +3,7 @@ package physics
 import (
 	"testing"
 
-	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 func TestWorld_HashStatic(t *testing.T) {
