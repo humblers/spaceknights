@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 const INITIAL_HASH uint32 = 5381

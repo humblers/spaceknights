@@ -1,6 +1,6 @@
 package nav
 
-import "git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+import "github.com/humblers/spaceknights/pkg/fixed"
 
 type Map interface {
 	GetObstacles() []Area

@@ -1,8 +1,8 @@
 package physics
 
 import (
-	"git.humbler.games/spaceknights/spaceknights/pkg/djb2"
-	"git.humbler.games/spaceknights/spaceknights/pkg/fixed"
+	"github.com/humblers/spaceknights/pkg/djb2"
+	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 type World struct {
