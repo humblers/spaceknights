@@ -1,22 +1,23 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
-[ext_resource path="res://unit/turret-base.png" type="Texture" id=2]
-[ext_resource path="res://unit/blastturret/body.png" type="Texture" id=3]
-[ext_resource path="res://unit/blastturret/case.png" type="Texture" id=4]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://effect/speare.png" type="Texture" id=6]
-[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=7]
-[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=8]
-[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=9]
-[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=10]
-[ext_resource path="res://sound/Missle Fly.wav" type="AudioStream" id=11]
-[ext_resource path="res://sound/Shield Hit.wav" type="AudioStream" id=12]
+[ext_resource path="res://effect/circle.png" type="Texture" id=2]
+[ext_resource path="res://effect/speare.png" type="Texture" id=3]
+[ext_resource path="res://unit/turret-base.png" type="Texture" id=4]
+[ext_resource path="res://unit/blastturret/body.png" type="Texture" id=5]
+[ext_resource path="res://unit/blastturret/case.png" type="Texture" id=6]
+[ext_resource path="res://effect/explosion_1.png" type="Texture" id=7]
+[ext_resource path="res://unit/hpbar_blue_L_edge.png" type="Texture" id=8]
+[ext_resource path="res://unit/hpbar_blue_L_inside.png" type="Texture" id=9]
+[ext_resource path="res://unit/hpbar_red_L_edge.png" type="Texture" id=10]
+[ext_resource path="res://unit/hpbar_red_L_inside.png" type="Texture" id=11]
+[ext_resource path="res://sound/Missle Fly.wav" type="AudioStream" id=12]
+[ext_resource path="res://sound/Shield Hit.wav" type="AudioStream" id=13]
 
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.00784314, 0.847059, 0.498039, 1 )
+colors = PoolColorArray( 0.0351563, 0.366821, 1, 1, 0.367188, 0.911011, 1, 0 )
 
 [sub_resource type="GradientTexture" id=2]
 
@@ -24,7 +25,71 @@ flags = 4
 gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=3]
+[sub_resource type="Curve" id=3]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+
+flags = 4
+width = 2048
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.2
+scale_random = 0.4
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Initial Velocity", "Scale" ]
+
+[sub_resource type="Gradient" id=6]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.00784314, 0.847059, 0.498039, 1 )
+
+[sub_resource type="GradientTexture" id=7]
+
+flags = 4
+gradient = SubResource( 6 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=8]
 
 render_priority = 0
 trail_divisor = 1
@@ -53,7 +118,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 7 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -63,31 +128,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity", "Initial Velocity", "Spread" ]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=9]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.438385, 0.0664063, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=5]
+[sub_resource type="GradientTexture" id=10]
 
 flags = 4
-gradient = SubResource( 4 )
+gradient = SubResource( 9 )
 width = 2048
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=11]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.477496, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0493994 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
+[sub_resource type="CurveTexture" id=12]
 
 flags = 4
 width = 2048
-curve = SubResource( 6 )
+curve = SubResource( 11 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=13]
 
 render_priority = 0
 trail_divisor = 1
@@ -117,8 +182,8 @@ angle = 90.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 5 )
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 10 )
 hue_variation = 1.0
 hue_variation_random = 0.05
 anim_speed = 0.0
@@ -128,31 +193,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Gravity", "Hue Variation", "Initial Velocity" ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=14]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.183594, 0.15419, 0.15419, 0.414392 )
 
-[sub_resource type="GradientTexture" id=10]
+[sub_resource type="GradientTexture" id=15]
 
 flags = 4
-gradient = SubResource( 9 )
+gradient = SubResource( 14 )
 width = 2048
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=16]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.315492 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.971259 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
+[sub_resource type="CurveTexture" id=17]
 
 flags = 4
 width = 2048
-curve = SubResource( 11 )
+curve = SubResource( 16 )
 
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="ParticlesMaterial" id=18]
 
 render_priority = 0
 trail_divisor = 1
@@ -181,8 +246,8 @@ angle = 180.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 12 )
-color_ramp = SubResource( 10 )
+scale_curve = SubResource( 17 )
+color_ramp = SubResource( 15 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -192,7 +257,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=19]
 
 length = 0.5
 loop = false
@@ -318,13 +383,13 @@ tracks/9/keys = {
 "values": [ 0.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=20]
 
 length = 0.01
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=21]
 
 length = 0.7
 loop = false
@@ -406,14 +471,229 @@ tracks/5/keys = {
 
 script = ExtResource( 1 )
 
-[node name="Base" type="Sprite" parent="." index="0"]
+[node name="EffectUnder" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
+show_behind_parent = true
 light_mask = 4
-texture = ExtResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Body" type="Node2D" parent="." index="1"]
+[node name="Booster1" type="Particles2D" parent="EffectUnder" index="0"]
 
+light_mask = 4
+position = Vector2( -40, -40 )
+scale = Vector2( 1.5, 1.5 )
+emitting = true
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Drawing", "Process Material", "Textures" ]
+
+[node name="Light1" type="Light2D" parent="EffectUnder/Booster1" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Booster2" type="Particles2D" parent="EffectUnder" index="1"]
+
+light_mask = 4
+position = Vector2( 40, -40 )
+scale = Vector2( 1.5, 1.5 )
+emitting = true
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="EffectUnder/Booster2" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Booster3" type="Particles2D" parent="EffectUnder" index="2"]
+
+light_mask = 4
+position = Vector2( -40, 40 )
+scale = Vector2( 1.5, 1.5 )
+emitting = true
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="EffectUnder/Booster3" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Booster4" type="Particles2D" parent="EffectUnder" index="3"]
+
+light_mask = 4
+position = Vector2( 40, 40 )
+scale = Vector2( 1.5, 1.5 )
+emitting = true
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="EffectUnder/Booster4" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Base" type="Sprite" parent="." index="1"]
+
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Body" type="Node2D" parent="." index="2"]
+
+editor/display_folded = true
 _sections_unfolded = [ "Visibility" ]
 
 [node name="Turret" type="Node2D" parent="Body" index="0"]
@@ -423,12 +703,12 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Head" type="Sprite" parent="Body/Turret" index="0"]
 
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Case" type="Sprite" parent="Body/Turret/Head" index="0"]
 
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Flashing" type="Particles2D" parent="Body/Turret/Head/Case" index="0"]
@@ -448,7 +728,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 3 )
+process_material = SubResource( 8 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -480,8 +760,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 8 )
-texture = ExtResource( 5 )
+process_material = SubResource( 13 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -492,7 +772,7 @@ _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Trans
 position = Vector2( -2, 13.5 )
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 1, 1, 1 )
@@ -534,8 +814,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 13 )
-texture = ExtResource( 5 )
+process_material = SubResource( 18 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -546,7 +826,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( 0.5, 3 )
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.992188, 0.519833, 0.0620117, 1 )
@@ -588,8 +868,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 8 )
-texture = ExtResource( 5 )
+process_material = SubResource( 13 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -600,7 +880,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 position = Vector2( 2, 13.5 )
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 1, 1, 1 )
@@ -642,8 +922,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 13 )
-texture = ExtResource( 5 )
+process_material = SubResource( 18 )
+texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -654,7 +934,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( -0.5, 3 )
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.992188, 0.519833, 0.0620117, 1 )
@@ -687,7 +967,7 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 29, -26 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Hp" type="Position2D" parent="." index="2"]
+[node name="Hp" type="Position2D" parent="." index="3"]
 
 scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
@@ -718,8 +998,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -751,32 +1031,32 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 9 )
-texture_progress = ExtResource( 10 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Visibility" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
 
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 15 )
-anims/idle = SubResource( 16 )
-anims/move = SubResource( 17 )
+anims/attack = SubResource( 19 )
+anims/idle = SubResource( 20 )
+anims/move = SubResource( 21 )
 blend_times = [  ]
 
-[node name="Sound" type="Node2D" parent="." index="4"]
+[node name="Sound" type="Node2D" parent="." index="5"]
 
 [node name="Pos" type="Position2D" parent="Sound" index="0"]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
-stream = ExtResource( 11 )
+stream = ExtResource( 12 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -786,7 +1066,7 @@ area_mask = 1
 
 [node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
-stream = ExtResource( 12 )
+stream = ExtResource( 13 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
