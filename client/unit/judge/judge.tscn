@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/judge/body.png" type="Texture" id=2]
@@ -10,11 +10,12 @@
 [ext_resource path="res://effect/explosion_1.png" type="Texture" id=8]
 [ext_resource path="res://unit/judge/gun_frame.png" type="Texture" id=9]
 [ext_resource path="res://unit/judge/barrel.png" type="Texture" id=10]
-[ext_resource path="res://unit/judge/head.png" type="Texture" id=11]
-[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=12]
-[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=13]
-[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=14]
-[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=15]
+[ext_resource path="res://unit/judge/picatinnyrail.png" type="Texture" id=11]
+[ext_resource path="res://unit/judge/head.png" type="Texture" id=12]
+[ext_resource path="res://unit/hpbar_blue_M_edge.png" type="Texture" id=13]
+[ext_resource path="res://unit/hpbar_blue_M_inside.png" type="Texture" id=14]
+[ext_resource path="res://unit/hpbar_red_M_edge.png" type="Texture" id=15]
+[ext_resource path="res://unit/hpbar_red_M_inside.png" type="Texture" id=16]
 
 [sub_resource type="Gradient" id=1]
 
@@ -785,6 +786,18 @@ tracks/36/keys = {
 "update": 1,
 "values": [ false, true, false ]
 }
+tracks/37/type = "value"
+tracks/37/path = NodePath("Body/Rotate/GunFrame/Rail:position")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 24, -50 ) ]
+}
 
 [sub_resource type="Animation" id=26]
 
@@ -1498,6 +1511,18 @@ tracks/58/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
+}
+tracks/59/type = "value"
+tracks/59/path = NodePath("Body/Rotate/GunFrame/Rail:position")
+tracks/59/interp = 1
+tracks/59/loop_wrap = true
+tracks/59/imported = false
+tracks/59/enabled = true
+tracks/59/keys = {
+"times": PoolRealArray( 0, 0.5, 4.6, 4.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 24, -50 ), Vector2( 24, -40 ), Vector2( 24, -40 ), Vector2( 24, -50 ) ]
 }
 
 [sub_resource type="Animation" id=27]
@@ -3017,10 +3042,17 @@ z_as_relative = false
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
+[node name="Rail" type="Sprite" parent="Body/Rotate/GunFrame" index="2"]
+
+light_mask = 2
+position = Vector2( 24, -50 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
 [node name="Head" type="Sprite" parent="Body/Rotate" index="4"]
 
 light_mask = 2
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -3056,8 +3088,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 12 )
-texture_progress = ExtResource( 13 )
+texture_over = ExtResource( 13 )
+texture_progress = ExtResource( 14 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3089,8 +3121,8 @@ value = 100.0
 exp_edit = false
 rounded = false
 texture_under = null
-texture_over = ExtResource( 14 )
-texture_progress = ExtResource( 15 )
+texture_over = ExtResource( 15 )
+texture_progress = ExtResource( 16 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
