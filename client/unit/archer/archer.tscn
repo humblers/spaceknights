@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://unit/unit.gd" type="Script" id=1]
 [ext_resource path="res://unit/archer/idle.png" type="Texture" id=2]
@@ -74,7 +74,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
+_sections_unfolded = [ "Angle", "Color", "Damping", "Gravity", "Scale", "Spread", "Tangential Accel" ]
 
 [sub_resource type="Gradient" id=7]
 
@@ -129,15 +129,15 @@ _sections_unfolded = [ "Color", "Gravity", "Spread" ]
 [sub_resource type="Gradient" id=10]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.180776, 0.859375, 0.104065, 1, 0, 0, 0, 1 )
+colors = PoolColorArray( 0.875, 1, 0.99707, 1, 0.148438, 0.620789, 1, 0 )
 
-[sub_resource type="GradientTexture" id=11]
+[sub_resource type="GradientTexture" id=8]
 
 flags = 4
-gradient = SubResource( 10 )
+gradient = SubResource( 7 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=9]
 
 render_priority = 0
 trail_divisor = 1
@@ -166,7 +166,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 11 )
+color_ramp = SubResource( 8 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -174,36 +174,23 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Gravity", "Tangential Accel", "Trail" ]
+_sections_unfolded = [ "Gravity" ]
 
-[sub_resource type="Gradient" id=13]
+[sub_resource type="Gradient" id=10]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.799255, 0.0117188, 0.419882, 0.974365, 1, 0.53125, 0.679569 )
 
-[sub_resource type="GradientTexture" id=14]
+[sub_resource type="GradientTexture" id=11]
 
 flags = 4
-gradient = SubResource( 13 )
+gradient = SubResource( 10 )
 width = 2048
 
-[sub_resource type="Curve" id=15]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.237588, 1 ), 0.0, 0.00585681, 0, 0, Vector2( 1, 0 ), -2.2026, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=16]
-
-flags = 4
-width = 2048
-curve = SubResource( 15 )
-
-[sub_resource type="ParticlesMaterial" id=17]
+[sub_resource type="ParticlesMaterial" id=12]
 
 render_priority = 0
-trail_divisor = 3
+trail_divisor = 1
 emission_shape = 1
 emission_sphere_radius = 1.0
 flag_align_y = false
@@ -230,8 +217,7 @@ angle = 180.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 16 )
-color_ramp = SubResource( 14 )
+color_ramp = SubResource( 11 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -239,9 +225,9 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Gravity", "Initial Velocity", "Scale" ]
+_sections_unfolded = [ "Scale" ]
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=13]
 
 length = 0.3
 loop = false
@@ -367,7 +353,7 @@ tracks/9/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=14]
 
 length = 0.01
 loop = false
@@ -469,7 +455,7 @@ tracks/7/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=15]
 
 length = 0.01
 loop = false
@@ -649,7 +635,7 @@ _sections_unfolded = [ "Transform" ]
 
 visible = false
 scale = Vector2( 0.3, 0.7 )
-emitting = false
+emitting = true
 amount = 4
 lifetime = 1.0
 one_shot = false
@@ -662,8 +648,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 1 )
+process_material = SubResource( 9 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -705,7 +691,7 @@ _sections_unfolded = [ "Transform" ]
 
 visible = false
 scale = Vector2( 0.2, 0.4 )
-emitting = false
+emitting = true
 amount = 4
 lifetime = 1.0
 one_shot = false
@@ -718,8 +704,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 1 )
+process_material = SubResource( 9 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -734,7 +720,7 @@ _sections_unfolded = [ "Transform" ]
 
 visible = false
 scale = Vector2( 0.3, 0.7 )
-emitting = false
+emitting = true
 amount = 4
 lifetime = 1.0
 one_shot = false
@@ -747,8 +733,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 1 )
+process_material = SubResource( 9 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -790,7 +776,7 @@ _sections_unfolded = [ "Transform" ]
 
 visible = false
 scale = Vector2( 0.2, 0.4 )
-emitting = false
+emitting = true
 amount = 4
 lifetime = 1.0
 one_shot = false
@@ -803,19 +789,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 1 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
-
-[node name="Position2D" type="Position2D" parent="rotatable" index="1"]
-
-_sections_unfolded = [ "Transform" ]
-
-[node name="Sprite" type="Sprite" parent="rotatable/Position2D" index="0"]
-
+process_material = SubResource( 9 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -876,7 +850,6 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Shotpoint" type="Node2D" parent="rotatable/Position2D" index="2"]
 
-editor/display_folded = true
 position = Vector2( 0, -42 )
 _sections_unfolded = [ "Transform" ]
 
@@ -902,8 +875,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 17 )
-texture = ExtResource( 4 )
+process_material = SubResource( 12 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -916,7 +889,7 @@ enabled = false
 editor_only = false
 texture = ExtResource( 2 )
 offset = Vector2( 0, 0 )
-texture_scale = 3.0
+texture_scale = 2.0
 color = Color( 1, 0.761719, 0.046875, 1 )
 energy = 1.5
 mode = 0
@@ -1018,9 +991,9 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 18 )
-anims/idle = SubResource( 19 )
-anims/move = SubResource( 20 )
+anims/attack = SubResource( 13 )
+anims/idle = SubResource( 14 )
+anims/move = SubResource( 15 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
