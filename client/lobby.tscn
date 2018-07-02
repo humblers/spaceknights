@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://bg_lobby.png" type="Texture" id=1]
 [ext_resource path="res://lobby.gd" type="Script" id=2]
@@ -8,9 +8,11 @@
 [ext_resource path="res://ui/instruct.png" type="Texture" id=6]
 [ext_resource path="res://ui/cancel.png" type="Texture" id=7]
 [ext_resource path="res://ui/waiting.png" type="Texture" id=8]
+[ext_resource path="res://sound/99sounds loop_018.ogg" type="AudioStream" id=9]
 
-[node name="lobby" type="TextureRect" index="0"]
+[node name="lobby" type="TextureRect"]
 
+light_mask = 64
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -28,7 +30,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 script = ExtResource( 2 )
-_sections_unfolded = [ "Pause" ]
+_sections_unfolded = [ "Pause", "Visibility" ]
 
 [node name="Auth" parent="." index="0" instance=ExtResource( 3 )]
 
@@ -143,6 +145,7 @@ margin_right = 603.0
 margin_bottom = -143.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -153,5 +156,13 @@ shortcut = null
 group = null
 texture_normal = ExtResource( 8 )
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
+
+[node name="BGM" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = ExtResource( 9 )
+volume_db = 0.0
+autoplay = true
+mix_target = 0
+bus = "Master"
 
 

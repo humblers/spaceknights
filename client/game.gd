@@ -24,6 +24,7 @@ func update_changes(game):
 	update_ui(game)
 
 func delete_dead_units(units):
+	
 	var nodes = get_node("blue/Units").get_children() + get_node("red/Units").get_children()
 	for node in nodes:
 		if node.is_in_group(OBJECT_CLIENT_ONLY):
@@ -32,9 +33,11 @@ func delete_dead_units(units):
 			var size = global.dict_get(global.UNITS[node.u_name], "size", "small")
 			if size.begins_with("large"):
 				size = "medium"
-			var explosion = resource.effect.explosion.unit[size].instance()
-			explosion.position = node.position
-			get_node("EffectOver").add_child(explosion)
+			if node.u_name != "knightbullet":
+				var explosion = resource.effect.explosion.unit[size].instance()
+				explosion.position = node.position
+				get_node("EffectOver").add_child(explosion)
+				get_node("sound_explo").play()
 			node.delete()
 
 func create_new_units(units):
@@ -57,6 +60,7 @@ func create_unit_node(unit, group=OBJECT_DEFAULT):
 	node.initialize(unit)
 	node.effect_over = $EffectOver
 	node.effect_under = $EffectUnder
+	node.sound = $Sound
 	node.set_name(str(unit.Id))
 	node.connect("projectile_created", self, "create_projectile")
 	get_node("%s/Units" % node.color).add_child(node)

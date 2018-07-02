@@ -44,7 +44,7 @@ const UNITS = {
 		"projectile" : "archer",
 		"size" : "small",
 	},
-	"barbarian" : {
+	"footman" : {
 		"layer" : "Ground",
 		"hp" : 636,
 		"radius" : 11,
@@ -52,14 +52,14 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
-	"barbarianhut" : {
+	"barrack" : {
 		"layer" : "Ground",
 		"hp" : 1936,
 		"radius" : 20,
 		"lifetimecost" : 3,
 		"size" : "large",
 	},
-	"bomber" : {
+	"blaster" : {
 		"layer" : "Ground",
 		"hp" : 311,
 		"prehitdelay" : 10,
@@ -69,7 +69,7 @@ const UNITS = {
 		"projectile" : "bomber_missile",
 		"size" : "medium",
 	},
-	"bombtower" : {
+	"blastturret" : {
 		"layer" : "Ground",
 		"hp" : 1672,
 		"prehitdelay": 10,
@@ -91,7 +91,7 @@ const UNITS = {
 		"lifetimecost" : 2,
 		"size" : "large",
 	},
-	"darkprince" : {
+	"jouster" : {
 		"layer" : "Ground",
 		"hp" : 1243,
 		"radius" : 13,
@@ -99,7 +99,7 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
-	"freezer" : {
+	"frost" : {
 		"layer" : "Air",
 		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
@@ -109,7 +109,7 @@ const UNITS = {
 		"projectile" : "freezer",
 		"size" : "large",
 	},
-	"hogrider" : {
+	"drillram" : {
 		"layer" : "Ground",
 		"hp" : 1408,
 		"radius" : 14,
@@ -125,7 +125,7 @@ const UNITS = {
 		"range" : 15,
 		"size" : "xlarge",
 	},
-	"goblinhut" : {
+	"sentryshelter" : {
 		"layer" : "Ground",
 		"hp" : 1293,
 		"radius" : 28,
@@ -140,17 +140,17 @@ const UNITS = {
 		"layer" : "Air",
 		"radius" : 7,
 	},
-	"shuriken" : {
+	"legion" : {
 		"layer" : "Air",
 		"hp" : 2534 * 2 / 3,
 		"prehitdelay" : 3,
 		"radius" : 10,
 		"sight" : 200,
 		"range" : 200,
-		"projectile" : "shuriken",
+		"projectile" : "legion",
 		"size" : "large",
 	},
-	"space_z" : {
+	"astra" : {
 		"layer" : "Air",
 		"hp" : 4008 * 2 / 3,
 		"prehitdelay" : 10,
@@ -160,7 +160,7 @@ const UNITS = {
 		"projectile" : "knight_missile",
 		"size" : "large",
 	},
-	"megaminion" : {
+	"gargoyleking" : {
 		"layer" : "Air",
 		"hp" : 695,
 		"radius" : 20,
@@ -168,7 +168,7 @@ const UNITS = {
 		"range" : 20,
 		"size" : "large",
 	},
-	"minion" : {
+	"gargoyle" : {
 		"layer" : "Air",
 		"hp" : 190,
 		"radius" : 10,
@@ -176,7 +176,7 @@ const UNITS = {
 		"range" : 20,
 		"size" : "small",
 	},
-	"minipekka" : {
+	"berserker" : {
 		"layer" : "Ground",
 		"hp" : 1056,
 		"radius" : 12,
@@ -199,17 +199,17 @@ const UNITS = {
 	"base" : {
 		"layer" : "Mothership",
 	},
-	"musketeer" : {
+	"starfire" : {
 		"layer" : "Ground",
 		"hp" : 598,
 		"prehitdelay": 3,
 		"radius" : 11,
 		"sight" : 100,
 		"range" : 85,
-		"projectile" : "musketeer",
+		"projectile" : "starfire",
 		"size" : "large",
 	},
-	"pekka" : {
+	"ogre" : {
 		"layer" : "Ground",
 		"hp" : 3458,
 		"radius" : 13,
@@ -217,7 +217,7 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
-	"prince" : {
+	"champion" : {
 		"layer" : "Ground",
 		"hp" : 1536,
 		"radius" : 14,
@@ -225,7 +225,7 @@ const UNITS = {
 		"range" : 15,
 		"size" : "medium",
 	},
-	"skeleton" : {
+	"pixie" : {
 		"layer" : "Ground",
 		"hp" : 67,
 		"radius" : 6,
@@ -233,30 +233,111 @@ const UNITS = {
 		"range" : 5,
 		"size" : "small",
 	},
-	"speargoblin" : {
+	"sentry" : {
 		"layer" : "Ground",
 		"hp" : 110,
 		"prehitdelay" : 4,
 		"radius" : 9,
 		"sight" : 100,
 		"range" : 70,
-		"projectile" : "speargoblin",
+		"projectile" : "sentry",
 		"size" : "small",
 	},
-	"tombstone" : {
+	"pixiegeode" : {
 		"layer" : "Ground",
 		"hp" : 422,
 		"radius" : 17,
 		"lifetimecost" : 1,
 		"size" : "large",
 	},
-	"valkyrie" : {
+	"enforcer" : {
 		"layer" : "Ground",
 		"hp" : 1548,
 		"radius": 12,
 		"sight" : 100,
 		"range" : 20,
 		"size" : "medium",
+	},
+	"felhound" : {
+		"layer" : "Ground",
+		"hp" : 80,
+		"radius" : 11,
+		"sight" : 100,
+		"range" : 15,
+		"size" : "medium",
+	},
+	"judge" : {
+		"layer" : "Air",
+		"hp" : 2534 * 2 / 3,
+		"prehitdelay" : 3,
+		"radius" : 10,
+		"sight" : 200,
+		"range" : 200,
+		"projectile" : "knight_missile",
+		"size" : "large",
+	},
+	"lancer" : {
+		"layer" : "Air",
+		"hp" : 2534 * 2 / 3,
+		"prehitdelay" : 3,
+		"radius" : 10,
+		"sight" : 200,
+		"range" : 200,
+		"projectile" : "knight_missile",
+		"size" : "large",
+	},
+	"nagmash" : {
+		"layer" : "Air",
+		"hp" : 2534 * 2 / 3,
+		"prehitdelay" : 3,
+		"radius" : 10,
+		"sight" : 200,
+		"range" : 200,
+		"projectile" : "knight_missile",
+		"size" : "large",
+	},
+	"panzerkunstler" : {
+		"layer" : "Ground",
+		"hp" : 2056,
+		"radius" : 12,
+		"sight" : 150,
+		"range" : 15,
+		"size" : "medium",
+	},
+	"psabu" : {
+		"layer" : "Ground",
+		"hp" : 3458,
+		"radius" : 13,
+		"sight" : 150,
+		"range" : 15,
+		"size" : "medium",
+	},
+	"shadowvision" : {
+		"layer" : "Air",
+		"hp" : 800,
+		"prehitdelay" : 19,
+		"radius" : 20,
+		"sight" : 100,
+		"range" : 80,
+		"projectile" : "bomber_missile",
+		"size" : "large",
+	},
+	"trainee" : {
+		"layer" : "Ground",
+		"hp" : 120,
+		"radius" : 11,
+		"sight" : 100,
+		"range" : 15,
+		"size" : "medium",
+	},
+	"wasp" : {
+		"layer" : "Air",
+		"hp" : 1000,
+		"prehitdelay" : 7,
+		"radius" : 20,
+		"sight" : 100,
+		"range" : 20,
+		"size" : "large",
 	},
 }
 
@@ -267,21 +348,21 @@ const CARDS = {
 		"unitname" : "archer",
 		"unitoffsets" : [ Vector2(1, 0), Vector2(-1, 0) ],
 	},
-	"barbarianhut" : {
+	"barrack" : {
 		"type" : "building",
 		"cost" : 7000,
 	},
-	"barbarians" : {
+	"footman" : {
 		"type" : "troop",
 		"cost" : 5000,
-		"unitname" : "barbarian",
+		"unitname" : "footman",
 		"unitoffsets" : [ Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
 	},
-	"bomber" : {
+	"blaster" : {
 		"type" : "troop",
 		"cost" : 3000,
 	},
-	"bombtower" : {
+	"blastturret" : {
 		"type" : "building",
 		"cost" : 5000,
 	},
@@ -289,7 +370,7 @@ const CARDS = {
 		"type" : "building",
 		"cost" : 3000,
 	},
-	"darkprince" : {
+	"jouster" : {
 		"type" : "troop",
 		"cost" : 4000,
 	},
@@ -297,70 +378,70 @@ const CARDS = {
 		"type" : "troop",
 		"cost" : 5000,
 	},
-	"goblinhut" : {
+	"sentryshelter" : {
 		"type" : "building",
 		"cost" : 5000,
 	},
-	"hogrider" : {
+	"drillram" : {
 		"type" : "troop",
 		"cost" : 4000,
 	},
-	"megaminion" : {
+	"gargoyleking" : {
 		"type" : "troop",
 		"cost" : 3000,
 	},
-	"minionhorde" : {
+	"gargoylehorde" : {
 		"type" : "troop",
 		"cost" : 5000,
-		"unitname" : "minion",
+		"unitname" : "gargoyle",
 		"unitoffsets" : [ Vector2(0, -2), Vector2(1, -1), Vector2(-1, -1),
 				Vector2(0, 2), Vector2(1, 1), Vector2(-1, 1) ],
 	},
-	"minions" : {
+	"gargoyles" : {
 		"type" : "troop",
 		"cost" : 3000,
-		"unitname" : "minion",
+		"unitname" : "gargoyle",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"minipekka" : {
+	"berserker" : {
 		"type" : "troop",
 		"cost" : 4000,
 	},
-	"musketeer" : {
+	"starfire" : {
 		"type" : "troop",
 		"cost" : 4000,
 	},
-	"pekka" : {
+	"ogre" : {
 		"type" : "troop",
 		"cost" : 7000,
 	},
-	"prince" : {
+	"champion" : {
 		"type" : "troop",
 		"cost" : 5000,
 	},
-	"skeletons" : {
+	"pixie" : {
 		"type" : "troop",
 		"cost" : 1000,
-		"unitname" : "skeleton",
+		"unitname" : "pixie",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"speargoblins" : {
+	"sentry" : {
 		"type" : "troop",
 		"cost" : 2000,
-		"unitname" : "speargoblin",
+		"unitname" : "sentry",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"threemusketeers" : {
+	"threestarfire" : {
 		"type" : "troop",
 		"cost" : 9000,
-		"unitname" : "musketeer",
+		"unitname" : "starfire",
 		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
 	},
-	"tombstone" : {
+	"pixiegeode" : {
 		"type" : "building",
 		"cost" : 3000,
 	},
-	"valkyrie" : {
+	"enforcer" : {
 		"type" : "troop",
 		"cost" : 4000,
 	},
@@ -385,6 +466,34 @@ const CARDS = {
 		"range" : 200,
 		"radius" : 60.0,
 		"shape" : "circular",
+	},
+	"felhound" : {
+		"type" : "troop",
+		"cost" : 2000,
+		"unitname" : "felhound",
+		"unitoffsets" : [ Vector2(0, 0), Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1) ],
+	},
+	"panzerkunstler" : {
+		"type" : "troop",
+		"cost" : 5000,
+	},
+	"psabu" : {
+		"type" : "troop",
+		"cost" : 7000,
+	},
+	"shadowvision" : {
+		"type" : "troop",
+		"cost" : 4000,
+	},
+	"trainee" : {
+		"type" : "troop",
+		"cost" : 2000,
+		"unitname" : "trainee",
+		"unitoffsets" : [ Vector2(0, 1), Vector2(1, -1), Vector2(-1, -1) ],
+	},
+	"wasp" : {
+		"type" : "troop",
+		"cost" : 5000,
 	},
 }
 
