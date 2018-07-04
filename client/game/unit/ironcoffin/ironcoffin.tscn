@@ -1,15 +1,19 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://game/unit/ironcoffin/front.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/ironcoffin/dummy.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/ironcoffin/rear.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/speare.png" type="Texture" id=4]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=5]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=6]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=7]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=8]
 
 [sub_resource type="ViewportTexture" id=1]
 
 resource_local_to_scene = true
 flags = 0
-viewport_path = NodePath("Viewport")
+viewport_path = NodePath("Outline")
 
 [sub_resource type="Gradient" id=2]
 
@@ -75,12 +79,64 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
 
+[sub_resource type="Animation" id=7]
+
+resource_name = "idle"
+length = 1.0
+loop = false
+step = 0.1
+
 [node name="ironcoffin" type="Node2D" index="0"]
 
-[node name="Outline" type="Viewport" parent="." index="0"]
+_sections_unfolded = [ "Visibility", "Z Index" ]
+
+[node name="Center" type="Position2D" parent="." index="0"]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="Rotate" type="Sprite" parent="Center" index="0"]
+
+texture = ExtResource( 1 )
+offset = Vector2( 0, 1 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="RemoteBoosterPoint1" type="RemoteTransform2D" parent="Center/Rotate" index="0"]
+
+position = Vector2( 0, 50 )
+remote_path = NodePath("../../../Rotatable/BoosterPoint1")
+use_global_coordinates = true
+update_position = true
+update_rotation = true
+update_scale = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Dummy" type="Sprite" parent="Center/Rotate" index="1"]
+
+show_behind_parent = true
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Rear" type="Sprite" parent="Center/Rotate" index="2"]
+
+show_behind_parent = true
+texture = ExtResource( 3 )
+offset = Vector2( 0, 60 )
+_sections_unfolded = [ "Material", "Offset", "Visibility" ]
+
+[node name="RemoteBoosterPoint2" type="RemoteTransform2D" parent="Center/Rotate/Rear" index="0"]
+
+position = Vector2( 0, 120 )
+remote_path = NodePath("../../../../Rotatable/BoosterPoint2")
+use_global_coordinates = true
+update_position = true
+update_rotation = true
+update_scale = true
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Outline" type="Viewport" parent="." index="1"]
 
 arvr = false
-size = Vector2( 250, 300 )
+size = Vector2( 300, 300 )
 own_world = false
 world = null
 transparent_bg = true
@@ -104,39 +160,7 @@ shadow_atlas_quad_2 = 3
 shadow_atlas_quad_3 = 4
 _sections_unfolded = [ "Render Target", "Rendering" ]
 
-[node name="Center" type="Position2D" parent="Outline" index="0"]
-
-position = Vector2( 125, 150 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Rotate" type="Sprite" parent="Outline/Center" index="0"]
-
-texture = ExtResource( 1 )
-offset = Vector2( 0, 1 )
-_sections_unfolded = [ "Offset", "Transform" ]
-
-[node name="Dummy" type="Sprite" parent="Outline/Center/Rotate" index="0"]
-
-show_behind_parent = true
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Visibility" ]
-
-[node name="Rear" type="Sprite" parent="Outline/Center/Rotate" index="1"]
-
-show_behind_parent = true
-texture = ExtResource( 3 )
-offset = Vector2( 0, 60 )
-_sections_unfolded = [ "Offset", "Visibility" ]
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Outline/Center/Rotate/Rear" index="0"]
-
-remote_path = NodePath("")
-use_global_coordinates = true
-update_position = true
-update_rotation = true
-update_scale = true
-
-[node name="Rotatable" type="Node2D" parent="." index="1"]
+[node name="Rotatable" type="Node2D" parent="." index="2"]
 
 [node name="Outline" type="Sprite" parent="Rotatable" index="0"]
 
@@ -145,8 +169,9 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="BoosterPoint1" type="Position2D" parent="Rotatable" index="1"]
 
+editor/display_folded = true
 position = Vector2( 0, 50 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Particles2D" type="Particles2D" parent="Rotatable/BoosterPoint1" index="0"]
 
@@ -198,8 +223,8 @@ shadow_item_cull_mask = 1
 
 [node name="BoosterPoint2" type="Position2D" parent="Rotatable" index="2"]
 
+editor/display_folded = true
 position = Vector2( 0, 120 )
-scale = Vector2( 1.4, 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Particles2D" type="Particles2D" parent="Rotatable/BoosterPoint2" index="0"]
@@ -249,5 +274,95 @@ shadow_gradient_length = 0.0
 shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
+
+[node name="Hp" type="Position2D" parent="." index="3"]
+
+editor/display_folded = true
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="TextureProgress" parent="Hp" index="0"]
+
+visible = false
+light_mask = 16
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -10.0
+margin_top = -40.0
+margin_right = 10.0
+margin_bottom = -37.0
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 5 )
+texture_over = ExtResource( 6 )
+texture_progress = null
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
+[node name="red" type="TextureProgress" parent="Hp" index="1"]
+
+visible = false
+light_mask = 16
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -10.0
+margin_top = -40.0
+margin_right = 10.0
+margin_bottom = -37.0
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = null
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/idle = SubResource( 7 )
+blend_times = [  ]
+
+[node name="Sound" type="Node2D" parent="." index="5"]
+
+editor/display_folded = true
+
+[node name="Pos" type="Position2D" parent="Sound" index="0"]
 
 
