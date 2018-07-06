@@ -1,13 +1,17 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://unit/tombstone/frame.png" type="Texture" id=1]
-[ext_resource path="res://unit/tombstone/barrackdummy.png" type="Texture" id=2]
-[ext_resource path="res://unit/tombstone/locker.png" type="Texture" id=3]
-[ext_resource path="res://unit/tombstone/middle.png" type="Texture" id=4]
-[ext_resource path="res://unit/tombstone/front.png" type="Texture" id=5]
-[ext_resource path="res://effect/explosion_1.png" type="Texture" id=6]
-[ext_resource path="res://effect/speare.png" type="Texture" id=7]
-[ext_resource path="res://unit/tombstone/rear.png" type="Texture" id=8]
+[ext_resource path="res://game/unit/tombstone/frame.png" type="Texture" id=1]
+[ext_resource path="res://game/unit/tombstone/barrackdummy.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/tombstone/locker.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/tombstone/middle.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/tombstone/front.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/tombstone/rear.png" type="Texture" id=8]
+[ext_resource path="res://game/hpbar/hpbar_blue_L_edge.png" type="Texture" id=9]
+[ext_resource path="res://game/hpbar/hpbar_blue_L_inside.png" type="Texture" id=10]
+[ext_resource path="res://game/hpbar/hpbar_red_L_edge.png" type="Texture" id=11]
+[ext_resource path="res://game/hpbar/hpbar_red_L_inside.png" type="Texture" id=12]
 
 [sub_resource type="Gradient" id=1]
 
@@ -131,7 +135,7 @@ length = 0.4
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Rotate:position")
+tracks/0/path = NodePath("Rotatable/Main:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -143,7 +147,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Rotate:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Main:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -155,7 +159,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Rotate/LockerR:position")
+tracks/2/path = NodePath("Rotatable/Main/LockerR:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -167,7 +171,7 @@ tracks/2/keys = {
 "values": [ Vector2( 10, 0 ), Vector2( 10, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Rotate/LockerR:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Main/LockerR:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -179,7 +183,7 @@ tracks/3/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Rotate/LockerL:position")
+tracks/4/path = NodePath("Rotatable/Main/LockerL:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -191,7 +195,7 @@ tracks/4/keys = {
 "values": [ Vector2( -10, 0 ), Vector2( -10, 0 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Rotate/LockerL:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Main/LockerL:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -203,7 +207,7 @@ tracks/5/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Rotate/Middle:position")
+tracks/6/path = NodePath("Rotatable/Main/Middle:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -215,7 +219,7 @@ tracks/6/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Rotate/Middle:rotation_degrees")
+tracks/7/path = NodePath("Rotatable/Main/Middle:rotation_degrees")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -227,7 +231,7 @@ tracks/7/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Rotate/Middle/Front:position")
+tracks/8/path = NodePath("Rotatable/Main/Middle/Front:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -239,7 +243,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, -9 ), Vector2( 0, -9 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Rotate/Middle/Front:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Main/Middle/Front:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -251,7 +255,7 @@ tracks/9/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Light2D:enabled")
+tracks/10/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Light2D:enabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -263,7 +267,7 @@ tracks/10/keys = {
 "values": [ false, false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Particles2D:emitting")
+tracks/11/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Particles2D:emitting")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -275,7 +279,7 @@ tracks/11/keys = {
 "values": [ false, false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Light2D:enabled")
+tracks/12/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Light2D:enabled")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -287,7 +291,7 @@ tracks/12/keys = {
 "values": [ false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Particles2D:emitting")
+tracks/13/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Particles2D:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -299,7 +303,7 @@ tracks/13/keys = {
 "values": [ false, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Rotate/Middle/Rear:rotation_degrees")
+tracks/14/path = NodePath("Rotatable/Main/Middle/Rear:rotation_degrees")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -311,7 +315,7 @@ tracks/14/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Rotate/Middle/Rear:position")
+tracks/15/path = NodePath("Rotatable/Main/Middle/Rear:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -323,7 +327,7 @@ tracks/15/keys = {
 "values": [ Vector2( 0, 8 ), Vector2( 0, 8 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Particles2D:emitting")
+tracks/16/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Particles2D:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -335,7 +339,7 @@ tracks/16/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -347,7 +351,7 @@ tracks/17/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Particles2D:emitting")
+tracks/18/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Particles2D:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -359,7 +363,7 @@ tracks/18/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Light2D:enabled")
+tracks/19/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Light2D:enabled")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -371,7 +375,7 @@ tracks/19/keys = {
 "values": [ false, true, false, false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Rotate/barrack:position")
+tracks/20/path = NodePath("Rotatable/Main/BarrackDummy:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -383,7 +387,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Rotate/barrack:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Main/BarrackDummy:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -395,7 +399,7 @@ tracks/21/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Rotate/barrack:scale")
+tracks/22/path = NodePath("Rotatable/Main/BarrackDummy:scale")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -407,7 +411,7 @@ tracks/22/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Rotate:scale")
+tracks/23/path = NodePath("Rotatable/Main:scale")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -418,6 +422,30 @@ tracks/23/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
+tracks/24/type = "value"
+tracks/24/path = NodePath("Rotatable/Main/Middle/IndicatorL:enabled")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Rotatable/Main/Middle/IndicatorR:enabled")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
 
 [sub_resource type="Animation" id=10]
 
@@ -426,7 +454,7 @@ length = 5.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Rotate:position")
+tracks/0/path = NodePath("Rotatable/Main:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -438,7 +466,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Rotate:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Main:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -450,7 +478,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Rotate/LockerR:position")
+tracks/2/path = NodePath("Rotatable/Main/LockerR:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -462,7 +490,7 @@ tracks/2/keys = {
 "values": [ Vector2( 10, 0 ), Vector2( 10, 0 ), Vector2( 25, 0 ), Vector2( 25, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 25, 0 ), Vector2( 25, 0 ), Vector2( 10, 0 ), Vector2( 10, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Rotate/LockerR:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Main/LockerR:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -474,7 +502,7 @@ tracks/3/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Rotate/LockerL:position")
+tracks/4/path = NodePath("Rotatable/Main/LockerL:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -486,7 +514,7 @@ tracks/4/keys = {
 "values": [ Vector2( -10, 0 ), Vector2( -10, 0 ), Vector2( -25, 0 ), Vector2( -25, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -25, 0 ), Vector2( -25, 0 ), Vector2( -10, 0 ), Vector2( -10, 0 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Rotate/LockerL:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Main/LockerL:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -498,7 +526,7 @@ tracks/5/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Rotate/Middle:position")
+tracks/6/path = NodePath("Rotatable/Main/Middle:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -510,7 +538,7 @@ tracks/6/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Rotate/Middle:rotation_degrees")
+tracks/7/path = NodePath("Rotatable/Main/Middle:rotation_degrees")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -522,7 +550,7 @@ tracks/7/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Rotate/Middle/Front:position")
+tracks/8/path = NodePath("Rotatable/Main/Middle/Front:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -534,7 +562,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, -9 ), Vector2( 0, -9 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -9 ), Vector2( 0, -9 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Rotate/Middle/Front:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Main/Middle/Front:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -546,7 +574,7 @@ tracks/9/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Light2D:enabled")
+tracks/10/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Light2D:enabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -558,7 +586,7 @@ tracks/10/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Particles2D:emitting")
+tracks/11/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Particles2D:emitting")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -570,7 +598,7 @@ tracks/11/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Light2D:enabled")
+tracks/12/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Light2D:enabled")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -582,7 +610,7 @@ tracks/12/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Particles2D:emitting")
+tracks/13/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Particles2D:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -594,7 +622,7 @@ tracks/13/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Rotate/Middle/Rear:rotation_degrees")
+tracks/14/path = NodePath("Rotatable/Main/Middle/Rear:rotation_degrees")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -606,7 +634,7 @@ tracks/14/keys = {
 "values": [ 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Rotate/Middle/Rear:position")
+tracks/15/path = NodePath("Rotatable/Main/Middle/Rear:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -618,7 +646,7 @@ tracks/15/keys = {
 "values": [ Vector2( 0, 8 ), Vector2( 0, 8 ), Vector2( 0, -18 ), Vector2( 0, -18 ), Vector2( 0, 8 ), Vector2( 0, 8 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Particles2D:emitting")
+tracks/16/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Particles2D:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -630,7 +658,7 @@ tracks/16/keys = {
 "values": [ false, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -642,7 +670,7 @@ tracks/17/keys = {
 "values": [ false, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Particles2D:emitting")
+tracks/18/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Particles2D:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -654,7 +682,7 @@ tracks/18/keys = {
 "values": [ false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Light2D:enabled")
+tracks/19/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Light2D:enabled")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -666,7 +694,7 @@ tracks/19/keys = {
 "values": [ false, false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Rotate/barrack:position")
+tracks/20/path = NodePath("Rotatable/Main/BarrackDummy:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -678,7 +706,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Rotate/barrack:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Main/BarrackDummy:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -690,7 +718,7 @@ tracks/21/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Rotate/barrack:scale")
+tracks/22/path = NodePath("Rotatable/Main/BarrackDummy:scale")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -702,7 +730,7 @@ tracks/22/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Rotate/barrack:modulate")
+tracks/23/path = NodePath("Rotatable/Main/BarrackDummy:modulate")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -714,7 +742,7 @@ tracks/23/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Rotate:scale")
+tracks/24/path = NodePath("Rotatable/Main:scale")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -725,6 +753,30 @@ tracks/24/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
+tracks/25/type = "value"
+tracks/25/path = NodePath("Rotatable/Main/Middle/IndicatorL:enabled")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0, 1.6, 1.7, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false, false, true, true ]
+}
+tracks/26/type = "value"
+tracks/26/path = NodePath("Rotatable/Main/Middle/IndicatorR:enabled")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/keys = {
+"times": PoolRealArray( 0, 1.6, 1.7, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false, false, true, true ]
+}
 
 [sub_resource type="Animation" id=11]
 
@@ -732,7 +784,7 @@ length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Rotate:position")
+tracks/0/path = NodePath("Rotatable/Main:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -744,7 +796,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Rotate:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Main:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -756,7 +808,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Rotate/LockerR:position")
+tracks/2/path = NodePath("Rotatable/Main/LockerR:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -768,7 +820,7 @@ tracks/2/keys = {
 "values": [ Vector2( 10, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Rotate/LockerR:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Main/LockerR:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -780,7 +832,7 @@ tracks/3/keys = {
 "values": [ 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Rotate/LockerL:position")
+tracks/4/path = NodePath("Rotatable/Main/LockerL:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -792,7 +844,7 @@ tracks/4/keys = {
 "values": [ Vector2( -10, 0 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Rotate/LockerL:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Main/LockerL:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -804,7 +856,7 @@ tracks/5/keys = {
 "values": [ 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Rotate/Middle:position")
+tracks/6/path = NodePath("Rotatable/Main/Middle:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -816,7 +868,7 @@ tracks/6/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Rotate/Middle:rotation_degrees")
+tracks/7/path = NodePath("Rotatable/Main/Middle:rotation_degrees")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -828,7 +880,7 @@ tracks/7/keys = {
 "values": [ 0.0 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Rotate/Middle/Front:position")
+tracks/8/path = NodePath("Rotatable/Main/Middle/Front:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -840,7 +892,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, -9 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Rotate/Middle/Front:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Main/Middle/Front:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -852,7 +904,7 @@ tracks/9/keys = {
 "values": [ 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Light2D:enabled")
+tracks/10/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Light2D:enabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -864,7 +916,7 @@ tracks/10/keys = {
 "values": [ false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/Boosterr/Particles2D:emitting")
+tracks/11/path = NodePath("Rotatable/Main/Middle/Rear/Boosterr/Particles2D:emitting")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -876,7 +928,7 @@ tracks/11/keys = {
 "values": [ false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Light2D:enabled")
+tracks/12/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Light2D:enabled")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -888,7 +940,7 @@ tracks/12/keys = {
 "values": [ false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Rotate/Middle/Rear/EffectOver/BoosterL/Particles2D:emitting")
+tracks/13/path = NodePath("Rotatable/Main/Middle/Rear/BoosterL/Particles2D:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -900,7 +952,7 @@ tracks/13/keys = {
 "values": [ false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Rotate/Middle/Rear:rotation_degrees")
+tracks/14/path = NodePath("Rotatable/Main/Middle/Rear:rotation_degrees")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -912,7 +964,7 @@ tracks/14/keys = {
 "values": [ 0.0 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Rotate/Middle/Rear:position")
+tracks/15/path = NodePath("Rotatable/Main/Middle/Rear:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -924,7 +976,7 @@ tracks/15/keys = {
 "values": [ Vector2( 0, 8 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Particles2D:emitting")
+tracks/16/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Particles2D:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -936,7 +988,7 @@ tracks/16/keys = {
 "values": [ false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Main/Middle/Front/ShotPointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -948,7 +1000,7 @@ tracks/17/keys = {
 "values": [ false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Particles2D:emitting")
+tracks/18/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Particles2D:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -960,7 +1012,7 @@ tracks/18/keys = {
 "values": [ false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Rotate/Middle/Front/EffectOver/ShotPointR/Light2D:enabled")
+tracks/19/path = NodePath("Rotatable/Main/Middle/Front/ShotPointR/Light2D:enabled")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -972,7 +1024,7 @@ tracks/19/keys = {
 "values": [ false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Rotate/barrack:position")
+tracks/20/path = NodePath("Rotatable/Main/BarrackDummy:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -984,7 +1036,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Rotate/barrack:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Main/BarrackDummy:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -996,7 +1048,7 @@ tracks/21/keys = {
 "values": [ 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Rotate/barrack:scale")
+tracks/22/path = NodePath("Rotatable/Main/BarrackDummy:scale")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -1008,7 +1060,7 @@ tracks/22/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Rotate/Middle:scale")
+tracks/23/path = NodePath("Rotatable/Main/Middle:scale")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -1019,28 +1071,52 @@ tracks/23/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ) ]
 }
+tracks/24/type = "value"
+tracks/24/path = NodePath("Rotatable/Main/Middle/IndicatorR:enabled")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Rotatable/Main/Middle/IndicatorL:enabled")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="tombstone" type="Node2D" index="0"]
 
 show_behind_parent = true
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Body" type="Node2D" parent="." index="0"]
+[node name="Rotatable" type="Node2D" parent="." index="0"]
 
-[node name="Rotate" type="Sprite" parent="Body" index="0"]
+[node name="Main" type="Sprite" parent="Rotatable" index="0"]
 
 texture = ExtResource( 1 )
 offset = Vector2( 0, -11.5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="barrack" type="Sprite" parent="Body/Rotate" index="0"]
+[node name="BarrackDummy" type="Sprite" parent="Rotatable/Main" index="0"]
 
 show_behind_parent = true
 light_mask = 0
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="LockerR" type="Sprite" parent="Body/Rotate" index="1"]
+[node name="LockerR" type="Sprite" parent="Rotatable/Main" index="1"]
 
 show_behind_parent = true
 position = Vector2( 10, 0 )
@@ -1048,7 +1124,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 28, 0 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="LockerL" type="Sprite" parent="Body/Rotate" index="2"]
+[node name="LockerL" type="Sprite" parent="Rotatable/Main" index="2"]
 
 show_behind_parent = true
 position = Vector2( -10, 0 )
@@ -1057,29 +1133,27 @@ offset = Vector2( -28, 0 )
 flip_h = true
 _sections_unfolded = [ "Transform" ]
 
-[node name="Middle" type="Sprite" parent="Body/Rotate" index="3"]
+[node name="Middle" type="Sprite" parent="Rotatable/Main" index="3"]
 
 texture = ExtResource( 4 )
 offset = Vector2( 0, -10 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Front" type="Sprite" parent="Body/Rotate/Middle" index="0"]
+[node name="Front" type="Sprite" parent="Rotatable/Main/Middle" index="0"]
 
+editor/display_folded = true
 position = Vector2( 0, -9 )
 texture = ExtResource( 5 )
 offset = Vector2( 0, -97 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="EffectOver" type="Node2D" parent="Body/Rotate/Middle/Front" index="0"]
+[node name="ShotPointL" type="Position2D" parent="Rotatable/Main/Middle/Front" index="0"]
 
 editor/display_folded = true
-
-[node name="ShotPointL" type="Position2D" parent="Body/Rotate/Middle/Front/EffectOver" index="0"]
-
 position = Vector2( -35, -98 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Body/Rotate/Middle/Front/EffectOver/ShotPointL" index="0"]
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Main/Middle/Front/ShotPointL" index="0"]
 
 position = Vector2( 0, -5 )
 scale = Vector2( 0.3, 0.6 )
@@ -1103,7 +1177,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Rotate/Middle/Front/EffectOver/ShotPointL" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Middle/Front/ShotPointL" index="1"]
 
 enabled = false
 editor_only = false
@@ -1127,12 +1201,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="ShotPointR" type="Position2D" parent="Body/Rotate/Middle/Front/EffectOver" index="1"]
+[node name="ShotPointR" type="Position2D" parent="Rotatable/Main/Middle/Front" index="1"]
 
+editor/display_folded = true
 position = Vector2( 35, -98 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Body/Rotate/Middle/Front/EffectOver/ShotPointR" index="0"]
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Main/Middle/Front/ShotPointR" index="0"]
 
 position = Vector2( 0, -5 )
 scale = Vector2( 0.3, 0.6 )
@@ -1156,7 +1231,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Rotate/Middle/Front/EffectOver/ShotPointR" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Middle/Front/ShotPointR" index="1"]
 
 enabled = false
 editor_only = false
@@ -1180,23 +1255,21 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Rear" type="Sprite" parent="Body/Rotate/Middle" index="1"]
+[node name="Rear" type="Sprite" parent="Rotatable/Main/Middle" index="1"]
 
+editor/display_folded = true
 position = Vector2( 0, 8 )
 texture = ExtResource( 8 )
 offset = Vector2( 0, 70 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="EffectOver" type="Node2D" parent="Body/Rotate/Middle/Rear" index="0"]
+[node name="BoosterL" type="Position2D" parent="Rotatable/Main/Middle/Rear" index="0"]
 
 editor/display_folded = true
-
-[node name="BoosterL" type="Position2D" parent="Body/Rotate/Middle/Rear/EffectOver" index="0"]
-
 position = Vector2( -60, 125 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Body/Rotate/Middle/Rear/EffectOver/BoosterL" index="0"]
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Main/Middle/Rear/BoosterL" index="0"]
 
 scale = Vector2( 0.8, 1 )
 emitting = false
@@ -1219,7 +1292,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Rotate/Middle/Rear/EffectOver/BoosterL" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Middle/Rear/BoosterL" index="1"]
 
 enabled = false
 editor_only = false
@@ -1244,12 +1317,13 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Boosterr" type="Position2D" parent="Body/Rotate/Middle/Rear/EffectOver" index="1"]
+[node name="Boosterr" type="Position2D" parent="Rotatable/Main/Middle/Rear" index="1"]
 
+editor/display_folded = true
 position = Vector2( 60, 125 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Body/Rotate/Middle/Rear/EffectOver/Boosterr" index="0"]
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Main/Middle/Rear/Boosterr" index="0"]
 
 scale = Vector2( 0.8, 1 )
 emitting = false
@@ -1272,7 +1346,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Rotate/Middle/Rear/EffectOver/Boosterr" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Middle/Rear/Boosterr" index="1"]
 
 enabled = false
 editor_only = false
@@ -1280,6 +1354,58 @@ texture = ExtResource( 7 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.195313, 0.415344, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="IndicatorL" type="Light2D" parent="Rotatable/Main/Middle" index="2"]
+
+position = Vector2( -32, 0 )
+enabled = true
+editor_only = false
+texture = ExtResource( 7 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 0.0235294, 1, 0.360784, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="IndicatorR" type="Light2D" parent="Rotatable/Main/Middle" index="3"]
+
+position = Vector2( 32, 0 )
+enabled = true
+editor_only = false
+texture = ExtResource( 7 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 0.0235294, 1, 0.360784, 1 )
 energy = 2.0
 mode = 0
 range_height = 0.0
@@ -1308,5 +1434,79 @@ anims/attack = SubResource( 9 )
 anims/drop = SubResource( 10 )
 anims/idle = SubResource( 11 )
 blend_times = [  ]
+
+[node name="Hp" type="Position2D" parent="." index="2"]
+
+editor/display_folded = true
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="blue" type="TextureProgress" parent="Hp" index="0"]
+
+visible = false
+light_mask = 16
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -18.0
+margin_top = -60.0
+margin_right = 17.0
+margin_bottom = -57.0
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 9 )
+texture_over = null
+texture_progress = ExtResource( 10 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures", "Visibility" ]
+
+[node name="red" type="TextureProgress" parent="Hp" index="1"]
+
+visible = false
+light_mask = 16
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -18.0
+margin_top = -60.0
+margin_right = 2.0
+margin_bottom = -57.0
+rect_scale = Vector2( 1, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 11 )
+texture_over = null
+texture_progress = ExtResource( 12 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 
