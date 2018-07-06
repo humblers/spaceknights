@@ -1,7 +1,7 @@
 extends Reference
 
-const body = preload("res://physics/body.gd")
-const collision = preload("res://physics/collision.gd")
+const body = preload("res://game/script/physics/body.gd")
+const collision = preload("res://game/script/physics/collision.gd")
 
 var counter = 0
 var bodies = []

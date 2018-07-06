@@ -1,35 +1,37 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://game/bg/tile.png" type="Texture" id=1]
-[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=2]
-[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=3]
-[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=4]
-[ext_resource path="res://game/ui/bt_wait_bot.png" type="Texture" id=5]
-[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=6]
-[ext_resource path="res://game/ui/bt_wait_top.png" type="Texture" id=7]
-[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=9]
-[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=10]
-[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=11]
+[ext_resource path="res://game/game.gd" type="Script" id=1]
+[ext_resource path="res://game/bg/tile.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=4]
+[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=5]
+[ext_resource path="res://game/ui/bt_wait_bot.png" type="Texture" id=6]
+[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=7]
+[ext_resource path="res://game/ui/bt_wait_top.png" type="Texture" id=8]
+[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=10]
+[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=11]
+[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 
 size = 36
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="game" type="Node2D" index="0"]
 
-_sections_unfolded = [ "Transform" ]
+script = ExtResource( 1 )
+_sections_unfolded = [ "Editor", "Transform" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="0"]
 
 position = Vector2( 540, 960 )
 anchor_mode = 1
 rotating = false
-current = false
+current = true
 zoom = Vector2( 1, 1 )
 limit_left = -10000000
 limit_top = -10000000
@@ -53,6 +55,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Background" type="CanvasLayer" parent="." index="1"]
 
+editor/display_folded = true
 layer = -1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -62,15 +65,12 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 [node name="Tile" type="Sprite" parent="Background" index="0"]
 
 position = Vector2( 540, 910 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
-
-[node name="Sprite" type="Sprite" parent="Background" index="1"]
-
-_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform", "Visibility", "Z Index" ]
 
 [node name="Level" type="CanvasLayer" parent="." index="2"]
 
+editor/display_folded = true
 layer = 0
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -122,7 +122,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin" ]
 
@@ -140,7 +140,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 stretch_mode = 0
 
 [node name="Card1" type="Control" parent="UI" index="1"]
@@ -184,7 +184,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -204,7 +204,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -224,7 +224,6 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags
 
 [node name="Over" type="Node2D" parent="UI/Card1" index="2"]
 
-editor/display_folded = true
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
 
@@ -242,7 +241,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -261,7 +260,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -334,7 +333,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -354,7 +353,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -392,7 +391,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -411,7 +410,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -484,7 +483,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -504,7 +503,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -542,7 +541,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -561,7 +560,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -594,7 +593,6 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect", "Si
 
 [node name="Card4" type="Control" parent="UI" index="4"]
 
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -634,7 +632,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -654,7 +652,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -674,7 +672,6 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags
 
 [node name="Over" type="Node2D" parent="UI/Card4" index="2"]
 
-editor/display_folded = true
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
 
@@ -692,7 +689,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -711,7 +708,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -765,9 +762,9 @@ page = 0.0
 value = 35.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 9 )
-texture_over = ExtResource( 10 )
-texture_progress = ExtResource( 11 )
+texture_under = ExtResource( 10 )
+texture_over = ExtResource( 11 )
+texture_progress = ExtResource( 12 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
