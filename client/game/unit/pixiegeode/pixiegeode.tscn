@@ -144,7 +144,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Gravity" ]
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=11]
 
 resource_name = "anchor"
 length = 0.5
@@ -511,7 +511,7 @@ tracks/29/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=12]
 
 resource_name = "float"
 length = 0.01
@@ -1244,7 +1244,7 @@ tracks/29/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=14]
 
 resource_name = "spawn-anchor"
 length = 1.0
@@ -1521,10 +1521,10 @@ tracks/22/loop_wrap = true
 tracks/22/imported = false
 tracks/22/enabled = true
 tracks/22/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, true, false, false ]
 }
 tracks/23/type = "value"
 tracks/23/path = NodePath("Rotatable/Spark/Right:emitting")
@@ -1533,10 +1533,10 @@ tracks/23/loop_wrap = true
 tracks/23/imported = false
 tracks/23/enabled = true
 tracks/23/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, true, false, false ]
 }
 tracks/24/type = "value"
 tracks/24/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1/Light1:enabled")
@@ -1978,9 +1978,8 @@ tracks/29/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=16]
 
-resource_name = "spawn-pre"
 length = 0.5
 loop = false
 step = 0.1
@@ -2655,11 +2654,9 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Spark" type="Position2D" parent="Rotatable" index="2"]
 
-editor/display_folded = true
-
 [node name="Left" type="Particles2D" parent="Rotatable/Spark" index="0"]
 
-position = Vector2( -20, -60 )
+position = Vector2( -20, -50 )
 scale = Vector2( 2, 2 )
 emitting = false
 amount = 30
@@ -2683,7 +2680,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Right" type="Particles2D" parent="Rotatable/Spark" index="1"]
 
-position = Vector2( 20, -60 )
+position = Vector2( 20, -50 )
 scale = Vector2( 2, 2 )
 emitting = false
 amount = 20
@@ -2790,12 +2787,12 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/anchor = SubResource( 16 )
-anims/float = SubResource( 18 )
+anims/anchor = SubResource( 11 )
+anims/float = SubResource( 12 )
 anims/idle = SubResource( 13 )
-anims/spawn-anchor = SubResource( 17 )
+anims/spawn-anchor = SubResource( 14 )
 anims/spawn-float = SubResource( 15 )
-anims/spawn-pre = SubResource( 14 )
+anims/spawn-pre = SubResource( 16 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
