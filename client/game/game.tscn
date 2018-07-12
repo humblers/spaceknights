@@ -1,29 +1,51 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
-[ext_resource path="res://game/bg/tile.png" type="Texture" id=2]
-[ext_resource path="res://game/bg/01/bg-lunatos-screen.png" type="Texture" id=3]
-[ext_resource path="res://game/bg/01/bg-lunatos-planet.png" type="Texture" id=4]
+[ext_resource path="res://game/bg/01/bg-lunatos-screen.png" type="Texture" id=2]
+[ext_resource path="res://game/bg/01/bg-lunatos-planet.png" type="Texture" id=3]
+[ext_resource path="res://game/bg/tile.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/judge/judge.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/unit/pixieking/pixieking.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/unit/nagmash/nagmash.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=8]
-[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=9]
-[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=10]
-[ext_resource path="res://game/ui/bt_wait_bot.png" type="Texture" id=11]
-[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=12]
-[ext_resource path="res://game/ui/bt_wait_top.png" type="Texture" id=13]
-[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=14]
-[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=15]
-[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=16]
-[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=17]
+[ext_resource path="res://game/unit/archengineer/archengineer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/unit/ironcoffin/ironcoffin.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/unit/lancer/lancer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=11]
+[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=12]
+[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=13]
+[ext_resource path="res://game/ui/bt_wait_bot.png" type="Texture" id=14]
+[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=15]
+[ext_resource path="res://game/ui/bt_wait_top.png" type="Texture" id=16]
+[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=18]
+[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=19]
+[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=20]
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "test"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("MotherShip:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 540, 960 ) ]
+}
 
 [sub_resource type="DynamicFont" id=1]
 
 size = 36
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 14 )
+font_data = ExtResource( 17 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="game" type="Node2D" index="0"]
@@ -58,48 +80,82 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="Background" type="Node2D" parent="." index="1"]
+[node name="Map" type="Node2D" parent="." index="1"]
 
-[node name="Tile" type="Sprite" parent="Background" index="0"]
-
-position = Vector2( 540, 910 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="BackgroundImage" type="Sprite" parent="Background" index="1"]
+[node name="BackgroundImage" type="Sprite" parent="Map" index="0"]
 
 modulate = Color( 0.417969, 0.417969, 0.417969, 1 )
 position = Vector2( 540, 960 )
 scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="Planet" type="Sprite" parent="Background" index="2"]
+[node name="Planet" type="Sprite" parent="Map" index="1"]
 
 position = Vector2( 700, 600 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Level" type="Node2D" parent="." index="2"]
+[node name="Tile" type="Sprite" parent="Map" index="2"]
 
-[node name="TopLeft" type="Position2D" parent="Level" index="0"]
+modulate = Color( 1, 1, 1, 0.314902 )
+position = Vector2( 540, 910 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="MotherShip" type="Position2D" parent="Map" index="3"]
+
+position = Vector2( 540, 960 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Map" index="4"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/test = SubResource( 2 )
+blend_times = [  ]
+
+[node name="BattleField" type="Node2D" parent="." index="2"]
+
+[node name="TopLeft" type="Position2D" parent="BattleField" index="0"]
 
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="judge" parent="Level/TopLeft" index="0" instance=ExtResource( 5 )]
+[node name="judge" parent="BattleField/TopLeft" index="0" instance=ExtResource( 5 )]
 
 position = Vector2( 200, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="pixieking" parent="Level/TopLeft" index="1" instance=ExtResource( 6 )]
+[node name="pixieking" parent="BattleField/TopLeft" index="1" instance=ExtResource( 6 )]
 
 position = Vector2( 500, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="nagmash" parent="Level/TopLeft" index="2" instance=ExtResource( 7 )]
+[node name="nagmash" parent="BattleField/TopLeft" index="2" instance=ExtResource( 7 )]
 
 position = Vector2( 800, 1600 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="archengineer" parent="BattleField/TopLeft" index="3" instance=ExtResource( 8 )]
+
+position = Vector2( 800, 100 )
+rotation = 3.14159
+_sections_unfolded = [ "Transform" ]
+
+[node name="ironcoffin" parent="BattleField/TopLeft" index="4" instance=ExtResource( 9 )]
+
+position = Vector2( 500, 100 )
+rotation = 3.14159
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="lancer" parent="BattleField/TopLeft" index="5" instance=ExtResource( 10 )]
+
+position = Vector2( 200, 100 )
+rotation = 3.14159
 _sections_unfolded = [ "Transform" ]
 
 [node name="UI" type="CanvasLayer" parent="." index="3"]
@@ -143,7 +199,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 8 )
+texture = ExtResource( 11 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin" ]
 
@@ -161,7 +217,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 9 )
+texture = ExtResource( 12 )
 stretch_mode = 0
 
 [node name="Card1" type="Control" parent="UI" index="1"]
@@ -205,7 +261,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -225,7 +281,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -262,7 +318,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 12 )
+texture = ExtResource( 15 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -281,7 +337,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -354,7 +410,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -374,7 +430,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -412,7 +468,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 12 )
+texture = ExtResource( 15 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -431,7 +487,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -504,7 +560,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -524,7 +580,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -562,7 +618,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 12 )
+texture = ExtResource( 15 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -581,7 +637,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -653,7 +709,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -673,7 +729,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Textures", "Visibility" ]
 
@@ -710,7 +766,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 12 )
+texture = ExtResource( 15 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -729,7 +785,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Visibility" ]
 
@@ -783,9 +839,9 @@ page = 0.0
 value = 35.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 15 )
-texture_over = ExtResource( 16 )
-texture_progress = ExtResource( 17 )
+texture_under = ExtResource( 18 )
+texture_over = ExtResource( 19 )
+texture_progress = ExtResource( 20 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
