@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://game/unit/frost/leg.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/frost/body.png" type="Texture" id=2]
@@ -14,11 +14,13 @@
 [ext_resource path="res://game/unit/frost/cover.png" type="Texture" id=12]
 [ext_resource path="res://game/unit/frost/head.png" type="Texture" id=13]
 [ext_resource path="res://game/unit/frost/gastank.png" type="Texture" id=14]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=15]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=16]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=17]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=18]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=16]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=17]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=18]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=19]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=20]
+[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=21]
 
 [sub_resource type="Gradient" id=1]
 
@@ -279,14 +281,258 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Gradient" id=21]
 
-resource_name = "attack"
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.706401, 0.176453, 0.921875, 0, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=22]
+
+flags = 4
+gradient = SubResource( 21 )
+width = 2048
+
+[sub_resource type="ParticlesMaterial" id=23]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color_ramp = SubResource( 22 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity" ]
+
+[sub_resource type="Gradient" id=24]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.529541, 0.359375, 1, 0 )
+
+[sub_resource type="GradientTexture" id=25]
+
+flags = 4
+gradient = SubResource( 24 )
+width = 2048
+
+[sub_resource type="Curve" id=26]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=27]
+
+flags = 4
+width = 2048
+curve = SubResource( 26 )
+
+[sub_resource type="ParticlesMaterial" id=28]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 27 )
+color_ramp = SubResource( 25 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+
+[sub_resource type="Gradient" id=29]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.859375, 0.957153, 1, 1, 0.40625, 0, 1, 0 )
+
+[sub_resource type="GradientTexture" id=30]
+
+flags = 4
+gradient = SubResource( 29 )
+width = 2048
+
+[sub_resource type="Curve" id=31]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0.273253, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -1.62281, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=32]
+
+flags = 4
+width = 2048
+curve = SubResource( 31 )
+
+[sub_resource type="ParticlesMaterial" id=33]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 90.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 32 )
+color_ramp = SubResource( 30 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Spread" ]
+
+[sub_resource type="Gradient" id=34]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.648438, 0.0658569, 0.639335, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=35]
+
+flags = 4
+gradient = SubResource( 34 )
+width = 2048
+
+[sub_resource type="Curve" id=36]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=37]
+
+flags = 4
+width = 2048
+curve = SubResource( 36 )
+
+[sub_resource type="ParticlesMaterial" id=38]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 10.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 37 )
+color_ramp = SubResource( 35 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Color", "Emission Shape", "Gravity" ]
+
+[sub_resource type="Animation" id=39]
+
 length = 0.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -298,7 +544,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -310,7 +556,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/LegL:position")
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -322,7 +568,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/LegL:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -334,7 +580,7 @@ tracks/3/keys = {
 "values": [ 150.0, 150.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/LegR:position")
+tracks/4/path = NodePath("Rotatable/Body/LegR:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -346,7 +592,7 @@ tracks/4/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/LegR:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -358,7 +604,7 @@ tracks/5/keys = {
 "values": [ -150.0, -150.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -370,7 +616,7 @@ tracks/6/keys = {
 "values": [ 30.0, 30.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Main/Gastank/GastankL:position")
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -382,7 +628,7 @@ tracks/7/keys = {
 "values": [ Vector2( -27.5, 9 ), Vector2( -27.5, 9 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/8/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -394,7 +640,7 @@ tracks/8/keys = {
 "values": [ -30.0, -30.0 ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Main/Gastank/GastankR:position")
+tracks/9/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -406,7 +652,7 @@ tracks/9/keys = {
 "values": [ Vector2( 27.5, 9 ), Vector2( 27.5, 9 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Main/nose:scale")
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -418,7 +664,7 @@ tracks/10/keys = {
 "values": [ Vector2( 1, 0.5 ), Vector2( 1, 0.5 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Main/nose:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -430,7 +676,7 @@ tracks/11/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Main/nose:position")
+tracks/12/path = NodePath("Rotatable/Body/Main/nose:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -442,7 +688,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 40 ), Vector2( 0, 40 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Main:rotation_degrees")
+tracks/13/path = NodePath("Rotatable/Body/Main:rotation_degrees")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -454,7 +700,7 @@ tracks/13/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Main:position")
+tracks/14/path = NodePath("Rotatable/Body/Main:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -466,7 +712,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 2 ), Vector2( 0, 2 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Main/BoosterR/Light2D2:enabled")
+tracks/15/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -478,7 +724,7 @@ tracks/15/keys = {
 "values": [ false, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Main/BoosterR/Booster:emitting")
+tracks/16/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -490,7 +736,7 @@ tracks/16/keys = {
 "values": [ false, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -502,7 +748,7 @@ tracks/17/keys = {
 "values": [ false, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/18/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -514,7 +760,7 @@ tracks/18/keys = {
 "values": [ false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Main/Head:rotation_degrees")
+tracks/19/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -526,7 +772,7 @@ tracks/19/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Main/Head:position")
+tracks/20/path = NodePath("Rotatable/Body/Main/Head:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -538,7 +784,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -2 ), Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Main/Cover:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -550,7 +796,7 @@ tracks/21/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Main/Cover:position")
+tracks/22/path = NodePath("Rotatable/Body/Main/Cover:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -562,7 +808,7 @@ tracks/22/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Main/BoosterR:rotation_degrees")
+tracks/23/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -574,7 +820,7 @@ tracks/23/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Main/BoosterR:position")
+tracks/24/path = NodePath("Rotatable/Body/Main/BoosterR:position")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -586,7 +832,7 @@ tracks/24/keys = {
 "values": [ Vector2( 23.5, 0 ), Vector2( 23.5, 0 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Body/Main/BoosterL:rotation_degrees")
+tracks/25/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -598,7 +844,7 @@ tracks/25/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Body/Main/BoosterL:position")
+tracks/26/path = NodePath("Rotatable/Body/Main/BoosterL:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -610,7 +856,7 @@ tracks/26/keys = {
 "values": [ Vector2( -23.5, 0 ), Vector2( -23.5, 0 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -622,7 +868,7 @@ tracks/27/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -634,7 +880,7 @@ tracks/28/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -646,7 +892,7 @@ tracks/29/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -658,7 +904,7 @@ tracks/30/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -670,7 +916,7 @@ tracks/31/keys = {
 "values": [ -30.0, -15.0, 5.0, -30.0, -30.0 ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -682,7 +928,7 @@ tracks/32/keys = {
 "values": [ Vector2( -22.5, 2.5 ), Vector2( -22.5, 2.5 ) ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -694,7 +940,7 @@ tracks/33/keys = {
 "values": [ 15.0, 0.0, 15.0, 0.0, 15.0, 15.0 ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Body/Main/ShoulderL/UpperarmL:position")
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -706,7 +952,7 @@ tracks/34/keys = {
 "values": [ Vector2( -10, 0 ), Vector2( -10, 0 ) ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Body/Main/ShoulderL:rotation_degrees")
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -718,7 +964,7 @@ tracks/35/keys = {
 "values": [ 15.0, 0.0, 15.0 ]
 }
 tracks/36/type = "value"
-tracks/36/path = NodePath("Body/Main/ShoulderL:position")
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/imported = false
@@ -730,7 +976,7 @@ tracks/36/keys = {
 "values": [ Vector2( -35, 0 ), Vector2( -35, 0 ) ]
 }
 tracks/37/type = "value"
-tracks/37/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
 tracks/37/interp = 1
 tracks/37/loop_wrap = true
 tracks/37/imported = false
@@ -742,7 +988,7 @@ tracks/37/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/38/type = "value"
-tracks/38/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
 tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/imported = false
@@ -754,7 +1000,7 @@ tracks/38/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -766,7 +1012,7 @@ tracks/39/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -778,7 +1024,7 @@ tracks/40/keys = {
 "values": [ false, true, true, false, false ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -790,7 +1036,7 @@ tracks/41/keys = {
 "values": [ 30.0, 15.0, -5.0, 30.0, 30.0 ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -802,7 +1048,7 @@ tracks/42/keys = {
 "values": [ Vector2( 22.5, 2.5 ), Vector2( 22.5, 2.5 ) ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/43/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -814,7 +1060,7 @@ tracks/43/keys = {
 "values": [ -15.0, 0.0, -15.0, 0.0, -15.0, -15.0 ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Body/Main/ShoulderR/UpperarmR:position")
+tracks/44/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -826,7 +1072,7 @@ tracks/44/keys = {
 "values": [ Vector2( 10, 0 ), Vector2( 10, 0 ) ]
 }
 tracks/45/type = "value"
-tracks/45/path = NodePath("Body/Main/ShoulderR:rotation_degrees")
+tracks/45/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
 tracks/45/interp = 1
 tracks/45/loop_wrap = true
 tracks/45/imported = false
@@ -838,7 +1084,7 @@ tracks/45/keys = {
 "values": [ -15.0, 0.0, -15.0 ]
 }
 tracks/46/type = "value"
-tracks/46/path = NodePath("Body/Main/ShoulderR:position")
+tracks/46/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
 tracks/46/interp = 1
 tracks/46/loop_wrap = true
 tracks/46/imported = false
@@ -849,15 +1095,110 @@ tracks/46/keys = {
 "update": 0,
 "values": [ Vector2( 35, 0 ), Vector2( 35, 0 ) ]
 }
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/53/type = "value"
+tracks/53/path = NodePath("Rotatable/Body:visible")
+tracks/53/interp = 1
+tracks/53/loop_wrap = true
+tracks/53/imported = false
+tracks/53/enabled = true
+tracks/53/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/54/type = "value"
+tracks/54/path = NodePath("Rotatable/Body:modulate")
+tracks/54/interp = 1
+tracks/54/loop_wrap = true
+tracks/54/imported = false
+tracks/54/enabled = true
+tracks/54/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=40]
 
-resource_name = "attack_winged"
 length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -869,7 +1210,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -881,7 +1222,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/LegL:position")
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -893,7 +1234,7 @@ tracks/2/keys = {
 "values": [ Vector2( -10, 10 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/LegL:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -905,7 +1246,7 @@ tracks/3/keys = {
 "values": [ 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/LegR:position")
+tracks/4/path = NodePath("Rotatable/Body/LegR:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -917,7 +1258,7 @@ tracks/4/keys = {
 "values": [ Vector2( 10, 10 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/LegR:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -929,7 +1270,7 @@ tracks/5/keys = {
 "values": [ 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -941,7 +1282,7 @@ tracks/6/keys = {
 "values": [ 0.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Main/Gastank/GastankL:position")
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -953,7 +1294,7 @@ tracks/7/keys = {
 "values": [ Vector2( -27.5, 9 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/8/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -965,7 +1306,7 @@ tracks/8/keys = {
 "values": [ 0.0 ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Main/Gastank/GastankR:position")
+tracks/9/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -977,7 +1318,7 @@ tracks/9/keys = {
 "values": [ Vector2( 27.5, 9 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Main/nose:scale")
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -989,7 +1330,7 @@ tracks/10/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Main/nose:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -1001,7 +1342,7 @@ tracks/11/keys = {
 "values": [ 0.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Main/nose:position")
+tracks/12/path = NodePath("Rotatable/Body/Main/nose:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -1013,7 +1354,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, -2 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Main:rotation_degrees")
+tracks/13/path = NodePath("Rotatable/Body/Main:rotation_degrees")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1025,7 +1366,7 @@ tracks/13/keys = {
 "values": [ 0.0 ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Main:position")
+tracks/14/path = NodePath("Rotatable/Body/Main:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -1037,7 +1378,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Main/BoosterR/Light2D2:enabled")
+tracks/15/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -1049,7 +1390,7 @@ tracks/15/keys = {
 "values": [ true ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Main/BoosterR/Booster:emitting")
+tracks/16/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -1061,7 +1402,7 @@ tracks/16/keys = {
 "values": [ true ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -1073,7 +1414,7 @@ tracks/17/keys = {
 "values": [ true ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/18/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -1085,7 +1426,7 @@ tracks/18/keys = {
 "values": [ true ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Main/Head:rotation_degrees")
+tracks/19/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -1097,7 +1438,7 @@ tracks/19/keys = {
 "values": [ 180.0 ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Main/Head:position")
+tracks/20/path = NodePath("Rotatable/Body/Main/Head:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -1109,7 +1450,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, -4 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Main/Cover:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -1121,7 +1462,7 @@ tracks/21/keys = {
 "values": [ 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Main/Cover:position")
+tracks/22/path = NodePath("Rotatable/Body/Main/Cover:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -1133,7 +1474,7 @@ tracks/22/keys = {
 "values": [ Vector2( 0, -10 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Main/BoosterR:rotation_degrees")
+tracks/23/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -1145,7 +1486,7 @@ tracks/23/keys = {
 "values": [ 0.0 ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Main/BoosterR:position")
+tracks/24/path = NodePath("Rotatable/Body/Main/BoosterR:position")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -1157,7 +1498,7 @@ tracks/24/keys = {
 "values": [ Vector2( 13, 20 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Body/Main/BoosterL:rotation_degrees")
+tracks/25/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -1169,7 +1510,7 @@ tracks/25/keys = {
 "values": [ 0.0 ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Body/Main/BoosterL:position")
+tracks/26/path = NodePath("Rotatable/Body/Main/BoosterL:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -1181,7 +1522,7 @@ tracks/26/keys = {
 "values": [ Vector2( -13, 20 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1193,7 +1534,7 @@ tracks/27/keys = {
 "values": [ false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -1205,7 +1546,7 @@ tracks/28/keys = {
 "values": [ false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -1217,7 +1558,7 @@ tracks/29/keys = {
 "values": [ false ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -1229,7 +1570,7 @@ tracks/30/keys = {
 "values": [ false ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -1241,7 +1582,7 @@ tracks/31/keys = {
 "values": [ 89.9999 ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -1253,7 +1594,7 @@ tracks/32/keys = {
 "values": [ Vector2( -22.5, 2.5 ) ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -1265,7 +1606,7 @@ tracks/33/keys = {
 "values": [ 89.9999 ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Body/Main/ShoulderL/UpperarmL:position")
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -1277,7 +1618,7 @@ tracks/34/keys = {
 "values": [ Vector2( 0, 20 ) ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Body/Main/ShoulderL:rotation_degrees")
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -1289,7 +1630,7 @@ tracks/35/keys = {
 "values": [ 0.0 ]
 }
 tracks/36/type = "value"
-tracks/36/path = NodePath("Body/Main/ShoulderL:position")
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/imported = false
@@ -1301,7 +1642,7 @@ tracks/36/keys = {
 "values": [ Vector2( -15, 0 ) ]
 }
 tracks/37/type = "value"
-tracks/37/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
 tracks/37/interp = 1
 tracks/37/loop_wrap = true
 tracks/37/imported = false
@@ -1313,7 +1654,7 @@ tracks/37/keys = {
 "values": [ false ]
 }
 tracks/38/type = "value"
-tracks/38/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
 tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/imported = false
@@ -1325,7 +1666,7 @@ tracks/38/keys = {
 "values": [ false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -1337,7 +1678,7 @@ tracks/39/keys = {
 "values": [ false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -1349,7 +1690,7 @@ tracks/40/keys = {
 "values": [ false ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -1361,7 +1702,7 @@ tracks/41/keys = {
 "values": [ -89.9999 ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -1373,7 +1714,7 @@ tracks/42/keys = {
 "values": [ Vector2( 22.5, 2.5 ) ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/43/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -1385,7 +1726,7 @@ tracks/43/keys = {
 "values": [ -89.9999 ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Body/Main/ShoulderR/UpperarmR:position")
+tracks/44/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -1397,7 +1738,7 @@ tracks/44/keys = {
 "values": [ Vector2( 0, 20 ) ]
 }
 tracks/45/type = "value"
-tracks/45/path = NodePath("Body/Main/ShoulderR:rotation_degrees")
+tracks/45/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
 tracks/45/interp = 1
 tracks/45/loop_wrap = true
 tracks/45/imported = false
@@ -1409,7 +1750,7 @@ tracks/45/keys = {
 "values": [ 0.0 ]
 }
 tracks/46/type = "value"
-tracks/46/path = NodePath("Body/Main/ShoulderR:position")
+tracks/46/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
 tracks/46/interp = 1
 tracks/46/loop_wrap = true
 tracks/46/imported = false
@@ -1420,15 +1761,765 @@ tracks/46/keys = {
 "update": 0,
 "values": [ Vector2( 15, 0 ) ]
 }
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/53/type = "value"
+tracks/53/path = NodePath("Rotatable/Body:visible")
+tracks/53/interp = 1
+tracks/53/loop_wrap = true
+tracks/53/imported = false
+tracks/53/enabled = true
+tracks/53/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/54/type = "value"
+tracks/54/path = NodePath("Rotatable/Body:modulate")
+tracks/54/interp = 1
+tracks/54/loop_wrap = true
+tracks/54/imported = false
+tracks/54/enabled = true
+tracks/54/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=44]
 
-resource_name = "idle"
+resource_name = "explosion"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotatable/Body/Main:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Rotatable/Body/Main:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 34.0093, -13.6037 ), Vector2( 34.0093, -13.6037 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 150.0, 120.0, 120.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 30.0, -15.0, -15.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -27.5, 9 ), Vector2( -65.5905, 63.415 ), Vector2( -65.5905, 63.415 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -30.0, -30.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 27.5, 9 ), Vector2( 54.7075, 75.6583 ), Vector2( 54.7075, 75.6583 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Rotatable/Body/Main/nose:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0.5 ), Vector2( 1, 0.5 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 40 ), Vector2( 0, 40 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Rotatable/Body/Main/Head:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Rotatable/Body/Main/Cover:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Rotatable/Body/Main/BoosterR:position")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 23.5, 0 ), Vector2( 23.5, 0 ) ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Rotatable/Body/Main/BoosterL:position")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -23.5, 0 ), Vector2( -23.5, 0 ) ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/24/type = "value"
+tracks/24/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/26/type = "value"
+tracks/26/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/27/type = "value"
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -30.0, -30.0 ]
+}
+tracks/28/type = "value"
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -22.5, 2.5 ), Vector2( -22.5, 2.5 ) ]
+}
+tracks/29/type = "value"
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 15.0, -15.0, -15.0 ]
+}
+tracks/30/type = "value"
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10, 0 ), Vector2( -36.2716, 7.03946 ), Vector2( -36.2716, 7.03946 ) ]
+}
+tracks/31/type = "value"
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 15.0, 15.0 ]
+}
+tracks/32/type = "value"
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -35, 0 ), Vector2( -35, 0 ) ]
+}
+tracks/33/type = "value"
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/34/type = "value"
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/35/type = "value"
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/36/type = "value"
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, false ]
+}
+tracks/37/type = "value"
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 30.0, 44.9999, 44.9999 ]
+}
+tracks/38/type = "value"
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 22.5, 2.5 ), Vector2( 26.2168, 22.0517 ), Vector2( 26.2168, 22.0517 ) ]
+}
+tracks/39/type = "value"
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -15.0, -15.0 ]
+}
+tracks/40/type = "value"
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10, 0 ), Vector2( 10, 0 ) ]
+}
+tracks/41/type = "value"
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -15.0, 30.0, 30.0 ]
+}
+tracks/42/type = "value"
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 35, 0 ), Vector2( 48.2317, 30.1388 ), Vector2( 48.2317, 30.1388 ) ]
+}
+tracks/43/type = "value"
+tracks/43/path = NodePath("Rotatable/Body/LegR:position")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/44/type = "value"
+tracks/44/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -150.0, -150.0 ]
+}
+tracks/45/type = "value"
+tracks/45/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/46/type = "value"
+tracks/46/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0, 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Body:visible")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Body:modulate")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0, 0.7, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/53/type = "value"
+tracks/53/path = NodePath("Rotatable/Explosion:scale")
+tracks/53/interp = 1
+tracks/53/loop_wrap = true
+tracks/53/imported = false
+tracks/53/enabled = true
+tracks/53/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.3, 1.3 ), Vector2( 1.3, 1.3 ) ]
+}
+
+[sub_resource type="Animation" id=41]
+
 length = 0.01
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Main:rotation_degrees")
+tracks/0/path = NodePath("Rotatable/Body/Main:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1440,7 +2531,7 @@ tracks/0/keys = {
 "values": [ 0.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Main:position")
+tracks/1/path = NodePath("Rotatable/Body/Main:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1452,7 +2543,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/LegL:position")
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1464,7 +2555,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/LegL:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1476,7 +2567,7 @@ tracks/3/keys = {
 "values": [ 150.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/4/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1488,7 +2579,7 @@ tracks/4/keys = {
 "values": [ 30.0 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Main/Gastank/GastankL:position")
+tracks/5/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1500,7 +2591,7 @@ tracks/5/keys = {
 "values": [ Vector2( -27.5, 9 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1512,7 +2603,7 @@ tracks/6/keys = {
 "values": [ -30.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Main/Gastank/GastankR:position")
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1524,7 +2615,7 @@ tracks/7/keys = {
 "values": [ Vector2( 27.5, 9 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Main/nose:scale")
+tracks/8/path = NodePath("Rotatable/Body/Main/nose:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -1536,7 +2627,7 @@ tracks/8/keys = {
 "values": [ Vector2( 1, 0.5 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Main/nose:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -1548,7 +2639,7 @@ tracks/9/keys = {
 "values": [ 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Main/nose:position")
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -1560,7 +2651,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 40 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Main/BoosterR/Light2D2:enabled")
+tracks/11/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -1572,7 +2663,7 @@ tracks/11/keys = {
 "values": [ false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Main/BoosterR/Booster:emitting")
+tracks/12/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -1584,7 +2675,7 @@ tracks/12/keys = {
 "values": [ false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/13/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1596,7 +2687,7 @@ tracks/13/keys = {
 "values": [ false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/14/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -1608,7 +2699,7 @@ tracks/14/keys = {
 "values": [ false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Main/Head:rotation_degrees")
+tracks/15/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -1620,7 +2711,7 @@ tracks/15/keys = {
 "values": [ 0.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Main/Head:position")
+tracks/16/path = NodePath("Rotatable/Body/Main/Head:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -1632,7 +2723,7 @@ tracks/16/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Main/Cover:rotation_degrees")
+tracks/17/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -1644,7 +2735,7 @@ tracks/17/keys = {
 "values": [ 0.0 ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Main/Cover:position")
+tracks/18/path = NodePath("Rotatable/Body/Main/Cover:position")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -1656,7 +2747,7 @@ tracks/18/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Main/BoosterR:rotation_degrees")
+tracks/19/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -1668,7 +2759,7 @@ tracks/19/keys = {
 "values": [ 0.0 ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Main/BoosterR:position")
+tracks/20/path = NodePath("Rotatable/Body/Main/BoosterR:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -1680,7 +2771,7 @@ tracks/20/keys = {
 "values": [ Vector2( 23.5, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Main/BoosterL:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -1692,7 +2783,7 @@ tracks/21/keys = {
 "values": [ 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Main/BoosterL:position")
+tracks/22/path = NodePath("Rotatable/Body/Main/BoosterL:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -1704,7 +2795,7 @@ tracks/22/keys = {
 "values": [ Vector2( -23.5, 0 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/23/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -1716,7 +2807,7 @@ tracks/23/keys = {
 "values": [ false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/24/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -1728,7 +2819,7 @@ tracks/24/keys = {
 "values": [ false ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/25/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -1740,7 +2831,7 @@ tracks/25/keys = {
 "values": [ false ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/26/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -1752,7 +2843,7 @@ tracks/26/keys = {
 "values": [ false ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1764,7 +2855,7 @@ tracks/27/keys = {
 "values": [ -30.0 ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -1776,7 +2867,7 @@ tracks/28/keys = {
 "values": [ Vector2( -22.5, 2.5 ) ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -1788,7 +2879,7 @@ tracks/29/keys = {
 "values": [ 15.0 ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Body/Main/ShoulderL/UpperarmL:position")
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -1800,7 +2891,7 @@ tracks/30/keys = {
 "values": [ Vector2( -10, 0 ) ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Body/Main/ShoulderL:rotation_degrees")
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -1812,7 +2903,7 @@ tracks/31/keys = {
 "values": [ 15.0 ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Body/Main/ShoulderL:position")
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -1824,7 +2915,7 @@ tracks/32/keys = {
 "values": [ Vector2( -35, 0 ) ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -1836,7 +2927,7 @@ tracks/33/keys = {
 "values": [ false ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -1848,7 +2939,7 @@ tracks/34/keys = {
 "values": [ false ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -1860,7 +2951,7 @@ tracks/35/keys = {
 "values": [ false ]
 }
 tracks/36/type = "value"
-tracks/36/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/imported = false
@@ -1872,7 +2963,7 @@ tracks/36/keys = {
 "values": [ false ]
 }
 tracks/37/type = "value"
-tracks/37/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
 tracks/37/interp = 1
 tracks/37/loop_wrap = true
 tracks/37/imported = false
@@ -1884,7 +2975,7 @@ tracks/37/keys = {
 "values": [ 30.0 ]
 }
 tracks/38/type = "value"
-tracks/38/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
 tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/imported = false
@@ -1896,7 +2987,7 @@ tracks/38/keys = {
 "values": [ Vector2( 22.5, 2.5 ) ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -1908,7 +2999,7 @@ tracks/39/keys = {
 "values": [ -15.0 ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Body/Main/ShoulderR/UpperarmR:position")
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -1920,7 +3011,7 @@ tracks/40/keys = {
 "values": [ Vector2( 10, 0 ) ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Body/Main/ShoulderR:rotation_degrees")
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -1932,7 +3023,7 @@ tracks/41/keys = {
 "values": [ -15.0 ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Body/Main/ShoulderR:position")
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -1944,7 +3035,7 @@ tracks/42/keys = {
 "values": [ Vector2( 35, 0 ) ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Body/LegR:position")
+tracks/43/path = NodePath("Rotatable/Body/LegR:position")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -1956,7 +3047,7 @@ tracks/43/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Body/LegR:rotation_degrees")
+tracks/44/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -1967,14 +3058,110 @@ tracks/44/keys = {
 "update": 0,
 "values": [ -150.0 ]
 }
+tracks/45/type = "value"
+tracks/45/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/46/type = "value"
+tracks/46/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Body:visible")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Body:modulate")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=42]
 
 length = 3.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Main:rotation_degrees")
+tracks/0/path = NodePath("Rotatable/Body/Main:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1986,7 +3173,7 @@ tracks/0/keys = {
 "values": [ 0.0, 0.0, 20.0, -10.0, 0.0, 0.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Main:position")
+tracks/1/path = NodePath("Rotatable/Body/Main:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1998,7 +3185,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 5 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/LegL:position")
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -2010,7 +3197,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/LegL:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -2022,7 +3209,7 @@ tracks/3/keys = {
 "values": [ 150.0, 150.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/4/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -2034,7 +3221,7 @@ tracks/4/keys = {
 "values": [ 30.0, 30.0 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/Main/Gastank/GastankL:position")
+tracks/5/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -2046,7 +3233,7 @@ tracks/5/keys = {
 "values": [ Vector2( -27.5, 9 ), Vector2( -27.5, 9 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -2058,7 +3245,7 @@ tracks/6/keys = {
 "values": [ -30.0, -30.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Main/Gastank/GastankR:position")
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -2070,7 +3257,7 @@ tracks/7/keys = {
 "values": [ Vector2( 27.5, 9 ), Vector2( 27.5, 9 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Main/nose:scale")
+tracks/8/path = NodePath("Rotatable/Body/Main/nose:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -2082,7 +3269,7 @@ tracks/8/keys = {
 "values": [ Vector2( 1, 0.5 ), Vector2( 1, 0.5 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Main/nose:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -2094,7 +3281,7 @@ tracks/9/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Main/nose:position")
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -2106,7 +3293,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 40 ), Vector2( 0, 40 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Main/BoosterR/Light2D2:enabled")
+tracks/11/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -2118,7 +3305,7 @@ tracks/11/keys = {
 "values": [ false, false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Main/BoosterR/Booster:emitting")
+tracks/12/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -2130,7 +3317,7 @@ tracks/12/keys = {
 "values": [ false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/13/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -2142,7 +3329,7 @@ tracks/13/keys = {
 "values": [ false, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/14/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -2154,7 +3341,7 @@ tracks/14/keys = {
 "values": [ false, false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Main/Head:rotation_degrees")
+tracks/15/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -2166,7 +3353,7 @@ tracks/15/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Main/Head:position")
+tracks/16/path = NodePath("Rotatable/Body/Main/Head:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -2178,7 +3365,7 @@ tracks/16/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Main/Cover:rotation_degrees")
+tracks/17/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -2190,7 +3377,7 @@ tracks/17/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Main/Cover:position")
+tracks/18/path = NodePath("Rotatable/Body/Main/Cover:position")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -2202,7 +3389,7 @@ tracks/18/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Main/BoosterR:rotation_degrees")
+tracks/19/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -2214,7 +3401,7 @@ tracks/19/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Main/BoosterR:position")
+tracks/20/path = NodePath("Rotatable/Body/Main/BoosterR:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -2226,7 +3413,7 @@ tracks/20/keys = {
 "values": [ Vector2( 23.5, 0 ), Vector2( 23.5, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Main/BoosterL:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -2238,7 +3425,7 @@ tracks/21/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Main/BoosterL:position")
+tracks/22/path = NodePath("Rotatable/Body/Main/BoosterL:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -2250,7 +3437,7 @@ tracks/22/keys = {
 "values": [ Vector2( -23.5, 0 ), Vector2( -23.5, 0 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/23/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -2262,7 +3449,7 @@ tracks/23/keys = {
 "values": [ false, false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/24/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -2274,7 +3461,7 @@ tracks/24/keys = {
 "values": [ false, false ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/25/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -2286,7 +3473,7 @@ tracks/25/keys = {
 "values": [ false, false ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/26/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -2298,7 +3485,7 @@ tracks/26/keys = {
 "values": [ false, false ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -2310,7 +3497,7 @@ tracks/27/keys = {
 "values": [ -30.0, -30.0, -40.0, -30.0, -30.0 ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -2322,7 +3509,7 @@ tracks/28/keys = {
 "values": [ Vector2( -22.5, 2.5 ), Vector2( -22.5, 2.5 ) ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -2334,7 +3521,7 @@ tracks/29/keys = {
 "values": [ 15.0, 15.0, 0.0, 10.0, 15.0, 15.0 ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Body/Main/ShoulderL/UpperarmL:position")
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -2346,7 +3533,7 @@ tracks/30/keys = {
 "values": [ Vector2( -10, 0 ), Vector2( -10, 0 ) ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Body/Main/ShoulderL:rotation_degrees")
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -2358,7 +3545,7 @@ tracks/31/keys = {
 "values": [ 15.0, 15.0, 20.0, -20.0, 15.0, 15.0 ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Body/Main/ShoulderL:position")
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -2370,7 +3557,7 @@ tracks/32/keys = {
 "values": [ Vector2( -35, 0 ), Vector2( -35, 0 ) ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -2382,7 +3569,7 @@ tracks/33/keys = {
 "values": [ false, false ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -2394,7 +3581,7 @@ tracks/34/keys = {
 "values": [ false, false ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -2406,7 +3593,7 @@ tracks/35/keys = {
 "values": [ false, false ]
 }
 tracks/36/type = "value"
-tracks/36/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/imported = false
@@ -2418,7 +3605,7 @@ tracks/36/keys = {
 "values": [ false, false ]
 }
 tracks/37/type = "value"
-tracks/37/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
 tracks/37/interp = 1
 tracks/37/loop_wrap = true
 tracks/37/imported = false
@@ -2430,7 +3617,7 @@ tracks/37/keys = {
 "values": [ 30.0, 30.0, 20.0, 30.0, 30.0 ]
 }
 tracks/38/type = "value"
-tracks/38/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
 tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/imported = false
@@ -2442,7 +3629,7 @@ tracks/38/keys = {
 "values": [ Vector2( 22.5, 2.5 ), Vector2( 22.5, 2.5 ) ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -2454,7 +3641,7 @@ tracks/39/keys = {
 "values": [ -15.0, -15.0, 15.0, -15.0, -15.0 ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Body/Main/ShoulderR/UpperarmR:position")
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -2466,7 +3653,7 @@ tracks/40/keys = {
 "values": [ Vector2( 10, 0 ), Vector2( 10, 0 ) ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Body/Main/ShoulderR:rotation_degrees")
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -2478,7 +3665,7 @@ tracks/41/keys = {
 "values": [ -15.0, -15.0, 0.0, -15.0, -15.0 ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Body/Main/ShoulderR:position")
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -2490,7 +3677,7 @@ tracks/42/keys = {
 "values": [ Vector2( 35, 0 ), Vector2( 35, 0 ) ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Body/LegR:position")
+tracks/43/path = NodePath("Rotatable/Body/LegR:position")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -2502,7 +3689,7 @@ tracks/43/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Body/LegR:rotation_degrees")
+tracks/44/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -2513,14 +3700,110 @@ tracks/44/keys = {
 "update": 0,
 "values": [ -150.0, -150.0 ]
 }
+tracks/45/type = "value"
+tracks/45/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/46/type = "value"
+tracks/46/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Body:visible")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Body:modulate")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=43]
 
 length = 1.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Body:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -2532,7 +3815,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Body:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -2544,7 +3827,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Body/LegL:position")
+tracks/2/path = NodePath("Rotatable/Body/LegL:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -2556,7 +3839,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 20 ), Vector2( -10, 10 ), Vector2( -10, 10 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Body/LegL:rotation_degrees")
+tracks/3/path = NodePath("Rotatable/Body/LegL:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -2568,7 +3851,7 @@ tracks/3/keys = {
 "values": [ 150.0, 0.0, 0.0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Body/LegR:position")
+tracks/4/path = NodePath("Rotatable/Body/LegR:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -2580,7 +3863,7 @@ tracks/4/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 20 ), Vector2( 10, 10 ), Vector2( 10, 10 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Body/LegR:rotation_degrees")
+tracks/5/path = NodePath("Rotatable/Body/LegR:rotation_degrees")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -2592,7 +3875,7 @@ tracks/5/keys = {
 "values": [ -150.0, 0.0, 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Body/Main/Gastank/GastankL:rotation_degrees")
+tracks/6/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -2604,7 +3887,7 @@ tracks/6/keys = {
 "values": [ 30.0, 30.0, 0.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Body/Main/Gastank/GastankL:position")
+tracks/7/path = NodePath("Rotatable/Body/Main/Gastank/GastankL:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -2616,7 +3899,7 @@ tracks/7/keys = {
 "values": [ Vector2( -27.5, 9 ), Vector2( -27.5, 9 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Body/Main/Gastank/GastankR:rotation_degrees")
+tracks/8/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:rotation_degrees")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -2628,7 +3911,7 @@ tracks/8/keys = {
 "values": [ -30.0, -30.0, 0.0 ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Body/Main/Gastank/GastankR:position")
+tracks/9/path = NodePath("Rotatable/Body/Main/Gastank/GastankR:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -2640,7 +3923,7 @@ tracks/9/keys = {
 "values": [ Vector2( 27.5, 9 ), Vector2( 27.5, 9 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Body/Main/nose:scale")
+tracks/10/path = NodePath("Rotatable/Body/Main/nose:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -2652,7 +3935,7 @@ tracks/10/keys = {
 "values": [ Vector2( 1, 0.5 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Body/Main/nose:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Main/nose:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -2664,7 +3947,7 @@ tracks/11/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Body/Main/nose:position")
+tracks/12/path = NodePath("Rotatable/Body/Main/nose:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -2676,7 +3959,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 40 ), Vector2( 0, -7 ), Vector2( 0, -2 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Body/Main:rotation_degrees")
+tracks/13/path = NodePath("Rotatable/Body/Main:rotation_degrees")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -2688,7 +3971,7 @@ tracks/13/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Body/Main:position")
+tracks/14/path = NodePath("Rotatable/Body/Main:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -2700,7 +3983,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Body/Main/BoosterR/Light2D2:enabled")
+tracks/15/path = NodePath("Rotatable/Body/Main/BoosterR/Light2D2:enabled")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -2712,7 +3995,7 @@ tracks/15/keys = {
 "values": [ false, false, true, true ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Body/Main/BoosterR/Booster:emitting")
+tracks/16/path = NodePath("Rotatable/Body/Main/BoosterR/Booster:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -2724,7 +4007,7 @@ tracks/16/keys = {
 "values": [ false, false, true, true ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
+tracks/17/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Light2D:enabled")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -2736,7 +4019,7 @@ tracks/17/keys = {
 "values": [ false, false, true, true ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Body/Main/BoosterL/BoosterpointL/Booster:emitting")
+tracks/18/path = NodePath("Rotatable/Body/Main/BoosterL/BoosterpointL/Booster:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -2748,7 +4031,7 @@ tracks/18/keys = {
 "values": [ false, false, true, true ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Body/Main/Head:rotation_degrees")
+tracks/19/path = NodePath("Rotatable/Body/Main/Head:rotation_degrees")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -2760,7 +4043,7 @@ tracks/19/keys = {
 "values": [ 0.0, 180.0, 180.0 ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Body/Main/Head:position")
+tracks/20/path = NodePath("Rotatable/Body/Main/Head:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -2772,7 +4055,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -4 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Body/Main/Cover:rotation_degrees")
+tracks/21/path = NodePath("Rotatable/Body/Main/Cover:rotation_degrees")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -2784,7 +4067,7 @@ tracks/21/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Body/Main/Cover:position")
+tracks/22/path = NodePath("Rotatable/Body/Main/Cover:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -2796,7 +4079,7 @@ tracks/22/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -10 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Body/Main/BoosterR:rotation_degrees")
+tracks/23/path = NodePath("Rotatable/Body/Main/BoosterR:rotation_degrees")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -2808,7 +4091,7 @@ tracks/23/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Body/Main/BoosterR:position")
+tracks/24/path = NodePath("Rotatable/Body/Main/BoosterR:position")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -2820,7 +4103,7 @@ tracks/24/keys = {
 "values": [ Vector2( 23.5, 0 ), Vector2( 23.5, 0 ), Vector2( 23.5, 20 ), Vector2( 20, 20 ), Vector2( 13, 20 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Body/Main/BoosterL:rotation_degrees")
+tracks/25/path = NodePath("Rotatable/Body/Main/BoosterL:rotation_degrees")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -2832,7 +4115,7 @@ tracks/25/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Body/Main/BoosterL:position")
+tracks/26/path = NodePath("Rotatable/Body/Main/BoosterL:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -2844,7 +4127,7 @@ tracks/26/keys = {
 "values": [ Vector2( -23.5, 0 ), Vector2( -23.5, 0 ), Vector2( -23.5, 20 ), Vector2( -20, 20 ), Vector2( -13, 20 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
+tracks/27/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Light:enabled")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -2856,7 +4139,7 @@ tracks/27/keys = {
 "values": [ false, false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
+tracks/28/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/Muzzleflash:emitting")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -2868,7 +4151,7 @@ tracks/28/keys = {
 "values": [ false, false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
+tracks/29/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Flashing:enabled")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -2880,7 +4163,7 @@ tracks/29/keys = {
 "values": [ false, false ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
+tracks/30/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL/Ejection:emitting")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -2892,7 +4175,7 @@ tracks/30/keys = {
 "values": [ false, false ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
+tracks/31/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:rotation_degrees")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -2904,7 +4187,7 @@ tracks/31/keys = {
 "values": [ -30.0, 89.9999, 89.9999 ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Body/Main/ShoulderL/UpperarmL/ArmL:position")
+tracks/32/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL:position")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -2916,7 +4199,7 @@ tracks/32/keys = {
 "values": [ Vector2( -22.5, 2.5 ), Vector2( -22.5, 2.5 ) ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Body/Main/ShoulderL/UpperarmL:rotation_degrees")
+tracks/33/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:rotation_degrees")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -2928,7 +4211,7 @@ tracks/33/keys = {
 "values": [ 15.0, 89.9999, 89.9999 ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Body/Main/ShoulderL/UpperarmL:position")
+tracks/34/path = NodePath("Rotatable/Body/Main/ShoulderL/UpperarmL:position")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -2940,7 +4223,7 @@ tracks/34/keys = {
 "values": [ Vector2( -10, 0 ), Vector2( 20, 0 ), Vector2( 0, 20 ), Vector2( 0, 20 ) ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Body/Main/ShoulderL:rotation_degrees")
+tracks/35/path = NodePath("Rotatable/Body/Main/ShoulderL:rotation_degrees")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -2952,7 +4235,7 @@ tracks/35/keys = {
 "values": [ 15.0, 0.0, 0.0 ]
 }
 tracks/36/type = "value"
-tracks/36/path = NodePath("Body/Main/ShoulderL:position")
+tracks/36/path = NodePath("Rotatable/Body/Main/ShoulderL:position")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/imported = false
@@ -2964,7 +4247,7 @@ tracks/36/keys = {
 "values": [ Vector2( -35, 0 ), Vector2( -15, 0 ), Vector2( -15, 0 ) ]
 }
 tracks/37/type = "value"
-tracks/37/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
+tracks/37/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Light:enabled")
 tracks/37/interp = 1
 tracks/37/loop_wrap = true
 tracks/37/imported = false
@@ -2976,7 +4259,7 @@ tracks/37/keys = {
 "values": [ false, false ]
 }
 tracks/38/type = "value"
-tracks/38/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
+tracks/38/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/Muzzleflash:emitting")
 tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/imported = false
@@ -2988,7 +4271,7 @@ tracks/38/keys = {
 "values": [ false, false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Flashing:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -3000,7 +4283,7 @@ tracks/39/keys = {
 "values": [ false, false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Ejection:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -3012,7 +4295,7 @@ tracks/40/keys = {
 "values": [ false, false ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
+tracks/41/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:rotation_degrees")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -3024,7 +4307,7 @@ tracks/41/keys = {
 "values": [ 30.0, -89.9999, -89.9999 ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Body/Main/ShoulderR/UpperarmR/ArmR:position")
+tracks/42/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR:position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -3036,7 +4319,7 @@ tracks/42/keys = {
 "values": [ Vector2( 22.5, 2.5 ), Vector2( 22.5, 2.5 ) ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Body/Main/ShoulderR/UpperarmR:rotation_degrees")
+tracks/43/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:rotation_degrees")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -3048,7 +4331,7 @@ tracks/43/keys = {
 "values": [ -15.0, -89.9999, -89.9999 ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Body/Main/ShoulderR/UpperarmR:position")
+tracks/44/path = NodePath("Rotatable/Body/Main/ShoulderR/UpperarmR:position")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -3060,7 +4343,7 @@ tracks/44/keys = {
 "values": [ Vector2( 10, 0 ), Vector2( -20, 0 ), Vector2( 0, 20 ), Vector2( 0, 20 ) ]
 }
 tracks/45/type = "value"
-tracks/45/path = NodePath("Body/Main/ShoulderR:rotation_degrees")
+tracks/45/path = NodePath("Rotatable/Body/Main/ShoulderR:rotation_degrees")
 tracks/45/interp = 1
 tracks/45/loop_wrap = true
 tracks/45/imported = false
@@ -3072,7 +4355,7 @@ tracks/45/keys = {
 "values": [ -15.0, 0.0, 0.0 ]
 }
 tracks/46/type = "value"
-tracks/46/path = NodePath("Body/Main/ShoulderR:position")
+tracks/46/path = NodePath("Rotatable/Body/Main/ShoulderR:position")
 tracks/46/interp = 1
 tracks/46/loop_wrap = true
 tracks/46/imported = false
@@ -3083,16 +4366,115 @@ tracks/46/keys = {
 "update": 0,
 "values": [ Vector2( 35, 0 ), Vector2( 15, 0 ), Vector2( 15, 0 ) ]
 }
+tracks/47/type = "value"
+tracks/47/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/48/type = "value"
+tracks/48/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/49/type = "value"
+tracks/49/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/50/type = "value"
+tracks/50/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/51/type = "value"
+tracks/51/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/52/type = "value"
+tracks/52/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/53/type = "value"
+tracks/53/path = NodePath("Rotatable/Body:visible")
+tracks/53/interp = 1
+tracks/53/loop_wrap = true
+tracks/53/imported = false
+tracks/53/enabled = true
+tracks/53/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+tracks/54/type = "value"
+tracks/54/path = NodePath("Rotatable/Body:modulate")
+tracks/54/interp = 1
+tracks/54/loop_wrap = true
+tracks/54/imported = false
+tracks/54/enabled = true
+tracks/54/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="frost" type="Node2D" index="0"]
 
 _sections_unfolded = [ "Material", "Transform" ]
 
-[node name="Body" type="Sprite" parent="." index="0"]
+[node name="Rotatable" type="Node2D" parent="." index="0"]
 
-_sections_unfolded = [ "Transform" ]
+[node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
-[node name="LegL" type="Sprite" parent="Body" index="0"]
+editor/display_folded = true
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="LegL" type="Sprite" parent="Rotatable/Body" index="0"]
 
 show_behind_parent = true
 rotation = 2.61799
@@ -3101,7 +4483,7 @@ offset = Vector2( -30, 0 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="LegR" type="Sprite" parent="Body" index="1"]
+[node name="LegR" type="Sprite" parent="Rotatable/Body" index="1"]
 
 show_behind_parent = true
 rotation = -2.61799
@@ -3109,12 +4491,12 @@ texture = ExtResource( 1 )
 offset = Vector2( 30, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="Main" type="Sprite" parent="Body" index="2"]
+[node name="Main" type="Sprite" parent="Rotatable/Body" index="2"]
 
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="nose" type="Sprite" parent="Body/Main" index="0"]
+[node name="nose" type="Sprite" parent="Rotatable/Body/Main" index="0"]
 
 show_behind_parent = true
 position = Vector2( 0, 40 )
@@ -3123,8 +4505,9 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -60 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="ShoulderL" type="Sprite" parent="Body/Main" index="1"]
+[node name="ShoulderL" type="Sprite" parent="Rotatable/Body/Main" index="1"]
 
+editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -35, 0 )
 rotation = 0.261799
@@ -3133,7 +4516,7 @@ offset = Vector2( -10, 0 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="UpperarmL" type="Sprite" parent="Body/Main/ShoulderL" index="0"]
+[node name="UpperarmL" type="Sprite" parent="Rotatable/Body/Main/ShoulderL" index="0"]
 
 show_behind_parent = true
 position = Vector2( -10, 0 )
@@ -3143,7 +4526,7 @@ offset = Vector2( -10, 0 )
 flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="ArmL" type="Sprite" parent="Body/Main/ShoulderL/UpperarmL" index="0"]
+[node name="ArmL" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/UpperarmL" index="0"]
 
 editor/display_folded = true
 show_behind_parent = true
@@ -3154,12 +4537,12 @@ offset = Vector2( -8, -20 )
 flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="CartridgeL" type="Position2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL" index="0"]
+[node name="CartridgeL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL" index="0"]
 
 position = Vector2( -18, -24.5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Ejection" type="Particles2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL" index="0"]
+[node name="Ejection" type="Particles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL" index="0"]
 
 scale = Vector2( 0.4, 0.4 )
 emitting = false
@@ -3182,7 +4565,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Flashing" type="Light2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL" index="1"]
+[node name="Flashing" type="Light2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL" index="1"]
 
 position = Vector2( 2, 1 )
 enabled = false
@@ -3208,12 +4591,12 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointL" type="Position2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL" index="1"]
+[node name="ShotpointL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL" index="1"]
 
 position = Vector2( -3, -90 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Muzzleflash" type="Particles2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL" index="0"]
+[node name="Muzzleflash" type="Particles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL" index="0"]
 
 scale = Vector2( 0.5, 1.2 )
 emitting = false
@@ -3236,7 +4619,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
-[node name="Light" type="Light2D" parent="Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL" index="1"]
+[node name="Light" type="Light2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL" index="1"]
 
 position = Vector2( 0, 25 )
 enabled = false
@@ -3262,7 +4645,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShoulderR" type="Sprite" parent="Body/Main" index="2"]
+[node name="ShoulderR" type="Sprite" parent="Rotatable/Body/Main" index="2"]
 
 editor/display_folded = true
 show_behind_parent = true
@@ -3272,7 +4655,7 @@ texture = ExtResource( 4 )
 offset = Vector2( 10, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="UpperarmR" type="Sprite" parent="Body/Main/ShoulderR" index="0"]
+[node name="UpperarmR" type="Sprite" parent="Rotatable/Body/Main/ShoulderR" index="0"]
 
 show_behind_parent = true
 position = Vector2( 10, 0 )
@@ -3281,7 +4664,7 @@ texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="ArmR" type="Sprite" parent="Body/Main/ShoulderR/UpperarmR" index="0"]
+[node name="ArmR" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/UpperarmR" index="0"]
 
 editor/display_folded = true
 show_behind_parent = true
@@ -3291,12 +4674,12 @@ texture = ExtResource( 6 )
 offset = Vector2( 8, -20 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="CartrigdeR" type="Position2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR" index="0"]
+[node name="CartrigdeR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR" index="0"]
 
 position = Vector2( 18, -24.5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Ejection" type="Particles2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR" index="0"]
+[node name="Ejection" type="Particles2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR" index="0"]
 
 scale = Vector2( 0.4, 0.4 )
 emitting = false
@@ -3319,7 +4702,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
-[node name="Flashing" type="Light2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR" index="1"]
+[node name="Flashing" type="Light2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR" index="1"]
 
 position = Vector2( -2, 1 )
 enabled = false
@@ -3345,12 +4728,12 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointR" type="Position2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR" index="1"]
+[node name="ShotpointR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR" index="1"]
 
 position = Vector2( 3, -90 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Muzzleflash" type="Particles2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR" index="0"]
+[node name="Muzzleflash" type="Particles2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR" index="0"]
 
 scale = Vector2( 0.5, 1.2 )
 emitting = false
@@ -3373,7 +4756,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Light" type="Light2D" parent="Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR" index="1"]
+[node name="Light" type="Light2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR" index="1"]
 
 position = Vector2( 0, 25 )
 enabled = false
@@ -3399,7 +4782,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterL" type="Sprite" parent="Body/Main" index="3"]
+[node name="BoosterL" type="Sprite" parent="Rotatable/Body/Main" index="3"]
 
 editor/display_folded = true
 show_behind_parent = true
@@ -3409,12 +4792,12 @@ offset = Vector2( 0, 20 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="BoosterpointL" type="Position2D" parent="Body/Main/BoosterL" index="0"]
+[node name="BoosterpointL" type="Position2D" parent="Rotatable/Body/Main/BoosterL" index="0"]
 
 position = Vector2( -2, 35 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Particles2D" parent="Body/Main/BoosterL/BoosterpointL" index="0"]
+[node name="Booster" type="Particles2D" parent="Rotatable/Body/Main/BoosterL/BoosterpointL" index="0"]
 
 position = Vector2( 0, 10 )
 scale = Vector2( 0.6, 1.5 )
@@ -3438,7 +4821,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Body/Main/BoosterL/BoosterpointL" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Main/BoosterL/BoosterpointL" index="1"]
 
 position = Vector2( 0, 10 )
 enabled = false
@@ -3464,7 +4847,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterR" type="Sprite" parent="Body/Main" index="4"]
+[node name="BoosterR" type="Sprite" parent="Rotatable/Body/Main" index="4"]
 
 editor/display_folded = true
 show_behind_parent = true
@@ -3473,12 +4856,12 @@ texture = ExtResource( 10 )
 offset = Vector2( 0, 20 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="BoosterpointR" type="Position2D" parent="Body/Main/BoosterR" index="0"]
+[node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/Main/BoosterR" index="0"]
 
 position = Vector2( 2, 35 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Particles2D" parent="Body/Main/BoosterR" index="1"]
+[node name="Booster" type="Particles2D" parent="Rotatable/Body/Main/BoosterR" index="1"]
 
 position = Vector2( 2, 45 )
 scale = Vector2( 0.6, 1.5 )
@@ -3502,7 +4885,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D2" type="Light2D" parent="Body/Main/BoosterR" index="2"]
+[node name="Light2D2" type="Light2D" parent="Rotatable/Body/Main/BoosterR" index="2"]
 
 position = Vector2( 2, 45 )
 enabled = false
@@ -3528,20 +4911,20 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Cover" type="Sprite" parent="Body/Main" index="5"]
+[node name="Cover" type="Sprite" parent="Rotatable/Body/Main" index="5"]
 
 texture = ExtResource( 12 )
 offset = Vector2( 0, -15 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
-[node name="Head" type="Sprite" parent="Body/Main" index="6"]
+[node name="Head" type="Sprite" parent="Rotatable/Body/Main" index="6"]
 
 texture = ExtResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Gastank" type="Node2D" parent="Body/Main" index="7"]
+[node name="Gastank" type="Node2D" parent="Rotatable/Body/Main" index="7"]
 
-[node name="GastankR" type="Sprite" parent="Body/Main/Gastank" index="0"]
+[node name="GastankR" type="Sprite" parent="Rotatable/Body/Main/Gastank" index="0"]
 
 light_mask = 2
 position = Vector2( 27.5, 9 )
@@ -3550,7 +4933,7 @@ texture = ExtResource( 14 )
 offset = Vector2( 0, 30 )
 _sections_unfolded = [ "Animation", "Offset", "Transform", "Visibility" ]
 
-[node name="GastankL" type="Sprite" parent="Body/Main/Gastank" index="1"]
+[node name="GastankL" type="Sprite" parent="Rotatable/Body/Main/Gastank" index="1"]
 
 light_mask = 2
 position = Vector2( -27.5, 9 )
@@ -3560,6 +4943,152 @@ offset = Vector2( 0, 30 )
 flip_h = true
 _sections_unfolded = [ "Animation", "Offset", "Transform", "Visibility" ]
 
+[node name="Explosion" type="Node2D" parent="Rotatable" index="1"]
+
+editor/display_folded = true
+scale = Vector2( 1.3, 1.3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Particle" type="Particles2D" parent="Rotatable/Explosion" index="0"]
+
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 30
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 23 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Transform" ]
+
+[node name="Emition" type="Particles2D" parent="Rotatable/Explosion" index="1"]
+
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 2
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 28 )
+texture = ExtResource( 15 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+
+[node name="Explosion" type="Particles2D" parent="Rotatable/Explosion" index="2"]
+
+scale = Vector2( 3, 3 )
+emitting = false
+amount = 10
+lifetime = 1.0
+one_shot = false
+preprocess = 0.5
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 33 )
+texture = ExtResource( 16 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+
+[node name="Core" type="Particles2D" parent="Rotatable/Explosion" index="3"]
+
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 38 )
+texture = ExtResource( 8 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+
+[node name="Explight" type="Light2D" parent="Rotatable/Explosion" index="4"]
+
+enabled = false
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 5.0
+color = Color( 0.701874, 0.735327, 0.824219, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="Corelight" type="Light2D" parent="Rotatable/Explosion" index="5"]
+
+enabled = false
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 
 root_node = NodePath("..")
@@ -3567,11 +5096,12 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 21 )
-anims/attack_winged = SubResource( 22 )
-anims/idle = SubResource( 23 )
-anims/show = SubResource( 24 )
-anims/transform = SubResource( 25 )
+anims/attack = SubResource( 39 )
+anims/attack_winged = SubResource( 40 )
+anims/explosion = SubResource( 44 )
+anims/idle = SubResource( 41 )
+anims/show = SubResource( 42 )
+anims/transform = SubResource( 43 )
 blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="2"]
@@ -3606,9 +5136,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 15 )
+texture_under = ExtResource( 17 )
 texture_over = null
-texture_progress = ExtResource( 16 )
+texture_progress = ExtResource( 18 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3640,9 +5170,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 17 )
+texture_under = ExtResource( 19 )
 texture_over = null
-texture_progress = ExtResource( 18 )
+texture_progress = ExtResource( 20 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3668,7 +5198,7 @@ area_mask = 1
 [node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
 position = Vector2( 42.6924, -33.0096 )
-stream = ExtResource( 19 )
+stream = ExtResource( 21 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0
