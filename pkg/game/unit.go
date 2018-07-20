@@ -1,31 +1,53 @@
 package game
 
 import "github.com/humblers/spaceknights/pkg/fixed"
-import "github.com/humblers/spaceknights/pkg/physics"
-import "github.com/humblers/spaceknights/pkg/nav"
 
-type unit struct {
-	world *physics.World
-	_map  nav.Map
-	body  *physics.Body
+type Team string
+
+type Layer string
+type Layers []Layer
+
+type Type string
+type Types []Type
+
+type Unit interface {
+	Id() int
+	Team() Team
+	Radius() fixed.Scalar
+	Position() fixed.Vector
+	Type() Type
+	Layer() Layer
+	IsDead() bool
+	TakeDamage(amount int)
+	Update()
 }
 
-func (u *unit) init(w *physics.World, m nav.Map, posX, posY int) {
-	u.world = w
-	u._map = m
-	u.body = w.AddCircle(
-		fixed.FromInt(10),     // mass
-		u.world.FromPixel(30), // radius
-		fixed.Vector{u.world.FromPixel(posX), u.world.FromPixel(posY)},
-	)
+const (
+	Home    Team = "home"
+	Visitor Team = "visitor"
+
+	Ground Layer = "ground"
+	Air    Layer = "air"
+
+	Troop    Type = "troop"
+	Building Type = "building"
+	Knight   Type = "knight"
+)
+
+func (layers Layers) Contains(layer Layer) bool {
+	for _, l := range layers {
+		if l == layer {
+			return true
+		}
+	}
+	return false
 }
 
-func (u *unit) update(step int, enemy *physics.Body) {
-	corner := u._map.FindNextCornerInPath(
-		u.body.Pos,
-		enemy.Pos,
-		u.body.Radius,
-	)
-	direction_normal := corner.Sub(u.body.Pos).Normalized()
-	u.body.Vel = direction_normal.Mul(u.world.FromPixel(100)) // multiply by speed
+func (types Types) Contains(_type Type) bool {
+	for _, t := range types {
+		if t == _type {
+			return true
+		}
+	}
+	return false
 }

@@ -27,12 +27,9 @@ type Join struct {
 }
 
 type Player struct {
-	Id string
-	/*
-		Team    string
-		Knights []string
-		Deck    []string
-	*/
+	Id   string
+	Team Team
+	Deck []Card
 }
 
 type Input struct {
@@ -41,10 +38,16 @@ type Input struct {
 }
 
 type Action struct {
-	Id   string
-	Card string
-	PosX int
-	PosY int
+	Id      string
+	Card    Card
+	PosX    int
+	PosY    int
+	Message string // for emoticon
+}
+
+type Card struct {
+	Name  string
+	Level int
 }
 
 type State struct {
@@ -65,12 +68,12 @@ type LobbyRequest struct {
 	Home      struct {
 		UserId  string
 		Knights []string
-		Deck    []string
+		Deck    []Card
 	}
 	Visitor struct {
 		UserId  string
 		Knights []string
-		Deck    []string
+		Deck    []Card
 	}
 	DoNotCreate bool
 }
