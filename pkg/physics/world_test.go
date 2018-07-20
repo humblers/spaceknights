@@ -61,8 +61,8 @@ func TestWorld_HashDynamic(t *testing.T) {
 	}
 	for i, h := range hash_results {
 		dw.Step()
-		for _, b := range dw.bodies {
-			x, y := b.Pos.X, b.Pos.Y
+		for _, b := range dw.(*world).bodies {
+			x, y := b.pos.X, b.pos.Y
 			if x < 0 || x > dw.FromPixel(1000) || y < 0 || y > dw.FromPixel(1700) {
 				dw.RemoveBody(b)
 			}
