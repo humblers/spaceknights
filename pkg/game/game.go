@@ -59,7 +59,7 @@ type game struct {
 func newGame(cfg Config, l *log.Logger) *game {
 	g := &game{
 		world: physics.NewWorld(params),
-		map_:  nav.NewThanatos(params["scale"]),
+		map_:  nav.NewMap(cfg.MapName, params["scale"]),
 
 		players: make(map[string]*player),
 		actions: make(map[int][]Action),
