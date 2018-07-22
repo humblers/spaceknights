@@ -1,20 +1,12 @@
 extends Node2D
 
-const WORLD = preload("res://game/script/physics/world.gd")
-const MAP = preload("res://game/script/nav/thanatos.gd")
-
+const PLAY_TIME = 30000		# milliseconds
+const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
+
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
 const INPUT_DELAY_STEP = 10
-
-var cfg = {
-	"Id": "BEEF",
-	"Players": [{"Id": "Alice"}, {"Id": "Bob"}],
-}
-
-# current simulation step
-var step = 0
 
 # parameters for physics world
 var params = {
@@ -24,8 +16,25 @@ var params = {
 	"restitution": scalar.Div(scalar.One, scalar.FromInt(10)),
 }
 
-var world = WORLD.new(params)
-var map = MAP.new(params.scale)
+var cfg = {
+	"Id": "BEEF",
+	"MapName": "Thanatos",
+	"Players": [{"Id": "Alice"}, {"Id": "Bob"}],
+}
+
+# current simulation step
+var step = 0
+
+var world = resource.WORLD.new(params)
+
+var map = resource.MAP[map_name].new(params.scale)
+
+var units
+var unitIds = []
+var unitCounter = 0
+var bullets
+var players = {}
+
 
 # client physics frame
 var frame = 0

@@ -8,7 +8,7 @@ import "bufio"
 
 type client struct {
 	id     string
-	game   *game
+	game   Game
 	conn   net.Conn
 	server *server
 	reader *bufio.Reader
@@ -51,10 +51,11 @@ func (c *client) run() {
 		} else {
 			var input Input
 			if err := packet(b).parse(&input); err != nil {
-				panic(err)
+				c.logger.Print(err)
+				break
 			}
 			input.Action.Id = c.id
-			if err := c.game.apply(input); err != nil {
+			if err := c.game.Apply(input); err != nil {
 				c.logger.Print(err)
 				break
 			}
@@ -104,7 +105,7 @@ func (c *client) join() error {
 	if game == nil {
 		return fmt.Errorf("game %v not found", join.GameId)
 	}
-	if err := game.join(c); err != nil {
+	if err := game.Join(c); err != nil {
 		return err
 	}
 	c.game = game
@@ -112,7 +113,7 @@ func (c *client) join() error {
 }
 
 func (c *client) leave() {
-	if err := c.game.leave(c); err != nil {
+	if err := c.game.Leave(c); err != nil {
 		c.logger.Print(err)
 	}
 }

@@ -16,7 +16,7 @@ type Server interface {
 
 type server struct {
 	sync.RWMutex
-	games map[string]*game
+	games map[string]Game
 
 	caddr     string
 	laddr     string
@@ -34,7 +34,7 @@ type server struct {
 
 func NewServer(caddr, laddr string, logger *log.Logger) Server {
 	return &server{
-		games: make(map[string]*game),
+		games: make(map[string]Game),
 
 		caddr:  caddr,
 		laddr:  laddr,
@@ -52,8 +52,34 @@ func (s *server) Run() {
 	s.runGame(Config{
 		Id: "BEEF",
 		Players: []Player{
-			Player{"Alice"},
-			Player{"Bob"},
+			Player{
+				Id:   "Alice",
+				Team: Home,
+				Deck: []Card{
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+				},
+			},
+			Player{
+				Id:   "Bob",
+				Team: Visitor,
+				Deck: []Card{
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+					Card{"archers", 0},
+				},
+			},
 		},
 	})
 }
@@ -150,8 +176,16 @@ func (s *server) listenLobby() {
 					s.runGame(Config{
 						Id: req.SessionId,
 						Players: []Player{
-							Player{"Alice"},
-							Player{"Bob"},
+							Player{
+								Id:   req.Home.UserId,
+								Team: Home,
+								Deck: req.Home.Deck,
+							},
+							Player{
+								Id:   req.Visitor.UserId,
+								Team: Visitor,
+								Deck: req.Visitor.Deck,
+							},
 						},
 					})
 					resp.Created = true
@@ -195,7 +229,7 @@ func (s *server) Stop() {
 	s.logger.Print("server stopped")
 }
 
-func (s *server) findGame(id string) *game {
+func (s *server) findGame(id string) Game {
 	s.RLock()
 	game := s.games[id]
 	s.RUnlock()

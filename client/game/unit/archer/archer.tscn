@@ -1,16 +1,17 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
-[ext_resource path="res://game/unit/archer/idle.png" type="Texture" id=1]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/speare.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=5]
-[ext_resource path="res://game/hpbar/blue_S_edge.png" type="Texture" id=6]
-[ext_resource path="res://game/hpbar/blue_S_inside.png" type="Texture" id=7]
-[ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=8]
-[ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=9]
-[ext_resource path="res://game/sfx/laser_v100.wav" type="AudioStream" id=10]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=11]
+[ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
+[ext_resource path="res://game/unit/archer/idle.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=6]
+[ext_resource path="res://game/hpbar/blue_S_edge.png" type="Texture" id=7]
+[ext_resource path="res://game/hpbar/blue_S_inside.png" type="Texture" id=8]
+[ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=9]
+[ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=10]
+[ext_resource path="res://game/sfx/laser_v100.wav" type="AudioStream" id=11]
+[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=12]
 
 [sub_resource type="Gradient" id=1]
 
@@ -933,7 +934,13 @@ tracks/11/keys = {
 
 [node name="archer" type="Node2D" index="0"]
 
+script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
+team = null
+level = 0
+hp = 0
+target_id = 0
+attack = 0
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
@@ -942,7 +949,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
 editor/display_folded = true
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Booster" type="Node2D" parent="Rotatable/Body" index="0"]
@@ -973,7 +980,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -984,7 +991,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 position = Vector2( 7, 0 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.246094, 0.717285, 1, 1 )
@@ -1029,7 +1036,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1058,7 +1065,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1069,7 +1076,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( -7, 0 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.246094, 0.717285, 1, 1 )
@@ -1114,7 +1121,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1194,7 +1201,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1205,7 +1212,7 @@ _sections_unfolded = [ "Process Material", "Time", "Visibility" ]
 position = Vector2( 0, -3 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.761719, 0.046875, 1 )
@@ -1246,7 +1253,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 21 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1256,7 +1263,7 @@ _sections_unfolded = [ "Process Material", "Time" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.375, 0, 1 )
@@ -1308,9 +1315,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 6 )
+texture_under = ExtResource( 7 )
 texture_over = null
-texture_progress = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1341,9 +1348,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 8 )
+texture_under = ExtResource( 9 )
 texture_over = null
-texture_progress = ExtResource( 9 )
+texture_progress = ExtResource( 10 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1372,7 +1379,7 @@ editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
-stream = ExtResource( 10 )
+stream = ExtResource( 11 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -1382,7 +1389,7 @@ area_mask = 1
 
 [node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
-stream = ExtResource( 11 )
+stream = ExtResource( 12 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0

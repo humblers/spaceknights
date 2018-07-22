@@ -5,9 +5,19 @@ import (
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
-type World struct {
+type World interface {
+	FromPixel(v int) fixed.Scalar
+	ToPixel(v fixed.Scalar) int
+	Step()
+	AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) Body
+	AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) Body
+	RemoveBody(b Body)
+	Digest(opt ...uint32) uint32
+}
+
+type world struct {
 	counter    int
-	bodies     []*Body
+	bodies     []*body
 	collisions []*collision
 
 	scale               fixed.Scalar
@@ -19,8 +29,8 @@ type World struct {
 	correctionThreshold fixed.Scalar
 }
 
-func NewWorld(params map[string]fixed.Scalar) *World {
-	w := &World{
+func NewWorld(params map[string]fixed.Scalar) World {
+	w := &world{
 		scale:               fixed.One,
 		dt:                  fixed.One.Div(fixed.FromInt(10)),
 		iterations:          3,
@@ -46,18 +56,18 @@ func NewWorld(params map[string]fixed.Scalar) *World {
 	return w
 }
 
-func (w *World) FromPixel(v int) fixed.Scalar {
+func (w *world) FromPixel(v int) fixed.Scalar {
 	return fixed.FromInt(v).Mul(w.scale)
 }
 
-func (w *World) ToPixel(v fixed.Scalar) int {
+func (w *world) ToPixel(v fixed.Scalar) int {
 	return v.Div(w.scale).ToInt()
 }
 
-func (w *World) clearCollisions() {
+func (w *world) clearCollisions() {
 	w.collisions = w.collisions[:0] // reuse underlying array
 }
-func (w *World) Step() {
+func (w *world) Step() {
 	w.clearCollisions()
 	for i := 0; i < len(w.bodies); i++ {
 		for j := i + 1; j < len(w.bodies); j++ {
@@ -85,29 +95,29 @@ func (w *World) Step() {
 	}
 }
 
-func (w *World) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) *Body {
+func (w *world) AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) Body {
 	b := w.addBody(mass, pos)
 	b.setAsBox(width, height)
 	return b
 }
 
-func (w *World) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) *Body {
+func (w *world) AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) Body {
 	b := w.addBody(mass, pos)
 	b.setAsCircle(radius)
 	return b
 }
 
-func (w *World) addBody(mass fixed.Scalar, pos fixed.Vector) *Body {
+func (w *world) addBody(mass fixed.Scalar, pos fixed.Vector) *body {
 	b := newBody(w.counter, mass, w.restitution, pos)
 	w.bodies = append(w.bodies, b)
 	w.counter++
 	return b
 }
 
-func (w *World) RemoveBody(b *Body) {
+func (w *world) RemoveBody(b Body) {
 	bodies := w.bodies
 	for i := 0; i < len(bodies); i++ {
-		if bodies[i].id == b.id {
+		if bodies[i].id == b.Id() {
 			// https://github.com/golang/go/wiki/SliceTricks#delete-without-preserving-order
 			bodies[i] = bodies[len(bodies)-1]
 			bodies[len(bodies)-1] = nil
@@ -117,7 +127,7 @@ func (w *World) RemoveBody(b *Body) {
 	}
 }
 
-func (w *World) Digest(opt ...uint32) uint32 {
+func (w *world) Digest(opt ...uint32) uint32 {
 	h := djb2.Hash(uint32(w.counter), opt...)
 	for _, b := range w.bodies {
 		h = b.digest(h)
@@ -128,7 +138,7 @@ func (w *World) Digest(opt ...uint32) uint32 {
 	return h
 }
 
-func checkCollision(a, b *Body) *collision {
+func checkCollision(a, b *body) *collision {
 	switch a.shape {
 	case box:
 		switch b.shape {
@@ -148,8 +158,8 @@ func checkCollision(a, b *Body) *collision {
 	panic("unknown shapes")
 }
 
-func boxVSbox(a, b *Body) *collision {
-	relPos := b.Pos.Sub(a.Pos)
+func boxVSbox(a, b *body) *collision {
+	relPos := b.pos.Sub(a.pos)
 	overlapX := a.width.Add(b.width).Sub(relPos.X.Abs())
 	if overlapX > 0 {
 		overlapY := a.height.Add(b.height).Sub(relPos.Y.Abs())
@@ -176,9 +186,9 @@ func boxVSbox(a, b *Body) *collision {
 	return nil
 }
 
-func circleVScircle(a, b *Body) *collision {
-	relPos := b.Pos.Sub(a.Pos)
-	radii := a.Radius.Add(b.Radius)
+func circleVScircle(a, b *body) *collision {
+	relPos := b.pos.Sub(a.pos)
+	radii := a.radius.Add(b.radius)
 	d := relPos.LengthSquared()
 	if d < radii.Mul(radii) {
 		d := d.Sqrt()
@@ -194,8 +204,8 @@ func circleVScircle(a, b *Body) *collision {
 	return nil
 }
 
-func boxVScircle(a, b *Body) *collision {
-	relPos := b.Pos.Sub(a.Pos)
+func boxVScircle(a, b *body) *collision {
+	relPos := b.pos.Sub(a.pos)
 	closest := relPos
 	xExtent := a.width
 	yExtent := a.height
@@ -222,7 +232,7 @@ func boxVScircle(a, b *Body) *collision {
 	}
 	normal := relPos.Sub(closest)
 	d := normal.LengthSquared()
-	r := b.Radius
+	r := b.radius
 	if d > r.Mul(r) && !inside {
 		return nil
 	}

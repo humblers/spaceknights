@@ -22,7 +22,7 @@ type portal struct {
 	left, right fixed.Vector
 }
 
-type Thanatos struct {
+type thanatos struct {
 	tileWidth  fixed.Scalar
 	tileHeight fixed.Scalar
 	tileNumX   fixed.Scalar
@@ -50,8 +50,17 @@ type Thanatos struct {
 	rightholeToBottom *portal
 }
 
-func NewThanatos(scale fixed.Scalar) *Thanatos {
-	t := &Thanatos{}
+func NewMap(name string, scale fixed.Scalar) Map {
+	switch name {
+	case "Thanatos":
+		return newThanatos(scale)
+	default:
+		return newThanatos(scale)
+	}
+}
+
+func newThanatos(scale fixed.Scalar) *thanatos {
+	t := &thanatos{}
 	t.tileWidth = fixed.FromInt(50).Mul(scale)
 	t.tileHeight = t.tileWidth
 	t.tileNumX = fixed.FromInt(20)
@@ -129,17 +138,17 @@ func NewThanatos(scale fixed.Scalar) *Thanatos {
 	return t
 }
 
-func (t *Thanatos) GetObstacles() []Area {
+func (t *thanatos) GetObstacles() []Area {
 	return []Area{t.leftshield, t.centershield, t.rightshield}
 }
 
-func (t *Thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector {
+func (t *thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector {
 	path := t.findPath(from, to, radius)
 	path = t.narrowPath(path, radius)
 	return nextCornerInPath(path, from)
 }
 
-func (t *Thanatos) getLocation(pos fixed.Vector, radius fixed.Scalar) *area {
+func (t *thanatos) getLocation(pos fixed.Vector, radius fixed.Scalar) *area {
 	if pos.Y < t.top.b.Sub(radius) {
 		return t.top
 	}
@@ -155,7 +164,7 @@ func (t *Thanatos) getLocation(pos fixed.Vector, radius fixed.Scalar) *area {
 	return nil
 }
 
-func (t *Thanatos) findPath(from, to fixed.Vector, radius fixed.Scalar) []*portal {
+func (t *thanatos) findPath(from, to fixed.Vector, radius fixed.Scalar) []*portal {
 	var path []*portal
 	src := t.getLocation(from, radius)
 	dst := t.getLocation(to, radius)
@@ -217,7 +226,7 @@ func (t *Thanatos) findPath(from, to fixed.Vector, radius fixed.Scalar) []*porta
 	return path
 }
 
-func (t *Thanatos) narrowPath(path []*portal, radius fixed.Scalar) []*portal {
+func (t *thanatos) narrowPath(path []*portal, radius fixed.Scalar) []*portal {
 	var new_path []*portal
 	for _, p := range path {
 		switch p {

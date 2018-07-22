@@ -20,12 +20,27 @@ var params = map[string]fixed.Scalar{
 	"restitution": fixed.One.Div(fixed.FromInt(10)),
 }
 
+type Game interface {
+	World() physics.World
+	Map() nav.Map
+	FindUnit(id int) Unit
+	AddUnit(name string, t Team, level, posX, posY int)
+	AddBullet(b Bullet)
+	UnitIds() []int
+
+	Apply(i Input) error
+	Join(c *client) error
+	Leave(c *client) error
+}
+
 type game struct {
-	step  int
-	world *physics.World
-	_map  nav.Map
-	units []*unit
-	enemy *physics.Body
+	step        int
+	world       physics.World
+	map_        nav.Map
+	units       map[int]Unit
+	unitIds     []int
+	unitCounter int
+	bullets     []Bullet
 
 	players map[string]*player
 	actions map[int][]Action
@@ -44,7 +59,7 @@ type game struct {
 func newGame(cfg Config, l *log.Logger) *game {
 	g := &game{
 		world: physics.NewWorld(params),
-		_map:  nav.NewThanatos(params["scale"]),
+		map_:  nav.NewMap(cfg.MapName, params["scale"]),
 
 		players: make(map[string]*player),
 		actions: make(map[int][]Action),
@@ -59,15 +74,14 @@ func newGame(cfg Config, l *log.Logger) *game {
 		logger:  l,
 	}
 	for _, p := range cfg.Players {
-		g.players[p.Id] = &player{}
+		g.players[p.Id] = newPlayer(p, g)
 	}
 	g.createMap()
-	g.createEnemy()
 	return g
 }
 
 func (g *game) createMap() {
-	for _, o := range g._map.GetObstacles() {
+	for _, o := range g.map_.GetObstacles() {
 		width := g.world.ToPixel(o.Width())
 		height := g.world.ToPixel(o.Height())
 		x := g.world.ToPixel(o.PosX())
@@ -81,15 +95,6 @@ func (g *game) createMap() {
 	}
 }
 
-func (g *game) createEnemy() {
-	g.enemy = g.world.AddBox(
-		0,
-		g.world.FromPixel(25),
-		g.world.FromPixel(25),
-		fixed.Vector{g.world.FromPixel(500), g.world.FromPixel(100)},
-	)
-}
-
 func (g *game) String() string {
 	var ids []string
 	for id, _ := range g.players {
@@ -98,7 +103,7 @@ func (g *game) String() string {
 	return fmt.Sprintf("game (%v)", strings.Join(ids, " VS "))
 }
 
-func (g *game) join(c *client) error {
+func (g *game) Join(c *client) error {
 	select {
 	case <-g.quit:
 		return fmt.Errorf("%v already ended", g)
@@ -107,7 +112,7 @@ func (g *game) join(c *client) error {
 	return <-g.joined
 }
 
-func (g *game) leave(c *client) error {
+func (g *game) Leave(c *client) error {
 	select {
 	case <-g.quit:
 		return nil
@@ -116,7 +121,7 @@ func (g *game) leave(c *client) error {
 	return <-g.left
 }
 
-func (g *game) apply(i Input) error {
+func (g *game) Apply(i Input) error {
 	select {
 	case <-g.quit:
 		return fmt.Errorf("%v already ended", g)
@@ -214,14 +219,78 @@ func (g *game) broadcast() {
 
 func (g *game) update() {
 	if g.actions[g.step] != nil {
-		for _, action := range g.actions[g.step] {
-			u := &unit{}
-			u.init(g.world, g._map, action.PosX, action.PosY)
-			g.units = append(g.units, u)
+		actions := g.actions[g.step]
+		filtered := actions[:0]
+		for _, action := range actions {
+			err := g.players[action.Id].do(&action)
+			if err != nil {
+				g.logger.Print(err)
+			} else {
+				filtered = append(filtered, action)
+			}
+		}
+		g.actions[g.step] = filtered
+	}
+	for _, id := range g.unitIds {
+		g.units[id].Update()
+	}
+	for _, b := range g.bullets {
+		b.Update(g)
+	}
+	g.removeDeadUnits()
+	g.removeExpiredBullets()
+	g.world.Step()
+}
+
+func (g *game) removeDeadUnits() {
+	filtered := g.unitIds[:0]
+	for _, id := range g.unitIds {
+		if !g.units[id].IsDead() {
+			delete(g.units, id)
+			filtered = append(filtered, id)
 		}
 	}
-	for _, unit := range g.units {
-		unit.update(g.step, g.enemy)
+	g.unitIds = filtered
+}
+
+func (g *game) removeExpiredBullets() {
+	filtered := g.bullets[:0]
+	for _, b := range g.bullets {
+		if !b.IsExpired() {
+			filtered = append(filtered, b)
+		}
 	}
-	g.world.Step()
+	g.bullets = filtered
+}
+
+func (g *game) AddUnit(name string, t Team, level, posX, posY int) {
+	g.unitCounter++
+	id := g.unitCounter
+	var u Unit
+	switch name {
+	case "archer":
+		u = newArcher(id, t, level, posX, posY, g)
+	}
+	g.units[id] = u
+	g.unitIds = append(g.unitIds, id)
+}
+
+func (g *game) FindUnit(id int) Unit {
+	return g.units[id]
+}
+
+func (g *game) AddBullet(b Bullet) {
+	g.bullets = append(g.bullets, b)
+}
+
+func (g *game) World() physics.World {
+	return g.world
+}
+
+func (g *game) Map() nav.Map {
+	return g.map_
+}
+
+func (g *game) UnitIds() []int {
+	return g.unitIds
 }
