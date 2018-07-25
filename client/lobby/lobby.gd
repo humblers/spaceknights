@@ -1,24 +1,39 @@
 extends Node
 
+const LOBBY_HOST = "13.125.74.237"
+const LOBBY_PORT = 8080
+
 func _ready():
-	$connect.connect("pressed", self, "connect_to_game_server")
+	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
+	if err != OK:
+		print("connect to lobby fail: ", err)
+		handle_error("Connect to lobby fail!!")
+		return
+	login()
+	load_data()
 
-func load_game():
-	# TODO: Get game config from lobby server
-	var cfg = {
-	"Id": "TEST",
-	}
-	tcp.Send({"Id": $id.text, "Token": $id.text})
-	tcp.Send({"GameId": cfg.Id})
-	queue_free()
-	var g = preload("res://game/game.tscn").instance()
-	# TODO: Set received game config
-#	g.cfg = cfg
-	g.connected = true
-	get_tree().get_root().add_child(g)
-#	get_tree().change_scene("res://game/game.tscn")
+# simply all error back to login process
+func handle_error(message):
+	$Modal.pop(message)
+	yield($Modal, "popup_hide")
+	return
 
-func connect_to_game_server():
-	user.Id = $id.text
-	tcp.Connect("127.0.0.1", 9999)
-	tcp.connect("connected", self, "load_game")
+func login():
+	var req = http.new_request(HTTPClient.METHOD_POST, "/auth/login",
+			{ "ptype": "dev", "pid": "", })
+	var response = yield(req, "response")
+	if not response[0]:
+		handle_error(response[1].ErrMessage)
+		return
+	var user = response[1].User
+	$Battle.id = response[1].UID
+	$Battle.set_top_information(user.Level, user.Exp, user.Galacticoin, user.Dimensium)
+
+func load_data():
+	var overwrite = false # set true when production level
+	for path in ["Cards", "Units"]:
+		var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
+		if not response[0]:
+			handle_error(response[1].ErrMessage)
+			return
+		stat.set_data(path.to_lower(), response[1][path], overwrite)
