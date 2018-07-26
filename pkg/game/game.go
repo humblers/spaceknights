@@ -13,6 +13,13 @@ const playTime = time.Second * 30
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 
+type Team string
+
+const (
+	Home    Team = "home"
+	Visitor Team = "visitor"
+)
+
 var params = map[string]fixed.Scalar{
 	"scale":       fixed.One.Div(fixed.FromInt(10)),
 	"dt":          fixed.One.Div(fixed.FromInt(stepPerSec)),
@@ -24,13 +31,13 @@ type Game interface {
 	World() physics.World
 	Map() nav.Map
 	FindUnit(id int) Unit
-	AddUnit(name string, t Team, level, posX, posY int)
+	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
 	UnitIds() []int
 
 	Apply(i Input) error
-	Join(c *client) error
-	Leave(c *client) error
+	Join(c Client) error
+	Leave(c Client) error
 }
 
 type game struct {
@@ -42,12 +49,12 @@ type game struct {
 	unitCounter int
 	bullets     []Bullet
 
-	players map[string]*player
+	players map[string]Player
 	actions map[int][]Action
 	sent    packet
 
-	joinc   chan *client
-	leavec  chan *client
+	joinc   chan Client
+	leavec  chan Client
 	applyc  chan Input
 	joined  chan error
 	left    chan error
@@ -61,11 +68,11 @@ func newGame(cfg Config, l *log.Logger) *game {
 		world: physics.NewWorld(params),
 		map_:  nav.NewMap(cfg.MapName, params["scale"]),
 
-		players: make(map[string]*player),
+		players: make(map[string]Player),
 		actions: make(map[int][]Action),
 
-		joinc:   make(chan *client),
-		leavec:  make(chan *client),
+		joinc:   make(chan Client),
+		leavec:  make(chan Client),
 		applyc:  make(chan Input),
 		joined:  make(chan error),
 		left:    make(chan error),
@@ -103,7 +110,7 @@ func (g *game) String() string {
 	return fmt.Sprintf("game (%v)", strings.Join(ids, " VS "))
 }
 
-func (g *game) Join(c *client) error {
+func (g *game) Join(c Client) error {
 	select {
 	case <-g.quit:
 		return fmt.Errorf("%v already ended", g)
@@ -112,7 +119,7 @@ func (g *game) Join(c *client) error {
 	return <-g.joined
 }
 
-func (g *game) Leave(c *client) error {
+func (g *game) Leave(c Client) error {
 	select {
 	case <-g.quit:
 		return nil
@@ -130,34 +137,34 @@ func (g *game) Apply(i Input) error {
 	return <-g.applied
 }
 
-func (g *game) handleJoin(c *client) error {
-	p := g.players[c.id]
+func (g *game) handleJoin(c Client) error {
+	p := g.players[c.Id()]
 	if p == nil {
-		return fmt.Errorf("player %v not exists", c.id)
+		return fmt.Errorf("player %v not exists", c.Id())
 	}
-	existing := p.client
+	existing := p.Client()
 	if existing == c {
 		panic("this should not happen")
 	}
 	if existing != nil {
-		existing.stop()
+		existing.Stop()
 	}
-	p.client = c
-	c.write(g.sent) // send previous game states
+	p.SetClient(c)
+	c.Write(g.sent) // send previous game states
 	g.logger.Print(string(g.sent))
 	return nil
 }
 
-func (g *game) handleLeave(c *client) error {
-	p := g.players[c.id]
+func (g *game) handleLeave(c Client) error {
+	p := g.players[c.Id()]
 	if p == nil {
-		return fmt.Errorf("player %v not exists", c.id)
+		return fmt.Errorf("player %v not exists", c.Id())
 	}
-	existing := p.client
+	existing := p.Client()
 	if existing != c {
 		return nil
 	}
-	p.client = nil
+	p.SetClient(nil)
 	return nil
 }
 
@@ -194,8 +201,8 @@ func (g *game) run() {
 		}
 	}
 	for _, p := range g.players {
-		if p.client != nil {
-			p.client.stop()
+		if p.Client() != nil {
+			p.Client().Stop()
 		}
 	}
 	close(g.quit)
@@ -210,8 +217,8 @@ func (g *game) broadcast() {
 	packet := newPacket(state)
 	g.sent = append(g.sent, packet...)
 	for _, p := range g.players {
-		if p.client != nil {
-			p.client.write(packet)
+		if p.Client() != nil {
+			p.Client().Write(packet)
 			//g.logger.Print(string(packet))
 		}
 	}
@@ -222,7 +229,7 @@ func (g *game) update() {
 		actions := g.actions[g.step]
 		filtered := actions[:0]
 		for _, action := range actions {
-			err := g.players[action.Id].do(&action)
+			err := g.players[action.Id].Do(&action)
 			if err != nil {
 				g.logger.Print(err)
 			} else {
@@ -230,6 +237,9 @@ func (g *game) update() {
 			}
 		}
 		g.actions[g.step] = filtered
+	}
+	for _, p := range g.players {
+		p.Update()
 	}
 	for _, id := range g.unitIds {
 		g.units[id].Update()
@@ -263,16 +273,19 @@ func (g *game) removeExpiredBullets() {
 	g.bullets = filtered
 }
 
-func (g *game) AddUnit(name string, t Team, level, posX, posY int) {
+func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	g.unitCounter++
 	id := g.unitCounter
 	var u Unit
 	switch name {
 	case "archer":
-		u = newArcher(id, t, level, posX, posY, g)
+		u = newArcher(id, p.Team(), level, posX, posY, g)
+	case "legioin":
+		u = newLegion(id, p.Team(), level, posX, posY, g, p)
 	}
 	g.units[id] = u
 	g.unitIds = append(g.unitIds, id)
+	return id
 }
 
 func (g *game) FindUnit(id int) Unit {

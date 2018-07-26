@@ -51,33 +51,43 @@ func (s *server) Run() {
 	// temporary for debugging
 	s.runGame(Config{
 		Id: "BEEF",
-		Players: []Player{
-			Player{
+		Players: []PlayerData{
+			PlayerData{
 				Id:   "Alice",
 				Team: Home,
 				Deck: []Card{
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
 				},
+				Knights: []KnightData{
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+				},
 			},
-			Player{
+			PlayerData{
 				Id:   "Bob",
 				Team: Visitor,
 				Deck: []Card{
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
+					Card{"fireball", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
+				},
+				Knights: []KnightData{
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
 				},
 			},
 		},
@@ -175,16 +185,18 @@ func (s *server) listenLobby() {
 					}
 					s.runGame(Config{
 						Id: req.SessionId,
-						Players: []Player{
-							Player{
-								Id:   req.Home.UserId,
-								Team: Home,
-								Deck: req.Home.Deck,
+						Players: []PlayerData{
+							PlayerData{
+								Id:      req.Home.UserId,
+								Team:    Home,
+								Deck:    req.Home.Deck,
+								Knights: req.Home.Knights,
 							},
-							Player{
-								Id:   req.Visitor.UserId,
-								Team: Visitor,
-								Deck: req.Visitor.Deck,
+							PlayerData{
+								Id:      req.Visitor.UserId,
+								Team:    Visitor,
+								Deck:    req.Visitor.Deck,
+								Knights: req.Visitor.Knights,
 							},
 						},
 					})
