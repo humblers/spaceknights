@@ -1,7 +1,7 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/legion/legion_fighter.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/legion/legion_roid.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/legion/legion_shoulder.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/legion/legion_arm.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/bullet_shell.png" type="Texture" id=5]
@@ -13,7 +13,7 @@
 [ext_resource path="res://game/unit/legion/legion_leg.png" type="Texture" id=11]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=12]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
-[ext_resource path="res://game/unit/legion/legion_roid.png" type="Texture" id=14]
+[ext_resource path="res://game/unit/legion/legion_fighter.png" type="Texture" id=14]
 [ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=15]
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=16]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=17]
@@ -835,7 +835,7 @@ tracks/27/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 14 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ) ]
 }
 tracks/28/type = "value"
 tracks/28/path = NodePath("Rotatable/Main/Leg:texture")
@@ -1310,7 +1310,7 @@ tracks/27/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 14 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ) ]
 }
 tracks/28/type = "value"
 tracks/28/path = NodePath("Rotatable/Main/Leg:texture")
@@ -1580,7 +1580,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 14 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Rotatable/Main:position")
@@ -2102,7 +2102,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ) ]
+"values": [ ExtResource( 2 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Rotatable/Main:position")
@@ -2624,7 +2624,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 14 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Rotatable/Main:position")
@@ -3194,7 +3194,7 @@ tracks/14/keys = {
 "times": PoolRealArray( 0, 0.4, 0.6, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 2 ), ExtResource( 2 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 14 ), ExtResource( 14 ) ]
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("Rotatable/Main:rotation_degrees")
@@ -3557,7 +3557,7 @@ tracks/44/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="legion" type="Node2D"]
+[node name="legion" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -3568,13 +3568,13 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Sprite" parent="Rotatable" index="0"]
 
-position = Vector2( 0, 19 )
+position = Vector2( 0, 7 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Main" index="0"]
 
-position = Vector2( -25.5, -10 )
+position = Vector2( -33.5, 0 )
 texture = ExtResource( 3 )
 flip_h = true
 _sections_unfolded = [ "Transform" ]
@@ -3582,7 +3582,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ArmL" type="Sprite" parent="Rotatable/Main/ShoulderL" index="0"]
 
 show_behind_parent = true
-position = Vector2( -10, 0 )
+position = Vector2( -20, 0 )
 texture = ExtResource( 4 )
 flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -3705,7 +3705,7 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( 0, 5 )
 scale = Vector2( 0.5, 1.5 )
-emitting = true
+emitting = false
 amount = 4
 lifetime = 1.2
 one_shot = false
@@ -3727,7 +3727,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Rotatable/Main/ShoulderL/ArmL/BoosterpointL" index="1"]
 
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
@@ -3751,14 +3751,14 @@ shadow_item_cull_mask = 1
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Main" index="1"]
 
-position = Vector2( 25.5, -10 )
+position = Vector2( 33.5, 0 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Main/ShoulderR" index="0"]
 
 show_behind_parent = true
-position = Vector2( 10, 0 )
+position = Vector2( 20, 0 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -3881,7 +3881,7 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( 0, 5 )
 scale = Vector2( 0.5, 1.5 )
-emitting = true
+emitting = false
 amount = 4
 lifetime = 1.2
 one_shot = false
@@ -3903,7 +3903,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Light2D2" type="Light2D" parent="Rotatable/Main/ShoulderR/ArmR/BoosterpointR" index="1"]
 
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
@@ -3928,24 +3928,21 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Head" type="Sprite" parent="Rotatable/Main" index="2"]
 
-modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/Main" index="3"]
 
 show_behind_parent = true
-position = Vector2( 0, -53 )
+scale = Vector2( 1, 0.4 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Leg" type="Sprite" parent="Rotatable/Main" index="4"]
 
 show_behind_parent = true
-position = Vector2( 0, 12 )
+position = Vector2( 0, 5.5 )
 texture = ExtResource( 11 )
-flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable" index="1"]

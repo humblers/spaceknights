@@ -13,7 +13,7 @@ const BULLET = {
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 }
 const SKILL = {
-	"legion": preload("res://game/unit/legion/bomb_explosion.tscn"),
+	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 }
 
 # temporary
