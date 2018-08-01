@@ -80,7 +80,7 @@ func addBody(mass, pos_x, pos_y):
 
 func RemoveBody(b):
 	for i in range(len(bodies)):
-		if bodies[i].id == b.id:
+		if bodies[i].id == b.Id():
 			bodies[i] = bodies[len(bodies) - 1]
 			bodies.pop_back()
 			return

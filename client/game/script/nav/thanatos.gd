@@ -26,8 +26,11 @@ var leftholeToBottom
 var rightholeToTop
 var rightholeToBottom
 
-func _init(scale):
-	tileWidth = scalar.Mul(scalar.FromInt(50), scale)
+var world
+
+func _init(world):
+	self.world = world
+	tileWidth = scalar.Mul(scalar.FromInt(50), world.scale)
 	tileHeight = tileWidth
 	tileNumX = scalar.FromInt(20)
 	tileNumY = scalar.FromInt(34)
@@ -117,13 +120,26 @@ func _init(scale):
 		"right_x": righthole.l,
 		"right_y": righthole.b,
 	}
+
+func Width():
+	return scalar.Mul(tileWidth, tileNumX)
+
+func Height():
+	return scalar.Mul(tileHeight, tileNumY)
+
 func GetObstacles():
 	return [leftshield, centershield, rightshield]
 
 func FindNextCornerInPath(from_x, from_y, to_x, to_y, radius):
 	var path = findPath(from_x, from_y, to_x, to_y, radius)
+#	print_path(path)
 	path = narrowPath(path, radius)
 	return nextCornerInPath(path, from_x, from_y)
+
+func print_path(path):
+	for p in path:
+		for k in p:
+			print(world.ToPixel(p[k]))
 	
 func getLocation(pos_x, pos_y, radius):
 	if pos_y < scalar.Sub(top.b, radius):
@@ -260,14 +276,14 @@ static func nextCornerInPath(path, start_x, start_y):
 			right_y = newRight_y
 	return [portalLeft_x, portalLeft_y]
 
-static func Width(area):
+static func AreaWidth(area):
 	return scalar.Div(scalar.Sub(area.r, area.l), scalar.Two)
 
-static func Height(area):
+static func AreaHeight(area):
 	return scalar.Div(scalar.Sub(area.b, area.t), scalar.Two)
 
-static func PosX(area):
+static func AreaPosX(area):
 	return scalar.Div(scalar.Add(area.l, area.r), scalar.Two)
 
-static func PosY(area):
+static func AreaPosY(area):
 	return scalar.Div(scalar.Add(area.t, area.b), scalar.Two)

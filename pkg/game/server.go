@@ -50,34 +50,45 @@ func (s *server) Run() {
 
 	// temporary for debugging
 	s.runGame(Config{
-		Id: "BEEF",
-		Players: []Player{
-			Player{
+		Id:      "BEEF",
+		MapName: "Thanatos",
+		Players: []PlayerData{
+			PlayerData{
 				Id:   "Alice",
 				Team: Home,
 				Deck: []Card{
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
 				},
+				Knights: []KnightData{
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+				},
 			},
-			Player{
+			PlayerData{
 				Id:   "Bob",
 				Team: Visitor,
 				Deck: []Card{
+					Card{"fireball", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
+					Card{"fireball", 0},
+					Card{"fireball", 0},
 					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
+				},
+				Knights: []KnightData{
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
+					KnightData{"legion", 0},
 				},
 			},
 		},
@@ -110,7 +121,7 @@ func (s *server) listenClients() {
 				go func() {
 					defer s.cwg.Done()
 					c := newClient(conn, s, s.logger)
-					c.run()
+					c.Run()
 				}()
 			}
 		}
@@ -174,17 +185,20 @@ func (s *server) listenLobby() {
 						return
 					}
 					s.runGame(Config{
-						Id: req.SessionId,
-						Players: []Player{
-							Player{
-								Id:   req.Home.UserId,
-								Team: Home,
-								Deck: req.Home.Deck,
+						Id:      req.SessionId,
+						MapName: req.MapName,
+						Players: []PlayerData{
+							PlayerData{
+								Id:      req.Home.UserId,
+								Team:    Home,
+								Deck:    req.Home.Deck,
+								Knights: req.Home.Knights,
 							},
-							Player{
-								Id:   req.Visitor.UserId,
-								Team: Visitor,
-								Deck: req.Visitor.Deck,
+							PlayerData{
+								Id:      req.Visitor.UserId,
+								Team:    Visitor,
+								Deck:    req.Visitor.Deck,
+								Knights: req.Visitor.Knights,
 							},
 						},
 					})
@@ -244,7 +258,7 @@ func (s *server) runGame(cfg Config) {
 		defer s.logger.Printf("%v stopped", g)
 		defer s.removeGame(cfg.Id)
 		s.logger.Printf("%v starting", g)
-		g.run()
+		g.Run()
 	}()
 	s.Lock()
 	s.games[cfg.Id] = g

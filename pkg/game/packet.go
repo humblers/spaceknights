@@ -26,10 +26,11 @@ type Join struct {
 	GameId string
 }
 
-type Player struct {
-	Id   string
-	Team Team
-	Deck []Card
+type PlayerData struct {
+	Id      string
+	Team    Team
+	Deck    []Card
+	Knights []KnightData
 }
 
 type Input struct {
@@ -50,6 +51,11 @@ type Card struct {
 	Level int
 }
 
+type KnightData struct {
+	Name  string
+	Level int
+}
+
 type State struct {
 	Step    int
 	Actions []Action
@@ -59,21 +65,22 @@ type State struct {
 type Config struct {
 	Id      string
 	MapName string
-	Players []Player
+	Players []PlayerData
 }
 
 //// temporary
 type LobbyRequest struct {
 	SessionId string
+	MapName   string
 	Home      struct {
 		UserId  string
-		Knights []string
 		Deck    []Card
+		Knights []KnightData
 	}
 	Visitor struct {
 		UserId  string
-		Knights []string
 		Deck    []Card
+		Knights []KnightData
 	}
 	DoNotCreate bool
 }

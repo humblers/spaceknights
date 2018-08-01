@@ -6,6 +6,13 @@ import "log"
 import "time"
 import "bufio"
 
+type Client interface {
+	Id() string
+	Run()
+	Stop()
+	Write(p packet)
+}
+
 type client struct {
 	id     string
 	game   Game
@@ -15,7 +22,7 @@ type client struct {
 	logger *log.Logger
 }
 
-func newClient(conn net.Conn, s *server, l *log.Logger) *client {
+func newClient(conn net.Conn, s *server, l *log.Logger) Client {
 	return &client{
 		conn:   conn,
 		server: s,
@@ -24,11 +31,15 @@ func newClient(conn net.Conn, s *server, l *log.Logger) *client {
 	}
 }
 
+func (c *client) Id() string {
+	return c.id
+}
+
 func (c *client) String() string {
 	return fmt.Sprintf("client %v(%v)", c.id, c.conn.RemoteAddr())
 }
 
-func (c *client) run() {
+func (c *client) Run() {
 	c.logger.Printf("%v starting", c)
 	defer c.logger.Printf("%v stopped", c)
 	defer c.closeConn()
@@ -63,14 +74,14 @@ func (c *client) run() {
 	}
 }
 
-func (c *client) write(p packet) {
+func (c *client) Write(p packet) {
 	if _, err := c.conn.Write(p); err != nil {
 		c.logger.Print(err) // for debugging
-		c.stop()
+		c.Stop()
 	}
 }
 
-func (c *client) stop() {
+func (c *client) Stop() {
 	if err := c.conn.SetReadDeadline(time.Now()); err != nil {
 		panic(err)
 	}

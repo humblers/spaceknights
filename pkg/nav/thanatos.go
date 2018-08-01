@@ -3,6 +3,8 @@ package nav
 import "github.com/humblers/spaceknights/pkg/fixed"
 
 type Map interface {
+	Width() fixed.Scalar
+	Height() fixed.Scalar
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -136,6 +138,14 @@ func newThanatos(scale fixed.Scalar) *thanatos {
 		fixed.Vector{t.righthole.l, t.righthole.b},
 	}
 	return t
+}
+
+func (t *thanatos) Width() fixed.Scalar {
+	return t.tileWidth.Mul(t.tileNumX)
+}
+
+func (t *thanatos) Height() fixed.Scalar {
+	return t.tileHeight.Mul(t.tileNumY)
 }
 
 func (t *thanatos) GetObstacles() []Area {

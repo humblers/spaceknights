@@ -30,5 +30,5 @@ func (b *bullet) Update(g Game) {
 }
 
 func (b *bullet) IsExpired() bool {
-	return b.lifetime <= 0
+	return b.lifetime < 0
 }
