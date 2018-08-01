@@ -50,7 +50,8 @@ func (s *server) Run() {
 
 	// temporary for debugging
 	s.runGame(Config{
-		Id: "BEEF",
+		Id:      "BEEF",
+		MapName: "Thanatos",
 		Players: []PlayerData{
 			PlayerData{
 				Id:   "Alice",
@@ -120,7 +121,7 @@ func (s *server) listenClients() {
 				go func() {
 					defer s.cwg.Done()
 					c := newClient(conn, s, s.logger)
-					c.run()
+					c.Run()
 				}()
 			}
 		}
@@ -184,7 +185,8 @@ func (s *server) listenLobby() {
 						return
 					}
 					s.runGame(Config{
-						Id: req.SessionId,
+						Id:      req.SessionId,
+						MapName: req.MapName,
 						Players: []PlayerData{
 							PlayerData{
 								Id:      req.Home.UserId,
@@ -256,7 +258,7 @@ func (s *server) runGame(cfg Config) {
 		defer s.logger.Printf("%v stopped", g)
 		defer s.removeGame(cfg.Id)
 		s.logger.Printf("%v starting", g)
-		g.run()
+		g.Run()
 	}()
 	s.Lock()
 	s.games[cfg.Id] = g

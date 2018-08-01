@@ -16,8 +16,8 @@ const stepPerSec = 10
 type Team string
 
 const (
-	Home    Team = "home"
-	Visitor Team = "visitor"
+	Home    Team = "Home"
+	Visitor Team = "Visitor"
 )
 
 var params = map[string]fixed.Scalar{
@@ -38,6 +38,7 @@ type Game interface {
 	Apply(i Input) error
 	Join(c Client) error
 	Leave(c Client) error
+	Run()
 }
 
 type game struct {
@@ -49,9 +50,10 @@ type game struct {
 	unitCounter int
 	bullets     []Bullet
 
-	players map[string]Player
-	actions map[int][]Action
-	sent    packet
+	players   map[string]Player
+	playerIds []string
+	actions   map[int][]Action
+	sent      packet
 
 	joinc   chan Client
 	leavec  chan Client
@@ -63,10 +65,11 @@ type game struct {
 	logger  *log.Logger
 }
 
-func newGame(cfg Config, l *log.Logger) *game {
+func newGame(cfg Config, l *log.Logger) Game {
 	g := &game{
 		world: physics.NewWorld(params),
 		map_:  nav.NewMap(cfg.MapName, params["scale"]),
+		units: make(map[int]Unit),
 
 		players: make(map[string]Player),
 		actions: make(map[int][]Action),
@@ -82,12 +85,13 @@ func newGame(cfg Config, l *log.Logger) *game {
 	}
 	for _, p := range cfg.Players {
 		g.players[p.Id] = newPlayer(p, g)
+		g.playerIds = append(g.playerIds, p.Id)
 	}
-	g.createMap()
+	g.createMapObstacles()
 	return g
 }
 
-func (g *game) createMap() {
+func (g *game) createMapObstacles() {
 	for _, o := range g.map_.GetObstacles() {
 		width := g.world.ToPixel(o.Width())
 		height := g.world.ToPixel(o.Height())
@@ -103,11 +107,7 @@ func (g *game) createMap() {
 }
 
 func (g *game) String() string {
-	var ids []string
-	for id, _ := range g.players {
-		ids = append(ids, id)
-	}
-	return fmt.Sprintf("game (%v)", strings.Join(ids, " VS "))
+	return fmt.Sprintf("game (%v)", strings.Join(g.playerIds, " VS "))
 }
 
 func (g *game) Join(c Client) error {
@@ -151,7 +151,7 @@ func (g *game) handleJoin(c Client) error {
 	}
 	p.SetClient(c)
 	c.Write(g.sent) // send previous game states
-	g.logger.Print(string(g.sent))
+	//g.logger.Print(string(g.sent))
 	return nil
 }
 
@@ -183,7 +183,7 @@ func (g *game) over() bool {
 	return g.step >= int(playTime/stepInterval)
 }
 
-func (g *game) run() {
+func (g *game) Run() {
 	ticker := time.NewTicker(stepInterval)
 	defer ticker.Stop()
 	for !g.over() {
@@ -219,7 +219,7 @@ func (g *game) broadcast() {
 	for _, p := range g.players {
 		if p.Client() != nil {
 			p.Client().Write(packet)
-			//g.logger.Print(string(packet))
+			g.logger.Print(string(packet))
 		}
 	}
 }
@@ -238,8 +238,8 @@ func (g *game) update() {
 		}
 		g.actions[g.step] = filtered
 	}
-	for _, p := range g.players {
-		p.Update()
+	for _, id := range g.playerIds {
+		g.players[id].Update()
 	}
 	for _, id := range g.unitIds {
 		g.units[id].Update()
@@ -255,8 +255,11 @@ func (g *game) update() {
 func (g *game) removeDeadUnits() {
 	filtered := g.unitIds[:0]
 	for _, id := range g.unitIds {
-		if !g.units[id].IsDead() {
+		u := g.units[id]
+		if u.IsDead() {
 			delete(g.units, id)
+			u.Destroy()
+		} else {
 			filtered = append(filtered, id)
 		}
 	}
@@ -274,14 +277,20 @@ func (g *game) removeExpiredBullets() {
 }
 
 func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
+	if p.Team() == Visitor {
+		posX = g.world.ToPixel(g.map_.Width()) - posX
+		posY = g.world.ToPixel(g.map_.Height()) - posY
+	}
 	g.unitCounter++
 	id := g.unitCounter
 	var u Unit
 	switch name {
 	case "archer":
-		u = newArcher(id, p.Team(), level, posX, posY, g)
-	case "legioin":
-		u = newLegion(id, p.Team(), level, posX, posY, g, p)
+		u = newArcher(id, level, posX, posY, g, p)
+	case "legion":
+		u = newLegion(id, level, posX, posY, g, p)
+	default:
+		g.logger.Panicf("unknown unit name: %v", name)
 	}
 	g.units[id] = u
 	g.unitIds = append(g.unitIds, id)

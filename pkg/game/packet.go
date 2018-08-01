@@ -71,6 +71,7 @@ type Config struct {
 //// temporary
 type LobbyRequest struct {
 	SessionId string
+	MapName   string
 	Home      struct {
 		UserId  string
 		Deck    []Card

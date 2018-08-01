@@ -14,8 +14,8 @@ type legion struct {
 	movingToCastPos bool
 }
 
-func newLegion(id int, t Team, level, posX, posY int, g Game, p Player) Unit {
-	u := newUnit(id, "legion", t, level, posX, posY, g)
+func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "legion", p.Team(), level, posX, posY, g)
 	return &legion{
 		unit:    u,
 		player:  p,
@@ -24,7 +24,7 @@ func newLegion(id int, t Team, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (l *legion) TakeDamage(amount int) {
-	l.TakeDamage(amount)
+	l.unit.TakeDamage(amount)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
@@ -84,6 +84,7 @@ func (l *legion) CastSkill(posX, posY int) bool {
 	if l.isCasting {
 		return false
 	}
+	l.attack = 0
 	l.isCasting = true
 	l.movingToCastPos = true
 	l.castPos = fixed.Vector{
@@ -102,7 +103,8 @@ func (l *legion) cast() {
 			continue
 		}
 		d := l.squaredDistanceTo(u)
-		if d < u.Radius()+radius {
+		r := u.Radius().Add(radius)
+		if d < r.Mul(r) {
 			u.TakeDamage(damage)
 		}
 	}

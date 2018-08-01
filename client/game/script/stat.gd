@@ -1,23 +1,54 @@
 extends Node
 
-const cost = {
-	"archers": 3000,
-	"fireball": 4000,
+const cards = {
+	"archers": {
+		"cost":    3000,
+		"unit":    "archer",
+		"count":   2,
+		"offsetX": [-40, 40],
+		"offsetY": [0, 0],
+	},
+	"fireball": {
+		"cost":   4000,
+		"caster": "legion",
+		"damage": [300, 400, 500],
+		"radius": 50,
+	},
 }
 
-const archer = {
-    "type":           "troop",
-    "layer":          "ground",
-    "mass":           6,
-    "radius":         9,
-    "hp":             [254],
-    "sight":          100,
-    "speed":          3,
-    "attackrange":    70,
-    "attackinterval": 15,
-    "preattackdelay": 1,
-    "bulletlifetime": 3,
-    "damage":         [43, 53, 63],
-    "targetlayers":   ["ground", "air"],
-    "targettypes":    ["troop", "building", "knight"],
+const units = {
+	"archer": {
+		"type":           "Troop",
+		"layer":          "Ground",
+		"mass":           6,
+		"radius":         30,
+		"hp":             [254],
+		"sight":          800,
+		"speed":          100,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Ground", "Air"],
+		"attackdamage":   [100, 200, 300],
+		"attackrange":    700,
+		"attackinterval": 30,
+		"preattackdelay": 0,
+		"bulletlifetime": 20,
+	},
+	"legion": {
+		"mass":           6,
+		"radius":         50,
+		"type":           "Knight",
+		"layer":          "Ground",
+		"hp":             [2000],
+		"sight":          300,
+		"speed":          3,
+		"targettypes":    ["Troop"],
+		"targetlayers":   ["Ground", "Air"],
+		"attackdamage":   [100],
+		"attackrange":    300,
+		"attackinterval": 40,
+		"preattackdelay": 1,
+		"bulletlifetime": 20,
+		"transformdelay": 10,
+		"skill":          "fireball",
+	},
 }

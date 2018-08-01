@@ -32,6 +32,28 @@ func _init(id, mass, rest, pos_x, pos_y):
 	self.prev_pos_x = self.pos_x
 	self.prev_pos_y = self.pos_y
 
+func Id():
+	return id
+
+func PositionX():
+	return pos_x
+
+func PositionY():
+	return pos_y
+	
+func VelocityX():
+	return vel_x
+
+func VelocityY():
+	return vel_y
+	
+func SetVelocity(x, y):
+	vel_x = x
+	vel_y = y
+
+func Radius():
+	return radius
+	
 func setAsBox(width, height):
 	self.shape = "box"
 	self.width = width

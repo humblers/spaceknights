@@ -1,3 +1,5 @@
 extends Node
 
-var id = "alice"
+var Id = "Alice"
+var Team = "Home"
+var Replay = false

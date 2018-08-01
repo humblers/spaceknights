@@ -18,6 +18,7 @@ type Unit interface {
 	IsDead() bool
 	TakeDamage(amount int)
 	Update()
+	Destroy()
 
 	// from physics.Body
 	Position() fixed.Vector
@@ -110,6 +111,10 @@ func (u *unit) IsDead() bool {
 func (u *unit) TakeDamage(amount int) {
 	u.hp -= amount
 }
+func (u *unit) Destroy() {
+	u.game.World().RemoveBody(u.Body)
+}
+
 func (u *unit) Skill() string {
 	return units[u.name]["skill"].(string)
 }

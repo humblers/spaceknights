@@ -1,14 +1,16 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/fixed"
+
 type archer struct {
 	*unit
 	targetId int
 	attack   int // elapsed time since attack start
 }
 
-func newArcher(id int, t Team, level, posX, posY int, g Game) Unit {
+func newArcher(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &archer{
-		unit: newUnit(id, "archer", t, level, posX, posY, g),
+		unit: newUnit(id, "archer", p.Team(), level, posX, posY, g),
 	}
 }
 
@@ -69,6 +71,9 @@ func (a *archer) moveTo(u Unit) {
 }
 
 func (a *archer) handleAttack() {
+	if a.attack == 0 {
+		a.SetVelocity(fixed.Vector{0, 0})
+	}
 	if a.attack == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {

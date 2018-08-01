@@ -8,7 +8,7 @@ const energyPerFrame = 40
 const handSize = 4
 
 var knightInitialPositionX = []int{200, 500, 800}
-var knightInitialPositionY = []int{100, 100, 100}
+var knightInitialPositionY = []int{1600, 1600, 1600}
 
 type Player interface {
 	Client() Client
@@ -21,7 +21,6 @@ type Player interface {
 }
 
 type player struct {
-	id        string
 	team      Team
 	energy    int
 	hand      []Card
@@ -34,7 +33,6 @@ type player struct {
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		id:      pd.Id,
 		team:    pd.Team,
 		energy:  startEnergy,
 		hand:    pd.Deck[:handSize],

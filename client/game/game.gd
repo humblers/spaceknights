@@ -6,7 +6,6 @@ const STEP_PER_SEC = 10
 
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
-const INPUT_DELAY_STEP = 10
 
 # parameters for physics world
 var params = {
@@ -19,7 +18,46 @@ var params = {
 var cfg = {
 	"Id": "BEEF",
 	"MapName": "Thanatos",
-	"Players": [{"Id": "Alice"}, {"Id": "Bob"}],
+	"Players": [
+		{
+			"Id": "Alice",
+			"Team": "Home",
+			"Deck": [
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+			],
+			"Knights": [
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+			],
+		},
+		{
+			"Id": "Bob",
+			"Team": "Visitor",
+#			"Deck": [
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#			],
+			"Knights": [
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+			],
+		}
+	],
 }
 
 # current simulation step
@@ -27,55 +65,57 @@ var step = 0
 
 var world = resource.WORLD.new(params)
 
-var map = resource.MAP[map_name].new(params.scale)
+var map = resource.MAP[cfg.MapName].new(world)
 
-var units
-var unitIds = []
+var units = {}
 var unitCounter = 0
-var bullets
 var players = {}
-
+var bullets = []
 
 # client physics frame
 var frame = 0
 
-# states buffer replay load/save
-var states = []
-
 # for stop signal
 var to_stop = false
 
-# is current game for replay?
-var replay = false
+# elapsed sec since last logic update
+var elapsed = 0
 
 func _ready():
-	replay = scene_switcher.get_param("replay")
-	if replay:
-		load_replay()
-	else:
-		tcp.connect("disconnected", self, "request_stop")
-		set_process_input(true)
-	set_physics_process(true)
+	tcp.Connect("127.0.0.1", 9999)
+	tcp.connect("connected", self, "start_game")
+
+func start_game():
+	tcp.Send({"Id": "Alice", "Token": "Alice"})
+	tcp.Send({"GameId": cfg.Id})
+	tcp.connect("disconnected", self, "request_stop")
 	set_process(true)
-	CreateMap()
+	set_physics_process(true)
+	for p in cfg.Players:
+		var color = "Blue" if p.Id == user.Id else "Red"
+		var n = $Players.get_node(color)
+		n.Init(p, self)
+		players[p.Id] = n
+	user.Team = players[user.Id].Team()
+	CreateMapObstacles()
+
+func over():
+	return step >= PLAY_TIME/STEP_INTERVAL
 
 func request_stop():
 	to_stop = true
 
 func stop():
-	set_physics_process(false)
 	set_process(false)
-	if not replay:
-		set_process_input(false)
-		save_replay()
+	set_physics_process(false)
 
-func CreateMap():
+func CreateMapObstacles():
 	for o in map.GetObstacles():
-		var width = world.ToPixel(map.Width(o))
-		var height = world.ToPixel(map.Height(o))
-		var x = world.ToPixel(map.PosX(o))
-		var y = world.ToPixel(map.PosY(o))
-		var b = world.AddBox(
+		var width = world.ToPixel(map.AreaWidth(o))
+		var height = world.ToPixel(map.AreaHeight(o))
+		var x = world.ToPixel(map.AreaPosX(o))
+		var y = world.ToPixel(map.AreaPosY(o))
+		world.AddBox(
 			scalar.FromInt(0),
 			world.FromPixel(width),
 			world.FromPixel(height),
@@ -83,51 +123,52 @@ func CreateMap():
 			world.FromPixel(y)
 		)
 
-func _input(event):
-	if event is InputEventMouseButton and not event.pressed:
-		var x = int(event.position.x)
-		var y = int(event.position.y)
-		tcp.Send({
-				"Step": step + INPUT_DELAY_STEP,
-				"Action": {
-					"Id": "Alice",
-					"PosX": x,
-					"PosY": y,
-				},
-		})
-		
+func _process(delta):
+	elapsed += delta
+	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
+	for b in world.bodies:
+		if b.node != null:
+			var prev = Vector2(
+				world.ToPixel(b.prev_pos_x),
+				world.ToPixel(b.prev_pos_y)
+			)
+			var curr = Vector2(
+				world.ToPixel(b.pos_x),
+				world.ToPixel(b.pos_y)
+			)
+			b.node.position = prev.linear_interpolate(curr, t)
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
-		if replay:
-			if states.size() > 0:
-				update(states.pop_front())
-			else:
+		var iterations = 1
+		var n = tcp.received.size()
+		if n <= 0:
+			if to_stop:
 				stop()
-		else:
-			var iterations = 1
-			var n = tcp.received.size()
-			if n <= 0:
-				if to_stop:
-					stop()
-					return
-				print("not enough packets")
-				iterations = 0
-			if n > PACKET_WINDOW:
-				print("too many packets %s" % [n])
-				iterations = min(10, n)
-			for i in range(iterations):
-				var state = parse_json(tcp.received.pop_front())
-				update(state)
+				return
+			print("not enough packets")
+			iterations = 0
+		if n > PACKET_WINDOW:
+			print("too many packets %s" % [n])
+			iterations = min(10, n)
+		for i in range(iterations):
+			var state = parse_json(tcp.received.pop_front())
+			update(state)
 	
 	frame += 1
 
 func update(state):
-	if not replay:
-		states.append(state)
-	apply(state)
-	for node in $units.get_children():
-		node.update(step)
+	if state.Actions != null:
+		for action in state.Actions:
+			players[action.Id].Do(action)
+	for id in players:
+		players[id].Update()
+	for id in units:
+		units[id].Update()
+	for b in bullets:
+		b.Update(self)
+	removeDeadUnits()
+	removeExpiredBullets()
 	world.Step()
 	
 	# validate
@@ -139,27 +180,54 @@ func update(state):
 		print("desync detected: %s - %s" % [client_hash, server_hash])
 
 	step += 1
+	elapsed = 0
 
-func apply(state):
-	if state.Actions != null:
-		for action in state.Actions:
-			pass
+func removeDeadUnits():
+	for id in units.keys():
+		var u = units[id]
+		if u.IsDead():
+			units.erase(id)
+			u.Destroy()
 
-func save_replay():
-	var f = File.new()
-	f.open("user://replay", File.WRITE)
-	f.store_line(to_json(cfg))
-	for s in states:
-		f.store_line(to_json(s))
-	f.close()
+func removeExpiredBullets():
+	var filtered = []
+	for b in bullets:
+		if b.IsExpired():
+			b.Destroy()
+		else:
+			filtered.append(b)
+	bullets = filtered
 
-func load_replay():
-	var f = File.new()
-	f.open("user://replay", File.READ)
-	cfg = parse_json(f.get_line())
-	while true:
-		var line = f.get_line()
-		if line == "":
-			break
-		var s = parse_json(line)
-		states.append(s)
+func AddUnit(name, level, posX, posY, player):
+	var w = world.ToPixel(map.Width())
+	var h = world.ToPixel(map.Height())
+	if player.Team() == "Visitor":
+		posX = w - posX
+		posY = h - posY
+	unitCounter += 1
+	var id = unitCounter
+	var node = resource.UNIT[name].instance()
+	node.Init(id, level, posX, posY, self, player)
+	node.name = str(id)
+	$Units.add_child(node)
+	units[id] = node
+	return id
+
+func FindUnit(id):
+	if units.has(id):
+		return units[id]
+	else:
+		return null
+
+func AddBullet(bullet):
+	$Bullets.add_child(bullet)
+	bullets.append(bullet)
+
+func World():
+	return world
+
+func Map():
+	return map
+
+func UnitIds():
+	return units.keys()

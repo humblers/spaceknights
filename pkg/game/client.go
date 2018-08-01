@@ -8,8 +8,9 @@ import "bufio"
 
 type Client interface {
 	Id() string
-	Write(p packet)
+	Run()
 	Stop()
+	Write(p packet)
 }
 
 type client struct {
@@ -21,7 +22,7 @@ type client struct {
 	logger *log.Logger
 }
 
-func newClient(conn net.Conn, s *server, l *log.Logger) *client {
+func newClient(conn net.Conn, s *server, l *log.Logger) Client {
 	return &client{
 		conn:   conn,
 		server: s,
@@ -38,7 +39,7 @@ func (c *client) String() string {
 	return fmt.Sprintf("client %v(%v)", c.id, c.conn.RemoteAddr())
 }
 
-func (c *client) run() {
+func (c *client) Run() {
 	c.logger.Printf("%v starting", c)
 	defer c.logger.Printf("%v stopped", c)
 	defer c.closeConn()

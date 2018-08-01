@@ -1,32 +1,15 @@
-extends Node2D
+extends "res://game/script/unit.gd"
 
-onready var id = self.name
+var targetId = 0
+var attack = 0
 
-export(String, "home", "visitor") var team
-export var level = 0
-export var hp = 0
-export var target_id = 0
-export var attack = 0
+var elapsed = 0
+var curr_anim = ""
 
-var game
-var body
+func Init(id, level, posX, posY, game, player):
+	.Init(id, "archer", player.Team(), level, posX, posY, game)
+	set_process(true)
 
-func init(id, team, level, posX, posY, game):
-	self.id = id
-	self.team = team
-	self.level = level
-	self.hp = stat.archer.hp[level]
-	self.game = game
-	self.body = game.world.AddCircle(
-		scalar.FromInt(stat.archer.mass),
-		game.world.FromPixel(stat.archer.radius),
-		game.world.FromPixel(posX),
-		game.world.FromPixel(posY)
-	)
-
-func target():
-	return game.FindUnit(target_id)
-	
 func Update():
 	if attack > 0:
 		handleAttack()
@@ -40,19 +23,68 @@ func Update():
 			else:
 				findTargetAndDoAction()
 
+func Destroy():
+	.Destroy()
+	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.connect("animation_finished", self, "queue_free")
+	
+func target():
+	return game.FindUnit(targetId)
+
+func setTarget(unit):
+	if unit == null:
+		targetId = 0
+	else:
+		targetId = unit.Id()
+
+func fire():
+	var b = resource.BULLET[name_].instance()
+	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	game.AddBullet(b)
+	# client only
+	b.position = position
+
+func findTargetAndDoAction():
+	var t = findTarget()
+	setTarget(t)
+	if t != null and canSee(t):
+		if withinRange(t):
+			handleAttack()
+		else:
+			moveTo(t)
+	else:
+		$AnimationPlayer.play("idle")
+
+func moveTo(unit):
+	var corner = game.Map().FindNextCornerInPath(
+		PositionX(), PositionY(),
+		unit.PositionX(), unit.PositionY(),
+		Radius())
+	var x = scalar.Sub(corner[0], PositionX())
+	var y = scalar.Sub(corner[1], PositionY())
+	var direction = vector.Normalized(x, y)
+	var speed = speed()
+	SetVelocity(
+		scalar.Mul(direction[0], speed), 
+		scalar.Mul(direction[1], speed))
+	look_at(corner[0], corner[1])
+	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
+		$AnimationPlayer.play("move")
+	
+
 func handleAttack():
-	if attack == stat.archer.preattackdelay:
-		var t = target()
+	if attack == 0:
+		$AnimationPlayer.play("attack")
+		SetVelocity(0, 0)
+	var t = target()
+	if t != null:
+		look_at(t.PositionX(), t.PositionY())
+	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()
 		else:
 			attack = 0
 			return
 	attack += 1
-	if attack > stat.archer.attackinterval:
+	if attack > attackInterval():
 		attack = 0
-
-func fire():
-	var b = preload("res://game/unit/archer/bullet.tscn").instance()
-	b.init(target_id, stat.archer.bulletlifetime, stat.archer.damage)
-	game.AddBullet(b)
