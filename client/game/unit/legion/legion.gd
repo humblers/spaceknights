@@ -27,7 +27,8 @@ func TakeDamage(amount):
 func Destroy():
 	.Destroy()
 	$AnimationPlayer.play("explosion")
-	$AnimationPlayer.connect("animation_finished", self, "queue_free")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
 	
 func Update():
 	if isCasting:

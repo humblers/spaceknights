@@ -50,7 +50,7 @@ func look_at(x, y):
 	var px = game.World().ToPixel(x)
 	var py = game.World().ToPixel(y)
 	var dir = to_client_position(px, py) - position
-#	.look_at(dir)
+	$Rotatable.rotation = PI/2 + dir.angle()
 
 func set_hp():
 	if team == user.Team:
