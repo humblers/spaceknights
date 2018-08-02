@@ -43,6 +43,7 @@ func Init(playerData, game):
 	$Energy.value = energy
 	if not no_deck:
 		update_cards()
+	if playerData.Id == user.Id:
 		connect_input()
 
 func connect_input():
@@ -122,6 +123,8 @@ func Do(action):
 		hand[index] = pending[0]
 		pending.pop_front()
 		pending.append(action.Card)
+		update_cards()
+		selected_card = null
 	return null
 
 func findKnight(name):
@@ -137,6 +140,11 @@ func useCard(c, posX, posY):
 		var k = findKnight(card["caster"])
 		if k == null:
 			return "should not be here"
+		if team == "Red":
+			var w = game.World().ToPixel(game.Map().Width())
+			var h = game.World().ToPixel(game.Map().Height())
+			posX = w - posX
+			posY = h - posY
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:

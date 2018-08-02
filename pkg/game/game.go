@@ -9,7 +9,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 import "github.com/humblers/spaceknights/pkg/physics"
 import "github.com/humblers/spaceknights/pkg/nav"
 
-const playTime = time.Second * 180
+const playTime = time.Second * 60
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 
@@ -219,7 +219,7 @@ func (g *game) broadcast() {
 	for _, p := range g.players {
 		if p.Client() != nil {
 			p.Client().Write(packet)
-			g.logger.Print(string(packet))
+			//g.logger.Print(string(packet))
 		}
 	}
 }

@@ -6,7 +6,7 @@ func _ready():
 func load_game():
 	tcp.Send({"Id": $id.text, "Token": $id.text})
 	tcp.Send({"GameId": cfg.Id})
-#	queue_free()
+	queue_free()
 	var g = preload("res://game/game.tscn").instance()
 	g.cfg = cfg
 	get_tree().get_root().add_child(g)
@@ -43,16 +43,16 @@ var cfg = {
 		{
 			"Id": "Bob",
 			"Team": "Red",
-#			"Deck": [
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#			],
+			"Deck": [
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+			],
 			"Knights": [
 				{"Name": "legion", "Level": 0},
 				{"Name": "legion", "Level": 0},

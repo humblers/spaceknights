@@ -38,7 +38,16 @@ func (l *legion) Update() {
 					l.cast()
 					l.movingToCastPos = false
 				} else {
-					l.SetVelocity(l.castPos.Sub(l.Position()).Truncated(l.speed()))
+					v := l.castPos.Sub(l.Position())
+					s := l.game.World().Dt().Mul(l.speed())
+					len := v.LengthSquared()
+					if len < s.Mul(s) {
+						l.SetVelocity(fixed.Vector{0, 0})
+						l.SetPosition(l.castPos)
+					} else {
+						len = len.Sqrt()
+						l.SetVelocity(v.Mul(l.speed().Div(len)))
+					}
 				}
 			} else {
 				l.transform++
@@ -51,7 +60,16 @@ func (l *legion) Update() {
 					l.isCasting = false
 				}
 			} else {
-				l.SetVelocity(l.initPos.Sub(l.Position()).Truncated(l.speed()))
+				v := l.initPos.Sub(l.Position())
+				s := l.game.World().Dt().Mul(l.speed())
+				len := v.LengthSquared()
+				if len < s.Mul(s) {
+					l.SetVelocity(fixed.Vector{0, 0})
+					l.SetPosition(l.initPos)
+				} else {
+					len = len.Sqrt()
+					l.SetVelocity(v.Mul(l.speed().Div(len)))
+				}
 			}
 		}
 	} else {
@@ -95,7 +113,7 @@ func (l *legion) CastSkill(posX, posY int) bool {
 }
 
 func (l *legion) cast() {
-	damage := cards[l.Skill()]["damage"].(int)
+	damage := cards[l.Skill()]["damage"].([]int)[l.level]
 	radius := l.game.World().FromPixel(cards[l.Skill()]["radius"].(int))
 	for _, id := range l.game.UnitIds() {
 		u := l.game.FindUnit(id)

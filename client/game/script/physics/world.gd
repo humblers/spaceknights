@@ -31,6 +31,9 @@ func _init(params):
 			"restitution":
 				restitution = v
 
+func Dt():
+	return dt
+
 func FromPixel(v):
 	return scalar.Mul(scalar.FromInt(v), scale)
 	

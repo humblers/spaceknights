@@ -8,6 +8,7 @@ import (
 type Body interface {
 	Id() int
 	Position() fixed.Vector
+	SetPosition(p fixed.Vector)
 	Velocity() fixed.Vector
 	SetVelocity(v fixed.Vector)
 	Radius() fixed.Scalar
@@ -57,6 +58,10 @@ func (b *body) Id() int {
 
 func (b *body) Position() fixed.Vector {
 	return b.pos
+}
+
+func (b *body) SetPosition(p fixed.Vector) {
+	b.pos = p
 }
 
 func (b *body) Velocity() fixed.Vector {

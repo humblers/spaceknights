@@ -46,7 +46,7 @@ var cfg
 #	],
 #}
 
-const PLAY_TIME = 180000		# milliseconds
+const PLAY_TIME = 60000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
 
@@ -93,7 +93,7 @@ func _ready():
 	for p in cfg.Players:
 		var team = p.Team
 		if team_swapped:
-			team = "Blue" if p.Team == "Red" else "Blue"
+			team = "Blue" if p.Team == "Red" else "Red"
 		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
@@ -126,6 +126,8 @@ func CreateMapObstacles():
 func _process(delta):
 	elapsed += delta
 	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
+	var w = world.ToPixel(map.Width())
+	var h = world.ToPixel(map.Height())
 	for b in world.bodies:
 		if b.node != null:
 			var prev = Vector2(
@@ -136,6 +138,9 @@ func _process(delta):
 				world.ToPixel(b.pos_x),
 				world.ToPixel(b.pos_y)
 			)
+			if team_swapped:
+				prev = Vector2(w, h) - prev
+				curr = Vector2(w, h) - curr
 			b.node.position = prev.linear_interpolate(curr, t)
 
 func _physics_process(delta):

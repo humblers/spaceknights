@@ -124,6 +124,10 @@ func (p *player) useCard(c Card, posX, posY int) error {
 		if k == nil {
 			panic("should not be here")
 		}
+		if p.team == Red {
+			posX = p.game.World().ToPixel(p.game.Map().Width()) - posX
+			posY = p.game.World().ToPixel(p.game.Map().Height()) - posY
+		}
 		if !k.CastSkill(posX, posY) {
 			return fmt.Errorf("%v cannot cast skill now", k.Name())
 		}

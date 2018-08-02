@@ -52,7 +52,7 @@ func (a *archer) fire() {
 func (a *archer) findTargetAndDoAction() {
 	t := a.findTarget()
 	a.setTarget(t)
-	if t != nil && a.canSee(t) {
+	if t != nil {
 		if a.withinRange(t) {
 			a.handleAttack()
 		} else {

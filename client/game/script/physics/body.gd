@@ -40,7 +40,11 @@ func PositionX():
 
 func PositionY():
 	return pos_y
-	
+
+func SetPosition(x, y):
+	pos_x = x
+	pos_y = y
+
 func VelocityX():
 	return vel_x
 

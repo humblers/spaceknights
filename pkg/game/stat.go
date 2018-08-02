@@ -40,7 +40,7 @@ var units = map[string]map[string]interface{}{
 		"layer":          Ground,
 		"hp":             []int{2000},
 		"sight":          500,
-		"speed":          3,
+		"speed":          250,
 		"targettypes":    Types{Troop},
 		"targetlayers":   Layers{Ground, Air},
 		"attackdamage":   []int{100},

@@ -44,12 +44,12 @@ func fire():
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	game.AddBullet(b)
 	# client only
-	b.position = position
+	b.global_position = $Rotatable/Body/Booster/Shotpoint.global_position
 
 func findTargetAndDoAction():
 	var t = findTarget()
 	setTarget(t)
-	if t != null and canSee(t):
+	if t != null:
 		if withinRange(t):
 			handleAttack()
 		else:

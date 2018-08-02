@@ -6,6 +6,7 @@ import (
 )
 
 type World interface {
+	Dt() fixed.Scalar
 	FromPixel(v int) fixed.Scalar
 	ToPixel(v fixed.Scalar) int
 	Step()
@@ -54,6 +55,10 @@ func NewWorld(params map[string]fixed.Scalar) World {
 		}
 	}
 	return w
+}
+
+func (w *world) Dt() fixed.Scalar {
+	return w.dt
 }
 
 func (w *world) FromPixel(v int) fixed.Scalar {

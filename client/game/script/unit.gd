@@ -1,5 +1,9 @@
 extends Node2D
 
+const Z_GROUND = 0
+const Z_AIR = 1
+const Z_HIGH_SKY = 2
+
 var id
 var name_
 var team
@@ -53,11 +57,9 @@ func look_at(x, y):
 	$Rotatable.rotation = PI/2 + dir.angle()
 
 func set_hp():
-	var color
+	var color = team
 	if game.team_swapped:
-		color = "blue" if team == "Red" else "red"
-	else:
-		color = "blue" if team == "Blue" else "red"
+		color = "Blue" if team == "Red" else "Red"
 	node_hp = $Hp.get_node(color)
 	node_hp.show()
 	node_hp.max_value = hp
@@ -94,11 +96,14 @@ func PositionX():
 func PositionY():
 	return body.PositionY()
 
+func SetPosition(x, y):
+	body.SetPosition(x, y)
+
 func Radius():
 	return body.Radius()
 
 func SetVelocity(x, y):
-	return body.SetVelocity(x, y)
+	body.SetVelocity(x, y)
 
 func Skill():
 	return stat.units[name_]["skill"]
@@ -179,6 +184,8 @@ func findTarget():
 		if not targetTypes().has(u.Type()):
 			continue
 		if not targetLayers().has(u.Layer()):
+			continue
+		if not canSee(u):
 			continue
 		var d = squaredDistanceTo(u)
 		if nearest == null or d < distance:

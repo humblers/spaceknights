@@ -40,7 +40,7 @@ const units = {
 		"layer":          "Ground",
 		"hp":             [2000],
 		"sight":          500,
-		"speed":          3,
+		"speed":          250,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Ground", "Air"],
 		"attackdamage":   [100],
