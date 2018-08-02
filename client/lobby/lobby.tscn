@@ -1,33 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://lobby/city_bold_100.tres" type="DynamicFont" id=1]
+[ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
+[ext_resource path="res://lobby/city_bold_100.tres" type="DynamicFont" id=2]
 
-[sub_resource type="GDScript" id=1]
+[node name="lobby" type="Node"]
 
-script/source = "extends Node
-
-func _ready():
-	$connect.connect(\"pressed\", self, \"connect_to_game_server\")
-	$replay.connect(\"pressed\", self, \"replay\")
-
-func load_game():
-	tcp.Send({\"Id\": $id.text, \"Token\": $id.text})
-	tcp.Send({\"GameId\": \"BEEF\"})
-	user.Replay = false
-	get_tree().change_scene(\"res://game/game.tscn\")
-
-func connect_to_game_server():
-	tcp.Connect(\"127.0.0.1\", 9999)
-	tcp.connect(\"connected\", self, \"load_game\")
-
-func replay():
-	user.Replay = true
-	get_tree().change_scene(\"res://game/game.tscn\")
-"
-
-[node name="lobby" type="Node" index="0"]
-
-script = SubResource( 1 )
+script = ExtResource( 1 )
 
 [node name="id" type="LineEdit" parent="." index="0"]
 
@@ -46,7 +24,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 1
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "Id..."
 focus_mode = 2
 context_menu_enabled = true
@@ -73,7 +51,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 2 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -85,6 +63,7 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="replay" type="Button" parent="." index="2"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -100,7 +79,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 2 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null

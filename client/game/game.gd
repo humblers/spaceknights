@@ -1,6 +1,52 @@
 extends Node2D
 
-const PLAY_TIME = 30000		# milliseconds
+var cfg
+#var cfg = {
+#	"Id": "TEST",
+#	"MapName": "Thanatos",
+#	"Players": [
+#		{
+#			"Id": "Alice",
+#			"Team": "Blue",
+#			"Deck": [
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#				{"Name": "fireball", "Level": 0},
+#				{"Name": "archers", "Level": 0},
+#			],
+#			"Knights": [
+#				{"Name": "legion", "Level": 0},
+#				{"Name": "legion", "Level": 0},
+#				{"Name": "legion", "Level": 0},
+#			],
+#		},
+#		{
+#			"Id": "Bob",
+#			"Team": "Red",
+##			"Deck": [
+##				{"Name": "fireball", "Level": 0},
+##				{"Name": "archers", "Level": 0},
+##				{"Name": "archers", "Level": 0},
+##				{"Name": "archers", "Level": 0},
+##				{"Name": "archers", "Level": 0},
+##				{"Name": "fireball", "Level": 0},
+##				{"Name": "fireball", "Level": 0},
+##				{"Name": "archers", "Level": 0},
+##			],
+#			"Knights": [
+#				{"Name": "legion", "Level": 0},
+#				{"Name": "legion", "Level": 0},
+#				{"Name": "legion", "Level": 0},
+#			],
+#		}
+#	],
+#}
+
+const PLAY_TIME = 180000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
 
@@ -15,57 +61,11 @@ var params = {
 	"restitution": scalar.Div(scalar.One, scalar.FromInt(10)),
 }
 
-var cfg = {
-	"Id": "BEEF",
-	"MapName": "Thanatos",
-	"Players": [
-		{
-			"Id": "Alice",
-			"Team": "Home",
-			"Deck": [
-				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
-			],
-			"Knights": [
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
-			],
-		},
-		{
-			"Id": "Bob",
-			"Team": "Visitor",
-#			"Deck": [
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#			],
-			"Knights": [
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
-			],
-		}
-	],
-}
-
 # current simulation step
 var step = 0
 
 var world = resource.WORLD.new(params)
-
-var map = resource.MAP[cfg.MapName].new(world)
+var map
 
 var units = {}
 var unitCounter = 0
@@ -81,22 +81,22 @@ var to_stop = false
 # elapsed sec since last logic update
 var elapsed = 0
 
-func _ready():
-	tcp.Connect("127.0.0.1", 9999)
-	tcp.connect("connected", self, "start_game")
+var team_swapped = false
 
-func start_game():
-	tcp.Send({"Id": "Alice", "Token": "Alice"})
-	tcp.Send({"GameId": cfg.Id})
+func _ready():
 	tcp.connect("disconnected", self, "request_stop")
 	set_process(true)
 	set_physics_process(true)
+
+	map = resource.MAP[cfg.MapName].new(world)
+	team_swapped = user.ShouldSwapTeam(cfg)
 	for p in cfg.Players:
-		var color = "Blue" if p.Id == user.Id else "Red"
-		var n = $Players.get_node(color)
+		var team = p.Team
+		if team_swapped:
+			team = "Blue" if p.Team == "Red" else "Blue"
+		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
-	user.Team = players[user.Id].Team()
 	CreateMapObstacles()
 
 func over():
@@ -201,7 +201,7 @@ func removeExpiredBullets():
 func AddUnit(name, level, posX, posY, player):
 	var w = world.ToPixel(map.Width())
 	var h = world.ToPixel(map.Height())
-	if player.Team() == "Visitor":
+	if player.Team() == "Red":
 		posX = w - posX
 		posY = h - posY
 	unitCounter += 1

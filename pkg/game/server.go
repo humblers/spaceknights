@@ -50,12 +50,12 @@ func (s *server) Run() {
 
 	// temporary for debugging
 	s.runGame(Config{
-		Id:      "BEEF",
+		Id:      "TEST",
 		MapName: "Thanatos",
 		Players: []PlayerData{
 			PlayerData{
 				Id:   "Alice",
-				Team: Home,
+				Team: Blue,
 				Deck: []Card{
 					Card{"fireball", 0},
 					Card{"archers", 0},
@@ -74,7 +74,7 @@ func (s *server) Run() {
 			},
 			PlayerData{
 				Id:   "Bob",
-				Team: Visitor,
+				Team: Red,
 				Deck: []Card{
 					Card{"fireball", 0},
 					Card{"archers", 0},
@@ -189,16 +189,16 @@ func (s *server) listenLobby() {
 						MapName: req.MapName,
 						Players: []PlayerData{
 							PlayerData{
-								Id:      req.Home.UserId,
-								Team:    Home,
-								Deck:    req.Home.Deck,
-								Knights: req.Home.Knights,
+								Id:      req.Blue.UserId,
+								Team:    Blue,
+								Deck:    req.Blue.Deck,
+								Knights: req.Blue.Knights,
 							},
 							PlayerData{
-								Id:      req.Visitor.UserId,
-								Team:    Visitor,
-								Deck:    req.Visitor.Deck,
-								Knights: req.Visitor.Knights,
+								Id:      req.Red.UserId,
+								Team:    Red,
+								Deck:    req.Red.Deck,
+								Knights: req.Red.Knights,
 							},
 						},
 					})

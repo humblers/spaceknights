@@ -9,15 +9,15 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 import "github.com/humblers/spaceknights/pkg/physics"
 import "github.com/humblers/spaceknights/pkg/nav"
 
-const playTime = time.Second * 30
+const playTime = time.Second * 180
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 
 type Team string
 
 const (
-	Home    Team = "Home"
-	Visitor Team = "Visitor"
+	Blue Team = "Blue"
+	Red  Team = "Red"
 )
 
 var params = map[string]fixed.Scalar{
@@ -277,7 +277,7 @@ func (g *game) removeExpiredBullets() {
 }
 
 func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
-	if p.Team() == Visitor {
+	if p.Team() == Red {
 		posX = g.world.ToPixel(g.map_.Width()) - posX
 		posY = g.world.ToPixel(g.map_.Height()) - posY
 	}

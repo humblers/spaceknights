@@ -11,6 +11,7 @@ func Init(id, level, posX, posY, game, player):
 	set_process(true)
 
 func Update():
+	SetVelocity(0, 0)
 	if attack > 0:
 		handleAttack()
 	else:
@@ -76,7 +77,6 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		SetVelocity(0, 0)
 	var t = target()
 	if t != null:
 		look_at(t.PositionX(), t.PositionY())
