@@ -46,6 +46,8 @@ func Step():
 		for j in range(i + 1, len(bodies)):
 			var a = bodies[i]
 			var b = bodies[j]
+			if a.no_collision or b.no_collision:
+				continue
 			var c = checkCollision(a, b)
 			if c != null:
 				collisions.append(c)

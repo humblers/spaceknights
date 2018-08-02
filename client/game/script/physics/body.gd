@@ -10,6 +10,7 @@ var vel_x = 0
 var vel_y = 0
 var force_x = 0
 var force_y = 0
+var no_collision = false
 
 # geometry
 var shape = ""
@@ -57,7 +58,10 @@ func SetVelocity(x, y):
 
 func Radius():
 	return radius
-	
+
+func SetCollidable(collidable):
+	no_collision = not collidable
+
 func setAsBox(width, height):
 	self.shape = "box"
 	self.width = width

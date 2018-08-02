@@ -58,6 +58,7 @@ func (l *legion) Update() {
 					l.transform--
 				} else {
 					l.isCasting = false
+					l.SetCollidable(true)
 				}
 			} else {
 				v := l.initPos.Sub(l.Position())
@@ -109,6 +110,7 @@ func (l *legion) CastSkill(posX, posY int) bool {
 		l.game.World().FromPixel(posX),
 		l.game.World().FromPixel(posY),
 	}
+	l.SetCollidable(false)
 	return true
 }
 

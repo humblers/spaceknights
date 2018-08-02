@@ -78,6 +78,9 @@ func (w *world) Step() {
 		for j := i + 1; j < len(w.bodies); j++ {
 			a := w.bodies[i]
 			b := w.bodies[j]
+			if a.no_collision || b.no_collision {
+				continue
+			}
 			c := checkCollision(a, b)
 			if c != nil {
 				w.collisions = append(w.collisions, c)

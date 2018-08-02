@@ -25,6 +25,7 @@ type Unit interface {
 	SetPosition(p fixed.Vector)
 	Radius() fixed.Scalar
 	SetVelocity(v fixed.Vector)
+	SetCollidable(collidable bool)
 
 	// for knight type
 	Skill() string

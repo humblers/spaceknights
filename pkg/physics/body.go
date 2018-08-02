@@ -12,6 +12,7 @@ type Body interface {
 	Velocity() fixed.Vector
 	SetVelocity(v fixed.Vector)
 	Radius() fixed.Scalar
+	SetCollidable(collidable bool)
 }
 
 type body struct {
@@ -27,6 +28,8 @@ type body struct {
 	radius fixed.Scalar
 	width  fixed.Scalar
 	height fixed.Scalar
+
+	no_collision bool
 }
 
 type shape string
@@ -74,6 +77,10 @@ func (b *body) SetVelocity(v fixed.Vector) {
 
 func (b *body) Radius() fixed.Scalar {
 	return b.radius
+}
+
+func (b *body) SetCollidable(collidable bool) {
+	b.no_collision = !collidable
 }
 
 func (b *body) setAsBox(width, height fixed.Scalar) {

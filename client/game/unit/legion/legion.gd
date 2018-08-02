@@ -63,6 +63,7 @@ func Update():
 				else:
 					z_index = Z_GROUND
 					isCasting = false
+					SetCollidable(true)
 			else:
 				var x = scalar.Sub(initPosX, PositionX())
 				var y = scalar.Sub(initPosY, PositionY())
@@ -104,6 +105,7 @@ func CastSkill(posX, posY):
 	movingToCastPos = true
 	castPosX = game.World().FromPixel(posX)
 	castPosY = game.World().FromPixel(posY)
+	SetCollidable(false)
 	init_rotation()
 	return true
 

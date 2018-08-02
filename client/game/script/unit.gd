@@ -105,6 +105,9 @@ func Radius():
 func SetVelocity(x, y):
 	body.SetVelocity(x, y)
 
+func SetCollidable(collidable):
+	body.SetCollidable(collidable)
+
 func Skill():
 	return stat.units[name_]["skill"]
 
