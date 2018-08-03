@@ -12,6 +12,7 @@ type legion struct {
 	castPos         fixed.Vector
 	isCasting       bool
 	movingToCastPos bool
+	layer           Layer
 }
 
 func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -20,10 +21,18 @@ func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 		unit:    u,
 		player:  p,
 		initPos: u.Position(),
+		layer:   u.Layer(),
 	}
 }
 
+func (l *legion) Layer() Layer {
+	return l.layer
+}
+
 func (l *legion) TakeDamage(amount int) {
+	if l.layer == Invulnerable {
+		return
+	}
 	l.unit.TakeDamage(amount)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
@@ -38,7 +47,16 @@ func (l *legion) Update() {
 					l.cast()
 					l.movingToCastPos = false
 				} else {
-					l.SetVelocity(l.castPos.Sub(l.Position()).Truncated(l.speed()))
+					v := l.castPos.Sub(l.Position())
+					s := l.game.World().Dt().Mul(l.speed())
+					len := v.LengthSquared()
+					if len < s.Mul(s) {
+						l.SetVelocity(fixed.Vector{0, 0})
+						l.SetPosition(l.castPos)
+					} else {
+						len = len.Sqrt()
+						l.SetVelocity(v.Mul(l.speed().Div(len)))
+					}
 				}
 			} else {
 				l.transform++
@@ -49,9 +67,20 @@ func (l *legion) Update() {
 					l.transform--
 				} else {
 					l.isCasting = false
+					l.SetCollidable(true)
+					l.layer = l.unit.Layer()
 				}
 			} else {
-				l.SetVelocity(l.initPos.Sub(l.Position()).Truncated(l.speed()))
+				v := l.initPos.Sub(l.Position())
+				s := l.game.World().Dt().Mul(l.speed())
+				len := v.LengthSquared()
+				if len < s.Mul(s) {
+					l.SetVelocity(fixed.Vector{0, 0})
+					l.SetPosition(l.initPos)
+				} else {
+					len = len.Sqrt()
+					l.SetVelocity(v.Mul(l.speed().Div(len)))
+				}
 			}
 		}
 	} else {
@@ -91,11 +120,13 @@ func (l *legion) CastSkill(posX, posY int) bool {
 		l.game.World().FromPixel(posX),
 		l.game.World().FromPixel(posY),
 	}
+	l.SetCollidable(false)
+	l.layer = Invulnerable
 	return true
 }
 
 func (l *legion) cast() {
-	damage := cards[l.Skill()]["damage"].(int)
+	damage := cards[l.Skill()]["damage"].([]int)[l.level]
 	radius := l.game.World().FromPixel(cards[l.Skill()]["radius"].(int))
 	for _, id := range l.game.UnitIds() {
 		u := l.game.FindUnit(id)

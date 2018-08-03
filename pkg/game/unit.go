@@ -22,8 +22,10 @@ type Unit interface {
 
 	// from physics.Body
 	Position() fixed.Vector
+	SetPosition(p fixed.Vector)
 	Radius() fixed.Scalar
 	SetVelocity(v fixed.Vector)
+	SetCollidable(collidable bool)
 
 	// for knight type
 	Skill() string
@@ -31,9 +33,9 @@ type Unit interface {
 }
 
 const (
-	Ground    Layer = "Ground"
-	Air       Layer = "Air"
-	Invisible Layer = "Invisible"
+	Ground       Layer = "Ground"
+	Air          Layer = "Air"
+	Invulnerable Layer = "Invulnerable"
 
 	Troop    Type = "Troop"
 	Building Type = "Building"
@@ -198,6 +200,9 @@ func (u *unit) findTarget() Unit {
 			return false
 		}
 		if !u.targetLayers().Contains(v.Layer()) {
+			return false
+		}
+		if !u.canSee(v) {
 			return false
 		}
 		return true

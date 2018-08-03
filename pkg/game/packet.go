@@ -72,12 +72,12 @@ type Config struct {
 type LobbyRequest struct {
 	SessionId string
 	MapName   string
-	Home      struct {
+	Blue      struct {
 		UserId  string
 		Deck    []Card
 		Knights []KnightData
 	}
-	Visitor struct {
+	Red struct {
 		UserId  string
 		Deck    []Card
 		Knights []KnightData

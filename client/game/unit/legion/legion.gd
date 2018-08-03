@@ -10,6 +10,7 @@ var castPosX = 0
 var castPosY = 0
 var isCasting = false
 var movingToCastPos = false
+var layer
 
 var attack_counter = 0
 
@@ -18,8 +19,14 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 	initPosX = PositionX()
 	initPosY = PositionY()
+	layer = .Layer()
+
+func Layer():
+	return layer
 
 func TakeDamage(amount):
+	if layer == "Invulnerable":
+		return
 	.TakeDamage(amount)
 	if IsDead():
 		player.OnKnightDead(self)
@@ -27,20 +34,29 @@ func TakeDamage(amount):
 func Destroy():
 	.Destroy()
 	$AnimationPlayer.play("explosion")
-	$AnimationPlayer.connect("animation_finished", self, "queue_free")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
 	
 func Update():
 	if isCasting:
 		if movingToCastPos:
 			if transform_ >= transformDelay():
+				z_index = Z_HIGH_SKY
 				if PositionX() == castPosX and PositionY() == castPosY:
 					cast()
 					movingToCastPos = false
 				else:
-					var dirX = scalar.Sub(castPosX, PositionX())
-					var dirY = scalar.Sub(castPosY, PositionY())
-					var v = vector.Truncated(dirX, dirY, speed())
-					SetVelocity(v[0], v[1])
+					var x = scalar.Sub(castPosX, PositionX())
+					var y = scalar.Sub(castPosY, PositionY())
+					var s = scalar.Mul(game.World().Dt(), speed())
+					var l = vector.LengthSquared(x, y)
+					if l <= scalar.Mul(s, s):
+						SetVelocity(0, 0)
+						SetPosition(castPosX, castPosY)
+					else:
+						l = scalar.Sqrt(l)
+						var d = scalar.Div(speed(), l)
+						SetVelocity(scalar.Mul(x, d), scalar.Mul(y, d))
 			else:
 				if transform_ == 0:
 					$AnimationPlayer.play("transform")
@@ -52,12 +68,22 @@ func Update():
 				if transform_ > 0:
 					transform_ -= 1
 				else:
+					z_index = Z_GROUND
 					isCasting = false
+					SetCollidable(true)
+					layer = .Layer()
 			else:
-				var dirX = scalar.Sub(initPosX, PositionX())
-				var dirY = scalar.Sub(initPosY, PositionY())
-				var v = vector.Truncated(dirX, dirY, speed())
-				SetVelocity(v[0], v[1])
+				var x = scalar.Sub(initPosX, PositionX())
+				var y = scalar.Sub(initPosY, PositionY())
+				var s = scalar.Mul(game.World().Dt(), speed())
+				var l = vector.LengthSquared(x, y)
+				if l <= scalar.Mul(s, s):
+					SetVelocity(0, 0)
+					SetPosition(initPosX, initPosY)
+				else:
+					l = scalar.Sqrt(l)
+					var d = scalar.Div(speed(), l)
+					SetVelocity(scalar.Mul(x, d), scalar.Mul(y, d))
 	else:
 		if attack > 0:
 			handleAttack()
@@ -87,12 +113,14 @@ func CastSkill(posX, posY):
 	movingToCastPos = true
 	castPosX = game.World().FromPixel(posX)
 	castPosY = game.World().FromPixel(posY)
+	SetCollidable(false)
+	layer = "Invulnerable"
 	init_rotation()
 	return true
 
 func cast():
-	var damage = stat.cards[Skill()]["damage"]
-	var radius = game.World.FromPixel(stat.cards[Skill()]["radius"])
+	var damage = stat.cards[Skill()]["damage"][level]
+	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():
@@ -103,11 +131,14 @@ func cast():
 			u.TakeDamage(damage)
 	
 	# client only
-	var skill = resource.SKILLS[name].instance()
+	var skill = resource.SKILL[name_].instance()
 	game.get_node("Skills").add_child(skill)
+	skill.position = position
+	skill.z_index = Z_AIR
 	var anim = skill.get_node("AnimationPlayer")
-	anim.play()
-	anim.connect("animation_finished", skill, "queue_free")
+	anim.play("explosion")
+	yield(anim, "animation_finished")
+	skill.queue_free()
 
 func target():
 	return game.FindUnit(targetId)
@@ -121,7 +152,6 @@ func setTarget(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack_%s" % ((attack_counter % 2) + 1))
-		attack_counter += 1
 	var t = target()
 	if t != null:
 		look_at(t.PositionX(), t.PositionY())
@@ -141,4 +171,8 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.position = position
+	if attack_counter % 2 == 0:
+		b.global_position = $Rotatable/Main/ShoulderL/ArmL/ShotpointL.global_position
+	else:
+		b.global_position = $Rotatable/Main/ShoulderR/ArmR/ShotpointR.global_position
+	attack_counter += 1

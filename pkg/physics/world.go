@@ -6,6 +6,7 @@ import (
 )
 
 type World interface {
+	Dt() fixed.Scalar
 	FromPixel(v int) fixed.Scalar
 	ToPixel(v fixed.Scalar) int
 	Step()
@@ -56,6 +57,10 @@ func NewWorld(params map[string]fixed.Scalar) World {
 	return w
 }
 
+func (w *world) Dt() fixed.Scalar {
+	return w.dt
+}
+
 func (w *world) FromPixel(v int) fixed.Scalar {
 	return fixed.FromInt(v).Mul(w.scale)
 }
@@ -73,6 +78,9 @@ func (w *world) Step() {
 		for j := i + 1; j < len(w.bodies); j++ {
 			a := w.bodies[i]
 			b := w.bodies[j]
+			if a.no_collision || b.no_collision {
+				continue
+			}
 			c := checkCollision(a, b)
 			if c != nil {
 				w.collisions = append(w.collisions, c)

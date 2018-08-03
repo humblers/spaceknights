@@ -11,6 +11,7 @@ func Init(id, level, posX, posY, game, player):
 	set_process(true)
 
 func Update():
+	SetVelocity(0, 0)
 	if attack > 0:
 		handleAttack()
 	else:
@@ -26,8 +27,9 @@ func Update():
 func Destroy():
 	.Destroy()
 	$AnimationPlayer.play("explosion")
-	$AnimationPlayer.connect("animation_finished", self, "queue_free")
-	
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
+
 func target():
 	return game.FindUnit(targetId)
 
@@ -42,12 +44,12 @@ func fire():
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	game.AddBullet(b)
 	# client only
-	b.position = position
+	b.global_position = $Rotatable/Body/Booster/Shotpoint.global_position
 
 func findTargetAndDoAction():
 	var t = findTarget()
 	setTarget(t)
-	if t != null and canSee(t):
+	if t != null:
 		if withinRange(t):
 			handleAttack()
 		else:
@@ -75,7 +77,6 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		SetVelocity(0, 0)
 	var t = target()
 	if t != null:
 		look_at(t.PositionX(), t.PositionY())

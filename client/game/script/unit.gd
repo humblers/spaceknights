@@ -1,5 +1,9 @@
 extends Node2D
 
+const Z_GROUND = 0
+const Z_AIR = 1
+const Z_HIGH_SKY = 2
+
 var id
 var name_
 var team
@@ -33,7 +37,7 @@ func Init(id, name, team, level, posX, posY, game):
 	return self
 	
 func to_client_position(px, py):
-	if user.Team == "Visitor":
+	if game.team_swapped:
 		var w = game.World().ToPixel(game.Map().Width())
 		var h = game.World().ToPixel(game.Map().Height())
 		return Vector2(w - px, h - py)
@@ -41,22 +45,24 @@ func to_client_position(px, py):
 		return Vector2(px, py)
 
 func init_rotation():
-	if team == "Visitor":
+	if team == "Red":
 		$Rotatable.rotation = PI
-	if user.Team == "Visitor":
+	else:
+		$Rotatable.rotation = 0
+	if game.team_swapped:
 		$Rotatable.rotation += PI
 	
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
 	var py = game.World().ToPixel(y)
 	var dir = to_client_position(px, py) - position
-#	.look_at(dir)
+	$Rotatable.rotation = PI/2 + dir.angle()
 
 func set_hp():
-	if team == user.Team:
-		node_hp = $Hp/blue
-	else:
-		node_hp = $Hp/red
+	var color = team
+	if game.team_swapped:
+		color = "Blue" if team == "Red" else "Red"
+	node_hp = $Hp.get_node(color)
 	node_hp.show()
 	node_hp.max_value = hp
 	node_hp.value = hp
@@ -92,11 +98,17 @@ func PositionX():
 func PositionY():
 	return body.PositionY()
 
+func SetPosition(x, y):
+	body.SetPosition(x, y)
+
 func Radius():
 	return body.Radius()
 
 func SetVelocity(x, y):
-	return body.SetVelocity(x, y)
+	body.SetVelocity(x, y)
+
+func SetCollidable(collidable):
+	body.SetCollidable(collidable)
 
 func Skill():
 	return stat.units[name_]["skill"]
@@ -177,6 +189,8 @@ func findTarget():
 		if not targetTypes().has(u.Type()):
 			continue
 		if not targetLayers().has(u.Layer()):
+			continue
+		if not canSee(u):
 			continue
 		var d = squaredDistanceTo(u)
 		if nearest == null or d < distance:

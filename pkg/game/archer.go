@@ -15,6 +15,7 @@ func newArcher(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (a *archer) Update() {
+	a.SetVelocity(fixed.Vector{0, 0})
 	if a.attack > 0 {
 		a.handleAttack()
 	} else {
@@ -51,7 +52,7 @@ func (a *archer) fire() {
 func (a *archer) findTargetAndDoAction() {
 	t := a.findTarget()
 	a.setTarget(t)
-	if t != nil && a.canSee(t) {
+	if t != nil {
 		if a.withinRange(t) {
 			a.handleAttack()
 		} else {
@@ -71,9 +72,6 @@ func (a *archer) moveTo(u Unit) {
 }
 
 func (a *archer) handleAttack() {
-	if a.attack == 0 {
-		a.SetVelocity(fixed.Vector{0, 0})
-	}
 	if a.attack == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {
