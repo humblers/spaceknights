@@ -10,6 +10,7 @@ var castPosX = 0
 var castPosY = 0
 var isCasting = false
 var movingToCastPos = false
+var layer
 
 var attack_counter = 0
 
@@ -18,8 +19,14 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 	initPosX = PositionX()
 	initPosY = PositionY()
+	layer = .Layer()
+
+func Layer():
+	return layer
 
 func TakeDamage(amount):
+	if layer == "Invulnerable":
+		return
 	.TakeDamage(amount)
 	if IsDead():
 		player.OnKnightDead(self)
@@ -64,6 +71,7 @@ func Update():
 					z_index = Z_GROUND
 					isCasting = false
 					SetCollidable(true)
+					layer = .Layer()
 			else:
 				var x = scalar.Sub(initPosX, PositionX())
 				var y = scalar.Sub(initPosY, PositionY())
@@ -106,6 +114,7 @@ func CastSkill(posX, posY):
 	castPosX = game.World().FromPixel(posX)
 	castPosY = game.World().FromPixel(posY)
 	SetCollidable(false)
+	layer = "Invulnerable"
 	init_rotation()
 	return true
 

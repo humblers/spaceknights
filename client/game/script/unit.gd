@@ -47,6 +47,8 @@ func to_client_position(px, py):
 func init_rotation():
 	if team == "Red":
 		$Rotatable.rotation = PI
+	else:
+		$Rotatable.rotation = 0
 	if game.team_swapped:
 		$Rotatable.rotation += PI
 	

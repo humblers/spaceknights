@@ -12,6 +12,7 @@ type legion struct {
 	castPos         fixed.Vector
 	isCasting       bool
 	movingToCastPos bool
+	layer           Layer
 }
 
 func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -20,10 +21,18 @@ func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 		unit:    u,
 		player:  p,
 		initPos: u.Position(),
+		layer:   u.Layer(),
 	}
 }
 
+func (l *legion) Layer() Layer {
+	return l.layer
+}
+
 func (l *legion) TakeDamage(amount int) {
+	if l.layer == Invulnerable {
+		return
+	}
 	l.unit.TakeDamage(amount)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
@@ -59,6 +68,7 @@ func (l *legion) Update() {
 				} else {
 					l.isCasting = false
 					l.SetCollidable(true)
+					l.layer = l.unit.Layer()
 				}
 			} else {
 				v := l.initPos.Sub(l.Position())
@@ -111,6 +121,7 @@ func (l *legion) CastSkill(posX, posY int) bool {
 		l.game.World().FromPixel(posY),
 	}
 	l.SetCollidable(false)
+	l.layer = Invulnerable
 	return true
 }
 
