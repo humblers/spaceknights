@@ -9,6 +9,7 @@ func load_game():
 	queue_free()
 	var g = preload("res://game/game.tscn").instance()
 	g.cfg = cfg
+	g.connected = true
 	get_tree().get_root().add_child(g)
 #	get_tree().change_scene("res://game/game.tscn")
 

@@ -13,7 +13,7 @@ var game
 var body
 
 var node_hp
-
+	
 func Init(id, name, team, level, posX, posY, game):
 	self.id = id
 	self.name_ = name
@@ -32,17 +32,12 @@ func Init(id, name, team, level, posX, posY, game):
 	
 	# client only
 	set_hp()
-	position = to_client_position(posX, posY)
+	if game.team_swapped:
+		posX = game.FlipX(posX)
+		posY = game.FlipY(posY)
+	position = Vector2(posX, posY)
 	init_rotation()
 	return self
-	
-func to_client_position(px, py):
-	if game.team_swapped:
-		var w = game.World().ToPixel(game.Map().Width())
-		var h = game.World().ToPixel(game.Map().Height())
-		return Vector2(w - px, h - py)
-	else:
-		return Vector2(px, py)
 
 func init_rotation():
 	if team == "Red":
@@ -55,8 +50,11 @@ func init_rotation():
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
 	var py = game.World().ToPixel(y)
-	var dir = to_client_position(px, py) - position
-	$Rotatable.rotation = PI/2 + dir.angle()
+	if game.team_swapped:
+		px = game.FlipX(px)
+		py = game.FlipY(py)
+	var dir = Vector2(px, py) - position
+	$Rotatable.rotation = PI/2 + dir.angle()	# unit initial angle = -90
 
 func set_hp():
 	var color = team

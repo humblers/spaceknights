@@ -10,6 +10,7 @@ const KNIGHT_INITIAL_POSY = [1600, 1600, 1600]
 
 const INPUT_DELAY_STEP = 10
 
+var id
 var team
 var energy = 0
 var hand = []
@@ -22,6 +23,7 @@ var game
 var selected_card = null
 
 func Init(playerData, game):
+	id = playerData.Id
 	team = playerData.Team
 	if playerData.has("Deck"):
 		energy = START_ENERGY
@@ -36,18 +38,22 @@ func Init(playerData, game):
 	self.game = game
 	for i in range(len(playerData.Knights)):
 		var k = playerData.Knights[i]
-		var id = game.AddUnit(k.Name, k.Level, KNIGHT_INITIAL_POSX[i], KNIGHT_INITIAL_POSY[i], self)
+		var x = KNIGHT_INITIAL_POSX[i]
+		var y = KNIGHT_INITIAL_POSY[i]
+		if team == "Red":
+			x = game.FlipX(x)
+			y = game.FlipY(y)
+		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		knightIds.append(id)
 
 	$Energy.max_value = MAX_ENERGY
 	$Energy.value = energy
+	connect_input()
 	if not no_deck:
 		update_cards()
-	if playerData.Id == user.Id:
-		connect_input()
 
 func connect_input():
-	$BattleField.connect("gui_input", self, "send_input")
+	get_node("../../BattleField").connect("gui_input", self, "send_input")
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
 		button.connect("pressed", self, "select_card", [i])
@@ -57,10 +63,13 @@ func send_input(ev):
 		if selected_card != null:
 			var x = int(ev.position.x)
 			var y = int(ev.position.y)
-			tcp.Send({
+			if game.team_swapped:
+				x = game.FlipX(x)
+				y = game.FlipY(y)
+			var input = {
 					"Step": game.step + INPUT_DELAY_STEP,
 					"Action": {
-						"Id": "Alice",
+						"Id": id,
 						"Card": {
 							"Name": selected_card.Name,
 							"Level": selected_card.Level,
@@ -68,7 +77,15 @@ func send_input(ev):
 						"PosX": x,
 						"PosY": y,
 					},
-			})	
+			}
+			if game.connected:
+				tcp.Send(input)
+			else:
+				if game.actions.has(input.Step):
+					game.actions[input.Step].append(input.Action)
+				else:
+					game.actions[input.Step] = [input.Action]
+		
 	
 func select_card(i):
 	selected_card = hand[i]
@@ -140,11 +157,6 @@ func useCard(c, posX, posY):
 		var k = findKnight(card["caster"])
 		if k == null:
 			return "should not be here"
-		if team == "Red":
-			var w = game.World().ToPixel(game.Map().Width())
-			var h = game.World().ToPixel(game.Map().Height())
-			posX = w - posX
-			posY = h - posY
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:

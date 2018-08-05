@@ -30,6 +30,8 @@ var params = map[string]fixed.Scalar{
 type Game interface {
 	World() physics.World
 	Map() nav.Map
+	FlipX(x int) int
+	FlipY(y int) int
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
@@ -277,10 +279,6 @@ func (g *game) removeExpiredBullets() {
 }
 
 func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
-	if p.Team() == Red {
-		posX = g.world.ToPixel(g.map_.Width()) - posX
-		posY = g.world.ToPixel(g.map_.Height()) - posY
-	}
 	g.unitCounter++
 	id := g.unitCounter
 	var u Unit
@@ -315,4 +313,12 @@ func (g *game) Map() nav.Map {
 
 func (g *game) UnitIds() []int {
 	return g.unitIds
+}
+
+func (g *game) FlipX(x int) int {
+	return g.world.ToPixel(g.map_.Width()) - x
+}
+
+func (g *game) FlipY(y int) int {
+	return g.world.ToPixel(g.map_.Height()) - y
 }

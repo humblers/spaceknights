@@ -6,6 +6,9 @@ var attack = 0
 var elapsed = 0
 var curr_anim = ""
 
+func _ready():
+	name_ = "archer"
+	
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "archer", player.Team(), level, posX, posY, game)
 	set_process(true)
