@@ -1,50 +1,50 @@
 extends Node2D
 
-var cfg
-#var cfg = {
-#	"Id": "TEST",
-#	"MapName": "Thanatos",
-#	"Players": [
-#		{
-#			"Id": "Alice",
-#			"Team": "Blue",
-#			"Deck": [
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#				{"Name": "fireball", "Level": 0},
-#				{"Name": "archers", "Level": 0},
-#			],
-#			"Knights": [
-#				{"Name": "legion", "Level": 0},
-#				{"Name": "legion", "Level": 0},
-#				{"Name": "legion", "Level": 0},
-#			],
-#		},
-#		{
-#			"Id": "Bob",
-#			"Team": "Red",
-##			"Deck": [
-##				{"Name": "fireball", "Level": 0},
-##				{"Name": "archers", "Level": 0},
-##				{"Name": "archers", "Level": 0},
-##				{"Name": "archers", "Level": 0},
-##				{"Name": "archers", "Level": 0},
-##				{"Name": "fireball", "Level": 0},
-##				{"Name": "fireball", "Level": 0},
-##				{"Name": "archers", "Level": 0},
-##			],
-#			"Knights": [
-#				{"Name": "legion", "Level": 0},
-#				{"Name": "legion", "Level": 0},
-#				{"Name": "legion", "Level": 0},
-#			],
-#		}
-#	],
-#}
+var connected = false
+var cfg = {
+	"Id": "TEST",
+	"MapName": "Thanatos",
+	"Players": [
+		{
+			"Id": "Alice",
+			"Team": "Blue",
+			"Deck": [
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+			],
+			"Knights": [
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+			],
+		},
+		{
+			"Id": "Bob",
+			"Team": "Red",
+			"Deck": [
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "archers", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "fireball", "Level": 0},
+				{"Name": "archers", "Level": 0},
+			],
+			"Knights": [
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+				{"Name": "legion", "Level": 0},
+			],
+		}
+	],
+}
 
 const PLAY_TIME = 60000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
@@ -71,6 +71,7 @@ var units = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
+var actions = {}
 
 # client physics frame
 var frame = 0
@@ -84,7 +85,12 @@ var elapsed = 0
 var team_swapped = false
 
 func _ready():
-	tcp.connect("disconnected", self, "request_stop")
+	if connected:
+		tcp.connect("disconnected", self, "request_stop")
+	else:
+		$Camera2D.zoom = Vector2(1.1, 1.1)
+		$Camera2D.offset = Vector2(0, -50)
+		$Players/Red.show()
 	set_process(true)
 	set_physics_process(true)
 
@@ -126,8 +132,6 @@ func CreateMapObstacles():
 func _process(delta):
 	elapsed += delta
 	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
-	var w = world.ToPixel(map.Width())
-	var h = world.ToPixel(map.Height())
 	for b in world.bodies:
 		if b.node != null:
 			var prev = Vector2(
@@ -139,25 +143,33 @@ func _process(delta):
 				world.ToPixel(b.pos_y)
 			)
 			if team_swapped:
-				prev = Vector2(w, h) - prev
-				curr = Vector2(w, h) - curr
+				prev.x = FlipX(prev.x)
+				prev.y = FlipY(prev.y)
+				curr.x = FlipX(curr.x)
+				curr.y = FlipY(curr.y)
 			b.node.position = prev.linear_interpolate(curr, t)
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
-		var iterations = 1
-		var n = tcp.received.size()
-		if n <= 0:
-			if to_stop:
-				stop()
-				return
-			print("not enough packets")
-			iterations = 0
-		if n > PACKET_WINDOW:
-			print("too many packets %s" % [n])
-			iterations = min(10, n)
-		for i in range(iterations):
-			var state = parse_json(tcp.received.pop_front())
+		if connected:
+			var iterations = 1
+			var n = tcp.received.size()
+			if n <= 0:
+				if to_stop:
+					stop()
+					return
+				print("not enough packets")
+				iterations = 0
+			if n > PACKET_WINDOW:
+				print("too many packets %s" % [n])
+				iterations = min(10, n)
+			for i in range(iterations):
+				var state = parse_json(tcp.received.pop_front())
+				update(state)
+		else:
+			var state = {"Actions": null}
+			if actions.has(step):
+				state["Actions"] = actions[step]
 			update(state)
 	
 	frame += 1
@@ -177,12 +189,13 @@ func update(state):
 	world.Step()
 	
 	# validate
-	if step != state.Step:
-		print("step mismatch: %s - %s" % [step, state.Step])
-	var client_hash = world.Digest()
-	var server_hash = state.Hash
-	if client_hash != server_hash:
-		print("desync detected: %s - %s" % [client_hash, server_hash])
+	if connected:
+		if step != state.Step:
+			print("step mismatch: %s - %s" % [step, state.Step])
+		var client_hash = world.Digest()
+		var server_hash = state.Hash
+		if client_hash != server_hash:
+			print("desync detected: %s - %s" % [client_hash, server_hash])
 
 	step += 1
 	elapsed = 0
@@ -204,11 +217,6 @@ func removeExpiredBullets():
 	bullets = filtered
 
 func AddUnit(name, level, posX, posY, player):
-	var w = world.ToPixel(map.Width())
-	var h = world.ToPixel(map.Height())
-	if player.Team() == "Red":
-		posX = w - posX
-		posY = h - posY
 	unitCounter += 1
 	var id = unitCounter
 	var node = resource.UNIT[name].instance()
@@ -236,3 +244,10 @@ func Map():
 
 func UnitIds():
 	return units.keys()
+
+func FlipX(x):
+	return world.ToPixel(map.Width()) - x
+
+func FlipY(y):
+	return world.ToPixel(map.Height()) - y
+	

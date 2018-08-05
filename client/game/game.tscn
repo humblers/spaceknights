@@ -46,7 +46,7 @@ tracks/0/keys = {
 "values": [ Vector2( 540, 960 ) ]
 }
 
-[node name="game" type="Node2D"]
+[node name="game" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Editor", "Transform" ]
@@ -78,9 +78,28 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="Players" type="CanvasLayer" parent="." index="1"]
+[node name="BattleField" type="Control" parent="." index="1"]
 
-editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 1760.0
+rect_min_size = Vector2( 1000, 1700 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Mouse", "Rect", "Size Flags" ]
+
+[node name="Players" type="CanvasLayer" parent="." index="2"]
+
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -93,9 +112,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -500.0
-margin_top = -1860.0
-margin_right = 500.0
+margin_left = -470.0
+margin_top = -140.0
+margin_right = 470.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -105,35 +124,17 @@ size_flags_vertical = 1
 custom_constants/separation = 0
 alignment = 0
 script = ExtResource( 2 )
-_sections_unfolded = [ "Anchor", "Rect", "custom_constants" ]
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_constants" ]
 
-[node name="BattleField" type="Control" parent="Players/Blue" index="0"]
+[node name="Cards" type="HBoxContainer" parent="Players/Blue" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1000.0
-margin_bottom = 1700.0
-rect_min_size = Vector2( 1000, 1700 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="Cards" type="HBoxContainer" parent="Players/Blue" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 1700.0
-margin_right = 1000.0
-margin_bottom = 1820.0
+margin_right = 940.0
+margin_bottom = 120.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -579,15 +580,15 @@ group = null
 flat = true
 align = 1
 
-[node name="Energy" type="TextureProgress" parent="Players/Blue" index="2"]
+[node name="Energy" type="TextureProgress" parent="Players/Blue" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 1820.0
-margin_right = 1000.0
-margin_bottom = 1840.0
+margin_top = 120.0
+margin_right = 940.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -611,7 +612,6 @@ _sections_unfolded = [ "Textures" ]
 
 [node name="Red" type="VBoxContainer" parent="Players" index="1"]
 
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.0
@@ -619,19 +619,20 @@ anchor_right = 0.5
 anchor_bottom = 0.0
 margin_left = -470.0
 margin_right = 470.0
-margin_bottom = 144.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+custom_constants/separation = 0
 alignment = 0
 script = ExtResource( 2 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_constants" ]
 
 [node name="Cards" type="HBoxContainer" parent="Players/Red" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -670,10 +671,8 @@ stretch_mode = 0
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -681,6 +680,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 stretch_mode = 0
+_sections_unfolded = [ "Mouse" ]
 
 [node name="Over" type="TextureRect" parent="Players/Red/Cards/Next" index="1"]
 
@@ -701,7 +701,6 @@ stretch_mode = 0
 
 [node name="Card1" type="TextureRect" parent="Players/Red/Cards" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -717,15 +716,14 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 5 )
 stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags", "Theme" ]
 
 [node name="Icon" type="TextureRect" parent="Players/Red/Cards/Card1" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -733,6 +731,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="Over" type="TextureRect" parent="Players/Red/Cards/Card1" index="1"]
 
@@ -775,11 +774,31 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+_sections_unfolded = [ "Mouse", "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Button" type="Button" parent="Players/Red/Cards/Card1" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
 [node name="Card2" type="TextureRect" parent="Players/Red/Cards" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -800,10 +819,8 @@ stretch_mode = 0
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -853,11 +870,30 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+_sections_unfolded = [ "Mouse", "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+
+[node name="Button" type="Button" parent="Players/Red/Cards/Card2" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
 
 [node name="Card3" type="TextureRect" parent="Players/Red/Cards" index="3"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -878,10 +914,8 @@ stretch_mode = 0
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -933,9 +967,28 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
 
+[node name="Button" type="Button" parent="Players/Red/Cards/Card3" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+
 [node name="Card4" type="TextureRect" parent="Players/Red/Cards" index="4"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1011,15 +1064,35 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
 
+[node name="Button" type="Button" parent="Players/Red/Cards/Card4" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+
 [node name="Energy" type="TextureProgress" parent="Players/Red" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 124.0
+margin_top = 120.0
 margin_right = 940.0
-margin_bottom = 144.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1041,8 +1114,9 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Textures" ]
 
-[node name="Map" type="Node2D" parent="." index="2"]
+[node name="Map" type="Node2D" parent="." index="3"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="BackgroundImage" type="Sprite" parent="Map" index="0"]
@@ -1082,59 +1156,60 @@ anims/test = SubResource( 2 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
-[node name="Units" type="Position2D" parent="." index="3"]
+[node name="Units" type="Position2D" parent="." index="4"]
 
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Bullets" type="Position2D" parent="." index="4"]
+[node name="Bullets" type="Position2D" parent="." index="5"]
 
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Skills" type="Position2D" parent="." index="5"]
+[node name="Skills" type="Position2D" parent="." index="6"]
 
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BattleField" type="Node2D" parent="." index="6"]
+[node name="Dummy" type="Node2D" parent="." index="7"]
 
 editor/display_folded = true
 visible = false
+_sections_unfolded = [ "Transform" ]
 
-[node name="TopLeft" type="Position2D" parent="BattleField" index="0"]
+[node name="TopLeft" type="Position2D" parent="Dummy" index="0"]
 
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="judge" parent="BattleField/TopLeft" index="0" instance=ExtResource( 14 )]
+[node name="judge" parent="Dummy/TopLeft" index="0" instance=ExtResource( 14 )]
 
 position = Vector2( 200, 1600 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="pixieking" parent="BattleField/TopLeft" index="1" instance=ExtResource( 15 )]
+[node name="pixieking" parent="Dummy/TopLeft" index="1" instance=ExtResource( 15 )]
 
 position = Vector2( 500, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="nagmash" parent="BattleField/TopLeft" index="2" instance=ExtResource( 16 )]
+[node name="nagmash" parent="Dummy/TopLeft" index="2" instance=ExtResource( 16 )]
 
 position = Vector2( 800, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="archengineer" parent="BattleField/TopLeft" index="3" instance=ExtResource( 17 )]
+[node name="archengineer" parent="Dummy/TopLeft" index="3" instance=ExtResource( 17 )]
 
 position = Vector2( 800, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform" ]
 
-[node name="ironcoffin" parent="BattleField/TopLeft" index="4" instance=ExtResource( 18 )]
+[node name="ironcoffin" parent="Dummy/TopLeft" index="4" instance=ExtResource( 18 )]
 
 position = Vector2( 500, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="lancer" parent="BattleField/TopLeft" index="5" instance=ExtResource( 19 )]
+[node name="lancer" parent="Dummy/TopLeft" index="5" instance=ExtResource( 19 )]
 
 position = Vector2( 200, 100 )
 rotation = 3.14159

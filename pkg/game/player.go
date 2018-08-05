@@ -41,7 +41,13 @@ func newPlayer(pd PlayerData, g Game) Player {
 		game: g,
 	}
 	for i, k := range pd.Knights {
-		id := g.AddUnit(k.Name, k.Level, knightInitialPositionX[i], knightInitialPositionY[i], p)
+		x := knightInitialPositionX[i]
+		y := knightInitialPositionY[i]
+		if p.team == Red {
+			x = g.FlipX(x)
+			y = g.FlipY(y)
+		}
+		id := g.AddUnit(k.Name, k.Level, x, y, p)
 		p.knightIds = append(p.knightIds, id)
 	}
 	return p
@@ -123,10 +129,6 @@ func (p *player) useCard(c Card, posX, posY int) error {
 		k := p.findKnight(card["caster"].(string))
 		if k == nil {
 			panic("should not be here")
-		}
-		if p.team == Red {
-			posX = p.game.World().ToPixel(p.game.Map().Width()) - posX
-			posY = p.game.World().ToPixel(p.game.Map().Height()) - posY
 		}
 		if !k.CastSkill(posX, posY) {
 			return fmt.Errorf("%v cannot cast skill now", k.Name())
