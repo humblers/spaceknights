@@ -33,8 +33,8 @@ type Unit interface {
 }
 
 const (
-	Ground       Layer = "Ground"
-	Air          Layer = "Air"
+	Normal       Layer = "Normal"
+	Ether        Layer = "Ether"
 	Invulnerable Layer = "Invulnerable"
 
 	Troop    Type = "Troop"
