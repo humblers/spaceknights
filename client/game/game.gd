@@ -121,13 +121,14 @@ func CreateMapObstacles():
 		var height = world.ToPixel(map.AreaHeight(o))
 		var x = world.ToPixel(map.AreaPosX(o))
 		var y = world.ToPixel(map.AreaPosY(o))
-		world.AddBox(
+		var b = world.AddBox(
 			scalar.FromInt(0),
 			world.FromPixel(width),
 			world.FromPixel(height),
 			world.FromPixel(x),
 			world.FromPixel(y)
 		)
+		b.SetLayer("Normal")
 
 func _process(delta):
 	elapsed += delta

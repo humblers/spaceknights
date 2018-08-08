@@ -60,18 +60,14 @@ func findTargetAndDoAction():
 		$AnimationPlayer.play("idle")
 
 func moveTo(unit):
-	var corner = game.Map().FindNextCornerInPath(
-		PositionX(), PositionY(),
-		unit.PositionX(), unit.PositionY(),
-		Radius())
-	var x = scalar.Sub(corner[0], PositionX())
-	var y = scalar.Sub(corner[1], PositionY())
+	var x = scalar.Sub(unit.PositionX(), PositionX())
+	var y = scalar.Sub(unit.PositionY(), PositionY())
 	var direction = vector.Normalized(x, y)
 	var speed = speed()
 	SetVelocity(
 		scalar.Mul(direction[0], speed), 
 		scalar.Mul(direction[1], speed))
-	look_at(corner[0], corner[1])
+	look_at(unit.PositionX(), unit.PositionY())
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play("move")
 	
@@ -79,7 +75,7 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		layer = "Normal"
+		setLayer("Normal")
 	var t = target()
 	if t != null:
 		look_at(t.PositionX(), t.PositionY())
@@ -88,9 +84,13 @@ func handleAttack():
 			fire()
 		else:
 			attack = 0
-			layer = .Layer()
+			setLayer(.Layer())
 			return
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
-		layer = .Layer()
+		setLayer(.Layer())
+
+func setLayer(l):
+	layer = l
+	body.SetLayer(layer)

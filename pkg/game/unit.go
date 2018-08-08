@@ -88,6 +88,7 @@ func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
 			w.FromPixel(posY),
 		},
 	)
+	u.Body.SetLayer(string(u.Layer()))
 	return u
 }
 

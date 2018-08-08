@@ -39,9 +39,10 @@ func Init(id, name, team, level, posX, posY, game):
 		w.FromPixel(posX),
 		w.FromPixel(posY)
 	)
-	body.node = self
+	body.SetLayer(Layer())
 	
 	# client only
+	body.node = self
 	set_hp()
 	if game.team_swapped:
 		posX = game.FlipX(posX)

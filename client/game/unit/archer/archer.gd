@@ -8,7 +8,6 @@ func InitDummy(posX, posY, game, player):
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "archer", player.Team(), level, posX, posY, game)
-	set_process(true)
 
 func Update():
 	SetVelocity(0, 0)

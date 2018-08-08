@@ -13,6 +13,7 @@ type Body interface {
 	SetVelocity(v fixed.Vector)
 	Radius() fixed.Scalar
 	SetCollidable(collidable bool)
+	SetLayer(l string)
 }
 
 type body struct {
@@ -30,6 +31,7 @@ type body struct {
 	height fixed.Scalar
 
 	no_collision bool
+	layer        string
 }
 
 type shape string
@@ -81,6 +83,10 @@ func (b *body) Radius() fixed.Scalar {
 
 func (b *body) SetCollidable(collidable bool) {
 	b.no_collision = !collidable
+}
+
+func (b *body) SetLayer(l string) {
+	b.layer = l
 }
 
 func (b *body) setAsBox(width, height fixed.Scalar) {

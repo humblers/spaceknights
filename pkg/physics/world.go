@@ -81,6 +81,9 @@ func (w *world) Step() {
 			if a.no_collision || b.no_collision {
 				continue
 			}
+			if a.layer != b.layer {
+				continue
+			}
 			c := checkCollision(a, b)
 			if c != nil {
 				w.collisions = append(w.collisions, c)

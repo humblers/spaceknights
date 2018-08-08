@@ -101,12 +101,13 @@ func (g *game) createMapObstacles() {
 		height := g.world.ToPixel(o.Height())
 		x := g.world.ToPixel(o.PosX())
 		y := g.world.ToPixel(o.PosY())
-		g.world.AddBox(
+		b := g.world.AddBox(
 			0,
 			g.world.FromPixel(width),
 			g.world.FromPixel(height),
 			fixed.Vector{g.world.FromPixel(x), g.world.FromPixel(y)},
 		)
+		b.SetLayer(string(Normal))
 	}
 }
 

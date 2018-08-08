@@ -69,18 +69,13 @@ func (s *shadowvision) findTargetAndDoAction() {
 }
 
 func (s *shadowvision) moveTo(u Unit) {
-	corner := s.game.Map().FindNextCornerInPath(
-		s.Position(),
-		u.Position(),
-		s.Radius(),
-	)
-	direction := corner.Sub(s.Position()).Normalized()
+	direction := u.Position().Sub(s.Position()).Normalized()
 	s.SetVelocity(direction.Mul(s.speed()))
 }
 
 func (s *shadowvision) handleAttack() {
 	if s.attack == 0 {
-		s.layer = Normal
+		s.setLayer(Normal)
 	}
 	if s.attack == s.preAttackDelay() {
 		t := s.target()
@@ -88,13 +83,18 @@ func (s *shadowvision) handleAttack() {
 			s.fire()
 		} else {
 			s.attack = 0
-			s.layer = s.unit.Layer()
+			s.setLayer(s.unit.Layer())
 			return
 		}
 	}
 	s.attack++
 	if s.attack > s.attackInterval() {
 		s.attack = 0
-		s.layer = s.unit.Layer()
+		s.setLayer(s.unit.Layer())
 	}
+}
+
+func (s *shadowvision) setLayer(l Layer) {
+	s.layer = l
+	s.Body.SetLayer(string(l))
 }
