@@ -289,6 +289,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newArcher(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
+	case "shadowvision":
+		u = newShadowvision(id, level, posX, posY, g, p)
 	default:
 		g.logger.Panicf("unknown unit name: %v", name)
 	}

@@ -11,12 +11,12 @@ var cfg = {
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
 				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "fireball", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 			],
 			"Knights": [
 				{"Name": "legion", "Level": 0},
@@ -29,9 +29,9 @@ var cfg = {
 			"Team": "Red",
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
 				{"Name": "fireball", "Level": 0},

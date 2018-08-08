@@ -1,15 +1,96 @@
-extends "res://game/unit/unit.gd"
+extends "res://game/script/unit.gd"
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+var targetId = 0
+var attack = 0
+var layer
+	
+func Init(id, level, posX, posY, game, player):
+	.Init(id, "shadowvision", player.Team(), level, posX, posY, game)
+	set_process(true)
+	layer = .Layer()
 
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+func Layer():
+	return layer
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+func Update():
+	SetVelocity(0, 0)
+	if attack > 0:
+		handleAttack()
+	else:
+		var t = target()
+		if t == null:
+			findTargetAndDoAction()
+		else:
+			if withinRange(t):
+				handleAttack()
+			else:
+				findTargetAndDoAction()
+
+func Destroy():
+	.Destroy()
+	$AnimationPlayer.play("explosion")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
+
+func target():
+	return game.FindUnit(targetId)
+
+func setTarget(unit):
+	if unit == null:
+		targetId = 0
+	else:
+		targetId = unit.Id()
+
+func fire():
+	var b = resource.BULLET[name_].instance()
+	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	game.AddBullet(b)
+	# client only
+	b.global_position = $Rotatable/Shotpoint.global_position
+
+func findTargetAndDoAction():
+	var t = findTarget()
+	setTarget(t)
+	if t != null:
+		if withinRange(t):
+			handleAttack()
+		else:
+			moveTo(t)
+	else:
+		$AnimationPlayer.play("idle")
+
+func moveTo(unit):
+	var corner = game.Map().FindNextCornerInPath(
+		PositionX(), PositionY(),
+		unit.PositionX(), unit.PositionY(),
+		Radius())
+	var x = scalar.Sub(corner[0], PositionX())
+	var y = scalar.Sub(corner[1], PositionY())
+	var direction = vector.Normalized(x, y)
+	var speed = speed()
+	SetVelocity(
+		scalar.Mul(direction[0], speed), 
+		scalar.Mul(direction[1], speed))
+	look_at(corner[0], corner[1])
+	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
+		$AnimationPlayer.play("move")
+	
+
+func handleAttack():
+	if attack == 0:
+		$AnimationPlayer.play("attack")
+		layer = "Normal"
+	var t = target()
+	if t != null:
+		look_at(t.PositionX(), t.PositionY())
+	if attack == preAttackDelay():
+		if t != null and withinRange(t):
+			fire()
+		else:
+			attack = 0
+			layer = .Layer()
+			return
+	attack += 1
+	if attack > attackInterval():
+		attack = 0
+		layer = .Layer()

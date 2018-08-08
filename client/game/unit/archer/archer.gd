@@ -3,12 +3,6 @@ extends "res://game/script/unit.gd"
 var targetId = 0
 var attack = 0
 
-var elapsed = 0
-var curr_anim = ""
-
-func _ready():
-	name_ = "archer"
-
 func InitDummy(posX, posY, game, player):
 	.InitDummy("archer", player.Team(), posX, posY, game)
 

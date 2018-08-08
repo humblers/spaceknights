@@ -14,6 +14,13 @@ const cards = {
 		"damage": [300, 400, 500],
 		"radius": 70,
 	},
+	"shadowvision": {
+		"cost":    3000,
+		"unit":    "shadowvision",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 }
 
 const units = {
@@ -26,7 +33,7 @@ const units = {
 		"sight":          350,
 		"speed":          100,	#pixels per second
 		"targettypes":    ["Troop", "Building", "Knight"],
-		"targetlayers":   ["Normal", "Ether"],
+		"targetlayers":   ["Normal"],
 		"attackdamage":   [30, 60, 90],
 		"attackrange":    300,
 		"attackinterval": 10,
@@ -42,7 +49,7 @@ const units = {
 		"sight":          350,
 		"speed":          800,
 		"targettypes":    ["Troop"],
-		"targetlayers":   ["Normal", "Ether"],
+		"targetlayers":   ["Normal"],
 		"attackdamage":   [50],
 		"attackrange":    330,
 		"attackinterval": 2,
@@ -50,5 +57,21 @@ const units = {
 		"bulletlifetime": 10,
 		"transformdelay": 5,
 		"skill":          "fireball",
+	},
+	"shadowvision": {
+		"type":           "Troop",
+		"layer":          "Ether",
+		"mass":           20,
+		"radius":         50,
+		"hp":             [600],
+		"sight":          400,
+		"speed":          80,
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [100, 150, 200],
+		"attackrange":    350,
+		"attackinterval": 40,
+		"preattackdelay": 0,
+		"bulletlifetime": 30,
 	},
 }

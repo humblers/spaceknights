@@ -7,10 +7,12 @@ const MAP = {
 const UNIT = {
 	"archer": preload("res://game/unit/archer/archer.tscn"),
 	"legion": preload("res://game/unit/legion/legion.tscn"),
+	"shadowvision": preload("res://game/unit/shadowvision/shadowvision.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
+	"shadowvision": preload("res://game/unit/archer/bullet.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
@@ -25,4 +27,5 @@ const CURSOR = {
 const ICON = {
 	"archers": preload("res://game/unit/archer/idle.png"),
 	"fireball": preload("res://game/unit/legion/bomber.png"),
+	"shadowvision": preload("res://game/unit/shadowvision/shadow_vision.png")
 }

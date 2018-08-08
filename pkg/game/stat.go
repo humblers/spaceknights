@@ -14,6 +14,13 @@ var cards = map[string]map[string]interface{}{
 		"damage": []int{300, 400, 500},
 		"radius": 70,
 	},
+	"shadowvision": map[string]interface{}{
+		"cost":    3000,
+		"unit":    "shadowvision",
+		"count":   1,
+		"offsetX": []int{0},
+		"offsetY": []int{0},
+	},
 }
 
 var units = map[string]map[string]interface{}{
@@ -26,7 +33,7 @@ var units = map[string]map[string]interface{}{
 		"sight":          350,
 		"speed":          100,
 		"targettypes":    Types{Troop, Building, Knight},
-		"targetlayers":   Layers{Normal, Ether},
+		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{30, 60, 90},
 		"attackrange":    300,
 		"attackinterval": 10,
@@ -42,7 +49,7 @@ var units = map[string]map[string]interface{}{
 		"sight":          350,
 		"speed":          800,
 		"targettypes":    Types{Troop},
-		"targetlayers":   Layers{Normal, Ether},
+		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{50},
 		"attackrange":    330,
 		"attackinterval": 2,
@@ -50,5 +57,21 @@ var units = map[string]map[string]interface{}{
 		"bulletlifetime": 10,
 		"transformdelay": 5,
 		"skill":          "fireball",
+	},
+	"shadowvision": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Ether,
+		"mass":           20,
+		"radius":         50,
+		"hp":             []int{600},
+		"sight":          400,
+		"speed":          80,
+		"targettypes":    Types{Troop, Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{100, 150, 200},
+		"attackrange":    350,
+		"attackinterval": 40,
+		"preattackdelay": 0,
+		"bulletlifetime": 30,
 	},
 }
