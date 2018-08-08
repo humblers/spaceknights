@@ -8,7 +8,10 @@ var curr_anim = ""
 
 func _ready():
 	name_ = "archer"
-	
+
+func InitDummy(posX, posY, game, player):
+	.InitDummy("archer", player.Team(), posX, posY, game)
+
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "archer", player.Team(), level, posX, posY, game)
 	set_process(true)

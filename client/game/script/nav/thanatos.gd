@@ -127,6 +127,15 @@ func Width():
 func Height():
 	return scalar.Mul(tileHeight, tileNumY)
 
+func TileWidth():
+	return tileWidth
+
+func TileHeight():
+	return tileHeight
+
+func TileNumX():
+	return tileNumX
+
 func GetObstacles():
 	return [leftshield, centershield, rightshield]
 

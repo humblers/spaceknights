@@ -16,6 +16,11 @@ const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 }
 
+const CURSOR = {
+	"unit": preload("res://game/ui/unit_cursor.tscn"),
+	"legion": preload("res://game/unit/legion/bomingpoint.tscn"),
+}
+
 # temporary
 const ICON = {
 	"archers": preload("res://game/unit/archer/idle.png"),

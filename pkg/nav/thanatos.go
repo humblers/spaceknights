@@ -5,6 +5,9 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
+	TileWidth() fixed.Scalar
+	TileHeight() fixed.Scalar
+	TileNumX() fixed.Scalar
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -146,6 +149,18 @@ func (t *thanatos) Width() fixed.Scalar {
 
 func (t *thanatos) Height() fixed.Scalar {
 	return t.tileHeight.Mul(t.tileNumY)
+}
+
+func (t *thanatos) TileWidth() fixed.Scalar {
+	return t.tileWidth
+}
+
+func (t *thanatos) TileHeight() fixed.Scalar {
+	return t.tileHeight
+}
+
+func (t *thanatos) TileNumX() fixed.Scalar {
+	return t.tileNumX
 }
 
 func (t *thanatos) GetObstacles() []Area {

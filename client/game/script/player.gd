@@ -21,6 +21,8 @@ var no_deck = false
 var game
 
 var selected_card = null
+var action_markers = {}
+var is_dragging = false
 
 func Init(playerData, game):
 	id = playerData.Id
@@ -53,16 +55,42 @@ func Init(playerData, game):
 		update_cards()
 
 func connect_input():
-	get_node("../../BattleField").connect("gui_input", self, "send_input")
+	get_node("../../BattleField").connect("gui_input", self, "send_input", [null])
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
-		button.connect("pressed", self, "select_card", [i])
+		button.connect("gui_input", self, "send_input", [i])
 
-func send_input(ev):
-	if ev is InputEventMouseButton and ev.pressed:
-		if selected_card != null:
-			var x = int(ev.position.x)
-			var y = int(ev.position.y)
+func send_input(ev, i):
+	if ev is InputEventMouseMotion:
+		if is_dragging:
+			var ev_pos = to_field_position(ev.global_position)
+			if not in_field_rect(ev_pos):
+				return
+			add_cursor()
+			var x = int(ev_pos.x)
+			var y = int(ev_pos.y)
+			var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
+			get_node("../../BattleField/CursorPos").position = tile_pos
+
+	if ev is InputEventMouseButton:
+		if ev.pressed:
+			if i != null:
+				selected_card = hand[i]
+			is_dragging = true
+		else:
+			cancel_dragging()
+			var ev_pos = to_field_position(ev.global_position)
+			if not in_field_rect(ev_pos):
+				return
+			if selected_card == null:
+				show_message("No Selected Card", ev.position.y)
+				return
+			if energy < stat.cards[selected_card.Name]["cost"]:
+				show_message("Not Enought Energy", ev.position.y)
+				clear_cursor()
+				return
+			var x = int(ev_pos.x)
+			var y = int(ev_pos.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
@@ -85,15 +113,77 @@ func send_input(ev):
 					game.actions[input.Step].append(input.Action)
 				else:
 					game.actions[input.Step] = [input.Action]
-		
-	
+			mark_action(input)
+
+func to_field_position(pos):
+	return get_node("../../BattleField/TopLeft").to_local(pos)
+
+func in_field_rect(pos):
+	return get_node("../../BattleField").get_rect().has_point(pos)
+
 func select_card(i):
 	selected_card = hand[i]
+	is_dragging = true
+
+func cancel_dragging():
+	is_dragging = false
+
+func add_cursor():
+	var pos_node = get_node("../../BattleField/CursorPos")
+	if pos_node.get_child_count() > 0:
+		return
+	var cardData = stat.cards[selected_card.Name]
+	var cursor
+	if not cardData.has("unit"):
+		var k = findKnight(cardData["caster"])
+		cursor = resource.CURSOR[k.Name()]
+	else:
+		cursor = resource.CURSOR["unit"]
+		var name = cardData["unit"]
+		var count = cardData["count"]
+		var offsetX = cardData["offsetX"]
+		var offsetY = cardData["offsetY"]
+		for i in range(count):
+			pos_node.add_child(get_unit(name, offsetX[i], offsetY[i]))
+	cursor = cursor.instance()
+	pos_node.add_child(cursor)
+	pos_node.move_child(cursor, 0)
+
+func clear_cursor():
+	for child in get_node("../../BattleField/CursorPos").get_children():
+		child.queue_free()
+
+func mark_action(input):
+	if not action_markers.has(input.Step):
+		action_markers[input.Step] = []
+	var pos_node = get_node("../../BattleField/CursorPos")
+	for child in pos_node.get_children():
+		var global_pos = child.global_position
+		pos_node.remove_child(child)
+		get_node("../../BattleField").add_child(child)
+		child.global_position = global_pos
+		action_markers[input.Step].append(child)
+
+func get_unit(name, x, y):
+	var node = resource.UNIT[name].instance()
+	node.InitDummy(x, y, game, self)
+	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
+	return node
 
 func update_cards():
 	for i in range(HAND_SIZE):
 		$Cards.get_node("Card%s" % (i+1)).get_node("Icon").texture = resource.ICON[hand[i].Name]
-	
+
+func show_message(msg, pos_y):
+	if team.to_lower() == "red":
+		return
+	var msgBar = get_node("../../BattleField/MessageBar")
+	var pos_x = msgBar.rect_position.x
+	msgBar.text = msg
+	$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.start()
+
 func Team():
 	return team
 
@@ -102,6 +192,10 @@ func Update():
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	$Energy.value = energy
+	
+	if action_markers.has(game.step):
+		for node in action_markers[game.step]:
+			node.queue_free()
 
 func Do(action):
 	if action.Card.Name == "":
@@ -190,4 +284,3 @@ func removeCard(name):
 		if c.Name == name:
 			pending.remove(i)
 			return
-
