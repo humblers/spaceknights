@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/script/player.gd" type="Script" id=2]
@@ -13,12 +13,22 @@
 [ext_resource path="res://game/bg/01/bg-lunatos-screen.png" type="Texture" id=11]
 [ext_resource path="res://game/bg/01/bg-lunatos-planet.png" type="Texture" id=12]
 [ext_resource path="res://game/bg/tile.png" type="Texture" id=13]
-[ext_resource path="res://game/unit/judge/judge.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/unit/pixieking/pixieking.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/unit/nagmash/nagmash.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/unit/archengineer/archengineer.tscn" type="PackedScene" id=17]
-[ext_resource path="res://game/unit/ironcoffin/ironcoffin.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/unit/lancer/lancer.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/bg/mothership/body.png" type="Texture" id=14]
+[ext_resource path="res://game/bg/mothership/bodydamage.png" type="Texture" id=15]
+[ext_resource path="res://game/bg/mothership/bodydestroy.png" type="Texture" id=16]
+[ext_resource path="res://game/bg/mothership/container.png" type="Texture" id=17]
+[ext_resource path="res://game/bg/mothership/containerdamage.png" type="Texture" id=18]
+[ext_resource path="res://game/bg/mothership/nose.png" type="Texture" id=19]
+[ext_resource path="res://game/bg/mothership/nosedamage.png" type="Texture" id=20]
+[ext_resource path="res://game/bg/mothership/nosedestroy.png" type="Texture" id=21]
+[ext_resource path="res://game/bg/mothership/takeoffway.png" type="Texture" id=22]
+[ext_resource path="res://game/bg/mothership/takeoffwaydamage.png" type="Texture" id=23]
+[ext_resource path="res://game/unit/judge/judge.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/unit/pixieking/pixieking.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/unit/nagmash/nagmash.tscn" type="PackedScene" id=26]
+[ext_resource path="res://game/unit/archengineer/archengineer.tscn" type="PackedScene" id=27]
+[ext_resource path="res://game/unit/ironcoffin/ironcoffin.tscn" type="PackedScene" id=28]
+[ext_resource path="res://game/unit/lancer/lancer.tscn" type="PackedScene" id=29]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -28,7 +38,43 @@ use_filter = false
 font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "body",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+
+animations = [ {
+"frames": [ ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "container",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "nose",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+
+animations = [ {
+"frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "takeoffway",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=6]
 
 length = 1.0
 loop = false
@@ -1117,7 +1163,6 @@ _sections_unfolded = [ "Textures" ]
 
 [node name="Map" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="BackgroundImage" type="Sprite" parent="Map" index="0"]
@@ -1146,6 +1191,28 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 position = Vector2( 540, 960 )
 _sections_unfolded = [ "Transform" ]
 
+[node name="Blue" type="Node2D" parent="Map/MotherShip" index="0"]
+
+[node name="Body" type="AnimatedSprite" parent="Map/MotherShip/Blue" index="0"]
+
+frames = SubResource( 2 )
+animation = "body"
+
+[node name="Container" type="AnimatedSprite" parent="Map/MotherShip/Blue" index="1"]
+
+frames = SubResource( 3 )
+animation = "container"
+
+[node name="Nose" type="AnimatedSprite" parent="Map/MotherShip/Blue" index="2"]
+
+frames = SubResource( 4 )
+animation = "nose"
+
+[node name="Takeoffway" type="AnimatedSprite" parent="Map/MotherShip/Blue" index="3"]
+
+frames = SubResource( 5 )
+animation = "takeoffway"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Map" index="4"]
 
 root_node = NodePath("..")
@@ -1153,7 +1220,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/test = SubResource( 2 )
+anims/test = SubResource( 6 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -1183,34 +1250,34 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="judge" parent="Dummy/TopLeft" index="0" instance=ExtResource( 14 )]
+[node name="judge" parent="Dummy/TopLeft" index="0" instance=ExtResource( 24 )]
 
 position = Vector2( 200, 1600 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="pixieking" parent="Dummy/TopLeft" index="1" instance=ExtResource( 15 )]
+[node name="pixieking" parent="Dummy/TopLeft" index="1" instance=ExtResource( 25 )]
 
 position = Vector2( 500, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="nagmash" parent="Dummy/TopLeft" index="2" instance=ExtResource( 16 )]
+[node name="nagmash" parent="Dummy/TopLeft" index="2" instance=ExtResource( 26 )]
 
 position = Vector2( 800, 1600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="archengineer" parent="Dummy/TopLeft" index="3" instance=ExtResource( 17 )]
+[node name="archengineer" parent="Dummy/TopLeft" index="3" instance=ExtResource( 27 )]
 
 position = Vector2( 800, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform" ]
 
-[node name="ironcoffin" parent="Dummy/TopLeft" index="4" instance=ExtResource( 18 )]
+[node name="ironcoffin" parent="Dummy/TopLeft" index="4" instance=ExtResource( 28 )]
 
 position = Vector2( 500, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="lancer" parent="Dummy/TopLeft" index="5" instance=ExtResource( 19 )]
+[node name="lancer" parent="Dummy/TopLeft" index="5" instance=ExtResource( 29 )]
 
 position = Vector2( 200, 100 )
 rotation = 3.14159
