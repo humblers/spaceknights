@@ -12,7 +12,7 @@ const UNIT = {
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
-	"shadowvision": preload("res://game/unit/archer/bullet.tscn"),
+	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
