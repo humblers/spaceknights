@@ -21,6 +21,8 @@ var no_deck = false
 var game
 
 var selected_card = null
+var pressed = false
+var action_markers = {}
 
 func Init(playerData, game):
 	id = playerData.Id
@@ -53,16 +55,41 @@ func Init(playerData, game):
 		update_cards()
 
 func connect_input():
-	get_node("../../BattleField").connect("gui_input", self, "send_input")
+	var field = get_node("../../BattleField")
+	field.connect("gui_input", self, "send_input", [field, null])
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
-		button.connect("pressed", self, "select_card", [i])
+		button.connect("gui_input", self, "send_input", [button, i])
 
-func send_input(ev):
-	if ev is InputEventMouseButton and ev.pressed:
-		if selected_card != null:
-			var x = int(ev.position.x)
-			var y = int(ev.position.y)
+func send_input(ev, node, i):
+	var field = get_node("../../BattleField")
+	var pos = field.get_local_mouse_position()
+	if ev is InputEventMouseMotion:
+		if pressed:
+			if selected_card == null:
+				return
+			if not field.get_rect().has_point(pos):
+				return
+			update_cursor(int(pos.x), int(pos.y))
+
+	if ev is InputEventMouseButton:
+		pressed = ev.pressed
+		if pressed:
+			if i != null:
+				selected_card = hand[i]
+		else:
+			if not field.get_rect().has_point(pos):
+				clear_cursor()
+				return
+			if selected_card == null:
+				show_message("No Selected Card", pos.y)
+				return
+			if energy < stat.cards[selected_card.Name]["cost"]:
+				show_message("Not Enought Energy", pos.y)
+				clear_cursor()
+				return
+			var x = int(pos.x)
+			var y = int(pos.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
@@ -85,15 +112,66 @@ func send_input(ev):
 					game.actions[input.Step].append(input.Action)
 				else:
 					game.actions[input.Step] = [input.Action]
-		
-	
-func select_card(i):
-	selected_card = hand[i]
+			mark_action(input)
+
+func update_cursor(x, y):
+	var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
+	var pos_node = get_node("../../BattleField/CursorPos")
+	pos_node.position = tile_pos
+	if pos_node.get_child_count() > 0:
+		return
+	var cardData = stat.cards[selected_card.Name]
+	var cursor
+	if not cardData.has("unit"):
+		var k = findKnight(cardData["caster"])
+		cursor = resource.CURSOR[k.Name()]
+	else:
+		cursor = resource.CURSOR["unit"]
+		var name = cardData["unit"]
+		var count = cardData["count"]
+		var offsetX = cardData["offsetX"]
+		var offsetY = cardData["offsetY"]
+		for i in range(count):
+			pos_node.add_child(get_unit(name, offsetX[i], offsetY[i]))
+	cursor = cursor.instance()
+	pos_node.add_child(cursor)
+	pos_node.move_child(cursor, 0)
+
+func get_unit(name, x, y):
+	var node = resource.UNIT[name].instance()
+	node.InitDummy(x, y, game, self)
+	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
+	return node
+
+func clear_cursor():
+	for child in get_node("../../BattleField/CursorPos").get_children():
+		child.queue_free()
+
+func mark_action(input):
+	if not action_markers.has(input.Step):
+		action_markers[input.Step] = []
+	var pos_node = get_node("../../BattleField/CursorPos")
+	for child in pos_node.get_children():
+		var global_pos = child.global_position
+		pos_node.remove_child(child)
+		get_node("../../BattleField").add_child(child)
+		child.global_position = global_pos
+		action_markers[input.Step].append(child)
+
+func show_message(msg, pos_y):
+	if team.to_lower() == "red":
+		return
+	var msgBar = get_node("../../BattleField/MessageBar")
+	var pos_x = msgBar.rect_position.x
+	msgBar.text = msg
+	$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.start()
 
 func update_cards():
 	for i in range(HAND_SIZE):
 		$Cards.get_node("Card%s" % (i+1)).get_node("Icon").texture = resource.ICON[hand[i].Name]
-	
+
 func Team():
 	return team
 
@@ -102,6 +180,10 @@ func Update():
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	$Energy.value = energy
+	
+	if action_markers.has(game.step):
+		for node in action_markers[game.step]:
+			node.queue_free()
 
 func Do(action):
 	if action.Card.Name == "":
@@ -190,4 +272,3 @@ func removeCard(name):
 		if c.Name == name:
 			pending.remove(i)
 			return
-

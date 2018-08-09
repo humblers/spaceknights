@@ -13,7 +13,18 @@ var game
 var body
 
 var node_hp
-	
+
+func InitDummy(name, team, posX, posY, game):
+	self.name_ = name
+	self.team = team
+	self.game = game
+	if game.team_swapped:
+		posX = game.FlipX(posX)
+		posY = game.FlipY(posY)
+	position = Vector2(posX, posY)
+	init_rotation()
+	return self
+
 func Init(id, name, team, level, posX, posY, game):
 	self.id = id
 	self.name_ = name

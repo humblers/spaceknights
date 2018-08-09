@@ -32,6 +32,8 @@ type Game interface {
 	Map() nav.Map
 	FlipX(x int) int
 	FlipY(y int) int
+	TileFromPos(x, y int) int
+	PosFromTile(num int) (int, int)
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
@@ -321,4 +323,20 @@ func (g *game) FlipX(x int) int {
 
 func (g *game) FlipY(y int) int {
 	return g.world.ToPixel(g.map_.Height()) - y
+}
+
+func (g *game) TileFromPos(x, y int) int {
+	tw := g.world.ToPixel(g.map_.TileWidth())
+	th := g.world.ToPixel(g.map_.TileHeight())
+	nx := fixed.ToInt(g.map_.TileNumX())
+	return y/th*nx + x/tw
+}
+
+func (g *game) PosFromTile(num int) (int, int) {
+	nx := fixed.ToInt(g.map_TileNumX())
+	x := num % nx
+	y := num / nx
+	tw := g.world.ToPixel(g.map_.TileWidth())
+	th := g.world.ToPixel(g.map_.TileHeight())
+	return x * tw, y * th
 }
