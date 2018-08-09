@@ -55,32 +55,27 @@ func Init(playerData, game):
 		update_cards()
 
 func connect_input():
-	var field = get_node("../../BattleField")
-	field.connect("gui_input", self, "send_input", [field, null])
+	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
-		button.connect("gui_input", self, "send_input", [button, i])
+		button.connect("gui_input", self, "button_input", [i])
 
-func send_input(ev, node, i):
+func gui_input(ev):
 	var field = get_node("../../BattleField")
+	var rect = field.get_rect()
 	var pos = field.get_local_mouse_position()
+
 	if ev is InputEventMouseMotion:
 		if pressed:
 			if selected_card == null:
 				return
-			if not field.get_rect().has_point(pos):
-				return
-			update_cursor(int(pos.x), int(pos.y))
+			var x = int(clamp(pos.x, 0, rect.size.x - 1))
+			var y = int(clamp(pos.y, 0, rect.size.y - 1))
+			update_cursor(x, y)
 
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
-		if pressed:
-			if i != null:
-				selected_card = hand[i]
-		else:
-			if not field.get_rect().has_point(pos):
-				clear_cursor()
-				return
+		if not pressed:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
@@ -88,11 +83,12 @@ func send_input(ev, node, i):
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
-			var x = int(pos.x)
-			var y = int(pos.y)
+			var x = int(clamp(pos.x, 0, rect.size.x - 1))
+			var y = int(clamp(pos.y, 0, rect.size.y - 1))
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
+			var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
 			var input = {
 					"Step": game.step + INPUT_DELAY_STEP,
 					"Action": {
@@ -101,8 +97,8 @@ func send_input(ev, node, i):
 							"Name": selected_card.Name,
 							"Level": selected_card.Level,
 						},
-						"PosX": x,
-						"PosY": y,
+						"PosX": tile_pos.x,
+						"PosY": tile_pos.y,
 					},
 			}
 			if game.connected:
@@ -113,6 +109,12 @@ func send_input(ev, node, i):
 				else:
 					game.actions[input.Step] = [input.Action]
 			mark_action(input)
+
+func button_input(ev, i):
+	if ev is InputEventMouseButton:
+		if ev.pressed:
+			selected_card = hand[i]
+	gui_input(ev)
 
 func update_cursor(x, y):
 	var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
