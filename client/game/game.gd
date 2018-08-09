@@ -255,7 +255,7 @@ func TileFromPos(x, y):
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
 	var nx = scalar.ToInt(map.TileNumX())
-	return int(y / th * nx + x / tw)
+	return y / th * nx + min(x / tw, nx - 1)
 
 func PosFromTile(num):
 	var nx = scalar.ToInt(map.TileNumX())

@@ -21,8 +21,8 @@ var no_deck = false
 var game
 
 var selected_card = null
+var pressed = false
 var action_markers = {}
-var is_dragging = false
 
 func Init(playerData, game):
 	id = playerData.Id
@@ -55,42 +55,41 @@ func Init(playerData, game):
 		update_cards()
 
 func connect_input():
-	get_node("../../BattleField").connect("gui_input", self, "send_input", [null])
+	var field = get_node("../../BattleField")
+	field.connect("gui_input", self, "send_input", [field, null])
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
-		button.connect("gui_input", self, "send_input", [i])
+		button.connect("gui_input", self, "send_input", [button, i])
 
-func send_input(ev, i):
+func send_input(ev, node, i):
+	var field = get_node("../../BattleField")
+	var pos = field.get_local_mouse_position()
 	if ev is InputEventMouseMotion:
-		if is_dragging:
-			var ev_pos = to_field_position(ev.global_position)
-			if not in_field_rect(ev_pos):
+		if pressed:
+			if selected_card == null:
 				return
-			add_cursor()
-			var x = int(ev_pos.x)
-			var y = int(ev_pos.y)
-			var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
-			get_node("../../BattleField/CursorPos").position = tile_pos
+			if not field.get_rect().has_point(pos):
+				return
+			update_cursor(int(pos.x), int(pos.y))
 
 	if ev is InputEventMouseButton:
-		if ev.pressed:
+		pressed = ev.pressed
+		if pressed:
 			if i != null:
 				selected_card = hand[i]
-			is_dragging = true
 		else:
-			cancel_dragging()
-			var ev_pos = to_field_position(ev.global_position)
-			if not in_field_rect(ev_pos):
-				return
-			if selected_card == null:
-				show_message("No Selected Card", ev.position.y)
-				return
-			if energy < stat.cards[selected_card.Name]["cost"]:
-				show_message("Not Enought Energy", ev.position.y)
+			if not field.get_rect().has_point(pos):
 				clear_cursor()
 				return
-			var x = int(ev_pos.x)
-			var y = int(ev_pos.y)
+			if selected_card == null:
+				show_message("No Selected Card", pos.y)
+				return
+			if energy < stat.cards[selected_card.Name]["cost"]:
+				show_message("Not Enought Energy", pos.y)
+				clear_cursor()
+				return
+			var x = int(pos.x)
+			var y = int(pos.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
@@ -115,21 +114,10 @@ func send_input(ev, i):
 					game.actions[input.Step] = [input.Action]
 			mark_action(input)
 
-func to_field_position(pos):
-	return get_node("../../BattleField/TopLeft").to_local(pos)
-
-func in_field_rect(pos):
-	return get_node("../../BattleField").get_rect().has_point(pos)
-
-func select_card(i):
-	selected_card = hand[i]
-	is_dragging = true
-
-func cancel_dragging():
-	is_dragging = false
-
-func add_cursor():
+func update_cursor(x, y):
+	var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
 	var pos_node = get_node("../../BattleField/CursorPos")
+	pos_node.position = tile_pos
 	if pos_node.get_child_count() > 0:
 		return
 	var cardData = stat.cards[selected_card.Name]
