@@ -1,8 +1,12 @@
 extends Node2D
 
-const Z_GROUND = 0
-const Z_AIR = 1
-const Z_HIGH_SKY = 2
+const Z_INDEX = {
+	"Normal": 0,
+	"Ether": 1,
+	"Bullet": 2,
+	"Skill": 3,
+	"Casting": 4,
+}
 
 var id
 var name_
@@ -11,6 +15,7 @@ var level
 var hp
 var game
 var body
+var layer = ""
 
 var node_hp
 
@@ -39,7 +44,7 @@ func Init(id, name, team, level, posX, posY, game):
 		w.FromPixel(posX),
 		w.FromPixel(posY)
 	)
-	body.SetLayer(Layer())
+	setLayer(initialLayer())
 	
 	# client only
 	body.node = self
@@ -51,6 +56,14 @@ func Init(id, name, team, level, posX, posY, game):
 	init_rotation()
 	return self
 
+func setLayer(l):
+	if l == "Casting":
+		body.SetCollidable(false)
+	else:
+		body.SetCollidable(true)
+	body.SetLayer(l)
+	z_index = Z_INDEX[l]
+	
 func init_rotation():
 	if team == "Red":
 		$Rotatable.rotation = PI
@@ -90,12 +103,14 @@ func Type():
 	return stat.units[name_]["type"]
 
 func Layer():
-	return stat.units[name_]["layer"]
+	return body.Layer()
 
 func IsDead():
 	return hp <= 0
 
 func TakeDamage(amount):
+	if Layer() != "Normal":
+		return
 	hp -= amount
 	node_hp.value = hp
 
@@ -125,6 +140,9 @@ func Skill():
 
 func CastSkill(posX, posY):
 	print("not implemented")
+
+func initialLayer():
+	return stat.units[name_]["layer"]
 
 func mass():
 	var m = stat.units[name_]["mass"]

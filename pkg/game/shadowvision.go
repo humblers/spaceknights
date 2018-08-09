@@ -6,19 +6,12 @@ type shadowvision struct {
 	*unit
 	targetId int
 	attack   int
-	layer    Layer
 }
 
 func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
-	u := newUnit(id, "shadowvision", p.Team(), level, posX, posY, g)
 	return &shadowvision{
-		unit:  u,
-		layer: u.Layer(),
+		unit: newUnit(id, "shadowvision", p.Team(), level, posX, posY, g),
 	}
-}
-
-func (s *shadowvision) Layer() Layer {
-	return s.layer
 }
 
 func (s *shadowvision) Update() {
@@ -83,18 +76,13 @@ func (s *shadowvision) handleAttack() {
 			s.fire()
 		} else {
 			s.attack = 0
-			s.setLayer(s.unit.Layer())
+			s.setLayer(s.initialLayer())
 			return
 		}
 	}
 	s.attack++
 	if s.attack > s.attackInterval() {
 		s.attack = 0
-		s.setLayer(s.unit.Layer())
+		s.setLayer(s.initialLayer())
 	}
-}
-
-func (s *shadowvision) setLayer(l Layer) {
-	s.layer = l
-	s.Body.SetLayer(string(l))
 }

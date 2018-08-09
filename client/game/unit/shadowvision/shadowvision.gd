@@ -2,15 +2,9 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
-var layer
 	
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "shadowvision", player.Team(), level, posX, posY, game)
-	set_process(true)
-	layer = .Layer()
-
-func Layer():
-	return layer
 
 func Update():
 	SetVelocity(0, 0)
@@ -84,13 +78,9 @@ func handleAttack():
 			fire()
 		else:
 			attack = 0
-			setLayer(.Layer())
+			setLayer(initialLayer())
 			return
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
-		setLayer(.Layer())
-
-func setLayer(l):
-	layer = l
-	body.SetLayer(layer)
+		setLayer(initialLayer())

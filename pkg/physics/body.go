@@ -13,6 +13,7 @@ type Body interface {
 	SetVelocity(v fixed.Vector)
 	Radius() fixed.Scalar
 	SetCollidable(collidable bool)
+	Layer() string
 	SetLayer(l string)
 }
 
@@ -83,6 +84,10 @@ func (b *body) Radius() fixed.Scalar {
 
 func (b *body) SetCollidable(collidable bool) {
 	b.no_collision = !collidable
+}
+
+func (b *body) Layer() string {
+	return b.layer
 }
 
 func (b *body) SetLayer(l string) {

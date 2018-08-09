@@ -63,6 +63,9 @@ func Radius():
 func SetCollidable(collidable):
 	no_collision = not collidable
 
+func Layer():
+	return layer
+
 func SetLayer(l):
 	layer = l
 
