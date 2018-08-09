@@ -11,12 +11,12 @@ var cfg = {
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
 				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "fireball", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 			],
 			"Knights": [
 				{"Name": "legion", "Level": 0},
@@ -29,9 +29,9 @@ var cfg = {
 			"Team": "Red",
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
 				{"Name": "fireball", "Level": 0},
@@ -121,13 +121,14 @@ func CreateMapObstacles():
 		var height = world.ToPixel(map.AreaHeight(o))
 		var x = world.ToPixel(map.AreaPosX(o))
 		var y = world.ToPixel(map.AreaPosY(o))
-		world.AddBox(
+		var b = world.AddBox(
 			scalar.FromInt(0),
 			world.FromPixel(width),
 			world.FromPixel(height),
 			world.FromPixel(x),
 			world.FromPixel(y)
 		)
+		b.SetLayer("Normal")
 
 func _process(delta):
 	elapsed += delta

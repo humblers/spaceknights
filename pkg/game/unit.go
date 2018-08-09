@@ -22,10 +22,9 @@ type Unit interface {
 
 	// from physics.Body
 	Position() fixed.Vector
-	SetPosition(p fixed.Vector)
 	Radius() fixed.Scalar
+	SetPosition(p fixed.Vector)
 	SetVelocity(v fixed.Vector)
-	SetCollidable(collidable bool)
 
 	// for knight type
 	Skill() string
@@ -33,9 +32,9 @@ type Unit interface {
 }
 
 const (
-	Ground       Layer = "Ground"
-	Air          Layer = "Air"
-	Invulnerable Layer = "Invulnerable"
+	Normal  Layer = "Normal"
+	Ether   Layer = "Ether"
+	Casting Layer = "Casting"
 
 	Troop    Type = "Troop"
 	Building Type = "Building"
@@ -88,6 +87,7 @@ func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
 			w.FromPixel(posY),
 		},
 	)
+	u.setLayer(u.initialLayer())
 	return u
 }
 
@@ -104,13 +104,16 @@ func (u *unit) Type() Type {
 	return units[u.name]["type"].(Type)
 }
 func (u *unit) Layer() Layer {
-	return units[u.name]["layer"].(Layer)
+	return Layer(u.Body.Layer())
 }
 
 func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
 func (u *unit) TakeDamage(amount int) {
+	if u.Layer() != Normal {
+		return
+	}
 	u.hp -= amount
 }
 func (u *unit) Destroy() {
@@ -123,7 +126,17 @@ func (u *unit) Skill() string {
 func (u *unit) CastSkill(posX, posY int) bool {
 	panic("not implemented")
 }
-
+func (u *unit) initialLayer() Layer {
+	return units[u.name]["layer"].(Layer)
+}
+func (u *unit) setLayer(l Layer) {
+	if l == Casting {
+		u.Body.SetCollidable(false)
+	} else {
+		u.Body.SetCollidable(true)
+	}
+	u.Body.SetLayer(string(l))
+}
 func (u *unit) mass() fixed.Scalar {
 	m := units[u.name]["mass"].(int)
 	return fixed.FromInt(m)

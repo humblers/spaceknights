@@ -11,6 +11,7 @@ var vel_y = 0
 var force_x = 0
 var force_y = 0
 var no_collision = false
+var layer = ""
 
 # geometry
 var shape = ""
@@ -61,6 +62,12 @@ func Radius():
 
 func SetCollidable(collidable):
 	no_collision = not collidable
+
+func Layer():
+	return layer
+
+func SetLayer(l):
+	layer = l
 
 func setAsBox(width, height):
 	self.shape = "box"

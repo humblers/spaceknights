@@ -10,7 +10,6 @@ var castPosX = 0
 var castPosY = 0
 var isCasting = false
 var movingToCastPos = false
-var layer
 
 var attack_counter = 0
 
@@ -19,14 +18,8 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 	initPosX = PositionX()
 	initPosY = PositionY()
-	layer = .Layer()
-
-func Layer():
-	return layer
 
 func TakeDamage(amount):
-	if layer == "Invulnerable":
-		return
 	.TakeDamage(amount)
 	if IsDead():
 		player.OnKnightDead(self)
@@ -41,7 +34,6 @@ func Update():
 	if isCasting:
 		if movingToCastPos:
 			if transform_ >= transformDelay():
-				z_index = Z_HIGH_SKY
 				if PositionX() == castPosX and PositionY() == castPosY:
 					cast()
 					movingToCastPos = false
@@ -68,10 +60,9 @@ func Update():
 				if transform_ > 0:
 					transform_ -= 1
 				else:
-					z_index = Z_GROUND
+					z_index = Z_INDEX[.Layer()]
 					isCasting = false
-					SetCollidable(true)
-					layer = .Layer()
+					setLayer(initialLayer())
 			else:
 				var x = scalar.Sub(initPosX, PositionX())
 				var y = scalar.Sub(initPosY, PositionY())
@@ -113,8 +104,7 @@ func CastSkill(posX, posY):
 	movingToCastPos = true
 	castPosX = game.World().FromPixel(posX)
 	castPosY = game.World().FromPixel(posY)
-	SetCollidable(false)
-	layer = "Invulnerable"
+	setLayer("Casting")
 	init_rotation()
 	return true
 
@@ -134,7 +124,7 @@ func cast():
 	var skill = resource.SKILL[name_].instance()
 	game.get_node("Skills").add_child(skill)
 	skill.position = position
-	skill.z_index = Z_AIR
+	skill.z_index = Z_INDEX["Skill"]
 	var anim = skill.get_node("AnimationPlayer")
 	anim.play("explosion")
 	yield(anim, "animation_finished")

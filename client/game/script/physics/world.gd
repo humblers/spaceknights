@@ -48,6 +48,8 @@ func Step():
 			var b = bodies[j]
 			if a.no_collision or b.no_collision:
 				continue
+			if a.layer != b.layer:
+				continue
 			var c = checkCollision(a, b)
 			if c != null:
 				collisions.append(c)
