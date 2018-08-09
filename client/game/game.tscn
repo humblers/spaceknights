@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=213 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/script/player.gd" type="Script" id=2]
@@ -13,13 +13,52 @@
 [ext_resource path="res://game/bg/01/bg-lunatos-screen.png" type="Texture" id=11]
 [ext_resource path="res://game/bg/01/bg-lunatos-planet.png" type="Texture" id=12]
 [ext_resource path="res://game/bg/tile.png" type="Texture" id=13]
-[ext_resource path="res://game/battlefield_temporary.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/unit/judge/judge.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/unit/pixieking/pixieking.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/unit/nagmash/nagmash.tscn" type="PackedScene" id=17]
-[ext_resource path="res://game/unit/archengineer/archengineer.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/unit/ironcoffin/ironcoffin.tscn" type="PackedScene" id=19]
-[ext_resource path="res://game/unit/lancer/lancer.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/bg/mothership/body.png" type="Texture" id=14]
+[ext_resource path="res://game/bg/mothership/bodydamage.png" type="Texture" id=15]
+[ext_resource path="res://game/bg/mothership/bodydestroy.png" type="Texture" id=16]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=17]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=19]
+[ext_resource path="res://game/bg/mothership/takeoffway.png" type="Texture" id=20]
+[ext_resource path="res://game/bg/mothership/takeoffwaydamage.png" type="Texture" id=21]
+[ext_resource path="res://game/bg/mothership/nose.png" type="Texture" id=22]
+[ext_resource path="res://game/bg/mothership/nosedamage.png" type="Texture" id=23]
+[ext_resource path="res://game/bg/mothership/nosedestroy.png" type="Texture" id=24]
+[ext_resource path="res://game/bg/mothership/deck.png" type="Texture" id=25]
+[ext_resource path="res://game/bg/mothership/deckdamage.png" type="Texture" id=26]
+[ext_resource path="res://game/bg/mothership/deckdestroy.png" type="Texture" id=27]
+[ext_resource path="res://game/unit/nagmash/footman-dummy.png" type="Texture" id=28]
+[ext_resource path="res://game/unit/nagmash/body.png" type="Texture" id=29]
+[ext_resource path="res://game/unit/nagmash/hanger.png" type="Texture" id=30]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=31]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=32]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=33]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=34]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=35]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=36]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=37]
+[ext_resource path="res://game/unit/pixieking/pixieking.png" type="Texture" id=38]
+[ext_resource path="res://game/unit/pixieking/dummy.png" type="Texture" id=39]
+[ext_resource path="res://game/unit/pixieking/arm.png" type="Texture" id=40]
+[ext_resource path="res://game/unit/judge/body.png" type="Texture" id=41]
+[ext_resource path="res://game/unit/judge/shoulder.png" type="Texture" id=42]
+[ext_resource path="res://game/unit/judge/arm.png" type="Texture" id=43]
+[ext_resource path="res://game/unit/judge/open.png" type="Texture" id=44]
+[ext_resource path="res://game/vfx/bullet_shell.png" type="Texture" id=45]
+[ext_resource path="res://game/unit/judge/gun_frame.png" type="Texture" id=46]
+[ext_resource path="res://game/unit/judge/barrel.png" type="Texture" id=47]
+[ext_resource path="res://game/unit/judge/picatinnyrail.png" type="Texture" id=48]
+[ext_resource path="res://game/unit/judge/head.png" type="Texture" id=49]
+[ext_resource path="res://game/bg/mothership/container.png" type="Texture" id=50]
+[ext_resource path="res://game/bg/mothership/containerdamage.png" type="Texture" id=51]
+[ext_resource path="res://game/bg/mothership/engine.png" type="Texture" id=52]
+[ext_resource path="res://game/bg/mothership/enginedamage.png" type="Texture" id=53]
+[ext_resource path="res://game/bg/mothership/enginedestroy.png" type="Texture" id=54]
+[ext_resource path="res://font/city_bold.ttf" type="DynamicFontData" id=55]
+[ext_resource path="res://game/unit/archengineer/archengineer.tscn" type="PackedScene" id=56]
+[ext_resource path="res://game/unit/ironcoffin/ironcoffin.tscn" type="PackedScene" id=57]
+[ext_resource path="res://game/unit/lancer/lancer.tscn" type="PackedScene" id=58]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=59]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -51,52 +90,29 @@ flags = 4
 width = 2048
 curve = SubResource( 3 )
 
-[node name="Players" type="CanvasLayer" parent="." index="1"]
+[sub_resource type="Gradient" id=5]
 
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 0.955804, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+
+flags = 4
+gradient = SubResource( 5 )
+width = 2048
 
 [sub_resource type="Curve" id=7]
 
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -470.0
-margin_top = -140.0
-margin_right = 470.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/separation = 0
-alignment = 0
-script = ExtResource( 2 )
-_sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_constants" ]
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.175293 ), 0.0, 1.92241, 0, 0, Vector2( 0.82882, 0.490723 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=8]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 940.0
-margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/separation = 20
-alignment = 0
-_sections_unfolded = [ "custom_constants" ]
+flags = 4
+width = 2048
+curve = SubResource( 7 )
 
 [sub_resource type="ParticlesMaterial" id=9]
 
@@ -395,36 +411,11 @@ max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.684393 ), 0.0, 1.96654, 0, 0, Vector2( 1, 0.0171678 ), -1.09271, 0.0, 0, 0 ]
 
-[node name="Tween" type="Tween" parent="Players/Blue" index="2"]
+[sub_resource type="CurveTexture" id=33]
 
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="Red" type="VBoxContainer" parent="Players" index="1"]
-
-editor/display_folded = true
-visible = false
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-margin_left = -470.0
-margin_right = 470.0
-margin_bottom = 140.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/separation = 0
-alignment = 0
-script = ExtResource( 2 )
-_sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_constants" ]
+flags = 4
+width = 2048
+curve = SubResource( 32 )
 
 [sub_resource type="ParticlesMaterial" id=34]
 
@@ -9596,7 +9587,7 @@ tracks/25/keys = {
 "values": [ 0, 0 ]
 }
 
-[sub_resource type="Animation" id=151]
+[sub_resource type="Animation" id=146]
 
 resource_name = "damage-center"
 length = 0.5
@@ -10443,7 +10434,7 @@ tracks/69/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=152]
+[sub_resource type="Animation" id=147]
 
 resource_name = "deafult"
 length = 1.0
@@ -11290,7 +11281,7 @@ tracks/69/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=146]
+[sub_resource type="Animation" id=148]
 
 length = 5.0
 loop = false
@@ -12136,9 +12127,8 @@ tracks/69/keys = {
 "values": [ false, true, true ]
 }
 
-[sub_resource type="Animation" id=147]
+[sub_resource type="Animation" id=149]
 
-resource_name = "damage-rear"
 length = 0.5
 loop = false
 step = 0.1
@@ -12983,9 +12973,8 @@ tracks/69/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=148]
+[sub_resource type="Animation" id=150]
 
-resource_name = "distroy-rear"
 length = 4.0
 loop = false
 step = 0.1
@@ -13830,9 +13819,8 @@ tracks/69/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=150]
+[sub_resource type="Animation" id=151]
 
-resource_name = "damage-front"
 length = 0.5
 loop = false
 step = 0.1
@@ -14677,9 +14665,8 @@ tracks/69/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=149]
+[sub_resource type="Animation" id=152]
 
-resource_name = "distroy-front"
 length = 4.0
 loop = false
 step = 0.1
@@ -15524,6 +15511,14 @@ tracks/69/keys = {
 "values": [ false, false ]
 }
 
+[sub_resource type="DynamicFont" id=153]
+
+size = 32
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 55 )
+_sections_unfolded = [ "Font", "Settings" ]
+
 [node name="game" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
@@ -15556,27 +15551,7 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="BattleField" type="Control" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 40.0
-margin_top = 60.0
-margin_right = 1040.0
-margin_bottom = 1760.0
-rect_min_size = Vector2( 1000, 1700 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Mouse", "Rect", "Size Flags" ]
-
-[node name="Players" type="CanvasLayer" parent="." index="2"]
+[node name="Players" type="CanvasLayer" parent="." index="1"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -15587,7 +15562,6 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 [node name="Blue" type="VBoxContainer" parent="Players" index="0"]
 
 editor/display_folded = true
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -16594,7 +16568,7 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Textures" ]
 
-[node name="Map" type="Node2D" parent="." index="3"]
+[node name="Map" type="Node2D" parent="." index="2"]
 
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
@@ -16622,12 +16596,12 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MotherShip" type="Position2D" parent="Map" index="3"]
 
+editor/display_folded = true
 position = Vector2( 540, 960 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="Node2D" parent="Map/MotherShip" index="0"]
 
-editor/display_folded = true
 position = Vector2( 0, 1050 )
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
@@ -17176,13 +17150,13 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Deck" type="Node2D" parent="Map/MotherShip/Blue" index="3"]
 
-editor/display_folded = true
-
 [node name="DeckL" type="Node2D" parent="Map/MotherShip/Blue/Deck" index="0"]
+
+editor/display_folded = true
 
 [node name="DeckFront" type="AnimatedSprite" parent="Map/MotherShip/Blue/Deck/DeckL" index="0"]
 
-visible = false
+editor/display_folded = true
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( 130, -170 )
 rotation = 0.785396
@@ -17318,6 +17292,8 @@ shadow_item_cull_mask = 1
 
 [node name="PositionRight" type="Position2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckFront" index="1"]
 
+editor/display_folded = true
+visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 0.5, 0.5 )
 _sections_unfolded = [ "Transform" ]
@@ -18442,16 +18418,18 @@ shadow_item_cull_mask = 1
 
 [node name="PositionCenter" type="Position2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckCenter" index="1"]
 
+editor/display_folded = true
+visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="Unit" type="Node2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckCenter/PositionCenter" index="0"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="pixieking" type="Node2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckCenter/PositionCenter/Unit" index="0"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckCenter/PositionCenter/Unit/pixieking" index="0"]
@@ -19123,6 +19101,8 @@ shadow_item_cull_mask = 1
 
 [node name="PositionLeft" type="Position2D" parent="Map/MotherShip/Blue/Deck/DeckL/DeckRear" index="1"]
 
+editor/display_folded = true
+visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 0.5, 0.5 )
 
@@ -20532,9 +20512,44 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
-[node name="Map" type="Node2D" parent="." index="2"]
+[node name="DeckR" type="Node2D" parent="Map/MotherShip/Blue/Deck" index="1"]
 
-_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
+editor/display_folded = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Deck1" type="AnimatedSprite" parent="Map/MotherShip/Blue/Deck/DeckR" index="0"]
+
+frames = SubResource( 24 )
+animation = "deck"
+flip_v = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Deck2" type="AnimatedSprite" parent="Map/MotherShip/Blue/Deck/DeckR" index="1"]
+
+frames = SubResource( 24 )
+animation = "deck"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Deck3" type="AnimatedSprite" parent="Map/MotherShip/Blue/Deck/DeckR" index="2"]
+
+frames = SubResource( 24 )
+animation = "deck"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Container" type="AnimatedSprite" parent="Map/MotherShip/Blue" index="4"]
+
+z_index = 2
+frames = SubResource( 143 )
+animation = "container"
+frame = 1
+offset = Vector2( -80, 0 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Engine" type="Node2D" parent="Map/MotherShip/Blue" index="5"]
+
+editor/display_folded = true
+position = Vector2( 20, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="EngineL" type="AnimatedSprite" parent="Map/MotherShip/Blue/Engine" index="0"]
 
@@ -20807,9 +20822,9 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/blue-show = SubResource( 145 )
-anims/damage-center = SubResource( 151 )
-anims/deafult = SubResource( 152 )
-anims/distroy-center-all = SubResource( 146 )
+anims/damage-center = SubResource( 146 )
+anims/deafult = SubResource( 147 )
+anims/distroy-center-all = SubResource( 148 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -20820,8 +20835,8 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/damage-rear = SubResource( 147 )
-anims/distroy-rear = SubResource( 148 )
+anims/damage-rear = SubResource( 149 )
+anims/distroy-rear = SubResource( 150 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
@@ -20832,10 +20847,17 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/damage-front = SubResource( 150 )
-anims/distroy-front = SubResource( 149 )
+anims/damage-front = SubResource( 151 )
+anims/distroy-front = SubResource( 152 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
+
+[node name="Tile2" type="Sprite" parent="Map" index="4"]
+
+modulate = Color( 1, 1, 1, 0.11051 )
+position = Vector2( 540, 910 )
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Units" type="Position2D" parent="." index="3"]
 
@@ -20852,11 +20874,57 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BattleField" parent="." index="6" instance=ExtResource( 14 )]
+[node name="BattleField" type="Control" parent="." index="6"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 1760.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Mouse", "Rect", "Region", "Size Flags", "Transform", "Visibility", "Z Index" ]
+
+[node name="CursorPos" type="Position2D" parent="BattleField" index="0"]
+
+[node name="MessageBar" type="Label" parent="BattleField" index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1000.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 153 )
+custom_colors/font_color = Color( 0.785156, 0.245361, 0.245361, 1 )
+custom_colors/font_color_shadow = Color( 0.695312, 0.621979, 0.621979, 1 )
+text = "Not Enough Energy"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "Visibility" ]
 
 [node name="Dummy" type="Node2D" parent="." index="7"]
 
 editor/display_folded = true
+visible = false
 _sections_unfolded = [ "Transform" ]
 
 [node name="TopLeft" type="Position2D" parent="Dummy" index="0"]
@@ -20864,34 +20932,19 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="judge" parent="Dummy/TopLeft" index="0" instance=ExtResource( 15 )]
-
-position = Vector2( 200, 1600 )
-_sections_unfolded = [ "Transform", "Z Index" ]
-
-[node name="pixieking" parent="Dummy/TopLeft" index="1" instance=ExtResource( 16 )]
-
-position = Vector2( 500, 1600 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="nagmash" parent="Dummy/TopLeft" index="2" instance=ExtResource( 17 )]
-
-position = Vector2( 800, 1600 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="archengineer" parent="Dummy/TopLeft" index="3" instance=ExtResource( 18 )]
+[node name="archengineer" parent="Dummy/TopLeft" index="0" instance=ExtResource( 56 )]
 
 position = Vector2( 800, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform" ]
 
-[node name="ironcoffin" parent="Dummy/TopLeft" index="4" instance=ExtResource( 19 )]
+[node name="ironcoffin" parent="Dummy/TopLeft" index="1" instance=ExtResource( 57 )]
 
 position = Vector2( 500, 100 )
 rotation = 3.14159
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="lancer" parent="Dummy/TopLeft" index="5" instance=ExtResource( 20 )]
+[node name="lancer" parent="Dummy/TopLeft" index="2" instance=ExtResource( 58 )]
 
 position = Vector2( 200, 100 )
 rotation = 3.14159
@@ -20899,6 +20952,8 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Letterbox" type="Node2D" parent="." index="8"]
 
+editor/display_folded = true
+visible = false
 position = Vector2( 540, 960 )
 _sections_unfolded = [ "Transform" ]
 
@@ -20907,7 +20962,7 @@ _sections_unfolded = [ "Transform" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 235, 50 )
 z_index = 3
-texture = ExtResource( 58 )
+texture = ExtResource( 59 )
 offset = Vector2( 0, -23.2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -20916,7 +20971,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 235, 50 )
 z_index = 3
-texture = ExtResource( 58 )
+texture = ExtResource( 59 )
 offset = Vector2( 0, 23.2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -20925,7 +20980,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 50, 300 )
 z_index = 3
-texture = ExtResource( 58 )
+texture = ExtResource( 59 )
 offset = Vector2( 14.8, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -20934,7 +20989,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 50, 300 )
 z_index = 3
-texture = ExtResource( 58 )
+texture = ExtResource( 59 )
 offset = Vector2( -14.8, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
