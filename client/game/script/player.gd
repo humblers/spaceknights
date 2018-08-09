@@ -137,6 +137,12 @@ func update_cursor(x, y):
 	pos_node.add_child(cursor)
 	pos_node.move_child(cursor, 0)
 
+func get_unit(name, x, y):
+	var node = resource.UNIT[name].instance()
+	node.InitDummy(x, y, game, self)
+	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
+	return node
+
 func clear_cursor():
 	for child in get_node("../../BattleField/CursorPos").get_children():
 		child.queue_free()
@@ -152,16 +158,6 @@ func mark_action(input):
 		child.global_position = global_pos
 		action_markers[input.Step].append(child)
 
-func get_unit(name, x, y):
-	var node = resource.UNIT[name].instance()
-	node.InitDummy(x, y, game, self)
-	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
-	return node
-
-func update_cards():
-	for i in range(HAND_SIZE):
-		$Cards.get_node("Card%s" % (i+1)).get_node("Icon").texture = resource.ICON[hand[i].Name]
-
 func show_message(msg, pos_y):
 	if team.to_lower() == "red":
 		return
@@ -171,6 +167,10 @@ func show_message(msg, pos_y):
 	$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Tween.start()
+
+func update_cards():
+	for i in range(HAND_SIZE):
+		$Cards.get_node("Card%s" % (i+1)).get_node("Icon").texture = resource.ICON[hand[i].Name]
 
 func Team():
 	return team
