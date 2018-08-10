@@ -53,6 +53,8 @@ const STEP_PER_SEC = 10
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
 
+const MAIN_LIGHT_ANGLE = 180
+
 # parameters for physics world
 var params = {
 	"scale": scalar.Div(scalar.One, scalar.FromInt(10)),
