@@ -1,17 +1,23 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archer/idle.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/speare.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=6]
-[ext_resource path="res://game/hpbar/blue_S_edge.png" type="Texture" id=7]
-[ext_resource path="res://game/hpbar/blue_S_inside.png" type="Texture" id=8]
-[ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=9]
-[ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=10]
-[ext_resource path="res://game/sfx/laser_v100.wav" type="AudioStream" id=11]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=12]
+[ext_resource path="res://game/unit/archer/archer-SF.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/archer/archer-LF.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/archer/archer-SR.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/archer/archer-LR.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/archer/archer-SS.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/archer/archer-LS.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=12]
+[ext_resource path="res://game/hpbar/blue_S_edge.png" type="Texture" id=13]
+[ext_resource path="res://game/hpbar/blue_S_inside.png" type="Texture" id=14]
+[ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=15]
+[ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=16]
+[ext_resource path="res://game/sfx/laser_v100.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=18]
 
 [sub_resource type="Gradient" id=1]
 
@@ -1119,7 +1125,7 @@ tracks/14/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="archer" type="Node2D"]
+[node name="archer" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -1133,8 +1139,141 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Booster" type="Node2D" parent="Rotatable/Body" index="0"]
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body" index="0"]
 
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/ShadeSet" index="0"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 4 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeRear" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeLeft" type="Sprite" parent="Rotatable/Body/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightLeft" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeLeft" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/ShadeSet" index="3"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 7 )
+flip_h = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeRight" index="0"]
+
+scale = Vector2( -1, 1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Booster" type="Node2D" parent="Rotatable/Body" index="1"]
+
+editor/display_folded = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Body/Booster" index="0"]
@@ -1160,7 +1299,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1171,7 +1310,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 position = Vector2( 7, 0 )
 enabled = false
 editor_only = false
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.246094, 0.717285, 1, 1 )
@@ -1216,7 +1355,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1245,7 +1384,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1256,7 +1395,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( -7, 0 )
 enabled = false
 editor_only = false
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.246094, 0.717285, 1, 1 )
@@ -1301,7 +1440,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1381,7 +1520,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 16 )
-texture = ExtResource( 5 )
+texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1392,7 +1531,7 @@ _sections_unfolded = [ "Process Material", "Time", "Visibility" ]
 position = Vector2( 0, -3 )
 enabled = false
 editor_only = false
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.761719, 0.046875, 1 )
@@ -1433,7 +1572,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 21 )
-texture = ExtResource( 6 )
+texture = ExtResource( 12 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -1443,7 +1582,7 @@ _sections_unfolded = [ "Process Material", "Time" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.375, 0, 1 )
@@ -1494,9 +1633,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 7 )
+texture_under = ExtResource( 13 )
 texture_over = null
-texture_progress = ExtResource( 8 )
+texture_progress = ExtResource( 14 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1527,9 +1666,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 9 )
+texture_under = ExtResource( 15 )
 texture_over = null
-texture_progress = ExtResource( 10 )
+texture_progress = ExtResource( 16 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1559,7 +1698,7 @@ editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
-stream = ExtResource( 11 )
+stream = ExtResource( 17 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -1569,7 +1708,7 @@ area_mask = 1
 
 [node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
-stream = ExtResource( 12 )
+stream = ExtResource( 18 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
