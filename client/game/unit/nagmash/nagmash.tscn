@@ -1,17 +1,27 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://game/unit/nagmash/footman-dummy.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/nagmash/body.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/speare.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/nagmash/hanger.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=8]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=9]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=10]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=11]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=12]
+[ext_resource path="res://game/unit/nagmash/body-SF.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/nagmash/body-LF.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/nagmash/body-SR.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/nagmash/body-LR.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/nagmash/body-SS.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/nagmash/body-LS.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=9]
+[ext_resource path="res://game/unit/nagmash/hanger.png" type="Texture" id=10]
+[ext_resource path="res://game/unit/nagmash/hanger-SF.png" type="Texture" id=11]
+[ext_resource path="res://game/unit/nagmash/hanger-LF.png" type="Texture" id=12]
+[ext_resource path="res://game/unit/nagmash/hanger-SS.png" type="Texture" id=13]
+[ext_resource path="res://game/unit/nagmash/hanger-LS.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=16]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=17]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=18]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=19]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=20]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=21]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=22]
 
 [sub_resource type="Gradient" id=1]
 
@@ -3297,6 +3307,7 @@ tracks/47/keys = {
 
 [node name="Dummy" type="Node2D" parent="Rotatable" index="0"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Footman1" type="Sprite" parent="Rotatable/Dummy" index="0"]
@@ -3325,12 +3336,147 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Body" type="Sprite" parent="Rotatable" index="1"]
 
-editor/display_folded = true
 texture = ExtResource( 2 )
 offset = Vector2( 0, -7.5 )
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body" index="0"]
+
+editor/display_folded = true
+position = Vector2( 0, -7.5 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/ShadeSet" index="0"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="FloatFL" type="Sprite" parent="Rotatable/Body" index="0"]
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 4 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeRear" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeLeft" type="Sprite" parent="Rotatable/Body/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightLeft" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeLeft" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/ShadeSet" index="3"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 7 )
+flip_h = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/ShadeSet/ShadeRight" index="0"]
+
+scale = Vector2( -1, 1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 8 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="FloatFL" type="Sprite" parent="Rotatable/Body" index="1"]
 
 editor/display_folded = true
 position = Vector2( -48, -90 )
@@ -3352,7 +3498,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3362,7 +3508,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 1, 1, 1, 1 )
@@ -3383,7 +3529,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="FloatRL" type="Sprite" parent="Rotatable/Body" index="1"]
+[node name="FloatRL" type="Sprite" parent="Rotatable/Body" index="2"]
 
 editor/display_folded = true
 position = Vector2( -48, 83 )
@@ -3405,7 +3551,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3415,7 +3561,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 1, 1, 1, 1 )
@@ -3436,7 +3582,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="FloatFR" type="Sprite" parent="Rotatable/Body" index="2"]
+[node name="FloatFR" type="Sprite" parent="Rotatable/Body" index="3"]
 
 editor/display_folded = true
 position = Vector2( 48, -90 )
@@ -3459,7 +3605,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3469,7 +3615,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 1, 1, 1, 1 )
@@ -3490,7 +3636,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="FloatRR" type="Sprite" parent="Rotatable/Body" index="3"]
+[node name="FloatRR" type="Sprite" parent="Rotatable/Body" index="4"]
 
 editor/display_folded = true
 position = Vector2( 48, 83 )
@@ -3513,7 +3659,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3523,7 +3669,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 1, 1, 1, 1 )
@@ -3543,23 +3689,126 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Hanger" type="Node2D" parent="Rotatable/Body" index="4"]
-
-editor/display_folded = true
+[node name="Hanger" type="Node2D" parent="Rotatable/Body" index="5"]
 
 [node name="HangerR1" type="Sprite" parent="Rotatable/Body/Hanger" index="0"]
 
 position = Vector2( 0, -54 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Hanger/HangerR1" index="0"]
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body/Hanger/HangerR1" index="0"]
+
+editor/display_folded = true
+position = Vector2( 22, 0 )
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet" index="0"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+flip_v = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet/ShadeRear" index="0"]
+
+scale = Vector2( 1, -1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/Hanger/HangerR1/ShadeSet/ShadeRight" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 14 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Hanger/HangerR1" index="1"]
 
 position = Vector2( 8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3582,8 +3831,9 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="HangerL1" type="Sprite" parent="Rotatable/Body/Hanger" index="1"]
 
+editor/display_folded = true
 position = Vector2( 0, -54 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( -22, 0 )
 flip_h = true
 _sections_unfolded = [ "Transform" ]
@@ -3591,9 +3841,9 @@ _sections_unfolded = [ "Transform" ]
 [node name="Light2D2" type="Light2D" parent="Rotatable/Body/Hanger/HangerL1" index="0"]
 
 position = Vector2( -8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3617,16 +3867,121 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerR2" type="Sprite" parent="Rotatable/Body/Hanger" index="2"]
 
 position = Vector2( 0, -18 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
-[node name="Light2D2" type="Light2D" parent="Rotatable/Body/Hanger/HangerR2" index="0"]
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body/Hanger/HangerR2" index="0"]
+
+editor/display_folded = true
+position = Vector2( 22, 0 )
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet" index="0"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+flip_v = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet/ShadeRear" index="0"]
+
+scale = Vector2( 1, -1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/Hanger/HangerR2/ShadeSet/ShadeRight" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 14 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="Light2D2" type="Light2D" parent="Rotatable/Body/Hanger/HangerR2" index="1"]
 
 position = Vector2( 8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3650,7 +4005,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerL2" type="Sprite" parent="Rotatable/Body/Hanger" index="3"]
 
 position = Vector2( 0, -18 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( -22, 0 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -3658,9 +4013,9 @@ _sections_unfolded = [ "Offset", "Transform" ]
 [node name="Light2D3" type="Light2D" parent="Rotatable/Body/Hanger/HangerL2" index="0"]
 
 position = Vector2( -8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3684,16 +4039,16 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerR3" type="Sprite" parent="Rotatable/Body/Hanger" index="4"]
 
 position = Vector2( 0, 18 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Light2D3" type="Light2D" parent="Rotatable/Body/Hanger/HangerR3" index="0"]
 
 position = Vector2( 8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3717,17 +4072,122 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerL3" type="Sprite" parent="Rotatable/Body/Hanger" index="5"]
 
 position = Vector2( 0, 18 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( -22, 0 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform" ]
 
-[node name="Light2D4" type="Light2D" parent="Rotatable/Body/Hanger/HangerL3" index="0"]
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body/Hanger/HangerL3" index="0"]
+
+editor/display_folded = true
+position = Vector2( 22, 0 )
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet" index="0"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+flip_v = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet/ShadeRear" index="0"]
+
+scale = Vector2( 1, -1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/Hanger/HangerL3/ShadeSet/ShadeRight" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 14 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="Light2D4" type="Light2D" parent="Rotatable/Body/Hanger/HangerL3" index="1"]
 
 position = Vector2( -8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3751,16 +4211,16 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerR4" type="Sprite" parent="Rotatable/Body/Hanger" index="6"]
 
 position = Vector2( 0, 54 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Light2D4" type="Light2D" parent="Rotatable/Body/Hanger/HangerR4" index="0"]
 
 position = Vector2( 8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3784,17 +4244,122 @@ _sections_unfolded = [ "Transform" ]
 [node name="HangerL4" type="Sprite" parent="Rotatable/Body/Hanger" index="7"]
 
 position = Vector2( 0, 54 )
-texture = ExtResource( 4 )
+texture = ExtResource( 10 )
 offset = Vector2( -22, 0 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Transform" ]
 
-[node name="Light2D5" type="Light2D" parent="Rotatable/Body/Hanger/HangerL4" index="0"]
+[node name="ShadeSet" type="Node2D" parent="Rotatable/Body/Hanger/HangerL4" index="0"]
+
+editor/display_folded = true
+position = Vector2( 22, 0 )
+scale = Vector2( 1, 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeFront" type="Sprite" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet" index="0"]
+
+editor/display_folded = true
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightFront" type="Light2D" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet/ShadeFront" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="ShadeRear" type="Sprite" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 11 )
+flip_v = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LightRear" type="Light2D" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet/ShadeRear" index="0"]
+
+scale = Vector2( 1, -1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="ShadeRight" type="Sprite" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet" index="2"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="LightRight" type="Light2D" parent="Rotatable/Body/Hanger/HangerL4/ShadeSet/ShadeRight" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 14 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="Light2D5" type="Light2D" parent="Rotatable/Body/Hanger/HangerL4" index="1"]
 
 position = Vector2( -8, 0 )
-enabled = false
+enabled = true
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 0.5
 color = Color( 0.125, 1, 0.651367, 1 )
@@ -3815,7 +4380,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointL" type="Position2D" parent="Rotatable/Body" index="5"]
+[node name="ShotpointL" type="Position2D" parent="Rotatable/Body" index="6"]
 
 editor/display_folded = true
 position = Vector2( -18, -130 )
@@ -3839,7 +4404,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 10 )
-texture = ExtResource( 5 )
+texture = ExtResource( 15 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3850,7 +4415,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 position = Vector2( 0, 25 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.634277, 0.164063, 1 )
@@ -3871,7 +4436,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="ShotpointR" type="Position2D" parent="Rotatable/Body" index="6"]
+[node name="ShotpointR" type="Position2D" parent="Rotatable/Body" index="7"]
 
 editor/display_folded = true
 position = Vector2( 18, -130 )
@@ -3895,7 +4460,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 10 )
-texture = ExtResource( 5 )
+texture = ExtResource( 15 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3906,7 +4471,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 position = Vector2( 0, 25 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.634277, 0.164063, 1 )
@@ -3927,7 +4492,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterpointL" type="Position2D" parent="Rotatable/Body" index="7"]
+[node name="BoosterpointL" type="Position2D" parent="Rotatable/Body" index="8"]
 
 editor/display_folded = true
 position = Vector2( -27, 97 )
@@ -3951,7 +4516,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 15 )
-texture = ExtResource( 6 )
+texture = ExtResource( 16 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3962,7 +4527,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( 0, 10 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.253906, 0.457916, 1, 1 )
@@ -3983,7 +4548,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="BoosterpointR" type="Position2D" parent="Rotatable/Body" index="8"]
+[node name="BoosterpointR" type="Position2D" parent="Rotatable/Body" index="9"]
 
 position = Vector2( 27, 97 )
 _sections_unfolded = [ "Transform" ]
@@ -4006,7 +4571,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 15 )
-texture = ExtResource( 6 )
+texture = ExtResource( 16 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4017,7 +4582,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 position = Vector2( 0, 10 )
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 2.0
 color = Color( 0.253906, 0.457916, 1, 1 )
@@ -4084,7 +4649,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 23 )
-texture = ExtResource( 7 )
+texture = ExtResource( 17 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4107,7 +4672,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 28 )
-texture = ExtResource( 8 )
+texture = ExtResource( 18 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4130,7 +4695,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 33 )
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4140,7 +4705,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 5.0
 color = Color( 0.701874, 0.735327, 0.824219, 1 )
@@ -4164,7 +4729,7 @@ shadow_item_cull_mask = 1
 
 enabled = false
 editor_only = false
-texture = ExtResource( 3 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 1, 1, 1, 1 )
@@ -4230,9 +4795,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 9 )
+texture_under = ExtResource( 19 )
 texture_over = null
-texture_progress = ExtResource( 10 )
+texture_progress = ExtResource( 20 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -4264,9 +4829,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 11 )
+texture_under = ExtResource( 21 )
 texture_over = null
-texture_progress = ExtResource( 12 )
+texture_progress = ExtResource( 22 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
