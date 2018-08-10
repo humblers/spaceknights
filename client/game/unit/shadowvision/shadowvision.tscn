@@ -1215,7 +1215,7 @@ length = 4.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rotatable/Main/shadeSet/shadeRight:modulate")
+tracks/0/path = NodePath("Rotatable/Main/Shade/Right:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1227,7 +1227,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/Main/shadeSet/shadeRight/LightRight:energy")
+tracks/1/path = NodePath("Rotatable/Main/Shade/Right/Light2D:energy")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1239,7 +1239,7 @@ tracks/1/keys = {
 "values": [ 1.5, 0.01, 0.01, 1.5 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/Main/shadeSet/shadeFront:modulate")
+tracks/2/path = NodePath("Rotatable/Main/Shade/Front:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1251,7 +1251,7 @@ tracks/2/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Rotatable/Main/shadeSet/shadeFront/LightFront:energy")
+tracks/3/path = NodePath("Rotatable/Main/Shade/Front/Light2D:energy")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1263,7 +1263,7 @@ tracks/3/keys = {
 "values": [ 1.5, 0.01, 0.01 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/Main/shadeSet/shadeLeft:modulate")
+tracks/4/path = NodePath("Rotatable/Main/Shade/Left:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1275,7 +1275,7 @@ tracks/4/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Main/shadeSet/shadeLeft/LightLeft:energy")
+tracks/5/path = NodePath("Rotatable/Main/Shade/Left/Light2D:energy")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1287,7 +1287,7 @@ tracks/5/keys = {
 "values": [ 0.01, 0.01, 1.5, 0.01, 0.01 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/Main/shadeSet/shadeRear:modulate")
+tracks/6/path = NodePath("Rotatable/Main/Shade/Rear:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1299,7 +1299,7 @@ tracks/6/keys = {
 "values": [ Color( 0, 0, 0, 0.5 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.5 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Main/shadeSet/shadeRear/Light2D:energy")
+tracks/7/path = NodePath("Rotatable/Main/Shade/Rear/Light2D:energy")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1311,7 +1311,7 @@ tracks/7/keys = {
 "values": [ 0.755, 0.01, 0.01, 1.5, 0.755 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/Main/shadeSet/Light:rotation_degrees")
+tracks/8/path = NodePath("Rotatable/Main/Shade/Light:rotation_degrees")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -2177,31 +2177,28 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Sprite" parent="Rotatable" index="0"]
 
-editor/display_folded = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="shadeSet" type="Node2D" parent="Rotatable/Main" index="0"]
+[node name="Shade" type="Node2D" parent="Rotatable/Main" index="0"]
+
+[node name="Light" type="Sprite" parent="Rotatable/Main/Shade" index="0"]
 
 editor/display_folded = true
 visible = false
-
-[node name="Light" type="Sprite" parent="Rotatable/Main/shadeSet" index="0"]
-
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.5708
+rotation = -1.5708
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Main/shadeSet/Light" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Shade/Light" index="0"]
 
+visible = false
 position = Vector2( 0, -110 )
 enabled = true
 editor_only = false
@@ -2226,15 +2223,15 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="shadeRight" type="Sprite" parent="Rotatable/Main/shadeSet" index="1"]
+[node name="Right" type="Sprite" parent="Rotatable/Main/Shade" index="1"]
 
-editor/display_folded = true
-modulate = Color( 0, 0, 0, 1 )
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 texture = ExtResource( 5 )
 flip_h = true
 _sections_unfolded = [ "Offset", "Visibility" ]
 
-[node name="LightRight" type="Light2D" parent="Rotatable/Main/shadeSet/shadeRight" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Shade/Right" index="0"]
 
 scale = Vector2( -1, 1 )
 enabled = true
@@ -2243,7 +2240,7 @@ texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 1, 0.818359, 0.273438, 1 )
-energy = 1.5
+energy = 0.01
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -2260,14 +2257,15 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="shadeFront" type="Sprite" parent="Rotatable/Main/shadeSet" index="2"]
+[node name="Front" type="Sprite" parent="Rotatable/Main/Shade" index="2"]
 
 editor/display_folded = true
-modulate = Color( 0, 0, 0, 0 )
+visible = false
+modulate = Color( 0, 0, 0, 0.333333 )
 texture = ExtResource( 7 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="LightFront" type="Light2D" parent="Rotatable/Main/shadeSet/shadeFront" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Shade/Front" index="0"]
 
 modulate = Color( 1, 1, 1, 0 )
 enabled = true
@@ -2276,7 +2274,7 @@ texture = ExtResource( 8 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 0.203125, 1, 0.25293, 1 )
-energy = 0.01
+energy = 0.506667
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -2293,14 +2291,15 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="shadeLeft" type="Sprite" parent="Rotatable/Main/shadeSet" index="3"]
+[node name="Left" type="Sprite" parent="Rotatable/Main/Shade" index="3"]
 
 editor/display_folded = true
-modulate = Color( 0, 0, 0, 0 )
+visible = false
+modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="LightLeft" type="Light2D" parent="Rotatable/Main/shadeSet/shadeLeft" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Shade/Left" index="0"]
 
 enabled = true
 editor_only = false
@@ -2308,7 +2307,7 @@ texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 0, 0.468994, 0.882813, 1 )
-energy = 0.01
+energy = 1.5
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -2323,16 +2322,17 @@ shadow_gradient_length = 0.0
 shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Range", "Shadow", "Visibility" ]
 
-[node name="shadeRear" type="Sprite" parent="Rotatable/Main/shadeSet" index="4"]
+[node name="Rear" type="Sprite" parent="Rotatable/Main/Shade" index="4"]
 
 editor/display_folded = true
-modulate = Color( 0, 0, 0, 0.5 )
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Main/shadeSet/shadeRear" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Shade/Rear" index="0"]
 
 enabled = true
 editor_only = false
@@ -2340,7 +2340,7 @@ texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 1, 0.38324, 0.0820313, 1 )
-energy = 0.755
+energy = 0.01
 mode = 0
 range_height = 0.0
 range_z_min = -1024
