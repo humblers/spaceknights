@@ -1,5 +1,7 @@
 package game
 
+const ShieldRegenPerStep = 2
+
 var cards = map[string]map[string]interface{}{
 	"archers": map[string]interface{}{
 		"cost":    1000,
@@ -64,6 +66,7 @@ var units = map[string]map[string]interface{}{
 		"mass":           20,
 		"radius":         50,
 		"hp":             []int{600},
+		"shield":         300,
 		"sight":          600,
 		"speed":          80,
 		"targettypes":    Types{Troop, Building, Knight},

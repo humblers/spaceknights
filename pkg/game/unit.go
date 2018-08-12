@@ -9,6 +9,8 @@ type Layers []Layer
 type Type string
 type Types []Type
 
+type AttackType string
+
 type Unit interface {
 	Id() int
 	Name() string
@@ -16,7 +18,7 @@ type Unit interface {
 	Type() Type
 	Layer() Layer
 	IsDead() bool
-	TakeDamage(amount int)
+	TakeDamage(amount int, t AttackType)
 	Update()
 	Destroy()
 
@@ -39,6 +41,10 @@ const (
 	Troop    Type = "Troop"
 	Building Type = "Building"
 	Knight   Type = "Knight"
+
+	Melee AttackType = "Melee"
+	Range AttackType = "Range"
+	Skill AttackType = "Skill"
 )
 
 func (layers Layers) Contains(layer Layer) bool {
@@ -110,7 +116,7 @@ func (u *unit) Layer() Layer {
 func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
-func (u *unit) TakeDamage(amount int) {
+func (u *unit) TakeDamage(amount int, t AttackType) {
 	if u.Layer() != Normal {
 		return
 	}
@@ -153,6 +159,9 @@ func (u *unit) initialHp() int {
 		return v[u.level]
 	}
 	panic("invalid hp type")
+}
+func (u *unit) initialShield() int {
+	return units[u.name]["shield"].(int)
 }
 func (u *unit) sight() fixed.Scalar {
 	s := units[u.name]["sight"].(int)
