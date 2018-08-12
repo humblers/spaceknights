@@ -16,7 +16,7 @@ func Update(game):
 	if lifetime <= 0:
 		var target = game.FindUnit(targetId)
 		if target != null:
-			target.TakeDamage(damage)
+			target.TakeDamage(damage, "Range")
 	lifetime -= 1
 
 func IsExpired():

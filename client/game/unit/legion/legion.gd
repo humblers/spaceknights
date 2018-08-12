@@ -19,8 +19,8 @@ func Init(id, level, posX, posY, game, player):
 	initPosX = PositionX()
 	initPosY = PositionY()
 
-func TakeDamage(amount):
-	.TakeDamage(amount)
+func TakeDamage(amount, attackType):
+	.TakeDamage(amount, attackType)
 	if IsDead():
 		player.OnKnightDead(self)
 
@@ -118,7 +118,7 @@ func cast():
 		var d = squaredDistanceTo(u)
 		var r = scalar.Add(Radius(), radius)
 		if d < scalar.Mul(r, r):
-			u.TakeDamage(damage)
+			u.TakeDamage(damage, "Skill")
 	
 	# client only
 	var skill = resource.SKILL[name_].instance()

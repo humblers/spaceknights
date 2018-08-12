@@ -331,12 +331,12 @@ func (g *game) FlipY(y int) int {
 func (g *game) TileFromPos(x, y int) int {
 	tw := g.world.ToPixel(g.map_.TileWidth())
 	th := g.world.ToPixel(g.map_.TileHeight())
-	nx := fixed.ToInt(g.map_.TileNumX())
+	nx := g.map_.TileNumX().ToInt()
 	return y/th*nx + x/tw
 }
 
 func (g *game) PosFromTile(num int) (int, int) {
-	nx := fixed.ToInt(g.map_TileNumX())
+	nx := g.map_.TileNumX().ToInt()
 	x := num % nx
 	y := num / nx
 	tw := g.world.ToPixel(g.map_.TileWidth())

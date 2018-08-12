@@ -23,7 +23,7 @@ func (b *bullet) Update(g Game) {
 	if b.lifetime <= 0 {
 		target := g.FindUnit(b.targetId)
 		if target != nil {
-			target.TakeDamage(b.damage)
+			target.TakeDamage(b.damage, Range)
 		}
 	}
 	b.lifetime--

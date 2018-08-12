@@ -6,11 +6,29 @@ type shadowvision struct {
 	*unit
 	targetId int
 	attack   int
+	shield   int
 }
 
 func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "shadowvision", p.Team(), level, posX, posY, g)
 	return &shadowvision{
-		unit: newUnit(id, "shadowvision", p.Team(), level, posX, posY, g),
+		unit:   u,
+		shield: u.initialShield(),
+	}
+}
+
+func (s *shadowvision) TakeDamage(amount int, t AttackType) {
+	if s.Layer() != Normal {
+		return
+	}
+	if t != Melee {
+		s.shield -= amount
+		if s.shield < 0 {
+			s.hp += s.shield
+			s.shield = 0
+		}
+	} else {
+		s.hp -= amount
 	}
 }
 
@@ -29,6 +47,10 @@ func (s *shadowvision) Update() {
 				s.findTargetAndDoAction()
 			}
 		}
+	}
+	s.shield += ShieldRegenPerStep
+	if s.shield > s.initialShield() {
+		s.shield = s.initialShield()
 	}
 }
 

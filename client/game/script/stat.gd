@@ -1,5 +1,7 @@
 extends Node
 
+const ShieldRegenPerStep = 2
+
 const cards = {
 	"archers": {
 		"cost":    1000,
@@ -64,6 +66,7 @@ const units = {
 		"mass":           20,
 		"radius":         50,
 		"hp":             [600],
+		"shield":         300,
 		"sight":          600,
 		"speed":          80,
 		"targettypes":    ["Troop", "Building", "Knight"],

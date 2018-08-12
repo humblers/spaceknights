@@ -23,8 +23,8 @@ func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (l *legion) TakeDamage(amount int) {
-	l.unit.TakeDamage(amount)
+func (l *legion) TakeDamage(amount int, t AttackType) {
+	l.unit.TakeDamage(amount, t)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
@@ -125,7 +125,7 @@ func (l *legion) cast() {
 		d := l.squaredDistanceTo(u)
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
-			u.TakeDamage(damage)
+			u.TakeDamage(damage, Skill)
 		}
 	}
 }

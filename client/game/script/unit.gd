@@ -108,7 +108,7 @@ func Layer():
 func IsDead():
 	return hp <= 0
 
-func TakeDamage(amount):
+func TakeDamage(amount, attackType):
 	if Layer() != "Normal":
 		return
 	hp -= amount
@@ -160,6 +160,9 @@ func initialHp():
 	if t == TYPE_ARRAY:
 		return v[level]
 	print("invalid hp type")
+
+func initialShield():
+	return stat.units[name_]["shield"]
 
 func sight():
 	var s = stat.units[name_]["sight"]

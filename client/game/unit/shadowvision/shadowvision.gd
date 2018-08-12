@@ -2,6 +2,7 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
+var shield
 
 func InitDummy(posX, posY, game, player):
 	.InitDummy("shadowvision", player.Team(), posX, posY, game)
@@ -13,6 +14,9 @@ func Init(id, level, posX, posY, game, player):
 	$Rotatable/Main/Shade/Right.show()
 	$Rotatable/Main/Shade/Front.show()
 	$Rotatable/Main/Shade/Rear.show()
+	shield = initialShield()
+	$Hp/Shield.max_value = shield
+	$Hp/Shield.value = shield
 
 func _process(delta):
 	var shade = $Rotatable/Main/Shade
@@ -33,7 +37,19 @@ func _process(delta):
 func angle_diff(a, b):
 	return fposmod((a - b) + 180, 360) - 180
 	
-
+func TakeDamage(amount, attackType):
+	if Layer() != "Normal":
+		return
+	if attackType != "Melee":
+		shield -= amount
+		if shield < 0:
+			hp += shield
+			shield = 0
+	else:
+		hp -= amount
+	$Hp/Shield.value = shield
+	node_hp.value = hp
+	
 func Update():
 	SetVelocity(0, 0)
 	if attack > 0:
@@ -47,6 +63,10 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
+	shield += stat.ShieldRegenPerStep
+	if shield > initialShield():
+		shield = initialShield()
+	$Hp/Shield.value = shield
 
 func Destroy():
 	.Destroy()
