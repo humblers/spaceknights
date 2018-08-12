@@ -66,10 +66,7 @@ func gui_input(ev):
 	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
-		if belowField:
-			clear_cursor()
-			return
-		if not pressed:
+		if not pressed and not belowField:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
@@ -211,7 +208,7 @@ func Do(action):
 			return null
 	
 	# convert position to int
-	var pos = game.PosFromTile(action.TileX, action.TileY)
+	var pos = game.PosFromTile(int(action.TileX), int(action.TileY))
 	if no_deck:
 		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
