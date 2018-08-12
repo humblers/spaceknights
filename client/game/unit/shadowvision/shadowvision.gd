@@ -45,8 +45,10 @@ func TakeDamage(amount, attackType):
 		if shield < 0:
 			hp += shield
 			shield = 0
+		$Energyshield/EnergyShield.play("energyshield")
 	else:
 		hp -= amount
+		$Energyshield/ParticlePhysical2.play("particle-physical")
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	
