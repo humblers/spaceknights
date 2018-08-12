@@ -226,7 +226,12 @@ func Do(action):
 		var cost = stat.cards[action.Card.Name]["cost"]
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
-			
+
+		if stat.cards[action.Card.Name].has("unit"):
+			if team == "Red" and action.TileY > scalar.ToInt(game.map.MaxTileYOnTop()):
+				return "can't place card on tileY: %d" % action.TileY
+			if team == "Blue" and action.TileY < scalar.ToInt(game.map.MinTileYOnBot()):
+				return "can't place card on tileY: %d" % action.TileY
 		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
 			return err
