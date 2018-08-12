@@ -41,8 +41,8 @@ type Input struct {
 type Action struct {
 	Id      string
 	Card    Card
-	PosX    int
-	PosY    int
+	TileX   int
+	TileY   int
 	Message string // for emoticon
 }
 

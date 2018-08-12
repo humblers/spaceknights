@@ -1,13 +1,18 @@
 package nav
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"fmt"
+
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
-	TileWidth() fixed.Scalar
-	TileHeight() fixed.Scalar
-	TileNumX() fixed.Scalar
+	TileFromPos(x, y fixed.Scalar) fixed.Vector
+	PosFromTile(x, y fixed.Scalar) fixed.Vector
+	MaxTileYOnTop() fixed.Scalar
+	MinTileYOnBot() fixed.Scalar
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -151,20 +156,42 @@ func (t *thanatos) Height() fixed.Scalar {
 	return t.tileHeight.Mul(t.tileNumY)
 }
 
-func (t *thanatos) TileWidth() fixed.Scalar {
-	return t.tileWidth
+func (t *thanatos) TileFromPos(x, y fixed.Scalar) fixed.Vector {
+	tx := x.Div(t.tileWidth).Clamp(0, t.tileNumX.Sub(fixed.One))
+	ty := y.Div(t.tileHeight).Clamp(0, t.tileNumY.Sub(fixed.One))
+	return fixed.Vector{tx, ty}
 }
 
-func (t *thanatos) TileHeight() fixed.Scalar {
-	return t.tileHeight
+func (t *thanatos) PosFromTile(x, y fixed.Scalar) fixed.Vector {
+	if t.tileNumX < x || x < 0 {
+		panic(fmt.Errorf("invaild tile x: %v", x))
+	}
+	if t.tileNumY < y || y < 0 {
+		panic(fmt.Errorf("invalid tile y: %v", y))
+	}
+	px := x.Mul(t.tileWidth).Add(t.tileWidth.Div(fixed.Two))
+	py := y.Mul(t.tileHeight).Add(t.tileHeight.Div(fixed.Two))
+	return fixed.Vector{px, py}
 }
 
-func (t *thanatos) TileNumX() fixed.Scalar {
-	return t.tileNumX
+func (t *thanatos) MaxTileYOnTop() fixed.Scalar {
+	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
+}
+
+func (t *thanatos) MinTileYOnBot() fixed.Scalar {
+	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
 }
 
 func (t *thanatos) GetObstacles() []Area {
 	return []Area{t.leftshield, t.centershield, t.rightshield}
+}
+
+func (t *thanatos) GetTopAreas() []Area {
+	return []Area{t.top}
+}
+
+func (t *thanatos) GetBotAreas() []Area {
+	return []Area{t.bottom}
 }
 
 func (t *thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector {

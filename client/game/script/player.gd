@@ -62,19 +62,13 @@ func connect_input():
 
 func gui_input(ev):
 	var field = get_node("../../BattleField")
-	var rect = field.get_rect()
 	var pos = field.get_local_mouse_position()
-
-	if ev is InputEventMouseMotion:
-		if pressed:
-			if selected_card == null:
-				return
-			var x = int(clamp(pos.x, 0, rect.size.x - 1))
-			var y = int(clamp(pos.y, 0, rect.size.y - 1))
-			update_cursor(x, y)
-
+	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
+		if belowField:
+			clear_cursor()
+			return
 		if not pressed:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
@@ -83,12 +77,13 @@ func gui_input(ev):
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
-			var x = int(clamp(pos.x, 0, rect.size.x - 1))
-			var y = int(clamp(pos.y, 0, rect.size.y - 1))
+			var pos_node = get_node("../../BattleField/CursorPos").position
+			var x = int(pos_node.x)
+			var y = int(pos_node.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
-			var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
+			var tile = game.TileFromPos(x, y)
 			var input = {
 					"Step": game.step + INPUT_DELAY_STEP,
 					"Action": {
@@ -97,8 +92,8 @@ func gui_input(ev):
 							"Name": selected_card.Name,
 							"Level": selected_card.Level,
 						},
-						"PosX": tile_pos.x,
-						"PosY": tile_pos.y,
+						"TileX": tile[0],
+						"TileY": tile[1],
 					},
 			}
 			if game.connected:
@@ -109,19 +104,22 @@ func gui_input(ev):
 				else:
 					game.actions[input.Step] = [input.Action]
 			mark_action(input)
+	if belowField:
+		clear_cursor()
+		return
+	update_cursor(int(pos.x), int(pos.y))
 
 func button_input(ev, i):
-	if ev is InputEventMouseButton:
-		if ev.pressed:
-			selected_card = hand[i]
+	if ev is InputEventMouseButton and ev.pressed:
+		selected_card = hand[i]
+		if stat.cards[selected_card.Name].has("unit"):
+			var redArea = get_node("../../Map/RedArea")
+			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+			$Tween.start()
 	gui_input(ev)
 
-func update_cursor(x, y):
-	var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
+func add_cursor():
 	var pos_node = get_node("../../BattleField/CursorPos")
-	pos_node.position = tile_pos
-	if pos_node.get_child_count() > 0:
-		return
 	var cardData = stat.cards[selected_card.Name]
 	var cursor
 	if not cardData.has("unit"):
@@ -138,6 +136,23 @@ func update_cursor(x, y):
 	cursor = cursor.instance()
 	pos_node.add_child(cursor)
 	pos_node.move_child(cursor, 0)
+
+func update_cursor(x, y):
+	if selected_card == null:
+		return
+	var pos_node = get_node("../../BattleField/CursorPos")
+	if pos_node.get_child_count() <= 0:
+		add_cursor()
+	var tile = game.TileFromPos(x, y)
+	var cardData = stat.cards[selected_card.Name]
+	if cardData.has("unit"):
+		var minTileY = scalar.ToInt(game.map.MinTileYOnBot())
+		if tile[1] < minTileY:
+			tile[1] = minTileY
+	var pos = game.PosFromTile(tile[0], tile[1])
+	pos_node.position = Vector2(pos[0], pos[1])
+	pos_node.visible = pressed
+	get_node("../../Map/Tile").visible = pressed
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
@@ -196,10 +211,9 @@ func Do(action):
 			return null
 	
 	# convert position to int
-	action.PosX = int(action.PosX)
-	action.PosY = int(action.PosY)
+	var pos = game.PosFromTile(action.TileX, action.TileY)
 	if no_deck:
-		var err = useCard(action.Card, action.PosX, action.PosY)
+		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
 			return err
 	else:
@@ -216,7 +230,7 @@ func Do(action):
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
 			
-		var err = useCard(action.Card, action.PosX, action.PosY)
+		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
 			return err
 		
@@ -226,7 +240,11 @@ func Do(action):
 		pending.append(action.Card)
 		update_cards()
 		selected_card = null
+		get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
 	return null
+
+func actPosValidate(x, y):
+	return "invaild pos: %d,%d" % [scalar.ToInt(x), scalar.ToInt(y)]
 
 func findKnight(name):
 	for id in knightIds:

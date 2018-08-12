@@ -127,14 +127,27 @@ func Width():
 func Height():
 	return scalar.Mul(tileHeight, tileNumY)
 
-func TileWidth():
-	return tileWidth
+func TileFromPos(x, y):
+	var tx = scalar.Clamp(scalar.Div(x, tileWidth), 0, scalar.Sub(tileNumX, scalar.One))
+	var ty = scalar.Clamp(scalar.Div(y, tileHeight), 0, scalar.Sub(tileNumY, scalar.One))
+	return [tx, ty]
 
-func TileHeight():
-	return tileHeight
+func PosFromTile(x, y):
+	if tileNumX < x || x < 0:
+		print("invalid tile x: ", scalar.ToInt(x))
+		return null
+	if tileNumY < y || y < 0:
+		print("invalid tile y: ", scalar.ToInt(y))
+		return null
+	var px = scalar.Add(scalar.Mul(x, tileWidth), scalar.Div(tileWidth, scalar.Two))
+	var py = scalar.Add(scalar.Mul(y, tileHeight), scalar.Div(tileHeight, scalar.Two))
+	return [px, py]
 
-func TileNumX():
-	return tileNumX
+func MaxTileYOnTop():
+	return scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)
+
+func MinTileYOnBot():
+	return scalar.Add(scalar.Div(tileNumY, scalar.Two), scalar.One)
 
 func GetObstacles():
 	return [leftshield, centershield, rightshield]
@@ -296,3 +309,6 @@ static func AreaPosX(area):
 
 static func AreaPosY(area):
 	return scalar.Div(scalar.Add(area.t, area.b), scalar.Two)
+
+static func AreaHasPoint(area, x, y):
+	return area.r <= x && x <= area.l && area.t <= y && y <= area.b

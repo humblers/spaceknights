@@ -1,6 +1,8 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const maxEnergy = 10000
 const startEnergy = 7000
@@ -98,7 +100,8 @@ func (p *player) Do(a *Action) error {
 		return fmt.Errorf("not enough energy: %v", a.Card.Name)
 	}
 
-	if err := p.useCard(a.Card, a.PosX, a.PosY); err != nil {
+	posX, posY := p.game.PosFromTile(a.TileX, a.TileY)
+	if err := p.useCard(a.Card, posX, posY); err != nil {
 		return err
 	}
 
