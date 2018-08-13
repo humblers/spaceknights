@@ -54,6 +54,8 @@ func Init(playerData, game):
 	if not no_deck:
 		update_cards()
 
+	get_node("../../Map/MotherShips/%s" % team).init(game, self)
+
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
@@ -280,6 +282,10 @@ func OnKnightDead(knight):
 			knightIds[i] = 0
 			break
 	removeCard(knight.Skill())
+	get_node("../../Map/MotherShips/%s" % team).destroy(knight.Id())
+
+func OnKnightHalfDamaged(knight):
+	get_node("../../Map/MotherShips/%s" % team).partial_destroy(knight.Id())
 
 func removeCard(name):
 	if no_deck:

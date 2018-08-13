@@ -136,7 +136,7 @@ func _process(delta):
 	elapsed += delta
 	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
 	for b in world.bodies:
-		if b.node != null:
+		if b.node != null and b.layer != "NoPhysics":
 			var prev = Vector2(
 				world.ToPixel(b.prev_pos_x),
 				world.ToPixel(b.prev_pos_y)
