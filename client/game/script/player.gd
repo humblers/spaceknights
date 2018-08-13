@@ -249,9 +249,6 @@ func Do(action):
 		get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
 	return null
 
-func actPosValidate(x, y):
-	return "invaild pos: %d,%d" % [scalar.ToInt(x), scalar.ToInt(y)]
-
 func findKnight(name):
 	for id in knightIds:
 		var u = game.FindUnit(id)
