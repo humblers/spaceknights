@@ -19,9 +19,9 @@ var cfg = {
 				{"Name": "shadowvision", "Level": 0},
 			],
 			"Knights": [
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
 			],
 		},
 		{
