@@ -1,16 +1,16 @@
 package nav
 
 import (
-	"fmt"
-
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
-	TileFromPos(x, y fixed.Scalar) fixed.Vector
-	PosFromTile(x, y fixed.Scalar) (fixed.Vector, error)
+	TileWidth() fixed.Scalar
+	TileHeight() fixed.Scalar
+	TileNumX() int
+	TileNumY() int
 	MaxTileYOnTop() fixed.Scalar
 	MinTileYOnBot() fixed.Scalar
 	GetObstacles() []Area
@@ -156,23 +156,14 @@ func (t *thanatos) Height() fixed.Scalar {
 	return t.tileHeight.Mul(t.tileNumY)
 }
 
-func (t *thanatos) TileFromPos(x, y fixed.Scalar) fixed.Vector {
-	tx := x.Div(t.tileWidth).Clamp(0, t.tileNumX.Sub(fixed.One))
-	ty := y.Div(t.tileHeight).Clamp(0, t.tileNumY.Sub(fixed.One))
-	return fixed.Vector{tx, ty}
-}
+func (t *thanatos) TileWidth() fixed.Scalar  { return t.tileWidth }
+func (t *thanatos) TileHeight() fixed.Scalar { return t.tileHeight }
 
-func (t *thanatos) PosFromTile(x, y fixed.Scalar) (fixed.Vector, error) {
-	var pos fixed.Vector
-	if t.tileNumX < x || x < 0 {
-		return pos, fmt.Errorf("invaild tile x: %v", x)
-	}
-	if t.tileNumY < y || y < 0 {
-		return pos, fmt.Errorf("invalid tile y: %v", y)
-	}
-	pos.X = x.Mul(t.tileWidth).Add(t.tileWidth.Div(fixed.Two))
-	pos.Y = y.Mul(t.tileHeight).Add(t.tileHeight.Div(fixed.Two))
-	return pos, nil
+func (t *thanatos) TileNumX() int {
+	return t.tileNumX.ToInt()
+}
+func (t *thanatos) TileNumY() int {
+	return t.tileNumY.ToInt()
 }
 
 func (t *thanatos) MaxTileYOnTop() fixed.Scalar {

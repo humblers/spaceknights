@@ -329,14 +329,28 @@ func (g *game) FlipY(y int) int {
 }
 
 func (g *game) TileFromPos(x, y int) (int, int) {
-	tile := g.map_.TileFromPos(g.world.FromPixel(x), g.world.FromPixel(y))
-	return tile.X.ToInt(), tile.Y.ToInt()
+	mx, my := g.map_.TileNumX()-1, g.map_.TileNumY()-1
+	tx, ty := x/g.world.ToPixel(g.map_.TileWidth()), y/g.world.ToPixel(g.map_.TileHeight())
+	if tx < 0 {
+		tx = 0
+	} else if tx > mx {
+		tx = mx
+	}
+	if ty < 0 {
+		ty = 0
+	} else if ty > my {
+		ty = my
+	}
+	return tx, ty
 }
 
 func (g *game) PosFromTile(x, y int) (int, int, error) {
-	pos, err := g.map_.PosFromTile(fixed.FromInt(x), fixed.FromInt(y))
-	if err != nil {
-		return 0, 0, err
+	if g.map_.TileNumX()-1 < x || x < 0 {
+		return 0, 0, fmt.Errorf("invaild tile x: %v", x)
 	}
-	return g.world.ToPixel(pos.X), g.world.ToPixel(pos.Y), nil
+	if g.map_.TileNumY()-1 < y || y < 0 {
+		return 0, 0, fmt.Errorf("invaild tile y: %v", y)
+	}
+	tw, th := g.world.ToPixel(g.map_.TileWidth()), g.world.ToPixel(g.map_.TileHeight())
+	return x*tw + tw/2, y*th + th/2, nil
 }

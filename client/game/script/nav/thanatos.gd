@@ -127,19 +127,17 @@ func Width():
 func Height():
 	return scalar.Mul(tileHeight, tileNumY)
 
-func TileFromPos(x, y):
-	var tx = scalar.Clamp(scalar.Div(x, tileWidth), 0, scalar.Sub(tileNumX, scalar.One))
-	var ty = scalar.Clamp(scalar.Div(y, tileHeight), 0, scalar.Sub(tileNumY, scalar.One))
-	return [tx, ty]
+func TileWidth():
+	return tileWidth
 
-func PosFromTile(x, y):
-	if tileNumX < x || x < 0:
-		return [null, null, "invalid tile x: %d" % scalar.ToInt(x)]
-	if tileNumY < y || y < 0:
-		return [null, null, "invalid tile y: %d" % scalar.ToInt(y)]
-	var px = scalar.Add(scalar.Mul(x, tileWidth), scalar.Div(tileWidth, scalar.Two))
-	var py = scalar.Add(scalar.Mul(y, tileHeight), scalar.Div(tileHeight, scalar.Two))
-	return [px, py, null]
+func TileHeight():
+	return tileHeight
+
+func TileNumX():
+	return scalar.ToInt(tileNumX)
+
+func TileNumY():
+	return scalar.ToInt(tileNumY)
 
 func MaxTileYOnTop():
 	return scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)
