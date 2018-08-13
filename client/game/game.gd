@@ -255,15 +255,15 @@ func FlipY(y):
 	return world.ToPixel(map.Height()) - y
 
 func TileFromPos(x, y):
-	var tw = world.ToPixel(map.TileWidth())
-	var th = world.ToPixel(map.TileHeight())
-	var nx = scalar.ToInt(map.TileNumX())
-	return y / th * nx + min(x / tw, nx - 1)
+	var tx = int(clamp(x / world.ToPixel(map.TileWidth()), 0, map.TileNumX() - 1))
+	var ty = int(clamp(y / world.ToPixel(map.TileHeight()), 0, map.TileNumY() - 1))
+	return [tx, ty]
 
-func PosFromTile(num):
-	var nx = scalar.ToInt(map.TileNumX())
-	var x = num % nx
-	var y = num / nx
+func PosFromTile(x, y):
+	if map.TileNumX() - 1 < x || x < 0:
+		return [null, null, "invalid tile x: %d" % x]
+	if map.TileNumY() - 1 < y || y < 0:
+		return [null, null, "invalid tile y: %d" % y]
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
-	return Vector2(x * tw + tw / 2, y * th + th / 2)
+	return [x*tw + tw/2, y*th + th/2, null]

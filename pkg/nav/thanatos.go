@@ -1,13 +1,18 @@
 package nav
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
 	TileWidth() fixed.Scalar
 	TileHeight() fixed.Scalar
-	TileNumX() fixed.Scalar
+	TileNumX() int
+	TileNumY() int
+	MaxTileYOnTop() fixed.Scalar
+	MinTileYOnBot() fixed.Scalar
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -151,16 +156,22 @@ func (t *thanatos) Height() fixed.Scalar {
 	return t.tileHeight.Mul(t.tileNumY)
 }
 
-func (t *thanatos) TileWidth() fixed.Scalar {
-	return t.tileWidth
+func (t *thanatos) TileWidth() fixed.Scalar  { return t.tileWidth }
+func (t *thanatos) TileHeight() fixed.Scalar { return t.tileHeight }
+
+func (t *thanatos) TileNumX() int {
+	return t.tileNumX.ToInt()
+}
+func (t *thanatos) TileNumY() int {
+	return t.tileNumY.ToInt()
 }
 
-func (t *thanatos) TileHeight() fixed.Scalar {
-	return t.tileHeight
+func (t *thanatos) MaxTileYOnTop() fixed.Scalar {
+	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
 }
 
-func (t *thanatos) TileNumX() fixed.Scalar {
-	return t.tileNumX
+func (t *thanatos) MinTileYOnBot() fixed.Scalar {
+	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
 }
 
 func (t *thanatos) GetObstacles() []Area {

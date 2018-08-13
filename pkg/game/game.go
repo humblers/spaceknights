@@ -32,8 +32,8 @@ type Game interface {
 	Map() nav.Map
 	FlipX(x int) int
 	FlipY(y int) int
-	TileFromPos(x, y int) int
-	PosFromTile(num int) (int, int)
+	TileFromPos(x, y int) (int, int)
+	PosFromTile(x, y int) (int, int, error)
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
@@ -328,18 +328,29 @@ func (g *game) FlipY(y int) int {
 	return g.world.ToPixel(g.map_.Height()) - y
 }
 
-func (g *game) TileFromPos(x, y int) int {
-	tw := g.world.ToPixel(g.map_.TileWidth())
-	th := g.world.ToPixel(g.map_.TileHeight())
-	nx := g.map_.TileNumX().ToInt()
-	return y/th*nx + x/tw
+func (g *game) TileFromPos(x, y int) (int, int) {
+	mx, my := g.map_.TileNumX()-1, g.map_.TileNumY()-1
+	tx, ty := x/g.world.ToPixel(g.map_.TileWidth()), y/g.world.ToPixel(g.map_.TileHeight())
+	if tx < 0 {
+		tx = 0
+	} else if tx > mx {
+		tx = mx
+	}
+	if ty < 0 {
+		ty = 0
+	} else if ty > my {
+		ty = my
+	}
+	return tx, ty
 }
 
-func (g *game) PosFromTile(num int) (int, int) {
-	nx := g.map_.TileNumX().ToInt()
-	x := num % nx
-	y := num / nx
-	tw := g.world.ToPixel(g.map_.TileWidth())
-	th := g.world.ToPixel(g.map_.TileHeight())
-	return x * tw, y * th
+func (g *game) PosFromTile(x, y int) (int, int, error) {
+	if g.map_.TileNumX()-1 < x || x < 0 {
+		return 0, 0, fmt.Errorf("invaild tile x: %v", x)
+	}
+	if g.map_.TileNumY()-1 < y || y < 0 {
+		return 0, 0, fmt.Errorf("invaild tile y: %v", y)
+	}
+	tw, th := g.world.ToPixel(g.map_.TileWidth()), g.world.ToPixel(g.map_.TileHeight())
+	return x*tw + tw/2, y*th + th/2, nil
 }

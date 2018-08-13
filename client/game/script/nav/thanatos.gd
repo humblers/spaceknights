@@ -134,7 +134,16 @@ func TileHeight():
 	return tileHeight
 
 func TileNumX():
-	return tileNumX
+	return scalar.ToInt(tileNumX)
+
+func TileNumY():
+	return scalar.ToInt(tileNumY)
+
+func MaxTileYOnTop():
+	return scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)
+
+func MinTileYOnBot():
+	return scalar.Add(scalar.Div(tileNumY, scalar.Two), scalar.One)
 
 func GetObstacles():
 	return [leftshield, centershield, rightshield]

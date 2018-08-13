@@ -55,32 +55,18 @@ func Init(playerData, game):
 		update_cards()
 
 func connect_input():
-	var field = get_node("../../BattleField")
-	field.connect("gui_input", self, "send_input", [field, null])
+	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Button" % (i+1))
-		button.connect("gui_input", self, "send_input", [button, i])
+		button.connect("gui_input", self, "button_input", [i])
 
-func send_input(ev, node, i):
+func gui_input(ev):
 	var field = get_node("../../BattleField")
 	var pos = field.get_local_mouse_position()
-	if ev is InputEventMouseMotion:
-		if pressed:
-			if selected_card == null:
-				return
-			if not field.get_rect().has_point(pos):
-				return
-			update_cursor(int(pos.x), int(pos.y))
-
+	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
-		if pressed:
-			if i != null:
-				selected_card = hand[i]
-		else:
-			if not field.get_rect().has_point(pos):
-				clear_cursor()
-				return
+		if not pressed and not belowField:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
@@ -88,11 +74,13 @@ func send_input(ev, node, i):
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
-			var x = int(pos.x)
-			var y = int(pos.y)
+			var pos_node = get_node("../../BattleField/CursorPos").position
+			var x = int(pos_node.x)
+			var y = int(pos_node.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
+			var tile = game.TileFromPos(x, y)
 			var input = {
 					"Step": game.step + INPUT_DELAY_STEP,
 					"Action": {
@@ -101,8 +89,8 @@ func send_input(ev, node, i):
 							"Name": selected_card.Name,
 							"Level": selected_card.Level,
 						},
-						"PosX": x,
-						"PosY": y,
+						"TileX": tile[0],
+						"TileY": tile[1],
 					},
 			}
 			if game.connected:
@@ -113,13 +101,22 @@ func send_input(ev, node, i):
 				else:
 					game.actions[input.Step] = [input.Action]
 			mark_action(input)
-
-func update_cursor(x, y):
-	var tile_pos = game.PosFromTile(game.TileFromPos(x, y))
-	var pos_node = get_node("../../BattleField/CursorPos")
-	pos_node.position = tile_pos
-	if pos_node.get_child_count() > 0:
+	if belowField:
+		clear_cursor()
 		return
+	update_cursor(int(pos.x), int(pos.y))
+
+func button_input(ev, i):
+	if ev is InputEventMouseButton and ev.pressed:
+		selected_card = hand[i]
+		if stat.cards[selected_card.Name].has("unit"):
+			var redArea = get_node("../../Map/RedArea")
+			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+			$Tween.start()
+	gui_input(ev)
+
+func add_cursor():
+	var pos_node = get_node("../../BattleField/CursorPos")
 	var cardData = stat.cards[selected_card.Name]
 	var cursor
 	if not cardData.has("unit"):
@@ -136,6 +133,23 @@ func update_cursor(x, y):
 	cursor = cursor.instance()
 	pos_node.add_child(cursor)
 	pos_node.move_child(cursor, 0)
+
+func update_cursor(x, y):
+	if selected_card == null:
+		return
+	var pos_node = get_node("../../BattleField/CursorPos")
+	if pos_node.get_child_count() <= 0:
+		add_cursor()
+	var tile = game.TileFromPos(x, y)
+	var cardData = stat.cards[selected_card.Name]
+	if cardData.has("unit"):
+		var minTileY = scalar.ToInt(game.map.MinTileYOnBot())
+		if tile[1] < minTileY:
+			tile[1] = minTileY
+	var pos = game.PosFromTile(tile[0], tile[1])
+	pos_node.position = Vector2(pos[0], pos[1])
+	pos_node.visible = pressed
+	get_node("../../Map/Tile").visible = pressed
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
@@ -194,10 +208,13 @@ func Do(action):
 			return null
 	
 	# convert position to int
-	action.PosX = int(action.PosX)
-	action.PosY = int(action.PosY)
+	action.TileX = int(action.TileX)
+	action.TileY = int(action.TileY)
+	var pos = game.PosFromTile(action.TileX, action.TileY)
+	if pos[2] != null:
+		return pos[2]
 	if no_deck:
-		var err = useCard(action.Card, action.PosX, action.PosY)
+		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
 			return err
 	else:
@@ -213,8 +230,13 @@ func Do(action):
 		var cost = stat.cards[action.Card.Name]["cost"]
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
-			
-		var err = useCard(action.Card, action.PosX, action.PosY)
+
+		if stat.cards[action.Card.Name].has("unit"):
+			if team == "Red" and action.TileY > scalar.ToInt(game.map.MaxTileYOnTop()):
+				return "can't place card on tileY: %d" % action.TileY
+			if team == "Blue" and action.TileY < scalar.ToInt(game.map.MinTileYOnBot()):
+				return "can't place card on tileY: %d" % action.TileY
+		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:
 			return err
 		
@@ -224,6 +246,7 @@ func Do(action):
 		pending.append(action.Card)
 		update_cards()
 		selected_card = null
+		get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
 	return null
 
 func findKnight(name):
