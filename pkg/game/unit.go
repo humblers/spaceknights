@@ -137,9 +137,9 @@ func (u *unit) initialLayer() Layer {
 }
 func (u *unit) setLayer(l Layer) {
 	if l == Casting {
-		u.Body.SetCollidable(false)
+		u.Body.Simulate(false)
 	} else {
-		u.Body.SetCollidable(true)
+		u.Body.Simulate(true)
 	}
 	u.Body.SetLayer(string(l))
 }

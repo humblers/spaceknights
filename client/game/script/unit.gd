@@ -58,9 +58,9 @@ func Init(id, name, team, level, posX, posY, game):
 
 func setLayer(l):
 	if l == "Casting":
-		body.SetCollidable(false)
+		body.Simulate(false)
 	else:
-		body.SetCollidable(true)
+		body.Simulate(true)
 	body.SetLayer(l)
 	z_index = Z_INDEX[l]
 	
@@ -132,8 +132,8 @@ func Radius():
 func SetVelocity(x, y):
 	body.SetVelocity(x, y)
 
-func SetCollidable(collidable):
-	body.SetCollidable(collidable)
+func Simulate(on):
+	body.Simulate(on)
 
 func Skill():
 	return stat.units[name_]["skill"]

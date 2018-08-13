@@ -78,7 +78,7 @@ func (w *world) Step() {
 		for j := i + 1; j < len(w.bodies); j++ {
 			a := w.bodies[i]
 			b := w.bodies[j]
-			if a.no_collision || b.no_collision {
+			if a.no_physics || b.no_physics {
 				continue
 			}
 			if a.layer != b.layer {

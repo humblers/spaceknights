@@ -10,7 +10,7 @@ var vel_x = 0
 var vel_y = 0
 var force_x = 0
 var force_y = 0
-var no_collision = false
+var no_physics = false
 var layer = ""
 
 # geometry
@@ -44,6 +44,8 @@ func PositionY():
 	return pos_y
 
 func SetPosition(x, y):
+	prev_pos_x = pos_x
+	prev_pos_y = pos_y
 	pos_x = x
 	pos_y = y
 
@@ -60,8 +62,8 @@ func SetVelocity(x, y):
 func Radius():
 	return radius
 
-func SetCollidable(collidable):
-	no_collision = not collidable
+func Simulate(on):
+	no_physics = not on
 
 func Layer():
 	return layer
@@ -79,7 +81,7 @@ func setAsCircle(radius):
 	self.radius = radius
 
 func applyForce(gravity_x, gravity_y, dt):
-	if mass == 0:
+	if mass == 0 or no_physics:
 		return
 	var accel_x = scalar.Add(scalar.Mul(force_x, imass), gravity_x)
 	var accel_y = scalar.Add(scalar.Mul(force_y, imass), gravity_y)
@@ -89,7 +91,7 @@ func applyForce(gravity_x, gravity_y, dt):
 	force_y = 0
 
 func move(dt):
-	if mass == 0:
+	if mass == 0 or no_physics:
 		return
 	prev_pos_x = pos_x
 	prev_pos_y = pos_y

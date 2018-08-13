@@ -47,12 +47,13 @@ func Update():
 					var s = scalar.Mul(game.World().Dt(), speed())
 					var l = vector.LengthSquared(x, y)
 					if l <= scalar.Mul(s, s):
-						SetVelocity(0, 0)
 						SetPosition(castPosX, castPosY)
 					else:
 						l = scalar.Sqrt(l)
-						var d = scalar.Div(speed(), l)
-						SetVelocity(scalar.Mul(x, d), scalar.Mul(y, d))
+						var d = scalar.Div(s, l)
+						var newX = scalar.Add(PositionX(), scalar.Mul(x, d))
+						var newY = scalar.Add(PositionY(), scalar.Mul(y, d))
+						SetPosition(newX, newY)
 			else:
 				if transform_ == 0:
 					$AnimationPlayer.play("transform")
@@ -73,12 +74,13 @@ func Update():
 				var s = scalar.Mul(game.World().Dt(), speed())
 				var l = vector.LengthSquared(x, y)
 				if l <= scalar.Mul(s, s):
-					SetVelocity(0, 0)
 					SetPosition(initPosX, initPosY)
 				else:
 					l = scalar.Sqrt(l)
-					var d = scalar.Div(speed(), l)
-					SetVelocity(scalar.Mul(x, d), scalar.Mul(y, d))
+					var d = scalar.Div(s, l)
+					var newX = scalar.Add(PositionX(), scalar.Mul(x, d))
+					var newY = scalar.Add(PositionY(), scalar.Mul(y, d))
+					SetPosition(newX, newY)
 	else:
 		if attack > 0:
 			handleAttack()

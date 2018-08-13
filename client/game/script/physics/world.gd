@@ -46,7 +46,7 @@ func Step():
 		for j in range(i + 1, len(bodies)):
 			var a = bodies[i]
 			var b = bodies[j]
-			if a.no_collision or b.no_collision:
+			if a.no_physics or b.no_physics:
 				continue
 			if a.layer != b.layer:
 				continue
