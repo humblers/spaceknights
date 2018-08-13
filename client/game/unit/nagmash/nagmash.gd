@@ -81,10 +81,19 @@ func scaleAni(tar_x,tar_y, sta_x, sta_y):
 	var angle = aniV.angle_to(destV)
 	var sizeRatio = destV.length()/aniV.length()
 	var resultV = aniV.rotated(angle) * sizeRatio
+	var track_idx
+	var idx_num
 	
 	var anim_go = $AnimationPlayer.get_animation("drop-2-1")
-	var track_idx = anim_go.find_track("Rotatable/Body:position")
-	var idx_num = anim_go.track_get_key_count(track_idx)
+	track_idx = anim_go.find_track("Rotatable/Body:position")
+	idx_num = anim_go.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_go.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_go.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_go.find_track("Rotatable/Dummy:position")
+	idx_num = anim_go.track_get_key_count(track_idx)
 	for i in idx_num:
 		var ori_value = anim_go.track_get_key_value(track_idx, i)
 		var new_value = ori_value.rotated(angle) * sizeRatio
@@ -106,6 +115,41 @@ func scaleAni(tar_x,tar_y, sta_x, sta_y):
 		
 	var anim_drop = $AnimationPlayer.get_animation("drop-3-1")
 	track_idx = anim_drop.find_track("Rotatable/Body:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman1:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman2:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman3:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman4:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) * sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy:position")
 	idx_num = anim_drop.track_get_key_count(track_idx)
 	for i in idx_num:
 		var ori_value = anim_drop.track_get_key_value(track_idx, i)
@@ -139,8 +183,50 @@ func rescaleAni(tar_x,tar_y, sta_x, sta_y):
 		var new_value = ori_value.rotated(angle) / sizeRatio
 		anim_go.track_set_key_value(track_idx, i, new_value)
 		
+	track_idx = anim_go.find_track("Rotatable/Dummy:position")
+	idx_num = anim_go.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_go.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_go.track_set_key_value(track_idx, i, new_value)
+		
 	var anim_drop = $AnimationPlayer.get_animation("drop-3-1")
 	track_idx = anim_drop.find_track("Rotatable/Body:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+				
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman1:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman2:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman3:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy/Footman4:position")
+	idx_num = anim_drop.track_get_key_count(track_idx)
+	for i in idx_num:
+		var ori_value = anim_drop.track_get_key_value(track_idx, i)
+		var new_value = ori_value.rotated(angle) / sizeRatio
+		anim_drop.track_set_key_value(track_idx, i, new_value)
+		
+	track_idx = anim_drop.find_track("Rotatable/Dummy:position")
 	idx_num = anim_drop.track_get_key_count(track_idx)
 	for i in idx_num:
 		var ori_value = anim_drop.track_get_key_value(track_idx, i)
