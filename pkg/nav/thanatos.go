@@ -10,7 +10,7 @@ type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
 	TileFromPos(x, y fixed.Scalar) fixed.Vector
-	PosFromTile(x, y fixed.Scalar) fixed.Vector
+	PosFromTile(x, y fixed.Scalar) (fixed.Vector, error)
 	MaxTileYOnTop() fixed.Scalar
 	MinTileYOnBot() fixed.Scalar
 	GetObstacles() []Area
@@ -162,16 +162,17 @@ func (t *thanatos) TileFromPos(x, y fixed.Scalar) fixed.Vector {
 	return fixed.Vector{tx, ty}
 }
 
-func (t *thanatos) PosFromTile(x, y fixed.Scalar) fixed.Vector {
+func (t *thanatos) PosFromTile(x, y fixed.Scalar) (fixed.Vector, error) {
+	var pos fixed.Vector
 	if t.tileNumX < x || x < 0 {
-		panic(fmt.Errorf("invaild tile x: %v", x))
+		return pos, fmt.Errorf("invaild tile x: %v", x)
 	}
 	if t.tileNumY < y || y < 0 {
-		panic(fmt.Errorf("invalid tile y: %v", y))
+		return pos, fmt.Errorf("invalid tile y: %v", y)
 	}
-	px := x.Mul(t.tileWidth).Add(t.tileWidth.Div(fixed.Two))
-	py := y.Mul(t.tileHeight).Add(t.tileHeight.Div(fixed.Two))
-	return fixed.Vector{px, py}
+	pos.X = x.Mul(t.tileWidth).Add(t.tileWidth.Div(fixed.Two))
+	pos.Y = y.Mul(t.tileHeight).Add(t.tileHeight.Div(fixed.Two))
+	return pos, nil
 }
 
 func (t *thanatos) MaxTileYOnTop() fixed.Scalar {
@@ -184,14 +185,6 @@ func (t *thanatos) MinTileYOnBot() fixed.Scalar {
 
 func (t *thanatos) GetObstacles() []Area {
 	return []Area{t.leftshield, t.centershield, t.rightshield}
-}
-
-func (t *thanatos) GetTopAreas() []Area {
-	return []Area{t.top}
-}
-
-func (t *thanatos) GetBotAreas() []Area {
-	return []Area{t.bottom}
 }
 
 func (t *thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector {

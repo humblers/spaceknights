@@ -134,14 +134,12 @@ func TileFromPos(x, y):
 
 func PosFromTile(x, y):
 	if tileNumX < x || x < 0:
-		print("invalid tile x: ", scalar.ToInt(x))
-		return null
+		return [null, null, "invalid tile x: %d" % scalar.ToInt(x)]
 	if tileNumY < y || y < 0:
-		print("invalid tile y: ", scalar.ToInt(y))
-		return null
+		return [null, null, "invalid tile y: %d" % scalar.ToInt(y)]
 	var px = scalar.Add(scalar.Mul(x, tileWidth), scalar.Div(tileWidth, scalar.Two))
 	var py = scalar.Add(scalar.Mul(y, tileHeight), scalar.Div(tileHeight, scalar.Two))
-	return [px, py]
+	return [px, py, null]
 
 func MaxTileYOnTop():
 	return scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)
@@ -309,6 +307,3 @@ static func AreaPosX(area):
 
 static func AreaPosY(area):
 	return scalar.Div(scalar.Add(area.t, area.b), scalar.Two)
-
-static func AreaHasPoint(area, x, y):
-	return area.r <= x && x <= area.l && area.t <= y && y <= area.b

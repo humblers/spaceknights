@@ -100,6 +100,10 @@ func (p *player) Do(a *Action) error {
 		return fmt.Errorf("not enough energy: %v", a.Card.Name)
 	}
 
+	posX, posY, err := p.game.PosFromTile(a.TileX, a.TileY)
+	if err != nil {
+		return err
+	}
 	if cards[a.Card.Name]["unit"] != nil {
 		if p.team == Red && a.TileY > p.game.Map().MaxTileYOnTop().ToInt() {
 			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
@@ -109,7 +113,6 @@ func (p *player) Do(a *Action) error {
 		}
 	}
 
-	posX, posY := p.game.PosFromTile(a.TileX, a.TileY)
 	if err := p.useCard(a.Card, posX, posY); err != nil {
 		return err
 	}

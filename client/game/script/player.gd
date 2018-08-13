@@ -208,7 +208,11 @@ func Do(action):
 			return null
 	
 	# convert position to int
-	var pos = game.PosFromTile(int(action.TileX), int(action.TileY))
+	action.TileX = int(action.TileX)
+	action.TileY = int(action.TileY)
+	var pos = game.PosFromTile(action.TileX, action.TileY)
+	if pos[2] != null:
+		return pos[2]
 	if no_deck:
 		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:

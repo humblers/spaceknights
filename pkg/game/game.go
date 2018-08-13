@@ -33,7 +33,7 @@ type Game interface {
 	FlipX(x int) int
 	FlipY(y int) int
 	TileFromPos(x, y int) (int, int)
-	PosFromTile(x, y int) (int, int)
+	PosFromTile(x, y int) (int, int, error)
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
@@ -333,7 +333,10 @@ func (g *game) TileFromPos(x, y int) (int, int) {
 	return tile.X.ToInt(), tile.Y.ToInt()
 }
 
-func (g *game) PosFromTile(x, y int) (int, int) {
-	pos := g.map_.PosFromTile(fixed.FromInt(x), fixed.FromInt(y))
-	return g.world.ToPixel(pos.X), g.world.ToPixel(pos.Y)
+func (g *game) PosFromTile(x, y int) (int, int, error) {
+	pos, err := g.map_.PosFromTile(fixed.FromInt(x), fixed.FromInt(y))
+	if err != nil {
+		return 0, 0, err
+	}
+	return g.world.ToPixel(pos.X), g.world.ToPixel(pos.Y), nil
 }

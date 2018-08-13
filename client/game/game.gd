@@ -260,4 +260,6 @@ func TileFromPos(x, y):
 
 func PosFromTile(x, y):
 	var pos = map.PosFromTile(scalar.FromInt(x), scalar.FromInt(y))
-	return [world.ToPixel(pos[0]), world.ToPixel(pos[1])]
+	if pos[2] != null:
+		return [null, null, pos[2]]
+	return [world.ToPixel(pos[0]), world.ToPixel(pos[1]), null]
