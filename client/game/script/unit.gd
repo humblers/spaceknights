@@ -6,6 +6,7 @@ const Z_INDEX = {
 	"Bullet": 2,
 	"Skill": 3,
 	"Casting": 4,
+	"NoPhysics": 5,
 }
 
 var id
@@ -15,7 +16,6 @@ var level
 var hp
 var game
 var body
-var layer = ""
 
 var node_hp
 

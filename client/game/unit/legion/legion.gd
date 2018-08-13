@@ -20,7 +20,11 @@ func Init(id, level, posX, posY, game, player):
 	initPosY = PositionY()
 
 func TakeDamage(amount, attackType):
+	var initHp = initialHp()
+	var underHalf = initHp / 2 > hp
 	.TakeDamage(amount, attackType)
+	if not underHalf and initHp / 2 > hp:
+		player.OnKnightHalfDamaged(self)
 	if IsDead():
 		player.OnKnightDead(self)
 
@@ -87,14 +91,14 @@ func Update():
 					handleAttack()
 				else:
 					findTargetAndAttack()
+	if target() == null and not isCasting and not $AnimationPlayer.current_animation == "show":
+		$AnimationPlayer.play("idle")
 
 func findTargetAndAttack():
 	var t = findTarget()
 	setTarget(t)
 	if t != null and withinRange(t):
 		handleAttack()
-	else:
-		$AnimationPlayer.play("idle")
 
 func CastSkill(posX, posY):
 	if isCasting:
