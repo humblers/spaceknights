@@ -13,6 +13,9 @@ var movingToCastPos = false
 
 var attack_counter = 0
 
+func InitDummy(posX, posY, game, player):
+	.InitDummy("legion", player.Team(), posX, posY, game)
+
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "legion", player.Team(), level, posX, posY, game)
 	self.player = player

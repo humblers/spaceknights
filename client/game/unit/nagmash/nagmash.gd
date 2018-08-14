@@ -9,6 +9,9 @@ var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 
+func InitDummy(posX, posY, game, player):
+	.InitDummy("legion", player.Team(), posX, posY, game)
+
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "nagmash", player.Team(), level, posX, posY, game)
 	self.player = player

@@ -12,6 +12,7 @@ import "github.com/humblers/spaceknights/pkg/nav"
 const playTime = time.Second * 60
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
+const knightInitialStep = stepPerSec * 5
 
 type Team string
 
@@ -31,6 +32,8 @@ type Game interface {
 	Step() int
 	World() physics.World
 	Map() nav.Map
+	UnitIds() []int
+
 	FlipX(x int) int
 	FlipY(y int) int
 	TileFromPos(x, y int) (int, int)
@@ -38,7 +41,6 @@ type Game interface {
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
-	UnitIds() []int
 
 	Apply(i Input) error
 	Join(c Client) error
@@ -235,6 +237,11 @@ func (g *game) broadcast() {
 }
 
 func (g *game) update() {
+	if g.step == knightInitialStep {
+		for _, pid := range g.playerIds {
+			g.players[pid].AddKnights()
+		}
+	}
 	if g.actions[g.step] != nil {
 		actions := g.actions[g.step]
 		filtered := actions[:0]
