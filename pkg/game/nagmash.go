@@ -31,7 +31,7 @@ func (n *nagmash) TakeDamage(amount int, t AttackType) {
 
 func (n *nagmash) Update() {
 	if n.cast > 0 {
-		if n.cast > n.preCastDelay() {
+		if n.cast == n.preCastDelay()+1 {
 			n.spawn()
 		}
 		if n.cast > n.castDuration() {
@@ -62,9 +62,9 @@ func (n *nagmash) Update() {
 func (n *nagmash) chaseTarget() {
 	t := n.target()
 	if t != nil && n.canSee(t) {
-		n.moveTo(t.Position().X, n.PositionY())
+		n.moveTo(fixed.Vector{t.Position().X, n.Position().Y})
 	} else {
-		n.moveTo(initPos)
+		n.moveTo(n.initPos)
 	}
 }
 

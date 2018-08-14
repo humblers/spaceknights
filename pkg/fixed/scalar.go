@@ -1,12 +1,8 @@
 // Package fixed provide primitives for fixed point math
 package fixed
 
-import (
-	"log"
-	"os"
-)
-
-import "fmt"
+import "log"
+import "os"
 
 const (
 	m              = 16
@@ -28,10 +24,6 @@ func SetLogger(l *log.Logger) {
 
 // Scalar represents a single fixed point number in Q-format: https://en.wikipedia.org/wiki/Q_(number_format)
 type Scalar int64
-
-func (x Scalar) String() string {
-	return fmt.Sprint(x.ToFloat())
-}
 
 func FromInt(x int) Scalar {
 	return Scalar(x * scale).saturated()
