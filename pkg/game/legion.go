@@ -42,11 +42,10 @@ func (l *legion) Update() {
 					s := l.game.World().Dt().Mul(l.speed())
 					len := v.LengthSquared()
 					if len < s.Mul(s) {
-						l.SetVelocity(fixed.Vector{0, 0})
 						l.SetPosition(l.castPos)
 					} else {
 						len = len.Sqrt()
-						l.SetVelocity(v.Mul(l.speed().Div(len)))
+						l.SetPosition(l.Position().Add(v.Mul(s.Div(len))))
 					}
 				}
 			} else {
@@ -65,11 +64,10 @@ func (l *legion) Update() {
 				s := l.game.World().Dt().Mul(l.speed())
 				len := v.LengthSquared()
 				if len < s.Mul(s) {
-					l.SetVelocity(fixed.Vector{0, 0})
 					l.SetPosition(l.initPos)
 				} else {
 					len = len.Sqrt()
-					l.SetVelocity(v.Mul(l.speed().Div(len)))
+					l.SetPosition(l.Position().Add(v.Mul(s.Div(len))))
 				}
 			}
 		}

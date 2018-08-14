@@ -12,7 +12,7 @@ type Body interface {
 	Velocity() fixed.Vector
 	SetVelocity(v fixed.Vector)
 	Radius() fixed.Scalar
-	SetCollidable(collidable bool)
+	Simulate(on bool)
 	Layer() string
 	SetLayer(l string)
 }
@@ -31,8 +31,8 @@ type body struct {
 	width  fixed.Scalar
 	height fixed.Scalar
 
-	no_collision bool
-	layer        string
+	no_physics bool
+	layer      string
 }
 
 type shape string
@@ -82,8 +82,8 @@ func (b *body) Radius() fixed.Scalar {
 	return b.radius
 }
 
-func (b *body) SetCollidable(collidable bool) {
-	b.no_collision = !collidable
+func (b *body) Simulate(on bool) {
+	b.no_physics = !on
 }
 
 func (b *body) Layer() string {
@@ -106,7 +106,7 @@ func (b *body) setAsCircle(radius fixed.Scalar) {
 }
 
 func (b *body) applyForce(gravity fixed.Vector, dt fixed.Scalar) {
-	if b.mass == 0 {
+	if b.mass == 0 || b.no_physics {
 		return
 	}
 	accel := b.force.Mul(b.imass).Add(gravity)
@@ -116,7 +116,7 @@ func (b *body) applyForce(gravity fixed.Vector, dt fixed.Scalar) {
 }
 
 func (b *body) move(dt fixed.Scalar) {
-	if b.mass == 0 {
+	if b.mass == 0 || b.no_physics {
 		return
 	}
 	b.pos = b.pos.Add(b.vel.Mul(dt))

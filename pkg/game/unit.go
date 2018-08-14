@@ -137,9 +137,9 @@ func (u *unit) initialLayer() Layer {
 }
 func (u *unit) setLayer(l Layer) {
 	if l == Casting {
-		u.Body.SetCollidable(false)
+		u.Body.Simulate(false)
 	} else {
-		u.Body.SetCollidable(true)
+		u.Body.Simulate(true)
 	}
 	u.Body.SetLayer(string(l))
 }
@@ -249,4 +249,9 @@ func (u *unit) findNearestUnit(filter func(v Unit) bool) Unit {
 
 func (u *unit) squaredDistanceTo(v Unit) fixed.Scalar {
 	return u.Position().Sub(v.Position()).LengthSquared()
+}
+
+func (u *unit) moveTo(pos fixed.Vector) {
+	v := pos.Sub(u.Position()).Truncated(u.speed())
+	u.SetVelocity(v)
 }

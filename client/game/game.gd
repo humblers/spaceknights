@@ -12,14 +12,14 @@ var cfg = {
 				{"Name": "fireball", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "shadowvision", "Level": 0},
-				{"Name": "fireball", "Level": 0},
+				{"Name": "unload", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
 				{"Name": "shadowvision", "Level": 0},
 			],
 			"Knights": [
-				{"Name": "legion", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
 				{"Name": "legion", "Level": 0},
 				{"Name": "legion", "Level": 0},
 			],
@@ -34,13 +34,13 @@ var cfg = {
 				{"Name": "shadowvision", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
-				{"Name": "fireball", "Level": 0},
+				{"Name": "unload", "Level": 0},
 				{"Name": "archers", "Level": 0},
 			],
 			"Knights": [
 				{"Name": "legion", "Level": 0},
 				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
 			],
 		}
 	],
@@ -136,7 +136,7 @@ func _process(delta):
 	elapsed += delta
 	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
 	for b in world.bodies:
-		if b.node != null and b.layer != "NoPhysics":
+		if b.node != null and not b.no_physics and b.layer != "NoPhysics":
 			var prev = Vector2(
 				world.ToPixel(b.prev_pos_x),
 				world.ToPixel(b.prev_pos_y)
