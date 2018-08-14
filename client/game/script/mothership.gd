@@ -3,6 +3,7 @@ extends Node2D
 var animByKnightId = {}
 
 func init(game, player):
+	return
 	$Ship.play("deafult")
 	yield($Ship, "animation_finished")
 	$Ship.play("show")
@@ -30,12 +31,14 @@ func init(game, player):
 			child.SetPosition(child.initPosX, child.initPosY)
 
 func partial_destroy(knightId):
+	return
 	var anim = animByKnightId[knightId]
 	if anim.is_playing():
 		return
 	anim.play("partial_destroy")
 
 func destroy(knightId):
+	return
 	var anim = animByKnightId[knightId]
 	if anim.is_playing() and anim.current_animation == "destroy":
 		return
