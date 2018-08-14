@@ -233,3 +233,9 @@ func squaredDistanceTo(unit):
 	var x = scalar.Sub(PositionX(), unit.PositionX())
 	var y = scalar.Sub(PositionY(), unit.PositionY())
 	return vector.LengthSquared(x, y)
+
+func moveTo(posX, posY):
+	var x = scalar.Sub(posX, PositionX())
+	var y = scalar.Sub(posY, PositionY())
+	var v = vector.Truncated(x, y, speed())
+	SetVelocity(v[0], v[1])

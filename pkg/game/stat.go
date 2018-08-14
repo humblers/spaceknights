@@ -12,7 +12,7 @@ var cards = map[string]map[string]interface{}{
 	},
 	"footmans": map[string]interface{}{
 		"cost":    5000,
-		"unit":    "footman",
+		"unit":    "archer",
 		"count":   4,
 		"offsetX": []int{-30, 30, -30, 30},
 		"offsetY": []int{-30, -30, 30, 30},

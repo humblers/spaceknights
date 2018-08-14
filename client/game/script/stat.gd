@@ -12,7 +12,7 @@ const cards = {
 	},
 	"footmans": {
 		"cost":    5000,
-		"unit":    "footman",
+		"unit":    "archer",
 		"count":   4,
 		"offsetX": [-30, 30, -30, 30],
 		"offsetY": [-30, -30, 30, 30],

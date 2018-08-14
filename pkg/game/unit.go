@@ -250,3 +250,8 @@ func (u *unit) findNearestUnit(filter func(v Unit) bool) Unit {
 func (u *unit) squaredDistanceTo(v Unit) fixed.Scalar {
 	return u.Position().Sub(v.Position()).LengthSquared()
 }
+
+func (u *unit) moveTo(pos fixed.Vector) {
+	v := pos.Sub(u.Position()).Truncated(u.speed())
+	u.SetVelocity(v)
+}

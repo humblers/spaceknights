@@ -37,6 +37,8 @@ func (n *nagmash) Update() {
 		if n.cast > n.castDuration() {
 			n.cast = 0
 			n.setLayer(n.initialLayer())
+		} else {
+			n.cast++
 		}
 	} else {
 		if n.attack > 0 {
@@ -60,22 +62,9 @@ func (n *nagmash) Update() {
 func (n *nagmash) chaseTarget() {
 	t := n.target()
 	if t != nil && n.canSee(t) {
-		from := n.Position().X
-		to := t.Position().X
-		if from != to {
-			d := to.Sub(from)
-			s := n.game.World().Dt().Mul(n.speed())
-			if d.Mul(d) < s.Mul(s) {
-				from = to
-			} else {
-				if d > 0 {
-					from = from.Add(s)
-				} else {
-					from = from.Sub(s)
-				}
-			}
-			n.SetPosition(fixed.Vector{from, n.Position().Y})
-		}
+		n.moveTo(t.Position().X, n.PositionY())
+	} else {
+		n.moveTo(initPos)
 	}
 }
 
