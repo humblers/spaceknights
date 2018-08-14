@@ -6,7 +6,6 @@ const Z_INDEX = {
 	"Bullet": 2,
 	"Skill": 3,
 	"Casting": 4,
-	"NoPhysics": 5,
 }
 
 var id
