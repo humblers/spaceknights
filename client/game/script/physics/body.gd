@@ -93,10 +93,10 @@ func applyForce(gravity_x, gravity_y, dt):
 func move(dt):
 	if mass == 0 or no_physics:
 		return
-	prev_pos_x = pos_x
-	prev_pos_y = pos_y
-	pos_x = scalar.Add(pos_x, scalar.Mul(vel_x, dt))
-	pos_y = scalar.Add(pos_y, scalar.Mul(vel_y, dt))
+	SetPosition(
+		scalar.Add(pos_x, scalar.Mul(vel_x, dt)),
+		scalar.Add(pos_y, scalar.Mul(vel_y, dt))
+	)
 
 func digest(h=djb2.INITIAL_HASH):
 	var elems = [id, mass, imass, rest,
