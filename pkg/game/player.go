@@ -17,17 +17,20 @@ type Player interface {
 	SetClient(c Client)
 
 	Team() Team
+
+	AddKnights()
 	Do(a *Action) error
-	Update()
 	OnKnightDead(u Unit)
+	Update()
 }
 
 type player struct {
-	team      Team
-	energy    int
-	hand      []Card
-	pending   []Card
-	knightIds []int
+	team               Team
+	energy             int
+	hand               []Card
+	pending            []Card
+	knightIds          []int
+	initialKnightDatas []KnightData
 
 	game   Game
 	client Client
@@ -35,22 +38,13 @@ type player struct {
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		team:    pd.Team,
-		energy:  startEnergy,
-		hand:    pd.Deck[:handSize],
-		pending: pd.Deck[handSize:],
+		team:               pd.Team,
+		energy:             startEnergy,
+		hand:               pd.Deck[:handSize],
+		pending:            pd.Deck[handSize:],
+		initialKnightDatas: pd.Knights,
 
 		game: g,
-	}
-	for i, k := range pd.Knights {
-		x := knightInitialPositionX[i]
-		y := knightInitialPositionY[i]
-		if p.team == Red {
-			x = g.FlipX(x)
-			y = g.FlipY(y)
-		}
-		id := g.AddUnit(k.Name, k.Level, x, y, p)
-		p.knightIds = append(p.knightIds, id)
 	}
 	return p
 }
@@ -63,6 +57,19 @@ func (p *player) SetClient(c Client) {
 }
 func (p *player) Team() Team {
 	return p.team
+}
+
+func (p *player) AddKnights() {
+	for i, k := range p.initialKnightDatas {
+		x := knightInitialPositionX[i]
+		y := knightInitialPositionY[i]
+		if p.team == Red {
+			x = p.game.FlipX(x)
+			y = p.game.FlipY(y)
+		}
+		id := p.game.AddUnit(k.Name, k.Level, x, y, p)
+		p.knightIds = append(p.knightIds, id)
+	}
 }
 
 func (p *player) Update() {

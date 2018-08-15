@@ -49,6 +49,7 @@ var cfg = {
 const PLAY_TIME = 60000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
+const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
 
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
@@ -136,7 +137,7 @@ func _process(delta):
 	elapsed += delta
 	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
 	for b in world.bodies:
-		if b.node != null and not b.no_physics and b.layer != "NoPhysics":
+		if b.node != null and not b.no_physics:
 			var prev = Vector2(
 				world.ToPixel(b.prev_pos_x),
 				world.ToPixel(b.prev_pos_y)
@@ -178,6 +179,9 @@ func _physics_process(delta):
 	frame += 1
 
 func update(state):
+	if step == KNIGHT_INITIAL_STEP:
+		for pid in players:
+			players[pid].AddKnights()
 	if state.Actions != null:
 		for action in state.Actions:
 			players[action.Id].Do(action)

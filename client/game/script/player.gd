@@ -16,6 +16,7 @@ var energy = 0
 var hand = []
 var pending = []
 var knightIds = []
+var initialKnightDatas = []
 var no_deck = false
 
 var game
@@ -38,15 +39,6 @@ func Init(playerData, game):
 	else:
 		no_deck = true
 	self.game = game
-	for i in range(len(playerData.Knights)):
-		var k = playerData.Knights[i]
-		var x = KNIGHT_INITIAL_POSX[i]
-		var y = KNIGHT_INITIAL_POSY[i]
-		if team == "Red":
-			x = game.FlipX(x)
-			y = game.FlipY(y)
-		var id = game.AddUnit(k.Name, k.Level, x, y, self)
-		knightIds.append(id)
 
 	$Energy.max_value = MAX_ENERGY
 	$Energy.value = energy
@@ -54,7 +46,8 @@ func Init(playerData, game):
 	if not no_deck:
 		update_cards()
 
-	get_node("../../Map/MotherShips/%s" % team).init(game, self)
+	initialKnightDatas = playerData.Knights
+	get_node("../../Map/MotherShips/%s" % team).play_opening_anim(game, self)
 
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
@@ -190,6 +183,17 @@ func update_cards():
 
 func Team():
 	return team
+
+func AddKnights():
+	for i in range(len(initialKnightDatas)):
+		var k = initialKnightDatas[i]
+		var x = KNIGHT_INITIAL_POSX[i]
+		var y = KNIGHT_INITIAL_POSY[i]
+		if team == "Red":
+			x = game.FlipX(x)
+			y = game.FlipY(y)
+		var id = game.AddUnit(k.Name, k.Level, x, y, self)
+		knightIds.append(id)
 
 func Update():
 	energy += ENERGY_PER_FRAME
