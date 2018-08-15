@@ -5,9 +5,6 @@ var lifetime = 0
 var damage = 0
 var game
 
-# client only
-onready var anim = $AnimationPlayer.get_animation("attack")
-
 func Init(targetId, lifetime, damage, game):
 	self.targetId = targetId
 	self.lifetime = lifetime
@@ -29,6 +26,9 @@ func Destroy():
 
 func _ready():
 	set_process(true)
+	var dup = $AnimationPlayer.get_animation("attack").duplicate()
+	$AnimationPlayer.rename_animation("attack", "attack-ref")
+	$AnimationPlayer.add_animation("attack", dup)
 
 func _process(delta):
 	var target = game.FindUnit(targetId)
@@ -38,6 +38,7 @@ func _process(delta):
 	rotation = PI/2 + (target.position - position).angle()
 
 func update_hit_position(gpos):
+	var anim = $AnimationPlayer.get_animation("attack")
 	$HitPosition.global_position = gpos
 	for side in ["L", "R"]:
 		for i in range(3):
