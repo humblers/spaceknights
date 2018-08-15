@@ -10,7 +10,7 @@ var cfg = {
 			"Team": "Blue",
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "megalaser", "Level": 0},
 				{"Name": "shadowvision", "Level": 0},
 				{"Name": "unload", "Level": 0},
 				{"Name": "archers", "Level": 0},
@@ -21,7 +21,7 @@ var cfg = {
 			"Knights": [
 				{"Name": "nagmash", "Level": 0},
 				{"Name": "legion", "Level": 0},
-				{"Name": "legion", "Level": 0},
+				{"Name": "astra", "Level": 0},
 			],
 		},
 		{
