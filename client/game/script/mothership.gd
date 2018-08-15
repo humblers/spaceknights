@@ -1,6 +1,7 @@
 extends Node2D
 
 var animByKnightId = {}
+var opening_finished
 
 func init(game, player, knights):
 	var positions = ["Left", "Center", "Right"]
@@ -14,12 +15,17 @@ func init(game, player, knights):
 	$Ship.play("deafult")
 	yield($Ship, "animation_finished")
 	$Ship.play("show")
+	yield($Ship, "animation_finished")
+	opening_finished = true
 
 func play(game):
+	if opening_finished:
+		return
 	var anim_len = $Ship.current_animation_length
 	var cur_sec = float(game.step) / game.STEP_PER_SEC
 	var remain_time = anim_len - cur_sec
 	if remain_time < 0:
+		$Ship.seek(anim_len, true)
 		return
 	$Ship.advance(cur_sec - $Ship.current_animation_position)
 
