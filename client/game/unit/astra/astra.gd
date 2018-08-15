@@ -91,11 +91,11 @@ func inLaserArea(unit):
 	if boxVScircle(
 		centerX,
 		centerY,
-		u.PositionX(),
-		u.PositionY(),
+		unit.PositionX(),
+		unit.PositionY(),
 		laserWidth(),
 		laserHeight(),
-		u.Radius()):
+		unit.Radius()):
 			return true
 	return false
 	

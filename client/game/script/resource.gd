@@ -10,12 +10,14 @@ const UNIT = {
 	"legion": preload("res://game/unit/legion/legion.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadowvision.tscn"),
 	"nagmash": preload("res://game/unit/nagmash/nagmash.tscn"),
+	"astra": preload("res://game/unit/astra/astra.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 	"nagmash": preload("res://game/unit/archer/bullet.tscn"),
+	"astra": preload("res://game/unit/astra/shot.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
@@ -24,7 +26,8 @@ const SKILL = {
 const CURSOR = {
 	"unit": preload("res://game/ui/unit_cursor.tscn"),
 	"legion": preload("res://game/unit/legion/bomingpoint.tscn"),
-	"nagmash": preload("res://game/unit/nagmash/targetcircle.tscn")
+	"nagmash": preload("res://game/unit/nagmash/targetcircle.tscn"),
+	"astra": preload("res://game/unit/astra/targetsquare.tscn"),
 }
 
 # temporary
@@ -34,4 +37,5 @@ const ICON = {
 	"shadowvision": preload("res://game/unit/shadowvision/shadow_vision.png"),
 	"unload": preload("res://game/unit/nagmash/body.png"),
 	"footmans": preload("res://game/unit/nagmash/footman_dummy.png"),
+	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
 }
