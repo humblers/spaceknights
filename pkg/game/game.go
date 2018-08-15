@@ -60,10 +60,11 @@ type game struct {
 	bullets       []Bullet
 	occupiedTiles map[*tileRect]bool
 
-	players   map[string]Player
-	playerIds []string
-	actions   map[int][]Action
-	sent      packet
+	players         map[string]Player
+	pInitKnightData map[string][]KnightData
+	playerIds       []string
+	actions         map[int][]Action
+	sent            packet
 
 	joinc   chan Client
 	leavec  chan Client
@@ -86,8 +87,9 @@ func newGame(cfg Config, l *log.Logger) Game {
 		units:         make(map[int]Unit),
 		occupiedTiles: make(map[*tileRect]bool),
 
-		players: make(map[string]Player),
-		actions: make(map[int][]Action),
+		players:         make(map[string]Player),
+		pInitKnightData: make(map[string][]KnightData),
+		actions:         make(map[int][]Action),
 
 		joinc:   make(chan Client),
 		leavec:  make(chan Client),
@@ -100,6 +102,7 @@ func newGame(cfg Config, l *log.Logger) Game {
 	}
 	for _, p := range cfg.Players {
 		g.players[p.Id] = newPlayer(p, g)
+		g.pInitKnightData[p.Id] = p.Knights
 		g.playerIds = append(g.playerIds, p.Id)
 	}
 	g.createMapObstacles()
@@ -243,7 +246,7 @@ func (g *game) broadcast() {
 func (g *game) update() {
 	if g.step == knightInitialStep {
 		for _, pid := range g.playerIds {
-			g.players[pid].AddKnights()
+			g.players[pid].AddKnights(g.pInitKnightData[pid])
 		}
 	}
 	if g.actions[g.step] != nil {

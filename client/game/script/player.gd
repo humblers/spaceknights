@@ -41,7 +41,6 @@ func Init(playerData, game):
 
 	$Energy.max_value = MAX_ENERGY
 	$Energy.value = energy
-	connect_input()
 	if not no_deck:
 		update_cards()
 
@@ -228,6 +227,8 @@ func AddKnights(knights):
 	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
+	if game.step == game.KNIGHT_INITIAL_STEP:
+		connect_input()
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
