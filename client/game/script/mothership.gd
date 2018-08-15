@@ -2,26 +2,26 @@ extends Node2D
 
 var animByKnightId = {}
 
-func play_opening_anim(game, player):
-	$Ship.play("deafult")
-	yield($Ship, "animation_finished")
-	var anim_len = $Ship.get_animation("show").length
-	var cur_sec = float(game.step) / game.STEP_PER_SEC
-	var remain_time = anim_len - cur_sec
-	if remain_time < 0:
-		return
-	var speed =  anim_len / remain_time
-	$Ship.play("show", -1, speed)
-
-	var knightDatas = player.initialKnightDatas
+func init(game, player, knights):
 	var positions = ["Left", "Center", "Right"]
 	for i in range(len(positions)):
-		var name = knightDatas[i].Name
+		var name = knights[i].Name
 		var pos = positions[i]
 		var node = resource.UNIT[name].instance()
 		node.InitDummy(0, 0, game, player)
 		get_node("Nodes/Deck/%s/Position/Unit" % pos).add_child(node)
 		node.get_node("AnimationPlayer").play("show")
+	$Ship.play("deafult")
+	yield($Ship, "animation_finished")
+	$Ship.play("show")
+
+func play(game):
+	var anim_len = $Ship.current_animation_length
+	var cur_sec = float(game.step) / game.STEP_PER_SEC
+	var remain_time = anim_len - cur_sec
+	if remain_time < 0:
+		return
+	$Ship.advance(cur_sec - $Ship.current_animation_position)
 
 func knights_added(knightIds):
 	var positions = ["Left", "Center", "Right"]

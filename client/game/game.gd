@@ -107,6 +107,7 @@ func _ready():
 		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
+		get_node("Map/MotherShips/%s" % team).init(self, n, p.Knights)
 	CreateMapObstacles()
 
 func over():
@@ -176,13 +177,15 @@ func _physics_process(delta):
 			if actions.has(step):
 				state["Actions"] = actions[step]
 			update(state)
+		$Map/MotherShips/Red.play(self)
+		$Map/MotherShips/Blue.play(self)
 	
 	frame += 1
 
 func update(state):
 	if step == KNIGHT_INITIAL_STEP:
-		for pid in players:
-			players[pid].AddKnights()
+		for player in cfg.Players:
+			players[player.Id].AddKnights(player.Knights)
 	if state.Actions != null:
 		for action in state.Actions:
 			players[action.Id].Do(action)
