@@ -280,7 +280,7 @@ func PosFromTile(x, y):
 	return [x*tw + tw/2, y*th + th/2, null]
 
 static func intersect_tilerect(a, b):
-	if a.t > a.b:
+	if a.t > b.b:
 		return false
 	if a.b < b.t:
 		return false
