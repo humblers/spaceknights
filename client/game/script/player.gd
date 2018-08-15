@@ -194,6 +194,7 @@ func AddKnights():
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		knightIds.append(id)
+	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
 	energy += ENERGY_PER_FRAME

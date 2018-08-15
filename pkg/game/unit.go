@@ -45,6 +45,7 @@ const (
 	Melee AttackType = "Melee"
 	Range AttackType = "Range"
 	Skill AttackType = "Skill"
+	Self  AttackType = "Self"
 )
 
 func (layers Layers) Contains(layer Layer) bool {

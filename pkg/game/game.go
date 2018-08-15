@@ -300,6 +300,10 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	switch name {
 	case "archer":
 		u = newArcher(id, level, posX, posY, g, p)
+	case "archsapper":
+		u = newArchsapper(id, level, posX, posY, g, p)
+	case "cannon":
+		u = newCannon(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
 	case "shadowvision":
