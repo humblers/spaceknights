@@ -6,6 +6,7 @@ const MAP = {
 }
 const UNIT = {
 	"archer": preload("res://game/unit/archer/archer.tscn"),
+	"footman": preload("res://game/unit/footman/footman.tscn"),
 	"legion": preload("res://game/unit/legion/legion.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadowvision.tscn"),
 	"nagmash": preload("res://game/unit/nagmash/nagmash.tscn"),
@@ -31,5 +32,6 @@ const ICON = {
 	"archers": preload("res://game/unit/archer/idle.png"),
 	"fireball": preload("res://game/unit/legion/bomber.png"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadow_vision.png"),
-	"unload": preload("res://game/unit/nagmash/body.png")
+	"unload": preload("res://game/unit/nagmash/body.png"),
+	"footmans": preload("res://game/unit/nagmash/footman_dummy.png"),
 }

@@ -4,7 +4,6 @@ var player
 var targetId = 0
 var attack = 0
 var cast = 0
-var casted = false
 var initPosX = 0
 var initPosY = 0
 var castPosX = 0
@@ -29,9 +28,8 @@ func Destroy():
 	
 func Update():
 	if cast > 0:
-		if not casted and cast > preCastDelay():
+		if cast == preCastDelay() + 1:
 			spawn()
-			casted = true
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())

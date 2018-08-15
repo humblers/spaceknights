@@ -183,7 +183,7 @@ func update(state):
 			players[action.Id].Do(action)
 	for id in players:
 		players[id].Update()
-	for id in units:
+	for id in units.keys():
 		units[id].Update()
 	for b in bullets:
 		b.Update(self)
@@ -198,7 +198,7 @@ func update(state):
 		var client_hash = world.Digest()
 		var server_hash = state.Hash
 		if client_hash != server_hash:
-			print("desync detected: %s - %s" % [client_hash, server_hash])
+			print("desync detected(%s): %s - %s" % [step, client_hash, server_hash])
 
 	step += 1
 	elapsed = 0
