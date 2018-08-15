@@ -140,24 +140,46 @@ func update_cursor(x, y):
 		add_cursor()
 
 	var tile = game.TileFromPos(x, y)
+	var nx = 1
+	var ny = 1
 	var cardData = stat.cards[selected_card.Name]
 	var minTileY = tile[1]
 	if cardData.has("unit"):
 		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
 	if cardData.has("spawn"):
 		var unit = stat.units[cardData["spawn"]["unit"]]
+		nx = unit["tilenumx"]
+		ny = unit["tilenumy"]
 		if unit["type"] == "Building":
-			var nx = unit["tilenumx"]
-			var ny = unit["tilenumy"]
 			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
 			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
 	if tile[1] < minTileY:
 		tile[1] = minTileY
 
+	var tr = avoid_occupied_tiles(tile[0], tile[1], nx, ny)
+	tile[0] = (tr.l + tr.r) / 2
+	tile[1] = (tr.t + tr.b) / 2
+
 	var pos = game.PosFromTile(tile[0], tile[1])
 	pos_node.position = Vector2(pos[0], pos[1])
 	pos_node.visible = pressed
 	get_node("../../Map/Tile").visible = pressed
+
+func avoid_occupied_tiles(x, y, w, h, counter=0):
+	var l = {"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter}
+	var r = {"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter}
+	var t = {"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2}
+	var b = {"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2}
+	for tr in [l, r, t, b]:
+		var intersect = false
+		for occupied in game.OccupiedTiles().keys():
+			if game.intersect_tilerect(occupied, tr):
+				intersect = true
+				break
+		if not intersect:
+			return tr
+	counter += 1
+	return avoid_occupied_tiles(x, y, w, h, counter)
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()

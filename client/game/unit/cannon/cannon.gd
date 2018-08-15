@@ -76,5 +76,3 @@ func handleAttack():
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
-
-

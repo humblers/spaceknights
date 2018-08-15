@@ -1,16 +1,5 @@
 extends Node
 
-static func intersects(a, b):
-	if a.t > a.b:
-		return false
-	if a.b < b.t:
-		return false
-	if a.l > b.r:
-		return false
-	if a.r < b.l:
-		return false
-	return true
-
 var game
 var tileOccupied
 
@@ -31,8 +20,8 @@ func Occupy(tr):
 
 	var gOccupied = game.OccupiedTiles()
 	for occupied in gOccupied.keys():
-		if intersects(occupied, tr):
-			return "tile intersects, occupied: {t},{b},{l},{r}, new: {t},{b},{l},{r}".format(occupied, tr)
+		if game.intersect_tilerect(occupied, tr):
+			return "tile intersects, occupied: {t},{b},{l},{r}".format(occupied) + ", new: {t},{b},{l},{r}".format(tr)
 	tileOccupied = tr
 	gOccupied[tileOccupied] = true
 	return null

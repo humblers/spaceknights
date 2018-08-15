@@ -214,6 +214,9 @@ func removeDeadUnits():
 		if u.IsDead():
 			units.erase(id)
 			u.Destroy()
+			var occupier = u.get("TileOccupier")
+			if occupier != null:
+				occupier.Release()
 
 func removeExpiredBullets():
 	var filtered = []
@@ -275,3 +278,14 @@ func PosFromTile(x, y):
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
 	return [x*tw + tw/2, y*th + th/2, null]
+
+static func intersect_tilerect(a, b):
+	if a.t > a.b:
+		return false
+	if a.b < b.t:
+		return false
+	if a.l > b.r:
+		return false
+	if a.r < b.l:
+		return false
+	return true
