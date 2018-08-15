@@ -117,7 +117,7 @@ func findTargetAndAttack():
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-	$AnimationPlayer.play("laser")
+	$AnimationPlayer.play("skill")
 	attack = 0
 	cast += 1
 	castPosX = posX
