@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 
 var game
 var tileOccupied
