@@ -1,5 +1,7 @@
 extends "res://game/script/unit.gd"
 
+var TileOccupier = preload("res://game/script/tileoccupier.gd")
+
 var player
 var targetId = 0
 var attack = 0
@@ -15,6 +17,8 @@ func InitDummy(posX, posY, game, player):
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "archsapper", player.Team(), level, posX, posY, game)
 	self.player = player
+	TileOccupier = TileOccupier.new()
+	TileOccupier.Init(game)
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -69,6 +73,18 @@ func findTargetAndAttack():
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
+
+	var card = stat.cards[Skill()]["spawn"]
+	var name = card["unit"]
+	var nx = stat.units[name]["tilenumx"]
+	var ny = stat.units[name]["tilenumy"]
+	var tile = game.TileFromPos(posX, posY)
+	var tr = TileOccupier.GetRect(tile[0], tile[1], nx, ny)
+	var err = TileOccupier.Occupy(tr)
+	if err != null:
+		print(err)
+		return false
+
 	$AnimationPlayer.play("build")
 	attack = 0
 	cast += 1
@@ -80,11 +96,14 @@ func CastSkill(posX, posY):
 func spawn():
 	var card = stat.cards[Skill()]["spawn"]
 	var name = card["unit"]
-	var count = card["count"]
-	var offsetX = card["offsetX"]
-	var offsetY = card["offsetY"]
-	for i in range(count):
-		game.AddUnit(name, level, castPosX+offsetX[i], castPosY+offsetY[i], player)
+	var id = game.AddUnit(name, level, castPosX, castPosY, player)
+	var tr = TileOccupier.Occupied()
+	TileOccupier.Release()
+	var occupier = game.FindUnit(id).get("TileOccupier")
+	if occupier != null:
+		var err = occupier.Occupy(tr)
+		if err != null:
+			print(err)
 
 func target():
 	return game.FindUnit(targetId)

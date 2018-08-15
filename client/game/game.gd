@@ -71,6 +71,7 @@ var world = resource.WORLD.new(params)
 var map
 
 var units = {}
+var occupiedTiles = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
@@ -251,6 +252,9 @@ func Map():
 
 func UnitIds():
 	return units.keys()
+
+func OccupiedTiles():
+	return occupiedTiles
 
 func FlipX(x):
 	return world.ToPixel(map.Width()) - x

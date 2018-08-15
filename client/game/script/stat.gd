@@ -99,6 +99,8 @@ const units = {
 		"layer":          "Normal",
 		"mass":           0,
 		"radius":         50,
+		"tilenumx":       3,
+		"tilenumy":       3,
 		"hp":             [360],
 		"sight":          350,
 		"targettypes":    ["Troop", "Building", "Knight"],

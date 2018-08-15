@@ -5,16 +5,16 @@ type Decayable interface {
 }
 
 type decayable struct {
-	*unit
+	Unit
 }
 
-func newDecayable(u *unit) *decayable {
+func newDecayable(u Unit) *decayable {
 	return &decayable{
-		unit: u,
+		Unit: u,
 	}
 }
 
 func (d *decayable) TakeDecayDamage() {
-	damage := units[d.name]["decaydamage"].(int)
+	damage := units[d.Name()]["decaydamage"].(int)
 	d.TakeDamage(damage, Self)
 }

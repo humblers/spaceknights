@@ -1,11 +1,10 @@
-extends "res://game/script/unit.gd"
+extends Node
 
-func InitDummy(name, team, posX, posY, game):
-	.InitDummy(name, team, posX, posY, game)
+var unit
 
-func Init(id, name, team, level, posX, posY, game):
-	.Init(id, name, team, level, posX, posY, game)
+func Init(unit):
+	self.unit = unit
 
 func TakeDecayDamage():
-	var damage = stat.units[name_]["decaydamage"]
-	.TakeDamage(damage, "Self")
+	var damage = stat.units[unit.Name()]["decaydamage"]
+	unit.TakeDamage(damage, "Self")

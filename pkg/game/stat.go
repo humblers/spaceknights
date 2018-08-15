@@ -13,10 +13,7 @@ var cards = map[string]map[string]interface{}{
 	"cannon": map[string]interface{}{
 		"cost": 1000,
 		"spawn": map[string]interface{}{
-			"unit":    "cannon",
-			"count":   1,
-			"offsetX": []int{0},
-			"offsetY": []int{0},
+			"unit": "cannon",
 		},
 		"caster":       "archsapper",
 		"castduration": 100,
@@ -99,6 +96,8 @@ var units = map[string]map[string]interface{}{
 		"layer":          Normal,
 		"mass":           0,
 		"radius":         50,
+		"tilenumx":       3,
+		"tilenumy":       3,
 		"hp":             []int{360},
 		"sight":          350,
 		"targettypes":    Types{Troop, Building, Knight},

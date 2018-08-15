@@ -104,7 +104,10 @@ func gui_input(ev):
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		if stat.cards[selected_card.Name].has("unit"):
+		if team == "Red":
+			return
+		var card = stat.cards[selected_card.Name]
+		if card.has("unit") or card.has("spawn"):
 			var redArea = get_node("../../Map/RedArea")
 			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			$Tween.start()
@@ -135,12 +138,22 @@ func update_cursor(x, y):
 	var pos_node = get_node("../../BattleField/CursorPos")
 	if pos_node.get_child_count() <= 0:
 		add_cursor()
+
 	var tile = game.TileFromPos(x, y)
 	var cardData = stat.cards[selected_card.Name]
+	var minTileY = tile[1]
 	if cardData.has("unit"):
-		var minTileY = scalar.ToInt(game.map.MinTileYOnBot())
-		if tile[1] < minTileY:
-			tile[1] = minTileY
+		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
+	if cardData.has("spawn"):
+		var unit = stat.units[cardData["spawn"]["unit"]]
+		if unit["type"] == "Building":
+			var nx = unit["tilenumx"]
+			var ny = unit["tilenumy"]
+			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
+			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
+	if tile[1] < minTileY:
+		tile[1] = minTileY
+
 	var pos = game.PosFromTile(tile[0], tile[1])
 	pos_node.position = Vector2(pos[0], pos[1])
 	pos_node.visible = pressed

@@ -1,4 +1,7 @@
-extends "res://game/script/decayable.gd"
+extends "res://game/script/unit.gd"
+
+var Decayable = preload("res://game/script/decayable.gd")
+var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var targetId = 0
 var attack = 0
@@ -8,9 +11,13 @@ func InitDummy(posX, posY, game, player):
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "cannon", player.Team(), level, posX, posY, game)
+	Decayable = Decayable.new()
+	Decayable.Init(self)
+	TileOccupier = TileOccupier.new()
+	TileOccupier.Init(game)
 
 func Update():
-	TakeDecayDamage()
+	Decayable.TakeDecayDamage()
 	if attack > 0:
 		handleAttack()
 	else:

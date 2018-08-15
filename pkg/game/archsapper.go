@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type archsapper struct {
 	*unit
+	TileOccupier
 	player   Player
 	targetId int
 	attack   int
@@ -16,9 +17,10 @@ type archsapper struct {
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archsapper", p.Team(), level, posX, posY, g)
 	return &archsapper{
-		unit:    u,
-		player:  p,
-		initPos: u.Position(),
+		unit:         u,
+		TileOccupier: newTileOccupier(g),
+		player:       p,
+		initPos:      u.Position(),
 	}
 }
 
@@ -78,6 +80,18 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 	if a.cast > 0 {
 		return false
 	}
+
+	card := cards[a.Skill()]["spawn"].(map[string]interface{})
+	name := card["unit"].(string)
+	nx := units[name]["tilenumx"].(int)
+	ny := units[name]["tilenumy"].(int)
+	tx, ty := a.unit.game.TileFromPos(posX, posY)
+	tr := a.GetRect(tx, ty, nx, ny)
+	if err := a.Occupy(tr); err != nil {
+		a.game.Logger().Print(err)
+		return false
+	}
+
 	a.attack = 0
 	a.cast++
 	a.castPosX = posX
@@ -89,11 +103,13 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 func (a *archsapper) spawn() {
 	card := cards[a.Skill()]["spawn"].(map[string]interface{})
 	name := card["unit"].(string)
-	count := card["count"].(int)
-	offsetX := card["offsetX"].([]int)
-	offsetY := card["offsetY"].([]int)
-	for i := 0; i < count; i++ {
-		a.game.AddUnit(name, a.level, a.castPosX+offsetX[i], a.castPosY+offsetY[i], a.player)
+	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
+	tr := a.Occupied()
+	a.Release()
+	if occupier, ok := a.game.FindUnit(id).(TileOccupier); ok {
+		if err := occupier.Occupy(tr); err != nil {
+			panic(err)
+		}
 	}
 }
 

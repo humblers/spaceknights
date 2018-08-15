@@ -2,17 +2,20 @@ package game
 
 type cannon struct {
 	*unit
-	*decayable
+	Decayable
+	TileOccupier
 	targetId int
 	attack   int // elapsed time since attack start
 }
 
 func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "cannon", p.Team(), level, posX, posY, g)
-	return &cannon{
-		unit:      u,
-		decayable: newDecayable(u),
+	c := &cannon{
+		unit:         u,
+		TileOccupier: newTileOccupier(g),
 	}
+	c.Decayable = newDecayable(c)
+	return c
 }
 
 func (c *cannon) Update() {
