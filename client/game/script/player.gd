@@ -104,7 +104,10 @@ func gui_input(ev):
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		if stat.cards[selected_card.Name].has("unit"):
+		if team == "Red":
+			return
+		var card = stat.cards[selected_card.Name]
+		if card.has("unit") or card.has("spawn"):
 			var redArea = get_node("../../Map/RedArea")
 			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			$Tween.start()
@@ -135,16 +138,48 @@ func update_cursor(x, y):
 	var pos_node = get_node("../../BattleField/CursorPos")
 	if pos_node.get_child_count() <= 0:
 		add_cursor()
+
 	var tile = game.TileFromPos(x, y)
+	var nx = 1
+	var ny = 1
 	var cardData = stat.cards[selected_card.Name]
+	var minTileY = tile[1]
 	if cardData.has("unit"):
-		var minTileY = scalar.ToInt(game.map.MinTileYOnBot())
-		if tile[1] < minTileY:
-			tile[1] = minTileY
+		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
+	if cardData.has("spawn"):
+		var unit = stat.units[cardData["spawn"]["unit"]]
+		nx = unit["tilenumx"]
+		ny = unit["tilenumy"]
+		if unit["type"] == "Building":
+			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
+			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
+	if tile[1] < minTileY:
+		tile[1] = minTileY
+
+	var tr = avoid_occupied_tiles(tile[0], tile[1], nx, ny)
+	tile[0] = (tr.l + tr.r) / 2
+	tile[1] = (tr.t + tr.b) / 2
+
 	var pos = game.PosFromTile(tile[0], tile[1])
 	pos_node.position = Vector2(pos[0], pos[1])
 	pos_node.visible = pressed
 	get_node("../../Map/Tile").visible = pressed
+
+func avoid_occupied_tiles(x, y, w, h, counter=0):
+	var l = {"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter}
+	var r = {"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter}
+	var t = {"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2}
+	var b = {"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2}
+	for tr in [l, r, t, b]:
+		var intersect = false
+		for occupied in game.OccupiedTiles().keys():
+			if game.intersect_tilerect(occupied, tr):
+				intersect = true
+				break
+		if not intersect:
+			return tr
+	counter += 1
+	return avoid_occupied_tiles(x, y, w, h, counter)
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
@@ -194,6 +229,7 @@ func AddKnights():
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		knightIds.append(id)
+	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
 	energy += ENERGY_PER_FRAME

@@ -58,18 +58,18 @@ func (s *server) Run() {
 				Team: Blue,
 				Deck: []Card{
 					Card{"fireball", 0},
-					Card{"megalaser", 0},
-					Card{"shadowvision", 0},
+					Card{"cannon", 0},
+					Card{"archers", 0},
 					Card{"unload", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"fireball", 0},
-					Card{"shadowvision", 0},
+					Card{"archers", 0},
 				},
 				Knights: []KnightData{
 					KnightData{"nagmash", 0},
 					KnightData{"legion", 0},
-					KnightData{"astra", 0},
+					KnightData{"archsapper", 0},
 				},
 			},
 			PlayerData{

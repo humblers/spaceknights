@@ -33,6 +33,8 @@ type Game interface {
 	World() physics.World
 	Map() nav.Map
 	UnitIds() []int
+	Logger() *log.Logger
+	OccupiedTiles() map[*tileRect]bool
 
 	FlipX(x int) int
 	FlipY(y int) int
@@ -49,13 +51,14 @@ type Game interface {
 }
 
 type game struct {
-	step        int
-	world       physics.World
-	map_        nav.Map
-	units       map[int]Unit
-	unitIds     []int
-	unitCounter int
-	bullets     []Bullet
+	step          int
+	world         physics.World
+	map_          nav.Map
+	units         map[int]Unit
+	unitIds       []int
+	unitCounter   int
+	bullets       []Bullet
+	occupiedTiles map[*tileRect]bool
 
 	players   map[string]Player
 	playerIds []string
@@ -78,9 +81,10 @@ func (g *game) Step() int {
 
 func newGame(cfg Config, l *log.Logger) Game {
 	g := &game{
-		world: physics.NewWorld(params),
-		map_:  nav.NewMap(cfg.MapName, params["scale"]),
-		units: make(map[int]Unit),
+		world:         physics.NewWorld(params),
+		map_:          nav.NewMap(cfg.MapName, params["scale"]),
+		units:         make(map[int]Unit),
+		occupiedTiles: make(map[*tileRect]bool),
 
 		players: make(map[string]Player),
 		actions: make(map[int][]Action),
@@ -276,6 +280,9 @@ func (g *game) removeDeadUnits() {
 		if u.IsDead() {
 			delete(g.units, id)
 			u.Destroy()
+			if occupier, ok := u.(TileOccupier); ok {
+				occupier.Release()
+			}
 		} else {
 			filtered = append(filtered, id)
 		}
@@ -300,6 +307,10 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	switch name {
 	case "archer":
 		u = newArcher(id, level, posX, posY, g, p)
+	case "archsapper":
+		u = newArchsapper(id, level, posX, posY, g, p)
+	case "cannon":
+		u = newCannon(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
 	case "shadowvision":
@@ -334,6 +345,14 @@ func (g *game) Map() nav.Map {
 
 func (g *game) UnitIds() []int {
 	return g.unitIds
+}
+
+func (g *game) Logger() *log.Logger {
+	return g.logger
+}
+
+func (g *game) OccupiedTiles() map[*tileRect]bool {
+	return g.occupiedTiles
 }
 
 func (g *game) FlipX(x int) int {

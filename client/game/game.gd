@@ -10,18 +10,18 @@ var cfg = {
 			"Team": "Blue",
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
-				{"Name": "megalaser", "Level": 0},
-				{"Name": "shadowvision", "Level": 0},
+				{"Name": "cannon", "Level": 0},
+				{"Name": "archers", "Level": 0},
 				{"Name": "unload", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "fireball", "Level": 0},
-				{"Name": "shadowvision", "Level": 0},
+				{"Name": "archers", "Level": 0},
 			],
 			"Knights": [
 				{"Name": "nagmash", "Level": 0},
 				{"Name": "legion", "Level": 0},
-				{"Name": "astra", "Level": 0},
+				{"Name": "archsapper", "Level": 0},
 			],
 		},
 		{
@@ -71,6 +71,7 @@ var world = resource.WORLD.new(params)
 var map
 
 var units = {}
+var occupiedTiles = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
@@ -213,6 +214,9 @@ func removeDeadUnits():
 		if u.IsDead():
 			units.erase(id)
 			u.Destroy()
+			var occupier = u.get("TileOccupier")
+			if occupier != null:
+				occupier.Release()
 
 func removeExpiredBullets():
 	var filtered = []
@@ -252,6 +256,9 @@ func Map():
 func UnitIds():
 	return units.keys()
 
+func OccupiedTiles():
+	return occupiedTiles
+
 func FlipX(x):
 	return world.ToPixel(map.Width()) - x
 
@@ -271,3 +278,14 @@ func PosFromTile(x, y):
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
 	return [x*tw + tw/2, y*th + th/2, null]
+
+static func intersect_tilerect(a, b):
+	if a.t > b.b:
+		return false
+	if a.b < b.t:
+		return false
+	if a.l > b.r:
+		return false
+	if a.r < b.l:
+		return false
+	return true

@@ -6,6 +6,8 @@ const MAP = {
 }
 const UNIT = {
 	"archer": preload("res://game/unit/archer/archer.tscn"),
+	"archsapper": preload("res://game/unit/archsapper/archsapper.tscn"),
+	"cannon": preload("res://game/unit/cannon/cannon.tscn"),
 	"footman": preload("res://game/unit/footman/footman.tscn"),
 	"legion": preload("res://game/unit/legion/legion.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadowvision.tscn"),
@@ -14,6 +16,7 @@ const UNIT = {
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
+	"cannon": preload("res://game/unit/cannon/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 	"nagmash": preload("res://game/unit/archer/bullet.tscn"),
@@ -25,6 +28,7 @@ const SKILL = {
 
 const CURSOR = {
 	"unit": preload("res://game/ui/unit_cursor.tscn"),
+	"archsapper": preload("res://game/unit/archsapper/targetsquare.tscn"),
 	"legion": preload("res://game/unit/legion/bomingpoint.tscn"),
 	"nagmash": preload("res://game/unit/nagmash/targetcircle.tscn"),
 	"astra": preload("res://game/unit/astra/targetsquare.tscn"),
@@ -33,6 +37,7 @@ const CURSOR = {
 # temporary
 const ICON = {
 	"archers": preload("res://game/unit/archer/idle.png"),
+	"cannon": preload("res://game/ui/unit_icon/archsapper.png"),
 	"fireball": preload("res://game/unit/legion/bomber.png"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadow_vision.png"),
 	"unload": preload("res://game/unit/nagmash/body.png"),
