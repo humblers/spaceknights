@@ -61,7 +61,7 @@ func (s *server) Run() {
 					Card{"megalaser", 0},
 					Card{"cannon", 0},
 					Card{"footmans", 0},
-					Card{"archers", 0},
+					Card{"panzerkunstler", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},
 					Card{"archers", 0},

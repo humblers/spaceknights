@@ -13,7 +13,7 @@ var cfg = {
 				{"Name": "megalaser", "Level": 0},
 				{"Name": "cannon", "Level": 0},
 				{"Name": "footmans", "Level": 0},
-				{"Name": "archers", "Level": 0},
+				{"Name": "panzerkunstler", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "archers", "Level": 0},
