@@ -161,7 +161,13 @@ func initialHp():
 	print("invalid hp type")
 
 func initialShield():
-	return stat.units[name_]["shield"]
+	var v = stat.units[name_]["shield"]
+	var t = typeof(v)
+	if t == TYPE_INT:
+		return v
+	if t == TYPE_ARRAY:
+		return v[level]
+	print("invalid shield type")
 
 func sight():
 	var s = stat.units[name_]["sight"]

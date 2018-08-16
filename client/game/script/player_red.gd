@@ -57,10 +57,8 @@ func gui_input(ev):
 		pressed = ev.pressed
 		if not pressed:
 			if selected_card == null:
-				show_message("No Selected Card", pos.y)
 				return
 			if energy < stat.cards[selected_card.Name]["cost"]:
-				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
 			var pos_node = get_node("../../BattleField/CursorPos").position
