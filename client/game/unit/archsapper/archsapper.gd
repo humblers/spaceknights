@@ -28,7 +28,11 @@ func Init(id, level, posX, posY, game, player):
 	initPosY = PositionY()
 
 func TakeDamage(amount, attackType):
+	var initHp = initialHp()
+	var underHalf = initHp / 2 > hp
 	.TakeDamage(amount, attackType)
+	if not underHalf and initHp / 2 > hp:
+		player.OnKnightHalfDamaged(self)
 	if IsDead():
 		player.OnKnightDead(self)
 
