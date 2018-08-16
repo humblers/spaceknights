@@ -320,6 +320,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newGiant(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
+	case "psabu":
+		u = newPsabu(id, level, posX, posY, g, p)
 	case "shadowvision":
 		u = newShadowvision(id, level, posX, posY, g, p)
 	case "nagmash":

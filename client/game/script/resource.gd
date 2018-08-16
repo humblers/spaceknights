@@ -11,6 +11,7 @@ const UNIT = {
 	"footman": preload("res://game/unit/footman/footman.tscn"),
 	"gargoyle": preload("res://game/unit/gargoyle/gargoyle.tscn"),
 	"giant": preload("res://game/unit/giant/giant.tscn"),
+	"psabu": preload("res://game/unit/psabu/psabu.tscn"),
 	"legion": preload("res://game/unit/legion/legion.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/shadowvision.tscn"),
 	"nagmash": preload("res://game/unit/nagmash/nagmash.tscn"),
@@ -52,6 +53,7 @@ const ICON = {
 	"shadowvision": preload("res://game/ui/unit_icon/shadowvision.png"),
 	"unload": preload("res://game/ui/unit_icon/nagmash.png"),
 	"footmans": preload("res://game/ui/unit_icon/footman.png"),
+	"psabu": preload("res://game/ui/unit_icon/psabu.png"),
 	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
 	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
 }
