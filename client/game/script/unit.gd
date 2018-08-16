@@ -197,8 +197,6 @@ func preAttackDelay():
 	return stat.units[name_]["preattackdelay"]
 func bulletLifeTime():
 	return stat.units[name_]["bulletlifetime"]
-func transformDelay():
-	return stat.units[name_]["transformdelay"]
 func canSee(unit):
 	if unit.Type() == "Knight":
 		return true
