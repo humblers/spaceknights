@@ -155,4 +155,4 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.global_position = $Rotatable/Body/ShotpointL.global_position
+	b.global_position = $Rotatable/Body/Main/Gun/ShootingPoint.global_position

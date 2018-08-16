@@ -53,10 +53,9 @@ func connect_input():
 func gui_input(ev):
 	var field = get_node("../../BattleField")
 	var pos = field.get_local_mouse_position()
-	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
-		if not pressed and not belowField:
+		if not pressed:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
@@ -91,19 +90,11 @@ func gui_input(ev):
 				else:
 					game.actions[input.Step] = [input.Action]
 			mark_action(input)
-	if belowField:
-		clear_cursor()
-		return
 	update_cursor(int(pos.x), int(pos.y))
 
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		var card = stat.cards[selected_card.Name]
-		if card.has("unit") or card.has("spawn"):
-			var redArea = get_node("../../Map/RedArea")
-			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
-			$Tween.start()
 	gui_input(ev)
 
 func add_cursor():
@@ -136,9 +127,6 @@ func update_cursor(x, y):
 	var nx = 1
 	var ny = 1
 	var cardData = stat.cards[selected_card.Name]
-	var minTileY = tile[1]
-	if cardData.has("unit"):
-		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
 	if cardData.has("spawn"):
 		var unit
 		match typeof(cardData["spawn"]):
@@ -149,10 +137,6 @@ func update_cursor(x, y):
 		if unit and unit["type"] == "Building":
 			nx = unit["tilenumx"]
 			ny = unit["tilenumy"]
-			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
-			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
-	if tile[1] < minTileY:
-		tile[1] = minTileY
 
 	var tr = avoid_occupied_tiles(tile[0], tile[1], nx, ny)
 	tile[0] = (tr.l + tr.r) / 2
@@ -199,14 +183,6 @@ func mark_action(input):
 		get_node("../../BattleField").add_child(child)
 		child.global_position = global_pos
 		action_markers[input.Step].append(child)
-
-func show_message(msg, pos_y):
-	var msgBar = get_node("../../BattleField/MessageBar")
-	var pos_x = msgBar.rect_position.x
-	msgBar.text = msg
-	$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.start()
 
 func update_cards():
 	for i in range(HAND_SIZE):
@@ -286,7 +262,6 @@ func Do(action):
 		pending.append(action.Card)
 		update_cards()
 		selected_card = null
-		get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
 	return null
 
 func findKnight(name):
