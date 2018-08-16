@@ -81,7 +81,7 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[ts.Skill()]["spawn"].(string)
+	name := cards[ts.Skill()]["unit"].(string)
 	nx := units[name]["tilenumx"].(int)
 	ny := units[name]["tilenumy"].(int)
 	tx, ty := ts.game.TileFromPos(posX, posY)
@@ -100,7 +100,7 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 }
 
 func (ts *tombstone) spawn() {
-	name := cards[ts.Skill()]["spawn"].(string)
+	name := cards[ts.Skill()]["unit"].(string)
 	id := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
 	tr := ts.Occupied()
 	ts.Release()

@@ -107,7 +107,7 @@ func adjustSkillAnim():
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)	
 
 func spawn():
-	var card = stat.cards[stat.cards[Skill()]["spawn"]]
+	var card = stat.cards[Skill()]
 	var name = card["unit"]
 	var count = card["count"]
 	var offsetX = card["offsetX"]

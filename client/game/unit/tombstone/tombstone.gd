@@ -78,7 +78,7 @@ func findTargetAndAttack():
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-	var name = stat.cards[Skill()]["spawn"]
+	var name = stat.cards[Skill()]["unit"]
 	var nx = stat.units[name]["tilenumx"]
 	var ny = stat.units[name]["tilenumy"]
 	var tile = game.TileFromPos(posX, posY)
@@ -114,7 +114,7 @@ func adjustSkillAnim():
 			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func spawn():
-	var name = stat.cards[Skill()]["spawn"]
+	var name = stat.cards[Skill()]["unit"]
 	var id = game.AddUnit(name, level, castPosX, castPosY, player)
 	var tr = TileOccupier.Occupied()
 	TileOccupier.Release()

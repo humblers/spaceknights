@@ -100,7 +100,7 @@ func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
 		var card = stat.cards[selected_card.Name]
-		if card.has("unit") or card.has("spawn"):
+		if card.has("unit"):
 			var redArea = get_node("../../Map/RedArea")
 			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			$Tween.start()
@@ -110,7 +110,7 @@ func add_cursor():
 	var pos_node = get_node("../../BattleField/CursorPos")
 	var cardData = stat.cards[selected_card.Name]
 	var cursor
-	if not cardData.has("unit"):
+	if cardData.has("caster"):
 		var k = findKnight(cardData["caster"])
 		cursor = resource.CURSOR[k.Name()]
 	else:
@@ -139,13 +139,7 @@ func update_cursor(x, y):
 	var minTileY = tile[1]
 	if cardData.has("unit"):
 		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
-	if cardData.has("spawn"):
-		var unit
-		match typeof(cardData["spawn"]):
-			TYPE_STRING:
-				unit = stat.units[stat.cards[cardData["spawn"]]["unit"]]
-			TYPE_DICTIONARY:
-				unit = stat.units[cardData["spawn"]["unit"]]
+		var unit = stat.units[cardData["unit"]]
 		if unit and unit["type"] == "Building":
 			nx = unit["tilenumx"]
 			ny = unit["tilenumy"]
@@ -298,7 +292,7 @@ func findKnight(name):
 
 func useCard(c, posX, posY):
 	var card = stat.cards[c.Name]
-	if not card.has("unit"):
+	if not card.has("caster"):
 		var k = findKnight(card["caster"])
 		if k == null:
 			return "should not be here"

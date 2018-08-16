@@ -145,7 +145,7 @@ func (p *player) findKnight(name string) Unit {
 
 func (p *player) useCard(c Card, posX, posY int) error {
 	card := cards[c.Name]
-	if card["unit"] == nil {
+	if card["caster"] != nil {
 		k := p.findKnight(card["caster"].(string))
 		if k == nil {
 			panic("should not be here")

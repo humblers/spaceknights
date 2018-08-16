@@ -33,7 +33,7 @@ func Update():
 	spawn += 1
 
 func spawnInterval():
-	stat.units[name_]["spawninterval"]
+	return stat.units[name_]["spawninterval"]
 
 func doSpawn():
 	var card = stat.units[name_]
