@@ -42,12 +42,12 @@ const CURSOR = {
 
 # temporary
 const ICON = {
-	"archers": preload("res://game/unit/archer/idle.png"),
+	"archers": preload("res://game/ui/unit_icon/archer.png"),
 	"cannon": preload("res://game/ui/unit_icon/archsapper.png"),
-	"fireball": preload("res://game/unit/legion/bomber.png"),
-	"shadowvision": preload("res://game/unit/shadowvision/shadow_vision.png"),
-	"unload": preload("res://game/unit/nagmash/body.png"),
-	"footmans": preload("res://game/unit/nagmash/footman_dummy.png"),
+	"fireball": preload("res://game/ui/unit_icon/legion.png"),
+	"shadowvision": preload("res://game/ui/unit_icon/shadowvision.png"),
+	"unload": preload("res://game/ui/unit_icon/nagmash.png"),
+	"footmans": preload("res://game/ui/unit_icon/footman.png"),
 	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
 	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
 }
