@@ -18,19 +18,18 @@ type Player interface {
 
 	Team() Team
 
-	AddKnights()
+	AddKnights(knights []KnightData)
 	Do(a *Action) error
 	OnKnightDead(u Unit)
 	Update()
 }
 
 type player struct {
-	team               Team
-	energy             int
-	hand               []Card
-	pending            []Card
-	knightIds          []int
-	initialKnightDatas []KnightData
+	team      Team
+	energy    int
+	hand      []Card
+	pending   []Card
+	knightIds []int
 
 	game   Game
 	client Client
@@ -38,11 +37,10 @@ type player struct {
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		team:               pd.Team,
-		energy:             startEnergy,
-		hand:               pd.Deck[:handSize],
-		pending:            pd.Deck[handSize:],
-		initialKnightDatas: pd.Knights,
+		team:    pd.Team,
+		energy:  startEnergy,
+		hand:    pd.Deck[:handSize],
+		pending: pd.Deck[handSize:],
 
 		game: g,
 	}
@@ -59,8 +57,8 @@ func (p *player) Team() Team {
 	return p.team
 }
 
-func (p *player) AddKnights() {
-	for i, k := range p.initialKnightDatas {
+func (p *player) AddKnights(knights []KnightData) {
+	for i, k := range knights {
 		x := knightInitialPositionX[i]
 		y := knightInitialPositionY[i]
 		if p.team == Red {
