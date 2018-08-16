@@ -292,7 +292,7 @@ func findKnight(name):
 
 func useCard(c, posX, posY):
 	var card = stat.cards[c.Name]
-	if not card.has("caster"):
+	if card.has("caster"):
 		var k = findKnight(card["caster"])
 		if k == null:
 			return "should not be here"
