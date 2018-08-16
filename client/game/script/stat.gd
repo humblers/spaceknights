@@ -89,7 +89,7 @@ const units = {
 		"bulletlifetime": 4,
 	},
 	"archsapper": {
-		"mass":           600,
+		"mass":           0,
 		"radius":         80,
 		"type":           "Knight",
 		"layer":          "Normal",
@@ -138,7 +138,7 @@ const units = {
 		"preattackdelay": 5,
 	},
 	"legion": {
-		"mass":           600,
+		"mass":           0,
 		"radius":         50,
 		"type":           "Knight",
 		"layer":          "Normal",
@@ -155,7 +155,7 @@ const units = {
 		"skill":          "fireball",
 	},
 	"judge": {
-		"mass":           600,
+		"mass":           0,
 		"radius":         50,
 		"type":           "Knight",
 		"layer":          "Normal",

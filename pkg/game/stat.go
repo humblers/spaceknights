@@ -86,7 +86,7 @@ var units = map[string]map[string]interface{}{
 		"bulletlifetime": 4,
 	},
 	"archsapper": map[string]interface{}{
-		"mass":           600,
+		"mass":           0,
 		"radius":         80,
 		"type":           Knight,
 		"layer":          Normal,
@@ -135,7 +135,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 5,
 	},
 	"legion": map[string]interface{}{
-		"mass":           600,
+		"mass":           0,
 		"radius":         50,
 		"type":           Knight,
 		"layer":          Normal,
@@ -153,7 +153,7 @@ var units = map[string]map[string]interface{}{
 		"skill":          "fireball",
 	},
 	"judge": map[string]interface{}{
-		"mass":           600,
+		"mass":           0,
 		"radius":         50,
 		"type":           Knight,
 		"layer":          Normal,
