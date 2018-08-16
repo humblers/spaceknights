@@ -5,12 +5,25 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type gargoyle struct {
 	*unit
 	targetId int
-	attack   int // elapsed time since attack start
+	attack   int
+	shield   int
 }
 
 func newGargoyle(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &gargoyle{
 		unit: newUnit(id, "gargoyle", p.Team(), level, posX, posY, g),
+	}
+}
+
+func (g *gargoyle) TakeDamage(amount int, t AttackType) {
+	if t != Melee {
+		g.shield -= amount
+		if g.shield < 0 {
+			g.hp += g.shield
+			g.shield = 0
+		}
+	} else {
+		g.hp -= amount
 	}
 }
 
@@ -29,6 +42,10 @@ func (g *gargoyle) Update() {
 				g.findTargetAndDoAction()
 			}
 		}
+	}
+	g.shield += ShieldRegenPerStep
+	if g.shield > g.initialShield() {
+		g.shield = g.initialShield()
 	}
 }
 

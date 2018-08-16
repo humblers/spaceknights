@@ -2,12 +2,29 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
+var shield
 
 func InitDummy(posX, posY, game, player):
 	.InitDummy("gargoyle", player.Team(), posX, posY, game)
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "gargoyle", player.Team(), level, posX, posY, game)
+	shield = initialShield()
+	$Hp/Shield.max_value = shield
+	$Hp/Shield.value = shield
+
+func TakeDamage(amount, attackType):
+	if attackType != "Melee":
+		shield -= amount
+		if shield < 0:
+			hp += shield
+			shield = 0
+		$Energyshield/EnergyShield.play("energyshield")
+	else:
+		hp -= amount
+		$Energyshield/ParticlePhysical2.play("particle-physical")
+	$Hp/Shield.value = shield
+	node_hp.value = hp
 
 func Update():
 	SetVelocity(0, 0)
@@ -24,6 +41,10 @@ func Update():
 				findTargetAndDoAction()
 	if targetId == 0:
 		$AnimationPlayer.play("idle")
+	shield += stat.ShieldRegenPerStep
+	if shield > initialShield():
+		shield = initialShield()
+	$Hp/Shield.value = shield
 
 func Destroy():
 	.Destroy()

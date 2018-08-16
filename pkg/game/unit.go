@@ -162,7 +162,13 @@ func (u *unit) initialHp() int {
 	panic("invalid hp type")
 }
 func (u *unit) initialShield() int {
-	return units[u.name]["shield"].(int)
+	switch v := units[u.name]["shield"].(type) {
+	case int:
+		return v
+	case []int:
+		return v[u.level]
+	}
+	panic("invalid shield type")
 }
 func (u *unit) sight() fixed.Scalar {
 	s := units[u.name]["sight"].(int)

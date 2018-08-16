@@ -156,7 +156,8 @@ const units = {
 		"layer":          "Normal",
 		"mass":           6,
 		"radius":         15,
-		"hp":             [200],
+		"hp":             [100],
+		"shield":         [100],
 		"sight":          350,
 		"speed":          100,	#pixels per second
 		"targettypes":    ["Troop", "Building", "Knight"],
