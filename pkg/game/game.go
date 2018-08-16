@@ -314,6 +314,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newArchsapper(id, level, posX, posY, g, p)
 	case "cannon":
 		u = newCannon(id, level, posX, posY, g, p)
+	case "giant":
+		u = newGiant(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
 	case "shadowvision":

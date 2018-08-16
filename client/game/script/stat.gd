@@ -45,6 +45,13 @@ const cards = {
 		"castduration": 50,
 		"precastdelay": 20,
 	},
+	"giant": {
+		"cost": 5000,
+		"unit": "giant",
+		"count": 1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 	"unload": {
 		"cost":         2000,
 		"spawn":        "footmans",
@@ -136,6 +143,21 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 5,
+	},
+	"giant": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           60,
+		"radius":         55,
+		"hp":             [1500],
+		"sight":          350,
+		"speed":          50,	#pixels per second
+		"targettypes":    ["Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [500, 60, 90],
+		"attackrange":    40,
+		"attackinterval": 30,
+		"preattackdelay": 8,
 	},
 	"legion": {
 		"mass":           0,
