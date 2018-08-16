@@ -14,6 +14,8 @@ const UNIT = {
 	"nagmash": preload("res://game/unit/nagmash/nagmash.tscn"),
 	"astra": preload("res://game/unit/astra/astra.tscn"),
 	"judge": preload("res://game/unit/judge/judge.tscn"),
+	"barrack": preload("res://game/unit/barrack/barrack.tscn"),
+	"tombstone": preload("res://game/unit/tombstone/tombstone.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -23,8 +25,9 @@ const BULLET = {
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 	"nagmash": preload("res://game/unit/archer/bullet.tscn"),
 	"astra": preload("res://game/unit/astra/shot.tscn"),
-	# temporary, no bullet for judge
+	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
+	"tombstone": preload("res://game/unit/archer/bullet.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
@@ -38,6 +41,7 @@ const CURSOR = {
 	"nagmash": preload("res://game/unit/nagmash/targetcircle.tscn"),
 	"astra": preload("res://game/unit/astra/targetsquare.tscn"),
 	"judge": preload("res://game/unit/judge/bomingpoint.tscn"),
+	"tombstone": preload("res://game/unit/tombstone/targetcircle.tscn"),
 }
 
 # temporary
@@ -50,4 +54,5 @@ const ICON = {
 	"footmans": preload("res://game/ui/unit_icon/footman.png"),
 	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
 	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
+	"barrack": preload("res://game/ui/unit_icon/tombstone.png"),
 }
