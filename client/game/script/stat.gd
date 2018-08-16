@@ -12,7 +12,7 @@ const cards = {
 	},
 	"cannon": {
 		"cost":    1000,
-		"unit": "barrack",
+		"unit": "cannon",
 		"count":   1,
 		"offsetX": [0],
 		"offsetY": [0],
