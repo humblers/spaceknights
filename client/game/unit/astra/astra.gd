@@ -9,6 +9,11 @@ var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 
+func _ready():
+	var dup = $AnimationPlayer.get_animation("skill").duplicate()
+	$AnimationPlayer.rename_animation("skill", "skill-ref")
+	$AnimationPlayer.add_animation("skill", dup)
+
 func InitDummy(posX, posY, game, player):
 	.InitDummy("astra", player.Team(), posX, posY, game)
 
@@ -117,13 +122,29 @@ func findTargetAndAttack():
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-	$AnimationPlayer.play("skill")
 	attack = 0
 	cast += 1
 	castPosX = posX
 	castPosY = posY
+	adjustSkillAnim()
+	$AnimationPlayer.play("skill")
 	setLayer("Casting")
 	return true
+
+func adjustSkillAnim():
+	var ref_vec = Vector2(0, -800)
+	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	var angle = ref_vec.angle_to(vec)
+	var scale = vec.length()/ref_vec.length()
+	var old_anim = $AnimationPlayer.get_animation("skill-ref")
+	var new_anim = $AnimationPlayer.get_animation("skill")
+	var track_idx = old_anim.find_track("Rotatable/Body:position")
+	var key_count = old_anim.track_get_key_count(track_idx)
+	for i in range(key_count):
+		var v = old_anim.track_get_key_value(track_idx, i)
+		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func target():
 	return game.FindUnit(targetId)

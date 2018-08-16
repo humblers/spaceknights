@@ -4,14 +4,13 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type legion struct {
 	*unit
-	player          Player
-	targetId        int
-	attack          int
-	transform       int
-	initPos         fixed.Vector
-	castPos         fixed.Vector
-	isCasting       bool
-	movingToCastPos bool
+	player   Player
+	targetId int
+	attack   int
+	cast     int
+	initPos  fixed.Vector
+	castPosX int
+	castPosY int
 }
 
 func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -31,45 +30,15 @@ func (l *legion) TakeDamage(amount int, t AttackType) {
 }
 
 func (l *legion) Update() {
-	if l.isCasting {
-		if l.movingToCastPos {
-			if l.transform >= l.transformDelay() {
-				if l.Position() == l.castPos {
-					l.cast()
-					l.movingToCastPos = false
-				} else {
-					v := l.castPos.Sub(l.Position())
-					s := l.game.World().Dt().Mul(l.speed())
-					len := v.LengthSquared()
-					if len < s.Mul(s) {
-						l.SetPosition(l.castPos)
-					} else {
-						len = len.Sqrt()
-						l.SetPosition(l.Position().Add(v.Mul(s.Div(len))))
-					}
-				}
-			} else {
-				l.transform++
-			}
+	if l.cast > 0 {
+		if l.cast == l.preCastDelay()+1 {
+			l.fireball()
+		}
+		if l.cast > l.castDuration() {
+			l.cast = 0
+			l.setLayer(l.initialLayer())
 		} else {
-			if l.Position() == l.initPos {
-				if l.transform > 0 {
-					l.transform--
-				} else {
-					l.isCasting = false
-					l.setLayer(l.initialLayer())
-				}
-			} else {
-				v := l.initPos.Sub(l.Position())
-				s := l.game.World().Dt().Mul(l.speed())
-				len := v.LengthSquared()
-				if len < s.Mul(s) {
-					l.SetPosition(l.initPos)
-				} else {
-					len = len.Sqrt()
-					l.SetPosition(l.Position().Add(v.Mul(s.Div(len))))
-				}
-			}
+			l.cast++
 		}
 	} else {
 		if l.attack > 0 {
@@ -97,22 +66,28 @@ func (l *legion) findTargetAndAttack() {
 	}
 }
 
+func (l *legion) castDuration() int {
+	return cards[l.Skill()]["castduration"].(int)
+}
+
+func (l *legion) preCastDelay() int {
+	return cards[l.Skill()]["precastdelay"].(int)
+}
+
 func (l *legion) CastSkill(posX, posY int) bool {
-	if l.isCasting {
+	if l.cast > 0 {
 		return false
 	}
 	l.attack = 0
-	l.isCasting = true
-	l.movingToCastPos = true
-	l.castPos = fixed.Vector{
-		l.game.World().FromPixel(posX),
-		l.game.World().FromPixel(posY),
-	}
+	l.cast++
+	l.castPosX = posX
+	l.castPosY = posY
+	l.setLayer(Casting)
 	l.setLayer(Casting)
 	return true
 }
 
-func (l *legion) cast() {
+func (l *legion) fireball() {
 	damage := cards[l.Skill()]["damage"].([]int)[l.level]
 	radius := l.game.World().FromPixel(cards[l.Skill()]["radius"].(int))
 	for _, id := range l.game.UnitIds() {
@@ -120,7 +95,11 @@ func (l *legion) cast() {
 		if u.Team() == l.Team() {
 			continue
 		}
-		d := l.squaredDistanceTo(u)
+		castPos := fixed.Vector{
+			X: l.unit.game.World().FromPixel(l.castPosX),
+			Y: l.unit.game.World().FromPixel(l.castPosY),
+		}
+		d := u.Position().Sub(castPos).LengthSquared()
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
 			u.TakeDamage(damage, Skill)
