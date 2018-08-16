@@ -83,7 +83,6 @@ func (l *legion) CastSkill(posX, posY int) bool {
 	l.castPosX = posX
 	l.castPosY = posY
 	l.setLayer(Casting)
-	l.setLayer(Casting)
 	return true
 }
 

@@ -200,9 +200,6 @@ func (u *unit) preAttackDelay() int {
 func (u *unit) bulletLifeTime() int {
 	return units[u.name]["bulletlifetime"].(int)
 }
-func (u *unit) transformDelay() int {
-	return units[u.name]["transformdelay"].(int)
-}
 func (u *unit) canSee(v Unit) bool {
 	if v.Type() == Knight {
 		return true

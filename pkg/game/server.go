@@ -57,7 +57,7 @@ func (s *server) Run() {
 				Id:   "Alice",
 				Team: Blue,
 				Deck: []Card{
-					Card{"fireball", 0},
+					Card{"bulletrain", 0},
 					Card{"cannon", 0},
 					Card{"archers", 0},
 					Card{"unload", 0},
@@ -67,7 +67,7 @@ func (s *server) Run() {
 					Card{"archers", 0},
 				},
 				Knights: []KnightData{
-					KnightData{"nagmash", 0},
+					KnightData{"judge", 0},
 					KnightData{"legion", 0},
 					KnightData{"archsapper", 0},
 				},

@@ -9,7 +9,7 @@ var cfg = {
 			"Id": "Alice",
 			"Team": "Blue",
 			"Deck": [
-				{"Name": "fireball", "Level": 0},
+				{"Name": "bulletrain", "Level": 0},
 				{"Name": "cannon", "Level": 0},
 				{"Name": "archers", "Level": 0},
 				{"Name": "unload", "Level": 0},
@@ -19,7 +19,7 @@ var cfg = {
 				{"Name": "archers", "Level": 0},
 			],
 			"Knights": [
-				{"Name": "nagmash", "Level": 0},
+				{"Name": "judge", "Level": 0},
 				{"Name": "legion", "Level": 0},
 				{"Name": "archsapper", "Level": 0},
 			],
