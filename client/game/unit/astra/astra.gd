@@ -175,7 +175,7 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.global_position = $Rotatable/ShotpointL.global_position
+	b.global_position = $Rotatable/Body/Shotpoint.global_position
 
 func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	var relPosX = scalar.Sub(posBx, posAx)
