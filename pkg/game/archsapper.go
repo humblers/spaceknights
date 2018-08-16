@@ -81,8 +81,7 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	card := cards[a.Skill()]["spawn"].(map[string]interface{})
-	name := card["unit"].(string)
+	name := cards[a.Skill()]["unit"].(string)
 	nx := units[name]["tilenumx"].(int)
 	ny := units[name]["tilenumy"].(int)
 	tx, ty := a.unit.game.TileFromPos(posX, posY)
@@ -101,8 +100,7 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 }
 
 func (a *archsapper) spawn() {
-	card := cards[a.Skill()]["spawn"].(map[string]interface{})
-	name := card["unit"].(string)
+	name := cards[a.Skill()]["unit"].(string)
 	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
 	tr := a.Occupied()
 	a.Release()

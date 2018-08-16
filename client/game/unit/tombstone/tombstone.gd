@@ -17,10 +17,10 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func InitDummy(posX, posY, game, player):
-	.InitDummy("archsapper", player.Team(), posX, posY, game)
+	.InitDummy("tombstone", player.Team(), posX, posY, game)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "archsapper", player.Team(), level, posX, posY, game)
+	.Init(id, "tombstone", player.Team(), level, posX, posY, game)
 	self.player = player
 	TileOccupier = TileOccupier.new()
 	TileOccupier.Init(game)
@@ -105,7 +105,7 @@ func adjustSkillAnim():
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position", "Rotatable/DummyTurret:position"]
+	var tracks = ["Rotatable/Body:position"]
 	for track in tracks:
 		var track_idx = old_anim.find_track(track)
 		var key_count = old_anim.track_get_key_count(track_idx)
@@ -153,4 +153,4 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.global_position = $Rotatable/Body/Main/Gun/ShootingPoint.global_position
+	b.global_position = $Rotatable/Body/ShotpointL.global_position

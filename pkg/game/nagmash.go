@@ -97,7 +97,7 @@ func (n *nagmash) CastSkill(posX, posY int) bool {
 }
 
 func (n *nagmash) spawn() {
-	card := cards[cards[n.Skill()]["spawn"].(string)]
+	card := cards[n.Skill()]
 	name := card["unit"].(string)
 	count := card["count"].(int)
 	offsetX := card["offsetX"].([]int)
