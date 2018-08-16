@@ -10,10 +10,10 @@ var castPosX = 0
 var castPosY = 0
 
 func _ready():
-	var dup = $AnimationPlayer.get_animation("drop").duplicate()
-	$AnimationPlayer.rename_animation("drop", "drop-ref")
-	$AnimationPlayer.add_animation("drop", dup)
-	
+	var dup = $AnimationPlayer.get_animation("skill").duplicate()
+	$AnimationPlayer.rename_animation("skill", "skill-ref")
+	$AnimationPlayer.add_animation("skill", dup)
+
 func InitDummy(posX, posY, game, player):
 	.InitDummy("nagmash", player.Team(), posX, posY, game)
 
@@ -87,7 +87,7 @@ func CastSkill(posX, posY):
 	castPosX = posX
 	castPosY = posY
 	adjustSkillAnim()
-	$AnimationPlayer.play("drop")
+	$AnimationPlayer.play("skill")
 	setLayer("Casting")
 	return true
 
@@ -98,14 +98,14 @@ func adjustSkillAnim():
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
-	var old_anim = $AnimationPlayer.get_animation("drop-ref")
-	var new_anim = $AnimationPlayer.get_animation("drop")
+	var old_anim = $AnimationPlayer.get_animation("skill-ref")
+	var new_anim = $AnimationPlayer.get_animation("skill")
 	var track_idx = old_anim.find_track("Rotatable/Body:position")
 	var key_count = old_anim.track_get_key_count(track_idx)
 	for i in range(key_count):
 		var v = old_anim.track_get_key_value(track_idx, i)
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)	
-	
+
 func spawn():
 	var card = stat.cards[stat.cards[Skill()]["spawn"]]
 	var name = card["unit"]

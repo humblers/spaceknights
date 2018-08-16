@@ -142,10 +142,15 @@ func update_cursor(x, y):
 	if cardData.has("unit"):
 		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
 	if cardData.has("spawn"):
-		var unit = stat.units[cardData["spawn"]["unit"]]
-		nx = unit["tilenumx"]
-		ny = unit["tilenumy"]
-		if unit["type"] == "Building":
+		var unit
+		match typeof(cardData["spawn"]):
+			TYPE_STRING:
+				unit = stat.units[stat.cards[cardData["spawn"]]["unit"]]
+			TYPE_DICTIONARY:
+				unit = stat.units[cardData["spawn"]["unit"]]
+		if unit and unit["type"] == "Building":
+			nx = unit["tilenumx"]
+			ny = unit["tilenumy"]
 			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
 			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
 	if tile[1] < minTileY:

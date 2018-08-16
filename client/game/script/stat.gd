@@ -34,6 +34,8 @@ const cards = {
 		"caster": "legion",
 		"damage": [300, 400, 500],
 		"radius": 70,
+		"castduration": 40,
+		"precastdelay": 20,
 	},
 	"unload": {
 		"cost":         2000,

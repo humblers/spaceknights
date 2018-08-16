@@ -11,6 +11,11 @@ var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 
+func _ready():
+	var dup = $AnimationPlayer.get_animation("skill").duplicate()
+	$AnimationPlayer.rename_animation("skill", "skill-ref")
+	$AnimationPlayer.add_animation("skill", dup)
+
 func InitDummy(posX, posY, game, player):
 	.InitDummy("archsapper", player.Team(), posX, posY, game)
 
@@ -73,7 +78,6 @@ func findTargetAndAttack():
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-
 	var card = stat.cards[Skill()]["spawn"]
 	var name = card["unit"]
 	var nx = stat.units[name]["tilenumx"]
@@ -84,14 +88,31 @@ func CastSkill(posX, posY):
 	if err != null:
 		print(err)
 		return false
-
-	$AnimationPlayer.play("build")
 	attack = 0
 	cast += 1
 	castPosX = posX
 	castPosY = posY
+	adjustSkillAnim()
+	$AnimationPlayer.play("skill")
 	setLayer("Casting")
 	return true
+
+func adjustSkillAnim():
+	var ref_vec = Vector2(0, -900)
+	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	var angle = ref_vec.angle_to(vec)
+	var scale = vec.length()/ref_vec.length()
+	var old_anim = $AnimationPlayer.get_animation("skill-ref")
+	var new_anim = $AnimationPlayer.get_animation("skill")
+	var tracks = ["Rotatable/Body:position", "Rotatable/DummyTurret:position"]
+	for track in tracks:
+		var track_idx = old_anim.find_track(track)
+		var key_count = old_anim.track_get_key_count(track_idx)
+		for i in range(key_count):
+			var v = old_anim.track_get_key_value(track_idx, i)
+			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func spawn():
 	var card = stat.cards[Skill()]["spawn"]

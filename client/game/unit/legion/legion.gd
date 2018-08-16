@@ -3,15 +3,18 @@ extends "res://game/script/unit.gd"
 var player
 var targetId = 0
 var attack = 0
-var transform_ = 0
+var cast = 0
 var initPosX = 0
 var initPosY = 0
 var castPosX = 0
 var castPosY = 0
-var isCasting = false
-var movingToCastPos = false
 
 var attack_counter = 0
+
+func _ready():
+	var dup = $AnimationPlayer.get_animation("skill").duplicate()
+	$AnimationPlayer.rename_animation("skill", "skill-ref")
+	$AnimationPlayer.add_animation("skill", dup)
 
 func InitDummy(posX, posY, game, player):
 	.InitDummy("legion", player.Team(), posX, posY, game)
@@ -38,52 +41,15 @@ func Destroy():
 	queue_free()
 	
 func Update():
-	if isCasting:
-		if movingToCastPos:
-			if transform_ >= transformDelay():
-				if PositionX() == castPosX and PositionY() == castPosY:
-					cast()
-					movingToCastPos = false
-				else:
-					var x = scalar.Sub(castPosX, PositionX())
-					var y = scalar.Sub(castPosY, PositionY())
-					var s = scalar.Mul(game.World().Dt(), speed())
-					var l = vector.LengthSquared(x, y)
-					if l <= scalar.Mul(s, s):
-						SetPosition(castPosX, castPosY)
-					else:
-						l = scalar.Sqrt(l)
-						var d = scalar.Div(s, l)
-						var newX = scalar.Add(PositionX(), scalar.Mul(x, d))
-						var newY = scalar.Add(PositionY(), scalar.Mul(y, d))
-						SetPosition(newX, newY)
-			else:
-				if transform_ == 0:
-					$AnimationPlayer.play("transform")
-				transform_ += 1
+	if cast > 0:
+		if cast == preCastDelay() + 1:
+			fireball()
+		if cast > castDuration():
+			cast = 0
+			setLayer(initialLayer())
+			z_index = Z_INDEX[.Layer()]
 		else:
-			if PositionX() == initPosX and PositionY() == initPosY:
-				if transform_ == transformDelay():
-					$AnimationPlayer.play_backwards("transform")
-				if transform_ > 0:
-					transform_ -= 1
-				else:
-					z_index = Z_INDEX[.Layer()]
-					isCasting = false
-					setLayer(initialLayer())
-			else:
-				var x = scalar.Sub(initPosX, PositionX())
-				var y = scalar.Sub(initPosY, PositionY())
-				var s = scalar.Mul(game.World().Dt(), speed())
-				var l = vector.LengthSquared(x, y)
-				if l <= scalar.Mul(s, s):
-					SetPosition(initPosX, initPosY)
-				else:
-					l = scalar.Sqrt(l)
-					var d = scalar.Div(s, l)
-					var newX = scalar.Add(PositionX(), scalar.Mul(x, d))
-					var newY = scalar.Add(PositionY(), scalar.Mul(y, d))
-					SetPosition(newX, newY)
+			cast += 1
 	else:
 		if attack > 0:
 			handleAttack()
@@ -96,7 +62,7 @@ func Update():
 					handleAttack()
 				else:
 					findTargetAndAttack()
-	if target() == null and not isCasting and not $AnimationPlayer.current_animation == "show":
+	if target() == null and cast == 0:
 		$AnimationPlayer.play("idle")
 
 func findTargetAndAttack():
@@ -105,26 +71,49 @@ func findTargetAndAttack():
 	if t != null and withinRange(t):
 		handleAttack()
 
+func castDuration():
+	return stat.cards[Skill()]["castduration"]
+
+func preCastDelay():
+	return stat.cards[Skill()]["precastdelay"]
+
 func CastSkill(posX, posY):
-	if isCasting:
+	if cast > 0:
 		return false
 	attack = 0
-	isCasting = true
-	movingToCastPos = true
-	castPosX = game.World().FromPixel(posX)
-	castPosY = game.World().FromPixel(posY)
+	cast += 1
+	castPosX = posX
+	castPosY = posY
+	adjustSkillAnim()
+	$AnimationPlayer.play("skill")
 	setLayer("Casting")
-	init_rotation()
 	return true
 
-func cast():
+func adjustSkillAnim():
+	var ref_vec = Vector2(0, -800)
+	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	var angle = ref_vec.angle_to(vec)
+	var scale = vec.length()/ref_vec.length()
+	var old_anim = $AnimationPlayer.get_animation("skill-ref")
+	var new_anim = $AnimationPlayer.get_animation("skill")
+	var track_idx = old_anim.find_track("Rotatable/Body:position")
+	var key_count = old_anim.track_get_key_count(track_idx)
+	for i in range(key_count):
+		var v = old_anim.track_get_key_value(track_idx, i)
+		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
+
+func fireball():
 	var damage = stat.cards[Skill()]["damage"][level]
 	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():
 			continue
-		var d = squaredDistanceTo(u)
+		var x = scalar.Sub(game.World().FromPixel(castPosX), u.PositionX())
+		var y = scalar.Sub(game.World().FromPixel(castPosY), u.PositionY())
+		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(Radius(), radius)
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(damage, "Skill")
@@ -132,7 +121,7 @@ func cast():
 	# client only
 	var skill = resource.SKILL[name_].instance()
 	game.get_node("Skills").add_child(skill)
-	skill.position = position
+	skill.position = Vector2(castPosX, castPosY)
 	skill.z_index = Z_INDEX["Skill"]
 	var anim = skill.get_node("AnimationPlayer")
 	anim.play("explosion")
@@ -171,7 +160,7 @@ func fire():
 	
 	# client only
 	if attack_counter % 2 == 0:
-		b.global_position = $Rotatable/Main/ShoulderL/ArmL/ShotpointL.global_position
+		b.global_position = $Rotatable/Body/ShoulderL/ArmL/ShotpointL.global_position
 	else:
-		b.global_position = $Rotatable/Main/ShoulderR/ArmR/ShotpointR.global_position
+		b.global_position = $Rotatable/Body/ShoulderR/ArmR/ShotpointR.global_position
 	attack_counter += 1

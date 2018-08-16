@@ -27,10 +27,12 @@ var cards = map[string]map[string]interface{}{
 		"offsetY": []int{-30, -30, 30, 30},
 	},
 	"fireball": map[string]interface{}{
-		"cost":   2000,
-		"caster": "legion",
-		"damage": []int{300, 400, 500},
-		"radius": 70,
+		"cost":         2000,
+		"caster":       "legion",
+		"damage":       []int{300, 400, 500},
+		"radius":       70,
+		"castduration": 40,
+		"precastdelay": 20,
 	},
 	"unload": map[string]interface{}{
 		"cost":         2000,
