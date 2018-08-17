@@ -101,6 +101,13 @@ var cards = map[string]map[string]interface{}{
 		"offsetX": []int{0},
 		"offsetY": []int{0},
 	},
+	"panzerkunstler": map[string]interface{}{
+		"cost":    5000,
+		"unit":    "panzerkunstler",
+		"count":   1,
+		"offsetX": []int{0},
+		"offsetY": []int{0},
+	},
 }
 
 var units = map[string]map[string]interface{}{
@@ -199,6 +206,21 @@ var units = map[string]map[string]interface{}{
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 5,
+	},
+	"panzerkunstler": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Normal,
+		"mass":           6,
+		"radius":         30,
+		"hp":             []int{1000},
+		"sight":          350,
+		"speed":          100,
+		"targettypes":    Types{Troop, Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{40, 70, 100},
+		"attackrange":    40,
+		"attackinterval": 40,
+		"preattackdelay": 33,
 	},
 	"gargoyle": map[string]interface{}{
 		"type":           Troop,

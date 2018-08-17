@@ -37,6 +37,13 @@ const cards = {
 		"offsetX": [-30, 30, -30, 30],
 		"offsetY": [-30, -30, 30, 30],
 	},
+	"panzerkunstler": {
+		"cost":    5000,
+		"unit":    "panzerkunstler",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 	"fireball": {
 		"cost":   2000,
 		"caster": "legion",
@@ -199,6 +206,21 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 5,
+	},
+	"panzerkunstler": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         30,
+		"hp":             [1000],
+		"sight":          350,
+		"speed":          100,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [40, 70, 100],
+		"attackrange":    40,
+		"attackinterval": 40,
+		"preattackdelay": 33,
 	},
 	"gargoyle": {
 		"type":           "Troop",

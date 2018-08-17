@@ -330,6 +330,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newFootman(id, level, posX, posY, g, p)
 	case "judge":
 		u = newJudge(id, level, posX, posY, g, p)
+	case "panzerkunstler":
+		u = newPanzerkunstler(id, level, posX, posY, g, p)
 	default:
 		g.logger.Panicf("unknown unit name: %v", name)
 	}
