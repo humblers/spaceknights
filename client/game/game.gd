@@ -40,7 +40,7 @@ var cfg = {
 			"Knights": [
 				{"Name": "legion", "Level": 0},
 				{"Name": "legion", "Level": 0},
-				{"Name": "nagmash", "Level": 0},
+				{"Name": "astra", "Level": 0},
 			],
 		}
 	],
