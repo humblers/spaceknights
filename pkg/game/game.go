@@ -310,6 +310,12 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	switch name {
 	case "archer":
 		u = newArcher(id, level, posX, posY, g, p)
+	case "astra":
+		u = newAstra(id, level, posX, posY, g, p)
+	case "tombstone":
+		u = newTombstone(id, level, posX, posY, g, p)
+	case "barrack":
+		u = newBarrack(id, level, posX, posY, g, p)
 	case "archsapper":
 		u = newArchsapper(id, level, posX, posY, g, p)
 	case "cannon":
@@ -332,6 +338,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newJudge(id, level, posX, posY, g, p)
 	case "panzerkunstler":
 		u = newPanzerkunstler(id, level, posX, posY, g, p)
+	case "jouster":
+		u = newJouster(id, level, posX, posY, g, p)
 	default:
 		g.logger.Panicf("unknown unit name: %v", name)
 	}

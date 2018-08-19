@@ -44,6 +44,13 @@ const cards = {
 		"offsetX": [0],
 		"offsetY": [0],
 	},
+	"jouster": {
+		"cost":    5000,
+		"unit":    "jouster",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 	"fireball": {
 		"cost":   2000,
 		"caster": "legion",
@@ -221,6 +228,22 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 40,
 		"preattackdelay": 33,
+	}
+	"jouster": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         30,
+		"hp":             [1000],
+		"sight":          350,
+		"speed":          100,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [40, 70, 100],
+		"attackrange":    40,
+		"attackinterval": 10,
+		"preattackdelay": 5,
+		"transformdelay": 10,
 	},
 	"gargoyle": {
 		"type":           "Troop",
