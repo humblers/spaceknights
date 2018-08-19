@@ -4,6 +4,7 @@ const MAX_ENERGY = 10000
 const START_ENERGY = 7000
 const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
+const ROLLING_INTERVAL_STEP = 30
 
 const KNIGHT_INITIAL_POSX = [200, 500, 800]
 const KNIGHT_INITIAL_POSY = [1600, 1600, 1600]
@@ -15,6 +16,8 @@ var team
 var energy = 0
 var hand = []
 var pending = []
+var emptyIdx = []
+var rollingCounter = 0
 var knightIds = []
 var no_deck = false
 
@@ -90,6 +93,9 @@ func gui_input(ev):
 					game.actions[input.Step].append(input.Action)
 				else:
 					game.actions[input.Step] = [input.Action]
+			get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
+			selected_card["InvisibleTo"] = game.step + INPUT_DELAY_STEP
+			selected_card = null
 			mark_action(input)
 	if belowField:
 		clear_cursor()
@@ -203,8 +209,22 @@ func show_message(msg, pos_y):
 	$Tween.start()
 
 func update_cards():
+	$Cards/Next/Icon.texture = resource.ICON[pending[0].Name]
+	$Cards/Next/Pending.visible = rollingCounter > 0
+	$Cards/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
 	for i in range(HAND_SIZE):
-		$Cards.get_node("Card%s" % (i+1)).get_node("Icon").texture = resource.ICON[hand[i].Name]
+		var card = hand[i]
+		var icon_node = $Cards.get_node("Card%s" % (i+1)).get_node("Icon")
+		match card:
+			{"Name":"", ..}:
+				icon_node.texture = null
+			{"InvisibleTo": var to, ..}:
+				if to < game.step:
+					icon_node.texture = null
+				else:
+					card.erase("InvisibleTo")
+			_:
+				icon_node.texture = resource.ICON[hand[i].Name]
 
 func Team():
 	return team
@@ -228,7 +248,10 @@ func Update():
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	$Energy.value = energy
-	
+
+	rollingCard()
+	update_cards()
+
 	if action_markers.has(game.step):
 		for node in action_markers[game.step]:
 			node.queue_free()
@@ -275,12 +298,9 @@ func Do(action):
 			return err
 		
 		energy -= cost
-		hand[index] = pending[0]
-		pending.pop_front()
+		hand[index] = {"Name":"", "Level":0}
 		pending.append(action.Card)
-		update_cards()
-		selected_card = null
-		get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
+		emptyIdx.append(index)
 	return null
 
 func findKnight(name):
@@ -306,6 +326,17 @@ func useCard(c, posX, posY):
 		for i in range(count):
 			game.AddUnit(name, c.Level, posX+offsetX[i], posY+offsetY[i], self)
 	return null
+
+func rollingCard():
+	if rollingCounter > 0:
+		rollingCounter -= 1
+		return
+	if len(emptyIdx) == 0:
+		return
+	var next = pending.pop_front()
+	var idx = emptyIdx.pop_front()
+	hand[idx] = next
+	rollingCounter = ROLLING_INTERVAL_STEP
 
 func OnKnightDead(knight):
 	for i in range(len(knightIds)):

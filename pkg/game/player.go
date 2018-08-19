@@ -2,12 +2,14 @@ package game
 
 import (
 	"fmt"
+	"time"
 )
 
 const maxEnergy = 10000
 const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
+const rollingInterval = time.Second * 3
 
 var knightInitialPositionX = []int{200, 500, 800}
 var knightInitialPositionY = []int{1600, 1600, 1600}
@@ -25,11 +27,13 @@ type Player interface {
 }
 
 type player struct {
-	team      Team
-	energy    int
-	hand      []Card
-	pending   []Card
-	knightIds []int
+	team           Team
+	energy         int
+	hand           []Card
+	pending        []Card
+	emptyIdx       []int
+	rollingCounter time.Duration
+	knightIds      []int
 
 	game   Game
 	client Client
@@ -75,6 +79,7 @@ func (p *player) Update() {
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
+	p.rollingCard()
 }
 
 func (p *player) Do(a *Action) error {
@@ -124,12 +129,10 @@ func (p *player) Do(a *Action) error {
 
 	// decrement energy
 	p.energy -= cost
-	// deck rolling
-	p.hand[index] = p.pending[0]
-	for i := 1; i < len(p.pending); i++ {
-		p.pending[i-1] = p.pending[i]
-	}
-	p.pending[len(p.pending)-1] = a.Card
+	// put empty card
+	p.hand[index] = Card{}
+	p.emptyIdx = append(p.emptyIdx, index)
+	p.pending = append(p.pending, a.Card)
 	return nil
 }
 
@@ -163,6 +166,23 @@ func (p *player) useCard(c Card, posX, posY int) error {
 		}
 	}
 	return nil
+}
+
+func (p *player) rollingCard() {
+	if p.rollingCounter > 0 {
+		perStep := time.Second / stepPerSec
+		p.rollingCounter -= perStep
+		return
+	}
+	if len(p.emptyIdx) == 0 {
+		return
+	}
+	var next Card
+	var idx int
+	next, p.pending = p.pending[0], p.pending[1:]
+	idx, p.emptyIdx = p.emptyIdx[0], p.emptyIdx[1:]
+	p.hand[idx] = next
+	p.rollingCounter = rollingInterval
 }
 
 func (p *player) OnKnightDead(u Unit) {
