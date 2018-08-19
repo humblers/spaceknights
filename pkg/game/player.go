@@ -2,14 +2,13 @@ package game
 
 import (
 	"fmt"
-	"time"
 )
 
 const maxEnergy = 10000
 const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
-const rollingInterval = time.Second * 3
+const rollingIntervalStep = 30
 
 var knightInitialPositionX = []int{200, 500, 800}
 var knightInitialPositionY = []int{1600, 1600, 1600}
@@ -32,7 +31,7 @@ type player struct {
 	hand           []Card
 	pending        []Card
 	emptyIdx       []int
-	rollingCounter time.Duration
+	rollingCounter int
 	knightIds      []int
 
 	game   Game
@@ -170,8 +169,7 @@ func (p *player) useCard(c Card, posX, posY int) error {
 
 func (p *player) rollingCard() {
 	if p.rollingCounter > 0 {
-		perStep := time.Second / stepPerSec
-		p.rollingCounter -= perStep
+		p.rollingCounter--
 		return
 	}
 	if len(p.emptyIdx) == 0 {
@@ -182,7 +180,7 @@ func (p *player) rollingCard() {
 	next, p.pending = p.pending[0], p.pending[1:]
 	idx, p.emptyIdx = p.emptyIdx[0], p.emptyIdx[1:]
 	p.hand[idx] = next
-	p.rollingCounter = rollingInterval
+	p.rollingCounter = rollingIntervalStep
 }
 
 func (p *player) OnKnightDead(u Unit) {
