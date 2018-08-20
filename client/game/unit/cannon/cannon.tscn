@@ -6,17 +6,17 @@
 [ext_resource path="res://game/unit/archengineer/meteor-middle.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/archengineer/debri-5.png" type="Texture" id=5]
 [ext_resource path="res://game/unit/cannon/base.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/speare.png" type="Texture" id=10]
-[ext_resource path="res://game/unit/cannon/base_f.png" type="Texture" id=11]
-[ext_resource path="res://game/unit/cannon/base_s.png" type="Texture" id=12]
-[ext_resource path="res://game/unit/cannon/frame.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=14]
-[ext_resource path="res://game/unit/cannon/crow.png" type="Texture" id=15]
-[ext_resource path="res://game/unit/cannon/crow_f.png" type="Texture" id=16]
-[ext_resource path="res://game/unit/cannon/crow_r.png" type="Texture" id=17]
+[ext_resource path="res://game/unit/cannon/base_f.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/cannon/base_s.png" type="Texture" id=8]
+[ext_resource path="res://game/unit/cannon/frame.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=11]
+[ext_resource path="res://game/unit/cannon/crow.png" type="Texture" id=12]
+[ext_resource path="res://game/unit/cannon/crow_f.png" type="Texture" id=13]
+[ext_resource path="res://game/unit/cannon/crow_r.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=16]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=17]
 [ext_resource path="res://game/unit/cannon/cannonbase.png" type="Texture" id=18]
 [ext_resource path="res://game/unit/cannon/cannonbase_f.png" type="Texture" id=19]
 [ext_resource path="res://game/unit/cannon/cannonbase_r.png" type="Texture" id=20]
@@ -33,44 +33,108 @@
 [ext_resource path="res://game/sfx/railgunweapon.wav" type="AudioStream" id=31]
 [ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=32]
 
-[sub_resource type="Curve" id=1]
+[sub_resource type="Gradient" id=48]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0.0351563, 0.366821, 1, 1, 0.367188, 0.911011, 1, 0 )
+
+[sub_resource type="GradientTexture" id=49]
+
+flags = 4
+gradient = SubResource( 48 )
+width = 2048
+
+[sub_resource type="Curve" id=50]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=51]
+
+flags = 4
+width = 2048
+curve = SubResource( 50 )
+
+[sub_resource type="ParticlesMaterial" id=52]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.2
+scale_random = 0.4
+scale_curve = SubResource( 51 )
+color_ramp = SubResource( 49 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Initial Velocity", "Scale" ]
+
+[sub_resource type="Curve" id=53]
 
 min_value = -360.0
 max_value = 360.0
 bake_resolution = 100
 _data = [ Vector2( 0.00921278, -15.4688 ), 0.0, 0.0, 0, 0, Vector2( 0.987674, -15.4688 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=2]
+[sub_resource type="CurveTexture" id=54]
 
 flags = 4
 width = 2048
-curve = SubResource( 1 )
+curve = SubResource( 53 )
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=55]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.421875, 0.421875, 0.421875, 0, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=4]
+[sub_resource type="GradientTexture" id=56]
 
 flags = 4
-gradient = SubResource( 3 )
+gradient = SubResource( 55 )
 width = 2048
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=57]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
+[sub_resource type="CurveTexture" id=58]
 
 flags = 4
 width = 2048
-curve = SubResource( 5 )
+curve = SubResource( 57 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=59]
 
 render_priority = 0
 trail_divisor = 1
@@ -86,7 +150,7 @@ initial_velocity = 0.0
 initial_velocity_random = 0.0
 angular_velocity = 0.0
 angular_velocity_random = 0.5
-angular_velocity_curve = SubResource( 2 )
+angular_velocity_curve = SubResource( 54 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 0.0
@@ -101,8 +165,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 2.0
 scale_random = 0.0
-scale_curve = SubResource( 6 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 58 )
+color_ramp = SubResource( 56 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -112,32 +176,32 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=60]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.615051, 0.0703125, 0.850824, 1, 0.28125, 0, 0 )
 
-[sub_resource type="GradientTexture" id=9]
+[sub_resource type="GradientTexture" id=61]
 
 flags = 4
-gradient = SubResource( 8 )
+gradient = SubResource( 60 )
 width = 2048
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=62]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
+[sub_resource type="CurveTexture" id=63]
 
 flags = 4
 width = 2048
-curve = SubResource( 10 )
+curve = SubResource( 62 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=64]
 
 render_priority = 0
 trail_divisor = 1
@@ -167,8 +231,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 11 )
-color_ramp = SubResource( 9 )
+scale_curve = SubResource( 63 )
+color_ramp = SubResource( 61 )
 hue_variation = 1.0
 hue_variation_random = 0.04
 anim_speed = 0.0
@@ -178,44 +242,44 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Gradient" id=13]
+[sub_resource type="Gradient" id=65]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.972656, 0.798238, 0.113983, 1, 1, 0.46875, 0, 1 )
 
-[sub_resource type="GradientTexture" id=14]
+[sub_resource type="GradientTexture" id=66]
 
 flags = 4
-gradient = SubResource( 13 )
+gradient = SubResource( 65 )
 width = 2048
 
-[sub_resource type="Curve" id=15]
+[sub_resource type="Curve" id=67]
 
 min_value = -200.0
 max_value = 200.0
 bake_resolution = 100
 _data = [ Vector2( 0.110406, 85.9375 ), 0.0, 0.0, 0, 0, Vector2( 0.568111, -158.984 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=16]
+[sub_resource type="CurveTexture" id=68]
 
 flags = 4
 width = 2048
-curve = SubResource( 15 )
+curve = SubResource( 67 )
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=69]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.923066, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=18]
+[sub_resource type="CurveTexture" id=70]
 
 flags = 4
 width = 2048
-curve = SubResource( 17 )
+curve = SubResource( 69 )
 
-[sub_resource type="ParticlesMaterial" id=19]
+[sub_resource type="ParticlesMaterial" id=71]
 
 render_priority = 0
 trail_divisor = 1
@@ -237,7 +301,7 @@ linear_accel = 0.0
 linear_accel_random = 0.0
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 16 )
+radial_accel_curve = SubResource( 68 )
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 damping = 0.0
@@ -246,8 +310,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 18 )
-color_ramp = SubResource( 14 )
+scale_curve = SubResource( 70 )
+color_ramp = SubResource( 66 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -257,31 +321,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Hue Variation" ]
 
-[sub_resource type="Gradient" id=20]
+[sub_resource type="Gradient" id=25]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 1, 0.489624, 0.117188, 0 )
 
-[sub_resource type="GradientTexture" id=21]
+[sub_resource type="GradientTexture" id=26]
 
 flags = 4
-gradient = SubResource( 20 )
+gradient = SubResource( 25 )
 width = 2048
 
-[sub_resource type="Curve" id=22]
+[sub_resource type="Curve" id=27]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=23]
+[sub_resource type="CurveTexture" id=28]
 
 flags = 4
 width = 2048
-curve = SubResource( 22 )
+curve = SubResource( 27 )
 
-[sub_resource type="ParticlesMaterial" id=24]
+[sub_resource type="ParticlesMaterial" id=29]
 
 render_priority = 0
 trail_divisor = 1
@@ -310,70 +374,6 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 23 )
-color_ramp = SubResource( 21 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Flags", "Gravity", "Initial Velocity", "Spread" ]
-
-[sub_resource type="Gradient" id=25]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.0351563, 0.366821, 1, 1, 0.367188, 0.911011, 1, 0 )
-
-[sub_resource type="GradientTexture" id=26]
-
-flags = 4
-gradient = SubResource( 25 )
-width = 2048
-
-[sub_resource type="Curve" id=27]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=28]
-
-flags = 4
-width = 2048
-curve = SubResource( 27 )
-
-[sub_resource type="ParticlesMaterial" id=29]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.2
-scale_random = 0.4
 scale_curve = SubResource( 28 )
 color_ramp = SubResource( 26 )
 hue_variation = 0.0
@@ -383,7 +383,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Initial Velocity", "Scale" ]
+_sections_unfolded = [ "Color", "Flags", "Gravity", "Initial Velocity", "Spread" ]
 
 [sub_resource type="Gradient" id=30]
 
@@ -617,7 +617,7 @@ tracks/3/keys = {
 "values": [ false, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1:emitting")
+tracks/4/path = NodePath("Base/Anchor/AnchorTL/Booster1:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -629,7 +629,7 @@ tracks/4/keys = {
 "values": [ false, false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1/Light1:enabled")
+tracks/5/path = NodePath("Base/Anchor/AnchorTL/Booster1/Light1:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -641,7 +641,7 @@ tracks/5/keys = {
 "values": [ false, false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2:emitting")
+tracks/6/path = NodePath("Base/Anchor/AnchorTR/Booster2:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -653,7 +653,7 @@ tracks/6/keys = {
 "values": [ false, false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2/Light1:enabled")
+tracks/7/path = NodePath("Base/Anchor/AnchorTR/Booster2/Light1:enabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -665,7 +665,7 @@ tracks/7/keys = {
 "values": [ false, false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3:emitting")
+tracks/8/path = NodePath("Base/Anchor/AnchorBL/Booster3:emitting")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -677,7 +677,7 @@ tracks/8/keys = {
 "values": [ false, false ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3/Light1:enabled")
+tracks/9/path = NodePath("Base/Anchor/AnchorBL/Booster3/Light1:enabled")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -689,7 +689,7 @@ tracks/9/keys = {
 "values": [ false, false ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4:emitting")
+tracks/10/path = NodePath("Base/Anchor/AnchorBR/Booster4:emitting")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -701,7 +701,7 @@ tracks/10/keys = {
 "values": [ false, false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4/Light1:enabled")
+tracks/11/path = NodePath("Base/Anchor/AnchorBR/Booster4/Light1:enabled")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -761,7 +761,7 @@ tracks/15/keys = {
 "values": [ 360.0, 360.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Anchor/AnchorTL:position")
+tracks/16/path = NodePath("Base/Anchor/AnchorTL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -773,7 +773,7 @@ tracks/16/keys = {
 "values": [ Vector2( -31, -31 ), Vector2( -31, -31 ), Vector2( -30, -30 ), Vector2( -30, -30 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:position")
+tracks/17/path = NodePath("Base/Anchor/AnchorTL/Crow:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -785,7 +785,7 @@ tracks/17/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:scale")
+tracks/18/path = NodePath("Base/Anchor/AnchorTL/Crow:scale")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -797,7 +797,7 @@ tracks/18/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Anchor/AnchorTR:position")
+tracks/19/path = NodePath("Base/Anchor/AnchorTR:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -809,7 +809,7 @@ tracks/19/keys = {
 "values": [ Vector2( 31, -31 ), Vector2( 31, -31 ), Vector2( 30, -30 ), Vector2( 30, -30 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:position")
+tracks/20/path = NodePath("Base/Anchor/AnchorTR/Crow:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -821,7 +821,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:scale")
+tracks/21/path = NodePath("Base/Anchor/AnchorTR/Crow:scale")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -833,7 +833,7 @@ tracks/21/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Anchor/AnchorBL:position")
+tracks/22/path = NodePath("Base/Anchor/AnchorBL:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -845,7 +845,7 @@ tracks/22/keys = {
 "values": [ Vector2( -31, 31 ), Vector2( -31, 31 ), Vector2( -30, 30 ), Vector2( -30, 30 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:position")
+tracks/23/path = NodePath("Base/Anchor/AnchorBL/Crow:position")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -857,7 +857,7 @@ tracks/23/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:scale")
+tracks/24/path = NodePath("Base/Anchor/AnchorBL/Crow:scale")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -869,7 +869,7 @@ tracks/24/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Anchor/AnchorBR:position")
+tracks/25/path = NodePath("Base/Anchor/AnchorBR:position")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -881,7 +881,7 @@ tracks/25/keys = {
 "values": [ Vector2( 31, 31 ), Vector2( 31, 31 ), Vector2( 30, 30 ), Vector2( 30, 30 ) ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:position")
+tracks/26/path = NodePath("Base/Anchor/AnchorBR/Crow:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -893,7 +893,7 @@ tracks/26/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:scale")
+tracks/27/path = NodePath("Base/Anchor/AnchorBR/Crow:scale")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1128,7 +1128,7 @@ tracks/9/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/Anchor/AnchorTL:position")
+tracks/10/path = NodePath("Base/Anchor/AnchorTL:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -1140,7 +1140,7 @@ tracks/10/keys = {
 "values": [ Vector2( -30, -30 ), Vector2( -30, -30 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:position")
+tracks/11/path = NodePath("Base/Anchor/AnchorTL/Crow:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -1152,7 +1152,7 @@ tracks/11/keys = {
 "values": [ Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:scale")
+tracks/12/path = NodePath("Base/Anchor/AnchorTL/Crow:scale")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -1164,7 +1164,7 @@ tracks/12/keys = {
 "values": [ Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/Anchor/AnchorTR:position")
+tracks/13/path = NodePath("Base/Anchor/AnchorTR:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1176,7 +1176,7 @@ tracks/13/keys = {
 "values": [ Vector2( 30, -30 ), Vector2( 30, -30 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:position")
+tracks/14/path = NodePath("Base/Anchor/AnchorTR/Crow:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -1188,7 +1188,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:scale")
+tracks/15/path = NodePath("Base/Anchor/AnchorTR/Crow:scale")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -1200,7 +1200,7 @@ tracks/15/keys = {
 "values": [ Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Anchor/AnchorBL:position")
+tracks/16/path = NodePath("Base/Anchor/AnchorBL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -1212,7 +1212,7 @@ tracks/16/keys = {
 "values": [ Vector2( -30, 30 ), Vector2( -30, 30 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:position")
+tracks/17/path = NodePath("Base/Anchor/AnchorBL/Crow:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -1224,7 +1224,7 @@ tracks/17/keys = {
 "values": [ Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:scale")
+tracks/18/path = NodePath("Base/Anchor/AnchorBL/Crow:scale")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -1236,7 +1236,7 @@ tracks/18/keys = {
 "values": [ Vector2( 1, 0.6 ), Vector2( 1, 0.6 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Anchor/AnchorBR:position")
+tracks/19/path = NodePath("Base/Anchor/AnchorBR:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -1248,7 +1248,7 @@ tracks/19/keys = {
 "values": [ Vector2( 30, 30 ), Vector2( 30, 30 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:position")
+tracks/20/path = NodePath("Base/Anchor/AnchorBR/Crow:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -1260,7 +1260,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, -10 ), Vector2( 0, -10 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:scale")
+tracks/21/path = NodePath("Base/Anchor/AnchorBR/Crow:scale")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -1423,7 +1423,7 @@ tracks/3/keys = {
 "values": [ false, false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1:emitting")
+tracks/4/path = NodePath("Base/Anchor/AnchorTL/Booster1:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1435,7 +1435,7 @@ tracks/4/keys = {
 "values": [ false, false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1/Light1:enabled")
+tracks/5/path = NodePath("Base/Anchor/AnchorTL/Booster1/Light1:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1447,7 +1447,7 @@ tracks/5/keys = {
 "values": [ false, false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2:emitting")
+tracks/6/path = NodePath("Base/Anchor/AnchorTR/Booster2:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1459,7 +1459,7 @@ tracks/6/keys = {
 "values": [ false, false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2/Light1:enabled")
+tracks/7/path = NodePath("Base/Anchor/AnchorTR/Booster2/Light1:enabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1471,7 +1471,7 @@ tracks/7/keys = {
 "values": [ false, false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3:emitting")
+tracks/8/path = NodePath("Base/Anchor/AnchorBL/Booster3:emitting")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -1483,7 +1483,7 @@ tracks/8/keys = {
 "values": [ false, false ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3/Light1:enabled")
+tracks/9/path = NodePath("Base/Anchor/AnchorBL/Booster3/Light1:enabled")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -1495,7 +1495,7 @@ tracks/9/keys = {
 "values": [ false, false ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4:emitting")
+tracks/10/path = NodePath("Base/Anchor/AnchorBR/Booster4:emitting")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -1507,7 +1507,7 @@ tracks/10/keys = {
 "values": [ false, false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4/Light1:enabled")
+tracks/11/path = NodePath("Base/Anchor/AnchorBR/Booster4/Light1:enabled")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -1567,7 +1567,7 @@ tracks/15/keys = {
 "values": [ 360.0, 315.0, 315.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Anchor/AnchorTL:position")
+tracks/16/path = NodePath("Base/Anchor/AnchorTL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -1579,7 +1579,7 @@ tracks/16/keys = {
 "values": [ Vector2( -31, -31 ), Vector2( -38.1141, -36.2766 ), Vector2( -38.1141, -36.2766 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:position")
+tracks/17/path = NodePath("Base/Anchor/AnchorTL/Crow:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -1591,7 +1591,7 @@ tracks/17/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:scale")
+tracks/18/path = NodePath("Base/Anchor/AnchorTL/Crow:scale")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -1603,7 +1603,7 @@ tracks/18/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Anchor/AnchorTR:position")
+tracks/19/path = NodePath("Base/Anchor/AnchorTR:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -1615,7 +1615,7 @@ tracks/19/keys = {
 "values": [ Vector2( 31, -31 ), Vector2( 42.0893, -40.6644 ), Vector2( 42.0893, -40.6644 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:position")
+tracks/20/path = NodePath("Base/Anchor/AnchorTR/Crow:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -1627,7 +1627,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:scale")
+tracks/21/path = NodePath("Base/Anchor/AnchorTR/Crow:scale")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -1639,7 +1639,7 @@ tracks/21/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Anchor/AnchorBL:position")
+tracks/22/path = NodePath("Base/Anchor/AnchorBL:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -1651,7 +1651,7 @@ tracks/22/keys = {
 "values": [ Vector2( -31, 31 ), Vector2( -44.8711, 20.9566 ), Vector2( -44.8711, 20.9566 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:position")
+tracks/23/path = NodePath("Base/Anchor/AnchorBL/Crow:position")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -1663,7 +1663,7 @@ tracks/23/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:scale")
+tracks/24/path = NodePath("Base/Anchor/AnchorBL/Crow:scale")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -1675,7 +1675,7 @@ tracks/24/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Anchor/AnchorBR:position")
+tracks/25/path = NodePath("Base/Anchor/AnchorBR:position")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -1687,7 +1687,7 @@ tracks/25/keys = {
 "values": [ Vector2( 31, 31 ), Vector2( 31, 31 ) ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:position")
+tracks/26/path = NodePath("Base/Anchor/AnchorBR/Crow:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -1699,7 +1699,7 @@ tracks/26/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:scale")
+tracks/27/path = NodePath("Base/Anchor/AnchorBR/Crow:scale")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1861,7 +1861,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1:emitting")
+tracks/4/path = NodePath("Base/Anchor/AnchorTL/Booster1:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1873,7 +1873,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1/Light1:enabled")
+tracks/5/path = NodePath("Base/Anchor/AnchorTL/Booster1/Light1:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1885,7 +1885,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2:emitting")
+tracks/6/path = NodePath("Base/Anchor/AnchorTR/Booster2:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1897,7 +1897,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2/Light1:enabled")
+tracks/7/path = NodePath("Base/Anchor/AnchorTR/Booster2/Light1:enabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1909,7 +1909,7 @@ tracks/7/keys = {
 "values": [ false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3:emitting")
+tracks/8/path = NodePath("Base/Anchor/AnchorBL/Booster3:emitting")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -1921,7 +1921,7 @@ tracks/8/keys = {
 "values": [ false ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3/Light1:enabled")
+tracks/9/path = NodePath("Base/Anchor/AnchorBL/Booster3/Light1:enabled")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -1933,7 +1933,7 @@ tracks/9/keys = {
 "values": [ false ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4:emitting")
+tracks/10/path = NodePath("Base/Anchor/AnchorBR/Booster4:emitting")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -1945,7 +1945,7 @@ tracks/10/keys = {
 "values": [ false ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4/Light1:enabled")
+tracks/11/path = NodePath("Base/Anchor/AnchorBR/Booster4/Light1:enabled")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -2005,7 +2005,7 @@ tracks/15/keys = {
 "values": [ 360.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Anchor/AnchorTL:position")
+tracks/16/path = NodePath("Base/Anchor/AnchorTL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -2017,7 +2017,7 @@ tracks/16/keys = {
 "values": [ Vector2( -31, -31 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:position")
+tracks/17/path = NodePath("Base/Anchor/AnchorTL/Crow:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -2029,7 +2029,7 @@ tracks/17/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:scale")
+tracks/18/path = NodePath("Base/Anchor/AnchorTL/Crow:scale")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -2041,7 +2041,7 @@ tracks/18/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Anchor/AnchorTR:position")
+tracks/19/path = NodePath("Base/Anchor/AnchorTR:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -2053,7 +2053,7 @@ tracks/19/keys = {
 "values": [ Vector2( 31, -31 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:position")
+tracks/20/path = NodePath("Base/Anchor/AnchorTR/Crow:position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -2065,7 +2065,7 @@ tracks/20/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:scale")
+tracks/21/path = NodePath("Base/Anchor/AnchorTR/Crow:scale")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -2077,7 +2077,7 @@ tracks/21/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Anchor/AnchorBL:position")
+tracks/22/path = NodePath("Base/Anchor/AnchorBL:position")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -2089,7 +2089,7 @@ tracks/22/keys = {
 "values": [ Vector2( -31, 31 ) ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:position")
+tracks/23/path = NodePath("Base/Anchor/AnchorBL/Crow:position")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -2101,7 +2101,7 @@ tracks/23/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:scale")
+tracks/24/path = NodePath("Base/Anchor/AnchorBL/Crow:scale")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -2113,7 +2113,7 @@ tracks/24/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Anchor/AnchorBR:position")
+tracks/25/path = NodePath("Base/Anchor/AnchorBR:position")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -2125,7 +2125,7 @@ tracks/25/keys = {
 "values": [ Vector2( 31, 31 ) ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:position")
+tracks/26/path = NodePath("Base/Anchor/AnchorBR/Crow:position")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -2137,7 +2137,7 @@ tracks/26/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:scale")
+tracks/27/path = NodePath("Base/Anchor/AnchorBR/Crow:scale")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -2323,7 +2323,7 @@ tracks/5/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/Anchor/AnchorTL:position")
+tracks/6/path = NodePath("Base/Anchor/AnchorTL:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -2335,7 +2335,7 @@ tracks/6/keys = {
 "values": [ Vector2( -31, -31 ), Vector2( -31, -31 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1:emitting")
+tracks/7/path = NodePath("Base/Anchor/AnchorTL/Booster1:emitting")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -2347,7 +2347,7 @@ tracks/7/keys = {
 "values": [ false, false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:texture")
+tracks/8/path = NodePath("Base/Anchor/AnchorTL/Crow:texture")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -2356,10 +2356,10 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 15 ), ExtResource( 15 ) ]
+"values": [ ExtResource( 12 ), ExtResource( 12 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/Anchor/AnchorTL/Booster1/Light1:enabled")
+tracks/9/path = NodePath("Base/Anchor/AnchorTL/Booster1/Light1:enabled")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -2371,7 +2371,7 @@ tracks/9/keys = {
 "values": [ false, false ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/Anchor/AnchorTL/Crow:scale")
+tracks/10/path = NodePath("Base/Anchor/AnchorTL/Crow:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -2383,7 +2383,7 @@ tracks/10/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Anchor/AnchorTR:position")
+tracks/11/path = NodePath("Base/Anchor/AnchorTR:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -2395,7 +2395,7 @@ tracks/11/keys = {
 "values": [ Vector2( 31, -31 ), Vector2( 31, -31 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2:emitting")
+tracks/12/path = NodePath("Base/Anchor/AnchorTR/Booster2:emitting")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -2407,7 +2407,7 @@ tracks/12/keys = {
 "values": [ false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/Anchor/AnchorTR/Booster2/Light1:enabled")
+tracks/13/path = NodePath("Base/Anchor/AnchorTR/Booster2/Light1:enabled")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -2419,7 +2419,7 @@ tracks/13/keys = {
 "values": [ false, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:position")
+tracks/14/path = NodePath("Base/Anchor/AnchorTR/Crow:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -2431,7 +2431,7 @@ tracks/14/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/Anchor/AnchorTR/Crow:scale")
+tracks/15/path = NodePath("Base/Anchor/AnchorTR/Crow:scale")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -2443,7 +2443,7 @@ tracks/15/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Anchor/AnchorBL:position")
+tracks/16/path = NodePath("Base/Anchor/AnchorBL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -2455,7 +2455,7 @@ tracks/16/keys = {
 "values": [ Vector2( -31, 31 ), Vector2( -31, 31 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3:emitting")
+tracks/17/path = NodePath("Base/Anchor/AnchorBL/Booster3:emitting")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -2467,7 +2467,7 @@ tracks/17/keys = {
 "values": [ false, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Anchor/AnchorBL/Booster3/Light1:enabled")
+tracks/18/path = NodePath("Base/Anchor/AnchorBL/Booster3/Light1:enabled")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -2479,7 +2479,7 @@ tracks/18/keys = {
 "values": [ false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:position")
+tracks/19/path = NodePath("Base/Anchor/AnchorBL/Crow:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -2491,7 +2491,7 @@ tracks/19/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Anchor/AnchorBL/Crow:scale")
+tracks/20/path = NodePath("Base/Anchor/AnchorBL/Crow:scale")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -2503,7 +2503,7 @@ tracks/20/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Anchor/AnchorBR:position")
+tracks/21/path = NodePath("Base/Anchor/AnchorBR:position")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -2515,7 +2515,7 @@ tracks/21/keys = {
 "values": [ Vector2( 31, 31 ), Vector2( 31, 31 ) ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4:emitting")
+tracks/22/path = NodePath("Base/Anchor/AnchorBR/Booster4:emitting")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -2527,7 +2527,7 @@ tracks/22/keys = {
 "values": [ false, false ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Anchor/AnchorBR/Booster4/Light1:enabled")
+tracks/23/path = NodePath("Base/Anchor/AnchorBR/Booster4/Light1:enabled")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -2539,7 +2539,7 @@ tracks/23/keys = {
 "values": [ false, false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:position")
+tracks/24/path = NodePath("Base/Anchor/AnchorBR/Crow:position")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -2551,7 +2551,7 @@ tracks/24/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Anchor/AnchorBR/Crow:scale")
+tracks/25/path = NodePath("Base/Anchor/AnchorBR/Crow:scale")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -2707,39 +2707,37 @@ tracks/37/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="cannon" type="Node2D"]
+[node name="cannon" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
-[node name="debris" type="Node2D" parent="." index="0"]
-
-[node name="Debris" type="Node2D" parent="debris" index="0"]
+[node name="Debris" type="Node2D" parent="." index="0"]
 
 editor/display_folded = true
 modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="MeteoBig" type="Sprite" parent="debris/Debris" index="0"]
+[node name="MeteoBig" type="Sprite" parent="Debris" index="0"]
 
 scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="DebriesBig" type="Sprite" parent="debris/Debris" index="1"]
+[node name="DebriesBig" type="Sprite" parent="Debris" index="1"]
 
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="MeteoSmall" type="Sprite" parent="debris/Debris" index="2"]
+[node name="MeteoSmall" type="Sprite" parent="Debris" index="2"]
 
 position = Vector2( -10, 12 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="DebriesSmall" type="Sprite" parent="debris/Debris" index="3"]
+[node name="DebriesSmall" type="Sprite" parent="Debris" index="3"]
 
 position = Vector2( 8, -26 )
 scale = Vector2( 0.7, 0.7 )
@@ -2750,6 +2748,423 @@ _sections_unfolded = [ "Transform" ]
 
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Shade" type="Node2D" parent="Base" index="0"]
+
+editor/display_folded = true
+
+[node name="Front" type="Sprite" parent="Base/Shade" index="0"]
+
+visible = false
+texture = ExtResource( 7 )
+
+[node name="Rear" type="Sprite" parent="Base/Shade" index="1"]
+
+visible = false
+texture = ExtResource( 7 )
+flip_v = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="Left" type="Sprite" parent="Base/Shade" index="2"]
+
+visible = false
+texture = ExtResource( 8 )
+
+[node name="Right" type="Sprite" parent="Base/Shade" index="3"]
+
+visible = false
+texture = ExtResource( 8 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="Anchor" type="Node2D" parent="Base" index="1"]
+
+light_mask = 4
+_sections_unfolded = [ "Visibility" ]
+
+[node name="AnchorTL" type="Sprite" parent="Base/Anchor" index="0"]
+
+position = Vector2( -30, -30 )
+rotation = -0.785398
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Booster1" type="Particles2D" parent="Base/Anchor/AnchorTL" index="0"]
+
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 4
+position = Vector2( 0, -12.7279 )
+rotation = 0.785398
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 52 )
+texture = ExtResource( 10 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="Base/Anchor/AnchorTL/Booster1" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = false
+editor_only = false
+texture = ExtResource( 11 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Crow" type="Sprite" parent="Base/Anchor/AnchorTL" index="1"]
+
+position = Vector2( 0, -10 )
+scale = Vector2( 1, 0.6 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Shade" type="Node2D" parent="Base/Anchor/AnchorTL/Crow" index="0"]
+
+editor/display_folded = true
+
+[node name="Front" type="Sprite" parent="Base/Anchor/AnchorTL/Crow/Shade" index="0"]
+
+visible = false
+texture = ExtResource( 13 )
+
+[node name="Rear" type="Sprite" parent="Base/Anchor/AnchorTL/Crow/Shade" index="1"]
+
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Left" type="Sprite" parent="Base/Anchor/AnchorTL/Crow/Shade" index="2"]
+
+visible = false
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Right" type="Sprite" parent="Base/Anchor/AnchorTL/Crow/Shade" index="3"]
+
+visible = false
+texture = ExtResource( 14 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="AnchorTR" type="Sprite" parent="Base/Anchor" index="1"]
+
+position = Vector2( 30, -30 )
+rotation = 0.785398
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Booster2" type="Particles2D" parent="Base/Anchor/AnchorTR" index="0"]
+
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 4
+position = Vector2( 0, -12.7279 )
+rotation = -0.785398
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 52 )
+texture = ExtResource( 10 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="Base/Anchor/AnchorTR/Booster2" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = false
+editor_only = false
+texture = ExtResource( 11 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Crow" type="Sprite" parent="Base/Anchor/AnchorTR" index="1"]
+
+position = Vector2( 0, -10 )
+scale = Vector2( 1, 0.6 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Shade" type="Node2D" parent="Base/Anchor/AnchorTR/Crow" index="0"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Front" type="Sprite" parent="Base/Anchor/AnchorTR/Crow/Shade" index="0"]
+
+visible = false
+texture = ExtResource( 13 )
+
+[node name="Rear" type="Sprite" parent="Base/Anchor/AnchorTR/Crow/Shade" index="1"]
+
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Left" type="Sprite" parent="Base/Anchor/AnchorTR/Crow/Shade" index="2"]
+
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Right" type="Sprite" parent="Base/Anchor/AnchorTR/Crow/Shade" index="3"]
+
+visible = false
+texture = ExtResource( 13 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="AnchorBL" type="Sprite" parent="Base/Anchor" index="2"]
+
+position = Vector2( -30, 30 )
+rotation = -2.35619
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Booster3" type="Particles2D" parent="Base/Anchor/AnchorBL" index="0"]
+
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 4
+position = Vector2( 0, -12.7279 )
+rotation = 2.35619
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 52 )
+texture = ExtResource( 10 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="Base/Anchor/AnchorBL/Booster3" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = false
+editor_only = false
+texture = ExtResource( 11 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Crow" type="Sprite" parent="Base/Anchor/AnchorBL" index="1"]
+
+position = Vector2( 0, -10 )
+scale = Vector2( 1, 0.6 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Shade" type="Node2D" parent="Base/Anchor/AnchorBL/Crow" index="0"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Front" type="Sprite" parent="Base/Anchor/AnchorBL/Crow/Shade" index="0"]
+
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Rear" type="Sprite" parent="Base/Anchor/AnchorBL/Crow/Shade" index="1"]
+
+visible = false
+texture = ExtResource( 13 )
+
+[node name="Right" type="Sprite" parent="Base/Anchor/AnchorBL/Crow/Shade" index="2"]
+
+visible = false
+texture = ExtResource( 14 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Left" type="Sprite" parent="Base/Anchor/AnchorBL/Crow/Shade" index="3"]
+
+visible = false
+texture = ExtResource( 13 )
+flip_h = true
+_sections_unfolded = [ "Offset" ]
+
+[node name="AnchorBR" type="Sprite" parent="Base/Anchor" index="3"]
+
+position = Vector2( 30, 30 )
+rotation = 2.35619
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Booster4" type="Particles2D" parent="Base/Anchor/AnchorBR" index="0"]
+
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 4
+position = Vector2( 0, -12.7279 )
+rotation = -2.35619
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 4
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 52 )
+texture = ExtResource( 10 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
+
+[node name="Light1" type="Light2D" parent="Base/Anchor/AnchorBR/Booster4" index="0"]
+
+show_behind_parent = true
+light_mask = 4
+enabled = false
+editor_only = false
+texture = ExtResource( 11 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0.584961, 0.21875, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 4
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform", "Visibility" ]
+
+[node name="Crow" type="Sprite" parent="Base/Anchor/AnchorBR" index="1"]
+
+position = Vector2( 0, -10 )
+scale = Vector2( 1, 0.6 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Shade" type="Node2D" parent="Base/Anchor/AnchorBR/Crow" index="0"]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="Front" type="Sprite" parent="Base/Anchor/AnchorBR/Crow/Shade" index="0"]
+
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Rear" type="Sprite" parent="Base/Anchor/AnchorBR/Crow/Shade" index="1"]
+
+visible = false
+texture = ExtResource( 13 )
+
+[node name="Left" type="Sprite" parent="Base/Anchor/AnchorBR/Crow/Shade" index="2"]
+
+visible = false
+texture = ExtResource( 14 )
+flip_h = true
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="Right" type="Sprite" parent="Base/Anchor/AnchorBR/Crow/Shade" index="3"]
+
+visible = false
+texture = ExtResource( 13 )
 
 [node name="Rotatable" type="Node2D" parent="." index="2"]
 
@@ -2776,8 +3191,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 7 )
-texture = ExtResource( 7 )
+process_material = SubResource( 59 )
+texture = ExtResource( 15 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -2798,8 +3213,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
-texture = ExtResource( 7 )
+process_material = SubResource( 64 )
+texture = ExtResource( 15 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -2820,7 +3235,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 19 )
+process_material = SubResource( 71 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -2831,7 +3246,7 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 8 )
+texture = ExtResource( 16 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.5
 color = Color( 1, 0.41742, 0.101563, 1 )
@@ -2867,8 +3282,8 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 24 )
-texture = ExtResource( 9 )
+process_material = SubResource( 29 )
+texture = ExtResource( 17 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -2878,7 +3293,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.238892, 0.160156, 1 )
@@ -2898,419 +3313,7 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Shade" type="Node2D" parent="Rotatable" index="1"]
-
-editor/display_folded = true
-
-[node name="Front" type="Sprite" parent="Rotatable/Shade" index="0"]
-
-visible = false
-texture = ExtResource( 11 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Shade" index="1"]
-
-visible = false
-texture = ExtResource( 11 )
-flip_v = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="Left" type="Sprite" parent="Rotatable/Shade" index="2"]
-
-texture = ExtResource( 12 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Shade" index="3"]
-
-visible = false
-texture = ExtResource( 12 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="Anchor" type="Node2D" parent="Rotatable" index="2"]
-
-editor/display_folded = true
-light_mask = 4
-_sections_unfolded = [ "Visibility" ]
-
-[node name="AnchorTL" type="Sprite" parent="Rotatable/Anchor" index="0"]
-
-position = Vector2( -30, -30 )
-rotation = -0.785398
-texture = ExtResource( 13 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Booster1" type="Particles2D" parent="Rotatable/Anchor/AnchorTL" index="0"]
-
-editor/display_folded = true
-show_behind_parent = true
-light_mask = 4
-position = Vector2( 0, -12.7279 )
-rotation = 0.785398
-scale = Vector2( 1.5, 1.5 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 29 )
-texture = ExtResource( 14 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Visibility" ]
-
-[node name="Light1" type="Light2D" parent="Rotatable/Anchor/AnchorTL/Booster1" index="0"]
-
-show_behind_parent = true
-light_mask = 4
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 0.584961, 0.21875, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 4
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/Anchor/AnchorTL" index="1"]
-
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
-texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Shade" type="Node2D" parent="Rotatable/Anchor/AnchorTL/Crow" index="0"]
-
-editor/display_folded = true
-
-[node name="Front" type="Sprite" parent="Rotatable/Anchor/AnchorTL/Crow/Shade" index="0"]
-
-visible = false
-texture = ExtResource( 16 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Anchor/AnchorTL/Crow/Shade" index="1"]
-
-visible = false
-texture = ExtResource( 17 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Anchor/AnchorTL/Crow/Shade" index="2"]
-
-texture = ExtResource( 16 )
-_sections_unfolded = [ "Visibility" ]
-
-[node name="Right" type="Sprite" parent="Rotatable/Anchor/AnchorTL/Crow/Shade" index="3"]
-
-visible = false
-texture = ExtResource( 17 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="AnchorTR" type="Sprite" parent="Rotatable/Anchor" index="1"]
-
-position = Vector2( 30, -30 )
-rotation = 0.785398
-texture = ExtResource( 13 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Booster2" type="Particles2D" parent="Rotatable/Anchor/AnchorTR" index="0"]
-
-editor/display_folded = true
-show_behind_parent = true
-light_mask = 4
-position = Vector2( 0, -12.7279 )
-rotation = -0.785398
-scale = Vector2( 1.5, 1.5 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 29 )
-texture = ExtResource( 14 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="Light1" type="Light2D" parent="Rotatable/Anchor/AnchorTR/Booster2" index="0"]
-
-show_behind_parent = true
-light_mask = 4
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 0.584961, 0.21875, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 4
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/Anchor/AnchorTR" index="1"]
-
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
-texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Shade" type="Node2D" parent="Rotatable/Anchor/AnchorTR/Crow" index="0"]
-
-editor/display_folded = true
-_sections_unfolded = [ "Transform" ]
-
-[node name="Front" type="Sprite" parent="Rotatable/Anchor/AnchorTR/Crow/Shade" index="0"]
-
-visible = false
-texture = ExtResource( 16 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Anchor/AnchorTR/Crow/Shade" index="1"]
-
-visible = false
-texture = ExtResource( 17 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Anchor/AnchorTR/Crow/Shade" index="2"]
-
-texture = ExtResource( 17 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Anchor/AnchorTR/Crow/Shade" index="3"]
-
-visible = false
-texture = ExtResource( 16 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="AnchorBL" type="Sprite" parent="Rotatable/Anchor" index="2"]
-
-position = Vector2( -30, 30 )
-rotation = -2.35619
-texture = ExtResource( 13 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Booster3" type="Particles2D" parent="Rotatable/Anchor/AnchorBL" index="0"]
-
-editor/display_folded = true
-show_behind_parent = true
-light_mask = 4
-position = Vector2( 0, -12.7279 )
-rotation = 2.35619
-scale = Vector2( 1.5, 1.5 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 29 )
-texture = ExtResource( 14 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="Light1" type="Light2D" parent="Rotatable/Anchor/AnchorBL/Booster3" index="0"]
-
-show_behind_parent = true
-light_mask = 4
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 0.584961, 0.21875, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 4
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/Anchor/AnchorBL" index="1"]
-
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
-texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Shade" type="Node2D" parent="Rotatable/Anchor/AnchorBL/Crow" index="0"]
-
-editor/display_folded = true
-_sections_unfolded = [ "Transform" ]
-
-[node name="Front" type="Sprite" parent="Rotatable/Anchor/AnchorBL/Crow/Shade" index="0"]
-
-visible = false
-texture = ExtResource( 17 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Anchor/AnchorBL/Crow/Shade" index="1"]
-
-visible = false
-texture = ExtResource( 16 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Anchor/AnchorBL/Crow/Shade" index="2"]
-
-visible = false
-texture = ExtResource( 17 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Anchor/AnchorBL/Crow/Shade" index="3"]
-
-texture = ExtResource( 16 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="AnchorBR" type="Sprite" parent="Rotatable/Anchor" index="3"]
-
-position = Vector2( 30, 30 )
-rotation = 2.35619
-texture = ExtResource( 13 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Booster4" type="Particles2D" parent="Rotatable/Anchor/AnchorBR" index="0"]
-
-editor/display_folded = true
-show_behind_parent = true
-light_mask = 4
-position = Vector2( 0, -12.7279 )
-rotation = -2.35619
-scale = Vector2( 1.5, 1.5 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 29 )
-texture = ExtResource( 14 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="Light1" type="Light2D" parent="Rotatable/Anchor/AnchorBR/Booster4" index="0"]
-
-show_behind_parent = true
-light_mask = 4
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 0.584961, 0.21875, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 4
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/Anchor/AnchorBR" index="1"]
-
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
-texture = ExtResource( 15 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Shade" type="Node2D" parent="Rotatable/Anchor/AnchorBR/Crow" index="0"]
-
-_sections_unfolded = [ "Transform" ]
-
-[node name="Front" type="Sprite" parent="Rotatable/Anchor/AnchorBR/Crow/Shade" index="0"]
-
-visible = false
-texture = ExtResource( 17 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Anchor/AnchorBR/Crow/Shade" index="1"]
-
-visible = false
-texture = ExtResource( 16 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Anchor/AnchorBR/Crow/Shade" index="2"]
-
-visible = false
-texture = ExtResource( 16 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Anchor/AnchorBR/Crow/Shade" index="3"]
-
-texture = ExtResource( 17 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
-[node name="CannonBody" type="Sprite" parent="Rotatable" index="3"]
+[node name="CannonBody" type="Sprite" parent="Rotatable" index="1"]
 
 rotation = 6.28319
 texture = ExtResource( 18 )
@@ -3332,6 +3335,7 @@ texture = ExtResource( 20 )
 
 [node name="Left" type="Sprite" parent="Rotatable/CannonBody/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 21 )
 
 [node name="Right" type="Sprite" parent="Rotatable/CannonBody/Shade" index="3"]
@@ -3366,6 +3370,7 @@ texture = ExtResource( 24 )
 
 [node name="Left" type="Sprite" parent="Rotatable/CannonBody/Gun/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 25 )
 
 [node name="Right" type="Sprite" parent="Rotatable/CannonBody/Gun/Shade" index="3"]
@@ -3423,7 +3428,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 37 )
-texture = ExtResource( 7 )
+texture = ExtResource( 15 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -3434,7 +3439,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Vis
 position = Vector2( 0, -40 )
 enabled = false
 editor_only = false
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 offset = Vector2( 0, 0 )
 texture_scale = 3.0
 color = Color( 1, 0.595337, 0.203125, 1 )
@@ -3488,7 +3493,7 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 enabled = false
 editor_only = false
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.0
 color = Color( 1, 0.683441, 0.0117188, 1 )
