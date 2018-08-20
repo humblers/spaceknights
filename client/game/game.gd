@@ -54,7 +54,7 @@ const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
 
-const MAIN_LIGHT_ANGLE = 180
+export(float, 0, 360) var MAIN_LIGHT_ANGLE = 180
 
 # parameters for physics world
 var params = {

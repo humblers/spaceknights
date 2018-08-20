@@ -9,33 +9,9 @@ func InitDummy(posX, posY, game, player):
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "shadowvision", player.Team(), level, posX, posY, game)
-	set_process(true)
-	$Rotatable/Main/Shade/Left.show()
-	$Rotatable/Main/Shade/Right.show()
-	$Rotatable/Main/Shade/Front.show()
-	$Rotatable/Main/Shade/Rear.show()
 	shield = initialShield()
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
-
-func _process(delta):
-	var shade = $Rotatable/Main/Shade
-	var angle = game.MAIN_LIGHT_ANGLE - $Rotatable.rotation_degrees
-	var t1 = 1 - clamp(abs(angle_diff(0, angle)) / 90, 0, 1)
-	var t2 = 1 - clamp(abs(angle_diff(90, angle)) / 90, 0, 1)
-	var t3 = 1 - clamp(abs(angle_diff(180, angle)) / 90, 0, 1)
-	var t4 = 1 - clamp(abs(angle_diff(270, angle)) / 90, 0, 1)
-	shade.get_node("Right").modulate = Color(0, 0, 0, t1)
-	shade.get_node("Front").modulate = Color(0, 0, 0, t2)
-	shade.get_node("Left").modulate = Color(0, 0, 0, t3)
-	shade.get_node("Rear").modulate = Color(0, 0, 0, t4)
-	shade.get_node("Right/Light2D").energy = 1.5 * t1
-	shade.get_node("Front/Light2D").energy = 1.5 * t2
-	shade.get_node("Left/Light2D").energy = 1.5 * t3
-	shade.get_node("Rear/Light2D").energy = 1.5 * t4
-
-func angle_diff(a, b):
-	return fposmod((a - b) + 180, 360) - 180
 	
 func TakeDamage(amount, attackType):
 	if Layer() != "Normal":
