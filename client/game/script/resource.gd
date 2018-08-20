@@ -9,6 +9,7 @@ const UNIT = {
 	"archsapper": preload("res://game/unit/archsapper/archsapper.tscn"),
 	"cannon": preload("res://game/unit/cannon/cannon.tscn"),
 	"footman": preload("res://game/unit/footman/footman.tscn"),
+	"enforcer": preload("res://game/unit/enforcer/enforcer.tscn"),
 	"gargoyle": preload("res://game/unit/gargoyle/gargoyle.tscn"),
 	"giant": preload("res://game/unit/giant/giant.tscn"),
 	"psabu": preload("res://game/unit/psabu/psabu.tscn"),
@@ -65,4 +66,5 @@ const ICON = {
 	"barrack": preload("res://game/ui/unit_icon/tombstone.png"),
 	"panzerkunstler": preload("res://game/ui/unit_icon/panzerkunstler.png"),
 	"jouster": preload("res://game/ui/unit_icon/jouster.png"),
+	"enforcer": preload("res://game/ui/unit_icon/enforcer.png"),
 }
