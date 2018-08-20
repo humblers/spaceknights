@@ -17,6 +17,7 @@ var game
 var body
 
 var node_hp
+var shade_nodes=[]
 
 func InitDummy(name, team, posX, posY, game):
 	self.name_ = name
@@ -53,8 +54,39 @@ func Init(id, name, team, level, posX, posY, game):
 		posY = game.FlipY(posY)
 	position = Vector2(posX, posY)
 	init_rotation()
+	show_shade(self)
+	set_process(true)
 	return self
 
+func show_shade(node):
+	for c in node.get_children():
+		if c.name == "Shade":
+			c.get_node("Left").show()
+			c.get_node("Right").show()
+			c.get_node("Front").show()
+			c.get_node("Rear").show()
+			shade_nodes.append(c)
+		else:
+			show_shade(c)
+	
+func shade():
+	for n in shade_nodes:
+		var angle = game.MAIN_LIGHT_ANGLE - n.global_rotation_degrees
+		var t1 = 1 - clamp(abs(angle_diff(0, angle)) / 90, 0, 1)
+		var t2 = 1 - clamp(abs(angle_diff(90, angle)) / 90, 0, 1)
+		var t3 = 1 - clamp(abs(angle_diff(180, angle)) / 90, 0, 1)
+		var t4 = 1 - clamp(abs(angle_diff(270, angle)) / 90, 0, 1)
+		n.get_node("Right").modulate = Color(0, 0, 0, t1)
+		n.get_node("Front").modulate = Color(0, 0, 0, t2)
+		n.get_node("Left").modulate = Color(0, 0, 0, t3)
+		n.get_node("Rear").modulate = Color(0, 0, 0, t4)
+
+func angle_diff(a, b):
+	return fposmod((a - b) + 180, 360) - 180
+
+func _process(delta):
+	shade()
+	
 func setLayer(l):
 	if l == "Casting":
 		body.Simulate(false)
