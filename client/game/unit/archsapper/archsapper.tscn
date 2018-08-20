@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://game/unit/archsapper/archsapper.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archsapper/meteor-big.png" type="Texture" id=2]
@@ -33,10 +33,11 @@
 [ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=31]
 [ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=32]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=33]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=34]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=35]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=36]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=37]
+[ext_resource path="res://game/unit/cannon/dummy.png" type="Texture" id=34]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=35]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=36]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=37]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=38]
 
 [sub_resource type="Gradient" id=1]
 
@@ -4289,6 +4290,7 @@ _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="Main" type="Sprite" parent="Rotatable/Body" index="2"]
 
+editor/display_folded = true
 texture = ExtResource( 11 )
 offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -4311,6 +4313,7 @@ texture = ExtResource( 13 )
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Main/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 14 )
 
 [node name="Right" type="Sprite" parent="Rotatable/Body/Main/Shade" index="3"]
@@ -4322,7 +4325,6 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body/Main" index="1"]
 
-editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -15, -10 )
 texture = ExtResource( 15 )
@@ -4352,6 +4354,7 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 18 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
@@ -4366,7 +4369,6 @@ _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Body/Main/ShoulderL" index="1"]
 
-editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -38, 40 )
 texture = ExtResource( 19 )
@@ -4396,6 +4398,7 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/ArmR/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 22 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
@@ -4554,6 +4557,7 @@ texture = ExtResource( 22 )
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/ArmR/Shade" index="3"]
 
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 texture = ExtResource( 22 )
 _sections_unfolded = [ "Visibility" ]
@@ -4768,6 +4772,7 @@ texture = ExtResource( 28 )
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Main/Gun/Shade" index="2"]
 
+visible = false
 texture = ExtResource( 29 )
 
 [node name="Right" type="Sprite" parent="Rotatable/Body/Main/Gun/Shade" index="3"]
@@ -5136,87 +5141,13 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
-[node name="DummyTurret" type="Node2D" parent="Rotatable" index="1"]
+[node name="DummyTurret" type="Sprite" parent="Rotatable" index="1"]
 
 visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( 0, -900 )
+texture = ExtResource( 34 )
 _sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Anchor" type="Node2D" parent="Rotatable/DummyTurret" index="0"]
-
-editor/display_folded = true
-light_mask = 4
-rotation = 1.74846e-07
-_sections_unfolded = [ "Visibility" ]
-
-[node name="AnchorTL" type="Sprite" parent="Rotatable/DummyTurret/Anchor" index="0"]
-
-position = Vector2( -31, -31 )
-rotation = -0.785398
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/DummyTurret/Anchor/AnchorTL" index="0"]
-
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="AnchorTR" type="Sprite" parent="Rotatable/DummyTurret/Anchor" index="1"]
-
-position = Vector2( 31, -31 )
-rotation = 0.785398
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/DummyTurret/Anchor/AnchorTR" index="0"]
-
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="AnchorBL" type="Sprite" parent="Rotatable/DummyTurret/Anchor" index="2"]
-
-position = Vector2( -31, 31 )
-rotation = -2.35619
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/DummyTurret/Anchor/AnchorBL" index="0"]
-
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="AnchorBR" type="Sprite" parent="Rotatable/DummyTurret/Anchor" index="3"]
-
-position = Vector2( 31, 31 )
-rotation = 2.35619
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Crow" type="Sprite" parent="Rotatable/DummyTurret/Anchor/AnchorBR" index="0"]
-
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Base" type="Sprite" parent="Rotatable/DummyTurret" index="1"]
-
-show_behind_parent = true
-texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="TurretBody" type="Sprite" parent="Rotatable/DummyTurret" index="2"]
-
-rotation = 1.74846e-07
-texture = ExtResource( 9 )
-offset = Vector2( 0, -16 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="Launcher" type="Sprite" parent="Rotatable/DummyTurret" index="3"]
-
-rotation = 1.74846e-07
-texture = ExtResource( 10 )
-offset = Vector2( 0, -6 )
-_sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 
@@ -5265,9 +5196,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 34 )
+texture_under = ExtResource( 35 )
 texture_over = null
-texture_progress = ExtResource( 35 )
+texture_progress = ExtResource( 36 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5299,9 +5230,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 36 )
+texture_under = ExtResource( 37 )
 texture_over = null
-texture_progress = ExtResource( 37 )
+texture_progress = ExtResource( 38 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
