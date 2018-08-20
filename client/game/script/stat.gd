@@ -228,7 +228,7 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 40,
 		"preattackdelay": 33,
-	}
+	},
 	"jouster": {
 		"type":           "Troop",
 		"layer":          "Normal",
