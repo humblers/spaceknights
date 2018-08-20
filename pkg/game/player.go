@@ -9,6 +9,7 @@ const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
 const rollingIntervalStep = 30
+const knightLeaderIndex = 1
 
 var knightInitialPositionX = []int{200, 500, 800}
 var knightInitialPositionY = []int{1600, 1600, 1600}
@@ -69,6 +70,9 @@ func (p *player) AddKnights(knights []KnightData) {
 			y = p.game.FlipY(y)
 		}
 		id := p.game.AddUnit(k.Name, k.Level, x, y, p)
+		if i == knightLeaderIndex {
+			p.game.FindUnit(id).SetLeader()
+		}
 		p.knightIds = append(p.knightIds, id)
 	}
 }

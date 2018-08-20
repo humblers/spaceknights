@@ -6,6 +6,7 @@ const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
 const ROLLING_INTERVAL_STEP = 30
 
+const KNIGHT_LEADER_INDEX = 1
 const KNIGHT_INITIAL_POSX = [200, 500, 800]
 const KNIGHT_INITIAL_POSY = [1600, 1600, 1600]
 
@@ -241,6 +242,8 @@ func AddKnights(knights):
 			x = game.FlipX(x)
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
+		if i == KNIGHT_LEADER_INDEX:
+			game.FindUnit(id).SetLeader()
 		knightIds.append(id)
 	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 

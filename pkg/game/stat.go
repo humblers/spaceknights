@@ -131,6 +131,16 @@ var cards = map[string]map[string]interface{}{
 	},
 }
 
+var leaderskills = map[string]map[string]interface{}{
+	"gatherfootman": map[string]interface{}{
+		"unit":    "footman",
+		"count":   4,
+		"offsetX": []int{-30, 30, -30, 30},
+		"offsetY": []int{-30, -30, 30, 30},
+		"perstep": 300,
+	},
+}
+
 var units = map[string]map[string]interface{}{
 	"archer": map[string]interface{}{
 		"type":           Troop,
@@ -358,6 +368,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"skill":          "unload",
+		"leaderskill":    "gatherfootman",
 	},
 	"astra": map[string]interface{}{
 		"mass":           0,

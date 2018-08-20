@@ -76,6 +76,10 @@ func (a *archsapper) findTargetAndAttack() {
 	}
 }
 
+func (a *archsapper) Skill() string {
+	return units[a.name]["skill"].(string)
+}
+
 func (a *archsapper) CastSkill(posX, posY int) bool {
 	if a.cast > 0 {
 		return false

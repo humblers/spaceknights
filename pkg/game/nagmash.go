@@ -5,6 +5,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type nagmash struct {
 	*unit
 	player   Player
+	leader   bool
 	targetId int
 	attack   int
 	cast     int
@@ -30,9 +31,17 @@ func (n *nagmash) TakeDamage(amount int, t AttackType) {
 }
 
 func (n *nagmash) Update() {
+	if n.leader {
+		data := leaderskills[n.Skill()]
+		if n.game.Step()%data["perstep"].(int) == 0 {
+			posX := n.game.World().ToPixel(n.initPos.X)
+			posY := n.game.World().ToPixel(n.initPos.Y)
+			n.spawn(data, posX, posY)
+		}
+	}
 	if n.cast > 0 {
 		if n.cast == n.preCastDelay()+1 {
-			n.spawn()
+			n.spawn(cards[n.Skill()], n.castPosX, n.castPosY)
 		}
 		if n.cast > n.castDuration() {
 			n.cast = 0
@@ -84,6 +93,18 @@ func (n *nagmash) findTargetAndAttack() {
 	}
 }
 
+func (n *nagmash) SetLeader() {
+	n.leader = true
+}
+
+func (n *nagmash) Skill() string {
+	key := "skill"
+	if n.leader {
+		key = "leaderskill"
+	}
+	return units[n.name][key].(string)
+}
+
 func (n *nagmash) CastSkill(posX, posY int) bool {
 	if n.cast > 0 {
 		return false
@@ -96,14 +117,13 @@ func (n *nagmash) CastSkill(posX, posY int) bool {
 	return true
 }
 
-func (n *nagmash) spawn() {
-	card := cards[n.Skill()]
-	name := card["unit"].(string)
-	count := card["count"].(int)
-	offsetX := card["offsetX"].([]int)
-	offsetY := card["offsetY"].([]int)
+func (n *nagmash) spawn(data map[string]interface{}, posX, posY int) {
+	name := data["unit"].(string)
+	count := data["count"].(int)
+	offsetX := data["offsetX"].([]int)
+	offsetY := data["offsetY"].([]int)
 	for i := 0; i < count; i++ {
-		n.game.AddUnit(name, n.level, n.castPosX+offsetX[i], n.castPosY+offsetY[i], n.player)
+		n.game.AddUnit(name, n.level, posX+offsetX[i], posY+offsetY[i], n.player)
 	}
 }
 

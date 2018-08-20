@@ -131,6 +131,16 @@ const cards = {
 	},
 }
 
+const leaderskils = {
+	"gatherfootman" : {
+		"unit":			"footman",
+		"count":		4,
+		"offsetX":		[-30, 30, -30, 30],
+		"offsetY":		[-30, -30, 30, 30],
+		"perstep":		300,
+	},
+}
+
 const units = {
 	"archer": {
 		"type":           "Troop",
@@ -356,6 +366,7 @@ const units = {
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"skill":          "unload",
+		"leaderskill":    "gatherfootman",
 	},
 	"astra": {
 		"mass":           0,

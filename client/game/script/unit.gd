@@ -166,8 +166,11 @@ func SetVelocity(x, y):
 func Simulate(on):
 	body.Simulate(on)
 
+func SetLeader():
+	print("not implemented")
+
 func Skill():
-	return stat.units[name_]["skill"]
+	print("not implemented")
 
 func CastSkill(posX, posY):
 	print("not implemented")

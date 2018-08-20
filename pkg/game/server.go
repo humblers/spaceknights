@@ -58,7 +58,7 @@ func (s *server) Run() {
 				Team: Blue,
 				Deck: []Card{
 					Card{"barrack", 0},
-					Card{"megalaser", 0},
+					Card{"shadowvision", 0},
 					Card{"cannon", 0},
 					Card{"enforcer", 0},
 					Card{"panzerkunstler", 0},
@@ -68,7 +68,7 @@ func (s *server) Run() {
 				},
 				Knights: []KnightData{
 					KnightData{"tombstone", 0},
-					KnightData{"astra", 0},
+					KnightData{"nagmash", 0},
 					KnightData{"archsapper", 0},
 				},
 			},
@@ -77,7 +77,7 @@ func (s *server) Run() {
 				Team: Red,
 				Deck: []Card{
 					Card{"fireball", 0},
-					Card{"unload", 0},
+					Card{"giant", 0},
 					Card{"bulletrain", 0},
 					Card{"jouster", 0},
 					Card{"psabu", 0},
