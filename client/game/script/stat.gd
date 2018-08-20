@@ -37,6 +37,13 @@ const cards = {
 		"offsetX": [-30, 30, -30, 30],
 		"offsetY": [-30, -30, 30, 30],
 	},
+	"enforcer": {
+		"cost":    4000,
+		"unit":    "enforcer",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 	"panzerkunstler": {
 		"cost":    5000,
 		"unit":    "panzerkunstler",
@@ -213,6 +220,21 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 5,
+	},
+	"enforcer": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         30,
+		"hp":             [1000],
+		"sight":          350,
+		"speed":          100,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [40, 70, 100],
+		"attackrange":    40,
+		"attackinterval": 40,
+		"preattackdelay": 10,
 	},
 	"panzerkunstler": {
 		"type":           "Troop",
