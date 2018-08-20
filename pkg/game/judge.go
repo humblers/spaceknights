@@ -74,6 +74,10 @@ func (j *judge) preCastDelay() int {
 	return cards[j.Skill()]["precastdelay"].(int)
 }
 
+func (j *judge) Skill() string {
+	return units[j.name]["skill"].(string)
+}
+
 func (j *judge) CastSkill(posX, posY int) bool {
 	if j.cast > 0 {
 		return false

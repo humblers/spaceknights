@@ -123,6 +123,9 @@ func findTargetAndAttack():
 	else:
 		$AnimationPlayer.play("idle")
 
+func Skill():
+	return stat.units[name_]["skill"]
+
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false

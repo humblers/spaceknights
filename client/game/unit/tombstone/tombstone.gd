@@ -77,6 +77,9 @@ func findTargetAndAttack():
 	if t != null and withinRange(t):
 		handleAttack()
 
+func Skill():
+	return stat.units[name_]["skill"]
+
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false

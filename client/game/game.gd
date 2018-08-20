@@ -10,7 +10,7 @@ var cfg = {
 			"Team": "Blue",
 			"Deck": [
 				{"Name": "barrack", "Level": 0},
-				{"Name": "megalaser", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "cannon", "Level": 0},
 				{"Name": "enforcer", "Level": 0},
 				{"Name": "panzerkunstler", "Level": 0},
@@ -20,7 +20,7 @@ var cfg = {
 			],
 			"Knights": [
 				{"Name": "tombstone", "Level": 0},
-				{"Name": "astra", "Level": 0},
+				{"Name": "nagmash", "Level": 0},
 				{"Name": "archsapper", "Level": 0},
 			],
 		},
@@ -29,7 +29,7 @@ var cfg = {
 			"Team": "Red",
 			"Deck": [
 				{"Name": "fireball", "Level": 0},
-				{"Name": "unload", "Level": 0},
+				{"Name": "giant", "Level": 0},
 				{"Name": "bulletrain", "Level": 0},
 				{"Name": "jouster", "Level": 0},
 				{"Name": "psabu", "Level": 0},

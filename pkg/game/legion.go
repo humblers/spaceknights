@@ -74,6 +74,10 @@ func (l *legion) preCastDelay() int {
 	return cards[l.Skill()]["precastdelay"].(int)
 }
 
+func (l *legion) Skill() string {
+	return units[l.name]["skill"].(string)
+}
+
 func (l *legion) CastSkill(posX, posY int) bool {
 	if l.cast > 0 {
 		return false
