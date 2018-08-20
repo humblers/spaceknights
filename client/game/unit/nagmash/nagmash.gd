@@ -1,6 +1,7 @@
 extends "res://game/script/unit.gd"
 
 var player
+var leader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -20,6 +21,7 @@ func InitDummy(posX, posY, game, player):
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "nagmash", player.Team(), level, posX, posY, game)
 	self.player = player
+	self.leader = leader
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -39,9 +41,15 @@ func Destroy():
 	queue_free()
 	
 func Update():
+	if leader:
+		var data = stat.leaderskils[Skill()]
+		if game.step % data["perstep"] == 0:
+			var posX = game.World().ToPixel(initPosX)
+			var posY = game.World().ToPixel(initPosY)
+			spawn(data, posX, posY)
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			spawn()
+			spawn(stat.cards[Skill()], castPosX, castPosY)
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -74,7 +82,7 @@ func castDuration():
 
 func preCastDelay():
 	return stat.cards[Skill()]["precastdelay"]
-		
+
 func findTargetAndAttack():
 	var t = findTarget()
 	setTarget(t)
@@ -82,6 +90,13 @@ func findTargetAndAttack():
 		handleAttack()
 	else:
 		$AnimationPlayer.play("idle")
+
+func SetLeader():
+	leader = true
+
+func Skill():
+	var key = "leaderskill" if leader else "skill"
+	return stat.units[name_][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -110,14 +125,13 @@ func adjustSkillAnim():
 		var v = old_anim.track_get_key_value(track_idx, i)
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)	
 
-func spawn():
-	var card = stat.cards[Skill()]
-	var name = card["unit"]
-	var count = card["count"]
-	var offsetX = card["offsetX"]
-	var offsetY = card["offsetY"]
+func spawn(data, posX, posY):
+	var name = data["unit"]
+	var count = data["count"]
+	var offsetX = data["offsetX"]
+	var offsetY = data["offsetY"]
 	for i in range(count):
-		game.AddUnit(name, level, castPosX+offsetX[i], castPosY+offsetY[i], player)
+		game.AddUnit(name, level, posX+offsetX[i], posY+offsetY[i], player)
 
 func target():
 	return game.FindUnit(targetId)
