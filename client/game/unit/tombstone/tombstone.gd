@@ -97,7 +97,7 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
-	var ref_vec = Vector2(0, -900)
+	var ref_vec = Vector2(0, -800)
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
@@ -105,7 +105,7 @@ func adjustSkillAnim():
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position"]
+	var tracks = ["Rotatable/Main:position"]
 	for track in tracks:
 		var track_idx = old_anim.find_track(track)
 		var key_count = old_anim.track_get_key_count(track_idx)
