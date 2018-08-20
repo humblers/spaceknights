@@ -22,6 +22,7 @@ const UNIT = {
 	"tombstone": preload("res://game/unit/tombstone/tombstone.tscn"),
 	"panzerkunstler": preload("res://game/unit/panzerkunstler/panzerkunstler.tscn"),
 	"jouster": preload("res://game/unit/jouster/jouster.tscn"),
+	"felhound": preload("res://game/unit/felhound/felhound.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -67,4 +68,5 @@ const ICON = {
 	"panzerkunstler": preload("res://game/ui/unit_icon/panzerkunstler.png"),
 	"jouster": preload("res://game/ui/unit_icon/jouster.png"),
 	"enforcer": preload("res://game/ui/unit_icon/enforcer.png"),
+	"felhound": preload("res://game/ui/unit_icon/felhound.png"),
 }
