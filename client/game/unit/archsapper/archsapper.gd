@@ -141,6 +141,8 @@ func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
 	var t = target()
+	if t != null:
+		look_at(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()

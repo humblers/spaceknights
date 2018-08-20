@@ -11,6 +11,8 @@ var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 
+var attack_counter = 0
+
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -153,4 +155,8 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.global_position = $Rotatable/Body/ShotpointL.global_position
+	if attack_counter % 2 == 0:
+		b.global_position = $Rotatable/Main/Body/Front/ShotPointL.global_position
+	else:
+		b.global_position = $Rotatable/Main/Body/Front/ShotPointR.global_position
+	attack_counter += 1
