@@ -215,6 +215,7 @@ func update_cards():
 	for i in range(HAND_SIZE):
 		var card = hand[i]
 		var icon_node = $Cards.get_node("Card%s" % (i+1)).get_node("Icon")
+		var cost_node = $Cards.get_node("Card%s" % (i+1)).get_node("Cost")
 		match card:
 			{"Name":"", ..}:
 				icon_node.texture = null
@@ -225,6 +226,8 @@ func update_cards():
 					card.erase("InvisibleTo")
 			_:
 				icon_node.texture = resource.ICON[hand[i].Name]
+				cost_node.text = str(stat.cards[hand[i].Name].cost/1000)
+				
 
 func Team():
 	return team
