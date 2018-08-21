@@ -175,7 +175,7 @@ const units = {
 		"skill":          "cannon",
 	},
 	"tombstone": {
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           "Knight",
 		"layer":          "Normal",
@@ -351,7 +351,7 @@ const units = {
 		"skill":          "bulletrain",
 	},
 	"nagmash": {
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           "Knight",
 		"layer":          "Normal",
@@ -369,13 +369,13 @@ const units = {
 		"leaderskill":    "gatherfootman",
 	},
 	"astra": {
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           "Knight",
 		"layer":          "Normal",
 		"hp":             [2000],
 		"sight":          350,
-		"speed":          100,
+		"speed":          300,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [200],

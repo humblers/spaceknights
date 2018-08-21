@@ -175,7 +175,7 @@ var units = map[string]map[string]interface{}{
 		"skill":          "cannon",
 	},
 	"tombstone": map[string]interface{}{
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           Knight,
 		"layer":          Normal,
@@ -353,7 +353,7 @@ var units = map[string]map[string]interface{}{
 		"skill":          "bulletrain",
 	},
 	"nagmash": map[string]interface{}{
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           Knight,
 		"layer":          Normal,
@@ -371,13 +371,13 @@ var units = map[string]map[string]interface{}{
 		"leaderskill":    "gatherfootman",
 	},
 	"astra": map[string]interface{}{
-		"mass":           0,
+		"mass":           1000,
 		"radius":         80,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2000},
 		"sight":          350,
-		"speed":          100,
+		"speed":          300,
 		"targettypes":    Types{Troop},
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{200},

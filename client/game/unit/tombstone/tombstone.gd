@@ -62,6 +62,8 @@ func Update():
 					handleAttack()
 				else:
 					findTargetAndAttack()
+		chaseTarget()
+		
 	if targetId <= 0 and cast <= 0:
 		$AnimationPlayer.play("idle")
 
@@ -70,6 +72,13 @@ func castDuration():
 
 func preCastDelay():
 	return stat.cards[Skill()]["precastdelay"]
+
+func chaseTarget():
+	var t = target()
+	if t != null and canSee(t):
+		moveTo(t.PositionX(), PositionY())
+	else:
+		moveTo(initPosX, initPosY)
 		
 func findTargetAndAttack():
 	var t = findTarget()
