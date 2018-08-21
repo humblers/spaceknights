@@ -417,6 +417,9 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 50,
 		"attackradius":   80,
 		"preattackdelay": 28,
+		"absorbforce":    2000,
+		"absorbdamage":   2,
+		"absorbradius":   100,
 	},
 	"felhound": map[string]interface{}{
 		"type":           Troop,

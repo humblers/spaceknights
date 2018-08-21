@@ -91,14 +91,16 @@ func (p *psabu) handleAttack() {
 		d := t.Position().Sub(p.Position()).Normalized().Mul(r)
 		p.punchPos = p.Position().Add(d)
 	}
-	if p.attack == p.preAttackDelay() {
+	if p.attack < p.preAttackDelay() {
+		p.absorb()
+	} else if p.attack == p.preAttackDelay() {
 		radius := p.game.World().FromPixel(units[p.name]["attackradius"].(int))
 		for _, id := range p.game.UnitIds() {
 			u := p.game.FindUnit(id)
 			if u.Team() == p.Team() {
 				continue
 			}
-			d := u.Position().Sub(p.punchPos).LengthSquared()
+			d := p.punchPos.Sub(u.Position()).LengthSquared()
 			r := u.Radius().Add(radius)
 			if d < r.Mul(r) {
 				u.TakeDamage(p.attackDamage(), Melee)
@@ -108,5 +110,24 @@ func (p *psabu) handleAttack() {
 	p.attack++
 	if p.attack > p.attackInterval() {
 		p.attack = 0
+	}
+}
+
+func (p *psabu) absorb() {
+	radius := p.game.World().FromPixel(units[p.name]["absorbradius"].(int))
+	force := p.game.World().FromPixel(units[p.name]["absorbforce"].(int))
+	damage := units[p.name]["absorbdamage"].(int)
+	for _, id := range p.game.UnitIds() {
+		u := p.game.FindUnit(id)
+		if u.Team() == p.Team() || u.Layer() != Normal {
+			continue
+		}
+		d := p.punchPos.Sub(u.Position())
+		r := u.Radius().Add(radius)
+		if d.LengthSquared() < r.Mul(r) {
+			n := d.Normalized()
+			u.AddForce(n.Mul(force))
+			u.TakeDamage(damage, Skill)
+		}
 	}
 }
