@@ -139,6 +139,12 @@ const leaderskils = {
 		"offsetY":		[-30, -30, 30, 30],
 		"perstep":		300,
 	},
+	"readycannon": {
+		"unit":			"cannon",
+		"count":		2,
+		"posX":			[325, 675],	 # pos based on blue side
+		"posY":			[1075, 1075],
+	},
 }
 
 const units = {
@@ -173,6 +179,7 @@ const units = {
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"skill":          "cannon",
+		"leaderskill":    "readycannon",
 	},
 	"tombstone": {
 		"mass":           0,

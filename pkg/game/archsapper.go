@@ -6,6 +6,7 @@ type archsapper struct {
 	*unit
 	TileOccupier
 	player   Player
+	leader   bool
 	targetId int
 	attack   int
 	cast     int
@@ -76,8 +77,43 @@ func (a *archsapper) findTargetAndAttack() {
 	}
 }
 
+func (a *archsapper) SetLeader() {
+	a.leader = true
+
+	data := leaderskills[a.Skill()]
+	name := data["unit"].(string)
+	count := data["count"].(int)
+	xArr := data["posX"].([]int)
+	yArr := data["posY"].([]int)
+
+	nx := units[name]["tilenumx"].(int)
+	ny := units[name]["tilenumy"].(int)
+	for i := 0; i < count; i++ {
+		posX, posY := xArr[i], yArr[i]
+		if a.player.Team() == Red {
+			posX, posY = a.game.FlipX(posX), a.game.FlipY(posY)
+		}
+		id := a.game.AddUnit(name, a.level, posX, posY, a.player)
+		unit := a.game.FindUnit(id)
+		if occupier, ok := unit.(TileOccupier); ok {
+			tx, ty := a.game.TileFromPos(posX, posY)
+			tr := occupier.GetRect(tx, ty, nx, ny)
+			if err := occupier.Occupy(tr); err != nil {
+				panic(err)
+			}
+		}
+		if decayable, ok := unit.(Decayable); ok {
+			decayable.SetDecayOff()
+		}
+	}
+}
+
 func (a *archsapper) Skill() string {
-	return units[a.name]["skill"].(string)
+	key := "skill"
+	if a.leader {
+		key = "leaderskill"
+	}
+	return units[a.name][key].(string)
 }
 
 func (a *archsapper) CastSkill(posX, posY int) bool {
@@ -88,7 +124,7 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 	name := cards[a.Skill()]["unit"].(string)
 	nx := units[name]["tilenumx"].(int)
 	ny := units[name]["tilenumy"].(int)
-	tx, ty := a.unit.game.TileFromPos(posX, posY)
+	tx, ty := a.game.TileFromPos(posX, posY)
 	tr := a.GetRect(tx, ty, nx, ny)
 	if err := a.Occupy(tr); err != nil {
 		a.game.Logger().Print(err)

@@ -139,6 +139,12 @@ var leaderskills = map[string]map[string]interface{}{
 		"offsetY": []int{-30, -30, 30, 30},
 		"perstep": 300,
 	},
+	"readycannon": map[string]interface{}{
+		"unit":  "cannon",
+		"count": 2,
+		"posX":  []int{325, 675}, // pos based on blue side
+		"posY":  []int{1075, 1075},
+	},
 }
 
 var units = map[string]map[string]interface{}{
@@ -173,6 +179,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"skill":          "cannon",
+		"leaderskill":    "readycannon",
 	},
 	"tombstone": map[string]interface{}{
 		"mass":           0,
