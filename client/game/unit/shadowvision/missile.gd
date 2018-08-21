@@ -29,6 +29,7 @@ func _ready():
 	var dup = $AnimationPlayer.get_animation("attack").duplicate()
 	$AnimationPlayer.rename_animation("attack", "attack-ref")
 	$AnimationPlayer.add_animation("attack", dup)
+	$AnimationPlayer.play("attack")
 
 func _process(delta):
 	var target = game.FindUnit(targetId)
