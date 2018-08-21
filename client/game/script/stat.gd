@@ -131,7 +131,7 @@ const cards = {
 	},
 }
 
-const leaderskils = {
+const passives = {
 	"gatherfootman" : {
 		"unit":			"footman",
 		"count":		4,
@@ -178,8 +178,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "cannon",
-		"leaderskill":    "readycannon",
+		"active":          "cannon",
+		"passive":    "readycannon",
 	},
 	"tombstone": {
 		"mass":           0,
@@ -196,7 +196,7 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "barrack",
+		"active":          "barrack",
 	},
 	"cannon": {
 		"type":           "Building",
@@ -338,7 +338,7 @@ const units = {
 		"attackinterval": 2,
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
-		"skill":          "fireball",
+		"active":          "fireball",
 	},
 	"judge": {
 		"mass":           0,
@@ -355,7 +355,7 @@ const units = {
 		"attackinterval": 2,
 		"preattackdelay": 1,
 		"bulletlifetime": 5,
-		"skill":          "bulletrain",
+		"active":          "bulletrain",
 	},
 	"nagmash": {
 		"mass":           0,
@@ -372,8 +372,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "unload",
-		"leaderskill":    "gatherfootman",
+		"active":          "unload",
+		"passive":    "gatherfootman",
 	},
 	"astra": {
 		"mass":           0,
@@ -390,7 +390,7 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "megalaser",
+		"active":          "megalaser",
 	},
 	"psabu": {
 		"type":           "Troop",

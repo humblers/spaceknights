@@ -3,7 +3,7 @@ extends "res://game/script/unit.gd"
 var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var player
-var leader = false
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -80,9 +80,9 @@ func findTargetAndAttack():
 	if t != null and withinRange(t):
 		handleAttack()
 
-func SetLeader():
-	leader = true
-	var data = stat.leaderskils[Skill()]
+func SetAsLeader():
+	isLeader = true
+	var data = stat.passives[Skill()]
 	var name = data["unit"]
 	var count = data["count"]
 	var xArr = data["posX"]
@@ -110,7 +110,7 @@ func SetLeader():
 			decayable.SetDecayOff()
 
 func Skill():
-	var key = "leaderskill" if leader else "skill"
+	var key = "passive" if isLeader else "active"
 	return stat.units[name_][key]
 
 func CastSkill(posX, posY):

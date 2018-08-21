@@ -6,7 +6,7 @@ type archsapper struct {
 	*unit
 	TileOccupier
 	player   Player
-	leader   bool
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -77,10 +77,10 @@ func (a *archsapper) findTargetAndAttack() {
 	}
 }
 
-func (a *archsapper) SetLeader() {
-	a.leader = true
+func (a *archsapper) SetAsLeader() {
+	a.isLeader = true
 
-	data := leaderskills[a.Skill()]
+	data := passives[a.Skill()]
 	name := data["unit"].(string)
 	count := data["count"].(int)
 	xArr := data["posX"].([]int)
@@ -109,9 +109,9 @@ func (a *archsapper) SetLeader() {
 }
 
 func (a *archsapper) Skill() string {
-	key := "skill"
-	if a.leader {
-		key = "leaderskill"
+	key := "active"
+	if a.isLeader {
+		key = "passive"
 	}
 	return units[a.name][key].(string)
 }

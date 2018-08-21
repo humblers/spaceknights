@@ -1,7 +1,7 @@
 extends "res://game/script/unit.gd"
 
 var player
-var leader = false
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -21,7 +21,6 @@ func InitDummy(posX, posY, game, player):
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "nagmash", player.Team(), level, posX, posY, game)
 	self.player = player
-	self.leader = leader
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -41,8 +40,8 @@ func Destroy():
 	queue_free()
 	
 func Update():
-	if leader:
-		var data = stat.leaderskils[Skill()]
+	if isLeader:
+		var data = stat.passives[Skill()]
 		if game.step % data["perstep"] == 0:
 			var posX = game.World().ToPixel(initPosX)
 			var posY = game.World().ToPixel(initPosY)
@@ -91,11 +90,11 @@ func findTargetAndAttack():
 	else:
 		$AnimationPlayer.play("idle")
 
-func SetLeader():
-	leader = true
+func SetAsLeader():
+	isLeader = true
 
 func Skill():
-	var key = "leaderskill" if leader else "skill"
+	var key = "passive" if isLeader else "active"
 	return stat.units[name_][key]
 
 func CastSkill(posX, posY):

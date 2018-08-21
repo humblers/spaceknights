@@ -166,7 +166,7 @@ func SetVelocity(x, y):
 func Simulate(on):
 	body.Simulate(on)
 
-func SetLeader():
+func SetAsLeader():
 	print("not implemented")
 
 func Skill():

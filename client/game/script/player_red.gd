@@ -200,7 +200,7 @@ func AddKnights(knights):
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		if i == KNIGHT_LEADER_INDEX:
-			game.FindUnit(id).SetLeader()
+			game.FindUnit(id).SetAsLeader()
 		knightIds.append(id)
 	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
