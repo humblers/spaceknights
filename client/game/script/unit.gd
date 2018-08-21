@@ -174,6 +174,9 @@ func Radius():
 func SetVelocity(x, y):
 	body.SetVelocity(x, y)
 
+func AddForce(x, y):
+	body.AddForce(x, y)
+
 func Simulate(on):
 	body.Simulate(on)
 
