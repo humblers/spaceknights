@@ -3,6 +3,7 @@ extends "res://game/script/unit.gd"
 var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var player
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -10,6 +11,7 @@ var initPosX = 0
 var initPosY = 0
 var castPosX = 0
 var castPosY = 0
+var prevDeathToll = 0
 
 var attack_counter = 0
 
@@ -41,9 +43,15 @@ func Destroy():
 	queue_free()
 
 func Update():
+	if isLeader:
+		var data = stat.passives[Skill()]
+		var deathToll = game.DeathToll(Team())
+		if deathToll != prevDeathToll and deathToll % data["perdeaths"] == 0:
+			prevDeathToll = deathToll
+			spawn(data)
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			spawn()
+			spawn(stat.cards[Skill()])
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -86,8 +94,12 @@ func findTargetAndAttack():
 	if t != null and withinRange(t):
 		handleAttack()
 
+func SetAsLeader():
+	isLeader = true
+
 func Skill():
-	return stat.units[name_]["active"]
+	var key = "passive" if isLeader else "active"
+	return stat.units[name_][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -127,16 +139,25 @@ func adjustSkillAnim():
 			var v = old_anim.track_get_key_value(track_idx, i)
 			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
-func spawn():
-	var name = stat.cards[Skill()]["unit"]
-	var id = game.AddUnit(name, level, castPosX, castPosY, player)
-	var tr = TileOccupier.Occupied()
-	TileOccupier.Release()
-	var occupier = game.FindUnit(id).get("TileOccupier")
-	if occupier != null:
-		var err = occupier.Occupy(tr)
-		if err != null:
-			print(err)
+func spawn(data):
+	var name = data["unit"]
+	if name == "barrack":
+		var id = game.AddUnit(name, level, castPosX, castPosY, player)
+		var tr = TileOccupier.Occupied()
+		TileOccupier.Release()
+		var occupier = game.FindUnit(id).get("TileOccupier")
+		if occupier != null:
+			var err = occupier.Occupy(tr)
+			if err != null:
+				print(err)
+	if name == "footman":
+		var deadPosX = game.LastDeadPosX(Team())
+		var offsetX = data["offsetX"]
+		if scalar.Div(game.Map().Width(), scalar.Two) > deadPosX:
+			offsetX *= -1
+		var posX = game.World().ToPixel(initPosX) + offsetX
+		var posY = game.World().ToPixel(initPosY)
+		game.AddUnit(name, level, posX, posY, player)
 
 func target():
 	return game.FindUnit(targetId)

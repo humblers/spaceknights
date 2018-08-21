@@ -139,6 +139,12 @@ var passives = map[string]map[string]interface{}{
 		"offsetY": []int{-30, -30, 30, 30},
 		"perstep": 300,
 	},
+	"lemming": map[string]interface{}{
+		"unit":      "footman",
+		"count":     1,
+		"offsetX":   150,
+		"perdeaths": 4,
+	},
 	"readycannon": map[string]interface{}{
 		"unit":  "cannon",
 		"count": 2,
@@ -197,6 +203,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"active":         "barrack",
+		"passive":        "lemming",
 	},
 	"cannon": map[string]interface{}{
 		"type":           Building,
