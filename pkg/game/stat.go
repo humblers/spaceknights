@@ -131,13 +131,19 @@ var cards = map[string]map[string]interface{}{
 	},
 }
 
-var leaderskills = map[string]map[string]interface{}{
+var passives = map[string]map[string]interface{}{
 	"gatherfootman": map[string]interface{}{
 		"unit":    "footman",
 		"count":   4,
 		"offsetX": []int{-30, 30, -30, 30},
 		"offsetY": []int{-30, -30, 30, 30},
 		"perstep": 300,
+	},
+	"readycannon": map[string]interface{}{
+		"unit":  "cannon",
+		"count": 2,
+		"posX":  []int{325, 675}, // pos based on blue side
+		"posY":  []int{1075, 1075},
 	},
 }
 
@@ -172,7 +178,8 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "cannon",
+		"active":         "cannon",
+		"passive":        "readycannon",
 	},
 	"tombstone": map[string]interface{}{
 		"mass":           1000,
@@ -189,7 +196,7 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "barrack",
+		"active":         "barrack",
 	},
 	"cannon": map[string]interface{}{
 		"type":           Building,
@@ -332,7 +339,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
 		"transformdelay": 5,
-		"skill":          "fireball",
+		"active":         "fireball",
 	},
 	"judge": map[string]interface{}{
 		"mass":           0,
@@ -350,7 +357,7 @@ var units = map[string]map[string]interface{}{
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
 		"transformdelay": 5,
-		"skill":          "bulletrain",
+		"active":         "bulletrain",
 	},
 	"nagmash": map[string]interface{}{
 		"mass":           1000,
@@ -367,8 +374,8 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "unload",
-		"leaderskill":    "gatherfootman",
+		"active":         "unload",
+		"passive":        "gatherfootman",
 	},
 	"astra": map[string]interface{}{
 		"mass":           1000,
@@ -385,7 +392,7 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"skill":          "megalaser",
+		"active":         "megalaser",
 	},
 	"psabu": map[string]interface{}{
 		"type":           Troop,

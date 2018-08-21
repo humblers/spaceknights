@@ -5,7 +5,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type nagmash struct {
 	*unit
 	player   Player
-	leader   bool
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -31,8 +31,8 @@ func (n *nagmash) TakeDamage(amount int, t AttackType) {
 }
 
 func (n *nagmash) Update() {
-	if n.leader {
-		data := leaderskills[n.Skill()]
+	if n.isLeader {
+		data := passives[n.Skill()]
 		if n.game.Step()%data["perstep"].(int) == 0 {
 			posX := n.game.World().ToPixel(n.initPos.X)
 			posY := n.game.World().ToPixel(n.initPos.Y)
@@ -93,14 +93,14 @@ func (n *nagmash) findTargetAndAttack() {
 	}
 }
 
-func (n *nagmash) SetLeader() {
-	n.leader = true
+func (n *nagmash) SetAsLeader() {
+	n.isLeader = true
 }
 
 func (n *nagmash) Skill() string {
-	key := "skill"
-	if n.leader {
-		key = "leaderskill"
+	key := "active"
+	if n.isLeader {
+		key = "passive"
 	}
 	return units[n.name][key].(string)
 }

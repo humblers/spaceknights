@@ -3,6 +3,7 @@ extends "res://game/script/unit.gd"
 var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var player
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -79,8 +80,38 @@ func findTargetAndAttack():
 	if t != null and withinRange(t):
 		handleAttack()
 
+func SetAsLeader():
+	isLeader = true
+	var data = stat.passives[Skill()]
+	var name = data["unit"]
+	var count = data["count"]
+	var xArr = data["posX"]
+	var yArr = data["posY"]
+	var nx = stat.units[name]["tilenumx"]
+	var ny = stat.units[name]["tilenumy"]
+	for i in range(count):
+		var posX = xArr[i]
+		var posY = yArr[i]
+		if player.Team() == "Red":
+			posX = game.FlipX(posX)
+			posY = game.FlipY(posY)
+		var id = game.AddUnit(name, level, posX, posY, player)
+		var unit = game.FindUnit(id)
+		var occupier = unit.get("TileOccupier")
+		if occupier != null:
+			var tile = game.TileFromPos(posX, posY)
+			var tr = occupier.GetRect(tile[0], tile[1], nx, ny)
+			var err = occupier.Occupy(tr)
+			if err != null:
+				print(err)
+				return
+		var decayable = unit.get("Decayable")
+		if decayable != null:
+			decayable.SetDecayOff()
+
 func Skill():
-	return stat.units[name_]["skill"]
+	var key = "passive" if isLeader else "active"
+	return stat.units[name_][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:

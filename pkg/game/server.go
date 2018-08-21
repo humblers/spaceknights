@@ -59,7 +59,7 @@ func (s *server) Run() {
 				Deck: []Card{
 					Card{"barrack", 0},
 					Card{"shadowvision", 0},
-					Card{"cannon", 0},
+					Card{"unload", 0},
 					Card{"enforcer", 0},
 					Card{"panzerkunstler", 0},
 					Card{"gargoylehorde", 0},
@@ -68,8 +68,8 @@ func (s *server) Run() {
 				},
 				Knights: []KnightData{
 					KnightData{"tombstone", 0},
-					KnightData{"nagmash", 0},
 					KnightData{"archsapper", 0},
+					KnightData{"nagmash", 0},
 				},
 			},
 			PlayerData{
@@ -87,7 +87,7 @@ func (s *server) Run() {
 				},
 				Knights: []KnightData{
 					KnightData{"legion", 0},
-					KnightData{"nagmash", 0},
+					KnightData{"archsapper", 0},
 					KnightData{"judge", 0},
 				},
 			},

@@ -130,7 +130,7 @@ func (a *astra) findTargetAndAttack() {
 }
 
 func (a *astra) Skill() string {
-	return units[a.name]["skill"].(string)
+	return units[a.name]["active"].(string)
 }
 
 func (a *astra) CastSkill(posX, posY int) bool {

@@ -29,7 +29,7 @@ type Unit interface {
 	SetVelocity(v fixed.Vector)
 
 	// for caster type
-	SetLeader()
+	SetAsLeader()
 	Skill() string
 	CastSkill(posX, posY int) bool
 }
@@ -128,7 +128,7 @@ func (u *unit) Destroy() {
 	u.game.World().RemoveBody(u.Body)
 }
 
-func (u *unit) SetLeader() {
+func (u *unit) SetAsLeader() {
 	panic("not implemented")
 }
 func (u *unit) Skill() string {

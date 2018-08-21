@@ -75,7 +75,7 @@ func (l *legion) preCastDelay() int {
 }
 
 func (l *legion) Skill() string {
-	return units[l.name]["skill"].(string)
+	return units[l.name]["active"].(string)
 }
 
 func (l *legion) CastSkill(posX, posY int) bool {

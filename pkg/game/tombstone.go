@@ -77,7 +77,7 @@ func (ts *tombstone) findTargetAndAttack() {
 }
 
 func (ts *tombstone) Skill() string {
-	return units[ts.name]["skill"].(string)
+	return units[ts.name]["active"].(string)
 }
 
 func (ts *tombstone) CastSkill(posX, posY int) bool {

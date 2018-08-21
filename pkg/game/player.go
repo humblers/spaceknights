@@ -71,7 +71,7 @@ func (p *player) AddKnights(knights []KnightData) {
 		}
 		id := p.game.AddUnit(k.Name, k.Level, x, y, p)
 		if i == knightLeaderIndex {
-			p.game.FindUnit(id).SetLeader()
+			p.game.FindUnit(id).SetAsLeader()
 		}
 		p.knightIds = append(p.knightIds, id)
 	}
