@@ -155,7 +155,10 @@ func TakeDamage(amount, attackType):
 
 func Destroy():
 	game.World().RemoveBody(body)
-	
+	var occupier = self.get("TileOccupier")
+	if occupier != null:
+		occupier.Release()
+
 func PositionX():
 	return body.PositionX()
 

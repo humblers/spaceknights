@@ -9,7 +9,7 @@ var cfg = {
 			"Id": "Alice",
 			"Team": "Blue",
 			"Deck": [
-				{"Name": "barrack", "Level": 0},
+				{"Name": "cannon", "Level": 0},
 				{"Name": "shadowvision", "Level": 0},
 				{"Name": "unload", "Level": 0},
 				{"Name": "enforcer", "Level": 0},
@@ -19,8 +19,8 @@ var cfg = {
 				{"Name": "giant", "Level": 0},
 			],
 			"Knights": [
-				{"Name": "tombstone", "Level": 0},
 				{"Name": "archsapper", "Level": 0},
+				{"Name": "tombstone", "Level": 0},
 				{"Name": "nagmash", "Level": 0},
 			],
 		},
@@ -72,6 +72,8 @@ var map
 
 var units = {}
 var occupiedTiles = {}
+var deathToll = {}
+var lastDeadPosX = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
@@ -97,6 +99,9 @@ func _ready():
 		$Players/Red.show()
 	set_process(true)
 	set_physics_process(true)
+
+	self.deathToll = {"Blue":0, "Red":0}
+	self.lastDeadPosX = {"Blue":0, "Red":0}
 
 	map = resource.MAP[cfg.MapName].new(world)
 	team_swapped = user.ShouldSwapTeam(cfg)
@@ -216,10 +221,10 @@ func removeDeadUnits():
 		var u = units[id]
 		if u.IsDead():
 			units.erase(id)
+			if u.Type() != "Knight":
+				deathToll[u.Team()] += 1
+				lastDeadPosX[u.Team()] = u.PositionX()
 			u.Destroy()
-			var occupier = u.get("TileOccupier")
-			if occupier != null:
-				occupier.Release()
 
 func removeExpiredBullets():
 	var filtered = []
@@ -261,6 +266,12 @@ func UnitIds():
 
 func OccupiedTiles():
 	return occupiedTiles
+
+func DeathToll(team):
+	return deathToll[team]
+
+func LastDeadPosX(team):
+	return lastDeadPosX[team]
 
 func FlipX(x):
 	return world.ToPixel(map.Width()) - x

@@ -133,17 +133,23 @@ const cards = {
 
 const passives = {
 	"gatherfootman" : {
-		"unit":			"footman",
-		"count":		4,
-		"offsetX":		[-30, 30, -30, 30],
-		"offsetY":		[-30, -30, 30, 30],
-		"perstep":		300,
+		"unit":         "footman",
+		"count":        4,
+		"offsetX":      [-30, 30, -30, 30],
+		"offsetY":      [-30, -30, 30, 30],
+		"perstep":      300,
+	},
+	"lemming" : {
+		"unit":         "footman",
+		"count":        1,
+		"offsetX":      150,
+		"perdeaths":    4,
 	},
 	"readycannon": {
-		"unit":			"cannon",
-		"count":		2,
-		"posX":			[325, 675],	 # pos based on blue side
-		"posY":			[1075, 1075],
+		"unit":         "cannon",
+		"count":        2,
+		"posX":         [325, 675],	 # pos based on blue side
+		"posY":         [1075, 1075],
 	},
 }
 
@@ -197,6 +203,7 @@ const units = {
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"active":          "barrack",
+		"passive":         "lemming",
 	},
 	"cannon": {
 		"type":           "Building",

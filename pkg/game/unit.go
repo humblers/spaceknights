@@ -126,6 +126,9 @@ func (u *unit) TakeDamage(amount int, t AttackType) {
 }
 func (u *unit) Destroy() {
 	u.game.World().RemoveBody(u.Body)
+	if occupier, ok := interface{}(u).(TileOccupier); ok {
+		occupier.Release()
+	}
 }
 
 func (u *unit) SetAsLeader() {

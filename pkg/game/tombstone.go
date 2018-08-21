@@ -5,13 +5,15 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type tombstone struct {
 	*unit
 	TileOccupier
-	player   Player
-	targetId int
-	attack   int
-	cast     int
-	initPos  fixed.Vector
-	castPosX int
-	castPosY int
+	player        Player
+	isLeader      bool
+	targetId      int
+	attack        int
+	cast          int
+	initPos       fixed.Vector
+	castPosX      int
+	castPosY      int
+	prevDeathToll int
 }
 
 func newTombstone(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -32,9 +34,17 @@ func (ts *tombstone) TakeDamage(amount int, t AttackType) {
 }
 
 func (ts *tombstone) Update() {
+	if ts.isLeader {
+		data := passives[ts.Skill()]
+		deathToll := ts.game.DeathToll(ts.Team())
+		if deathToll != ts.prevDeathToll && deathToll%data["perdeaths"].(int) == 0 {
+			ts.prevDeathToll = deathToll
+			ts.spawn(data)
+		}
+	}
 	if ts.cast > 0 {
 		if ts.cast == ts.preCastDelay()+1 {
-			ts.spawn()
+			ts.spawn(cards[ts.Skill()])
 		}
 		if ts.cast > ts.castDuration() {
 			ts.cast = 0
@@ -76,8 +86,16 @@ func (ts *tombstone) findTargetAndAttack() {
 	}
 }
 
+func (ts *tombstone) SetAsLeader() {
+	ts.isLeader = true
+}
+
 func (ts *tombstone) Skill() string {
-	return units[ts.name]["active"].(string)
+	key := "active"
+	if ts.isLeader {
+		key = "passive"
+	}
+	return units[ts.name][key].(string)
 }
 
 func (ts *tombstone) CastSkill(posX, posY int) bool {
@@ -103,15 +121,27 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 	return true
 }
 
-func (ts *tombstone) spawn() {
-	name := cards[ts.Skill()]["unit"].(string)
-	id := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
-	tr := ts.Occupied()
-	ts.Release()
-	if occupier, ok := ts.game.FindUnit(id).(TileOccupier); ok {
-		if err := occupier.Occupy(tr); err != nil {
-			panic(err)
+func (ts *tombstone) spawn(data map[string]interface{}) {
+	name := data["unit"].(string)
+	if name == "barrack" {
+		id := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
+		tr := ts.Occupied()
+		ts.Release()
+		if occupier, ok := ts.game.FindUnit(id).(TileOccupier); ok {
+			if err := occupier.Occupy(tr); err != nil {
+				panic(err)
+			}
 		}
+	}
+	if name == "footman" {
+		deadPosX := ts.game.LastDeadPosX(ts.Team())
+		offsetX := data["offsetX"].(int)
+		if ts.game.Map().Width().Div(fixed.Two) > deadPosX {
+			offsetX *= -1
+		}
+		posX := ts.game.World().ToPixel(ts.initPos.X) + offsetX
+		posY := ts.game.World().ToPixel(ts.initPos.Y)
+		ts.game.AddUnit(name, ts.level, posX, posY, ts.player)
 	}
 }
 

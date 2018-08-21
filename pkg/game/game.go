@@ -35,6 +35,8 @@ type Game interface {
 	UnitIds() []int
 	Logger() *log.Logger
 	OccupiedTiles() map[*tileRect]bool
+	DeathToll(team Team) int
+	LastDeadPosX(team Team) fixed.Scalar
 
 	FlipX(x int) int
 	FlipY(y int) int
@@ -59,6 +61,8 @@ type game struct {
 	unitCounter   int
 	bullets       []Bullet
 	occupiedTiles map[*tileRect]bool
+	deathToll     map[Team]int
+	lastDeadPosX  map[Team]fixed.Scalar
 
 	players         map[string]Player
 	pInitKnightData map[string][]KnightData
@@ -86,6 +90,8 @@ func newGame(cfg Config, l *log.Logger) Game {
 		map_:          nav.NewMap(cfg.MapName, params["scale"]),
 		units:         make(map[int]Unit),
 		occupiedTiles: make(map[*tileRect]bool),
+		deathToll:     make(map[Team]int),
+		lastDeadPosX:  make(map[Team]fixed.Scalar),
 
 		players:         make(map[string]Player),
 		pInitKnightData: make(map[string][]KnightData),
@@ -282,10 +288,11 @@ func (g *game) removeDeadUnits() {
 		u := g.units[id]
 		if u.IsDead() {
 			delete(g.units, id)
-			u.Destroy()
-			if occupier, ok := u.(TileOccupier); ok {
-				occupier.Release()
+			if u.Type() != Knight {
+				g.deathToll[u.Team()]++
+				g.lastDeadPosX[u.Team()] = u.Position().X
 			}
+			u.Destroy()
 		} else {
 			filtered = append(filtered, id)
 		}
@@ -374,6 +381,14 @@ func (g *game) Logger() *log.Logger {
 
 func (g *game) OccupiedTiles() map[*tileRect]bool {
 	return g.occupiedTiles
+}
+
+func (g *game) DeathToll(team Team) int {
+	return g.deathToll[team]
+}
+
+func (g *game) LastDeadPosX(team Team) fixed.Scalar {
+	return g.lastDeadPosX[team]
 }
 
 func (g *game) FlipX(x int) int {
