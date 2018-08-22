@@ -40,6 +40,7 @@ const BULLET = {
 	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
 	"tombstone": preload("res://game/unit/archer/bullet.tscn"),
+	"starfire": preload("res://game/unit/astra/shot.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
