@@ -15,6 +15,7 @@ type Body interface {
 	Simulate(on bool)
 	Layer() string
 	SetLayer(l string)
+	AddForce(f fixed.Vector)
 }
 
 type body struct {
@@ -92,6 +93,10 @@ func (b *body) Layer() string {
 
 func (b *body) SetLayer(l string) {
 	b.layer = l
+}
+
+func (b *body) AddForce(f fixed.Vector) {
+	b.force = b.force.Add(f)
 }
 
 func (b *body) setAsBox(width, height fixed.Scalar) {

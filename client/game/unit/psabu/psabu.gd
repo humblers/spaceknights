@@ -98,9 +98,11 @@ func handleAttack():
 		var dy = scalar.Sub(t.PositionY(), PositionY())
 		var norm = vector.Normalized(dx, dy)
 		dx = scalar.Mul(norm[0], r)
-		dy = scalar.Mul(norm[0], r)
+		dy = scalar.Mul(norm[1], r)
 		punchPosX = scalar.Add(PositionX(), dx)
 		punchPosY = scalar.Add(PositionY(), dy)
+	if attack < preAttackDelay():
+		absorb()
 	if attack == preAttackDelay():
 		var radius = game.World().FromPixel(stat.units[name_]["attackradius"])
 		for id in game.UnitIds():
@@ -116,3 +118,26 @@ func handleAttack():
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
+
+func absorb():
+	var radius = absorbRadius()
+	var force = game.World().FromPixel(stat.units[name_]["absorbforce"])
+	var damage = stat.units[name_]["absorbdamage"]
+	for id in game.UnitIds():
+		var u = game.FindUnit(id)
+		if u.Team() == Team() or u.Layer() != "Normal":
+			continue
+		var x = scalar.Sub(punchPosX, u.PositionX())
+		var y = scalar.Sub(punchPosY, u.PositionY())
+		var d = vector.LengthSquared(x, y)
+		var r = scalar.Add(u.Radius(), radius)
+		if d <= scalar.Mul(r, r):
+			var n = vector.Normalized(x, y)
+			var fx = scalar.Mul(n[0], force)
+			var fy = scalar.Mul(n[1], force)
+			u.AddForce(fx, fy)
+			u.TakeDamage(damage, "Skill")
+			
+
+func absorbRadius():
+	return game.World().FromPixel(stat.units[name_]["absorbradius"])

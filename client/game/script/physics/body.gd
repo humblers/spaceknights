@@ -71,6 +71,10 @@ func Layer():
 func SetLayer(l):
 	layer = l
 
+func AddForce(x, y):
+	force_x = scalar.Add(force_x, x)
+	force_y = scalar.Add(force_y, y)
+	
 func setAsBox(width, height):
 	self.shape = "box"
 	self.width = width

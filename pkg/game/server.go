@@ -61,10 +61,10 @@ func (s *server) Run() {
 					Card{"shadowvision", 0},
 					Card{"unload", 0},
 					Card{"enforcer", 0},
-					Card{"panzerkunstler", 0},
+					Card{"shadowvision", 0},
 					Card{"gargoylehorde", 0},
 					Card{"shadowvision", 0},
-					Card{"giant", 0},
+					Card{"barrack", 0},
 				},
 				Knights: []KnightData{
 					KnightData{"archsapper", 0},

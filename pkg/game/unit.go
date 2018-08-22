@@ -27,6 +27,7 @@ type Unit interface {
 	Radius() fixed.Scalar
 	SetPosition(p fixed.Vector)
 	SetVelocity(v fixed.Vector)
+	AddForce(f fixed.Vector)
 
 	// for caster type
 	SetAsLeader()

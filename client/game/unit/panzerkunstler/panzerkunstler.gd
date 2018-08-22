@@ -2,6 +2,9 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
+var attackCount = 0
+var punchPosX
+var punchPosY
 
 func InitDummy(posX, posY, game, player):
 	.InitDummy("panzerkunstler", player.Team(), posX, posY, game)
@@ -66,17 +69,78 @@ func moveTo(unit):
 		$AnimationPlayer.play("move")
 
 func handleAttack():
-	if attack == 0:
-		$AnimationPlayer.play("attack")
-	var t = target()
-	if t != null:
-		look_at(t.PositionX(), t.PositionY())
-	if attack == preAttackDelay():
-		if t != null and withinRange(t):
-			t.TakeDamage(attackDamage(), "Melee")
-		else:
+	if canDoPowerAttack():
+		if attack == 0:
+			var t = target()
+			var r = scalar.Add(Radius(), attackRange())
+			var dx = scalar.Sub(t.PositionX(), PositionX())
+			var dy = scalar.Sub(t.PositionY(), PositionY())
+			var norm = vector.Normalized(dx, dy)
+			dx = scalar.Mul(norm[0], r)
+			dy = scalar.Mul(norm[1], r)
+			punchPosX = scalar.Add(PositionX(), dx)
+			punchPosY = scalar.Add(PositionY(), dy)
+			$AnimationPlayer.play("attack")
+			look_at(t.PositionX(), t.PositionY())
+		if attack >= powerAttackPreDelay():
+			for id in game.UnitIds():
+				var u = game.FindUnit(id)
+				if u.Team() == Team() or u.Layer() != "Normal":
+					continue
+				var x = scalar.Sub(u.PositionX(), punchPosX)
+				var y = scalar.Sub(u.PositionY(), punchPosY)
+				var d = vector.LengthSquared(x, y)
+				var r = scalar.Add(u.Radius(), powerAttackRadius())
+				if d <= scalar.Mul(r, r):
+					var n = vector.Normalized(x, y)
+					var fx = scalar.Mul(n[0], powerAttackForce())
+					var fy = scalar.Mul(n[1], powerAttackForce())
+					u.AddForce(fx, fy)
+					u.TakeDamage(powerAttackDamage(), "Melee")
+		attack += 1
+		if attack > powerAttackInterval():
 			attack = 0
-			return
-	attack += 1
-	if attack > attackInterval():
-		attack = 0
+			attackCount += 1
+	else:	
+		if attack == 0:
+			$AnimationPlayer.play("attack-2")
+		var t = target()
+		if t != null:
+			look_at(t.PositionX(), t.PositionY())
+		if attack == preAttackDelay():
+			if t != null and withinRange(t):
+				t.TakeDamage(attackDamage(), "Melee")
+			else:
+				attack = 0
+				return
+		attack += 1
+		if attack > attackInterval():
+			attack = 0
+			attackCount += 1
+
+func canDoPowerAttack():
+	return attackCount % powerAttackFrequency() == 0
+
+func powerAttackInterval():
+	return stat.units[name_]["powerattackinterval"]
+
+func powerAttackPreDelay():
+	return stat.units[name_]["powerattackpredelay"]
+
+func powerAttackFrequency():
+	return stat.units[name_]["powerattackfrequency"]
+
+func powerAttackDamage():
+	var v = stat.units[name_]["powerattackdamage"]
+	var t = typeof(v)
+	if t == TYPE_INT:
+		return v
+	if t == TYPE_ARRAY:
+		return v[level]
+	print("invalid power attack damage type")
+
+func powerAttackRadius():
+	return game.World().FromPixel(stat.units[name_]["powerattackradius"])
+
+func powerAttackForce():
+	return game.World().FromPixel(stat.units[name_]["powerattackforce"])

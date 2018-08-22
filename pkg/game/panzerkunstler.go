@@ -4,8 +4,10 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type panzerkunstler struct {
 	*unit
-	targetId int
-	attack   int // elapsed time since attack start
+	targetId    int
+	attack      int // elapsed time since attack start
+	attackCount int
+	punchPos    fixed.Vector
 }
 
 func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -67,17 +69,83 @@ func (p *panzerkunstler) moveTo(u Unit) {
 }
 
 func (p *panzerkunstler) handleAttack() {
-	if p.attack == p.preAttackDelay() {
-		t := p.target()
-		if t != nil && p.withinRange(t) {
-			t.TakeDamage(p.attackDamage(), Melee)
-		} else {
+	if p.canDoPowerAttack() {
+		if p.attack == 0 {
+			t := p.target()
+			r := p.Radius().Add(p.attackRange())
+			d := t.Position().Sub(p.Position()).Normalized().Mul(r)
+			p.punchPos = p.Position().Add(d)
+		}
+		if p.attack >= p.powerAttackPreDelay() {
+			for _, id := range p.game.UnitIds() {
+				u := p.game.FindUnit(id)
+				if u.Team() == p.Team() || u.Layer() != Normal {
+					continue
+				}
+				d := u.Position().Sub(p.punchPos)
+				r := u.Radius().Add(p.powerAttackRadius())
+				if d.LengthSquared() < r.Mul(r) {
+					n := d.Normalized()
+					u.AddForce(n.Mul(p.powerAttackForce()))
+					if p.attack == p.powerAttackPreDelay() {
+						u.TakeDamage(p.powerAttackDamage(), Melee)
+					}
+				}
+			}
+		}
+		p.attack++
+		if p.attack > p.powerAttackInterval() {
 			p.attack = 0
-			return
+			p.attackCount++
+		}
+	} else {
+		if p.attack == p.preAttackDelay() {
+			t := p.target()
+			if t != nil && p.withinRange(t) {
+				t.TakeDamage(p.attackDamage(), Melee)
+			} else {
+				p.attack = 0
+				return
+			}
+		}
+		p.attack++
+		if p.attack > p.attackInterval() {
+			p.attack = 0
+			p.attackCount++
 		}
 	}
-	p.attack++
-	if p.attack > p.attackInterval() {
-		p.attack = 0
+}
+
+func (p *panzerkunstler) canDoPowerAttack() bool {
+	return p.attackCount%p.powerAttackFrequency() == 0
+}
+
+func (p *panzerkunstler) powerAttackInterval() int {
+	return units[p.name]["powerattackinterval"].(int)
+}
+
+func (p *panzerkunstler) powerAttackPreDelay() int {
+	return units[p.name]["powerattackpredelay"].(int)
+}
+
+func (p *panzerkunstler) powerAttackFrequency() int {
+	return units[p.name]["powerattackfrequency"].(int)
+}
+
+func (p *panzerkunstler) powerAttackDamage() int {
+	switch v := units[p.name]["powerattackdamage"].(type) {
+	case int:
+		return v
+	case []int:
+		return v[p.level]
 	}
+	panic("invalid power attack damage type")
+}
+
+func (p *panzerkunstler) powerAttackRadius() fixed.Scalar {
+	return p.game.World().FromPixel(units[p.name]["powerattackradius"].(int))
+}
+
+func (p *panzerkunstler) powerAttackForce() fixed.Scalar {
+	return p.game.World().FromPixel(units[p.name]["powerattackforce"].(int))
 }
