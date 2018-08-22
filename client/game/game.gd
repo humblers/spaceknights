@@ -1,50 +1,7 @@
 extends Node2D
 
 var connected = false
-var cfg = {
-	"Id": "TEST",
-	"MapName": "Thanatos",
-	"Players": [
-		{
-			"Id": "Alice",
-			"Team": "Blue",
-			"Deck": [
-				{"Name": "cannon", "Level": 0},
-				{"Name": "shadowvision", "Level": 0},
-				{"Name": "unload", "Level": 0},
-				{"Name": "enforcer", "Level": 0},
-				{"Name": "shadowvision", "Level": 0},
-				{"Name": "gargoylehorde", "Level": 0},
-				{"Name": "shadowvision", "Level": 0},
-				{"Name": "barrack", "Level": 0},
-			],
-			"Knights": [
-				{"Name": "archsapper", "Level": 0},
-				{"Name": "tombstone", "Level": 0},
-				{"Name": "nagmash", "Level": 0},
-			],
-		},
-		{
-			"Id": "Bob",
-			"Team": "Red",
-			"Deck": [
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "archers", "Level": 0},
-				{"Name": "bulletrain", "Level": 0},
-				{"Name": "fireball", "Level": 0},
-				{"Name": "footmans", "Level": 0},
-				{"Name": "archers", "Level": 0},
-			],
-			"Knights": [
-				{"Name": "legion", "Level": 0},
-				{"Name": "archsapper", "Level": 0},
-				{"Name": "judge", "Level": 0},
-			],
-		}
-	],
-}
+var cfg = config.GAME
 
 const PLAY_TIME = 60000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
