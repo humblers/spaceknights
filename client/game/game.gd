@@ -13,7 +13,7 @@ var cfg = {
 				{"Name": "shadowvision", "Level": 0},
 				{"Name": "unload", "Level": 0},
 				{"Name": "enforcer", "Level": 0},
-				{"Name": "panzerkunstler", "Level": 0},
+				{"Name": "shadowvision", "Level": 0},
 				{"Name": "gargoylehorde", "Level": 0},
 				{"Name": "shadowvision", "Level": 0},
 				{"Name": "barrack", "Level": 0},
