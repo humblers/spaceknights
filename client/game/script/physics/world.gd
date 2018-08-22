@@ -46,10 +46,6 @@ func Step():
 		for j in range(i + 1, len(bodies)):
 			var a = bodies[i]
 			var b = bodies[j]
-			if a.no_physics or b.no_physics:
-				continue
-			if a.layer != b.layer:
-				continue
 			var c = checkCollision(a, b)
 			if c != null:
 				collisions.append(c)
@@ -101,6 +97,12 @@ func Digest(h=djb2.INITIAL_HASH):
 	return h
 
 static func checkCollision(a, b):
+	if a.no_physics or b.no_physics:
+		return null
+	if a.layer != b.layer:
+		return null
+	if a.imass == 0 and b.imass == 0:
+		return null
 	if a.shape == "box":
 		if b.shape == "box":
 			return boxVSbox(a, b)
