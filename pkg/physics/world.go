@@ -78,12 +78,6 @@ func (w *world) Step() {
 		for j := i + 1; j < len(w.bodies); j++ {
 			a := w.bodies[i]
 			b := w.bodies[j]
-			if a.no_physics || b.no_physics {
-				continue
-			}
-			if a.layer != b.layer {
-				continue
-			}
 			c := checkCollision(a, b)
 			if c != nil {
 				w.collisions = append(w.collisions, c)
@@ -150,6 +144,15 @@ func (w *world) Digest(opt ...uint32) uint32 {
 }
 
 func checkCollision(a, b *body) *collision {
+	if a.no_physics || b.no_physics {
+		return nil
+	}
+	if a.layer != b.layer {
+		return nil
+	}
+	if a.imass == 0 && b.imass == 0 {
+		return nil
+	}
 	switch a.shape {
 	case box:
 		switch b.shape {
