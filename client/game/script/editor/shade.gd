@@ -6,7 +6,6 @@ export(float, 0, 360) var MAIN_LIGHT_ANGLE = 0
 var shade_nodes=[]
 
 func _ready():
-	print("hello")
 	show_shade(self)
 	set_process(true)
 
