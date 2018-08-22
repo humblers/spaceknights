@@ -1,18 +1,13 @@
 tool
-extends Node
-
-export(float, 0, 360) var MAIN_LIGHT_ANGLE = 0
-
-var shade_nodes=[]
+extends Node2D
 
 func _ready():
-	show_shade(self)
 	set_process(true)
 
 func _process(delta):
-	shade()
+	shade(get_parent())
 
-func show_shade(node):
+func shade(node):
 	for c in node.get_children():
 		if c.name == "Shade":
 			var left = c.get_node("Left")
@@ -27,21 +22,21 @@ func show_shade(node):
 			right.show()
 			front.show()
 			rear.show()
-			shade_nodes.append(c)
+			apply(c)
 		else:
-			show_shade(c)
+			shade(c)
 
-func shade():
-	for n in shade_nodes:
-		var angle = MAIN_LIGHT_ANGLE - n.global_rotation_degrees
-		var t1 = 1 - clamp(abs(angle_diff(0, angle)) / 90, 0, 1)
-		var t2 = 1 - clamp(abs(angle_diff(90, angle)) / 90, 0, 1)
-		var t3 = 1 - clamp(abs(angle_diff(180, angle)) / 90, 0, 1)
-		var t4 = 1 - clamp(abs(angle_diff(270, angle)) / 90, 0, 1)
-		n.get_node("Right").modulate = Color(1, 1, 1, t1)
-		n.get_node("Front").modulate = Color(1, 1, 1, t2)
-		n.get_node("Left").modulate = Color(1, 1, 1, t3)
-		n.get_node("Rear").modulate = Color(1, 1, 1, t4)
+func apply(n):
+	var light_angle = rad2deg((global_position - get_parent().global_position).angle())
+	var angle = light_angle - n.global_rotation_degrees
+	var t1 = 1 - clamp(abs(angle_diff(0, angle)) / 90, 0, 1)
+	var t2 = 1 - clamp(abs(angle_diff(90, angle)) / 90, 0, 1)
+	var t3 = 1 - clamp(abs(angle_diff(180, angle)) / 90, 0, 1)
+	var t4 = 1 - clamp(abs(angle_diff(270, angle)) / 90, 0, 1)
+	n.get_node("Right").modulate = Color(1, 1, 1, t1)
+	n.get_node("Rear").modulate = Color(1, 1, 1, t2)
+	n.get_node("Left").modulate = Color(1, 1, 1, t3)
+	n.get_node("Front").modulate = Color(1, 1, 1, t4)
 
 func angle_diff(a, b):
 	return fposmod((a - b) + 180, 360) - 180
