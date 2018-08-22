@@ -23,6 +23,11 @@ const UNIT = {
 	"panzerkunstler": preload("res://game/unit/panzerkunstler/panzerkunstler.tscn"),
 	"jouster": preload("res://game/unit/jouster/jouster.tscn"),
 	"felhound": preload("res://game/unit/felhound/felhound.tscn"),
+	"trainee": preload("res://game/unit/trainee/trainee.tscn"),
+	"starfire": preload("res://game/unit/starfire/starfire.tscn"),
+	"pixie": preload("res://game/unit/pixie/pixie.tscn"),
+	"gargoyleking": preload("res://game/unit/gargoyleking/gargoyleking.tscn"),
+	"berserker": preload("res://game/unit/berserker/berserker.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -35,6 +40,7 @@ const BULLET = {
 	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
 	"tombstone": preload("res://game/unit/archer/bullet.tscn"),
+	"starfire": preload("res://game/unit/astra/shot.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
@@ -69,4 +75,10 @@ const ICON = {
 	"jouster": preload("res://game/ui/unit_icon/jouster.png"),
 	"enforcer": preload("res://game/ui/unit_icon/enforcer.png"),
 	"felhound": preload("res://game/ui/unit_icon/felhound.png"),
+	"trainee": preload("res://game/ui/unit_icon/trainee.png"),
+	"starfire": preload("res://game/ui/unit_icon/starfire.png"),
+	"threestarfires": preload("res://game/ui/unit_icon/threestarfires.png"),
+	"pixie": preload("res://game/ui/unit_icon/pixie.png"),
+	"gargoyleking": preload("res://game/ui/unit_icon/gargoyleking.png"),
+	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
 }

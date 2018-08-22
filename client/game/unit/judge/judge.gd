@@ -76,7 +76,7 @@ func preCastDelay():
 	return stat.cards[Skill()]["precastdelay"]
 
 func Skill():
-	return stat.units[name_]["skill"]
+	return stat.units[name_]["active"]
 
 func CastSkill(posX, posY):
 	if cast > 0:
