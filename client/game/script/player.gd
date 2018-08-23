@@ -68,9 +68,10 @@ func gui_input(ev):
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
-			var pos_node = get_node("../../BattleField/CursorPos").position
-			var x = int(pos_node.x)
-			var y = int(pos_node.y)
+			if name != "Red":
+				pos = get_node("../../BattleField/CursorPos").position
+			var x = int(pos.x)
+			var y = int(pos.y)
 			if game.team_swapped:
 				x = game.FlipX(x)
 				y = game.FlipY(y)
@@ -98,20 +99,23 @@ func gui_input(ev):
 			selected_card["InvisibleTo"] = game.step + INPUT_DELAY_STEP
 			selected_card = null
 			mark_action(input)
-	if belowField:
-		clear_cursor()
-		return
-	update_cursor(int(pos.x), int(pos.y))
+	if name != "Red":
+		if belowField:
+			clear_cursor()
+			return
+		update_cursor(int(pos.x), int(pos.y))
 
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		var card = stat.cards[selected_card.Name]
-		if card.has("unit"):
-			var redArea = get_node("../../Map/RedArea")
-			$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
-			$Tween.start()
-	gui_input(ev)
+		if name != "Red":
+			var card = stat.cards[selected_card.Name]
+			if card.has("unit"):
+				var redArea = get_node("../../Map/RedArea")
+				$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+				$Tween.start()
+	if name != "Red":
+		gui_input(ev)
 
 func add_cursor():
 	var pos_node = get_node("../../BattleField/CursorPos")
@@ -193,21 +197,30 @@ func clear_cursor():
 func mark_action(input):
 	if not action_markers.has(input.Step):
 		action_markers[input.Step] = []
-	var pos_node = get_node("../../BattleField/CursorPos")
-	for child in pos_node.get_children():
-		var global_pos = child.global_position
-		pos_node.remove_child(child)
-		get_node("../../BattleField").add_child(child)
-		child.global_position = global_pos
-		action_markers[input.Step].append(child)
+	if name != "Red":
+		var pos_node = get_node("../../BattleField/CursorPos")
+		for child in pos_node.get_children():
+			var global_pos = child.global_position
+			pos_node.remove_child(child)
+			get_node("../../BattleField").add_child(child)
+			child.global_position = global_pos
+			action_markers[input.Step].append(child)
+	else:
+		var default_cursor = resource.CURSOR["unit"].instance()
+		var pos = game.PosFromTile(input.Action.TileX, input.Action.TileY)
+		default_cursor.position.x = pos[0]
+		default_cursor.position.y = pos[1]
+		get_node("../../BattleField").add_child(default_cursor)
+		action_markers[input.Step].append(default_cursor)
 
 func show_message(msg, pos_y):
-	var msgBar = get_node("../../BattleField/MessageBar")
-	var pos_x = msgBar.rect_position.x
-	msgBar.text = msg
-	$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.start()
+	if name != "Red":
+		var msgBar = get_node("../../BattleField/MessageBar")
+		var pos_x = msgBar.rect_position.x
+		msgBar.text = msg
+		$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		$Tween.start()
 
 func update_cards():
 	$Cards/Next/Icon.texture = resource.ICON[pending[0].Name]
@@ -217,7 +230,11 @@ func update_cards():
 		var card = hand[i]
 		var icon_node = $Cards.get_node("Card%s" % (i+1)).get_node("Icon")
 		var cost_node = $Cards.get_node("Card%s" % (i+1)).get_node("Cost")
+		var modulate = Color(1, 1, 1, 1)
 		match card:
+			selected_card:
+				modulate = Color(1, 0.69, 0, 1)
+				continue
 			{"Name":"", ..}:
 				icon_node.texture = null
 			{"InvisibleTo": var to, ..}:
@@ -228,7 +245,7 @@ func update_cards():
 			_:
 				icon_node.texture = resource.ICON[hand[i].Name]
 				cost_node.text = str(stat.cards[hand[i].Name].cost/1000)
-				
+		icon_node.modulate = modulate
 
 func Team():
 	return team
