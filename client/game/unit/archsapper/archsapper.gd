@@ -96,18 +96,16 @@ func SetAsLeader():
 			posX = game.FlipX(posX)
 			posY = game.FlipY(posY)
 		var id = game.AddUnit(name, level, posX, posY, player)
-		var unit = game.FindUnit(id)
-		var occupier = unit.get("TileOccupier")
-		if occupier != null:
-			var tile = game.TileFromPos(posX, posY)
-			var tr = occupier.GetRect(tile[0], tile[1], nx, ny)
-			var err = occupier.Occupy(tr)
-			if err != null:
-				print(err)
-				return
-		var decayable = unit.get("Decayable")
-		if decayable != null:
-			decayable.SetDecayOff()
+		var cannon = game.FindUnit(id)
+		var tile = game.TileFromPos(posX, posY)
+		var tr = cannon.TileOccupier.GetRect(tile[0], tile[1], nx, ny)
+		var err = cannon.TileOccupier.Occupy(tr)
+		if err != null:
+			print(err)
+			return
+		cannon.Decayable.SetDecayOff()
+		cannon.addHp(data["addhp"][level])
+		cannon.addAttack(data["addattackdamage"][level])
 
 func Skill():
 	var key = "passive" if isLeader else "active"

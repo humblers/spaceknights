@@ -95,15 +95,15 @@ func (a *archsapper) SetAsLeader() {
 		}
 		id := a.game.AddUnit(name, a.level, posX, posY, a.player)
 		unit := a.game.FindUnit(id)
-		if occupier, ok := unit.(TileOccupier); ok {
+		if cannon, ok := unit.(cannon); ok {
 			tx, ty := a.game.TileFromPos(posX, posY)
-			tr := occupier.GetRect(tx, ty, nx, ny)
-			if err := occupier.Occupy(tr); err != nil {
+			tr := cannon.GetRect(tx, ty, nx, ny)
+			if err := cannon.Occupy(tr); err != nil {
 				panic(err)
 			}
-		}
-		if decayable, ok := unit.(Decayable); ok {
-			decayable.SetDecayOff()
+			cannon.SetDecayOff()
+			cannon.addHp(data["addhp"].([]int)[a.level])
+			cannon.addAttackDamage(data["addattackdamage"].([]int)[a.level])
 		}
 	}
 }

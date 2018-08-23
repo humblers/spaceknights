@@ -6,6 +6,8 @@ type cannon struct {
 	TileOccupier
 	targetId int
 	attack   int // elapsed time since attack start
+
+	attackDamageDelta int
 }
 
 func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -18,7 +20,7 @@ func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 	return c
 }
 
-func (c *cannon) Update() {
+func (c cannon) Update() {
 	c.TakeDecayDamage()
 	if c.attack > 0 {
 		c.handleAttack()
@@ -34,6 +36,18 @@ func (c *cannon) Update() {
 			}
 		}
 	}
+}
+
+func (c *cannon) addHp(amount int) {
+	c.hp += amount
+}
+
+func (c *cannon) addAttackDamage(amount int) {
+	c.attackDamageDelta += amount
+}
+
+func (c *cannon) attackDamage() int {
+	return c.unit.attackDamage() + c.attackDamageDelta
 }
 
 func (c *cannon) target() Unit {
