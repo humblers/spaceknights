@@ -4,7 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type astra struct {
 	*unit
-	player   Player
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -14,10 +14,9 @@ type astra struct {
 }
 
 func newAstra(id int, level, posX, posY int, g Game, p Player) Unit {
-	u := newUnit(id, "astra", p.Team(), level, posX, posY, g)
+	u := newUnit(id, "astra", p, level, posX, posY, g)
 	return &astra{
 		unit:    u,
-		player:  p,
 		initPos: u.Position(),
 	}
 }
@@ -129,8 +128,21 @@ func (a *astra) findTargetAndAttack() {
 	}
 }
 
+func (a *astra) SetAsLeader() {
+	a.isLeader = true
+	data := passives[a.Skill()]
+	types := data["types"].(Types)
+	ratio := data["hpratio"].([]int)
+	a.player.AddStatRatio(types, "hpratio", ratio[a.level])
+	a.hp = a.initialHp()
+}
+
 func (a *astra) Skill() string {
-	return units[a.name]["active"].(string)
+	key := "active"
+	if a.isLeader {
+		key = "passive"
+	}
+	return units[a.name][key].(string)
 }
 
 func (a *astra) CastSkill(posX, posY int) bool {

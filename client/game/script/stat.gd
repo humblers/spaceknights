@@ -201,6 +201,10 @@ const passives = {
 		"posY":         [1075, 1075],
 		"hpratio":      [300, 310, 320],
 	},
+	"reinforce": {
+		"types":        ["Knight"],
+		"hpratio":      [120, 130, 140],
+	},
 }
 
 const units = {
@@ -453,7 +457,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"active":          "megalaser",
+		"active":         "megalaser",
+		"passive":        "reinforce",
 	},
 	"psabu": {
 		"type":           "Troop",

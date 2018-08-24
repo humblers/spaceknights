@@ -1,6 +1,6 @@
 extends "res://game/script/unit.gd"
 
-var player
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -15,11 +15,11 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func InitDummy(posX, posY, game, player):
-	.InitDummy("astra", player.Team(), posX, posY, game)
+	.InitDummy("astra", player, posX, posY, game)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "astra", player.Team(), level, posX, posY, game)
 	self.player = player
+	.Init(id, "astra", player, level, posX, posY, game)
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -37,7 +37,7 @@ func Destroy():
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
-	
+
 func Update():
 	if cast > 0:
 		if cast > laserStart() and cast <= laserEnd():
@@ -123,8 +123,18 @@ func findTargetAndAttack():
 	else:
 		$AnimationPlayer.play("idle")
 
+func SetAsLeader():
+	isLeader = true
+	var data = stat.passives[Skill()]
+	var types = data["types"]
+	var ratio = data["hpratio"]
+	player.AddStatRatio(types, "hpratio", ratio[level])
+	hp = initialHp()
+	set_hp()
+
 func Skill():
-	return stat.units[name_]["active"]
+	var key = "passive" if isLeader else "active"
+	return stat.units[name_][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
