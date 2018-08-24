@@ -104,8 +104,8 @@ func SetAsLeader():
 			print(err)
 			return
 		cannon.Decayable.SetDecayOff()
-		var bonusHp = cannon.initialHp() * data["mulhp"][level] / 100
-		cannon.addHp(bonusHp)
+		var hp = cannon.initialHp() * data["mulhp"][level] / 100
+		cannon.setHp(hp)
 
 func Skill():
 	var key = "passive" if isLeader else "active"

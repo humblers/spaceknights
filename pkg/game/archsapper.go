@@ -102,8 +102,8 @@ func (a *archsapper) SetAsLeader() {
 				panic(err)
 			}
 			cannon.SetDecayOff()
-			bonusHp := cannon.initialHp() * data["mulhp"].([]int)[a.level] / 100
-			cannon.addHp(bonusHp)
+			hp := cannon.initialHp() * data["mulhp"].([]int)[a.level] / 100
+			cannon.setHp(hp)
 		}
 	}
 }

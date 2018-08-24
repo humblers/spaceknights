@@ -38,10 +38,9 @@ func Destroy():
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
-func addHp(amount):
-	hp += amount
-	if hp > initialHp():
-		set_hp()
+func setHp(amount):
+	hp = amount
+	set_hp()
 
 func target():
 	return game.FindUnit(targetId)

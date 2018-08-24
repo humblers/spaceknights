@@ -36,8 +36,8 @@ func (c cannon) Update() {
 	}
 }
 
-func (c *cannon) addHp(amount int) {
-	c.hp += amount
+func (c *cannon) setHp(hp int) {
+	c.hp = hp
 }
 
 func (c *cannon) target() Unit {
