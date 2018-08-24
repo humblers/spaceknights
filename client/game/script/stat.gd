@@ -171,6 +171,13 @@ const cards = {
 		"offsetX": [0],
 		"offsetY": [0],
 	},
+	"ogre": {
+		"cost":    7000,
+		"unit":    "ogre",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 }
 
 const passives = {
@@ -574,6 +581,21 @@ const units = {
 		"targettypes":    ["Troop", "Building", "Knight"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [325, 70, 100],
+		"attackrange":    40,
+		"attackinterval": 20,
+		"preattackdelay": 6,
+	},
+	"ogre": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         40,
+		"hp":             [2610],
+		"sight":          350,
+		"speed":          75,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [500, 70, 100],
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
