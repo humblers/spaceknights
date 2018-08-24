@@ -2,82 +2,82 @@ package game
 
 import "github.com/humblers/spaceknights/pkg/fixed"
 
-type berserker struct {
+type ogre struct {
 	*unit
 	targetId int
 	attack   int // elapsed time since attack start
 }
 
-func newBerserker(id int, level, posX, posY int, g Game, p Player) Unit {
-	return &berserker{
-		unit: newUnit(id, "berserker", p.Team(), level, posX, posY, g),
+func newOgre(id int, level, posX, posY int, g Game, p Player) Unit {
+	return &ogre{
+		unit: newUnit(id, "ogre", p.Team(), level, posX, posY, g),
 	}
 }
 
-func (b *berserker) Update() {
-	b.SetVelocity(fixed.Vector{0, 0})
-	if b.attack > 0 {
-		b.handleAttack()
+func (o *ogre) Update() {
+	o.SetVelocity(fixed.Vector{0, 0})
+	if o.attack > 0 {
+		o.handleAttack()
 	} else {
-		t := b.target()
+		t := o.target()
 		if t == nil {
-			b.findTargetAndDoAction()
+			o.findTargetAndDoAction()
 		} else {
-			if b.withinRange(t) {
-				b.handleAttack()
+			if o.withinRange(t) {
+				o.handleAttack()
 			} else {
-				b.findTargetAndDoAction()
+				o.findTargetAndDoAction()
 			}
 		}
 	}
 }
 
-func (b *berserker) target() Unit {
-	return b.game.FindUnit(b.targetId)
+func (o *ogre) target() Unit {
+	return o.game.FindUnit(o.targetId)
 }
 
-func (b *berserker) setTarget(u Unit) {
+func (o *ogre) setTarget(u Unit) {
 	if u == nil {
-		b.targetId = 0
+		o.targetId = 0
 	} else {
-		b.targetId = u.Id()
+		o.targetId = u.Id()
 	}
 }
 
-func (b *berserker) findTargetAndDoAction() {
-	t := b.findTarget()
-	b.setTarget(t)
+func (o *ogre) findTargetAndDoAction() {
+	t := o.findTarget()
+	o.setTarget(t)
 	if t != nil {
-		if b.withinRange(t) {
-			b.handleAttack()
+		if o.withinRange(t) {
+			o.handleAttack()
 		} else {
-			b.moveTo(t)
+			o.moveTo(t)
 		}
 	}
 }
 
-func (b *berserker) moveTo(u Unit) {
-	corner := b.game.Map().FindNextCornerInPath(
-		b.Position(),
+func (o *ogre) moveTo(u Unit) {
+	corner := o.game.Map().FindNextCornerInPath(
+		o.Position(),
 		u.Position(),
-		b.Radius(),
+		o.Radius(),
 	)
-	direction := corner.Sub(b.Position()).Normalized()
-	b.SetVelocity(direction.Mul(b.speed()))
+	direction := corner.Sub(o.Position()).Normalized()
+	o.SetVelocity(direction.Mul(o.speed()))
 }
 
-func (b *berserker) handleAttack() {
-	if b.attack == b.preAttackDelay() {
-		t := b.target()
-		if t != nil && b.withinRange(t) {
-			t.TakeDamage(b.attackDamage(), Melee)
+func (o *ogre) handleAttack() {
+	if o.attack == o.preAttackDelay() {
+		t := o.target()
+		if t != nil && o.withinRange(t) {
+			t.TakeDamage(o.attackDamage(), Melee)
 		} else {
-			b.attack = 0
+			o.attack = 0
 			return
 		}
 	}
-	b.attack++
-	if b.attack > b.attackInterval() {
-		b.attack = 0
+	o.attack++
+	if o.attack > o.attackInterval() {
+		o.attack = 0
 	}
 }
