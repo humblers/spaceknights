@@ -192,6 +192,8 @@ const passives = {
 		"count":        2,
 		"posX":         [325, 675],	 # pos based on blue side
 		"posY":         [1075, 1075],
+		"addhp":        [100, 200, 300],
+		"addattackdamage":    [10, 20, 30],
 	},
 }
 
@@ -227,7 +229,7 @@ const units = {
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
 		"active":          "cannon",
-		"passive":    "readycannon",
+		"passive":         "readycannon",
 	},
 	"tombstone": {
 		"mass":           1000,
