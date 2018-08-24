@@ -362,7 +362,11 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 15,
 		"preattackdelay": 5,
-		"transformdelay": 10,
+		"chargedelay":           20,
+		"chargedmovespeed":      300,
+		"chargedattackdamage":   [400, 450, 550],
+		"chargedattackinterval": 15,
+		"chargedattackpredelay": 10,
 	},
 	"gargoyle": {
 		"type":           "Troop",

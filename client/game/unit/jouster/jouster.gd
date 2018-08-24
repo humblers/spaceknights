@@ -2,8 +2,7 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
-var transform_ = 0
-var transformToAttack = false
+var charge = 0
 
 func InitDummy(posX, posY, game, player):
 	.InitDummy("jouster", player.Team(), posX, posY, game)
@@ -13,12 +12,6 @@ func Init(id, level, posX, posY, game, player):
 
 func Update():
 	SetVelocity(0, 0)
-	if transform_ > 0 and transform_ < transformDelay():
-		if transformToAttack:
-			transform_ += 1
-		else:
-			transform_ -= 1
-		return
 	if attack > 0:
 		handleAttack()
 	else:
@@ -56,13 +49,9 @@ func findTargetAndDoAction():
 			moveTo(t)
 	else:
 		$AnimationPlayer.play("idle")
+		charge = 0
 
 func moveTo(unit):
-	if transform_ > 0:
-		transformToAttack = false
-		transform_ -= 1
-		$AnimationPlayer.play_backwards("transform")
-		return
 	var corner = game.Map().FindNextCornerInPath(
 		PositionX(), PositionY(),
 		unit.PositionX(), unit.PositionY(),
@@ -71,33 +60,75 @@ func moveTo(unit):
 	var y = scalar.Sub(corner[1], PositionY())
 	var direction = vector.Normalized(x, y)
 	var speed = speed()
+	if charged():
+		speed = chargedMoveSpeed()
 	SetVelocity(
 		scalar.Mul(direction[0], speed), 
 		scalar.Mul(direction[1], speed))
+	charge += 1
+	
+	# client only
 	look_at(corner[0], corner[1])
-	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
-		$AnimationPlayer.play("move_winged")
+	if charge == 1:
+		if $AnimationPlayer.current_animation != "move_human":
+			$AnimationPlayer.play("move_human")
+	if charge == chargeDelay():
+		$AnimationPlayer.play("skill_charge")
 
 func handleAttack():
-	if transform_ < transformDelay():
-		transformToAttack = true
-		transform_ += 1
-		$AnimationPlayer.play("transform")
-		return
-	if attack == 0:
-		$AnimationPlayer.play("attack")
-	var t = target()
-	if t != null:
-		look_at(t.PositionX(), t.PositionY())
-	if attack == preAttackDelay():
-		if t != null and withinRange(t):
-			t.TakeDamage(attackDamage(), "Melee")
-		else:
+	if charged():
+		if attack == 0:
+			$AnimationPlayer.play("skill_attack")
+		var t = target()
+		if t != null:
+			look_at(t.PositionX(), t.PositionY())
+		if attack == chargedAttackPreDelay():
+			if t != null and withinRange(t):
+				t.TakeDamage(chargedAttackDamage(), "Melee")
+			else:
+				attack = 0
+				return
+		attack += 1
+		if attack > chargedAttackInterval():
 			attack = 0
-			return
-	attack += 1
-	if attack > attackInterval():
-		attack = 0
+			charge = 0
+	else:
+		if attack == 0:
+			$AnimationPlayer.play("attack")
+		var t = target()
+		if t != null:
+			look_at(t.PositionX(), t.PositionY())
+		if attack == preAttackDelay():
+			if t != null and withinRange(t):
+				t.TakeDamage(attackDamage(), "Melee")
+			else:
+				attack = 0
+				return
+		attack += 1
+		if attack > attackInterval():
+			attack = 0
 
-func transformDelay():
-	return stat.units[name_]["transformdelay"]
+func chargeDelay():
+	return stat.units[name_]["chargedelay"]
+
+func chargedMoveSpeed():
+	var s = stat.units[name_]["chargedmovespeed"]
+	return game.World().FromPixel(s)
+
+func chargedAttackDamage():
+	var v = stat.units[name_]["chargedattackdamage"]
+	var t = typeof(v)
+	if t == TYPE_INT:
+		return v
+	if t == TYPE_ARRAY:
+		return v[level]
+	print("invalid charged attack damage type")
+
+func chargedAttackInterval():
+	return stat.units[name_]["chargedattackinterval"]
+
+func chargedAttackPreDelay():
+	return stat.units[name_]["chargedattackpredelay"]
+
+func charged():
+	return charge >= chargeDelay()
