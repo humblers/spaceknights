@@ -133,12 +133,10 @@ func (a *astra) findTargetAndAttack() {
 func (a *astra) SetAsLeader() {
 	a.isLeader = true
 	data := passives[a.Skill()]
-	types := data["types"].(Types)
-	ratio := data["hpratio"].([]int)
-	a.player.AddStatRatio(types, "hpratio", ratio[a.level])
+	a.player.AddStatRatio("hpratio", data["hpratio"].([]int)[a.level])
 	hp := a.initialHp()
 	divider := 1
-	for _, ratio := range a.player.StatRatios(a.Type(), "hpratio") {
+	for _, ratio := range a.player.StatRatios("hpratio") {
 		hp *= ratio
 		divider *= 100
 	}

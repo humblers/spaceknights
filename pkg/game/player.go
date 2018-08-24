@@ -20,8 +20,8 @@ type Player interface {
 
 	Team() Team
 
-	StatRatios(t Type, name string) []int
-	AddStatRatio(ts Types, name string, ratio int)
+	StatRatios(name string) []int
+	AddStatRatio(name string, ratio int)
 
 	AddKnights(knights []KnightData)
 	Do(a *Action) error
@@ -38,7 +38,7 @@ type player struct {
 	rollingCounter int
 	knightIds      []int
 
-	knightStatRatios map[string][]int
+	statRatios map[string][]int
 
 	game   Game
 	client Client
@@ -46,11 +46,11 @@ type player struct {
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		team:             pd.Team,
-		energy:           startEnergy,
-		hand:             pd.Deck[:handSize],
-		pending:          pd.Deck[handSize:],
-		knightStatRatios: make(map[string][]int),
+		team:       pd.Team,
+		energy:     startEnergy,
+		hand:       pd.Deck[:handSize],
+		pending:    pd.Deck[handSize:],
+		statRatios: make(map[string][]int),
 
 		game: g,
 	}
@@ -83,26 +83,12 @@ func (p *player) AddKnights(knights []KnightData) {
 	}
 }
 
-func (p *player) StatRatios(t Type, name string) []int {
-	var ratioMap map[string][]int
-	switch t {
-	case Knight:
-		ratioMap = p.knightStatRatios
-	}
-	return ratioMap[name]
+func (p *player) StatRatios(name string) []int {
+	return p.statRatios[name]
 }
 
-func (p *player) AddStatRatio(ts Types, name string, ratio int) {
-	for _, t := range ts {
-		var ratioMap map[string][]int
-		switch t {
-		case Knight:
-			ratioMap = p.knightStatRatios
-		default:
-			panic("unimplemented")
-		}
-		ratioMap[name] = append(ratioMap[name], ratio)
-	}
+func (p *player) AddStatRatio(name string, ratio int) {
+	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
 func (p *player) Update() {

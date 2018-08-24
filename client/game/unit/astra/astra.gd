@@ -127,12 +127,10 @@ func findTargetAndAttack():
 func SetAsLeader():
 	isLeader = true
 	var data = stat.passives[Skill()]
-	var types = data["types"]
-	var ratio = data["hpratio"]
-	player.AddStatRatio(types, "hpratio", ratio[level])
+	player.AddStatRatio("hpratio", data["hpratio"][level])
 	var hp = initialHp()
 	var divider = 1
-	var ratios = player.StatRatios(Type(), "hpratio")
+	var ratios = player.StatRatios("hpratio")
 	for i in range(len(ratios)):
 		hp *= ratios[i]
 		divider *= 100
