@@ -18,6 +18,13 @@ type tombstone struct {
 
 func newTombstone(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "tombstone", p.Team(), level, posX, posY, g)
+	hp := u.hp
+	divider := 1
+	for _, ratio := range p.StatRatios(u.Type(), "hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	u.hp = hp / divider
 	return &tombstone{
 		unit:         u,
 		TileOccupier: newTileOccupier(g),

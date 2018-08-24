@@ -21,6 +21,14 @@ func InitDummy(posX, posY, game, player):
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "nagmash", player.Team(), level, posX, posY, game)
 	self.player = player
+	var hp = initialHp()
+	var divider = 1
+	var ratios = player.StatRatios(Type(), "hpratio")
+	for i in range(len(ratios)):
+		hp *= ratios[i]
+		divider *= 100
+	self.hp = hp / divider
+	set_hp()
 	initPosX = PositionX()
 	initPosY = PositionY()
 
