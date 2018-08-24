@@ -187,12 +187,19 @@ var passives = map[string]map[string]interface{}{
 		"offsetX":   150,
 		"perdeaths": 4,
 	},
+	"morerange": map[string]interface{}{
+		"attackrangeratio": []int{120, 120, 120},
+	},
 	"readycannon": map[string]interface{}{
 		"unit":    "cannon",
 		"count":   2,
 		"posX":    []int{325, 675}, // pos based on blue side
 		"posY":    []int{1075, 1075},
 		"hpratio": []int{300, 310, 320},
+	},
+	"reinforce": map[string]interface{}{
+		"types":   Types{Knight},
+		"hpratio": []int{120, 130, 140},
 	},
 }
 

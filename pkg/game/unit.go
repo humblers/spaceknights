@@ -18,6 +18,7 @@ type Unit interface {
 	Type() Type
 	Layer() Layer
 	IsDead() bool
+	AddHp(amount int)
 	TakeDamage(amount int, t AttackType)
 	Update()
 	Destroy()
@@ -69,22 +70,22 @@ func (types Types) Contains(type_ Type) bool {
 }
 
 type unit struct {
-	id    int
-	name  string
-	team  Team
-	level int
-	hp    int
-	game  Game
+	id     int
+	name   string
+	player Player
+	level  int
+	hp     int
+	game   Game
 	physics.Body
 }
 
-func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
+func newUnit(id int, name string, p Player, level, posX, posY int, g Game) *unit {
 	u := &unit{
-		id:    id,
-		name:  name,
-		team:  t,
-		level: level,
-		game:  g,
+		id:     id,
+		name:   name,
+		player: p,
+		level:  level,
+		game:   g,
 	}
 	w := g.World()
 	u.hp = u.initialHp()
@@ -107,7 +108,7 @@ func (u *unit) Name() string {
 	return u.name
 }
 func (u *unit) Team() Team {
-	return u.team
+	return u.player.Team()
 }
 func (u *unit) Type() Type {
 	return units[u.name]["type"].(Type)
@@ -118,6 +119,9 @@ func (u *unit) Layer() Layer {
 
 func (u *unit) IsDead() bool {
 	return u.hp <= 0
+}
+func (u *unit) AddHp(amount int) {
+	u.hp += amount
 }
 func (u *unit) TakeDamage(amount int, t AttackType) {
 	if u.Layer() != Normal {
@@ -161,13 +165,21 @@ func (u *unit) radius() fixed.Scalar {
 	return u.game.World().FromPixel(r)
 }
 func (u *unit) initialHp() int {
+	var hp int
 	switch v := units[u.name]["hp"].(type) {
 	case int:
-		return v
+		hp = v
 	case []int:
-		return v[u.level]
+		hp = v[u.level]
+	default:
+		panic("invalid hp type")
 	}
-	panic("invalid hp type")
+	divider := 1
+	for _, ratio := range u.player.StatRatios(u.Type(), "hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	return hp / divider
 }
 func (u *unit) initialShield() int {
 	switch v := units[u.name]["shield"].(type) {

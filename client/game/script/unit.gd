@@ -10,7 +10,7 @@ const Z_INDEX = {
 
 var id
 var name_
-var team
+var player
 var level
 var hp
 var game
@@ -19,9 +19,9 @@ var body
 var node_hp
 var shade_nodes=[]
 
-func InitDummy(name, team, posX, posY, game):
+func InitDummy(name, player, posX, posY, game):
 	self.name_ = name
-	self.team = team
+	self.player = player
 	self.game = game
 	if game.team_swapped:
 		posX = game.FlipX(posX)
@@ -30,10 +30,10 @@ func InitDummy(name, team, posX, posY, game):
 	init_rotation()
 	return self
 
-func Init(id, name, team, level, posX, posY, game):
+func Init(id, name, player, level, posX, posY, game):
 	self.id = id
 	self.name_ = name
-	self.team = team
+	self.player = player
 	self.level = level
 	self.game = game
 	var w = game.World()
@@ -104,7 +104,7 @@ func setLayer(l):
 	z_index = Z_INDEX[l]
 	
 func init_rotation():
-	if team == "Red":
+	if Team() == "Red":
 		$Rotatable.rotation = PI
 	else:
 		$Rotatable.rotation = 0
@@ -121,9 +121,9 @@ func look_at(x, y):
 	$Rotatable.rotation = PI/2 + dir.angle()	# unit initial angle = -90
 
 func set_hp():
-	var color = team
+	var color = Team()
 	if game.team_swapped:
-		color = "Blue" if team == "Red" else "Red"
+		color = "Blue" if Team() == "Red" else "Red"
 	node_hp = $Hp.get_node(color)
 	node_hp.show()
 	node_hp.max_value = hp
@@ -136,7 +136,7 @@ func Name():
 	return name_
 
 func Team():
-	return team
+	return player.Team()
 
 func Type():
 	return stat.units[name_]["type"]
@@ -202,12 +202,21 @@ func radius():
 
 func initialHp():
 	var v = stat.units[name_]["hp"]
+	var hp
 	var t = typeof(v)
-	if t == TYPE_INT:
-		return v
-	if t == TYPE_ARRAY:
-		return v[level]
-	print("invalid hp type")
+	match t:
+		TYPE_INT:
+			hp = v
+		TYPE_ARRAY:
+			hp = v[level]
+		_:
+			print("invalid hp type")
+	var divider = 1
+	var ratios = player.StatRatios(Type(), "hpratio")
+	for i in range(len(ratios)):
+		hp *= ratios[i]
+		divider *= 100
+	return hp / divider
 
 func initialShield():
 	var v = stat.units[name_]["shield"]
@@ -267,7 +276,7 @@ func findTarget():
 	var distance = 0
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
-		if u.Team() == team:
+		if u.Team() == Team():
 			continue
 		if not targetTypes().has(u.Type()):
 			continue

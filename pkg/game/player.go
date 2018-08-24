@@ -9,9 +9,9 @@ const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
 const rollingIntervalStep = 30
-const knightLeaderIndex = 1
+const knightLeaderIndex = 0
 
-var knightInitialPositionX = []int{200, 500, 800}
+var knightInitialPositionX = []int{500, 200, 800}
 var knightInitialPositionY = []int{1600, 1600, 1600}
 
 type Player interface {
@@ -19,6 +19,9 @@ type Player interface {
 	SetClient(c Client)
 
 	Team() Team
+
+	StatRatios(t Type, name string) []int
+	AddStatRatio(ts Types, name string, ratio int)
 
 	AddKnights(knights []KnightData)
 	Do(a *Action) error
@@ -35,16 +38,19 @@ type player struct {
 	rollingCounter int
 	knightIds      []int
 
+	knightStatRatios map[string][]int
+
 	game   Game
 	client Client
 }
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		team:    pd.Team,
-		energy:  startEnergy,
-		hand:    pd.Deck[:handSize],
-		pending: pd.Deck[handSize:],
+		team:             pd.Team,
+		energy:           startEnergy,
+		hand:             pd.Deck[:handSize],
+		pending:          pd.Deck[handSize:],
+		knightStatRatios: make(map[string][]int),
 
 		game: g,
 	}
@@ -74,6 +80,28 @@ func (p *player) AddKnights(knights []KnightData) {
 			p.game.FindUnit(id).SetAsLeader()
 		}
 		p.knightIds = append(p.knightIds, id)
+	}
+}
+
+func (p *player) StatRatios(t Type, name string) []int {
+	var ratioMap map[string][]int
+	switch t {
+	case Knight:
+		ratioMap = p.knightStatRatios
+	}
+	return ratioMap[name]
+}
+
+func (p *player) AddStatRatio(ts Types, name string, ratio int) {
+	for _, t := range ts {
+		var ratioMap map[string][]int
+		switch t {
+		case Knight:
+			ratioMap = p.knightStatRatios
+		default:
+			panic("unimplemented")
+		}
+		ratioMap[name] = append(ratioMap[name], ratio)
 	}
 }
 
