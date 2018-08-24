@@ -102,8 +102,8 @@ func (a *archsapper) SetAsLeader() {
 				panic(err)
 			}
 			cannon.SetDecayOff()
-			cannon.addHp(data["addhp"].([]int)[a.level])
-			cannon.addAttackDamage(data["addattackdamage"].([]int)[a.level])
+			bonusHp := cannon.initialHp() * data["mulhp"].([]int)[a.level] / 100
+			cannon.addHp(bonusHp)
 		}
 	}
 }
