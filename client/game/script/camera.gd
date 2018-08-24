@@ -23,6 +23,8 @@ func Shake(duration, frequency, amplitude):
 
 		yield(get_tree(), "idle_frame")
 		elapsed += get_process_delta_time()
+	
+	is_shaking = false
 
 static func get_samples(count):
 	var samples = []
