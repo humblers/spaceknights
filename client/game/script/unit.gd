@@ -10,7 +10,7 @@ const Z_INDEX = {
 
 var id
 var name_
-var player
+var team
 var level
 var hp
 var game
@@ -19,9 +19,9 @@ var body
 var node_hp
 var shade_nodes=[]
 
-func InitDummy(name, player, posX, posY, game):
+func InitDummy(name, team, posX, posY, game):
 	self.name_ = name
-	self.player = player
+	self.team = team
 	self.game = game
 	if game.team_swapped:
 		posX = game.FlipX(posX)
@@ -30,10 +30,10 @@ func InitDummy(name, player, posX, posY, game):
 	init_rotation()
 	return self
 
-func Init(id, name, player, level, posX, posY, game):
+func Init(id, name, team, level, posX, posY, game):
 	self.id = id
 	self.name_ = name
-	self.player = player
+	self.team = team
 	self.level = level
 	self.game = game
 	var w = game.World()
@@ -136,7 +136,7 @@ func Name():
 	return name_
 
 func Team():
-	return player.Team()
+	return team
 
 func Type():
 	return stat.units[name_]["type"]
@@ -202,21 +202,14 @@ func radius():
 
 func initialHp():
 	var v = stat.units[name_]["hp"]
-	var hp
 	var t = typeof(v)
 	match t:
 		TYPE_INT:
-			hp = v
+			return v
 		TYPE_ARRAY:
-			hp = v[level]
+			return v[level]
 		_:
 			print("invalid hp type")
-	var divider = 1
-	var ratios = player.StatRatios(Type(), "hpratio")
-	for i in range(len(ratios)):
-		hp *= ratios[i]
-		divider *= 100
-	return hp / divider
 
 func initialShield():
 	var v = stat.units[name_]["shield"]

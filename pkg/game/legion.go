@@ -15,6 +15,13 @@ type legion struct {
 
 func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "legion", p.Team(), level, posX, posY, g)
+	hp := u.hp
+	divider := 1
+	for _, ratio := range p.StatRatios(u.Type(), "hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	u.hp = hp / divider
 	return &legion{
 		unit:    u,
 		player:  p,

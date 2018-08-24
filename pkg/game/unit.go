@@ -70,22 +70,22 @@ func (types Types) Contains(type_ Type) bool {
 }
 
 type unit struct {
-	id     int
-	name   string
-	player Player
-	level  int
-	hp     int
-	game   Game
+	id    int
+	name  string
+	team  Team
+	level int
+	hp    int
+	game  Game
 	physics.Body
 }
 
-func newUnit(id int, name string, p Player, level, posX, posY int, g Game) *unit {
+func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
 	u := &unit{
-		id:     id,
-		name:   name,
-		player: p,
-		level:  level,
-		game:   g,
+		id:    id,
+		name:  name,
+		team:  t,
+		level: level,
+		game:  g,
 	}
 	w := g.World()
 	u.hp = u.initialHp()
@@ -108,7 +108,7 @@ func (u *unit) Name() string {
 	return u.name
 }
 func (u *unit) Team() Team {
-	return u.player.Team()
+	return u.team
 }
 func (u *unit) Type() Type {
 	return units[u.name]["type"].(Type)
@@ -165,21 +165,13 @@ func (u *unit) radius() fixed.Scalar {
 	return u.game.World().FromPixel(r)
 }
 func (u *unit) initialHp() int {
-	var hp int
 	switch v := units[u.name]["hp"].(type) {
 	case int:
-		hp = v
+		return v
 	case []int:
-		hp = v[u.level]
-	default:
-		panic("invalid hp type")
+		return v[u.level]
 	}
-	divider := 1
-	for _, ratio := range u.player.StatRatios(u.Type(), "hpratio") {
-		hp *= ratio
-		divider *= 100
-	}
-	return hp / divider
+	panic("invalid hp type")
 }
 func (u *unit) initialShield() int {
 	switch v := units[u.name]["shield"].(type) {

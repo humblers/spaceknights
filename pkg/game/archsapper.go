@@ -17,6 +17,13 @@ type archsapper struct {
 
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archsapper", p.Team(), level, posX, posY, g)
+	hp := u.hp
+	divider := 1
+	for _, ratio := range p.StatRatios(u.Type(), "hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	u.hp = hp / divider
 	return &archsapper{
 		unit:         u,
 		TileOccupier: newTileOccupier(g),

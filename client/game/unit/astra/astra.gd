@@ -1,5 +1,6 @@
 extends "res://game/script/unit.gd"
 
+var player
 var isLeader = false
 var targetId = 0
 var attack = 0
@@ -15,11 +16,11 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func InitDummy(posX, posY, game, player):
-	.InitDummy("astra", player, posX, posY, game)
+	.InitDummy("astra", player.Team(), posX, posY, game)
 
 func Init(id, level, posX, posY, game, player):
+	.Init(id, "astra", player.Team(), level, posX, posY, game)
 	self.player = player
-	.Init(id, "astra", player, level, posX, posY, game)
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -129,7 +130,13 @@ func SetAsLeader():
 	var types = data["types"]
 	var ratio = data["hpratio"]
 	player.AddStatRatio(types, "hpratio", ratio[level])
-	hp = initialHp()
+	var hp = initialHp()
+	var divider = 1
+	var ratios = player.StatRatios(Type(), "hpratio")
+	for i in range(len(ratios)):
+		hp *= ratios[i]
+		divider *= 100
+	self.hp = hp / divider
 	set_hp()
 
 func Skill():
