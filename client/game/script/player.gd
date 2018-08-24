@@ -2,7 +2,7 @@ extends VBoxContainer
 
 const MAX_ENERGY = 10000
 const START_ENERGY = 7000
-const ENERGY_PER_FRAME = 40
+const ENERGY_PER_FRAME = 400
 const HAND_SIZE = 4
 const ROLLING_INTERVAL_STEP = 30
 
@@ -148,6 +148,7 @@ func update_cursor(x, y):
 	var ny = 1
 	var cardData = stat.cards[selected_card.Name]
 	var minTileY = tile[1]
+	get_node("../../Map/Tile").visible = pressed
 	if cardData.has("unit"):
 		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
 		var unit = stat.units[cardData["unit"]]
@@ -166,7 +167,7 @@ func update_cursor(x, y):
 	var pos = game.PosFromTile(tile[0], tile[1])
 	pos_node.position = Vector2(pos[0], pos[1])
 	pos_node.visible = pressed
-	get_node("../../Map/Tile").visible = pressed
+	
 
 func avoid_occupied_tiles(x, y, w, h, counter=0):
 	var l = {"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter}
