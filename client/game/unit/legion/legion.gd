@@ -128,6 +128,7 @@ func fireball():
 	skill.z_index = Z_INDEX["Skill"]
 	var anim = skill.get_node("AnimationPlayer")
 	anim.play("explosion")
+	game.camera.Shake(1, 60, 16)
 	yield(anim, "animation_finished")
 	skill.queue_free()
 
