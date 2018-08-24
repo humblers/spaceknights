@@ -25,7 +25,7 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
-	var ratios = player.StatRatios(Type(), "hpratio")
+	var ratios = player.StatRatios("hpratio")
 	for i in range(len(ratios)):
 		hp *= ratios[i]
 		divider *= 100

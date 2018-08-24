@@ -20,7 +20,7 @@ var pending = []
 var emptyIdx = []
 var rollingCounter = 0
 var knightIds = []
-var knightStatRatios = {}
+var statRatios = {}
 var no_deck = false
 
 var game
@@ -252,24 +252,15 @@ func update_cards():
 func Team():
 	return team
 
-func StatRatios(type, name):
-	var ratioMap
-	if type == "Knight":
-		ratioMap = knightStatRatios
-	if ratioMap and ratioMap.has(name):
-		return ratioMap[name]
-	return []
+func StatRatios(name):
+	if not statRatios.has(name):
+		return []
+	return statRatios[name]
 
-func AddStatRatio(types, name, ratio):
-	for type in types:
-		var ratioMap
-		if type == "Knight":
-			ratioMap = knightStatRatios
-		else:
-			print("unimplemented")
-		if not ratioMap.has(name):
-			ratioMap[name] = []
-		ratioMap[name].append(ratio)
+func AddStatRatio(name, ratio):
+	if not statRatios.has(name):
+		statRatios[name] = []
+	statRatios[name].append(ratio)
 
 func AddKnights(knights):
 	for i in range(len(knights)):

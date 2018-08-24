@@ -202,7 +202,6 @@ const passives = {
 		"hpratio":      [300, 310, 320],
 	},
 	"reinforce": {
-		"types":        ["Knight"],
 		"hpratio":      [120, 130, 140],
 	},
 }

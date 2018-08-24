@@ -205,7 +205,6 @@ var passives = map[string]map[string]interface{}{
 		"hpratio": []int{300, 310, 320},
 	},
 	"reinforce": map[string]interface{}{
-		"types":   Types{Knight},
 		"hpratio": []int{120, 130, 140},
 	},
 }
