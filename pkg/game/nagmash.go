@@ -37,6 +37,26 @@ func (n *nagmash) TakeDamage(amount int, t AttackType) {
 	}
 }
 
+func (n *nagmash) attackDamage() int {
+	damage := n.unit.attackDamage()
+	divider := 1
+	for _, ratio := range n.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (n *nagmash) attackRange() fixed.Scalar {
+	atkRange := units[n.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range n.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return n.game.World().FromPixel(atkRange / divider)
+}
+
 func (n *nagmash) Update() {
 	if n.isLeader {
 		data := passives[n.Skill()]

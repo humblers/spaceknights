@@ -40,6 +40,26 @@ func (ts *tombstone) TakeDamage(amount int, t AttackType) {
 	}
 }
 
+func (ts *tombstone) attackDamage() int {
+	damage := l.unit.attackDamage()
+	divider := 1
+	for _, ratio := range ts.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (ts *tombstone) attackRange() fixed.Scalar {
+	atkRange := units[ts.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range ts.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return ts.game.World().FromPixel(atkRange / divider)
+}
+
 func (ts *tombstone) Update() {
 	if ts.isLeader {
 		data := passives[ts.Skill()]

@@ -194,6 +194,12 @@ const passives = {
 		"offsetX":      150,
 		"perdeaths":    4,
 	},
+	"moredamage": {
+		"attackdamageratio": [110, 130, 140],
+	},
+	"morerange": {
+		"attackrangeratio": [120, 130, 140],
+	},
 	"readycannon": {
 		"unit":         "cannon",
 		"count":        2,
@@ -404,7 +410,8 @@ const units = {
 		"attackinterval": 2,
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
-		"active":          "fireball",
+		"active":         "fireball",
+		"passive":        "moredamage",
 	},
 	"judge": {
 		"mass":           0,
@@ -421,7 +428,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 1,
 		"bulletlifetime": 5,
-		"active":          "bulletrain",
+		"active":         "bulletrain",
+		"passive":        "morerange",
 	},
 	"nagmash": {
 		"mass":           1000,

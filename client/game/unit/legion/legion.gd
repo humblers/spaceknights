@@ -1,6 +1,7 @@
 extends "res://game/script/unit.gd"
 
 var player
+var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
@@ -47,7 +48,26 @@ func Destroy():
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
-	
+
+func attackDamage():
+	var damage = .attackDamage()
+	var divider = 1
+	var ratios = player.StatRatios("attackdamageratio")
+	for i in range(len(ratios)):
+		damage *= ratios[i]
+		divider *= 100
+	return damage / divider
+
+func attackRange():
+	var atkrange = stat.units[name_]["attackrange"]
+	var divider = 1
+	var ratios = player.StatRatios("attackrangeratio")
+	for i in range(len(ratios)):
+		atkrange *= ratios[i]
+		divider *= 100
+	atkrange /= divider
+	return game.World().FromPixel(atkrange)
+
 func Update():
 	if cast > 0:
 		if cast == preCastDelay() + 1:
@@ -85,8 +105,14 @@ func castDuration():
 func preCastDelay():
 	return stat.cards[Skill()]["precastdelay"]
 
+func SetAsLeader():
+	isLeader = true
+	var data = stat.passives[Skill()]
+	player.AddStatRatio("attackdamageratio", data["attackdamageratio"][level])
+
 func Skill():
-	return stat.units[name_]["active"]
+	var key = "passive" if isLeader else "active"
+	return stat.units[name_][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:

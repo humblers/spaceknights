@@ -194,8 +194,11 @@ var passives = map[string]map[string]interface{}{
 		"offsetX":   150,
 		"perdeaths": 4,
 	},
+	"moredamage": map[string]interface{}{
+		"attackdamageratio": []int{110, 130, 140},
+	},
 	"morerange": map[string]interface{}{
-		"attackrangeratio": []int{120, 120, 120},
+		"attackrangeratio": []int{120, 130, 140},
 	},
 	"readycannon": map[string]interface{}{
 		"unit":    "cannon",
@@ -409,6 +412,7 @@ var units = map[string]map[string]interface{}{
 		"bulletlifetime": 10,
 		"transformdelay": 5,
 		"active":         "fireball",
+		"passive":        "moredamage",
 	},
 	"judge": map[string]interface{}{
 		"mass":           0,
@@ -427,6 +431,7 @@ var units = map[string]map[string]interface{}{
 		"bulletlifetime": 10,
 		"transformdelay": 5,
 		"active":         "bulletrain",
+		"passive":        "morerange",
 	},
 	"nagmash": map[string]interface{}{
 		"mass":           1000,
