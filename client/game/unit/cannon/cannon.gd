@@ -6,8 +6,6 @@ var TileOccupier = preload("res://game/script/tileoccupier.gd")
 var targetId = 0
 var attack = 0
 
-var attackDelta = 0
-
 func InitDummy(posX, posY, game, player):
 	.InitDummy("cannon", player.Team(), posX, posY, game)
 
@@ -40,14 +38,9 @@ func Destroy():
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
-func addHp(amount):
-	hp += amount
-
-func addAttack(amount):
-	attackDelta += amount
-
-func attackDamage():
-	return .attackDamage() + attackDelta
+func setHp(amount):
+	hp = amount
+	set_hp()
 
 func target():
 	return game.FindUnit(targetId)
