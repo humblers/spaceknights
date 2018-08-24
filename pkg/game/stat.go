@@ -171,6 +171,13 @@ var cards = map[string]map[string]interface{}{
 		"offsetX": []int{0},
 		"offsetY": []int{0},
 	},
+	"ogre": map[string]interface{}{
+		"cost":    7000,
+		"unit":    "ogre",
+		"count":   1,
+		"offsetX": []int{0},
+		"offsetY": []int{0},
+	},
 }
 
 var passives = map[string]map[string]interface{}{
@@ -576,6 +583,21 @@ var units = map[string]map[string]interface{}{
 		"targettypes":    Types{Troop, Building, Knight},
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{325, 70, 100},
+		"attackrange":    40,
+		"attackinterval": 20,
+		"preattackdelay": 6,
+	},
+	"ogre": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Normal,
+		"mass":           6,
+		"radius":         40,
+		"hp":             []int{2610},
+		"sight":          350,
+		"speed":          75,
+		"targettypes":    Types{Troop, Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{500, 70, 100},
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
