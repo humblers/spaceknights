@@ -47,12 +47,14 @@ var elapsed = 0
 
 var team_swapped = false
 
+onready var camera = $Camera2D
+
 func _ready():
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
 	else:
 		$Camera2D.zoom = Vector2(1.1, 1.1)
-		$Camera2D.offset = Vector2(0, -50)
+		$Camera2D.position.y -= -50
 		$Players/Red.show()
 	set_process(true)
 	set_physics_process(true)
