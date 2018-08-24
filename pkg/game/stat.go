@@ -188,11 +188,11 @@ var passives = map[string]map[string]interface{}{
 		"perdeaths": 4,
 	},
 	"readycannon": map[string]interface{}{
-		"unit":  "cannon",
-		"count": 2,
-		"posX":  []int{325, 675}, // pos based on blue side
-		"posY":  []int{1075, 1075},
-		"mulhp": []int{300, 310, 320},
+		"unit":    "cannon",
+		"count":   2,
+		"posX":    []int{325, 675}, // pos based on blue side
+		"posY":    []int{1075, 1075},
+		"hpratio": []int{300, 310, 320},
 	},
 }
 

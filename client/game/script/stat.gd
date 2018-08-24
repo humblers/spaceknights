@@ -192,7 +192,7 @@ const passives = {
 		"count":        2,
 		"posX":         [325, 675],	 # pos based on blue side
 		"posY":         [1075, 1075],
-		"mulhp":        [300, 310, 320],
+		"hpratio":      [300, 310, 320],
 	},
 }
 

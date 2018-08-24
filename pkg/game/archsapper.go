@@ -102,7 +102,7 @@ func (a *archsapper) SetAsLeader() {
 				panic(err)
 			}
 			cannon.SetDecayOff()
-			hp := cannon.initialHp() * data["mulhp"].([]int)[a.level] / 100
+			hp := cannon.initialHp() * data["hpratio"].([]int)[a.level] / 100
 			cannon.setHp(hp)
 		}
 	}

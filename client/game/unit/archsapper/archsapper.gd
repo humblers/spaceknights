@@ -104,7 +104,7 @@ func SetAsLeader():
 			print(err)
 			return
 		cannon.Decayable.SetDecayOff()
-		var hp = cannon.initialHp() * data["mulhp"][level] / 100
+		var hp = cannon.initialHp() * data["hpratio"][level] / 100
 		cannon.setHp(hp)
 
 func Skill():
