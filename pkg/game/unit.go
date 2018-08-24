@@ -18,7 +18,6 @@ type Unit interface {
 	Type() Type
 	Layer() Layer
 	IsDead() bool
-	AddHp(amount int)
 	TakeDamage(amount int, t AttackType)
 	Update()
 	Destroy()
@@ -120,9 +119,7 @@ func (u *unit) Layer() Layer {
 func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
-func (u *unit) AddHp(amount int) {
-	u.hp += amount
-}
+
 func (u *unit) TakeDamage(amount int, t AttackType) {
 	if u.Layer() != Normal {
 		return
