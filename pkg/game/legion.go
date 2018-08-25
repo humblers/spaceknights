@@ -5,6 +5,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type legion struct {
 	*unit
 	player   Player
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -34,6 +35,26 @@ func (l *legion) TakeDamage(amount int, t AttackType) {
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
+}
+
+func (l *legion) attackDamage() int {
+	damage := l.unit.attackDamage()
+	divider := 1
+	for _, ratio := range l.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (l *legion) attackRange() fixed.Scalar {
+	atkRange := units[l.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range l.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return l.game.World().FromPixel(atkRange / divider)
 }
 
 func (l *legion) Update() {
@@ -81,8 +102,19 @@ func (l *legion) preCastDelay() int {
 	return cards[l.Skill()]["precastdelay"].(int)
 }
 
+func (l *legion) SetAsLeader() {
+	l.isLeader = true
+	data := passives[l.Skill()]
+	l.player.AddStatRatio("attackdamageratio", data["attackdamageratio"].([]int)[l.level])
+
+}
+
 func (l *legion) Skill() string {
-	return units[l.name]["active"].(string)
+	key := "active"
+	if l.isLeader {
+		key = "passive"
+	}
+	return units[l.name][key].(string)
 }
 
 func (l *legion) CastSkill(posX, posY int) bool {

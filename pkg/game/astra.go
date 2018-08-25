@@ -30,6 +30,26 @@ func (a *astra) TakeDamage(amount int, t AttackType) {
 	}
 }
 
+func (a *astra) attackDamage() int {
+	damage := a.unit.attackDamage()
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (a *astra) attackRange() fixed.Scalar {
+	atkRange := units[a.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return a.game.World().FromPixel(atkRange / divider)
+}
+
 func (a *astra) Update() {
 	if a.cast > 0 {
 		if a.cast > a.laserStart() && a.cast <= a.laserEnd() {
