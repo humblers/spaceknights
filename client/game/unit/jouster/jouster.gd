@@ -93,6 +93,7 @@ func handleAttack():
 			attack = 0
 			charge = 0
 	else:
+		charge = 0			# prevent charge accumulation
 		if attack == 0:
 			$AnimationPlayer.play("attack")
 		var t = target()
