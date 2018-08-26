@@ -54,8 +54,9 @@ func (j *jouster) findTargetAndDoAction() {
 		} else {
 			j.moveTo(t)
 		}
+	} else {
+		j.charge = 0
 	}
-	j.charge = 0
 }
 
 func (j *jouster) moveTo(u Unit) {
