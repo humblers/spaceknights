@@ -132,10 +132,10 @@ func (p *player) Do(a *Action) error {
 		return err
 	}
 	if cards[a.Card.Name]["unit"] != nil {
-		if p.team == Red && a.TileY > p.game.Map().MaxTileYOnTop().ToInt() {
+		if p.team == Red && a.TileY > p.game.Map().MaxTileYOnTop() {
 			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
 		}
-		if p.team == Blue && a.TileY < p.game.Map().MinTileYOnBot().ToInt() {
+		if p.team == Blue && a.TileY < p.game.Map().MinTileYOnBot() {
 			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
 		}
 	}

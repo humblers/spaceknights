@@ -140,10 +140,10 @@ func TileNumY():
 	return scalar.ToInt(tileNumY)
 
 func MaxTileYOnTop():
-	return scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)
+	return scalar.ToInt(tileNumY) / 2 - 2
 
 func MinTileYOnBot():
-	return scalar.Add(scalar.Div(tileNumY, scalar.Two), scalar.One)
+	return scalar.ToInt(tileNumY) / 2 + 1
 
 func GetObstacles():
 	return [leftshield, centershield, rightshield]

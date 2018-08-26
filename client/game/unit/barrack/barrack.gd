@@ -13,12 +13,12 @@ func Init(id, level, posX, posY, game, player):
 	.Init(id, "barrack", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
-	TileOccupier = TileOccupier.new()
-	TileOccupier.Init(game)
+	TileOccupier = TileOccupier.new(game)
 	self.player = player
 
 func Destroy():
 	.Destroy()
+	TileOccupier.Release()
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()

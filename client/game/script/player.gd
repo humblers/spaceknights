@@ -69,7 +69,7 @@ func gui_input(ev):
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
-			if name != "Red":
+			if name == "Blue":
 				pos = get_node("../../BattleField/CursorPos").position
 			var x = int(pos.x)
 			var y = int(pos.y)
@@ -100,7 +100,7 @@ func gui_input(ev):
 			selected_card["InvisibleTo"] = game.step + INPUT_DELAY_STEP
 			selected_card = null
 			mark_action(input)
-	if name != "Red":
+	if name == "Blue":
 		if belowField:
 			clear_cursor()
 			return
@@ -109,13 +109,13 @@ func gui_input(ev):
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		if name != "Red":
+		if name == "Blue":
 			var card = stat.cards[selected_card.Name]
 			if card.has("unit"):
 				var redArea = get_node("../../Map/RedArea")
 				$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 				$Tween.start()
-	if name != "Red":
+	if name == "Blue":
 		gui_input(ev)
 
 func add_cursor():
@@ -138,53 +138,67 @@ func add_cursor():
 	pos_node.move_child(cursor, 0)
 
 func update_cursor(x, y):
+	get_node("../../Map/Tile").visible = pressed
 	if selected_card == null:
 		return
 	var pos_node = get_node("../../BattleField/CursorPos")
 	if pos_node.get_child_count() <= 0:
 		add_cursor()
-
 	var tile = game.TileFromPos(x, y)
 	var nx = 1
 	var ny = 1
 	var cardData = stat.cards[selected_card.Name]
-	var minTileY = tile[1]
-	get_node("../../Map/Tile").visible = pressed
+	var minTileY = 0
+	var maxTileY = game.Map().TileNumY() - 1
 	if cardData.has("unit"):
-		minTileY = scalar.ToInt(game.map.MinTileYOnBot())
 		var unit = stat.units[cardData["unit"]]
 		if unit and unit["type"] == "Building":
 			nx = unit["tilenumx"]
 			ny = unit["tilenumy"]
-			minTileY = scalar.ToInt(game.map.MinTileYOnBot()) + ny / 2
-			tile[0] = int(clamp(tile[0], 0 + nx / 2, game.map.TileNumX() - 1 - nx / 2))
-	if tile[1] < minTileY:
-		tile[1] = minTileY
+		if name == "Blue":
+			minTileY = game.Map().MinTileYOnBot()
+		else:
+			maxTileY = game.Map().MaxTileOnTop()
+	var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
+	if res[1] == null:
+		var tr = res[0]
+		tile[0] = (tr.l + tr.r) / 2
+		tile[1] = (tr.t + tr.b) / 2
+		var pos = game.PosFromTile(tile[0], tile[1])
+		pos_node.position = Vector2(pos[0], pos[1])
+		pos_node.visible = pressed
 
-	var tr = avoid_occupied_tiles(tile[0], tile[1], nx, ny)
-	tile[0] = (tr.l + tr.r) / 2
-	tile[1] = (tr.t + tr.b) / 2
-
-	var pos = game.PosFromTile(tile[0], tile[1])
-	pos_node.position = Vector2(pos[0], pos[1])
-	pos_node.visible = pressed
-	
-
-func avoid_occupied_tiles(x, y, w, h, counter=0):
-	var l = {"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter}
-	var r = {"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter}
-	var t = {"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2}
-	var b = {"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2}
-	for tr in [l, r, t, b]:
+func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
+	var shifted = []
+	# left
+	if x-w/2-counter >= 0:
+		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter})
+	# right
+	if x+w/2+counter <= game.Map().TileNumX() - 1:
+		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter})
+	# bottom
+	if y+h/2+counter <= maxBot:
+		shifted.append({"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2})
+	# top
+	if y-h/2-counter >= minTop:
+		shifted.append({"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2})
+	var candidates = []
+	for tr in shifted:
+		if tr.t < minTop || tr.b > maxBot || tr.l < 0 || tr.r > game.Map().TileNumX() - 1:
+			continue
+		candidates.append(tr)
+	if len(candidates) == 0:
+		return [null, "can't placed"]
+	for tr in candidates:
 		var intersect = false
 		for occupied in game.OccupiedTiles().keys():
 			if game.intersect_tilerect(occupied, tr):
 				intersect = true
 				break
 		if not intersect:
-			return tr
+			return [tr, null]
 	counter += 1
-	return avoid_occupied_tiles(x, y, w, h, counter)
+	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
@@ -199,7 +213,7 @@ func clear_cursor():
 func mark_action(input):
 	if not action_markers.has(input.Step):
 		action_markers[input.Step] = []
-	if name != "Red":
+	if name == "Blue":
 		var pos_node = get_node("../../BattleField/CursorPos")
 		for child in pos_node.get_children():
 			var global_pos = child.global_position
@@ -216,7 +230,7 @@ func mark_action(input):
 		action_markers[input.Step].append(default_cursor)
 
 func show_message(msg, pos_y):
-	if name != "Red":
+	if name == "Blue":
 		var msgBar = get_node("../../BattleField/MessageBar")
 		var pos_x = msgBar.rect_position.x
 		msgBar.text = msg
@@ -324,9 +338,9 @@ func Do(action):
 			return "not enough energy: %s" % action.Card.Name
 
 		if stat.cards[action.Card.Name].has("unit"):
-			if team == "Red" and action.TileY > scalar.ToInt(game.map.MaxTileYOnTop()):
+			if team == "Red" and action.TileY > game.Map().MaxTileYOnTop():
 				return "can't place card on tileY: %d" % action.TileY
-			if team == "Blue" and action.TileY < scalar.ToInt(game.map.MinTileYOnBot()):
+			if team == "Blue" and action.TileY < game.Map().MinTileYOnBot():
 				return "can't place card on tileY: %d" % action.TileY
 		var err = useCard(action.Card, pos[0], pos[1])
 		if err != null:

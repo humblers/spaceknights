@@ -3,7 +3,7 @@ extends Reference
 var game
 var tileOccupied
 
-func Init(game):
+func _init(game):
 	self.game = game
 
 func GetRect(x, y, w, h):

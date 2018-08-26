@@ -13,6 +13,7 @@ type archsapper struct {
 	initPos  fixed.Vector
 	castPosX int
 	castPosY int
+	castTile TileOccupier
 }
 
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -24,11 +25,18 @@ func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 		divider *= 100
 	}
 	u.hp = hp / divider
+	to := newTileOccupier(g)
+	tx, ty := g.TileFromPos(posX, posY)
+	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
+	if err := to.Occupy(tr); err != nil {
+		panic(err)
+	}
 	return &archsapper{
 		unit:         u,
-		TileOccupier: newTileOccupier(g),
+		TileOccupier: to,
 		player:       p,
 		initPos:      u.Position(),
+		castTile:     newTileOccupier(g),
 	}
 }
 
@@ -37,6 +45,12 @@ func (a *archsapper) TakeDamage(amount int, t AttackType) {
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
+}
+
+func (a *archsapper) Destroy() {
+	a.unit.Destroy()
+	a.TileOccupier.Release()
+	a.castTile.Release()
 }
 
 func (a *archsapper) attackDamage() int {
@@ -152,8 +166,8 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 	nx := units[name]["tilenumx"].(int)
 	ny := units[name]["tilenumy"].(int)
 	tx, ty := a.game.TileFromPos(posX, posY)
-	tr := a.GetRect(tx, ty, nx, ny)
-	if err := a.Occupy(tr); err != nil {
+	tr := a.castTile.GetRect(tx, ty, nx, ny)
+	if err := a.castTile.Occupy(tr); err != nil {
 		a.game.Logger().Print(err)
 		return false
 	}
@@ -169,8 +183,8 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 func (a *archsapper) spawn() {
 	name := cards[a.Skill()]["unit"].(string)
 	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
-	tr := a.Occupied()
-	a.Release()
+	tr := a.castTile.Occupied()
+	a.castTile.Release()
 	if occupier, ok := a.game.FindUnit(id).(TileOccupier); ok {
 		if err := occupier.Occupy(tr); err != nil {
 			panic(err)
