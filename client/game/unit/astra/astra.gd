@@ -1,5 +1,7 @@
 extends "res://game/script/unit.gd"
 
+var TileOccupier = preload("res://game/script/tileoccupier.gd")
+
 var player
 var isLeader = false
 var targetId = 0
@@ -21,6 +23,13 @@ func InitDummy(posX, posY, game, player):
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "astra", player.Team(), level, posX, posY, game)
 	self.player = player
+	TileOccupier = TileOccupier.new(game)
+	var tile = game.TileFromPos(posX, posY)
+	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }
+	var err = TileOccupier.Occupy(tr)
+	if err != null:
+		print(err)
+		return
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -35,6 +44,7 @@ func TakeDamage(amount, attackType):
 
 func Destroy():
 	.Destroy()
+	TileOccupier.Release()
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()

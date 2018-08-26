@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type judge struct {
 	*unit
+	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -23,10 +24,17 @@ func newJudge(id int, level, posX, posY int, g Game, p Player) Unit {
 		divider *= 100
 	}
 	u.hp = hp / divider
+	to := newTileOccupier(g)
+	tx, ty := g.TileFromPos(posX, posY)
+	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
+	if err := to.Occupy(tr); err != nil {
+		panic(err)
+	}
 	return &judge{
-		unit:    u,
-		player:  p,
-		initPos: u.Position(),
+		unit:         u,
+		TileOccupier: to,
+		player:       p,
+		initPos:      u.Position(),
 	}
 }
 
@@ -35,6 +43,11 @@ func (j *judge) TakeDamage(amount int, t AttackType) {
 	if j.IsDead() {
 		j.player.OnKnightDead(j)
 	}
+}
+
+func (j *judge) Destroy() {
+	j.unit.Destroy()
+	j.Release()
 }
 
 func (j *judge) attackDamage() int {

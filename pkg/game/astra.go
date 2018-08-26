@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type astra struct {
 	*unit
+	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -16,10 +17,17 @@ type astra struct {
 
 func newAstra(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "astra", p.Team(), level, posX, posY, g)
+	to := newTileOccupier(g)
+	tx, ty := g.TileFromPos(posX, posY)
+	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
+	if err := to.Occupy(tr); err != nil {
+		panic(err)
+	}
 	return &astra{
-		unit:    u,
-		player:  p,
-		initPos: u.Position(),
+		unit:         u,
+		TileOccupier: to,
+		player:       p,
+		initPos:      u.Position(),
 	}
 }
 
@@ -28,6 +36,11 @@ func (a *astra) TakeDamage(amount int, t AttackType) {
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
+}
+
+func (a *astra) Destroy() {
+	a.unit.Destroy()
+	a.Release()
 }
 
 func (a *astra) attackDamage() int {

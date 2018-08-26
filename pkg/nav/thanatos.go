@@ -11,8 +11,8 @@ type Map interface {
 	TileHeight() fixed.Scalar
 	TileNumX() int
 	TileNumY() int
-	MaxTileYOnTop() fixed.Scalar
-	MinTileYOnBot() fixed.Scalar
+	MaxTileYOnTop() int
+	MinTileYOnBot() int
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -166,12 +166,12 @@ func (t *thanatos) TileNumY() int {
 	return t.tileNumY.ToInt()
 }
 
-func (t *thanatos) MaxTileYOnTop() fixed.Scalar {
-	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
+func (t *thanatos) MaxTileYOnTop() int {
+	return t.tileNumY.ToInt()/2 - 2
 }
 
-func (t *thanatos) MinTileYOnBot() fixed.Scalar {
-	return t.tileNumY.Div(fixed.Two).Sub(fixed.One)
+func (t *thanatos) MinTileYOnBot() int {
+	return t.tileNumY.ToInt()/2 + 1
 }
 
 func (t *thanatos) GetObstacles() []Area {

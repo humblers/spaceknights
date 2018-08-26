@@ -11,6 +11,7 @@ var initPosX = 0
 var initPosY = 0
 var castPosX = 0
 var castPosY = 0
+var castTile = preload("res://game/script/tileoccupier.gd")
 var prevDeathToll = 0
 
 var attack_counter = 0
@@ -34,8 +35,14 @@ func Init(id, level, posX, posY, game, player):
 		divider *= 100
 	self.hp = hp / divider
 	set_hp()
-	TileOccupier = TileOccupier.new()
-	TileOccupier.Init(game)
+	TileOccupier = TileOccupier.new(game)
+	var tile = game.TileFromPos(posX, posY)
+	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }
+	var err = TileOccupier.Occupy(tr)
+	if err != null:
+		print(err)
+		return
+	castTile = castTile.new(game)
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -46,6 +53,7 @@ func TakeDamage(amount, attackType):
 
 func Destroy():
 	.Destroy()
+	TileOccupier.Release()
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
@@ -135,8 +143,8 @@ func CastSkill(posX, posY):
 	var nx = stat.units[name]["tilenumx"]
 	var ny = stat.units[name]["tilenumy"]
 	var tile = game.TileFromPos(posX, posY)
-	var tr = TileOccupier.GetRect(tile[0], tile[1], nx, ny)
-	var err = TileOccupier.Occupy(tr)
+	var tr = castTile.GetRect(tile[0], tile[1], nx, ny)
+	var err = castTile.Occupy(tr)
 	if err != null:
 		print(err)
 		return false
@@ -170,8 +178,8 @@ func spawn(data):
 	var name = data["unit"]
 	if name == "barrack":
 		var id = game.AddUnit(name, level, castPosX, castPosY, player)
-		var tr = TileOccupier.Occupied()
-		TileOccupier.Release()
+		var tr = castTile.Occupied()
+		castTile.Release()
 		var occupier = game.FindUnit(id).get("TileOccupier")
 		if occupier != null:
 			var err = occupier.Occupy(tr)

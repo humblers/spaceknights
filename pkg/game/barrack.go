@@ -19,6 +19,11 @@ func newBarrack(id int, level, posX, posY int, g Game, p Player) Unit {
 	return b
 }
 
+func (b *barrack) Destroy() {
+	b.unit.Destroy()
+	b.Release()
+}
+
 func (b *barrack) Update() {
 	b.TakeDecayDamage()
 	if b.spawn%b.spawnInterval() == 0 {

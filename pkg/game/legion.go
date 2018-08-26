@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type legion struct {
 	*unit
+	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -23,10 +24,17 @@ func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 		divider *= 100
 	}
 	u.hp = hp / divider
+	to := newTileOccupier(g)
+	tx, ty := g.TileFromPos(posX, posY)
+	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
+	if err := to.Occupy(tr); err != nil {
+		panic(err)
+	}
 	return &legion{
-		unit:    u,
-		player:  p,
-		initPos: u.Position(),
+		unit:         u,
+		TileOccupier: to,
+		player:       p,
+		initPos:      u.Position(),
 	}
 }
 
@@ -35,6 +43,11 @@ func (l *legion) TakeDamage(amount int, t AttackType) {
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
+}
+
+func (l *legion) Destroy() {
+	l.unit.Destroy()
+	l.Release()
 }
 
 func (l *legion) attackDamage() int {
