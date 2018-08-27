@@ -11,6 +11,8 @@ type astra struct {
 	attack   int
 	cast     int
 	initPos  fixed.Vector
+	minPosX  fixed.Scalar
+	maxPosX  fixed.Scalar
 	castPosX int
 	castPosY int
 }
@@ -23,11 +25,14 @@ func newAstra(id int, level, posX, posY int, g Game, p Player) Unit {
 	if err := to.Occupy(tr); err != nil {
 		panic(err)
 	}
+	offsetX := g.World().FromPixel(HoverKnightOffsetX)
 	return &astra{
 		unit:         u,
 		TileOccupier: to,
 		player:       p,
 		initPos:      u.Position(),
+		minPosX:      u.Position().X.Sub(offsetX),
+		maxPosX:      u.Position().X.Add(offsetX),
 	}
 }
 
@@ -149,7 +154,13 @@ func (a *astra) inLaserArea(u Unit) bool {
 func (a *astra) chaseTarget() {
 	t := a.target()
 	if t != nil && a.canSee(t) {
-		a.moveTo(fixed.Vector{t.Position().X, a.Position().Y})
+		posX := t.Position().X
+		if posX < a.minPosX {
+			posX = a.minPosX
+		} else if posX > a.maxPosX {
+			posX = a.maxPosX
+		}
+		a.moveTo(fixed.Vector{posX, a.Position().Y})
 	} else {
 		a.moveTo(a.initPos)
 	}
