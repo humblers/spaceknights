@@ -1,7 +1,7 @@
 extends Node
 
 const ShieldRegenPerStep = 2
-const HoverKnightOffsetX = 100
+const HoverKnightTileOffsetX = 2
 
 const cards = {
 	"archers": {

@@ -47,7 +47,7 @@ func Init(id, level, posX, posY, game, player):
 	castTile = castTile.new(game)
 	initPosX = PositionX()
 	initPosY = PositionY()
-	var offsetX = game.World().FromPixel(stat.HoverKnightOffsetX)
+	var offsetX = scalar.Mul(game.Map().TileWidth(), scalar.FromInt(stat.HoverKnightTileOffsetX))
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 

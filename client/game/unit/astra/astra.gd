@@ -34,7 +34,7 @@ func Init(id, level, posX, posY, game, player):
 		return
 	initPosX = PositionX()
 	initPosY = PositionY()
-	var offsetX = game.World().FromPixel(stat.HoverKnightOffsetX)
+	var offsetX = scalar.Mul(game.Map().TileWidth(), scalar.FromInt(stat.HoverKnightTileOffsetX))
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 
@@ -146,7 +146,7 @@ func inLaserArea(unit):
 func chaseTarget():
 	var t = target()
 	if t != null and canSee(t):
-		var posX = scalar.Clamp(posX, minPosX, maxPosX)
+		var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
 		moveTo(posX, PositionY())
 	else:
 		moveTo(initPosX, initPosY)
