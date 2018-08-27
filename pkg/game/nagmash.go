@@ -32,7 +32,7 @@ func newNagmash(id int, level, posX, posY int, g Game, p Player) Unit {
 	if err := to.Occupy(tr); err != nil {
 		panic(err)
 	}
-	offsetX := g.World().FromPixel(HoverKnightOffsetX)
+	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &nagmash{
 		unit:         u,
 		TileOccupier: to,
