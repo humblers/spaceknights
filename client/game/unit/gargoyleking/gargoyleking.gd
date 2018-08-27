@@ -4,9 +4,6 @@ var targetId = 0
 var attack = 0
 var shield
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("gargoyleking", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "gargoyleking", player.Team(), level, posX, posY, game)
 	shield = initialShield()

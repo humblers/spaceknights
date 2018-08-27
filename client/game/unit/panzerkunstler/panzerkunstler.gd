@@ -6,9 +6,6 @@ var attackCount = 0
 var punchPosX
 var punchPosY
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("panzerkunstler", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "panzerkunstler", player.Team(), level, posX, posY, game)
 

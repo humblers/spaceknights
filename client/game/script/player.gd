@@ -188,7 +188,7 @@ func avoid_occupied_tiles(x, y, w, h, counter=0):
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
-	node.InitDummy(x, y, game, self)
+	node.InitDummy(x, y, game, self, false)
 	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
 	return node
 

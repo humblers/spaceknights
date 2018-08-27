@@ -3,9 +3,6 @@ extends "res://game/script/unit.gd"
 var targetId = 0
 var attack = 0
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("footman", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "footman", player.Team(), level, posX, posY, game)
 

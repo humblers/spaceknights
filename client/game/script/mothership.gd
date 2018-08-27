@@ -11,7 +11,7 @@ func init(game, player, knights):
 		var name = knights[i].Name
 		var pos = positions[i]
 		var node = resource.UNIT[name].instance()
-		node.InitDummy(0, 0, game, player)
+		node.InitDummy(0, 0, game, player, true)
 		get_node("Nodes/Deck/%s/Position/Unit" % pos).add_child(node)
 		var dummy_anim = node.get_node("AnimationPlayer")
 		dummy_anims.append(dummy_anim)

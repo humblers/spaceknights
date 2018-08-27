@@ -6,9 +6,6 @@ var TileOccupier = preload("res://game/script/tileoccupier.gd")
 var targetId = 0
 var attack = 0
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("cannon", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "cannon", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()

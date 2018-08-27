@@ -20,9 +20,6 @@ func _ready():
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
 	$AnimationPlayer.add_animation("skill", dup)
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("tombstone", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "tombstone", player.Team(), level, posX, posY, game)
 	self.player = player

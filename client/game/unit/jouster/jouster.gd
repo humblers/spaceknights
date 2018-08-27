@@ -4,9 +4,6 @@ var targetId = 0
 var attack = 0
 var charge = 0
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("jouster", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "jouster", player.Team(), level, posX, posY, game)
 
