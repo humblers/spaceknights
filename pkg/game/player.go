@@ -9,9 +9,9 @@ const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
 const rollingIntervalStep = 30
-const knightLeaderIndex = 1
+const knightLeaderIndex = 0
 
-var knightInitialPositionX = []int{200, 500, 800}
+var knightInitialPositionX = []int{500, 200, 800}
 var knightInitialPositionY = []int{1600, 1600, 1600}
 
 type Player interface {
@@ -19,6 +19,9 @@ type Player interface {
 	SetClient(c Client)
 
 	Team() Team
+
+	StatRatios(name string) []int
+	AddStatRatio(name string, ratio int)
 
 	AddKnights(knights []KnightData)
 	Do(a *Action) error
@@ -35,16 +38,19 @@ type player struct {
 	rollingCounter int
 	knightIds      []int
 
+	statRatios map[string][]int
+
 	game   Game
 	client Client
 }
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
-		team:    pd.Team,
-		energy:  startEnergy,
-		hand:    pd.Deck[:handSize],
-		pending: pd.Deck[handSize:],
+		team:       pd.Team,
+		energy:     startEnergy,
+		hand:       pd.Deck[:handSize],
+		pending:    pd.Deck[handSize:],
+		statRatios: make(map[string][]int),
 
 		game: g,
 	}
@@ -75,6 +81,14 @@ func (p *player) AddKnights(knights []KnightData) {
 		}
 		p.knightIds = append(p.knightIds, id)
 	}
+}
+
+func (p *player) StatRatios(name string) []int {
+	return p.statRatios[name]
+}
+
+func (p *player) AddStatRatio(name string, ratio int) {
+	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
 func (p *player) Update() {

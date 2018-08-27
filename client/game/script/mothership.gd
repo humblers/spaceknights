@@ -6,7 +6,7 @@ var default_finished
 var opening_finished
 
 func init(game, player, knights):
-	var positions = ["Left", "Center", "Right"]
+	var positions = ["Center", "Left", "Right"]
 	for i in range(len(positions)):
 		var name = knights[i].Name
 		var pos = positions[i]
@@ -37,7 +37,7 @@ func play(game):
 		anim.advance(cur_sec - anim.current_animation_position)
 
 func knights_added(knightIds):
-	var positions = ["Left", "Center", "Right"]
+	var positions = ["Center", "Left", "Right"]
 	for i in range(len(positions)):
 		var id = knightIds[i]
 		var pos = positions[i]

@@ -5,6 +5,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type astra struct {
 	*unit
 	player   Player
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -27,6 +28,26 @@ func (a *astra) TakeDamage(amount int, t AttackType) {
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
+}
+
+func (a *astra) attackDamage() int {
+	damage := a.unit.attackDamage()
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (a *astra) attackRange() fixed.Scalar {
+	atkRange := units[a.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return a.game.World().FromPixel(atkRange / divider)
 }
 
 func (a *astra) Update() {
@@ -129,8 +150,26 @@ func (a *astra) findTargetAndAttack() {
 	}
 }
 
+func (a *astra) SetAsLeader() {
+	a.isLeader = true
+	data := passives[a.Skill()]
+	a.player.AddStatRatio("hpratio", data["hpratio"].([]int)[a.level])
+	hp := a.initialHp()
+	divider := 1
+	for _, ratio := range a.player.StatRatios("hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	a.hp = hp / divider
+
+}
+
 func (a *astra) Skill() string {
-	return units[a.name]["active"].(string)
+	key := "active"
+	if a.isLeader {
+		key = "passive"
+	}
+	return units[a.name][key].(string)
 }
 
 func (a *astra) CastSkill(posX, posY int) bool {

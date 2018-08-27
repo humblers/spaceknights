@@ -6,8 +6,8 @@ const ENERGY_PER_FRAME = 400
 const HAND_SIZE = 4
 const ROLLING_INTERVAL_STEP = 30
 
-const KNIGHT_LEADER_INDEX = 1
-const KNIGHT_INITIAL_POSX = [200, 500, 800]
+const KNIGHT_LEADER_INDEX = 0
+const KNIGHT_INITIAL_POSX = [500, 200, 800]
 const KNIGHT_INITIAL_POSY = [1600, 1600, 1600]
 
 const INPUT_DELAY_STEP = 10
@@ -20,6 +20,7 @@ var pending = []
 var emptyIdx = []
 var rollingCounter = 0
 var knightIds = []
+var statRatios = {}
 var no_deck = false
 
 var game
@@ -250,6 +251,16 @@ func update_cards():
 
 func Team():
 	return team
+
+func StatRatios(name):
+	if not statRatios.has(name):
+		return []
+	return statRatios[name]
+
+func AddStatRatio(name, ratio):
+	if not statRatios.has(name):
+		statRatios[name] = []
+	statRatios[name].append(ratio)
 
 func AddKnights(knights):
 	for i in range(len(knights)):

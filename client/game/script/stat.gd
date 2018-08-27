@@ -171,6 +171,13 @@ const cards = {
 		"offsetX": [0],
 		"offsetY": [0],
 	},
+	"ogre": {
+		"cost":    7000,
+		"unit":    "ogre",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 }
 
 const passives = {
@@ -187,12 +194,21 @@ const passives = {
 		"offsetX":      150,
 		"perdeaths":    4,
 	},
+	"moredamage": {
+		"attackdamageratio": [110, 130, 140],
+	},
+	"morerange": {
+		"attackrangeratio": [120, 130, 140],
+	},
 	"readycannon": {
 		"unit":         "cannon",
 		"count":        2,
 		"posX":         [325, 675],	 # pos based on blue side
 		"posY":         [1075, 1075],
 		"hpratio":      [300, 310, 320],
+	},
+	"reinforce": {
+		"hpratio":      [120, 130, 140],
 	},
 }
 
@@ -346,7 +362,11 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 15,
 		"preattackdelay": 5,
-		"transformdelay": 10,
+		"chargedelay":           20,
+		"chargedmovespeed":      300,
+		"chargedattackdamage":   [400, 450, 550],
+		"chargedattackinterval": 15,
+		"chargedattackpredelay": 10,
 	},
 	"gargoyle": {
 		"type":           "Troop",
@@ -394,7 +414,8 @@ const units = {
 		"attackinterval": 2,
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
-		"active":          "fireball",
+		"active":         "fireball",
+		"passive":        "moredamage",
 	},
 	"judge": {
 		"mass":           0,
@@ -411,7 +432,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 1,
 		"bulletlifetime": 5,
-		"active":          "bulletrain",
+		"active":         "bulletrain",
+		"passive":        "morerange",
 	},
 	"nagmash": {
 		"mass":           1000,
@@ -446,7 +468,8 @@ const units = {
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"active":          "megalaser",
+		"active":         "megalaser",
+		"passive":        "reinforce",
 	},
 	"psabu": {
 		"type":           "Troop",
@@ -574,6 +597,21 @@ const units = {
 		"targettypes":    ["Troop", "Building", "Knight"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [325, 70, 100],
+		"attackrange":    40,
+		"attackinterval": 20,
+		"preattackdelay": 6,
+	},
+	"ogre": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         40,
+		"hp":             [2610],
+		"sight":          350,
+		"speed":          75,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [500, 70, 100],
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,

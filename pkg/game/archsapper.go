@@ -17,6 +17,13 @@ type archsapper struct {
 
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archsapper", p.Team(), level, posX, posY, g)
+	hp := u.hp
+	divider := 1
+	for _, ratio := range p.StatRatios("hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	u.hp = hp / divider
 	return &archsapper{
 		unit:         u,
 		TileOccupier: newTileOccupier(g),
@@ -30,6 +37,26 @@ func (a *archsapper) TakeDamage(amount int, t AttackType) {
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
+}
+
+func (a *archsapper) attackDamage() int {
+	damage := a.unit.attackDamage()
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (a *archsapper) attackRange() fixed.Scalar {
+	atkRange := units[a.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range a.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return a.game.World().FromPixel(atkRange / divider)
 }
 
 func (a *archsapper) Update() {

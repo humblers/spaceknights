@@ -119,6 +119,7 @@ func (u *unit) Layer() Layer {
 func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
+
 func (u *unit) TakeDamage(amount int, t AttackType) {
 	if u.Layer() != Normal {
 		return

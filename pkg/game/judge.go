@@ -5,6 +5,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 type judge struct {
 	*unit
 	player   Player
+	isLeader bool
 	targetId int
 	attack   int
 	cast     int
@@ -15,6 +16,13 @@ type judge struct {
 
 func newJudge(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "judge", p.Team(), level, posX, posY, g)
+	hp := u.hp
+	divider := 1
+	for _, ratio := range p.StatRatios("hpratio") {
+		hp *= ratio
+		divider *= 100
+	}
+	u.hp = hp / divider
 	return &judge{
 		unit:    u,
 		player:  p,
@@ -27,6 +35,26 @@ func (j *judge) TakeDamage(amount int, t AttackType) {
 	if j.IsDead() {
 		j.player.OnKnightDead(j)
 	}
+}
+
+func (j *judge) attackDamage() int {
+	damage := j.unit.attackDamage()
+	divider := 1
+	for _, ratio := range j.player.StatRatios("attackdamageratio") {
+		damage *= ratio
+		divider *= 100
+	}
+	return damage / divider
+}
+
+func (j *judge) attackRange() fixed.Scalar {
+	atkRange := units[j.name]["attackrange"].(int)
+	divider := 1
+	for _, ratio := range j.player.StatRatios("attackrangeratio") {
+		atkRange *= ratio
+		divider *= 100
+	}
+	return j.game.World().FromPixel(atkRange / divider)
 }
 
 func (j *judge) Update() {
@@ -74,8 +102,18 @@ func (j *judge) preCastDelay() int {
 	return cards[j.Skill()]["precastdelay"].(int)
 }
 
+func (j *judge) SetAsLeader() {
+	j.isLeader = true
+	data := passives[j.Skill()]
+	j.player.AddStatRatio("attackrangeratio", data["attackrangeratio"].([]int)[j.level])
+}
+
 func (j *judge) Skill() string {
-	return units[j.name]["skill"].(string)
+	key := "active"
+	if j.isLeader {
+		key = "passive"
+	}
+	return units[j.name][key].(string)
 }
 
 func (j *judge) CastSkill(posX, posY int) bool {
