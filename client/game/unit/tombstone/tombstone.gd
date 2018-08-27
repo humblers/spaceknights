@@ -9,6 +9,8 @@ var attack = 0
 var cast = 0
 var initPosX = 0
 var initPosY = 0
+var minPosX = 0
+var maxPosX = 0
 var castPosX = 0
 var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
@@ -45,6 +47,9 @@ func Init(id, level, posX, posY, game, player):
 	castTile = castTile.new(game)
 	initPosX = PositionX()
 	initPosY = PositionY()
+	var offsetX = game.World().FromPixel(stat.HoverKnightOffsetX)
+	minPosX = scalar.Sub(initPosX, offsetX)
+	maxPosX = scalar.Add(initPosX, offsetX)
 
 func TakeDamage(amount, attackType):
 	.TakeDamage(amount, attackType)
@@ -119,7 +124,8 @@ func preCastDelay():
 func chaseTarget():
 	var t = target()
 	if t != null and canSee(t):
-		moveTo(t.PositionX(), PositionY())
+		var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
+		moveTo(posX, PositionY())
 	else:
 		moveTo(initPosX, initPosY)
 		

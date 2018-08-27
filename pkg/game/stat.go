@@ -1,6 +1,7 @@
 package game
 
 const ShieldRegenPerStep = 2
+const HoverKnightOffsetX = 100
 
 var cards = map[string]map[string]interface{}{
 	"archers": map[string]interface{}{

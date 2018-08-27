@@ -11,6 +11,8 @@ type nagmash struct {
 	attack   int
 	cast     int
 	initPos  fixed.Vector
+	minPosX  fixed.Scalar
+	maxPosX  fixed.Scalar
 	castPosX int
 	castPosY int
 }
@@ -30,11 +32,14 @@ func newNagmash(id int, level, posX, posY int, g Game, p Player) Unit {
 	if err := to.Occupy(tr); err != nil {
 		panic(err)
 	}
+	offsetX := g.World().FromPixel(HoverKnightOffsetX)
 	return &nagmash{
 		unit:         u,
 		TileOccupier: to,
 		player:       p,
 		initPos:      u.Position(),
+		minPosX:      u.Position().X.Sub(offsetX),
+		maxPosX:      u.Position().X.Add(offsetX),
 	}
 }
 
@@ -111,7 +116,13 @@ func (n *nagmash) Update() {
 func (n *nagmash) chaseTarget() {
 	t := n.target()
 	if t != nil && n.canSee(t) {
-		n.moveTo(fixed.Vector{t.Position().X, n.Position().Y})
+		posX := t.Position().X
+		if posX < n.minPosX {
+			posX = n.minPosX
+		} else if posX > n.maxPosX {
+			posX = n.maxPosX
+		}
+		n.moveTo(fixed.Vector{posX, n.Position().Y})
 	} else {
 		n.moveTo(n.initPos)
 	}

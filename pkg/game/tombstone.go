@@ -11,6 +11,8 @@ type tombstone struct {
 	attack        int
 	cast          int
 	initPos       fixed.Vector
+	minPosX       fixed.Scalar
+	maxPosX       fixed.Scalar
 	castPosX      int
 	castPosY      int
 	castTile      TileOccupier
@@ -32,11 +34,14 @@ func newTombstone(id int, level, posX, posY int, g Game, p Player) Unit {
 	if err := to.Occupy(tr); err != nil {
 		panic(err)
 	}
+	offsetX := g.World().FromPixel(HoverKnightOffsetX)
 	return &tombstone{
 		unit:         u,
 		TileOccupier: to,
 		player:       p,
 		initPos:      u.Position(),
+		minPosX:      u.Position().X.Sub(offsetX),
+		maxPosX:      u.Position().X.Add(offsetX),
 		castTile:     newTileOccupier(g),
 	}
 }
@@ -108,6 +113,7 @@ func (ts *tombstone) Update() {
 				}
 			}
 		}
+		ts.chaseTarget()
 	}
 }
 
@@ -117,6 +123,21 @@ func (ts *tombstone) castDuration() int {
 
 func (ts *tombstone) preCastDelay() int {
 	return cards[ts.Skill()]["precastdelay"].(int)
+}
+
+func (ts *tombstone) chaseTarget() {
+	t := ts.target()
+	if t != nil && ts.canSee(t) {
+		posX := t.Position().X
+		if posX < ts.minPosX {
+			posX = ts.minPosX
+		} else if posX > ts.maxPosX {
+			posX = ts.maxPosX
+		}
+		ts.moveTo(fixed.Vector{posX, ts.Position().Y})
+	} else {
+		ts.moveTo(ts.initPos)
+	}
 }
 
 func (ts *tombstone) findTargetAndAttack() {
