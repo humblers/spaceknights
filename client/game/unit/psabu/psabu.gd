@@ -6,9 +6,6 @@ var shield
 var punchPosX
 var punchPosY
 
-func InitDummy(posX, posY, game, player):
-	.InitDummy("psabu", player.Team(), posX, posY, game)
-
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "psabu", player.Team(), level, posX, posY, game)
 	shield = initialShield()
