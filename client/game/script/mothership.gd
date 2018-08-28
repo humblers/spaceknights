@@ -5,7 +5,13 @@ var dummy_anims = []
 var default_finished
 var opening_finished
 
+var game
+var shade_nodes=[]
+var shader = preload("res://game/script/shader.gd")
+
 func init(game, player, knights):
+	self.game = game
+	init_shade(true)	# must init before knight spawn
 	var positions = ["Center", "Left", "Right"]
 	for i in range(len(positions)):
 		var name = knights[i].Name
@@ -22,6 +28,17 @@ func init(game, player, knights):
 	default_finished = true
 	yield($Ship, "animation_finished")
 	opening_finished = true
+
+func init_shade(enable):
+	shade_nodes = shader.get_shade_nodes(self)
+	for n in shade_nodes:
+		shader.init(n, enable)
+	if not enable:
+		shade_nodes = []
+
+func _process(delta):
+	for n in shade_nodes:
+		shader.shade(n, game.MAIN_LIGHT_ANGLE)
 
 func play(game):
 	if not default_finished or opening_finished:
