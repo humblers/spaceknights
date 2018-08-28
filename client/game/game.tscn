@@ -1,4 +1,4 @@
-[gd_scene load_steps=225 format=2]
+[gd_scene load_steps=226 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/script/camera.gd" type="Script" id=2]
@@ -11503,10 +11503,30 @@ tracks/45/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=100]
+
+resource_name = "rotate"
+length = 4.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:MAIN_LIGHT_ANGLE")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 90.0, 180.0, 270.0, 360.0 ]
+}
+
 [node name="game" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Editor", "Transform" ]
+MAIN_LIGHT_ANGLE = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="." index="0"]
 
@@ -17500,6 +17520,16 @@ playback_speed = 1.0
 anims/lose = SubResource( 97 )
 anims/start_siquence = SubResource( 98 )
 anims/win = SubResource( 99 )
+blend_times = [  ]
+
+[node name="LightDemoAnim" type="AnimationPlayer" parent="." index="9"]
+
+root_node = NodePath("..")
+autoplay = "rotate"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/rotate = SubResource( 100 )
 blend_times = [  ]
 
 
