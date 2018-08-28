@@ -118,6 +118,7 @@ func _process(delta):
 				curr.x = FlipX(curr.x)
 				curr.y = FlipY(curr.y)
 			b.node.position = prev.linear_interpolate(curr, t)
+	$Debug.update(self)
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
