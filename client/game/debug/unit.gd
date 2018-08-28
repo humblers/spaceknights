@@ -18,14 +18,17 @@ func update(game, unit, debug_config):
 	$Stats/Radius.modulate = debug_config.get("Radius_Color")
 	radius = game.World().ToPixel(unit.Radius())
 	$Stats/Radius/Label.text = String(radius)
-	$Stats/AttackDamage.visible = debug_config.get("AttackDamage")
-	$Stats/AttackDamage/Label.text = String(unit.attackDamage())
-	$Stats/AttackInterval.visible = debug_config.get("AttackInterval")
-	$Stats/AttackInterval/Label.text = String(unit.attackInterval())
-	$Stats/AttackRange.visible = debug_config.get("AttackRange")
-	$Stats/AttackRange.modulate = debug_config.get("AttackRange_Color")
-	attack_range = game.World().ToPixel(unit.attackRange())
-	$Stats/AttackRange/Label.text = String(attack_range)
+	if stat.units[unit.name_].has("attackdamage"):
+		$Stats/AttackDamage.visible = debug_config.get("AttackDamage")
+		$Stats/AttackDamage/Label.text = String(unit.attackDamage())
+	if stat.units[unit.name_].has("attackinterval"):
+		$Stats/AttackInterval.visible = debug_config.get("AttackInterval")
+		$Stats/AttackInterval/Label.text = String(unit.attackInterval())
+	if stat.units[unit.name_].has("attackrange"):
+		$Stats/AttackRange.visible = debug_config.get("AttackRange")
+		$Stats/AttackRange.modulate = debug_config.get("AttackRange_Color")
+		attack_range = game.World().ToPixel(unit.attackRange())
+		$Stats/AttackRange/Label.text = String(attack_range)
 
 func _draw():
 	if $Stats/Radius.visible:

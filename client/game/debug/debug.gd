@@ -1,5 +1,7 @@
 extends Node
 
+export var Enable = false
+
 export var Hp = false
 
 export var Radius = false
@@ -28,6 +30,8 @@ func _unhandled_key_input(ev):
 			AttackRange = not AttackRange
 
 func update(game):
+	if not Enable:
+		return
 	for id in game.units:
 		var unit = game.units[id]
 		if not unit.has_node("debug"):
