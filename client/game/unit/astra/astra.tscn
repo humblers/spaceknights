@@ -1,4 +1,4 @@
-[gd_scene load_steps=124 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://game/unit/astra/astra.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/astra/frame.png" type="Texture" id=2]
@@ -29,15 +29,16 @@
 [ext_resource path="res://game/unit/astra/cover1_s.png" type="Texture" id=27]
 [ext_resource path="res://game/unit/astra/cover1_f.png" type="Texture" id=28]
 [ext_resource path="res://game/unit/astra/cover1_r.png" type="Texture" id=29]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=30]
-[ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=31]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=32]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=33]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=34]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=35]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=36]
-[ext_resource path="res://game/sfx/poton_beam.wav" type="AudioStream" id=37]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=30]
+[ext_resource path="res://game/vfx/knight_laser.png" type="Texture" id=31]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=32]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=33]
+[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=34]
+[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=35]
+[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=36]
+[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=37]
+[ext_resource path="res://game/sfx/poton_beam.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=39]
 
 [sub_resource type="Gradient" id=1]
 
@@ -204,31 +205,95 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity" ]
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=86]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.209922 )
+
+[sub_resource type="GradientTexture" id=87]
+
+flags = 4
+gradient = SubResource( 86 )
+width = 2048
+
+[sub_resource type="Curve" id=88]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=89]
+
+flags = 4
+width = 2048
+curve = SubResource( 88 )
+
+[sub_resource type="ParticlesMaterial" id=90]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 60.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 89 )
+color_ramp = SubResource( 87 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angle", "Color", "Gravity", "Radial Accel" ]
+
+[sub_resource type="Gradient" id=91]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.733292, 0.832404, 0.972656, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=13]
+[sub_resource type="GradientTexture" id=92]
 
 flags = 4
-gradient = SubResource( 12 )
+gradient = SubResource( 91 )
 width = 2048
 
-[sub_resource type="Curve" id=14]
+[sub_resource type="Curve" id=93]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.992888, 0.237836 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=15]
+[sub_resource type="CurveTexture" id=94]
 
 flags = 4
 width = 2048
-curve = SubResource( 14 )
+curve = SubResource( 93 )
 
-[sub_resource type="ParticlesMaterial" id=16]
+[sub_resource type="ParticlesMaterial" id=95]
 
 render_priority = 0
 trail_divisor = 1
@@ -239,7 +304,7 @@ flag_rotate_y = false
 flag_disable_z = true
 spread = 45.0
 flatness = 0.0
-gravity = Vector3( 0, -30, 0 )
+gravity = Vector3( 0, -10, 0 )
 initial_velocity = 1.0
 initial_velocity_random = 0.0
 angular_velocity = 360.0
@@ -258,8 +323,8 @@ angle = 180.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 15 )
-color_ramp = SubResource( 13 )
+scale_curve = SubResource( 94 )
+color_ramp = SubResource( 92 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -1616,7 +1681,7 @@ tracks/33/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Rotatable/Body/Shotpoint/Particles2D:emitting")
+tracks/34/path = NodePath("Rotatable/Body/Shotpoint/Start:emitting")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
@@ -1628,7 +1693,7 @@ tracks/34/keys = {
 "values": [ true, false ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Rotatable/Body/Shotpoint/Particles2D/Light2D:enabled")
+tracks/35/path = NodePath("Rotatable/Body/Shotpoint/Start/Light2D:enabled")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
@@ -4180,6 +4245,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Cover" type="Node2D" parent="Rotatable/Body" index="2"]
 
+editor/display_folded = true
 position = Vector2( 0, 7 )
 _sections_unfolded = [ "Transform" ]
 
@@ -4347,15 +4413,104 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable/Body" index="3"]
 
-editor/display_folded = true
-position = Vector2( 0, -70 )
+position = Vector2( 0, -80 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Body/Shotpoint" index="0"]
+[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Shotpoint" index="0"]
 
-position = Vector2( 0, -10 )
+position = Vector2( 0, -200 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="HitEffect" type="Particles2D" parent="Rotatable/Body/Shotpoint/HitPoint" index="0"]
+
+editor/display_folded = true
+visible = false
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 3.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 90 )
+texture = ExtResource( 30 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/HitPoint/HitEffect" index="0"]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 15 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.2
+color = Color( 0.128906, 0.51001, 1, 1 )
+energy = 2.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Shotpoint" index="1"]
+
+editor/display_folded = true
+visible = false
+modulate = Color( 0.628906, 0.834747, 1, 1 )
+scale = Vector2( 0.6, 10 )
+texture = ExtResource( 31 )
+offset = Vector2( 0, -10 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/LaserBeam" index="0"]
+
+scale = Vector2( 1.5, 1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 31 )
+offset = Vector2( 0, -10 )
+texture_scale = 1.0
+color = Color( 0.546875, 0.766357, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Start" type="Particles2D" parent="Rotatable/Body/Shotpoint" index="2"]
+
+editor/display_folded = true
+visible = false
 scale = Vector2( 1.5, 1.5 )
-emitting = false
+emitting = true
 amount = 8
 lifetime = 1.0
 one_shot = false
@@ -4368,16 +4523,16 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 16 )
+process_material = SubResource( 95 )
 texture = ExtResource( 14 )
 normal_map = null
 h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/Particles2D" index="0"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/Start" index="0"]
 
-enabled = false
+enabled = true
 editor_only = false
 texture = ExtResource( 15 )
 offset = Vector2( 0, 0 )
@@ -4424,7 +4579,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 21 )
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4576,7 +4731,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 44 )
-texture = ExtResource( 31 )
+texture = ExtResource( 30 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4629,7 +4784,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 52 )
-texture = ExtResource( 31 )
+texture = ExtResource( 30 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4730,7 +4885,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 68 )
-texture = ExtResource( 30 )
+texture = ExtResource( 32 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4753,7 +4908,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 73 )
-texture = ExtResource( 32 )
+texture = ExtResource( 33 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -4886,9 +5041,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 33 )
+texture_under = ExtResource( 34 )
 texture_over = null
-texture_progress = ExtResource( 34 )
+texture_progress = ExtResource( 35 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -4919,9 +5074,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 35 )
+texture_under = ExtResource( 36 )
 texture_over = null
-texture_progress = ExtResource( 36 )
+texture_progress = ExtResource( 37 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -4937,7 +5092,7 @@ editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
 
-stream = ExtResource( 37 )
+stream = ExtResource( 38 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -4947,7 +5102,7 @@ area_mask = 1
 
 [node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
 
-stream = ExtResource( 38 )
+stream = ExtResource( 39 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0
