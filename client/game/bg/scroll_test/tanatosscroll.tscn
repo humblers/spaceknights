@@ -1,0 +1,219 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://game/bg/scroll_test/tanatos-bg-1.png" type="Texture" id=1]
+[ext_resource path="res://game/bg/scroll_test/tanatos-bg-2.png" type="Texture" id=2]
+[ext_resource path="res://game/bg/scroll_test/cloud.png" type="Texture" id=3]
+[ext_resource path="res://game/bg/scroll_test/cloud2.png" type="Texture" id=4]
+
+[sub_resource type="Animation" id=1]
+
+resource_name = "bgscroll"
+length = 60.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Set:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 60 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -3840 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "scroll"
+length = 10.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 406, -1265 ), Vector2( 406, 1412 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "scroll"
+length = 14.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 14 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -156.719, -1840.73 ), Vector2( -156.719, 1658.86 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+
+length = 18.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("3:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -404, -1639 ), Vector2( -404, 1559 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "scroll"
+length = 20.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("4:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 20 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -430, -2126.79 ), Vector2( -430, 2178.16 ) ]
+}
+
+[node name="tanatosscroll" type="Node2D" index="0"]
+
+[node name="Background" type="Node2D" parent="." index="0"]
+
+position = Vector2( 540, 960 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BackgroundAni" type="AnimationPlayer" parent="Background" index="0"]
+
+root_node = NodePath("..")
+autoplay = "bgscroll"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/bgscroll = SubResource( 1 )
+blend_times = [  ]
+
+[node name="Set" type="Node2D" parent="Background" index="1"]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="1" type="Sprite" parent="Background/Set" index="0"]
+
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="2" type="Sprite" parent="Background/Set" index="1"]
+
+position = Vector2( 0, 3840 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="3" type="Sprite" parent="Background/Set" index="2"]
+
+position = Vector2( 0, 1920 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Cloud" type="Node2D" parent="Background" index="2"]
+
+editor/display_folded = true
+
+[node name="1" type="Sprite" parent="Background/Cloud" index="0"]
+
+position = Vector2( 406, 1412 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="2" type="Sprite" parent="Background/Cloud" index="1"]
+
+modulate = Color( 1, 1, 1, 0.530392 )
+position = Vector2( -156.719, -1840.73 )
+rotation = 4.71239
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="3" type="Sprite" parent="Background/Cloud" index="2"]
+
+position = Vector2( -404, 1559 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="4" type="Sprite" parent="Background/Cloud" index="3"]
+
+modulate = Color( 1, 1, 1, 0.491686 )
+position = Vector2( -430, -2126.79 )
+rotation = 4.71239
+scale = Vector2( 5, 5 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="CloudAni" type="AnimationPlayer" parent="Background/Cloud" index="4"]
+
+root_node = NodePath("..")
+autoplay = "scroll"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/scroll = SubResource( 2 )
+blend_times = [  ]
+
+[node name="CloudAni2" type="AnimationPlayer" parent="Background/Cloud" index="5"]
+
+root_node = NodePath("..")
+autoplay = "scroll"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/scroll = SubResource( 3 )
+blend_times = [  ]
+
+[node name="CloudAni3" type="AnimationPlayer" parent="Background/Cloud" index="6"]
+
+root_node = NodePath("..")
+autoplay = "scroll"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/scroll = SubResource( 4 )
+blend_times = [  ]
+
+[node name="CloudAni4" type="AnimationPlayer" parent="Background/Cloud" index="7"]
+
+root_node = NodePath("..")
+autoplay = "scroll"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/scroll = SubResource( 5 )
+blend_times = [  ]
+
+
