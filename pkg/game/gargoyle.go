@@ -10,8 +10,10 @@ type gargoyle struct {
 }
 
 func newGargoyle(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "gargoyle", p.Team(), level, posX, posY, g)
 	return &gargoyle{
-		unit: newUnit(id, "gargoyle", p.Team(), level, posX, posY, g),
+		unit:   u,
+		shield: u.initialShield(),
 	}
 }
 

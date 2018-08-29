@@ -29,6 +29,7 @@ const UNIT = {
 	"gargoyleking": preload("res://game/unit/gargoyleking/gargoyleking.tscn"),
 	"berserker": preload("res://game/unit/berserker/berserker.tscn"),
 	"ogre": preload("res://game/unit/ogre/ogre.tscn"),
+	"wasp": preload("res://game/unit/wasp/wasp.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -83,4 +84,5 @@ const ICON = {
 	"gargoyleking": preload("res://game/ui/unit_icon/gargoyleking.png"),
 	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
 	"ogre": preload("res://game/ui/unit_icon/ogre.png"),
+	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
 }

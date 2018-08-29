@@ -179,6 +179,13 @@ var cards = map[string]map[string]interface{}{
 		"offsetX": []int{0},
 		"offsetY": []int{0},
 	},
+	"wasp": map[string]interface{}{
+		"cost":    5000,
+		"unit":    "wasp",
+		"count":   1,
+		"offsetX": []int{0},
+		"offsetY": []int{0},
+	},
 }
 
 var passives = map[string]map[string]interface{}{
@@ -613,5 +620,23 @@ var units = map[string]map[string]interface{}{
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
+	},
+	"wasp": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Normal,
+		"mass":           6,
+		"radius":         25,
+		"hp":             []int{1050},
+		"shield":         []int{500},
+		"sight":          350,
+		"speed":          100,
+		"targettypes":    Types{Troop, Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{600, 60, 90},
+		"attackrange":    75,
+		"attackinterval": 10,
+		"preattackdelay": 7,
+		"destroydamage":  []int{600},
+		"destroyradius":  100,
 	},
 }

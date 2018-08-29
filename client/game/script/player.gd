@@ -26,7 +26,6 @@ var no_deck = false
 var game
 
 var selected_card = null
-var pressed = false
 var action_markers = {}
 
 func Init(playerData, game):
@@ -60,8 +59,9 @@ func gui_input(ev):
 	var pos = field.get_local_mouse_position()
 	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
 	if ev is InputEventMouseButton:
-		pressed = ev.pressed
-		if not pressed and not belowField:
+		update_tile_visible(ev.pressed)
+		get_node("../../BattleField/CursorPos").visible = ev.pressed
+		if not ev.pressed and not belowField:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
@@ -100,6 +100,8 @@ func gui_input(ev):
 			selected_card["InvisibleTo"] = game.step + INPUT_DELAY_STEP
 			selected_card = null
 			mark_action(input)
+	if not ev is InputEventMouseMotion:
+		return
 	if name == "Blue":
 		if belowField:
 			clear_cursor()
@@ -138,7 +140,6 @@ func add_cursor():
 	pos_node.move_child(cursor, 0)
 
 func update_cursor(x, y):
-	get_node("../../Map/Tile").visible = pressed
 	if selected_card == null:
 		return
 	var pos_node = get_node("../../BattleField/CursorPos")
@@ -159,14 +160,13 @@ func update_cursor(x, y):
 			minTileY = game.Map().MinTileYOnBot()
 		else:
 			maxTileY = game.Map().MaxTileOnTop()
-	var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
-	if res[1] == null:
-		var tr = res[0]
-		tile[0] = (tr.l + tr.r) / 2
-		tile[1] = (tr.t + tr.b) / 2
-		var pos = game.PosFromTile(tile[0], tile[1])
-		pos_node.position = Vector2(pos[0], pos[1])
-		pos_node.visible = pressed
+		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
+		if res[1] == null:
+			var tr = res[0]
+			tile[0] = (tr.l + tr.r) / 2
+			tile[1] = (tr.t + tr.b) / 2
+	var pos = game.PosFromTile(tile[0], tile[1])
+	pos_node.position = Vector2(pos[0], pos[1])
 
 func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 	var shifted = []
@@ -199,6 +199,14 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 			return [tr, null]
 	counter += 1
 	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
+
+func update_tile_visible(pressed):
+	if selected_card == null:
+		return
+	var cardData = stat.cards[selected_card.Name]
+	var isUnit = cardData.has("unit")
+	get_node("../../Map/TileSpell").visible = not isUnit and pressed
+	get_node("../../Map/TileUnit").visible = isUnit and pressed
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()

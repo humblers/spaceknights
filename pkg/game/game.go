@@ -347,6 +347,24 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newPanzerkunstler(id, level, posX, posY, g, p)
 	case "jouster":
 		u = newJouster(id, level, posX, posY, g, p)
+	case "enforcer":
+		u = newEnforcer(id, level, posX, posY, g, p)
+	case "felhound":
+		u = newFelhound(id, level, posX, posY, g, p)
+	case "trainee":
+		u = newTrainee(id, level, posX, posY, g, p)
+	case "starfire":
+		u = newStarfire(id, level, posX, posY, g, p)
+	case "pixie":
+		u = newPixie(id, level, posX, posY, g, p)
+	case "gargoyleking":
+		u = newGargoyleking(id, level, posX, posY, g, p)
+	case "berserker":
+		u = newBerserker(id, level, posX, posY, g, p)
+	case "ogre":
+		u = newOgre(id, level, posX, posY, g, p)
+	case "wasp":
+		u = newWasp(id, level, posX, posY, g, p)
 	default:
 		g.logger.Panicf("unknown unit name: %v", name)
 	}

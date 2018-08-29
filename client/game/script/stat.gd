@@ -179,6 +179,13 @@ const cards = {
 		"offsetX": [0],
 		"offsetY": [0],
 	},
+	"wasp": {
+		"cost":    5000,
+		"unit":    "wasp",
+		"count":   1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 }
 
 const passives = {
@@ -614,5 +621,23 @@ const units = {
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
+	},
+	"wasp": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         25,
+		"hp":             [1050],
+		"shield":         [500],
+		"sight":          300,
+		"speed":          100,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [600, 60, 90],
+		"attackrange":    75,
+		"attackinterval": 10,
+		"preattackdelay": 7,
+		"destroydamage":  [600],
+		"destroyradius":  100,
 	},
 }
