@@ -16,8 +16,6 @@ var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
 var prevDeathToll = 0
 
-var attack_counter = 0
-
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -96,41 +94,47 @@ func Update():
 		else:
 			cast += 1
 	else:
-		if attack > 0:
-			handleAttack()
-		else:
-			var t = target()
-			if t == null:
-				findTargetAndAttack()
+		if target() == null:
+			setTarget(findTarget())
+			attack = 0
+		var t = target()
+		if t != null and canSee(t):
+			var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
+			moveTo(posX, PositionY())
+			if withinRange(t):
+				if attack % attackInterval() == 0:
+					t.TakeDamage(attackDamage(), "Range")
+				attack += 1
 			else:
-				if withinRange(t):
-					handleAttack()
-				else:
-					findTargetAndAttack()
-		chaseTarget()
+				attack = 0
+		else:
+			moveTo(initPosX, initPosY)
+			attack = 0
 		
+	# client only
 	if targetId <= 0 and cast <= 0:
 		$AnimationPlayer.play("idle")
+	show_laser(attack > 0)
+
+func show_laser(enable):
+	for pos in ["L", "R", "C"]:
+		var n = get_node("Rotatable/Main/Body/Front/ShotPoint%s" % pos)
+		n.visible = enable
+		if enable:
+			var from = n.global_position
+			var to = (from - target().global_position).normalized()
+			to = to * game.World().ToPixel(target().Radius())
+			to = target().global_position + to
+			n.get_node("HitPoint").global_position = to
+			var beam = n.get_node("LaserBeam")
+			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
+			beam.global_rotation = (to - from).angle() + PI/2
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
 
 func preCastDelay():
 	return stat.cards[Skill()]["precastdelay"]
-
-func chaseTarget():
-	var t = target()
-	if t != null and canSee(t):
-		var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
-		moveTo(posX, PositionY())
-	else:
-		moveTo(initPosX, initPosY)
-		
-func findTargetAndAttack():
-	var t = findTarget()
-	setTarget(t)
-	if t != null and withinRange(t):
-		handleAttack()
 
 func SetAsLeader():
 	isLeader = true
@@ -205,29 +209,3 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
-
-func handleAttack():
-	if attack == 0:
-		$AnimationPlayer.play("attack")
-	var t = target()
-	if attack == preAttackDelay():
-		if t != null and withinRange(t):
-			fire()
-		else:
-			attack = 0
-			return
-	attack += 1
-	if attack > attackInterval():
-		attack = 0
-
-func fire():
-	var b = resource.BULLET[name_].instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
-	game.AddBullet(b)
-	
-	# client only
-	if attack_counter % 2 == 0:
-		b.global_position = $Rotatable/Main/Body/Front/ShotPointL.global_position
-	else:
-		b.global_position = $Rotatable/Main/Body/Front/ShotPointR.global_position
-	attack_counter += 1

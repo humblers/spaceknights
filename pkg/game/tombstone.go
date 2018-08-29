@@ -99,21 +99,31 @@ func (ts *tombstone) Update() {
 			ts.cast++
 		}
 	} else {
-		if ts.attack > 0 {
-			ts.handleAttack()
-		} else {
-			t := ts.target()
-			if t == nil {
-				ts.findTargetAndAttack()
-			} else {
-				if ts.withinRange(t) {
-					ts.handleAttack()
-				} else {
-					ts.findTargetAndAttack()
-				}
-			}
+		if ts.target() == nil {
+			ts.setTarget(ts.findTarget())
+			ts.attack = 0
 		}
-		ts.chaseTarget()
+		t := ts.target()
+		if t != nil && ts.canSee(t) {
+			posX := t.Position().X
+			if posX < ts.minPosX {
+				posX = ts.minPosX
+			} else if posX > ts.maxPosX {
+				posX = ts.maxPosX
+			}
+			ts.moveTo(fixed.Vector{posX, ts.Position().Y})
+			if ts.withinRange(t) {
+				if ts.attack%ts.attackInterval() == 0 {
+					t.TakeDamage(ts.attackDamage(), Range)
+				}
+				ts.attack++
+			} else {
+				ts.attack = 0
+			}
+		} else {
+			ts.moveTo(ts.initPos)
+			ts.attack = 0
+		}
 	}
 }
 
@@ -123,29 +133,6 @@ func (ts *tombstone) castDuration() int {
 
 func (ts *tombstone) preCastDelay() int {
 	return cards[ts.Skill()]["precastdelay"].(int)
-}
-
-func (ts *tombstone) chaseTarget() {
-	t := ts.target()
-	if t != nil && ts.canSee(t) {
-		posX := t.Position().X
-		if posX < ts.minPosX {
-			posX = ts.minPosX
-		} else if posX > ts.maxPosX {
-			posX = ts.maxPosX
-		}
-		ts.moveTo(fixed.Vector{posX, ts.Position().Y})
-	} else {
-		ts.moveTo(ts.initPos)
-	}
-}
-
-func (ts *tombstone) findTargetAndAttack() {
-	t := ts.findTarget()
-	ts.setTarget(t)
-	if t != nil && ts.withinRange(t) {
-		ts.handleAttack()
-	}
 }
 
 func (ts *tombstone) SetAsLeader() {
@@ -217,25 +204,4 @@ func (ts *tombstone) setTarget(u Unit) {
 	} else {
 		ts.targetId = u.Id()
 	}
-}
-
-func (ts *tombstone) handleAttack() {
-	if ts.attack == ts.preAttackDelay() {
-		t := ts.target()
-		if t != nil && ts.withinRange(t) {
-			ts.fire()
-		} else {
-			ts.attack = 0
-			return
-		}
-	}
-	ts.attack++
-	if ts.attack > ts.attackInterval() {
-		ts.attack = 0
-	}
-}
-
-func (ts *tombstone) fire() {
-	b := newBullet(ts.targetId, ts.bulletLifeTime(), ts.attackDamage())
-	ts.game.AddBullet(b)
 }
