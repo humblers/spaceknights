@@ -95,36 +95,31 @@ func (n *nagmash) Update() {
 			n.cast++
 		}
 	} else {
-		if n.attack > 0 {
-			n.handleAttack()
-		} else {
-			t := n.target()
-			if t == nil {
-				n.findTargetAndAttack()
-			} else {
-				if n.withinRange(t) {
-					n.handleAttack()
-				} else {
-					n.findTargetAndAttack()
-				}
+		if n.target() == nil {
+			n.setTarget(n.findTarget())
+			n.attack = 0
+		}
+		t := n.target()
+		if t != nil && n.canSee(t) {
+			posX := t.Position().X
+			if posX < n.minPosX {
+				posX = n.minPosX
+			} else if posX > n.maxPosX {
+				posX = n.maxPosX
 			}
+			n.moveTo(fixed.Vector{posX, n.Position().Y})
+			if n.withinRange(t) {
+				if n.attack%n.attackInterval() == 0 {
+					t.TakeDamage(n.attackDamage(), Range)
+				}
+				n.attack++
+			} else {
+				n.attack = 0
+			}
+		} else {
+			n.moveTo(n.initPos)
+			n.attack = 0
 		}
-		n.chaseTarget()
-	}
-}
-
-func (n *nagmash) chaseTarget() {
-	t := n.target()
-	if t != nil && n.canSee(t) {
-		posX := t.Position().X
-		if posX < n.minPosX {
-			posX = n.minPosX
-		} else if posX > n.maxPosX {
-			posX = n.maxPosX
-		}
-		n.moveTo(fixed.Vector{posX, n.Position().Y})
-	} else {
-		n.moveTo(n.initPos)
 	}
 }
 
@@ -134,14 +129,6 @@ func (n *nagmash) castDuration() int {
 
 func (n *nagmash) preCastDelay() int {
 	return cards[n.Skill()]["precastdelay"].(int)
-}
-
-func (n *nagmash) findTargetAndAttack() {
-	t := n.findTarget()
-	n.setTarget(t)
-	if t != nil && n.withinRange(t) {
-		n.handleAttack()
-	}
 }
 
 func (n *nagmash) SetAsLeader() {
@@ -188,25 +175,4 @@ func (n *nagmash) setTarget(u Unit) {
 	} else {
 		n.targetId = u.Id()
 	}
-}
-
-func (n *nagmash) handleAttack() {
-	if n.attack == n.preAttackDelay() {
-		t := n.target()
-		if t != nil && n.withinRange(t) {
-			n.fire()
-		} else {
-			n.attack = 0
-			return
-		}
-	}
-	n.attack++
-	if n.attack > n.attackInterval() {
-		n.attack = 0
-	}
-}
-
-func (n *nagmash) fire() {
-	b := newBullet(n.targetId, n.bulletLifeTime(), n.attackDamage())
-	n.game.AddBullet(b)
 }

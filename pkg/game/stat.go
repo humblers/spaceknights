@@ -454,8 +454,6 @@ var units = map[string]map[string]interface{}{
 		"attackdamage":   []int{50},
 		"attackrange":    330,
 		"attackinterval": 10,
-		"preattackdelay": 0,
-		"bulletlifetime": 10,
 		"active":         "unload",
 		"passive":        "gatherfootman",
 	},
@@ -472,8 +470,6 @@ var units = map[string]map[string]interface{}{
 		"attackdamage":   []int{50},
 		"attackrange":    330,
 		"attackinterval": 10,
-		"preattackdelay": 0,
-		"bulletlifetime": 10,
 		"active":         "megalaser",
 	},
 	"psabu": map[string]interface{}{
