@@ -46,7 +46,7 @@ func _init(world):
 		"t": top.b,
 		"b": bottom.t,
 		"l": scalar.Mul(tileWidth, scalar.FromInt(3)),
-		"r": scalar.Mul(tileWidth, scalar.FromInt(5)),
+		"r": scalar.Mul(tileWidth, scalar.FromInt(6)),
 	}
 	righthole = {
 		"t": lefthole.t,

@@ -239,7 +239,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"archsapper": map[string]interface{}{
 		"mass":           0,
-		"radius":         60,
+		"radius":         75,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
@@ -256,7 +256,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"tombstone": map[string]interface{}{
 		"mass":           1000,
-		"radius":         80,
+		"radius":         110,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
@@ -407,7 +407,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"legion": map[string]interface{}{
 		"mass":           0,
-		"radius":         45,
+		"radius":         70,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
@@ -425,7 +425,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"judge": map[string]interface{}{
 		"mass":           0,
-		"radius":         35,
+		"radius":         85,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
@@ -443,7 +443,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"nagmash": map[string]interface{}{
 		"mass":           1000,
-		"radius":         70,
+		"radius":         105,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
@@ -459,7 +459,7 @@ var units = map[string]map[string]interface{}{
 	},
 	"astra": map[string]interface{}{
 		"mass":           1000,
-		"radius":         70,
+		"radius":         95,
 		"type":           Knight,
 		"layer":          Normal,
 		"hp":             []int{2400},
