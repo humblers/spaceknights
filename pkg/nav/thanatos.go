@@ -87,7 +87,7 @@ func newThanatos(scale fixed.Scalar) *thanatos {
 		t: t.top.b,
 		b: t.bottom.t,
 		l: t.tileWidth.Mul(fixed.FromInt(3)),
-		r: t.tileWidth.Mul(fixed.FromInt(5)),
+		r: t.tileWidth.Mul(fixed.FromInt(6)),
 	}
 	t.righthole = &area{
 		t: t.lefthole.t,
