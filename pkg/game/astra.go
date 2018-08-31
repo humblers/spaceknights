@@ -80,21 +80,31 @@ func (a *astra) Update() {
 			a.cast++
 		}
 	} else {
-		if a.attack > 0 {
-			a.handleAttack()
-		} else {
-			t := a.target()
-			if t == nil {
-				a.findTargetAndAttack()
-			} else {
-				if a.withinRange(t) {
-					a.handleAttack()
-				} else {
-					a.findTargetAndAttack()
-				}
-			}
+		if a.target() == nil {
+			a.setTarget(a.findTarget())
+			a.attack = 0
 		}
-		a.chaseTarget()
+		t := a.target()
+		if t != nil && a.canSee(t) {
+			posX := t.Position().X
+			if posX < a.minPosX {
+				posX = a.minPosX
+			} else if posX > a.maxPosX {
+				posX = a.maxPosX
+			}
+			a.moveTo(fixed.Vector{posX, a.Position().Y})
+			if a.withinRange(t) {
+				if a.attack%a.attackInterval() == 0 {
+					t.TakeDamage(a.attackDamage(), Range)
+				}
+				a.attack++
+			} else {
+				a.attack = 0
+			}
+		} else {
+			a.moveTo(a.initPos)
+			a.attack = 0
+		}
 	}
 }
 
@@ -151,29 +161,6 @@ func (a *astra) inLaserArea(u Unit) bool {
 	return false
 }
 
-func (a *astra) chaseTarget() {
-	t := a.target()
-	if t != nil && a.canSee(t) {
-		posX := t.Position().X
-		if posX < a.minPosX {
-			posX = a.minPosX
-		} else if posX > a.maxPosX {
-			posX = a.maxPosX
-		}
-		a.moveTo(fixed.Vector{posX, a.Position().Y})
-	} else {
-		a.moveTo(a.initPos)
-	}
-}
-
-func (a *astra) findTargetAndAttack() {
-	t := a.findTarget()
-	a.setTarget(t)
-	if t != nil && a.withinRange(t) {
-		a.handleAttack()
-	}
-}
-
 func (a *astra) SetAsLeader() {
 	a.isLeader = true
 	data := passives[a.Skill()]
@@ -218,27 +205,6 @@ func (a *astra) setTarget(u Unit) {
 	} else {
 		a.targetId = u.Id()
 	}
-}
-
-func (a *astra) handleAttack() {
-	if a.attack == a.preAttackDelay() {
-		t := a.target()
-		if t != nil && a.withinRange(t) {
-			a.fire()
-		} else {
-			a.attack = 0
-			return
-		}
-	}
-	a.attack++
-	if a.attack > a.attackInterval() {
-		a.attack = 0
-	}
-}
-
-func (a *astra) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage())
-	a.game.AddBullet(b)
 }
 
 func boxVSCircle(posA, posB fixed.Vector, width, height, radius fixed.Scalar) bool {

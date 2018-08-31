@@ -37,12 +37,9 @@ const BULLET = {
 	"cannon": preload("res://game/unit/cannon/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
-	"nagmash": preload("res://game/unit/archer/bullet.tscn"),
-	"astra": preload("res://game/unit/astra/shot.tscn"),
 	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
-	"tombstone": preload("res://game/unit/archer/bullet.tscn"),
-	"starfire": preload("res://game/unit/astra/shot.tscn"),
+	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
