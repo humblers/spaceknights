@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/bg/eoparu/bg-eoparu.png" type="Texture" id=1]
 [ext_resource path="res://game/bg/eoparu/eoparu.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/speare.png" type="Texture" id=3]
+[ext_resource path="res://game/bg/colony2.png" type="Texture" id=4]
+[ext_resource path="res://game/bg/colony1.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 
@@ -19,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 240 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 34.4094, 1588 ), Vector2( 1012.52, 1268.12 ) ]
+"values": [ Vector2( 927.667, 1690 ), Vector2( 171.807, 207.957 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Background:rotation_degrees")
@@ -33,25 +36,156 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 10.0, -10.0 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Colony:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 240 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 928.654, 658.908 ), Vector2( 84.243, 1700.53 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Colony2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 240 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 125.032, 53.0998 ), Vector2( 1237.74, 560 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Colony2:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 240 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 120.0, 90.0 ]
+}
 
 [node name="eoparu" type="Node2D" index="0"]
 
 [node name="Background" type="Sprite" parent="." index="0"]
 
 position = Vector2( 540, 960 )
-rotation = 0.174533
+rotation = -0.174533
 scale = Vector2( 2.2, 2.2 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Planet" type="Sprite" parent="." index="1"]
 
-position = Vector2( 34.4094, 1588 )
+position = Vector2( 171.807, 207.957 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+[node name="Light2D" type="Light2D" parent="." index="2"]
+
+position = Vector2( 669.556, 1033.14 )
+scale = Vector2( 3, 3 )
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+texture_scale = 20.0
+color = Color( 1, 0.942078, 0.714844, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 32
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range" ]
+
+[node name="Colony2" type="Node2D" parent="." index="3"]
+
+modulate = Color( 0.855469, 0.855469, 0.855469, 1 )
+position = Vector2( 1237.74, 560 )
+rotation = 1.5708
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="Colony3" type="Sprite" parent="Colony2" index="0"]
+
+modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
+light_mask = 32
+position = Vector2( 386.88, 150.007 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Colony2" type="Sprite" parent="Colony2" index="1"]
+
+modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
+light_mask = 32
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Colony4" type="Sprite" parent="Colony2" index="2"]
+
+light_mask = 32
+position = Vector2( 436.668, 157.298 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Colony1" type="Sprite" parent="Colony2" index="3"]
+
+light_mask = 32
+position = Vector2( 49.7878, 7.29041 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Colony" type="Node2D" parent="." index="4"]
+
+position = Vector2( 84.243, 1700.53 )
+scale = Vector2( 3, 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ColonyEx" type="Sprite" parent="Colony" index="0"]
+
+modulate = Color( 0.230347, 0.394498, 0.398438, 1 )
+position = Vector2( -17.2504, -18.1186 )
+rotation = 0.714195
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+flip_v = true
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="Colony2" type="Sprite" parent="Colony" index="1"]
+
+modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
+light_mask = 32
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Colony1" type="Sprite" parent="Colony" index="2"]
+
+light_mask = 32
+position = Vector2( 49.7878, 7.29041 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
 
 root_node = NodePath("..")
 autoplay = "bg_scroll"
