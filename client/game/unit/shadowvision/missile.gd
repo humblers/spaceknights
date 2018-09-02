@@ -37,25 +37,33 @@ func _process(delta):
 	if target == null:
 		return
 	if currunt_target != target:
-		print("target = " , target.global_position)
+		#print("target = " , target.global_position)
 		currunt_target = target
 		adjust_position(target.global_position)
 	update_hit_position(target.global_position)
 	rotation = PI/2 + (target.position - position).angle()
 
 func adjust_position(gpos):
+	var anim = $AnimationPlayer.get_animation("attack")
 	$HitPosition.global_position = gpos
 	#print("gpos1 = ",gpos)
+	#print("I pos ", self.position, " t pos ", gpos)
+	
+	for side in ["L", "R"]:
+		for i in range(3):
+			var path = "Missile%s%s:position" % [side, (i + 1)]
+			var degree_path = "Missile%s%s:rotation_degrees" % [side, (i + 1)]
+			var track_idx = anim.find_track(path)
 			var degree_track_idx = anim.find_track(degree_path)
 			var key_num = anim.track_get_key_count(track_idx)
 			var degree_key_num = anim.track_get_key_count(degree_track_idx)
 			
 			for j in key_num-4:
 				randomize()
-				var r = (randi()%10+5)*2
+				var r = (randi()%20+5)
 #				var r = (randi()%20+5)
 				var offset = randi()%3-1
-				print(r ," & ", offset)
+				#print(r ," & ", offset)
 				var pos = $HitPosition.position * (j+1)/4
 				
 				r = r*offset
@@ -64,10 +72,13 @@ func adjust_position(gpos):
 #				var angle = ref_vec.angle_to(pos)
 #				shake = shake.rotated(angle)
 				
-				pos = pos.length()*Vector2(0,-1)
-				pos = pos + shake
-				anim.track_set_key_value(track_idx, j+4, pos)
+#				pos = pos.length()*Vector2(0,-1)
+#				pos = pos + shake
+#				anim.track_set_key_value(track_idx, j+4, pos)
 				#print("Missile%s%s:position" % [side, (i + 1)], " t#", j+4, " pos:", pos)
+				
+				var newpos = Vector2(anim.track_get_key_value(track_idx, j+4).x + r, pos.length()*-1)
+				anim.track_set_key_value(track_idx, j+4, newpos)
 				
 			for j in degree_key_num-3:
 				var ref_vec = Vector2(0, -600)
