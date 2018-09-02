@@ -526,7 +526,7 @@ const units = {
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [300, 450, 600],
 		"attackrange":    300,
-		"attackinterval": 36,
+		"attackinterval": 20,
 		"preattackdelay": 0,
 		"bulletlifetime": 30,
 	},
