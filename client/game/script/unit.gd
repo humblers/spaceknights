@@ -78,11 +78,11 @@ func setLayer(l):
 	
 func init_rotation():
 	if Team() == "Red":
-		$Rotatable.rotation = PI
+		$Rotatable.global_rotation = PI
 	else:
-		$Rotatable.rotation = 0
+		$Rotatable.global_rotation = 0
 	if game.team_swapped:
-		$Rotatable.rotation += PI
+		$Rotatable.global_rotation += PI
 	
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
@@ -91,7 +91,7 @@ func look_at(x, y):
 		px = game.FlipX(px)
 		py = game.FlipY(py)
 	var dir = Vector2(px, py) - position
-	$Rotatable.rotation = PI/2 + dir.angle()	# unit initial angle = -90
+	$Rotatable.global_rotation = PI/2 + dir.angle()	# unit initial angle = -90
 
 func set_hp():
 	var color = Team()
