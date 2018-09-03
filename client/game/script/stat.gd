@@ -528,7 +528,7 @@ const units = {
 		"attackrange":    300,
 		"attackinterval": 20,
 		"preattackdelay": 0,
-		"bulletlifetime": 30,
+		"bulletlifetime": 20,
 	},
 	"trainee": {
 		"type":           "Troop",
