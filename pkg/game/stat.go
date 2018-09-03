@@ -521,9 +521,9 @@ var units = map[string]map[string]interface{}{
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{300, 450, 600},
 		"attackrange":    300,
-		"attackinterval": 36,
+		"attackinterval": 20,
 		"preattackdelay": 0,
-		"bulletlifetime": 30,
+		"bulletlifetime": 20,
 	},
 	"trainee": map[string]interface{}{
 		"type":           Troop,
