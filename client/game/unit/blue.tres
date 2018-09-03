@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec4 damaged_color:hint_color;
+
+void fragment(){
+	COLOR = texture(TEXTURE, UV);
+	COLOR.rgb += damaged_color.rgb;
+}"
+_sections_unfolded = [ "Resource" ]
+
+[resource]
+
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/damaged_color = Color( 0.194902, 0.13826, 0.863281, 1 )
+_sections_unfolded = [ "Resource", "shader_param" ]
+
