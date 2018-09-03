@@ -61,9 +61,10 @@ func setTarget(unit):
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
-	game.AddBullet(b)
-	# client only
+	# must set position before AddBullet
+	# if not, bullet cannot see its initial position in _ready()
 	b.global_position = $Rotatable/Shotpoint.global_position
+	game.AddBullet(b)
 
 func findTargetAndDoAction():
 	var t = findTarget()

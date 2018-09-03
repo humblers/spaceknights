@@ -50,6 +50,7 @@ var team_swapped = false
 onready var camera = $Camera2D
 
 func _ready():
+	randomize()
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
 	else:
