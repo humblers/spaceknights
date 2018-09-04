@@ -8,9 +8,8 @@ const Z_INDEX = {
 	"Casting": 4,
 }
 
-const DAMAGED_FOWARD_DURATION = 0.2
-const DAMAGED_BACKWARD_DURATION = 0.3
-const DAMAGED_TOTAL_DURATION = DAMAGED_FOWARD_DURATION + DAMAGED_BACKWARD_DURATION
+const DAMAGE_FORWARD_DURATION = 0.2
+const DAMAGE_BACKWARD_DURATION = 0.3
 
 var id
 var name_
@@ -22,10 +21,9 @@ var body
 
 var node_hp
 var shade_nodes=[]
-var shader = preload("res://game/script/shader.gd")
-
-var damaged_steps = {}
-var damaged_color
+var custom_shader = preload("res://game/script/custom_shader.gd")
+var shader_material = preload("res://game/unit/shader_material.tres")
+var damages = {}
 
 func InitDummy(posX, posY, game, player, enable_shade):
 	self.team = player.team
@@ -38,31 +36,33 @@ func InitDummy(posX, posY, game, player, enable_shade):
 	init_shade(enable_shade)
 
 func init_shade(enable):
-	shade_nodes = shader.get_shade_nodes(self)
+	shade_nodes = custom_shader.get_shade_nodes(self)
 	for n in shade_nodes:
-		shader.init(n, enable)
+		custom_shader.init(n, enable)
 	if not enable:
 		shade_nodes = []
 
 func _process(delta):
 	for n in shade_nodes:
-		shader.shade(n, game.MAIN_LIGHT_ANGLE)
-	for step in damaged_steps.keys():
-		damaged_steps[step] += delta
-		var elapsed = damaged_steps[step]
-		if elapsed > DAMAGED_TOTAL_DURATION:
-			damaged_steps.erase(step)
+		custom_shader.shade(n, game.MAIN_LIGHT_ANGLE)
+	show_damage(delta)
+
+func show_damage(elapsed):
+	if material == null:
+		return
+	var max_value = 0
+	for step in damages.keys():
+		damages[step] += elapsed
+		var t = damages[step]
+		if t > DAMAGE_FORWARD_DURATION + DAMAGE_BACKWARD_DURATION:
+			damages.erase(step)
 			continue
-		var color = Color(0, 0, 0, 1)
-		var colors = [color, damaged_color]
-		var weight = elapsed / DAMAGED_FOWARD_DURATION
-		if elapsed > DAMAGED_FOWARD_DURATION:
-			colors.invert()
-			weight = (elapsed - DAMAGED_FOWARD_DURATION) / DAMAGED_BACKWARD_DURATION
-		var interpolated = colors[0].linear_interpolate(colors[1], weight)
-		if color.r < interpolated.r:
-			color = interpolated
-		material.set_shader_param("damaged_color", color)
+		var value = t / DAMAGE_FORWARD_DURATION
+		if t > DAMAGE_FORWARD_DURATION:
+			value = 1 - (t - DAMAGE_FORWARD_DURATION) / DAMAGE_BACKWARD_DURATION
+		if value > max_value:
+			max_value = value
+	material.set_shader_param("damage_ratio", max_value)
 
 func Init(id, name, team, level, posX, posY, game):
 	self.id = id
@@ -89,7 +89,7 @@ func Init(id, name, team, level, posX, posY, game):
 	position = Vector2(posX, posY)
 	init_rotation()
 	init_shade(true)
-	init_material()
+	material = shader_material.duplicate()
 	return self
 	
 func setLayer(l):
@@ -107,11 +107,6 @@ func init_rotation():
 		$Rotatable.global_rotation = 0
 	if game.team_swapped:
 		$Rotatable.rotation += PI
-
-func init_material():
-	material = resource.MATERIAL[Team().to_lower()].duplicate()
-	damaged_color = material.get_shader_param("damaged_color")
-	material.set_shader_param("damaged_color", Color(0, 0, 0, 1))
 
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
@@ -155,17 +150,7 @@ func TakeDamage(amount, attackType):
 	hp -= amount
 	node_hp.value = hp
 	if attackType != "Self":
-		# damaged_color blending with code
-		if not damaged_steps.has(game.step):
-			damaged_steps[game.step] = 0
-#	    # damaged_color blending with Tween node
-#		var initial_color = material.get_shader_param("damaged_color")
-#		$Tween.interpolate_method(self, "set_damaged_color", initial_color, damaged_color, FOWARD_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
-#		$Tween.interpolate_method(self, "set_damaged_color", damaged_color, Color(0, 0, 0, 1), BACKWARD_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN, FOWARD_DURATION)
-#		$Tween.start()
-#
-#func set_damaged_color(color):
-#	material.set_shader_param("damaged_color", color)
+		damages[game.step] = 0
 
 func Destroy():
 	game.World().RemoveBody(body)

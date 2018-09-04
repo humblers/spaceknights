@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform bool is_blue;
+uniform vec4 blue_damaged : hint_color;
+uniform vec4 red_damaged : hint_color;
+uniform float damage_ratio : hint_range(0, 1);
+
+void fragment(){
+	COLOR = texture(TEXTURE, UV);
+	if (is_blue) {
+		COLOR.rgb += blue_damaged.rgb * damage_ratio;
+	} else {
+		COLOR.rgb += red_damaged.rgb * damage_ratio;
+	}
+}"
+_sections_unfolded = [ "Resource" ]
+
+[resource]
+
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/is_blue = false
+shader_param/blue_damaged = Color( 0.0566406, 0.0699158, 0.90625, 1 )
+shader_param/red_damaged = Color( 0.945312, 0.0369263, 0.0369263, 1 )
+shader_param/damage_ratio = 0.0
+_sections_unfolded = [ "Resource", "shader_param" ]
+
