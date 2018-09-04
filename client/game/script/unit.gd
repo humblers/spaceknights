@@ -25,14 +25,14 @@ var custom_shader = preload("res://game/script/custom_shader.gd")
 var shader_material = preload("res://game/unit/shader_material.tres")
 var damages = {}
 
-func InitDummy(posX, posY, game, player, enable_shade):
+func InitDummy(posX, posY, game, player, enable_shade, initial_angle=0):
 	self.team = player.team
 	self.game = game
 	if game.team_swapped:
 		posX = game.FlipX(posX)
 		posY = game.FlipY(posY)
 	position = Vector2(posX, posY)
-	init_rotation()
+	init_rotation(initial_angle)
 	init_shade(enable_shade)
 
 func init_shade(enable):
@@ -101,13 +101,14 @@ func setLayer(l):
 	body.SetLayer(l)
 	z_index = Z_INDEX[l]
 	
-func init_rotation():
+func init_rotation(initial_angle=0):
 	if Team() == "Red":
-		$Rotatable.global_rotation = PI
+		$Rotatable.rotation = PI
 	else:
-		$Rotatable.global_rotation = 0
+		$Rotatable.rotation = 0
 	if game.team_swapped:
-		$Rotatable.global_rotation += PI
+		$Rotatable.rotation += PI
+	$Rotatable.rotation -= initial_angle
 
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
@@ -116,7 +117,7 @@ func look_at(x, y):
 		px = game.FlipX(px)
 		py = game.FlipY(py)
 	var dir = Vector2(px, py) - position
-	$Rotatable.global_rotation = PI/2 + dir.angle()	# unit initial angle = -90
+	$Rotatable.rotation = PI/2 + dir.angle()	# unit initial angle = -90
 
 func set_hp():
 	var color = Team()

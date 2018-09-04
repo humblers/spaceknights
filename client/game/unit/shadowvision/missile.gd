@@ -5,6 +5,7 @@ var lifetime = 0
 var damage = 0
 var game
 var anim
+var trajectory_initialized = false
 
 func Init(targetId, lifetime, damage, game):
 	self.targetId = targetId
@@ -26,22 +27,23 @@ func Destroy():
 	queue_free()
 
 func _ready():
-	set_process(true)
 	var dup = $AnimationPlayer.get_animation("attack").duplicate()
 	$AnimationPlayer.rename_animation("attack", "attack-ref")
 	$AnimationPlayer.add_animation("attack", dup)
 	$AnimationPlayer.play("attack")
 	anim = dup
-	update_trajectory(game.FindUnit(targetId).global_position)
 
 func _process(delta):
 	var target = game.FindUnit(targetId)
 	if target == null:
 		return
+	if not trajectory_initialized:
+		init_trajectory(target.global_position)
+		trajectory_initialized = true
 	update_hit_position(target.global_position)
 	rotation = PI/2 + (target.position - position).angle()
 
-func update_trajectory(hit_pos):
+func init_trajectory(hit_pos):
 	$HitPosition.global_position = hit_pos
 	for side in ["L", "R"]:
 		for i in range(3):
