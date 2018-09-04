@@ -90,6 +90,7 @@ func Init(id, name, team, level, posX, posY, game):
 	init_rotation()
 	init_shade(true)
 	material = shader_material.duplicate()
+	material.set_shader_param("is_blue", true if team == "Blue" else false)
 	return self
 	
 func setLayer(l):
