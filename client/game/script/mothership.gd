@@ -7,7 +7,7 @@ var opening_finished
 
 var game
 var shade_nodes=[]
-var shader = preload("res://game/script/shader.gd")
+var shader = preload("res://game/script/custom_shader.gd")
 
 func init(game, player, knights):
 	self.game = game

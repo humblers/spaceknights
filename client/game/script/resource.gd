@@ -56,11 +56,6 @@ const CURSOR = {
 	"tombstone": preload("res://game/unit/tombstone/targetcircle.tscn"),
 }
 
-const MATERIAL = {
-	"blue": preload("res://game/unit/blue.tres"),
-	"red": preload("res://game/unit/red.tres"),
-}
-
 # temporary
 const ICON = {
 	"archers": preload("res://game/ui/unit_icon/archer.png"),
