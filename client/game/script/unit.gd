@@ -106,7 +106,7 @@ func init_rotation():
 	else:
 		$Rotatable.global_rotation = 0
 	if game.team_swapped:
-		$Rotatable.rotation += PI
+		$Rotatable.global_rotation += PI
 
 func look_at(x, y):
 	var px = game.World().ToPixel(x)
