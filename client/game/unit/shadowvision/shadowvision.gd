@@ -22,6 +22,8 @@ func TakeDamage(amount, attackType):
 	else:
 		hp -= amount
 		$Energyshield/ParticlePhysical2.play("particle-physical")
+		if attackType != "Self":
+			damages[game.step] = 0
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	
