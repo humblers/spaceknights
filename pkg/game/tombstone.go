@@ -115,6 +115,11 @@ func (ts *tombstone) Update() {
 			if ts.withinRange(t) {
 				if ts.attack%ts.attackInterval() == 0 {
 					t.TakeDamage(ts.attackDamage(), Range)
+					duration := 0
+					for _, d := range ts.player.StatRatios("slowduration") {
+						duration += d
+					}
+					t.MakeSlow(duration)
 				}
 				ts.attack++
 			} else {

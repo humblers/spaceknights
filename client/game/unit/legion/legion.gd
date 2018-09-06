@@ -201,6 +201,10 @@ func handleAttack():
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	var duration = 0
+	for d in player.StatRatios("slowduration"):
+		duration += d
+	b.MakeFrozen(duration)
 	game.AddBullet(b)
 	
 	# client only

@@ -81,7 +81,7 @@ func attackRange():
 func Update():
 	if isLeader:
 		var data = stat.passives[Skill()]
-		if game.step % data["perstep"] == 0:
+		if game.Step() % data["perstep"] == 0:
 			var posX = game.World().ToPixel(initPosX)
 			var posY = game.World().ToPixel(initPosY)
 			spawn(data, posX, posY)
@@ -105,6 +105,10 @@ func Update():
 			if withinRange(t):
 				if attack % attackInterval() == 0:
 					t.TakeDamage(attackDamage(), "Range")
+					var duration = 0
+					for d in player.StatRatios("slowduration"):
+						duration += d
+					t.MakeSlow(duration)
 				attack += 1
 			else:
 				attack = 0

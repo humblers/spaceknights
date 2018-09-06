@@ -221,6 +221,11 @@ func (a *archsapper) handleAttack() {
 }
 
 func (a *archsapper) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage())
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
+	duration := 0
+	for _, d := range a.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	a.game.AddBullet(b)
 }

@@ -111,6 +111,11 @@ func (n *nagmash) Update() {
 			if n.withinRange(t) {
 				if n.attack%n.attackInterval() == 0 {
 					t.TakeDamage(n.attackDamage(), Range)
+					duration := 0
+					for _, d := range n.player.StatRatios("slowduration") {
+						duration += d
+					}
+					t.MakeSlow(duration)
 				}
 				n.attack++
 			} else {

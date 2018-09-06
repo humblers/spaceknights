@@ -18,7 +18,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "judge", player.Team(), level, posX, posY, game)
+	.Init(id, "frost", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
@@ -50,7 +50,7 @@ func TakeDamage(amount, attackType):
 func Destroy():
 	.Destroy()
 	TileOccupier.Release()
-	$AnimationPlayer.play("exlosion")
+	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
@@ -64,18 +64,19 @@ func attackDamage():
 	return damage / divider
 
 func attackRange():
-	var atkRange = stat.units[name_]["attackrange"]
+	var atkrange = stat.units[name_]["attackrange"]
 	var divider = 1
 	var ratios = player.StatRatios("attackrangeratio")
 	for i in range(len(ratios)):
-		atkRange *= ratios[i]
+		atkrange *= ratios[i]
 		divider *= 100
-	return game.World().FromPixel(atkRange / divider)
+	atkrange /= divider
+	return game.World().FromPixel(atkrange)
 
 func Update():
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			bulletrain()
+			freeze()
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -112,7 +113,7 @@ func preCastDelay():
 func SetAsLeader():
 	isLeader = true
 	var data = stat.passives[Skill()]
-	player.AddStatRatio("attackrangeratio", data["attackrangeratio"][level])
+	player.AddStatRatio("slowduration", data["slowduration"][level])
 
 func Skill():
 	var key = "passive" if isLeader else "active"
@@ -131,7 +132,7 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
+	var ref_vec = Vector2(0, -800)
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
@@ -145,8 +146,8 @@ func adjustSkillAnim():
 		var v = old_anim.track_get_key_value(track_idx, i)
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
-func bulletrain():
-	var damage = stat.cards[Skill()]["damage"][level]
+func freeze():
+	var duration = castDuration() - preCastDelay()
 	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
@@ -157,7 +158,7 @@ func bulletrain():
 		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(Radius(), radius)
 		if d < scalar.Mul(r, r):
-			u.TakeDamage(damage, "Skill")
+			u.Freeze(duration)
 	
 	# client only
 	var skill = resource.SKILL[name_].instance()
@@ -165,7 +166,7 @@ func bulletrain():
 	skill.position = Vector2(castPosX, castPosY)
 	skill.z_index = Z_INDEX["Skill"]
 	var anim = skill.get_node("AnimationPlayer")
-	anim.play("metalrain")
+	anim.play("freeze")
 	yield(anim, "animation_finished")
 	skill.queue_free()
 
@@ -204,4 +205,4 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
-	b.global_position = $Rotatable/Body/GunFrame/Shotpoint.global_position
+	b.global_position = $Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL.global_position

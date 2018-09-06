@@ -191,6 +191,11 @@ func (l *legion) handleAttack() {
 }
 
 func (l *legion) fire() {
-	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage())
+	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.game)
+	duration := 0
+	for _, d := range l.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	l.game.AddBullet(b)
 }

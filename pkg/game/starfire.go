@@ -45,7 +45,7 @@ func (s *starfire) setTarget(u Unit) {
 }
 
 func (s *starfire) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage())
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.game)
 	s.game.AddBullet(b)
 }
 

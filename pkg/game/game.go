@@ -275,7 +275,7 @@ func (g *game) update() {
 		g.units[id].Update()
 	}
 	for _, b := range g.bullets {
-		b.Update(g)
+		b.Update()
 	}
 	g.removeDeadUnits()
 	g.removeExpiredBullets()

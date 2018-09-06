@@ -96,6 +96,11 @@ func (a *astra) Update() {
 			if a.withinRange(t) {
 				if a.attack%a.attackInterval() == 0 {
 					t.TakeDamage(a.attackDamage(), Range)
+					duration := 0
+					for _, d := range a.player.StatRatios("slowduration") {
+						duration += d
+					}
+					t.MakeSlow(duration)
 				}
 				a.attack++
 			} else {

@@ -67,7 +67,7 @@ func (s *shadowvision) setTarget(u Unit) {
 }
 
 func (s *shadowvision) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage())
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.game)
 	s.game.AddBullet(b)
 }
 

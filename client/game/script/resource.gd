@@ -30,6 +30,7 @@ const UNIT = {
 	"berserker": preload("res://game/unit/berserker/berserker.tscn"),
 	"ogre": preload("res://game/unit/ogre/ogre.tscn"),
 	"wasp": preload("res://game/unit/wasp/wasp.tscn"),
+	"frost": preload("res://game/unit/frost/frost.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -37,6 +38,7 @@ const BULLET = {
 	"cannon": preload("res://game/unit/cannon/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
+	"frost": preload("res://game/unit/frost/bullet.tscn"),
 	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
@@ -44,6 +46,7 @@ const BULLET = {
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 	"judge": preload("res://game/unit/judge/arealshot.tscn"),
+	"frost": preload("res://game/unit/frost/ice_cloud.tscn"),
 }
 
 const CURSOR = {
@@ -54,6 +57,7 @@ const CURSOR = {
 	"astra": preload("res://game/unit/astra/targetsquare.tscn"),
 	"judge": preload("res://game/unit/judge/bomingpoint.tscn"),
 	"tombstone": preload("res://game/unit/tombstone/targetcircle.tscn"),
+	"frost": preload("res://game/unit/frost/bombingpoint.tscn"),
 }
 
 # temporary
@@ -82,4 +86,5 @@ const ICON = {
 	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
 	"ogre": preload("res://game/ui/unit_icon/ogre.png"),
 	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
+	"frost": preload("res://game/ui/unit_icon/frost.png"),
 }

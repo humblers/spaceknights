@@ -58,7 +58,7 @@ func (c *cannon) setTarget(u Unit) {
 }
 
 func (c *cannon) fire() {
-	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage())
+	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage(), c.game)
 	c.game.AddBullet(b)
 }
 

@@ -190,6 +190,11 @@ func (j *judge) handleAttack() {
 }
 
 func (j *judge) fire() {
-	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage())
+	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage(), j.game)
+	duration := 0
+	for _, d := range j.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	j.game.AddBullet(b)
 }
