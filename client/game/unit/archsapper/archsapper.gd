@@ -166,9 +166,10 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
-	var ref_vec = Vector2(0, -900)
+	var offset = 100*$Rotatable.get_scale().x
+	var ref_vec = Vector2(0, -800) * $Rotatable.get_scale().x
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
-	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))+offset
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
