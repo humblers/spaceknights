@@ -204,5 +204,6 @@ func fire():
 	b.MakeFrozen(duration)
 	game.AddBullet(b)
 	
-	# client only
-	b.global_position = $Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL.global_position
+	b.spawnerId = Id()
+	b.shotpoints["Left"] = "Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"
+	b.shotpoints["Right"] = "Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR"
