@@ -2,6 +2,7 @@ extends Node
 
 const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
+const SlowPercent = 50
 
 const cards = {
 	"archers": {
@@ -65,6 +66,13 @@ const cards = {
 		"damage": [325, 400, 500],
 		"radius": 70,
 		"castduration": 40,
+		"precastdelay": 20,
+	},
+	"freeze": {
+		"cost":         4000,
+		"caster":       "frost",
+		"radius":       100,
+		"castduration": 70,
 		"precastdelay": 20,
 	},
 	"bulletrain": {
@@ -217,6 +225,9 @@ const passives = {
 	},
 	"reinforce": {
 		"hpratio":      [120, 130, 140],
+	},
+	"frozenbullet": {
+		"slowduration": [20],
 	},
 }
 
@@ -412,7 +423,6 @@ const units = {
 		"layer":          "Normal",
 		"hp":             [2400],
 		"sight":          350,
-		"speed":          800,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [10],
@@ -423,6 +433,23 @@ const units = {
 		"active":         "fireball",
 		"passive":        "moredamage",
 	},
+	"frost": {
+		"mass":           0,
+		"radius":         70,
+		"type":           "Knight",
+		"layer":          "Normal",
+		"hp":             [2400],
+		"sight":          350,
+		"targettypes":    ["Troop"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [10],
+		"attackrange":    350,
+		"attackinterval": 20,
+		"preattackdelay": 0,
+		"bulletlifetime": 5,
+		"active":         "freeze",
+		"passive":        "frozenbullet",
+	},
 	"judge": {
 		"mass":           0,
 		"radius":         85,
@@ -430,7 +457,6 @@ const units = {
 		"layer":          "Normal",
 		"hp":             [2400],
 		"sight":          350,
-		"speed":          300,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [50],

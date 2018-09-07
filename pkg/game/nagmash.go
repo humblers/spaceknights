@@ -76,6 +76,12 @@ func (n *nagmash) attackRange() fixed.Scalar {
 }
 
 func (n *nagmash) Update() {
+	if n.freeze > 0 {
+		n.attack = 0
+		n.targetId = 0
+		n.freeze--
+		return
+	}
 	if n.isLeader {
 		data := passives[n.Skill()]
 		if n.game.Step()%data["perstep"].(int) == 0 {
@@ -111,6 +117,11 @@ func (n *nagmash) Update() {
 			if n.withinRange(t) {
 				if n.attack%n.attackInterval() == 0 {
 					t.TakeDamage(n.attackDamage(), Range)
+					duration := 0
+					for _, d := range n.player.StatRatios("slowduration") {
+						duration += d
+					}
+					t.MakeSlow(duration)
 				}
 				n.attack++
 			} else {

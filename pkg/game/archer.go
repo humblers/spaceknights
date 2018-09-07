@@ -16,6 +16,12 @@ func newArcher(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (a *archer) Update() {
 	a.SetVelocity(fixed.Vector{0, 0})
+	if a.freeze > 0 {
+		a.attack = 0
+		a.targetId = 0
+		a.freeze--
+		return
+	}
 	if a.attack > 0 {
 		a.handleAttack()
 	} else {
@@ -45,7 +51,7 @@ func (a *archer) setTarget(u Unit) {
 }
 
 func (a *archer) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage())
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
 	a.game.AddBullet(b)
 }
 

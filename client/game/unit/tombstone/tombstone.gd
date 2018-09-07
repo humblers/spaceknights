@@ -84,6 +84,11 @@ func Update():
 		if deathToll != prevDeathToll and deathToll % data["perdeaths"] == 0:
 			prevDeathToll = deathToll
 			spawn(data)
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if cast > 0:
 		if cast == preCastDelay() + 1:
 			spawn(stat.cards[Skill()])
@@ -104,6 +109,10 @@ func Update():
 			if withinRange(t):
 				if attack % attackInterval() == 0:
 					t.TakeDamage(attackDamage(), "Range")
+					var duration = 0
+					for d in player.StatRatios("slowduration"):
+						duration += d
+					t.MakeSlow(duration)
 				attack += 1
 			else:
 				attack = 0

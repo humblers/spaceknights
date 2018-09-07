@@ -30,6 +30,12 @@ func (p *psabu) TakeDamage(amount int, t AttackType) {
 
 func (p *psabu) Update() {
 	p.SetVelocity(fixed.Vector{0, 0})
+	if p.freeze > 0 {
+		p.attack = 0
+		p.targetId = 0
+		p.freeze--
+		return
+	}
 	if p.attack > 0 {
 		p.handleAttack()
 	} else {

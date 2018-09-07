@@ -71,6 +71,12 @@ func (j *judge) attackRange() fixed.Scalar {
 }
 
 func (j *judge) Update() {
+	if j.freeze > 0 {
+		j.attack = 0
+		j.targetId = 0
+		j.freeze--
+		return
+	}
 	if j.cast > 0 {
 		if j.cast == j.preCastDelay()+1 {
 			j.bulletrain()
@@ -190,6 +196,11 @@ func (j *judge) handleAttack() {
 }
 
 func (j *judge) fire() {
-	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage())
+	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage(), j.game)
+	duration := 0
+	for _, d := range j.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	j.game.AddBullet(b)
 }

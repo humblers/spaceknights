@@ -29,6 +29,11 @@ func TakeDamage(amount, attackType):
 
 func Update():
 	SetVelocity(0, 0)
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if attack > 0:
 		handleAttack()
 	else:

@@ -16,6 +16,12 @@ func newPixie(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (p *pixie) Update() {
 	p.SetVelocity(fixed.Vector{0, 0})
+	if p.freeze > 0 {
+		p.attack = 0
+		p.targetId = 0
+		p.freeze--
+		return
+	}
 	if p.attack > 0 {
 		p.handleAttack()
 	} else {
@@ -77,7 +83,7 @@ func (p *pixie) handleAttack() {
 	}
 	p.attack++
 	if p.attack > p.attackInterval() {
-		p.attack = 0		
+		p.attack = 0
 		p.setLayer(p.initialLayer())
 	}
 }

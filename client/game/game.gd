@@ -85,6 +85,9 @@ func stop():
 	set_process(false)
 	set_physics_process(false)
 
+func Step():
+	return step
+
 func CreateMapObstacles():
 	for o in map.GetObstacles():
 		var width = world.ToPixel(map.AreaWidth(o))
@@ -161,7 +164,7 @@ func update(state):
 	for id in units.keys():
 		units[id].Update()
 	for b in bullets:
-		b.Update(self)
+		b.Update()
 	removeDeadUnits()
 	removeExpiredBullets()
 	world.Step()

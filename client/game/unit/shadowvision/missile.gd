@@ -3,7 +3,9 @@ extends Node2D
 var targetId = 0
 var lifetime = 0
 var damage = 0
+var slowDuration = 0
 var game
+
 var anim
 var trajectory_initialized = false
 
@@ -13,11 +15,12 @@ func Init(targetId, lifetime, damage, game):
 	self.damage = damage
 	self.game = game
 
-func Update(game):
+func Update():
 	if lifetime <= 0:
 		var target = game.FindUnit(targetId)
 		if target != null:
 			target.TakeDamage(damage, "Range")
+			target.MakeSlow(slowDuration)
 	lifetime -= 1
 
 func IsExpired():
@@ -25,6 +28,9 @@ func IsExpired():
 
 func Destroy():
 	queue_free()
+
+func MakeFrozen(slowDuration):
+	self.slowDuration = slowDuration
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("attack").duplicate()

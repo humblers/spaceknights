@@ -73,6 +73,11 @@ func attackRange():
 	return game.World().FromPixel(atkRange / divider)
 
 func Update():
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if cast > 0:
 		if cast == preCastDelay() + 1:
 			bulletrain()
@@ -197,6 +202,10 @@ func handleAttack():
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	var duration = 0
+	for d in player.StatRatios("slowduration"):
+		duration += d
+	b.MakeFrozen(duration)
 	game.AddBullet(b)
 	
 	# client only

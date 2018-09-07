@@ -88,6 +88,12 @@ func (ts *tombstone) Update() {
 			ts.spawn(data)
 		}
 	}
+	if ts.freeze > 0 {
+		ts.attack = 0
+		ts.targetId = 0
+		ts.freeze--
+		return
+	}
 	if ts.cast > 0 {
 		if ts.cast == ts.preCastDelay()+1 {
 			ts.spawn(cards[ts.Skill()])
@@ -115,6 +121,11 @@ func (ts *tombstone) Update() {
 			if ts.withinRange(t) {
 				if ts.attack%ts.attackInterval() == 0 {
 					t.TakeDamage(ts.attackDamage(), Range)
+					duration := 0
+					for _, d := range ts.player.StatRatios("slowduration") {
+						duration += d
+					}
+					t.MakeSlow(duration)
 				}
 				ts.attack++
 			} else {

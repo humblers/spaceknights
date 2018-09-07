@@ -34,6 +34,12 @@ func (s *shadowvision) TakeDamage(amount int, t AttackType) {
 
 func (s *shadowvision) Update() {
 	s.SetVelocity(fixed.Vector{0, 0})
+	if s.freeze > 0 {
+		s.attack = 0
+		s.targetId = 0
+		s.freeze--
+		return
+	}
 	if s.attack > 0 {
 		s.handleAttack()
 	} else {
@@ -67,7 +73,7 @@ func (s *shadowvision) setTarget(u Unit) {
 }
 
 func (s *shadowvision) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage())
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.game)
 	s.game.AddBullet(b)
 }
 

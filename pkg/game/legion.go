@@ -71,6 +71,12 @@ func (l *legion) attackRange() fixed.Scalar {
 }
 
 func (l *legion) Update() {
+	if l.freeze > 0 {
+		l.attack = 0
+		l.targetId = 0
+		l.freeze--
+		return
+	}
 	if l.cast > 0 {
 		if l.cast == l.preCastDelay()+1 {
 			l.fireball()
@@ -191,6 +197,11 @@ func (l *legion) handleAttack() {
 }
 
 func (l *legion) fire() {
-	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage())
+	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.game)
+	duration := 0
+	for _, d := range l.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	l.game.AddBullet(b)
 }

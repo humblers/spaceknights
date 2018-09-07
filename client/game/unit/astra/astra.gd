@@ -71,6 +71,11 @@ func attackRange():
 	return game.World().FromPixel(atkrange)
 
 func Update():
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if cast > 0:
 		if cast > laserStart() and cast <= laserEnd():
 			deal()
@@ -91,6 +96,10 @@ func Update():
 			if withinRange(t):
 				if attack % attackInterval() == 0:
 					t.TakeDamage(attackDamage(), "Range")
+					var duration = 0
+					for d in player.StatRatios("slowduration"):
+						duration += d
+					t.MakeSlow(duration)
 				attack += 1
 			else:
 				attack = 0

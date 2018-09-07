@@ -31,6 +31,12 @@ func (g *gargoyle) TakeDamage(amount int, t AttackType) {
 
 func (g *gargoyle) Update() {
 	g.SetVelocity(fixed.Vector{0, 0})
+	if g.freeze > 0 {
+		g.attack = 0
+		g.targetId = 0
+		g.freeze--
+		return
+	}
 	if g.attack > 0 {
 		g.handleAttack()
 	} else {

@@ -74,6 +74,12 @@ func (a *archsapper) attackRange() fixed.Scalar {
 }
 
 func (a *archsapper) Update() {
+	if a.freeze > 0 {
+		a.attack = 0
+		a.targetId = 0
+		a.freeze--
+		return
+	}
 	if a.cast > 0 {
 		if a.cast == a.preCastDelay()+1 {
 			a.spawn()
@@ -221,6 +227,11 @@ func (a *archsapper) handleAttack() {
 }
 
 func (a *archsapper) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage())
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
+	duration := 0
+	for _, d := range a.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
 	a.game.AddBullet(b)
 }

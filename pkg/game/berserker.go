@@ -16,6 +16,12 @@ func newBerserker(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (b *berserker) Update() {
 	b.SetVelocity(fixed.Vector{0, 0})
+	if b.freeze > 0 {
+		b.attack = 0
+		b.targetId = 0
+		b.freeze--
+		return
+	}
 	if b.attack > 0 {
 		b.handleAttack()
 	} else {

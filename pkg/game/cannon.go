@@ -25,6 +25,12 @@ func (c cannon) Destroy() {
 
 func (c cannon) Update() {
 	c.TakeDecayDamage()
+	if c.freeze > 0 {
+		c.attack = 0
+		c.targetId = 0
+		c.freeze--
+		return
+	}
 	if c.attack > 0 {
 		c.handleAttack()
 	} else {
@@ -58,7 +64,7 @@ func (c *cannon) setTarget(u Unit) {
 }
 
 func (c *cannon) fire() {
-	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage())
+	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage(), c.game)
 	c.game.AddBullet(b)
 }
 

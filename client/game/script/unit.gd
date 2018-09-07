@@ -18,6 +18,8 @@ var level
 var hp
 var game
 var body
+var slowUntil = 0
+var freeze = 0
 
 var node_hp
 var shade_nodes=[]
@@ -157,6 +159,16 @@ func TakeDamage(amount, attackType):
 func Destroy():
 	game.World().RemoveBody(body)
 
+func MakeSlow(duration):
+	slowUntil = game.Step() + duration
+
+func Freeze(duration):
+	if Layer() == "Casting":
+		return
+	if freeze < duration:
+		freeze = duration
+	$AnimationPlayer.stop()
+	
 func PositionX():
 	return body.PositionX()
 
@@ -224,6 +236,8 @@ func sight():
 
 func speed():
 	var s = stat.units[name_]["speed"]
+	if slowUntil >= game.Step():
+		s = s * stat.SlowPercent / 100
 	return game.World().FromPixel(s)
 
 func targetTypes():
@@ -246,7 +260,10 @@ func attackRange():
 	return game.World().FromPixel(r)
 
 func attackInterval():
-	return stat.units[name_]["attackinterval"]
+	var i = stat.units[name_]["attackinterval"]
+	if slowUntil >= game.Step():
+		i = i * 100 / stat.SlowPercent
+	return i
 
 func preAttackDelay():
 	return stat.units[name_]["preattackdelay"]

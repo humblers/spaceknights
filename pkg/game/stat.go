@@ -2,6 +2,7 @@ package game
 
 const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
+const SlowPercent = 50
 
 var cards = map[string]map[string]interface{}{
 	"archers": map[string]interface{}{
@@ -58,6 +59,13 @@ var cards = map[string]map[string]interface{}{
 		"damage":       []int{325, 400, 500},
 		"radius":       70,
 		"castduration": 40,
+		"precastdelay": 20,
+	},
+	"freeze": map[string]interface{}{
+		"cost":         4000,
+		"caster":       "frost",
+		"radius":       100,
+		"castduration": 70,
 		"precastdelay": 20,
 	},
 	"bulletrain": map[string]interface{}{
@@ -217,6 +225,9 @@ var passives = map[string]map[string]interface{}{
 	},
 	"reinforce": map[string]interface{}{
 		"hpratio": []int{120, 130, 140},
+	},
+	"frozenbullet": map[string]interface{}{
+		"slowduration": []int{20},
 	},
 }
 
@@ -412,7 +423,6 @@ var units = map[string]map[string]interface{}{
 		"layer":          Normal,
 		"hp":             []int{2400},
 		"sight":          350,
-		"speed":          800,
 		"targettypes":    Types{Troop},
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{10},
@@ -423,6 +433,23 @@ var units = map[string]map[string]interface{}{
 		"active":         "fireball",
 		"passive":        "moredamage",
 	},
+	"frost": map[string]interface{}{
+		"mass":           0,
+		"radius":         70,
+		"type":           Knight,
+		"layer":          Normal,
+		"hp":             []int{2400},
+		"sight":          350,
+		"targettypes":    Types{Troop},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{10},
+		"attackrange":    350,
+		"attackinterval": 20,
+		"preattackdelay": 0,
+		"bulletlifetime": 5,
+		"active":         "freeze",
+		"passive":        "frozenbullet",
+	},
 	"judge": map[string]interface{}{
 		"mass":           0,
 		"radius":         85,
@@ -430,7 +457,6 @@ var units = map[string]map[string]interface{}{
 		"layer":          Normal,
 		"hp":             []int{2400},
 		"sight":          350,
-		"speed":          300,
 		"targettypes":    Types{Troop},
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{50},

@@ -11,7 +11,6 @@ var initPosX = 0
 var initPosY = 0
 var castPosX = 0
 var castPosY = 0
-var castTile = preload("res://game/script/tileoccupier.gd")
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -19,7 +18,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "archsapper", player.Team(), level, posX, posY, game)
+	.Init(id, "frost", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
@@ -36,7 +35,6 @@ func Init(id, level, posX, posY, game, player):
 	if err != null:
 		print(err)
 		return
-	castTile = castTile.new(game)
 	initPosX = PositionX()
 	initPosY = PositionY()
 
@@ -52,7 +50,6 @@ func TakeDamage(amount, attackType):
 func Destroy():
 	.Destroy()
 	TileOccupier.Release()
-	castTile.Release()
 	$AnimationPlayer.play("explosion")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
@@ -84,7 +81,7 @@ func Update():
 		return
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			spawn()
+			doFreeze()
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -103,47 +100,25 @@ func Update():
 					handleAttack()
 				else:
 					findTargetAndAttack()
-	if targetId <= 0 and cast <= 0:
+	if target() == null and cast == 0:
 		$AnimationPlayer.play("idle")
 
-func castDuration():
-	return stat.cards[Skill()]["castduration"]
-
-func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
-		
 func findTargetAndAttack():
 	var t = findTarget()
 	setTarget(t)
 	if t != null and withinRange(t):
 		handleAttack()
 
+func castDuration():
+	return stat.cards[Skill()]["castduration"]
+
+func preCastDelay():
+	return stat.cards[Skill()]["precastdelay"]
+
 func SetAsLeader():
 	isLeader = true
 	var data = stat.passives[Skill()]
-	var name = data["unit"]
-	var count = data["count"]
-	var xArr = data["posX"]
-	var yArr = data["posY"]
-	var nx = stat.units[name]["tilenumx"]
-	var ny = stat.units[name]["tilenumy"]
-	for i in range(count):
-		var posX = xArr[i]
-		var posY = yArr[i]
-		if player.Team() == "Red":
-			posX = game.FlipX(posX)
-			posY = game.FlipY(posY)
-		var id = game.AddUnit(name, level, posX, posY, player)
-		var cannon = game.FindUnit(id)
-		var tile = game.TileFromPos(posX, posY)
-		var tr = cannon.TileOccupier.GetRect(tile[0], tile[1], nx, ny)
-		var err = cannon.TileOccupier.Occupy(tr)
-		if err != null:
-			print(err)
-			return
-		cannon.Decayable.SetDecayOff()
-		var hp = cannon.initialHp() * data["hpratio"][level] / 100
-		cannon.setHp(hp)
+	player.AddStatRatio("slowduration", data["slowduration"][level])
 
 func Skill():
 	var key = "passive" if isLeader else "active"
@@ -151,15 +126,6 @@ func Skill():
 
 func CastSkill(posX, posY):
 	if cast > 0:
-		return false
-	var name = stat.cards[Skill()]["unit"]
-	var nx = stat.units[name]["tilenumx"]
-	var ny = stat.units[name]["tilenumy"]
-	var tile = game.TileFromPos(posX, posY)
-	var tr = castTile.GetRect(tile[0], tile[1], nx, ny)
-	var err = castTile.Occupy(tr)
-	if err != null:
-		print(err)
 		return false
 	attack = 0
 	cast += 1
@@ -171,43 +137,53 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
-	var offset = $Rotatable/DummyTurret.offset * $Rotatable.scale
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
+	var ref_vec = Vector2(0, -800)
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
-	var vec = (Vector2(x, y) - offset).rotated($Rotatable.rotation)
+	var vec = Vector2(x, y).rotated($Rotatable.rotation)
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position", "Rotatable/DummyTurret:position"]
-	for track in tracks:
-		var track_idx = old_anim.find_track(track)
-		var key_count = old_anim.track_get_key_count(track_idx)
-		for i in range(key_count):
-			var v = old_anim.track_get_key_value(track_idx, i)
-			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
+	var track_idx = old_anim.find_track("Rotatable/Body:position")
+	var key_count = old_anim.track_get_key_count(track_idx)
+	for i in range(key_count):
+		var v = old_anim.track_get_key_value(track_idx, i)
+		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
-func spawn():
-	var name = stat.cards[Skill()]["unit"]
-	var id = game.AddUnit(name, level, castPosX, castPosY, player)
-	var tr = castTile.Occupied()
-	castTile.Release()
-	var occupier = game.FindUnit(id).get("TileOccupier")
-	if occupier != null:
-		var err = occupier.Occupy(tr)
-		if err != null:
-			print(err)
+func doFreeze():
+	var duration = castDuration() - preCastDelay()
+	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
+	for id in game.UnitIds():
+		var u = game.FindUnit(id)
+		if u.Team() == Team():
+			continue
+		var x = scalar.Sub(game.World().FromPixel(castPosX), u.PositionX())
+		var y = scalar.Sub(game.World().FromPixel(castPosY), u.PositionY())
+		var d = vector.LengthSquared(x, y)
+		var r = scalar.Add(Radius(), radius)
+		if d < scalar.Mul(r, r):
+			u.Freeze(duration)
+	
+	# client only
+	var skill = resource.SKILL[name_].instance()
+	game.get_node("Skills").add_child(skill)
+	skill.position = Vector2(castPosX, castPosY)
+	skill.z_index = Z_INDEX["Skill"]
+	var anim = skill.get_node("AnimationPlayer")
+	anim.play("freeze")
+	yield(anim, "animation_finished")
+	skill.queue_free()
 
 func target():
 	return game.FindUnit(targetId)
-
+	
 func setTarget(unit):
 	if unit == null:
 		targetId = 0
 	else:
 		targetId = unit.Id()
-
+	
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
@@ -233,5 +209,6 @@ func fire():
 	b.MakeFrozen(duration)
 	game.AddBullet(b)
 	
-	# client only
-	b.global_position = $Rotatable/Body/Main/Gun/ShootingPoint.global_position
+	b.spawnerId = Id()
+	b.shotpoints["Left"] = "Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"
+	b.shotpoints["Right"] = "Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR"

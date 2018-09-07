@@ -22,6 +22,9 @@ func Destroy():
 
 func Update():
 	Decayable.TakeDecayDamage()
+	if freeze > 0:
+		freeze -= 1
+		return
 	var step = spawn % spawnInterval()
 	if step == 0:
 		$AnimationPlayer.play("spawn-anchor")

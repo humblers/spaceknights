@@ -21,6 +21,8 @@ type Unit interface {
 	TakeDamage(amount int, t AttackType)
 	Update()
 	Destroy()
+	Freeze(duration int)
+	MakeSlow(duration int)
 
 	// from physics.Body
 	Position() fixed.Vector
@@ -76,6 +78,22 @@ type unit struct {
 	hp    int
 	game  Game
 	physics.Body
+
+	slowUntil int
+	freeze    int
+}
+
+func (u *unit) MakeSlow(duration int) {
+	u.slowUntil = u.game.Step() + duration
+}
+
+func (u *unit) Freeze(duration int) {
+	if u.Layer() == Casting {
+		return
+	}
+	if u.freeze < duration {
+		u.freeze = duration
+	}
 }
 
 func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
@@ -182,6 +200,9 @@ func (u *unit) sight() fixed.Scalar {
 }
 func (u *unit) speed() fixed.Scalar {
 	s := units[u.name]["speed"].(int)
+	if u.slowUntil >= u.game.Step() {
+		s = s * SlowPercent / 100
+	}
 	return u.game.World().FromPixel(s)
 }
 func (u *unit) targetTypes() Types {
@@ -204,7 +225,11 @@ func (u *unit) attackRange() fixed.Scalar {
 	return u.game.World().FromPixel(r)
 }
 func (u *unit) attackInterval() int {
-	return units[u.name]["attackinterval"].(int)
+	i := units[u.name]["attackinterval"].(int)
+	if u.slowUntil >= u.game.Step() {
+		i = i * 100 / SlowPercent
+	}
+	return i
 }
 func (u *unit) preAttackDelay() int {
 	return units[u.name]["preattackdelay"].(int)

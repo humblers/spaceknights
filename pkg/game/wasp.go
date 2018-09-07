@@ -46,6 +46,12 @@ func (w *wasp) Destroy() {
 
 func (w *wasp) Update() {
 	w.SetVelocity(fixed.Vector{0, 0})
+	if w.freeze > 0 {
+		w.attack = 0
+		w.targetId = 0
+		w.freeze--
+		return
+	}
 	if w.attack > 0 {
 		w.handleAttack()
 	} else {
