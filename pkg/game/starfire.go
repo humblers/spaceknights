@@ -16,6 +16,12 @@ func newStarfire(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (s *starfire) Update() {
 	s.SetVelocity(fixed.Vector{0, 0})
+	if s.freeze > 0 {
+		s.attack = 0
+		s.targetId = 0
+		s.freeze--
+		return
+	}
 	if s.attack > 0 {
 		s.handleAttack()
 	} else {

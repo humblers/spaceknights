@@ -71,6 +71,12 @@ func (j *judge) attackRange() fixed.Scalar {
 }
 
 func (j *judge) Update() {
+	if j.freeze > 0 {
+		j.attack = 0
+		j.targetId = 0
+		j.freeze--
+		return
+	}
 	if j.cast > 0 {
 		if j.cast == j.preCastDelay()+1 {
 			j.bulletrain()

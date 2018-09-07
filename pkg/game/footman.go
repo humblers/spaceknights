@@ -16,6 +16,12 @@ func newFootman(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (f *footman) Update() {
 	f.SetVelocity(fixed.Vector{0, 0})
+	if f.freeze > 0 {
+		f.attack = 0
+		f.targetId = 0
+		f.freeze--
+		return
+	}
 	if f.attack > 0 {
 		f.handleAttack()
 	} else {

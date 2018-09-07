@@ -26,6 +26,10 @@ func (b *barrack) Destroy() {
 
 func (b *barrack) Update() {
 	b.TakeDecayDamage()
+	if b.freeze > 0 {
+		b.freeze--
+		return
+	}
 	if b.spawn%b.spawnInterval() == 0 {
 		b.doSpawn()
 	}

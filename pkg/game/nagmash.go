@@ -76,6 +76,12 @@ func (n *nagmash) attackRange() fixed.Scalar {
 }
 
 func (n *nagmash) Update() {
+	if n.freeze > 0 {
+		n.attack = 0
+		n.targetId = 0
+		n.freeze--
+		return
+	}
 	if n.isLeader {
 		data := passives[n.Skill()]
 		if n.game.Step()%data["perstep"].(int) == 0 {

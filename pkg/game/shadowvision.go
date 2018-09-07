@@ -34,6 +34,12 @@ func (s *shadowvision) TakeDamage(amount int, t AttackType) {
 
 func (s *shadowvision) Update() {
 	s.SetVelocity(fixed.Vector{0, 0})
+	if s.freeze > 0 {
+		s.attack = 0
+		s.targetId = 0
+		s.freeze--
+		return
+	}
 	if s.attack > 0 {
 		s.handleAttack()
 	} else {

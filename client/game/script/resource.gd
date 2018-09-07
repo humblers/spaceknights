@@ -86,5 +86,5 @@ const ICON = {
 	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
 	"ogre": preload("res://game/ui/unit_icon/ogre.png"),
 	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
-	"frost": preload("res://game/ui/unit_icon/frost.png"),
+	"freeze": preload("res://game/ui/unit_icon/frost.png"),
 }

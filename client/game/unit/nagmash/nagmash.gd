@@ -79,6 +79,11 @@ func attackRange():
 	return game.World().FromPixel(atkrange)
 
 func Update():
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if isLeader:
 		var data = stat.passives[Skill()]
 		if game.Step() % data["perstep"] == 0:

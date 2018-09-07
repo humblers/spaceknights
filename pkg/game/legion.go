@@ -71,6 +71,12 @@ func (l *legion) attackRange() fixed.Scalar {
 }
 
 func (l *legion) Update() {
+	if l.freeze > 0 {
+		l.attack = 0
+		l.targetId = 0
+		l.freeze--
+		return
+	}
 	if l.cast > 0 {
 		if l.cast == l.preCastDelay()+1 {
 			l.fireball()

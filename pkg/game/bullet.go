@@ -3,6 +3,7 @@ package game
 type Bullet interface {
 	Update()
 	IsExpired() bool
+	MakeFrozen(slowDuration int)
 }
 
 type bullet struct {

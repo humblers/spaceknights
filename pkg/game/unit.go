@@ -80,10 +80,20 @@ type unit struct {
 	physics.Body
 
 	slowUntil int
+	freeze    int
 }
 
 func (u *unit) MakeSlow(duration int) {
 	u.slowUntil = u.game.Step() + duration
+}
+
+func (u *unit) Freeze(duration int) {
+	if u.Layer() == Casting {
+		return
+	}
+	if u.freeze < duration {
+		u.freeze = duration
+	}
 }
 
 func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {

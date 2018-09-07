@@ -69,6 +69,12 @@ func (a *astra) attackRange() fixed.Scalar {
 }
 
 func (a *astra) Update() {
+	if a.freeze > 0 {
+		a.attack = 0
+		a.targetId = 0
+		a.freeze--
+		return
+	}
 	if a.cast > 0 {
 		if a.cast > a.laserStart() && a.cast <= a.laserEnd() {
 			a.deal()

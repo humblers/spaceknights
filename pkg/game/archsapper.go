@@ -74,6 +74,12 @@ func (a *archsapper) attackRange() fixed.Scalar {
 }
 
 func (a *archsapper) Update() {
+	if a.freeze > 0 {
+		a.attack = 0
+		a.targetId = 0
+		a.freeze--
+		return
+	}
 	if a.cast > 0 {
 		if a.cast == a.preCastDelay()+1 {
 			a.spawn()

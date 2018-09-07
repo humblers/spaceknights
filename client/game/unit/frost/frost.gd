@@ -74,9 +74,14 @@ func attackRange():
 	return game.World().FromPixel(atkrange)
 
 func Update():
+	if freeze > 0:
+		attack = 0
+		targetId = 0
+		freeze -= 1
+		return
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			freeze()
+			doFreeze()
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -146,7 +151,7 @@ func adjustSkillAnim():
 		var v = old_anim.track_get_key_value(track_idx, i)
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
-func freeze():
+func doFreeze():
 	var duration = castDuration() - preCastDelay()
 	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
 	for id in game.UnitIds():

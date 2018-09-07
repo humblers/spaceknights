@@ -41,7 +41,7 @@ func newFrost(id int, level, posX, posY int, g Game, p Player) Unit {
 func (f *frost) TakeDamage(amount int, t AttackType) {
 	f.unit.TakeDamage(amount, t)
 	if f.IsDead() {
-		f.player.OnKnightDead(l)
+		f.player.OnKnightDead(f)
 	}
 }
 
@@ -71,9 +71,15 @@ func (f *frost) attackRange() fixed.Scalar {
 }
 
 func (f *frost) Update() {
+	if f.freeze > 0 {
+		f.attack = 0
+		f.targetId = 0
+		f.freeze--
+		return
+	}
 	if f.cast > 0 {
 		if f.cast == f.preCastDelay()+1 {
-			f.freeze()
+			f.doFreeze()
 		}
 		if f.cast > f.castDuration() {
 			f.cast = 0
@@ -142,7 +148,7 @@ func (f *frost) CastSkill(posX, posY int) bool {
 	return true
 }
 
-func (f *frost) freeze() {
+func (f *frost) doFreeze() {
 	duration := f.castDuration() - f.preCastDelay()
 	radius := f.game.World().FromPixel(cards[f.Skill()]["radius"].(int))
 	for _, id := range f.game.UnitIds() {

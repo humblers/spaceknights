@@ -17,6 +17,13 @@ func newJouster(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (j *jouster) Update() {
 	j.SetVelocity(fixed.Vector{0, 0})
+	if j.freeze > 0 {
+		j.attack = 0
+		j.targetId = 0
+		j.charge = 0
+		j.freeze--
+		return
+	}
 	if j.attack > 0 {
 		j.handleAttack()
 	} else {

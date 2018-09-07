@@ -19,6 +19,7 @@ var hp
 var game
 var body
 var slowUntil = 0
+var freeze = 0
 
 var node_hp
 var shade_nodes=[]
@@ -161,6 +162,13 @@ func Destroy():
 func MakeSlow(duration):
 	slowUntil = game.Step() + duration
 
+func Freeze(duration):
+	if Layer() == "Casting":
+		return
+	if freeze < duration:
+		freeze = duration
+	$AnimationPlayer.stop()
+	
 func PositionX():
 	return body.PositionX()
 
