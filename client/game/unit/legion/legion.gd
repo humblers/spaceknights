@@ -7,8 +7,6 @@ var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
-var initPosX = 0
-var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 
@@ -37,8 +35,6 @@ func Init(id, level, posX, posY, game, player):
 	if err != null:
 		print(err)
 		return
-	initPosX = PositionX()
-	initPosY = PositionY()
 
 func TakeDamage(amount, attackType):
 	var initHp = initialHp()

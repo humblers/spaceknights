@@ -7,8 +7,6 @@ var isLeader = false
 var targetId = 0
 var attack = 0
 var cast = 0
-var initPosX = 0
-var initPosY = 0
 var castPosX = 0
 var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
@@ -37,8 +35,6 @@ func Init(id, level, posX, posY, game, player):
 		print(err)
 		return
 	castTile = castTile.new(game)
-	initPosX = PositionX()
-	initPosY = PositionY()
 
 func TakeDamage(amount, attackType):
 	var initHp = initialHp()

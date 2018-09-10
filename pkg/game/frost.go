@@ -10,7 +10,6 @@ type frost struct {
 	targetId int
 	attack   int
 	cast     int
-	initPos  fixed.Vector
 	castPosX int
 	castPosY int
 }
@@ -34,7 +33,6 @@ func newFrost(id int, level, posX, posY int, g Game, p Player) Unit {
 		unit:         u,
 		TileOccupier: to,
 		player:       p,
-		initPos:      u.Position(),
 	}
 }
 
