@@ -31,6 +31,7 @@ const UNIT = {
 	"ogre": preload("res://game/unit/ogre/ogre.tscn"),
 	"wasp": preload("res://game/unit/wasp/wasp.tscn"),
 	"frost": preload("res://game/unit/frost/frost.tscn"),
+	"champion": preload("res://game/unit/champion/champion.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -87,4 +88,5 @@ const ICON = {
 	"ogre": preload("res://game/ui/unit_icon/ogre.png"),
 	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
 	"freeze": preload("res://game/ui/unit_icon/frost.png"),
+	"champion": preload("res://game/ui/unit_icon/champion.png"),
 }
