@@ -166,10 +166,6 @@ func doFreeze():
 	game.get_node("Skills").add_child(skill)
 	skill.position = Vector2(castPosX, castPosY)
 	skill.z_index = Z_INDEX["Skill"]
-	var anim = skill.get_node("AnimationPlayer")
-	anim.play("freeze")
-	yield(anim, "animation_finished")
-	skill.queue_free()
 
 func target():
 	return game.FindUnit(targetId)
