@@ -201,6 +201,13 @@ var cards = map[string]map[string]interface{}{
 		"offsetX": []int{0},
 		"offsetY": []int{0},
 	},
+	"sentry": map[string]interface{}{
+		"cost":    2000,
+		"unit":    "sentry",
+		"count":   3,
+		"offsetX": []int{-30, 30, 0},
+		"offsetY": []int{30, 30, 0},
+	},
 }
 
 var passives = map[string]map[string]interface{}{
@@ -688,5 +695,21 @@ var units = map[string]map[string]interface{}{
 		"chargedattackdamage":   []int{310, 450, 550},
 		"chargedattackinterval": 7,
 		"chargedattackpredelay": 4,
+	},
+	"sentry": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Normal,
+		"mass":           6,
+		"radius":         20,
+		"hp":             []int{52},
+		"sight":          350,
+		"speed":          200,
+		"targettypes":    Types{Troop, Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{24, 60, 90},
+		"attackrange":    275,
+		"attackinterval": 13,
+		"preattackdelay": 0,
+		"bulletlifetime": 4,
 	},
 }

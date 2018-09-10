@@ -201,6 +201,13 @@ const cards = {
 		"offsetX": [0],
 		"offsetY": [0],
 	},
+	"sentry": {
+		"cost":    2000,
+		"unit":    "sentry",
+		"count":   3,
+		"offsetX": [-30, 30, 0],
+		"offsetY": [30, 30, 0],
+	},
 }
 
 const passives = {
@@ -689,5 +696,21 @@ const units = {
 		"chargedattackdamage":   [310, 450, 550],
 		"chargedattackinterval": 7,
 		"chargedattackpredelay": 4,
+	},
+	"sentry": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           6,
+		"radius":         20,
+		"hp":             [52],
+		"sight":          350,
+		"speed":          200,	#pixels per second
+		"targettypes":    ["Troop", "Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [24, 60, 90],
+		"attackrange":    275,
+		"attackinterval": 13,
+		"preattackdelay": 0,
+		"bulletlifetime": 4,
 	},
 }

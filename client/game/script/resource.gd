@@ -32,6 +32,7 @@ const UNIT = {
 	"wasp": preload("res://game/unit/wasp/wasp.tscn"),
 	"frost": preload("res://game/unit/frost/frost.tscn"),
 	"champion": preload("res://game/unit/champion/champion.tscn"),
+	"sentry": preload("res://game/unit/sentry/sentry.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -40,6 +41,7 @@ const BULLET = {
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 	"frost": preload("res://game/unit/frost/bullet.tscn"),
+	"sentry": preload("res://game/unit/sentry/bullet.tscn"),
 	# temporary, no bullet for below units
 	"judge": preload("res://game/unit/archer/bullet.tscn"),
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
@@ -89,4 +91,5 @@ const ICON = {
 	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
 	"freeze": preload("res://game/ui/unit_icon/frost.png"),
 	"champion": preload("res://game/ui/unit_icon/champion.png"),
+	"sentry": preload("res://game/ui/unit_icon/sentry.png"),
 }
