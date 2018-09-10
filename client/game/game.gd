@@ -147,8 +147,6 @@ func _physics_process(delta):
 			if actions.has(step):
 				state["Actions"] = actions[step]
 			update(state)
-		$Map/MotherShips/Red.play(self)
-		$Map/MotherShips/Blue.play(self)
 	
 	frame += 1
 

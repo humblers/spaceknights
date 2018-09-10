@@ -1,9 +1,6 @@
 extends Node2D
 
 var animByKnightId = {}
-var dummy_anims = []
-var default_finished
-var opening_finished
 
 var game
 var shade_nodes=[]
@@ -20,15 +17,8 @@ func init(game, player, knights):
 		var deck = get_node("Nodes/Deck/%s/Position/Unit" % pos)
 		node.InitDummy(0, 0, game, player, true, deck.global_rotation)
 		deck.add_child(node)
-		var dummy_anim = node.get_node("AnimationPlayer")
-		dummy_anims.append(dummy_anim)
-		dummy_anim.play("show")
-	$Ship.play("deafult")
-	yield($Ship, "animation_finished")
+		node.get_node("AnimationPlayer").play("show")
 	$Ship.play("show")
-	default_finished = true
-	yield($Ship, "animation_finished")
-	opening_finished = true
 
 func init_shade(enable):
 	shade_nodes = shader.get_shade_nodes(self)
@@ -40,19 +30,6 @@ func init_shade(enable):
 func _process(delta):
 	for n in shade_nodes:
 		shader.shade(n, game.MAIN_LIGHT_ANGLE)
-
-func play(game):
-	if not default_finished or opening_finished:
-		return
-	var anim_len = $Ship.current_animation_length
-	var cur_sec = float(game.step) / game.STEP_PER_SEC
-	var remain_time = anim_len - cur_sec
-	if remain_time < 0:
-		$Ship.seek(anim_len, true)
-		return
-	$Ship.advance(cur_sec - $Ship.current_animation_position)
-	for anim in dummy_anims:
-		anim.advance(cur_sec - anim.current_animation_position)
 
 func knights_added(knightIds):
 	var positions = ["Center", "Left", "Right"]
