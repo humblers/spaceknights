@@ -159,16 +159,14 @@ func laserHeight():
 func inLaserArea(unit):
 	var centerX = game.World().FromPixel(castPosX)
 	var centerY = scalar.Sub(game.World().FromPixel(castPosY), laserHeight())
-	if boxVScircle(
+	return game.boxVScircle(
 		centerX,
 		centerY,
 		unit.PositionX(),
 		unit.PositionY(),
 		laserWidth(),
 		laserHeight(),
-		unit.Radius()):
-			return true
-	return false
+		unit.Radius())
 
 func SetAsLeader():
 	isLeader = true
@@ -222,22 +220,4 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
-
-func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
-	var relPosX = scalar.Sub(posBx, posAx)
-	var relPosY = scalar.Sub(posBy, posBy)
-	var closestX = relPosX
-	var closestY = relPosY
-	var xExtent = width
-	var yExtent = height
-	closestX = scalar.Clamp(closestX, -xExtent, xExtent)
-	closestY = scalar.Clamp(closestY, -yExtent, yExtent)
-	if relPosX == closestX and relPosY == closestY:
-		return false
-	var normalX = scalar.Sub(relPosX, closestX)
-	var normalY = scalar.Sub(relPosY, closestY)
-	var d = vector.LengthSquared(normalX, normalY)
-	if d > scalar.Mul(radius, radius):
-		return false
-	return true
 	

@@ -266,3 +266,21 @@ static func intersect_tilerect(a, b):
 	if a.r < b.l:
 		return false
 	return true
+
+static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
+	var relPosX = scalar.Sub(posBx, posAx)
+	var relPosY = scalar.Sub(posBy, posBy)
+	var closestX = relPosX
+	var closestY = relPosY
+	var xExtent = width
+	var yExtent = height
+	closestX = scalar.Clamp(closestX, -xExtent, xExtent)
+	closestY = scalar.Clamp(closestY, -yExtent, yExtent)
+	if relPosX == closestX and relPosY == closestY:
+		return true
+	var normalX = scalar.Sub(relPosX, closestX)
+	var normalY = scalar.Sub(relPosY, closestY)
+	var d = vector.LengthSquared(normalX, normalY)
+	if d > scalar.Mul(radius, radius):
+		return false
+	return true

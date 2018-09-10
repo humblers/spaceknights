@@ -443,3 +443,21 @@ func (g *game) PosFromTile(x, y int) (int, int, error) {
 	tw, th := g.world.ToPixel(g.map_.TileWidth()), g.world.ToPixel(g.map_.TileHeight())
 	return x*tw + tw/2, y*th + th/2, nil
 }
+
+func boxVSCircle(posA, posB fixed.Vector, width, height, radius fixed.Scalar) bool {
+	relPos := posB.Sub(posA)
+	closest := relPos
+	xExtent := width
+	yExtent := height
+	closest.X = closest.X.Clamp(-xExtent, xExtent)
+	closest.Y = closest.Y.Clamp(-yExtent, yExtent)
+	if relPos == closest {
+		return true
+	}
+	normal := relPos.Sub(closest)
+	d := normal.LengthSquared()
+	if d > radius.Mul(radius) {
+		return false
+	}
+	return true
+}
