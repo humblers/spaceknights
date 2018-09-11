@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-var shader = preload("res://game/script/shader.gd")
+var shader = preload("res://game/script/custom_shader.gd")
 
 func _process(delta):
 	var node_to_shade = get_parent()
