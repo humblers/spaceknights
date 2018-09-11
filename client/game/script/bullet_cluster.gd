@@ -42,6 +42,9 @@ func MakeFrozen(slowDuration):
 	self.slowDuration = slowDuration
 
 func _ready():
+	var target = game.FindUnit(targetId)
+	if target != null:
+		target_pos = target.global_position
 	add_bullet()
 	$Timer.wait_time = SHOT_INTERVAL
 	$Timer.start()
