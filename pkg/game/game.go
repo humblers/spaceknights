@@ -45,6 +45,7 @@ type Game interface {
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) int
 	AddBullet(b Bullet)
+	AddSkill(s ISkill)
 
 	Apply(i Input) error
 	Join(c Client) error
@@ -60,6 +61,7 @@ type game struct {
 	unitIds       []int
 	unitCounter   int
 	bullets       []Bullet
+	skills        []ISkill
 	occupiedTiles map[*tileRect]bool
 	deathToll     map[Team]int
 	lastDeadPosX  map[Team]fixed.Scalar
@@ -277,8 +279,12 @@ func (g *game) update() {
 	for _, b := range g.bullets {
 		b.Update()
 	}
+	for _, s := range g.skills {
+		s.Update()
+	}
 	g.removeDeadUnits()
 	g.removeExpiredBullets()
+	g.removeExpiredSkills()
 	g.world.Step()
 }
 
@@ -308,6 +314,16 @@ func (g *game) removeExpiredBullets() {
 		}
 	}
 	g.bullets = filtered
+}
+
+func (g *game) removeExpiredSkills() {
+	filtered := g.skills[:0]
+	for _, s := range g.skills {
+		if !s.IsExpired() {
+			filtered = append(filtered, s)
+		}
+	}
+	g.skills = filtered
 }
 
 func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
@@ -379,6 +395,10 @@ func (g *game) FindUnit(id int) Unit {
 
 func (g *game) AddBullet(b Bullet) {
 	g.bullets = append(g.bullets, b)
+}
+
+func (g *game) AddSkill(s ISkill) {
+	g.skills = append(g.skills, s)
 }
 
 func (g *game) World() physics.World {
