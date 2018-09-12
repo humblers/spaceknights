@@ -34,6 +34,7 @@ var lastDeadPosX = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
+var skills = []
 var actions = {}
 
 # client physics frame
@@ -163,8 +164,11 @@ func update(state):
 		units[id].Update()
 	for b in bullets:
 		b.Update()
+	for s in skills:
+		s.Update()
 	removeDeadUnits()
 	removeExpiredBullets()
+	removeExpiredSkills()
 	world.Step()
 	
 	# validate
@@ -198,6 +202,15 @@ func removeExpiredBullets():
 			filtered.append(b)
 	bullets = filtered
 
+func removeExpiredSkills():
+	var filtered = []
+	for s in skills:
+		if s.IsExpired():
+			s.Destroy()
+		else:
+			filtered.append(s)
+	skills = filtered
+
 func AddUnit(name, level, posX, posY, player):
 	unitCounter += 1
 	var id = unitCounter
@@ -217,6 +230,10 @@ func FindUnit(id):
 func AddBullet(bullet):
 	$Bullets.add_child(bullet)
 	bullets.append(bullet)
+
+func AddSkill(s):
+	skills.append(s)
+	$Skills.add_child(s)
 
 func World():
 	return world
@@ -269,7 +286,7 @@ static func intersect_tilerect(a, b):
 
 static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	var relPosX = scalar.Sub(posBx, posAx)
-	var relPosY = scalar.Sub(posBy, posBy)
+	var relPosY = scalar.Sub(posBy, posAy)
 	var closestX = relPosX
 	var closestY = relPosY
 	var xExtent = width

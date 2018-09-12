@@ -107,6 +107,16 @@ const cards = {
 		"castduration": 100,
 		"precastdelay": 52,
 	},
+	"napalm": {
+		"cost":           5000,
+		"caster":         "lancer",
+		"castduration":   40,
+		"precastdelay":   25,
+		"damageduration": 50,
+		"damage":         30,
+		"width":          100,
+		"height":         100,
+	},
 	"megalaser": {
 		"cost":   4000,
 		"caster": "astra",
@@ -242,6 +252,15 @@ const passives = {
 	},
 	"frozenbullet": {
 		"slowduration": [20],
+	},
+	"deathcarpet": {
+		"duration": 600,
+		"damage":   30,
+		"count":    2,
+		"posX":     [225, 775], # pos based on blue side
+		"posY":     [850, 850],
+		"width":    75,
+		"height":   50,
 	},
 }
 
@@ -496,6 +515,22 @@ const units = {
 		"attackinterval": 10,
 		"active":          "unload",
 		"passive":    "gatherfootman",
+	},
+	"lancer": {
+		"mass":           1000,
+		"radius":         105,
+		"type":           "Knight",
+		"layer":          "Normal",
+		"hp":             [2400],
+		"sight":          350,
+		"speed":          300,
+		"targettypes":    ["Troop"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [50],
+		"attackrange":    330,
+		"attackinterval": 10,
+		"active":         "napalm",
+		"passive":        "deathcarpet",
 	},
 	"astra": {
 		"mass":           1000,
