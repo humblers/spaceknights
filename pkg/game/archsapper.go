@@ -10,7 +10,6 @@ type archsapper struct {
 	targetId int
 	attack   int
 	cast     int
-	initPos  fixed.Vector
 	castPosX int
 	castPosY int
 	castTile TileOccupier
@@ -35,7 +34,6 @@ func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 		unit:         u,
 		TileOccupier: to,
 		player:       p,
-		initPos:      u.Position(),
 		castTile:     newTileOccupier(g),
 	}
 }

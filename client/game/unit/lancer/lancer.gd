@@ -14,14 +14,17 @@ var maxPosX = 0
 var castPosX = 0
 var castPosY = 0
 
-func _ready():
-	var dup = $AnimationPlayer.get_animation("skill").duplicate()
-	$AnimationPlayer.rename_animation("skill", "skill-ref")
-	$AnimationPlayer.add_animation("skill", dup)
-
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "astra", player.Team(), level, posX, posY, game)
+	.Init(id, "lancer", player.Team(), level, posX, posY, game)
 	self.player = player
+	var hp = initialHp()
+	var divider = 1
+	var ratios = player.StatRatios("hpratio")
+	for i in range(len(ratios)):
+		hp *= ratios[i]
+		divider *= 100
+	self.hp = hp / divider
+	set_hp()
 	TileOccupier = TileOccupier.new(game)
 	var tile = game.TileFromPos(posX, posY)
 	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }
@@ -77,10 +80,11 @@ func Update():
 		freeze -= 1
 		return
 	if cast > 0:
-		if cast > laserStart() and cast <= laserEnd():
-			deal()
-		if cast > laserDuration():
+		if cast == preCastDelay() + 1:
+			drop()
+		if cast > castDuration():
 			cast = 0
+			init_rotation()
 			setLayer(initialLayer())
 			z_index = Z_INDEX[.Layer()]
 		else:
@@ -108,10 +112,10 @@ func Update():
 			attack = 0
 		
 	# client only
-	show_laser(attack > 0)
+	#show_laser(attack > 0)
 
 func show_laser(enable):
-	for pos in ["L", "R", "C"]:
+	for pos in ["LF", "LR", "RF", "RR"]:
 		var n = get_node("Rotatable/Body/Shotpoint%s" % pos)
 		n.visible = enable
 		if enable:
@@ -124,62 +128,28 @@ func show_laser(enable):
 			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
 			beam.global_rotation = (to - from).angle() + PI/2
 
-func deal():
-	for id in game.UnitIds():
-		var u = game.FindUnit(id)
-		if u.Team() == Team():
-			continue
-		if inLaserArea(u):
-			u.TakeDamage(laserDamage(), "Skill")
-	
-func laserDuration():
-	return stat.cards[Skill()]["duration"]
+func castDuration():
+	return stat.cards[Skill()]["castduration"]
 
-func laserStart():
-	return stat.cards[Skill()]["start"]
-
-func laserEnd():
-	return stat.cards[Skill()]["end"]
-
-func laserDamage():
-	var v = stat.cards[Skill()]["damage"]
-	var t = typeof(v)
-	if t == TYPE_INT:
-		return v
-	if t == TYPE_ARRAY:
-		return v[level]
-	print("invalid laser damage type")
-
-func laserWidth():
-	return game.World().FromPixel(stat.cards[Skill()]["width"])
-
-func laserHeight():
-	return game.World().FromPixel(stat.cards[Skill()]["height"])
-
-func inLaserArea(unit):
-	var centerX = game.World().FromPixel(castPosX)
-	var centerY = scalar.Sub(game.World().FromPixel(castPosY), laserHeight())
-	return game.boxVScircle(
-		centerX,
-		centerY,
-		unit.PositionX(),
-		unit.PositionY(),
-		laserWidth(),
-		laserHeight(),
-		unit.Radius())
+func preCastDelay():
+	return stat.cards[Skill()]["precastdelay"]
 
 func SetAsLeader():
 	isLeader = true
 	var data = stat.passives[Skill()]
-	player.AddStatRatio("hpratio", data["hpratio"][level])
-	var hp = initialHp()
-	var divider = 1
-	var ratios = player.StatRatios("hpratio")
-	for i in range(len(ratios)):
-		hp *= ratios[i]
-		divider *= 100
-	self.hp = hp / divider
-	set_hp()
+	var count = data["count"]
+	var posX = data["posX"]
+	var posY = data["posY"]
+	var w = game.World().FromPixel(data["width"])
+	var h = game.World().FromPixel(data["height"])
+	var damage = data["damage"]
+	var duration = data["duration"]
+	for i in count:
+		var x = game.World().FromPixel(posX[i])
+		var y = game.World().FromPixel(posY[i])
+		var dot = resource.SKILL[name_].instance()
+		dot.Init(team, x, y, w, h, damage, duration, game)
+		game.AddSkill(dot)
 
 func Skill():
 	var key = "passive" if isLeader else "active"
@@ -192,25 +162,30 @@ func CastSkill(posX, posY):
 	cast += 1
 	castPosX = posX
 	castPosY = posY
-	adjustSkillAnim()
+	rotate_to_cast_pos()
 	$AnimationPlayer.play("skill")
 	setLayer("Casting")
 	return true
 
-func adjustSkillAnim():
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
-	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
-	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
-	var vec = Vector2(x, y).rotated($Rotatable.rotation)
-	var angle = ref_vec.angle_to(vec)
-	var scale = vec.length()/ref_vec.length()
-	var old_anim = $AnimationPlayer.get_animation("skill-ref")
-	var new_anim = $AnimationPlayer.get_animation("skill")
-	var track_idx = old_anim.find_track("Rotatable/Body:position")
-	var key_count = old_anim.track_get_key_count(track_idx)
-	for i in range(key_count):
-		var v = old_anim.track_get_key_value(track_idx, i)
-		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
+func rotate_to_cast_pos():
+	var x = game.World().FromPixel(castPosX)
+	var y = game.World().FromPixel(castPosY)
+	var vX = game.World().ToPixel(scalar.Sub(x, PositionX()))
+	var vY = game.World().ToPixel(scalar.Sub(y, PositionY()))
+	$Rotatable.rotation = Vector2(vX, vY).angle() + PI/2
+	if game.team_swapped:
+		$Rotatable.rotation += PI
+	
+func drop():
+	var dps = stat.cards[Skill()]["damage"]
+	var w = game.World().FromPixel(stat.cards[Skill()]["width"])
+	var h = game.World().FromPixel(stat.cards[Skill()]["height"])
+	var remain = stat.cards[Skill()]["damageduration"]
+	var x = game.World().FromPixel(castPosX)
+	var y = game.World().FromPixel(castPosY)
+	var dot = resource.SKILL[name_].instance()
+	dot.Init(team, x, y, w, h, dps, remain, game)
+	game.AddSkill(dot)
 
 func target():
 	return game.FindUnit(targetId)
@@ -220,4 +195,4 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
-	
+

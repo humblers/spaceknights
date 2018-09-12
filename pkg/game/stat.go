@@ -100,6 +100,16 @@ var cards = map[string]map[string]interface{}{
 		"castduration": 100,
 		"precastdelay": 52,
 	},
+	"napalm": map[string]interface{}{
+		"cost":           5000,
+		"caster":         "lancer",
+		"castduration":   40,
+		"precastdelay":   25,
+		"damageduration": 50,
+		"damage":         30,
+		"width":          100,
+		"height":         100,
+	},
 	"megalaser": map[string]interface{}{
 		"cost":     4000,
 		"caster":   "astra",
@@ -242,6 +252,15 @@ var passives = map[string]map[string]interface{}{
 	},
 	"frozenbullet": map[string]interface{}{
 		"slowduration": []int{20},
+	},
+	"deathcarpet": map[string]interface{}{
+		"duration": 600,
+		"damage":   30,
+		"count":    2,
+		"posX":     []int{225, 775}, // pos based on blue side
+		"posY":     []int{850, 850},
+		"width":    75,
+		"height":   50,
 	},
 }
 
@@ -496,6 +515,22 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 10,
 		"active":         "unload",
 		"passive":        "gatherfootman",
+	},
+	"lancer": map[string]interface{}{
+		"mass":           1000,
+		"radius":         105,
+		"type":           Knight,
+		"layer":          Normal,
+		"hp":             []int{2400},
+		"sight":          350,
+		"speed":          300,
+		"targettypes":    Types{Troop},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{50},
+		"attackrange":    330,
+		"attackinterval": 10,
+		"active":         "napalm",
+		"passive":        "deathcarpet",
 	},
 	"astra": map[string]interface{}{
 		"mass":           1000,

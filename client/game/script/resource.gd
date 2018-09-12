@@ -33,6 +33,7 @@ const UNIT = {
 	"frost": preload("res://game/unit/frost/frost.tscn"),
 	"champion": preload("res://game/unit/champion/champion.tscn"),
 	"sentry": preload("res://game/unit/sentry/sentry.tscn"),
+	"lancer": preload("res://game/unit/lancer/lancer.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -50,6 +51,7 @@ const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 	"judge": preload("res://game/unit/judge/arealshot.tscn"),
 	"frost": preload("res://game/unit/frost/ice_cloud.tscn"),
+	"lancer": preload("res://game/unit/lancer/dot_cloud.tscn"),
 }
 
 const CURSOR = {
@@ -61,6 +63,7 @@ const CURSOR = {
 	"judge": preload("res://game/unit/judge/bomingpoint.tscn"),
 	"tombstone": preload("res://game/unit/tombstone/targetcircle.tscn"),
 	"frost": preload("res://game/unit/frost/bombingpoint.tscn"),
+	"lancer": preload("res://game/unit/lancer/targetsquare.tscn"),
 }
 
 # temporary
@@ -92,4 +95,5 @@ const ICON = {
 	"freeze": preload("res://game/ui/unit_icon/frost.png"),
 	"champion": preload("res://game/ui/unit_icon/champion.png"),
 	"sentry": preload("res://game/ui/unit_icon/sentry.png"),
+	"napalm": preload("res://game/ui/wingskill_icon/napalm.png"),
 }

@@ -166,10 +166,7 @@ func (a *astra) inLaserArea(u Unit) bool {
 		a.game.World().FromPixel(a.castPosX),
 		a.game.World().FromPixel(a.castPosY).Sub(a.laserHeight()),
 	}
-	if boxVSCircle(center, u.Position(), a.laserWidth(), a.laserHeight(), u.Radius()) {
-		return true
-	}
-	return false
+	return boxVSCircle(center, u.Position(), a.laserWidth(), a.laserHeight(), u.Radius())
 }
 
 func (a *astra) SetAsLeader() {
@@ -216,22 +213,4 @@ func (a *astra) setTarget(u Unit) {
 	} else {
 		a.targetId = u.Id()
 	}
-}
-
-func boxVSCircle(posA, posB fixed.Vector, width, height, radius fixed.Scalar) bool {
-	relPos := posB.Sub(posA)
-	closest := relPos
-	xExtent := width
-	yExtent := height
-	closest.X = closest.X.Clamp(-xExtent, xExtent)
-	closest.Y = closest.Y.Clamp(-yExtent, yExtent)
-	if relPos == closest {
-		return false
-	}
-	normal := relPos.Sub(closest)
-	d := normal.LengthSquared()
-	if d > radius.Mul(radius) {
-		return false
-	}
-	return true
 }
