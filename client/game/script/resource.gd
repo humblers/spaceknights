@@ -34,6 +34,7 @@ const UNIT = {
 	"champion": preload("res://game/unit/champion/champion.tscn"),
 	"sentry": preload("res://game/unit/sentry/sentry.tscn"),
 	"lancer": preload("res://game/unit/lancer/lancer.tscn"),
+	"drillram": preload("res://game/unit/drillram/drillram.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -96,4 +97,5 @@ const ICON = {
 	"champion": preload("res://game/ui/unit_icon/champion.png"),
 	"sentry": preload("res://game/ui/unit_icon/sentry.png"),
 	"napalm": preload("res://game/ui/wingskill_icon/napalm.png"),
+	"drillram": preload("res://game/ui/unit_icon/drillram.png"),
 }

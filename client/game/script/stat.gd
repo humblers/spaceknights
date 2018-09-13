@@ -218,6 +218,13 @@ const cards = {
 		"offsetX": [-30, 30, 0],
 		"offsetY": [30, 30, 0],
 	},
+	"drillram": {
+		"cost": 4000,
+		"unit": "drillram",
+		"count": 1,
+		"offsetX": [0],
+		"offsetY": [0],
+	},
 }
 
 const passives = {
@@ -702,7 +709,7 @@ const units = {
 		"shield":         [500],
 		"sight":          300,
 		"speed":          100,	#pixels per second
-		"targettypes":    ["Troop", "Building", "Knight"],
+		"targettypes":    ["Building", "Knight"],
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [600, 60, 90],
 		"attackrange":    75,
@@ -747,5 +754,20 @@ const units = {
 		"attackinterval": 13,
 		"preattackdelay": 0,
 		"bulletlifetime": 4,
+	},
+	"drillram": {
+		"type":           "Troop",
+		"layer":          "Normal",
+		"mass":           10,
+		"radius":         30,
+		"hp":             [800],
+		"sight":          350,
+		"speed":          200,	#pixels per second
+		"targettypes":    ["Building", "Knight"],
+		"targetlayers":   ["Normal"],
+		"attackdamage":   [210, 60, 90],
+		"attackrange":    40,
+		"attackinterval": 20,
+		"preattackdelay": 9,
 	},
 }
