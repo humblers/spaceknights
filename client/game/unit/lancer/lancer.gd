@@ -147,7 +147,7 @@ func SetAsLeader():
 	for i in count:
 		var x = game.World().FromPixel(posX[i])
 		var y = game.World().FromPixel(posY[i])
-		var dot = resource.SKILL[name_].instance()
+		var dot = resource.PASSIVE[name_].instance()
 		dot.Init(team, x, y, w, h, damage, duration, game)
 		game.AddSkill(dot)
 

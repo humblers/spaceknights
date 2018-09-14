@@ -26,7 +26,6 @@ func Init(team, x, y, w, h, dps, remain, game):
 		posX = game.FlipX(posX)
 		posY = game.FlipY(posY)
 	position = Vector2(posX, posY)
-	$AnimationPlayer.play("poison")
 
 func Update():
 	if remainingStep % game.STEP_PER_SEC == 0:
