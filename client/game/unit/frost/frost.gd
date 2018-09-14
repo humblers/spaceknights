@@ -10,10 +10,10 @@ var cast = 0
 var castPosX = 0
 var castPosY = 0
 
-func _ready():
-	var dup = $AnimationPlayer.get_animation("skill").duplicate()
-	$AnimationPlayer.rename_animation("skill", "skill-ref")
-	$AnimationPlayer.add_animation("skill", dup)
+const ROT_SPEED = PI/4
+onready var arm_l = $Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL
+onready var arm_r = $Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR
+onready var init_rot = $Rotatable.global_rotation
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "frost", player.Team(), level, posX, posY, game)
@@ -33,6 +33,11 @@ func Init(id, level, posX, posY, game, player):
 	if err != null:
 		print(err)
 		return
+	
+	# client only
+	var dup = $AnimationPlayer.get_animation("skill").duplicate()
+	$AnimationPlayer.rename_animation("skill", "skill-ref")
+	$AnimationPlayer.add_animation("skill", dup)
 
 func TakeDamage(amount, attackType):
 	var initHp = initialHp()
@@ -96,14 +101,14 @@ func Update():
 					handleAttack()
 				else:
 					findTargetAndAttack()
-	if target() == null and cast == 0:
-		$AnimationPlayer.play("idle")
 
 func findTargetAndAttack():
 	var t = findTarget()
 	setTarget(t)
 	if t != null and withinRange(t):
 		handleAttack()
+	else:
+		cancel_aim()
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
@@ -182,7 +187,7 @@ func handleAttack():
 		$AnimationPlayer.play("attack")
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		aim(t)
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()
@@ -193,6 +198,30 @@ func handleAttack():
 	if attack > attackInterval():
 		attack = 0
 
+func aim(t):
+	var angle = (t.global_position - $Rotatable.global_position).angle() + PI/2
+	var angle_l = (t.global_position - arm_l.global_position).angle() + PI/2
+	var angle_r = (t.global_position - arm_r.global_position).angle() + PI/2
+	var diff = angle_diff(angle, $Rotatable.global_rotation)
+	var diff_l = angle_diff(angle_l, arm_l.global_rotation)
+	var diff_r = angle_diff(angle_r, arm_r.global_rotation)
+	var max_rot = ROT_SPEED/game.STEP_PER_SEC
+	$Rotatable.global_rotation += clamp(diff, -max_rot, max_rot)
+	arm_l.global_rotation += clamp(diff_l, -max_rot, max_rot)
+	arm_r.global_rotation += clamp(diff_r, -max_rot, max_rot)
+
+func cancel_aim():
+	var diff = angle_diff(init_rot, $Rotatable.global_rotation)
+	var diff_l = angle_diff(init_rot, arm_l.global_rotation)
+	var diff_r = angle_diff(init_rot, arm_r.global_rotation)
+	var max_rot = ROT_SPEED/game.STEP_PER_SEC
+	$Rotatable.global_rotation += clamp(diff, -max_rot, max_rot)
+	arm_l.global_rotation += clamp(diff_l, -max_rot, max_rot)
+	arm_r.global_rotation += clamp(diff_r, -max_rot, max_rot)
+	
+static func angle_diff(a, b):
+	return fposmod((a - b) + PI, 2 * PI) - PI
+	
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
