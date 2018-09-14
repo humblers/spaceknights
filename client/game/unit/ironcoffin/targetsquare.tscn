@@ -1,13 +1,13 @@
 [gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://game/vfx/target_circle1.png" type="Texture" id=1]
-[ext_resource path="res://game/vfx/target_circle2.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/target_arrow.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/target_square1.png" type="Texture" id=1]
+[ext_resource path="res://game/vfx/target_square2.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=3]
 [ext_resource path="res://font/news_of_the_world_wide_italic.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
 [ext_resource path="res://font/nanum_gothic_extra_bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=7]
-[ext_resource path="res://game/ui/wingskill_icon/freeze.png" type="Texture" id=8]
+[ext_resource path="res://game/ui/wingskill_icon/sentryshelter.png" type="Texture" id=8]
 
 [sub_resource type="Gradient" id=14]
 
@@ -97,8 +97,8 @@ flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 0.0
 initial_velocity_random = 0.0
-angular_velocity = 360.0
-angular_velocity_random = 1.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 0.0
@@ -121,22 +121,22 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Gravity", "Hue Variation" ]
+_sections_unfolded = [ "Angular Velocity", "Gravity", "Hue Variation" ]
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=22]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.248712, 0.21481 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
+[sub_resource type="CurveTexture" id=23]
 
 flags = 4
 width = 2048
-curve = SubResource( 10 )
+curve = SubResource( 22 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=24]
 
 render_priority = 0
 trail_divisor = 1
@@ -165,7 +165,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 11 )
+scale_curve = SubResource( 23 )
 color = Color( 1, 1, 1, 1 )
 hue_variation = 0.0
 hue_variation_random = 0.0
@@ -176,7 +176,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Scale" ]
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=12]
 
 size = 24
 use_mipmaps = true
@@ -192,7 +192,9 @@ use_filter = true
 font_data = ExtResource( 6 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="BomingPoint" type="Node2D" index="0"]
+[node name="targetsquare" type="Node2D" index="0"]
+
+_sections_unfolded = [ "Transform" ]
 
 [node name="Target1" type="Particles2D" parent="." index="0"]
 
@@ -214,10 +216,11 @@ texture = ExtResource( 1 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Target2" type="Particles2D" parent="." index="1"]
 
+scale = Vector2( 1.17, 1.17 )
 emitting = true
 amount = 2
 lifetime = 1.0
@@ -236,7 +239,7 @@ texture = ExtResource( 2 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
 
 [node name="Arrow" type="Particles2D" parent="." index="2"]
 
@@ -253,18 +256,18 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 24 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
 [node name="Deco" type="Node2D" parent="." index="3"]
 
 [node name="NameNod" type="Node2D" parent="Deco" index="0"]
 
-position = Vector2( -30, 0 )
+position = Vector2( -6, 0 )
 
 [node name="Label" type="Label" parent="Deco/NameNod" index="0"]
 
@@ -272,29 +275,29 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 35.0
+margin_left = 17.0
 margin_top = -104.0
-margin_right = 182.0
-margin_bottom = -79.0
+margin_right = 183.0
+margin_bottom = -100.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.360784, 0.360784, 0.360784, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
 custom_constants/shadow_as_outline = 1
-text = "FREEZE"
+text = "SENTRY SHELTER"
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+_sections_unfolded = [ "Margin", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
 [node name="Sprite" type="Sprite" parent="Deco/NameNod" index="1"]
 
@@ -331,10 +334,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 13 )
-text = "Target the circle area. 
-When casting, the target 
-turns into a target, 
-freezes around, and returns."
+text = "Fly into the area you are 
+targeting and remove the 
+sentry shelter from the hull."
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -342,7 +344,7 @@ _sections_unfolded = [ "Margin", "Size Flags", "custom_fonts" ]
 
 [node name="ImageNod" type="Node2D" parent="Deco" index="1"]
 
-position = Vector2( -30, 0 )
+position = Vector2( -6, 0 )
 
 [node name="Sprite3" type="Sprite" parent="Deco/ImageNod" index="0"]
 
