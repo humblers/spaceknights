@@ -51,7 +51,7 @@ const BULLET = {
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 	"judge": preload("res://game/unit/judge/arealshot.tscn"),
-	"frost": preload("res://game/unit/frost/ice_cloud.tscn"),
+	"frost": preload("res://game/unit/frost/freeze.tscn"),
 	"lancer": preload("res://game/unit/lancer/napalm.tscn"),
 }
 const PASSIVE = {
