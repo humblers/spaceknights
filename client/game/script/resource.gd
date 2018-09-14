@@ -35,6 +35,8 @@ const UNIT = {
 	"sentry": preload("res://game/unit/sentry/sentry.tscn"),
 	"lancer": preload("res://game/unit/lancer/lancer.tscn"),
 	"drillram": preload("res://game/unit/drillram/drillram.tscn"),
+	"blaster": preload("res://game/unit/blaster/blaster.tscn"),
+	
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -45,6 +47,7 @@ const BULLET = {
 	"frost": preload("res://game/unit/frost/bullet.tscn"),
 	"sentry": preload("res://game/unit/sentry/bullet.tscn"),
 	"judge": preload("res://game/unit/judge/bullet.tscn"),
+	"blaster": preload("res://game/unit/blaster/missile.tscn"),
 	# temporary, no bullet for below units
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
@@ -101,4 +104,5 @@ const ICON = {
 	"sentry": preload("res://game/ui/unit_icon/sentry.png"),
 	"napalm": preload("res://game/ui/wingskill_icon/napalm.png"),
 	"drillram": preload("res://game/ui/unit_icon/drillram.png"),
+	"blaster": preload("res://game/ui/unit_icon/blaster.png"),
 }
