@@ -218,6 +218,13 @@ var cards = map[string]map[string]interface{}{
 		"offsetX": []int{-30, 30, 0},
 		"offsetY": []int{30, 30, 0},
 	},
+	"drillram": map[string]interface{}{
+		"cost":    4000,
+		"unit":    "drillram",
+		"count":   1,
+		"offsetX": []int{0},
+		"offsetY": []int{0},
+	},
 }
 
 var passives = map[string]map[string]interface{}{
@@ -701,7 +708,7 @@ var units = map[string]map[string]interface{}{
 		"shield":         []int{500},
 		"sight":          350,
 		"speed":          100,
-		"targettypes":    Types{Troop, Building, Knight},
+		"targettypes":    Types{Building, Knight},
 		"targetlayers":   Layers{Normal},
 		"attackdamage":   []int{600, 60, 90},
 		"attackrange":    75,
@@ -746,5 +753,20 @@ var units = map[string]map[string]interface{}{
 		"attackinterval": 13,
 		"preattackdelay": 0,
 		"bulletlifetime": 6,
+	},
+	"drillram": map[string]interface{}{
+		"type":           Troop,
+		"layer":          Normal,
+		"mass":           10,
+		"radius":         30,
+		"hp":             []int{800},
+		"sight":          350,
+		"speed":          200,
+		"targettypes":    Types{Building, Knight},
+		"targetlayers":   Layers{Normal},
+		"attackdamage":   []int{210, 60, 90},
+		"attackrange":    40,
+		"attackinterval": 20,
+		"preattackdelay": 9,
 	},
 }
