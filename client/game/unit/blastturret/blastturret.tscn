@@ -148,7 +148,7 @@ _sections_unfolded = [ "Color", "Gravity", "Initial Velocity", "Spread" ]
 [sub_resource type="Gradient" id=9]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.438385, 0.0664063, 1, 0, 0, 0, 1 )
+colors = PoolColorArray( 1, 0.547791, 0.0664063, 1, 0, 0, 0, 0 )
 
 [sub_resource type="GradientTexture" id=10]
 
@@ -161,7 +161,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.477496, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0493994 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.236529, 0.274414 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=12]
 
@@ -180,7 +180,7 @@ flag_rotate_y = false
 flag_disable_z = true
 spread = 60.0
 flatness = 0.0
-gravity = Vector3( 0, -120, 0 )
+gravity = Vector3( 0, 120, 0 )
 initial_velocity = 0.0
 initial_velocity_random = 0.0
 angular_velocity = 180.0
@@ -198,7 +198,7 @@ damping_random = 0.0
 angle = 90.0
 angle_random = 1.0
 scale = 1.0
-scale_random = 0.0
+scale_random = 0.2
 scale_curve = SubResource( 12 )
 color_ramp = SubResource( 10 )
 hue_variation = 1.0
@@ -208,7 +208,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Gravity", "Hue Variation", "Initial Velocity" ]
+_sections_unfolded = [ "Color", "Gravity", "Initial Velocity", "Scale" ]
 
 [sub_resource type="Gradient" id=14]
 
@@ -2675,6 +2675,7 @@ tracks/32/keys = {
 [node name="Debris" type="Node2D" parent="." index="0"]
 
 editor/display_folded = true
+visible = false
 modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -2707,6 +2708,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Base" type="Sprite" parent="." index="1"]
 
+editor/display_folded = true
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -3138,7 +3140,6 @@ _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="TurretBody" type="Sprite" parent="Rotatable" index="0"]
 
-rotation = 1.74845e-07
 texture = ExtResource( 14 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
@@ -3227,13 +3228,13 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="FireL" type="Position2D" parent="Rotatable/TurretBody/Launcher" index="1"]
 
-editor/display_folded = true
 position = Vector2( -28, -50 )
 rotation = -1.74846e-07
 _sections_unfolded = [ "Transform" ]
 
 [node name="Fire" type="Particles2D" parent="Rotatable/TurretBody/Launcher/FireL" index="0"]
 
+scale = Vector2( 0.8, 1 )
 emitting = false
 amount = 8
 lifetime = 1.0
@@ -3256,14 +3257,15 @@ _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Trans
 
 [node name="Light" type="Light2D" parent="Rotatable/TurretBody/Launcher/FireL" index="1"]
 
-position = Vector2( -2, 13.5 )
+position = Vector2( 0, 17 )
+scale = Vector2( 1, 2 )
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
-texture_scale = 3.0
+texture_scale = 1.5
 color = Color( 1, 1, 1, 1 )
-energy = 0.5
+energy = 1.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -3337,13 +3339,13 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="FireR" type="Position2D" parent="Rotatable/TurretBody/Launcher" index="3"]
 
-editor/display_folded = true
 position = Vector2( 28, -50 )
 rotation = -1.74846e-07
 _sections_unfolded = [ "Transform" ]
 
 [node name="Fire" type="Particles2D" parent="Rotatable/TurretBody/Launcher/FireR" index="0"]
 
+scale = Vector2( 0.8, 1 )
 emitting = false
 amount = 8
 lifetime = 1.0
@@ -3362,18 +3364,19 @@ texture = ExtResource( 22 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
+_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
 
 [node name="Light" type="Light2D" parent="Rotatable/TurretBody/Launcher/FireR" index="1"]
 
-position = Vector2( 2, 13.5 )
+position = Vector2( 0, 17 )
+scale = Vector2( 1, 2 )
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
-texture_scale = 3.0
+texture_scale = 1.5
 color = Color( 1, 1, 1, 1 )
-energy = 0.5
+energy = 1.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -3463,7 +3466,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable" index="1"]
 
-editor/display_folded = true
 scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform" ]
 

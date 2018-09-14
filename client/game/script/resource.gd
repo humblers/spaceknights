@@ -44,15 +44,18 @@ const BULLET = {
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
 	"frost": preload("res://game/unit/frost/bullet.tscn"),
 	"sentry": preload("res://game/unit/sentry/bullet.tscn"),
+	"judge": preload("res://game/unit/judge/bullet.tscn"),
 	# temporary, no bullet for below units
-	"judge": preload("res://game/unit/archer/bullet.tscn"),
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
 	"judge": preload("res://game/unit/judge/arealshot.tscn"),
 	"frost": preload("res://game/unit/frost/ice_cloud.tscn"),
-	"lancer": preload("res://game/unit/lancer/dot_cloud.tscn"),
+	"lancer": preload("res://game/unit/lancer/napalm.tscn"),
+}
+const PASSIVE = {
+	"lancer": preload("res://game/unit/lancer/deathcarpet.tscn"),
 }
 
 const CURSOR = {
