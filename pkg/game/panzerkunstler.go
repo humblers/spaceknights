@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type panzerkunstler struct {
 	*unit
+	player      Player
 	targetId    int
 	attack      int // elapsed time since attack start
 	attackCount int
@@ -12,7 +13,8 @@ type panzerkunstler struct {
 
 func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &panzerkunstler{
-		unit: newUnit(id, "panzerkunstler", p.Team(), level, posX, posY, g),
+		unit:   newUnit(id, "panzerkunstler", p.Team(), level, posX, posY, g),
+		player: p,
 	}
 }
 
@@ -149,7 +151,13 @@ func (p *panzerkunstler) powerAttackDamage() int {
 }
 
 func (p *panzerkunstler) powerAttackRadius() fixed.Scalar {
-	return p.game.World().FromPixel(units[p.name]["powerattackradius"].(int))
+	r := units[p.name]["powerattackradius"].(int)
+	divider := 1
+	for _, ratio := range p.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return p.game.World().FromPixel(r / divider)
 }
 
 func (p *panzerkunstler) powerAttackForce() fixed.Scalar {

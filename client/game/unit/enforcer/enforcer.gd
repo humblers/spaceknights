@@ -1,10 +1,12 @@
 extends "res://game/script/unit.gd"
 
+var player
 var targetId = 0
 var attack = 0
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "enforcer", player.Team(), level, posX, posY, game)
+	self.player = player
 
 func Update():
 	SetVelocity(0, 0)
@@ -82,7 +84,7 @@ func handleAttack():
 				var x = scalar.Sub(PositionX(), u.PositionX())
 				var y = scalar.Sub(PositionY(), u.PositionY())
 				var d = vector.LengthSquared(x, y)
-				var r = scalar.Add(scalar.Add(Radius(), u.Radius()), attackRange())
+				var r = scalar.Add(scalar.Add(Radius(), u.Radius()), attackRadius())
 				if d < scalar.Mul(r, r):
 					u.TakeDamage(attackDamage(), "Melee")
 		else:
@@ -98,3 +100,13 @@ func canAttack(unit):
 	if not targetTypes().has(unit.Type()):
 		return false
 	return true
+
+func attackRadius():
+	var r = stat.units[name_]["attackradius"]
+	var divider = 1
+	var ratios = player.StatRatios("arearatio")
+	for i in range(len(ratios)):
+		r *= ratios[i]
+		divider *= 100
+	return game.World().FromPixel(r / divider)
+	

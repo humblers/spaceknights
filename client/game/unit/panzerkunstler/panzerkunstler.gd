@@ -1,5 +1,6 @@
 extends "res://game/script/unit.gd"
 
+var player
 var targetId = 0
 var attack = 0
 var attackCount = 0
@@ -8,6 +9,7 @@ var punchPosY
 
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "panzerkunstler", player.Team(), level, posX, posY, game)
+	self.player = player
 
 func Update():
 	SetVelocity(0, 0)
@@ -142,7 +144,13 @@ func powerAttackDamage():
 	print("invalid power attack damage type")
 
 func powerAttackRadius():
-	return game.World().FromPixel(stat.units[name_]["powerattackradius"])
+	var r = stat.units[name_]["powerattackradius"]
+	var divider = 1
+	var ratios = player.StatRatios("arearatio")
+	for i in range(len(ratios)):
+		r *= ratios[i]
+		divider *= 100
+	return game.World().FromPixel(r / divider)
 
 func powerAttackForce():
 	return game.World().FromPixel(stat.units[name_]["powerattackforce"])

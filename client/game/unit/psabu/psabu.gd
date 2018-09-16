@@ -1,5 +1,6 @@
 extends "res://game/script/unit.gd"
 
+var player
 var targetId = 0
 var attack = 0
 var shield
@@ -9,6 +10,7 @@ var punchPosY
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "psabu", player.Team(), level, posX, posY, game)
 	shield = initialShield()
+	self.player = player
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
@@ -108,7 +110,7 @@ func handleAttack():
 	if attack < preAttackDelay():
 		absorb()
 	if attack == preAttackDelay():
-		var radius = game.World().FromPixel(stat.units[name_]["attackradius"])
+		var radius = attackRadius()
 		for id in game.UnitIds():
 			var u = game.FindUnit(id)
 			if u.Team() == Team():
@@ -145,3 +147,12 @@ func absorb():
 
 func absorbRadius():
 	return game.World().FromPixel(stat.units[name_]["absorbradius"])
+
+func attackRadius():
+	var r = stat.units[name_]["attackradius"]
+	var divider = 1
+	var ratios = player.StatRatios("arearatio")
+	for i in range(len(ratios)):
+		r *= ratios[i]
+		divider *= 100
+	return game.World().FromPixel(r / divider)
