@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=2]
+[gd_scene load_steps=151 format=2]
 
 [ext_resource path="res://game/unit/psabu/psabu.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/psabu/body.png" type="Texture" id=2]
@@ -54,6 +54,8 @@
 [ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=52]
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=53]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=54]
+[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=55]
+[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=56]
 
 [sub_resource type="Curve" id=1]
 
@@ -8441,5 +8443,27 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
+
+[node name="Sound" type="Node2D" parent="." index="4"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
+
+stream = ExtResource( 55 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
+
+stream = ExtResource( 56 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
 

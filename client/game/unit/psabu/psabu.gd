@@ -98,6 +98,7 @@ func handleAttack():
 	var t = target()
 	if attack == 0:
 		$AnimationPlayer.play("attack")
+		$Sound/sound_fire.play()
 		look_at(t.PositionX(), t.PositionY())
 		var r = scalar.Add(Radius(), attackRange())
 		var dx = scalar.Sub(t.PositionX(), PositionX())

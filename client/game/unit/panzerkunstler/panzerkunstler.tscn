@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://game/unit/panzerkunstler/panzerkunstler.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/panzerkunstler/body.png" type="Texture" id=2]
@@ -45,6 +45,9 @@
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=43]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=44]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=45]
+[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=46]
+[ext_resource path="res://game/sfx/data_sample_02.tre_01490.wav" type="AudioStream" id=47]
+[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=48]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -4745,6 +4748,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -4820,8 +4824,6 @@ editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -3 )
-rotation = 3.14159
-scale = Vector2( 0.2, 0.2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Eye_Shining" type="Sprite" parent="Rotatable/Body/Head/Kira" index="0"]
@@ -4840,7 +4842,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Light2D" type="Light2D" parent="Rotatable/Body/Head/Kira" index="2"]
 
-enabled = true
+enabled = false
 editor_only = false
 texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
@@ -5175,6 +5177,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Particle" type="Particles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR" index="1"]
 
 modulate = Color( 1, 1, 1, 0.607765 )
+scale = Vector2( 1.4, 1.4 )
 emitting = false
 amount = 16
 lifetime = 1.4
@@ -5201,9 +5204,9 @@ enabled = false
 editor_only = false
 texture = ExtResource( 10 )
 offset = Vector2( 0, 0 )
-texture_scale = 4.0
+texture_scale = 1.0
 color = Color( 1, 0.128418, 0.0625, 1 )
-energy = 3.0
+energy = 2.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -5750,5 +5753,37 @@ radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
+[node name="Sound" type="Node2D" parent="." index="4"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
+
+stream = ExtResource( 46 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="sound_fire2" type="AudioStreamPlayer2D" parent="Sound" index="1"]
+
+stream = ExtResource( 47 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="2"]
+
+stream = ExtResource( 48 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
 

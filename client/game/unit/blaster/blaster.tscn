@@ -19,7 +19,7 @@
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=17]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=18]
 [ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=19]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=20]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -130,31 +130,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color" ]
 
-[sub_resource type="Gradient" id=13]
+[sub_resource type="Gradient" id=51]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0.875, 1, 0.99707, 1, 0.148438, 0.620789, 1, 0 )
 
-[sub_resource type="GradientTexture" id=14]
+[sub_resource type="GradientTexture" id=52]
 
 flags = 4
-gradient = SubResource( 13 )
+gradient = SubResource( 51 )
 width = 2048
 
-[sub_resource type="Curve" id=15]
+[sub_resource type="Curve" id=53]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.285156 ), -3.9737, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=16]
+[sub_resource type="CurveTexture" id=54]
 
 flags = 4
 width = 2048
-curve = SubResource( 15 )
+curve = SubResource( 53 )
 
-[sub_resource type="ParticlesMaterial" id=17]
+[sub_resource type="ParticlesMaterial" id=55]
 
 render_priority = 0
 trail_divisor = 90
@@ -183,8 +183,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 16 )
-color_ramp = SubResource( 14 )
+scale_curve = SubResource( 54 )
+color_ramp = SubResource( 52 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -194,31 +194,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Trail" ]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=13]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 0.810364, 0.0664063, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=9]
+[sub_resource type="GradientTexture" id=14]
 
 flags = 4
-gradient = SubResource( 8 )
+gradient = SubResource( 13 )
 width = 2048
 
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=15]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.477496, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0493994 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=11]
+[sub_resource type="CurveTexture" id=16]
 
 flags = 4
 width = 2048
-curve = SubResource( 10 )
+curve = SubResource( 15 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=17]
 
 render_priority = 0
 trail_divisor = 1
@@ -248,8 +248,8 @@ angle = 90.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 11 )
-color_ramp = SubResource( 9 )
+scale_curve = SubResource( 16 )
+color_ramp = SubResource( 14 )
 hue_variation = 1.0
 hue_variation_random = 0.05
 anim_speed = 0.0
@@ -2371,6 +2371,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -2378,8 +2379,6 @@ _sections_unfolded = [ "Material", "Transform" ]
 [node name="Main" type="Sprite" parent="Rotatable" index="0"]
 
 editor/display_folded = true
-visible = false
-modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -2497,7 +2496,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 17 )
+process_material = SubResource( 55 )
 texture = ExtResource( 9 )
 normal_map = null
 h_frames = 1
@@ -2556,7 +2555,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2614,7 +2613,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2672,7 +2671,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2730,7 +2729,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2788,7 +2787,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2846,7 +2845,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2904,7 +2903,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -2962,7 +2961,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
+process_material = SubResource( 17 )
 texture = ExtResource( 11 )
 normal_map = null
 h_frames = 1
@@ -3405,11 +3404,7 @@ blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
-
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
 stream = ExtResource( 19 )
 volume_db = 0.0
@@ -3419,7 +3414,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
 stream = ExtResource( 20 )
 volume_db = 0.0

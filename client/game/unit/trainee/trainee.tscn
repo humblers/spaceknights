@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://game/unit/trainee/trainee.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/trainee/body.png" type="Texture" id=2]
@@ -40,6 +40,8 @@
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=38]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=39]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=40]
+[ext_resource path="res://game/sfx/data_sample_02.tre_01490.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=42]
 
 [sub_resource type="Gradient" id=1]
 
@@ -4425,5 +4427,27 @@ radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
+[node name="Sound" type="Node2D" parent="." index="3"]
+
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
+
+stream = ExtResource( 41 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
+
+stream = ExtResource( 42 )
+volume_db = 0.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
 
