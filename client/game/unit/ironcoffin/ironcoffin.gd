@@ -14,7 +14,6 @@ var maxPosX = 0
 var castPosX = 0
 var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
-var prevDeathToll = 0
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -22,7 +21,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "tombstone", player.Team(), level, posX, posY, game)
+	.Init(id, "ironcoffin", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
@@ -84,9 +83,7 @@ func attackRange():
 func Update():
 	if isLeader:
 		var data = stat.passives[Skill()]
-		var deathToll = game.DeathToll(Team())
-		if deathToll != prevDeathToll and deathToll % data["perdeaths"] == 0:
-			prevDeathToll = deathToll
+		if game.Step() % data["perstep"] == 0:
 			spawn(data)
 	if freeze > 0:
 		attack = 0
@@ -123,25 +120,6 @@ func Update():
 		else:
 			moveTo(initPosX, initPosY)
 			attack = 0
-		
-	# client only
-	if targetId <= 0 and cast <= 0:
-		$AnimationPlayer.play("idle")
-	show_laser(attack > 0)
-
-func show_laser(enable):
-	for pos in ["L", "R", "C"]:
-		var n = get_node("Rotatable/Main/Body/Front/ShotPoint%s" % pos)
-		n.visible = enable
-		if enable:
-			var from = n.global_position
-			var to = (from - target().global_position).normalized()
-			to = to * game.World().ToPixel(target().Radius())
-			to = target().global_position + to
-			n.get_node("HitPoint").global_position = to
-			var beam = n.get_node("LaserBeam")
-			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
-			beam.global_rotation = (to - from).angle() + PI/2
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
@@ -186,7 +164,7 @@ func adjustSkillAnim():
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Main:position"]
+	var tracks = ["Rotatable/Body:position"]
 	for track in tracks:
 		var track_idx = old_anim.find_track(track)
 		var key_count = old_anim.track_get_key_count(track_idx)
@@ -196,7 +174,7 @@ func adjustSkillAnim():
 
 func spawn(data):
 	var name = data["unit"]
-	if name == "barrack":
+	if name == "sentryshelter":
 		var id = game.AddUnit(name, level, castPosX, castPosY, player)
 		var tr = castTile.Occupied()
 		castTile.Release()
@@ -205,12 +183,8 @@ func spawn(data):
 			var err = occupier.Occupy(tr)
 			if err != null:
 				print(err)
-	if name == "footman":
-		var deadPosX = game.LastDeadPosX(Team())
-		var offsetX = data["offsetX"]
-		if scalar.Div(game.Map().Width(), scalar.Two) > deadPosX:
-			offsetX *= -1
-		var posX = game.World().ToPixel(initPosX) + offsetX
+	if name == "sentry":
+		var posX = game.World().ToPixel(initPosX)
 		var posY = game.World().ToPixel(initPosY)
 		game.AddUnit(name, level, posX, posY, player)
 
