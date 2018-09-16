@@ -4,6 +4,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type psabu struct {
 	*unit
+	player   Player
 	targetId int
 	attack   int
 	shield   int
@@ -11,8 +12,11 @@ type psabu struct {
 }
 
 func newPsabu(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "psabu", p.Team(), level, posX, posY, g)
 	return &psabu{
-		unit: newUnit(id, "psabu", p.Team(), level, posX, posY, g),
+		unit:   u,
+		shield: u.initialShield(),
+		player: p,
 	}
 }
 
@@ -100,7 +104,7 @@ func (p *psabu) handleAttack() {
 	if p.attack < p.preAttackDelay() {
 		p.absorb()
 	} else if p.attack == p.preAttackDelay() {
-		radius := p.game.World().FromPixel(units[p.name]["attackradius"].(int))
+		radius := p.attackRadius()
 		for _, id := range p.game.UnitIds() {
 			u := p.game.FindUnit(id)
 			if u.Team() == p.Team() {
@@ -117,6 +121,16 @@ func (p *psabu) handleAttack() {
 	if p.attack > p.attackInterval() {
 		p.attack = 0
 	}
+}
+
+func (p *psabu) attackRadius() fixed.Scalar {
+	r := units[p.name]["attackradius"].(int)
+	divider := 1
+	for _, ratio := range p.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return p.game.World().FromPixel(r / divider)
 }
 
 func (p *psabu) absorb() {

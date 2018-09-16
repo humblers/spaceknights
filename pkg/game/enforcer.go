@@ -4,13 +4,15 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 
 type enforcer struct {
 	*unit
+	player   Player
 	targetId int
 	attack   int // elapsed time since attack start
 }
 
 func newEnforcer(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &enforcer{
-		unit: newUnit(id, "enforcer", p.Team(), level, posX, posY, g),
+		unit:   newUnit(id, "enforcer", p.Team(), level, posX, posY, g),
+		player: p,
 	}
 }
 
@@ -82,7 +84,7 @@ func (e *enforcer) handleAttack() {
 					continue
 				}
 				d := e.Position().Sub(u.Position()).LengthSquared()
-				r := e.Radius().Add(u.Radius()).Add(e.attackRange())
+				r := e.Radius().Add(u.Radius()).Add(e.attackRadius())
 				if d < r.Mul(r) {
 					u.TakeDamage(e.attackDamage(), Melee)
 				}
@@ -106,4 +108,14 @@ func (e *enforcer) canAttack(u Unit) bool {
 		return false
 	}
 	return true
+}
+
+func (e *enforcer) attackRadius() fixed.Scalar {
+	r := units[e.name]["attackradius"].(int)
+	divider := 1
+	for _, ratio := range e.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return e.game.World().FromPixel(r / divider)
 }
