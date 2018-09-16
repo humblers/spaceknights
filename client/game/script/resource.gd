@@ -38,6 +38,8 @@ const UNIT = {
 	"blaster": preload("res://game/unit/blaster/blaster.tscn"),
 	"archengineer": preload("res://game/unit/archengineer/archengineer.tscn"),
 	"blastturret": preload("res://game/unit/blastturret/blastturret.tscn"),
+	"ironcoffin": preload("res://game/unit/ironcoffin/ironcoffin.tscn"),
+	"sentryshelter": preload("res://game/unit/sentryshelter/sentryshelter.tscn"),
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
@@ -51,6 +53,7 @@ const BULLET = {
 	"blaster": preload("res://game/unit/blaster/missile.tscn"),
 	"archengineer": preload("res://game/unit/archengineer/energyorb.tscn"),
 	"blastturret": preload("res://game/unit/blastturret/missile.tscn"),
+	"ironcoffin": preload("res://game/unit/ironcoffin/missile.tscn"),
 	# temporary, no bullet for below units
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
@@ -75,6 +78,7 @@ const CURSOR = {
 	"frost": preload("res://game/unit/frost/bombingpoint.tscn"),
 	"lancer": preload("res://game/unit/lancer/targetsquare.tscn"),
 	"archengineer": preload("res://game/unit/archengineer/targetsquare.tscn"),
+	"ironcoffin": preload("res://game/unit/ironcoffin/targetsquare.tscn"),
 }
 
 # temporary
@@ -110,4 +114,5 @@ const ICON = {
 	"drillram": preload("res://game/ui/unit_icon/drillram.png"),
 	"blaster": preload("res://game/ui/unit_icon/blaster.png"),
 	"blastturret": preload("res://game/ui/wingskill_icon/blastturret.png"),
+	"sentryshelter": preload("res://game/ui/wingskill_icon/sentryshelter.png"),
 }

@@ -30,7 +30,7 @@ func (b *barrack) Update() {
 		b.freeze--
 		return
 	}
-	if b.spawn%b.spawnInterval() == 0 {
+	if b.spawn%b.spawnInterval() == 15 {
 		b.doSpawn()
 	}
 	b.spawn++
