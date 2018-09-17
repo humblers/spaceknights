@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://game/unit/barrack/floatingmachine.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/barrack/floatingmachine_s.png" type="Texture" id=2]
@@ -134,10 +134,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -10, -10 ), Vector2( -25, -25 ), Vector2( -40, -40 ) ]
+"values": [ Vector2( -10, -10 ), Vector2( -25, -25 ), Vector2( -40, -40 ), Vector2( -35, -35 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Set2:position")
@@ -146,10 +146,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, -10 ), Vector2( 25, -25 ), Vector2( 40, -40 ) ]
+"values": [ Vector2( 10, -10 ), Vector2( 25, -25 ), Vector2( 40, -40 ), Vector2( 35, -35 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Set3:position")
@@ -158,10 +158,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -10, 10 ), Vector2( -25, 25 ), Vector2( -40, 40 ) ]
+"values": [ Vector2( -10, 10 ), Vector2( -25, 25 ), Vector2( -40, 40 ), Vector2( -35, 35 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Set4:position")
@@ -170,10 +170,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, 10 ), Vector2( 25, 25 ), Vector2( 40, 40 ) ]
+"values": [ Vector2( 10, 10 ), Vector2( 25, 25 ), Vector2( 40, 40 ), Vector2( 35, 35 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Set1/Particles2D:emitting")
@@ -272,19 +272,19 @@ tracks/11/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath(".:rotation_degrees")
+tracks/12/path = NodePath("Set1:rotation_degrees")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0.4, 1 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0, -45.0 ]
+"values": [ 0.0, 0.0 ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Set1:rotation_degrees")
+tracks/13/path = NodePath("Set2:rotation_degrees")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -296,7 +296,7 @@ tracks/13/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Set2:rotation_degrees")
+tracks/14/path = NodePath("Set3:rotation_degrees")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -308,7 +308,7 @@ tracks/14/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Set3:rotation_degrees")
+tracks/15/path = NodePath("Set4:rotation_degrees")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -320,27 +320,181 @@ tracks/15/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Set4:rotation_degrees")
+tracks/16/path = NodePath(".:scale")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+
+resource_name = "explosion-float"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Set1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0 ]
+"values": [ Vector2( -35, -35 ), Vector2( -16, -23 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Set2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 35, -35 ), Vector2( 40, -10 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Set3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -35, 35 ), Vector2( -52, 36 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Set4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 35, 35 ), Vector2( 52, 39 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Set1:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 20.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Set2:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 10.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Set3:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Set4:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 10.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Set1:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Set2:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Set3:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Set4:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[node name="Float" type="Node2D" index="0"]
+[node name="Float" type="Node2D"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Transform" ]
 
 [node name="Set1" type="Sprite" parent="." index="0"]
 
 editor/display_folded = true
-position = Vector2( -10, -10 )
+position = Vector2( -35, -35 )
 texture = ExtResource( 1 )
 flip_h = true
-_sections_unfolded = [ "Offset", "Transform" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Set1" index="0"]
 
@@ -425,9 +579,9 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 [node name="Set2" type="Sprite" parent="." index="1"]
 
 editor/display_folded = true
-position = Vector2( 10, -10 )
+position = Vector2( 35, -35 )
 texture = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Set2" index="0"]
 
@@ -504,11 +658,11 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 [node name="Set3" type="Sprite" parent="." index="2"]
 
 editor/display_folded = true
-position = Vector2( -10, 10 )
+position = Vector2( -35, 35 )
 texture = ExtResource( 1 )
 flip_h = true
 flip_v = true
-_sections_unfolded = [ "Offset", "Transform" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Set3" index="0"]
 
@@ -597,10 +751,10 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 [node name="Set4" type="Sprite" parent="." index="3"]
 
 editor/display_folded = true
-position = Vector2( 10, 10 )
+position = Vector2( 35, 35 )
 texture = ExtResource( 1 )
 flip_v = true
-_sections_unfolded = [ "Offset", "Transform" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Set4" index="0"]
 
@@ -690,6 +844,7 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/activate = SubResource( 9 )
+anims/explosion-float = SubResource( 10 )
 blend_times = [  ]
 
 
