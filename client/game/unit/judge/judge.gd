@@ -179,6 +179,7 @@ func setTarget(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
+		$Sound/sound_fire.play()
 	var t = target()
 	if t != null:
 		look_at(t.PositionX(), t.PositionY())

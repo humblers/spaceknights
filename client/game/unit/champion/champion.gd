@@ -101,6 +101,7 @@ func handleAttack():
 	if charged():
 		if attack == 0:
 			$AnimationPlayer.play("skill_attack")
+			$Sound/sound_fire.play()
 		var t = target()
 		if t != null:
 			look_at(t.PositionX(), t.PositionY())
@@ -118,6 +119,7 @@ func handleAttack():
 		charge = 0			# prevent charge accumulation
 		if attack == 0:
 			$AnimationPlayer.play("attack")
+			$Sound/sound_fire.play()
 		var t = target()
 		if t != null:
 			look_at(t.PositionX(), t.PositionY())

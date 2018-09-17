@@ -13,7 +13,7 @@
 [ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=11]
 [ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=12]
 [ext_resource path="res://game/sfx/bolter2.wav" type="AudioStream" id=13]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=14]
+[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=14]
 
 [sub_resource type="Gradient" id=1]
 
@@ -727,7 +727,7 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="sentry" type="Node2D"]
+[node name="sentry" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -1040,11 +1040,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
-
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
 stream = ExtResource( 13 )
 volume_db = 0.0
@@ -1054,7 +1050,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
 stream = ExtResource( 14 )
 volume_db = 0.0

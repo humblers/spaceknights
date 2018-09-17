@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/legion/legion_roid.png" type="Texture" id=2]
@@ -41,7 +41,8 @@
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=39]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=40]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=41]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/sfx/fire1.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=43]
 
 [sub_resource type="Gradient" id=1]
 
@@ -5027,13 +5028,9 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
-
-stream = null
+stream = ExtResource( 42 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -5041,9 +5038,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 42 )
+stream = ExtResource( 43 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0

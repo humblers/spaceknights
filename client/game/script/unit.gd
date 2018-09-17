@@ -154,9 +154,10 @@ func TakeDamage(amount, attackType):
 	hp -= amount
 	node_hp.value = hp
 	if attackType != "Self":
-		damages[game.step] = 0
+		damages[game.step] = 0	
 
 func Destroy():
+	$Sound/sound_death.play()
 	game.World().RemoveBody(body)
 
 func MakeSlow(duration):

@@ -98,6 +98,7 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
+		$Sound/sound_fire.play()
 		setLayer("Normal")
 	var t = target()
 	if t != null:

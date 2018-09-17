@@ -37,8 +37,8 @@
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=35]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=36]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=37]
-[ext_resource path="res://game/sfx/poton_beam.wav" type="AudioStream" id=38]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=39]
 
 [sub_resource type="ShaderMaterial" id=1]
 
@@ -3886,7 +3886,7 @@ tracks/35/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 
-[node name="astra" type="Node2D" index="0"]
+[node name="astra" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -5378,13 +5378,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
-
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-editor/display_folded = true
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
 stream = ExtResource( 38 )
 volume_db = 0.0
@@ -5394,7 +5388,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
 stream = ExtResource( 39 )
 volume_db = -2.0

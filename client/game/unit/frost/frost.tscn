@@ -1,4 +1,4 @@
-[gd_scene load_steps=102 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://game/unit/frost/frost.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/frost/leg.png" type="Texture" id=2]
@@ -55,7 +55,8 @@
 [ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=53]
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=54]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=55]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=56]
+[ext_resource path="res://game/sfx/smg1_fireburst1.wav" type="AudioStream" id=56]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=57]
 
 [sub_resource type="Gradient" id=1]
 
@@ -5160,6 +5161,8 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
+
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -6358,14 +6361,9 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-editor/display_folded = true
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
-
-position = Vector2( 42.6924, -33.0096 )
-stream = null
+stream = ExtResource( 56 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -6373,10 +6371,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-position = Vector2( 42.6924, -33.0096 )
-stream = ExtResource( 56 )
+stream = ExtResource( 57 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0

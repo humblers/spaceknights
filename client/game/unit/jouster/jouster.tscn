@@ -57,7 +57,7 @@
 [ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=55]
 [ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=56]
 [ext_resource path="res://game/sfx/atom_attack_critical.wav" type="AudioStream" id=57]
-[ext_resource path="res://game/sfx/shield_hit.wav" type="AudioStream" id=58]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=58]
 
 [sub_resource type="Gradient" id=1]
 
@@ -8253,6 +8253,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -9481,11 +9482,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="." index="3"]
 
-editor/display_folded = true
-
-[node name="Pos" type="Position2D" parent="Sound" index="0"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound/Pos" index="0"]
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
 stream = ExtResource( 57 )
 volume_db = 0.0
@@ -9495,7 +9492,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_hit" type="AudioStreamPlayer2D" parent="Sound/Pos" index="1"]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
 stream = ExtResource( 58 )
 volume_db = 0.0
