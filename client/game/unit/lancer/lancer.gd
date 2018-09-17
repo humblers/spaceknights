@@ -99,7 +99,8 @@ func Update():
 			moveTo(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), "Range")
+					$AnimationPlayer.play("attack")
+					fire()
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d
@@ -112,21 +113,7 @@ func Update():
 			attack = 0
 		
 	# client only
-	#show_laser(attack > 0)
-
-func show_laser(enable):
-	for pos in ["LF", "LR", "RF", "RR"]:
-		var n = get_node("Rotatable/Body/Shotpoint%s" % pos)
-		n.visible = enable
-		if enable:
-			var from = n.global_position
-			var to = (from - target().global_position).normalized()
-			to = to * game.World().ToPixel(target().Radius())
-			to = target().global_position + to
-			n.get_node("HitPoint").global_position = to
-			var beam = n.get_node("LaserBeam")
-			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
-			beam.global_rotation = (to - from).angle() + PI/2
+	
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
@@ -196,3 +183,24 @@ func setTarget(unit):
 	else:
 		targetId = unit.Id()
 
+func handleAttack():
+	if attack == 0:
+		$AnimationPlayer.play("attack")
+	var t = target()
+	if t != null:
+		look_at(t.PositionX(), t.PositionY())
+	if attack == preAttackDelay():
+		if t != null and withinRange(t):
+			fire()
+		else:
+			attack = 0
+			return
+	attack += 1
+	if attack > attackInterval():
+		attack = 0
+
+func fire():
+	var b = resource.BULLET[name_].instance()
+	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	game.AddBullet(b)
+	b.global_position = $Rotatable/Shotpoint.global_position

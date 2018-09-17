@@ -57,6 +57,7 @@ const BULLET = {
 	"blastturret": preload("res://game/unit/blastturret/missile.tscn"),
 	"ironcoffin": preload("res://game/unit/ironcoffin/missile.tscn"),
 	"pixieking": preload("res://game/unit/pixieking/bullet.tscn"),
+	"lancer": preload("res://game/unit/lancer/missile.tscn"),
 	# temporary, no bullet for below units
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
