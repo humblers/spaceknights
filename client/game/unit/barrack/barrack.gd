@@ -13,6 +13,9 @@ func Init(id, level, posX, posY, game, player):
 	TileOccupier = TileOccupier.new(game)
 	self.player = player
 
+func _ready():
+	$Rotatable/Float/FloatAni.play("activate")
+
 func Destroy():
 	.Destroy()
 	TileOccupier.Release()
