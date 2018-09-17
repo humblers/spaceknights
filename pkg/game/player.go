@@ -156,7 +156,7 @@ func (p *player) Do(a *Action) error {
 func (p *player) findKnight(name string) Unit {
 	for _, id := range p.knightIds {
 		u := p.game.FindUnit(id)
-		if u.Name() == name {
+		if u != nil && u.Name() == name {
 			return u
 		}
 	}
