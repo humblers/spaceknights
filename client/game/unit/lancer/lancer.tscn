@@ -11,14 +11,11 @@
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
 [ext_resource path="res://game/unit/lancer/missile.png" type="Texture" id=10]
 [ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=11]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=12]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=13]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=14]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=15]
-[ext_resource path="res://game/sfx/wpn_ift_missile_fire.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=17]
-
-
+[ext_resource path="res://game/hpbar/hpbarbg_l.png" type="Texture" id=12]
+[ext_resource path="res://game/hpbar/hpbarblue_l.png" type="Texture" id=13]
+[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=14]
+[ext_resource path="res://game/sfx/wpn_ift_missile_fire.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=16]
 
 [sub_resource type="Gradient" id=1]
 
@@ -557,7 +554,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
 
-[sub_resource type="Animation" id=45]
+[sub_resource type="Animation" id=40]
 
 resource_name = "attack"
 length = 0.01
@@ -840,9 +837,8 @@ tracks/22/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=40]
+[sub_resource type="Animation" id=41]
 
-resource_name = "attack-ori"
 length = 1.0
 loop = false
 step = 0.1
@@ -1123,9 +1119,8 @@ tracks/22/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=41]
+[sub_resource type="Animation" id=42]
 
-resource_name = "explosion"
 length = 1.0
 loop = false
 step = 0.1
@@ -1418,7 +1413,7 @@ tracks/23/keys = {
 "values": [ Vector2( 1.2, 1.2 ), Vector2( 1.2, 1.2 ) ]
 }
 
-[sub_resource type="Animation" id=42]
+[sub_resource type="Animation" id=43]
 
 length = 0.01
 loop = false
@@ -1700,7 +1695,7 @@ tracks/22/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=43]
+[sub_resource type="Animation" id=44]
 
 length = 5.0
 loop = false
@@ -1982,7 +1977,7 @@ tracks/22/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=45]
 
 length = 4.0
 loop = false
@@ -2288,7 +2283,7 @@ tracks/24/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
 }
 
-[node name="lancer" type="Node2D"]
+[node name="lancer" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -2828,18 +2823,16 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 45 )
-anims/attack-ori = SubResource( 40 )
-anims/explosion = SubResource( 41 )
-anims/idle = SubResource( 42 )
-anims/show = SubResource( 43 )
-anims/skill = SubResource( 44 )
+anims/attack = SubResource( 40 )
+anims/attack-ori = SubResource( 41 )
+anims/explosion = SubResource( 42 )
+anims/idle = SubResource( 43 )
+anims/show = SubResource( 44 )
+anims/skill = SubResource( 45 )
 blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="2"]
 
-editor/display_folded = true
-scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -2850,11 +2843,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -10.0
-margin_top = -55.0
-margin_right = 10.0
-margin_bottom = -49.0
-rect_scale = Vector2( 1, 0.5 )
+margin_left = -42.0
+margin_top = -125.0
+margin_right = 42.0
+margin_bottom = -109.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -2884,11 +2876,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -10.0
-margin_top = -55.0
-margin_right = 10.0
-margin_bottom = -49.0
-rect_scale = Vector2( 1, 0.5 )
+margin_left = -42.0
+margin_top = -125.0
+margin_right = 42.0
+margin_bottom = -109.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -2902,9 +2893,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 14 )
+texture_under = ExtResource( 12 )
 texture_over = null
-texture_progress = ExtResource( 15 )
+texture_progress = ExtResource( 14 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -2920,7 +2911,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 16 )
+stream = ExtResource( 15 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -2930,7 +2921,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 17 )
+stream = ExtResource( 16 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0

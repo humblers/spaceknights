@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/unit/sentry/sentry.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/sentry/idle.png" type="Texture" id=2]
@@ -8,12 +8,11 @@
 [ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=6]
 [ext_resource path="res://game/vfx/speare.png" type="Texture" id=7]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=8]
-[ext_resource path="res://game/hpbar/blue_S_edge.png" type="Texture" id=9]
-[ext_resource path="res://game/hpbar/blue_S_inside.png" type="Texture" id=10]
-[ext_resource path="res://game/hpbar/red_S_edge.png" type="Texture" id=11]
-[ext_resource path="res://game/hpbar/red_S_inside.png" type="Texture" id=12]
-[ext_resource path="res://game/sfx/bolter2.wav" type="AudioStream" id=13]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=14]
+[ext_resource path="res://game/hpbar/hpbarbg_s.png" type="Texture" id=9]
+[ext_resource path="res://game/hpbar/hpbarblue_s.png" type="Texture" id=10]
+[ext_resource path="res://game/hpbar/hpbarred_s.png" type="Texture" id=11]
+[ext_resource path="res://game/sfx/bolter2.wav" type="AudioStream" id=12]
+[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=13]
 
 [sub_resource type="Gradient" id=1]
 
@@ -967,7 +966,6 @@ blend_times = [  ]
 [node name="Hp" type="Position2D" parent="." index="2"]
 
 position = Vector2( 0, -10 )
-scale = Vector2( 5, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -978,11 +976,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -5.0
-margin_top = -13.0
-margin_right = 5.0
-margin_bottom = -7.0
-rect_scale = Vector2( 1, 0.5 )
+margin_left = -15.0
+margin_top = -35.0
+margin_right = 15.0
+margin_bottom = -19.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1012,11 +1009,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -5.0
-margin_top = -13.0
-margin_right = 5.0
-margin_bottom = -7.0
-rect_scale = Vector2( 1, 0.5 )
+margin_left = -15.0
+margin_top = -35.0
+margin_right = 15.0
+margin_bottom = -19.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1030,9 +1026,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 11 )
+texture_under = ExtResource( 9 )
 texture_over = null
-texture_progress = ExtResource( 12 )
+texture_progress = ExtResource( 11 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -1042,7 +1038,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 13 )
+stream = ExtResource( 12 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -1052,7 +1048,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 14 )
+stream = ExtResource( 13 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
