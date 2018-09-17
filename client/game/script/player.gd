@@ -252,21 +252,25 @@ func update_cards():
 	$Cards/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
 	for i in range(HAND_SIZE):
 		var card = hand[i]
-		var icon_node = $Cards.get_node("Card%s" % (i+1)).get_node("Icon")
-		var cost_node = $Cards.get_node("Card%s" % (i+1)).get_node("Cost")
+		var btn_node = $Cards.get_node("Card%d/%s" % [i+1, "Button"])
+		var icon_node = $Cards.get_node("Card%d/%s" % [i+1, "Icon"])
+		var cost_node = $Cards.get_node("Card%d/%s" % [i+1, "Cost"])
 		var modulate = Color(1, 1, 1, 1)
 		match card:
 			selected_card:
 				modulate = Color(1, 0.69, 0, 1)
 				continue
 			{"Name":"", ..}:
+				btn_node.visible = false
 				icon_node.texture = null
 			{"InvisibleTo": var to, ..}:
 				if to < game.step:
+					btn_node.visible = false
 					icon_node.texture = null
 				else:
 					card.erase("InvisibleTo")
 			_:
+				btn_node.visible = true
 				icon_node.texture = resource.ICON[hand[i].Name]
 				cost_node.text = str(stat.cards[hand[i].Name].cost/1000)
 		icon_node.modulate = modulate
