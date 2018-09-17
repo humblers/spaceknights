@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://game/unit/astra/astra.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/astra/frame.png" type="Texture" id=2]
@@ -33,12 +33,11 @@
 [ext_resource path="res://game/vfx/knight_laser.png" type="Texture" id=31]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=32]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=33]
-[ext_resource path="res://game/hpbar/blue_M_edge.png" type="Texture" id=34]
-[ext_resource path="res://game/hpbar/blue_M_inside.png" type="Texture" id=35]
-[ext_resource path="res://game/hpbar/red_M_edge.png" type="Texture" id=36]
-[ext_resource path="res://game/hpbar/red_M_inside.png" type="Texture" id=37]
-[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=38]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/hpbar/hpbarbg_l.png" type="Texture" id=34]
+[ext_resource path="res://game/hpbar/hpbarblue_l.png" type="Texture" id=35]
+[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=36]
+[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=37]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=38]
 
 [sub_resource type="ShaderMaterial" id=1]
 
@@ -3886,7 +3885,7 @@ tracks/35/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 
-[node name="astra" type="Node2D"]
+[node name="astra" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -5307,7 +5306,6 @@ blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="2"]
 
-scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -5318,10 +5316,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -10.0
-margin_top = -40.0
-margin_right = 10.0
-margin_bottom = -34.0
+margin_left = -42.0
+margin_top = -110.0
+margin_right = 42.0
+margin_bottom = -94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -5351,10 +5349,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -10.0
-margin_top = -40.0
-margin_right = 10.0
-margin_bottom = -34.0
+margin_left = -42.0
+margin_top = -110.0
+margin_right = 42.0
+margin_bottom = -94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -5368,9 +5366,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 36 )
+texture_under = ExtResource( 34 )
 texture_over = null
-texture_progress = ExtResource( 37 )
+texture_progress = ExtResource( 36 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5380,7 +5378,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 38 )
+stream = ExtResource( 37 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -5390,7 +5388,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 39 )
+stream = ExtResource( 38 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0
