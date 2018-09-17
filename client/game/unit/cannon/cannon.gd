@@ -12,6 +12,9 @@ func Init(id, level, posX, posY, game, player):
 	Decayable.Init(self)
 	TileOccupier = TileOccupier.new(game)
 
+func _ready():
+	$Float/FloatAni.play("activate")
+
 func Update():
 	Decayable.TakeDecayDamage()
 	if freeze > 0:
@@ -37,7 +40,9 @@ func Destroy():
 	.Destroy()
 	TileOccupier.Release()
 	$AnimationPlayer.play("explosion")
+	$Float/FloatAni.play("explosion-float")
 	yield($AnimationPlayer, "animation_finished")
+	yield($Float/FloatAni, "animation_finished")
 	queue_free()
 
 func setHp(amount):
