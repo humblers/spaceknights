@@ -15,6 +15,8 @@ var castPosX = 0
 var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
 
+var attack_counter = 0
+
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -100,26 +102,25 @@ func Update():
 		else:
 			cast += 1
 	else:
-		if target() == null:
-			setTarget(findTarget())
-			attack = 0
-		var t = target()
-		if t != null and canSee(t):
-			var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
-			moveTo(posX, PositionY())
-			if withinRange(t):
-				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), "Range")
-					var duration = 0
-					for d in player.StatRatios("slowduration"):
-						duration += d
-					t.MakeSlow(duration)
-				attack += 1
-			else:
-				attack = 0
+		if attack > 0:
+			handleAttack()
 		else:
-			moveTo(initPosX, initPosY)
-			attack = 0
+			var t = target()
+			if t == null:
+				findTargetAndAttack()
+			else:
+				if withinRange(t):
+					handleAttack()
+				else:
+					findTargetAndAttack()
+	if target() == null and cast == 0:
+		$AnimationPlayer.play("idle")
+		
+func findTargetAndAttack():
+	var t = findTarget()
+	setTarget(t)
+	if t != null and withinRange(t):
+		handleAttack()
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
@@ -200,3 +201,36 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
+		
+func handleAttack():
+	if attack == 0:
+		$AnimationPlayer.play("attack_%s" % ((attack_counter % 2) + 1))
+		$Sound/sound_fire.play()
+	var t = target()
+	if t != null:
+		look_at(t.PositionX(), t.PositionY())
+	if attack == preAttackDelay():
+		if t != null and withinRange(t):
+			fire()
+		else:
+			attack = 0
+			return
+	attack += 1
+	if attack > attackInterval():
+		attack = 0
+
+func fire():
+	var b = resource.BULLET[name_].instance()
+	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	var duration = 0
+	for d in player.StatRatios("slowduration"):
+		duration += d
+	b.MakeFrozen(duration)
+	game.AddBullet(b)
+	
+	# client only
+	if attack_counter % 2 == 0:
+		b.global_position = $Rotatable/Body/ShotpointL.global_position
+	else:
+		b.global_position = $Rotatable/Body/ShotpointR.global_position
+	attack_counter += 1
