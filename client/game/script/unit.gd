@@ -20,6 +20,7 @@ var game
 var body
 var slowUntil = 0
 var freeze = 0
+var maxhp
 
 var node_hp
 var shade_nodes=[]
@@ -74,6 +75,7 @@ func Init(id, name, team, level, posX, posY, game):
 	self.game = game
 	var w = game.World()
 	hp = initialHp()
+	maxhp = hp
 	body = w.AddCircle(
 		mass(),
 		radius(),
@@ -126,7 +128,7 @@ func set_hp():
 	if game.team_swapped:
 		color = "Blue" if Team() == "Red" else "Red"
 	node_hp = $Hp.get_node(color)
-	node_hp.show()
+	node_hp.hide()
 	node_hp.max_value = hp
 	node_hp.value = hp
 
@@ -151,6 +153,8 @@ func IsDead():
 func TakeDamage(amount, attackType):
 	if Layer() != "Normal":
 		return
+#	if hp == maxhp:
+#		node_hp.show()
 	hp -= amount
 	node_hp.value = hp
 	if attackType != "Self":
