@@ -160,6 +160,7 @@ func update_cursor(x, y):
 			minTileY = game.Map().MinTileYOnBot()
 		else:
 			maxTileY = game.Map().MaxTileOnTop()
+		tile[1] = int(clamp(tile[1], minTileY, maxTileY))
 		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
 		if res[1] == null:
 			var tr = res[0]
