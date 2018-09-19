@@ -128,7 +128,6 @@ func set_hp():
 	if game.team_swapped:
 		color = "Blue" if Team() == "Red" else "Red"
 	node_hp = $Hp.get_node(color)
-	node_hp.hide()
 	node_hp.max_value = hp
 	node_hp.value = hp
 
@@ -153,10 +152,9 @@ func IsDead():
 func TakeDamage(amount, attackType):
 	if Layer() != "Normal":
 		return
-#	if hp == maxhp:
-#		node_hp.show()
 	hp -= amount
 	node_hp.value = hp
+	node_hp.visible = true
 	if attackType != "Self":
 		damages[game.step] = 0	
 
