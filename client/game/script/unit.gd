@@ -20,7 +20,6 @@ var game
 var body
 var slowUntil = 0
 var freeze = 0
-var maxhp
 
 var node_hp
 var shade_nodes=[]
@@ -75,7 +74,6 @@ func Init(id, name, team, level, posX, posY, game):
 	self.game = game
 	var w = game.World()
 	hp = initialHp()
-	maxhp = hp
 	body = w.AddCircle(
 		mass(),
 		radius(),
