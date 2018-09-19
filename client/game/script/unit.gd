@@ -126,7 +126,6 @@ func set_hp():
 	if game.team_swapped:
 		color = "Blue" if Team() == "Red" else "Red"
 	node_hp = $Hp.get_node(color)
-	node_hp.show()
 	node_hp.max_value = hp
 	node_hp.value = hp
 
@@ -153,6 +152,7 @@ func TakeDamage(amount, attackType):
 		return
 	hp -= amount
 	node_hp.value = hp
+	node_hp.visible = true
 	if attackType != "Self":
 		damages[game.step] = 0	
 
