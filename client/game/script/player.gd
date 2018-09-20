@@ -291,9 +291,17 @@ func AddKnights(knights):
 			x = game.FlipX(x)
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
+		var knight = game.FindUnit(id)
 		if i == KNIGHT_LEADER_INDEX:
-			game.FindUnit(id).SetAsLeader()
+			knight.SetAsLeader()
+			knight.side = "Center"
+		elif i == 1:
+			knight.side = "Left"
+		else:
+			knight.side = "Right"
 		knightIds.append(id)
+		
+		game.FindUnit(id)
 	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
@@ -401,6 +409,14 @@ func OnKnightDead(knight):
 			break
 	removeCard(knight.Skill())
 	get_node("../../Map/MotherShips/%s" % team).destroy(knight.Id())
+	expand_spawnable_area(knight)
+
+func expand_spawnable_area(knight):
+	if knight.side == "Center":
+		return
+	var t = knight.client_team
+	var s = knight.side
+	get_node("../../Map/TileUnit/%s%s" % [t, s]).visible = true
 
 func OnKnightHalfDamaged(knight):
 	get_node("../../Map/MotherShips/%s" % team).partial_destroy(knight.Id())

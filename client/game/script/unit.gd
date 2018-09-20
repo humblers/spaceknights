@@ -26,6 +26,8 @@ var shade_nodes=[]
 var custom_shader = preload("res://game/script/custom_shader.gd")
 var shader_material = preload("res://game/unit/shader_material.tres")
 var damages = {}
+var client_team
+var side	# knight position: Left, Center, or Right 
 
 func InitDummy(posX, posY, game, player, enable_shade, initial_angle=0):
 	self.team = player.team
@@ -85,9 +87,11 @@ func Init(id, name, team, level, posX, posY, game):
 	# client only
 	body.node = self
 	set_hp()
+	client_team = team
 	if game.team_swapped:
 		posX = game.FlipX(posX)
 		posY = game.FlipY(posY)
+		client_team = "Red" if team == "Blue" else "Blue"
 	position = Vector2(posX, posY)
 	init_rotation()
 	init_shade(true)
