@@ -207,6 +207,13 @@ func get_unit(name, x, y):
 	node.InitDummy(x, y, game, self, false)
 	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
 	return node
+	
+func get_unit_btn(name, x, y):
+	var node = resource.UNIT[name].instance()
+	node.InitDummy(x+90, y+70, game, self, false)
+	node.modulate = Color(1.0, 1.0, 1.0, 1)
+	#node.scale = Vector2(2,2)
+	return node
 
 func clear_cursor():
 	for child in get_node("../../BattleField/CursorPos").get_children():
@@ -248,6 +255,7 @@ func update_cards():
 		var card = hand[i]
 		var btn_node = $Cards.get_node("Card%d/%s" % [i+1, "Button"])
 		var icon_node = $Cards.get_node("Card%d/%s" % [i+1, "Icon"])
+		var over_node = $Cards.get_node("Card%d/%s" % [i+1, "Over"])
 		var cost_node = $Cards.get_node("Card%d/%s" % [i+1, "Cost"])
 		var modulate = Color(1, 1, 1, 1)
 		match card:
@@ -267,7 +275,16 @@ func update_cards():
 				btn_node.visible = true
 				icon_node.texture = resource.ICON[hand[i].Name]
 				cost_node.text = str(stat.cards[hand[i].Name].cost/1000)
-		icon_node.modulate = modulate
+		icon_node.self_modulate = modulate
+		for child in over_node.get_children():
+			child.queue_free()
+		var cardData = stat.cards[card.Name]
+		var name = cardData["unit"]
+		var count = cardData["count"]
+		var offsetX = cardData["offsetX"]
+		var offsetY = cardData["offsetY"]
+		for i in range(count):
+			over_node.add_child(get_unit_btn(name, offsetX[i], offsetY[i]))
 
 func Team():
 	return team
@@ -386,6 +403,7 @@ func useCard(c, posX, posY):
 		var offsetY = card["offsetY"]
 		for i in range(count):
 			game.AddUnit(name, c.Level, posX+offsetX[i], posY+offsetY[i], self)
+	
 	return null
 
 func rollingCard():
