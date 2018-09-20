@@ -300,8 +300,6 @@ func AddKnights(knights):
 		else:
 			knight.side = "Right"
 		knightIds.append(id)
-		
-		game.FindUnit(id)
 	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
