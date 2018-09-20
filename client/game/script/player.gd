@@ -96,7 +96,6 @@ func gui_input(ev):
 					game.actions[input.Step].append(input.Action)
 				else:
 					game.actions[input.Step] = [input.Action]
-			get_node("../../Map/RedArea").modulate = Color(1.0, 0, 0, 0)
 			selected_card["InvisibleTo"] = game.step + INPUT_DELAY_STEP
 			selected_card = null
 			mark_action(input)
@@ -111,12 +110,6 @@ func gui_input(ev):
 func button_input(ev, i):
 	if ev is InputEventMouseButton and ev.pressed:
 		selected_card = hand[i]
-		if name == "Blue":
-			var card = stat.cards[selected_card.Name]
-			if card.has("unit"):
-				var redArea = get_node("../../Map/RedArea")
-				$Tween.interpolate_property(redArea, "modulate", Color(1.0, 0, 0, 0.0), Color(1.0, 0, 0, 0.3), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
-				$Tween.start()
 	if name == "Blue":
 		gui_input(ev)
 
