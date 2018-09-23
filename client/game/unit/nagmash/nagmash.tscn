@@ -494,7 +494,7 @@ emission_sphere_radius = 1.0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
-spread = 45.0
+spread = 180.0
 flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 1.0
@@ -505,7 +505,7 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 0.0
 linear_accel_random = 0.0
-radial_accel = 0.0
+radial_accel = 30.0
 radial_accel_random = 0.0
 tangential_accel = 0.0
 tangential_accel_random = 0.0
@@ -524,7 +524,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Gravity" ]
+_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Spread" ]
 
 [sub_resource type="Animation" id=39]
 
@@ -2669,6 +2669,8 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 offset = Vector2( 0, -7.5 )
@@ -2676,18 +2678,21 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Dummy" type="Node2D" parent="Rotatable/Body" index="0"]
 
+editor/display_folded = true
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 show_behind_parent = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Footman2" type="Sprite" parent="Rotatable/Body/Dummy" index="0"]
 
-position = Vector2( 0, -19 )
+position = Vector2( -11.7614, -19.7351 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Footman3" type="Sprite" parent="Rotatable/Body/Dummy" index="1"]
 
-position = Vector2( 0, 17 )
+position = Vector2( 4.41055, 17 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -2941,6 +2946,7 @@ shadow_item_cull_mask = 1
 
 [node name="Hanger" type="Node2D" parent="Rotatable/Body" index="6"]
 
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material" ]
 
@@ -2948,7 +2954,7 @@ _sections_unfolded = [ "Material" ]
 
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 0, -18 )
+position = Vector2( 21.3176, -21.6755 )
 texture = ExtResource( 8 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -2982,6 +2988,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Light2D2" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2" index="1"]
 
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -2991,7 +2998,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="HangerL2" type="Sprite" parent="Rotatable/Body/Hanger" index="1"]
 
 use_parent_material = true
-position = Vector2( 0, -18 )
+position = Vector2( -38.9598, -27.5562 )
 texture = ExtResource( 8 )
 offset = Vector2( -22, 0 )
 flip_h = true
@@ -3033,6 +3040,7 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerL2" index="1"]
 
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -3043,7 +3051,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 0, 18 )
+position = Vector2( 21.3176, 29.7614 )
 texture = ExtResource( 8 )
 offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -3077,6 +3085,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerR3" index="1"]
 
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -3087,7 +3096,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 0, 18 )
+position = Vector2( -22.0527, -0.377274 )
 texture = ExtResource( 8 )
 offset = Vector2( -22, 0 )
 flip_h = true
@@ -3128,6 +3137,7 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Light2D4" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3" index="1"]
 
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -3280,6 +3290,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="ShotpointLR" type="Position2D" parent="Rotatable/Body" index="8"]
 
+editor/display_folded = true
 visible = false
 position = Vector2( -15, 35 )
 _sections_unfolded = [ "Transform" ]
@@ -3423,6 +3434,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="ShotpointRF" type="Position2D" parent="Rotatable/Body" index="9"]
 
+editor/display_folded = true
 visible = false
 position = Vector2( 10, -43 )
 _sections_unfolded = [ "Transform" ]
@@ -3566,6 +3578,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="ShotpointRR" type="Position2D" parent="Rotatable/Body" index="10"]
 
+editor/display_folded = true
 visible = false
 position = Vector2( 15, 35 )
 _sections_unfolded = [ "Transform" ]
@@ -3821,7 +3834,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable" index="1"]
 
-editor/display_folded = true
 scale = Vector2( 1.4, 1.4 )
 _sections_unfolded = [ "Transform" ]
 
@@ -3902,7 +3914,7 @@ amount = 8
 lifetime = 1.0
 one_shot = false
 preprocess = 0.0
-speed_scale = 1.0
+speed_scale = 2.0
 explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
@@ -3915,7 +3927,7 @@ texture = ExtResource( 7 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Explight" type="Light2D" parent="Rotatable/Explosion" index="4"]
 

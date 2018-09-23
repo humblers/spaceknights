@@ -347,7 +347,7 @@ _sections_unfolded = [ "Resource" ]
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.177186 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=27]
 
@@ -364,7 +364,7 @@ emission_sphere_radius = 1.0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
-spread = 0.0
+spread = 180.0
 flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 1.0
@@ -375,8 +375,8 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 0.0
 linear_accel_random = 0.0
-radial_accel = 30.0
-radial_accel_random = 0.2
+radial_accel = 60.0
+radial_accel_random = 1.0
 tangential_accel = 60.0
 tangential_accel_random = 0.5
 damping = 10.0
@@ -394,7 +394,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Scale" ]
+_sections_unfolded = [ "Color", "Radial Accel", "Scale", "Spread" ]
 
 [sub_resource type="Gradient" id=29]
 
@@ -4747,17 +4747,22 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
+position = Vector2( -23.3267, -15.8445 )
+rotation = -0.523599
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Rotatable/Body" index="0"]
+
+editor/display_folded = true
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/Shade" index="0"]
 
@@ -4785,6 +4790,7 @@ texture = ExtResource( 5 )
 
 editor/display_folded = true
 use_parent_material = true
+position = Vector2( -24.6733, -12.7205 )
 texture = ExtResource( 6 )
 offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -4865,6 +4871,7 @@ shadow_item_cull_mask = 1
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body" index="2"]
 
+editor/display_folded = true
 show_behind_parent = true
 light_mask = 2
 use_parent_material = true
@@ -4914,8 +4921,8 @@ _sections_unfolded = [ "Material", "Transform" ]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -21, 0 )
-rotation = 0.261799
+position = Vector2( -36.8719, -21.3292 )
+rotation = 1.309
 texture = ExtResource( 16 )
 offset = Vector2( 0, -10 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -5055,10 +5062,12 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body" index="3"]
 
+editor/display_folded = true
 show_behind_parent = true
 light_mask = 2
 use_parent_material = true
-position = Vector2( 28, 0 )
+position = Vector2( 51.5614, 4.96354 )
+rotation = 0.785396
 texture = ExtResource( 11 )
 flip_h = true
 _sections_unfolded = [ "Material", "Transform" ]
@@ -5264,9 +5273,13 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Lowerbody" type="Sprite" parent="Rotatable" index="1"]
 
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 show_behind_parent = true
 light_mask = 2
 use_parent_material = true
+position = Vector2( 0.440125, 18.0452 )
+rotation = 0.261799
 texture = ExtResource( 28 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
@@ -5435,9 +5448,10 @@ _sections_unfolded = [ "Range", "Transform" ]
 
 [node name="LegL" type="Sprite" parent="Rotatable/Lowerbody" index="4"]
 
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -15, 0 )
+position = Vector2( -35.5038, 18.7079 )
 rotation = -0.261799
 texture = ExtResource( 34 )
 offset = Vector2( -15, 0 )
@@ -5472,9 +5486,10 @@ texture = ExtResource( 38 )
 
 [node name="LegR" type="Sprite" parent="Rotatable/Lowerbody" index="5"]
 
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 15, 0 )
+position = Vector2( -10.7928, -41.8436 )
 rotation = 0.261799
 texture = ExtResource( 34 )
 offset = Vector2( 15, 0 )
@@ -5516,7 +5531,6 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable" index="2"]
 
-editor/display_folded = true
 scale = Vector2( 1.6, 1.6 )
 _sections_unfolded = [ "Transform" ]
 
@@ -5595,7 +5609,7 @@ texture = ExtResource( 40 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.5
 color = Color( 0.101563, 1, 0.620972, 1 )
-energy = 2.0
+energy = 3.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
