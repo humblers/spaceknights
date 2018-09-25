@@ -22,6 +22,7 @@ var slowUntil = 0
 var freeze = 0
 
 var node_hp
+var node_shield
 var shade_nodes=[]
 var custom_shader = preload("res://game/script/custom_shader.gd")
 var shader_material = preload("res://game/unit/shader_material.tres")
@@ -132,6 +133,15 @@ func set_hp():
 	node_hp = $Hp.get_node(color)
 	node_hp.max_value = hp
 	node_hp.value = hp
+
+func set_shield(s):
+	var color = Team()
+	if game.team_swapped:
+		color = "Blue" if Team() == "Red" else "Red"
+	node_shield = $Hp.get_node(color).get_node("Shield")
+	node_shield.max_value = s
+	node_shield.value = s
+
 
 func Id():
 	return id
