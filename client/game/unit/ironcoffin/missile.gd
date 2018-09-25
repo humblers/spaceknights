@@ -51,7 +51,7 @@ func _process(delta):
 func init_trajectory(hit_pos):
 	$HitPosition.global_position = hit_pos
 	for side in ["L", "R"]:
-		for i in range(1):
+		for i in range(2):
 			var path = "Missile%s%s:position" % [side, (i + 1)]
 			var degree_path = "Missile%s%s:rotation_degrees" % [side, (i + 1)]
 			var track_idx = anim.find_track(path)
@@ -65,15 +65,15 @@ func init_trajectory(hit_pos):
 			else:
 				offset_x = 5
 				
-			for j in 4:
+			for j in 2:
 				var newpos = Vector2(anim.track_get_key_value(track_idx, j).x+offset_x*j*j, anim.track_get_key_value(track_idx, j).y)
 				anim.track_set_key_value(track_idx, j, newpos)
 			
-			for j in key_num-4:
-				var r = $HitPosition.position - anim.track_get_key_value(track_idx, 3)
+			for j in key_num-2:
+				var r = $HitPosition.position - anim.track_get_key_value(track_idx, 1)
 				var step = r * (j+1)/4
-				var newpos = anim.track_get_key_value(track_idx, 3)+step
-				anim.track_set_key_value(track_idx, j+4, newpos)
+				var newpos = anim.track_get_key_value(track_idx, 1)+step
+				anim.track_set_key_value(track_idx, j+2, newpos)
 				
 			for j in degree_key_num-1:
 				var ref_vec = Vector2(0, -1)
@@ -84,7 +84,7 @@ func init_trajectory(hit_pos):
 func update_hit_position(gpos):
 	$HitPosition.global_position = gpos
 	for side in ["L", "R"]:
-		for i in range(1):
+		for i in range(2):
 			var path = "Missile%s%s:position" % [side, (i + 1)]
 			var track_idx = anim.find_track(path)
 			var key_idx = anim.track_get_key_count(track_idx) - 1

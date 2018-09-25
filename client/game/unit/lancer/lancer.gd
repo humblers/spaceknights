@@ -183,22 +183,6 @@ func setTarget(unit):
 	else:
 		targetId = unit.Id()
 
-func handleAttack():
-	if attack == 0:
-		$AnimationPlayer.play("attack")
-	var t = target()
-	if t != null:
-		look_at(t.PositionX(), t.PositionY())
-	if attack == preAttackDelay():
-		if t != null and withinRange(t):
-			fire()
-		else:
-			attack = 0
-			return
-	attack += 1
-	if attack > attackInterval():
-		attack = 0
-
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)

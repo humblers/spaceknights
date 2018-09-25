@@ -109,7 +109,8 @@ func Update():
 			moveTo(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), "Range")
+					$AnimationPlayer.play("attack")
+					fire()
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d
@@ -196,3 +197,10 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
+		
+func fire():
+	var b = resource.BULLET[name_].instance()
+	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	game.AddBullet(b)
+	b.global_position = $Rotatable/Shotpoint.global_position
+
