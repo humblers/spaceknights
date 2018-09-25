@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=2]
+[gd_scene load_steps=121 format=2]
 
 [ext_resource path="res://game/unit/champion/champion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/champion/shoulder.png" type="Texture" id=2]
@@ -49,9 +49,10 @@
 [ext_resource path="res://game/vfx/laser_replax.png" type="Texture" id=47]
 [ext_resource path="res://game/hpbar/hpbarbg_m.png" type="Texture" id=48]
 [ext_resource path="res://game/hpbar/hpbarblue_m.png" type="Texture" id=49]
-[ext_resource path="res://game/hpbar/hpbarred_m.png" type="Texture" id=50]
-[ext_resource path="res://game/sfx/ls_swing2.wav" type="AudioStream" id=51]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=52]
+[ext_resource path="res://game/hpbar/shield_m.png" type="Texture" id=50]
+[ext_resource path="res://game/hpbar/hpbarred_m.png" type="Texture" id=51]
+[ext_resource path="res://game/sfx/ls_swing2.wav" type="AudioStream" id=52]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=53]
 
 [sub_resource type="Gradient" id=1]
 
@@ -8450,14 +8451,13 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity", "Initial Velocity" ]
 
-[node name="champion" type="Node2D" index="0"]
+[node name="champion" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
@@ -9947,18 +9947,15 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
-[node name="Shield" type="TextureProgress" parent="Hp" index="1"]
+[node name="Shield" type="TextureProgress" parent="Hp/Blue" index="0"]
 
 light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = -90.0
-margin_right = 28.0
-margin_bottom = -74.0
-rect_scale = Vector2( 1, 0.5 )
+margin_top = -16.0
+margin_right = 56.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -9974,13 +9971,13 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 48 )
 texture_over = null
-texture_progress = ExtResource( 49 )
+texture_progress = ExtResource( 50 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
-[node name="Red" type="TextureProgress" parent="Hp" index="2"]
+[node name="Red" type="TextureProgress" parent="Hp" index="1"]
 
 visible = false
 light_mask = 16
@@ -10008,17 +10005,49 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 48 )
 texture_over = null
-texture_progress = ExtResource( 50 )
+texture_progress = ExtResource( 51 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Rect", "Textures" ]
 
+[node name="Shield" type="TextureProgress" parent="Hp/Red" index="0"]
+
+light_mask = 16
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = -16.0
+margin_right = 56.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 100.0
+exp_edit = false
+rounded = false
+texture_under = ExtResource( 48 )
+texture_over = null
+texture_progress = ExtResource( 50 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
+
 [node name="Sound" type="Node2D" parent="." index="4"]
+
+visible = false
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 51 )
+stream = ExtResource( 52 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -10028,7 +10057,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 52 )
+stream = ExtResource( 53 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0

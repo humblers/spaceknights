@@ -8,8 +8,7 @@ var shield
 func Init(id, level, posX, posY, game, player):
 	.Init(id, "champion", player.Team(), level, posX, posY, game)
 	shield = initialShield()
-	$Hp/Shield.max_value = shield
-	$Hp/Shield.value = shield
+	set_shield(shield)
 	
 func TakeDamage(amount, attackType):
 	if attackType != "Melee":
@@ -23,7 +22,7 @@ func TakeDamage(amount, attackType):
 		$Energyshield/ParticlePhysical2.play("particle-physical")
 		if attackType != "Self":
 			damages[game.step] = 0
-	$Hp/Shield.value = shield
+	node_shield.value = shield
 	node_hp.value = hp
 
 func Update():
