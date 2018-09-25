@@ -575,7 +575,7 @@ emission_sphere_radius = 1.0
 flag_align_y = false
 flag_rotate_y = false
 flag_disable_z = true
-spread = 45.0
+spread = 180.0
 flatness = 0.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 1.0
@@ -584,7 +584,7 @@ angular_velocity = 0.0
 angular_velocity_random = 0.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel = 0.0
+linear_accel = 20.0
 linear_accel_random = 0.0
 radial_accel = 0.0
 radial_accel_random = 0.0
@@ -605,7 +605,7 @@ anim_speed_random = 0.0
 anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Gravity" ]
+_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Linear Accel", "Spread" ]
 
 [sub_resource type="Animation" id=43]
 
@@ -1670,7 +1670,7 @@ tracks/41/loop_wrap = true
 tracks/41/imported = false
 tracks/41/enabled = true
 tracks/41/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
+"times": PoolRealArray( 0, 0.7, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, false ]
@@ -3669,12 +3669,13 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
+visible = false
+modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 offset = Vector2( 0, -9 )
@@ -3946,9 +3947,11 @@ _sections_unfolded = [ "Range", "Transform" ]
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body" index="2"]
 
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 30, 0 )
+position = Vector2( 43.5374, -14.4399 )
+rotation = 0.523599
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
@@ -4353,9 +4356,11 @@ shadow_item_cull_mask = 1
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body" index="3"]
 
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -30, 0 )
+position = Vector2( -45.3424, 5.41496 )
+rotation = -0.523599
 texture = ExtResource( 7 )
 flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
@@ -4391,7 +4396,8 @@ texture = ExtResource( 10 )
 
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -13, 0 )
+position = Vector2( -7.9742, -31.6515 )
+rotation = 1.0472
 texture = ExtResource( 11 )
 offset = Vector2( 0, -18 )
 flip_h = true
@@ -4822,8 +4828,11 @@ _sections_unfolded = [ "Range", "Transform", "Visibility" ]
 
 [node name="GunFrame" type="Sprite" parent="Rotatable/Body" index="5"]
 
+editor/display_folded = true
 light_mask = 2
 use_parent_material = true
+position = Vector2( 18.9524, 19.8549 )
+rotation = -0.523599
 z_as_relative = false
 texture = ExtResource( 19 )
 offset = Vector2( 5, 1 )
@@ -4998,7 +5007,8 @@ _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 show_behind_parent = true
 light_mask = 2
 use_parent_material = true
-position = Vector2( 24, -70 )
+position = Vector2( 36.6349, -85.3424 )
+rotation = 0.174533
 z_as_relative = false
 texture = ExtResource( 24 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
@@ -5073,6 +5083,8 @@ _sections_unfolded = [ "Range" ]
 
 light_mask = 2
 use_parent_material = true
+position = Vector2( -30.6848, -33.3923 )
+rotation = -0.349066
 texture = ExtResource( 31 )
 offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -5109,8 +5121,6 @@ texture = ExtResource( 34 )
 _sections_unfolded = [ "Range" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable" index="1"]
-
-editor/display_folded = true
 
 [node name="Particle" type="Particles2D" parent="Rotatable/Explosion" index="0"]
 
@@ -5189,7 +5199,7 @@ amount = 8
 lifetime = 1.0
 one_shot = false
 preprocess = 0.0
-speed_scale = 1.0
+speed_scale = 3.0
 explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
@@ -5202,7 +5212,7 @@ texture = ExtResource( 6 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Explight" type="Light2D" parent="Rotatable/Explosion" index="4"]
 

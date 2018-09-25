@@ -7,7 +7,7 @@
 [ext_resource path="res://game/unit/archer/archer_s.png" type="Texture" id=5]
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=6]
 [ext_resource path="res://game/vfx/speare.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=8]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
 [ext_resource path="res://game/hpbar/hpbarbg_s.png" type="Texture" id=10]
 [ext_resource path="res://game/hpbar/hpbarblue_s.png" type="Texture" id=11]
@@ -195,7 +195,7 @@ width = 2048
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.237588, 1 ), 0.0, 0.00585681, 0, 0, Vector2( 1, 0 ), -2.2026, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.704102 ), 0.0, 0.00585681, 0, 0, Vector2( 1, 1 ), 1.55472, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=15]
 
@@ -214,7 +214,7 @@ flag_rotate_y = false
 flag_disable_z = true
 spread = 0.0
 flatness = 0.0
-gravity = Vector3( 0, 500, 0 )
+gravity = Vector3( 0, -200, 0 )
 initial_velocity = 0.0
 initial_velocity_random = 0.0
 angular_velocity = 30.0
@@ -232,7 +232,7 @@ damping_random = 0.0
 angle = 180.0
 angle_random = 1.0
 scale = 1.0
-scale_random = 0.0
+scale_random = 0.2
 scale_curve = SubResource( 15 )
 color_ramp = SubResource( 13 )
 hue_variation = 0.0
@@ -327,7 +327,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:enabled")
+tracks/1/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -339,7 +339,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:energy")
+tracks/2/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -573,7 +573,7 @@ tracks/6/keys = {
 "values": [ false, false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:enabled")
+tracks/7/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:enabled")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -699,7 +699,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:enabled")
+tracks/5/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -801,7 +801,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:enabled")
+tracks/1/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -999,7 +999,7 @@ tracks/4/keys = {
 "values": [ false, false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/Body/Booster/Shotpoint/Light2D:enabled")
+tracks/5/path = NodePath("Rotatable/Body/Booster/Shotpoint/Muzzleflash/Light2D:enabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1132,7 +1132,6 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
-editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1164,7 +1163,6 @@ flip_h = true
 
 [node name="Booster" type="Node2D" parent="Rotatable/Body" index="1"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Body/Booster" index="0"]
@@ -1395,16 +1393,16 @@ _sections_unfolded = [ "Transform" ]
 [node name="Muzzleflash" type="Particles2D" parent="Rotatable/Body/Booster/Shotpoint" index="0"]
 
 visible = false
-position = Vector2( 0, -18 )
-scale = Vector2( 0.3, 0.6 )
+position = Vector2( 0, -9 )
+scale = Vector2( 0.4, 1.4 )
 emitting = false
-amount = 4
+amount = 2
 lifetime = 0.2
 one_shot = false
 preprocess = 0.0
-speed_scale = 6.0
+speed_scale = 1.0
 explosiveness = 0.0
-randomness = 0.0
+randomness = 1.0
 fixed_fps = 0
 fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
@@ -1415,11 +1413,12 @@ texture = ExtResource( 8 )
 normal_map = null
 h_frames = 1
 v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Visibility" ]
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Booster/Shotpoint" index="1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Booster/Shotpoint/Muzzleflash" index="0"]
 
-position = Vector2( 0, -3 )
+position = Vector2( 0, 8.5 )
+scale = Vector2( 1, 0.6 )
 enabled = false
 editor_only = false
 texture = ExtResource( 7 )

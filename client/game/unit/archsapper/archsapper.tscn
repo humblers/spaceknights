@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://game/unit/archsapper/archsapper.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archsapper/meteor-big.png" type="Texture" id=2]
@@ -35,12 +35,13 @@
 [ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=33]
 [ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=34]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=35]
-[ext_resource path="res://game/unit/cannon/dummy.png" type="Texture" id=36]
-[ext_resource path="res://game/hpbar/hpbarbg_l.png" type="Texture" id=37]
-[ext_resource path="res://game/hpbar/hpbarblue_l.png" type="Texture" id=38]
-[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=39]
-[ext_resource path="res://game/sfx/stun.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=36]
+[ext_resource path="res://game/unit/cannon/dummy.png" type="Texture" id=37]
+[ext_resource path="res://game/hpbar/hpbarbg_l.png" type="Texture" id=38]
+[ext_resource path="res://game/hpbar/hpbarblue_l.png" type="Texture" id=39]
+[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=40]
+[ext_resource path="res://game/sfx/stun.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=42]
 
 [sub_resource type="Gradient" id=1]
 
@@ -630,7 +631,72 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Flags", "Gravity", "Initial Velocity", "Spread" ]
 
-[sub_resource type="Animation" id=46]
+[sub_resource type="Gradient" id=46]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 1, 0.837341, 0.679688, 1, 0, 0, 0, 0.535882 )
+
+[sub_resource type="GradientTexture" id=47]
+
+flags = 4
+gradient = SubResource( 46 )
+width = 2048
+
+[sub_resource type="Curve" id=48]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0.0645253, 0.424805 ), 0.0, 0.0, 0, 0, Vector2( 0.997685, 1 ), 1.30623, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=49]
+
+flags = 4
+width = 2048
+curve = SubResource( 48 )
+
+[sub_resource type="ParticlesMaterial" id=50]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 1.0
+orbit_velocity_random = 0.5
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 40.0
+radial_accel_random = 0.5
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 180.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.5
+scale_curve = SubResource( 49 )
+color_ramp = SubResource( 47 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Hue Variation" ]
+
+[sub_resource type="Animation" id=51]
 
 length = 1.0
 loop = false
@@ -1128,7 +1194,7 @@ tracks/40/keys = {
 "values": [ false, false ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/41/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -1140,7 +1206,7 @@ tracks/41/keys = {
 "values": [ false, false ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/42/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
@@ -1152,9 +1218,8 @@ tracks/42/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=52]
 
-resource_name = "build_direct"
 length = 7.0
 loop = false
 step = 0.1
@@ -1783,7 +1848,7 @@ tracks/51/keys = {
 "values": [ false, false ]
 }
 tracks/52/type = "value"
-tracks/52/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/52/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/imported = false
@@ -1795,7 +1860,7 @@ tracks/52/keys = {
 "values": [ false, false ]
 }
 tracks/53/type = "value"
-tracks/53/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/53/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/53/interp = 1
 tracks/53/loop_wrap = true
 tracks/53/imported = false
@@ -1807,9 +1872,8 @@ tracks/53/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=48]
+[sub_resource type="Animation" id=53]
 
-resource_name = "explosion"
 length = 1.5
 loop = false
 step = 0.1
@@ -2282,7 +2346,7 @@ tracks/38/keys = {
 "values": [ false, true, false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -2294,7 +2358,7 @@ tracks/39/keys = {
 "values": [ false, true, false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -2318,19 +2382,43 @@ tracks/41/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 3, 3 ) ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Rotatable/Body/Explosion/Light2D:energy")
+tracks/42/path = NodePath("Rotatable/Body/Explosion/Light2:energy")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
 tracks/42/enabled = true
 tracks/42/keys = {
-"times": PoolRealArray( 0, 0.5, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 2.0, 3.0, 3.0 ]
+"values": [ 1.0, 1.0 ]
+}
+tracks/43/type = "value"
+tracks/43/path = NodePath("Rotatable/Body/Explosion/Particles2:emitting")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, false ]
+}
+tracks/44/type = "value"
+tracks/44/path = NodePath("Rotatable/Body/Explosion/Light3:enabled")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, false ]
 }
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=54]
 
 length = 0.01
 loop = false
@@ -2804,7 +2892,7 @@ tracks/38/keys = {
 "values": [ false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -2816,7 +2904,7 @@ tracks/39/keys = {
 "values": [ false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -2828,7 +2916,7 @@ tracks/40/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=50]
+[sub_resource type="Animation" id=55]
 
 length = 5.0
 loop = false
@@ -3302,7 +3390,7 @@ tracks/38/keys = {
 "values": [ false, false ]
 }
 tracks/39/type = "value"
-tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/39/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/imported = false
@@ -3314,7 +3402,7 @@ tracks/39/keys = {
 "values": [ false, false ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/40/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -3326,7 +3414,7 @@ tracks/40/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=51]
+[sub_resource type="Animation" id=56]
 
 length = 10.0
 loop = false
@@ -4100,7 +4188,7 @@ tracks/63/keys = {
 "values": [ false, false ]
 }
 tracks/64/type = "value"
-tracks/64/path = NodePath("Rotatable/Body/Explosion/Light2D:enabled")
+tracks/64/path = NodePath("Rotatable/Body/Explosion/Light2:enabled")
 tracks/64/interp = 1
 tracks/64/loop_wrap = true
 tracks/64/imported = false
@@ -4112,7 +4200,7 @@ tracks/64/keys = {
 "values": [ false, false ]
 }
 tracks/65/type = "value"
-tracks/65/path = NodePath("Rotatable/Body/Explosion/Particles2D:emitting")
+tracks/65/path = NodePath("Rotatable/Body/Explosion/Particles:emitting")
 tracks/65/interp = 1
 tracks/65/loop_wrap = true
 tracks/65/imported = false
@@ -4171,7 +4259,6 @@ __meta__ = {
 
 [node name="Rotatable" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -4306,6 +4393,7 @@ _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="Main" type="Sprite" parent="Rotatable/Body" index="2"]
 
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 11 )
 offset = Vector2( 0, -2 )
@@ -5041,7 +5129,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable/Body" index="3"]
 
-editor/display_folded = true
 scale = Vector2( 3, 3 )
 _sections_unfolded = [ "Transform" ]
 
@@ -5111,7 +5198,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Explosion" index="3"]
+[node name="Light2" type="Light2D" parent="Rotatable/Body/Explosion" index="3"]
 
 rotation = 5.26677
 enabled = false
@@ -5120,7 +5207,7 @@ texture = ExtResource( 34 )
 offset = Vector2( 0, 0 )
 texture_scale = 1.5
 color = Color( 1, 0.375305, 0.101563, 1 )
-energy = 3.0
+energy = 1.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -5137,7 +5224,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Body/Explosion" index="4"]
+[node name="Particles" type="Particles2D" parent="Rotatable/Body/Explosion" index="4"]
 
 emitting = false
 amount = 1
@@ -5159,11 +5246,57 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
+[node name="Particles2" type="Particles2D" parent="Rotatable/Body/Explosion" index="5"]
+
+emitting = false
+amount = 16
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 50 )
+texture = ExtResource( 36 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time" ]
+
+[node name="Light3" type="Light2D" parent="Rotatable/Body/Explosion" index="6"]
+
+enabled = false
+editor_only = false
+texture = ExtResource( 27 )
+offset = Vector2( 0, 0 )
+texture_scale = 3.0
+color = Color( 1, 0.375, 0, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="DummyTurret" type="Sprite" parent="Rotatable" index="1"]
 
 visible = false
 position = Vector2( 0, -800 )
-texture = ExtResource( 36 )
+texture = ExtResource( 37 )
 offset = Vector2( 0, -100 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
@@ -5174,12 +5307,12 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 46 )
-anims/build_direct = SubResource( 47 )
-anims/explosion = SubResource( 48 )
-anims/idle = SubResource( 49 )
-anims/show = SubResource( 50 )
-anims/skill = SubResource( 51 )
+anims/attack = SubResource( 51 )
+anims/build_direct = SubResource( 52 )
+anims/explosion = SubResource( 53 )
+anims/idle = SubResource( 54 )
+anims/show = SubResource( 55 )
+anims/skill = SubResource( 56 )
 blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="2"]
@@ -5211,9 +5344,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 37 )
+texture_under = ExtResource( 38 )
 texture_over = null
-texture_progress = ExtResource( 38 )
+texture_progress = ExtResource( 39 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5244,9 +5377,9 @@ page = 0.0
 value = 100.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 37 )
+texture_under = ExtResource( 38 )
 texture_over = null
-texture_progress = ExtResource( 39 )
+texture_progress = ExtResource( 40 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5256,7 +5389,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 40 )
+stream = ExtResource( 41 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -5266,7 +5399,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 41 )
+stream = ExtResource( 42 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0
