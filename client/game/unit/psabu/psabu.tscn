@@ -1,4 +1,4 @@
-[gd_scene load_steps=127 format=2]
+[gd_scene load_steps=128 format=2]
 
 [ext_resource path="res://game/unit/psabu/psabu.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/psabu/body.png" type="Texture" id=2]
@@ -53,9 +53,10 @@
 [ext_resource path="res://game/vfx/laser_replax.png" type="Texture" id=51]
 [ext_resource path="res://game/hpbar/hpbarbg_l.png" type="Texture" id=52]
 [ext_resource path="res://game/hpbar/hpbarblue_l.png" type="Texture" id=53]
-[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=54]
-[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=55]
-[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=56]
+[ext_resource path="res://game/hpbar/shield_l.png" type="Texture" id=54]
+[ext_resource path="res://game/hpbar/hpbarred_l.png" type="Texture" id=55]
+[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=56]
+[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=57]
 
 [sub_resource type="Curve" id=1]
 
@@ -4949,7 +4950,7 @@ tracks/55/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="psabu" type="Node2D" index="0"]
+[node name="psabu" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -6100,10 +6101,9 @@ shadow_item_cull_mask = 1
 
 [node name="Energyshield" type="Node2D" parent="." index="1"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="EnergyShieldAni" type="AnimationPlayer" parent="Energyshield" index="0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Energyshield" index="0"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -6592,7 +6592,6 @@ blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="3"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -6631,15 +6630,16 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Shield" type="TextureProgress" parent="Hp" index="1"]
 
+visible = false
 light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -42.0
-margin_top = -85.0
+margin_top = -83.0
 margin_right = 42.0
-margin_bottom = -69.0
+margin_bottom = -67.0
 rect_scale = Vector2( 1, 0.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -6656,7 +6656,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 52 )
 texture_over = null
-texture_progress = ExtResource( 53 )
+texture_progress = ExtResource( 54 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -6690,7 +6690,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 52 )
 texture_over = null
-texture_progress = ExtResource( 54 )
+texture_progress = ExtResource( 55 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -6700,7 +6700,7 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 55 )
+stream = ExtResource( 56 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -6710,7 +6710,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 56 )
+stream = ExtResource( 57 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0

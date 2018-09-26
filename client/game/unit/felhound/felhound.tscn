@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://game/unit/felhound/felhound.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/felhound/body.png" type="Texture" id=2]
@@ -29,9 +29,10 @@
 [ext_resource path="res://game/vfx/laser_replax.png" type="Texture" id=27]
 [ext_resource path="res://game/hpbar/hpbarbg_s.png" type="Texture" id=28]
 [ext_resource path="res://game/hpbar/hpbarblue_s.png" type="Texture" id=29]
-[ext_resource path="res://game/hpbar/hpbarred_s.png" type="Texture" id=30]
-[ext_resource path="res://game/sfx/double_jump.wav" type="AudioStream" id=31]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=32]
+[ext_resource path="res://game/hpbar/shield_s.png" type="Texture" id=30]
+[ext_resource path="res://game/hpbar/hpbarred_s.png" type="Texture" id=31]
+[ext_resource path="res://game/sfx/double_jump.wav" type="AudioStream" id=32]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=33]
 
 [sub_resource type="Gradient" id=1]
 
@@ -2332,7 +2333,7 @@ tracks/28/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="felhound" type="Node2D" index="0"]
+[node name="felhound" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -2346,8 +2347,6 @@ _sections_unfolded = [ "Material", "Transform" ]
 [node name="Body" type="Sprite" parent="Rotatable" index="0"]
 
 editor/display_folded = true
-visible = false
-modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -2439,8 +2438,7 @@ _sections_unfolded = [ "Range" ]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -32.559, 2.27948 )
-rotation = 0.785396
+position = Vector2( -18, -5 )
 texture = ExtResource( 7 )
 offset = Vector2( -5, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -2449,8 +2447,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -29.3507, -17.0052 )
-rotation = -0.785396
+position = Vector2( -10, 0 )
 texture = ExtResource( 8 )
 offset = Vector2( 0, -10 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -2487,7 +2484,7 @@ texture = ExtResource( 12 )
 editor/display_folded = true
 use_parent_material = true
 position = Vector2( 0, -24 )
-rotation = 0.785396
+rotation = 0.174533
 texture = ExtResource( 13 )
 offset = Vector2( -3, 15 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -2596,8 +2593,7 @@ _sections_unfolded = [ "Transform" ]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 36.6031, -11.4707 )
-rotation = 0.523599
+position = Vector2( 18, -5 )
 texture = ExtResource( 7 )
 offset = Vector2( 5, 0 )
 flip_h = true
@@ -2651,8 +2647,8 @@ _sections_unfolded = [ "Offset" ]
 
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 20.2343, -31.0125 )
-rotation = -0.785396
+position = Vector2( 0, -24 )
+rotation = -0.174533
 texture = ExtResource( 13 )
 offset = Vector2( 3, 15 )
 flip_h = true
@@ -2911,11 +2907,10 @@ shadow_item_cull_mask = 1
 
 [node name="Energyshield" type="Node2D" parent="." index="1"]
 
-editor/display_folded = true
 scale = Vector2( 0.4, 0.4 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="EnergyShieldAni" type="AnimationPlayer" parent="Energyshield" index="0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Energyshield" index="0"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -3321,7 +3316,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="LaserR3" type="Sprite" parent="Energyshield/ParticleEnergy" index="5"]
 
-editor/display_folded = true
 light_mask = 512
 position = Vector2( 0, -126 )
 scale = Vector2( 1.5, 2.4 )
@@ -3401,7 +3395,6 @@ blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="3"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -3440,15 +3433,16 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Shield" type="TextureProgress" parent="Hp" index="1"]
 
+visible = false
 light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -15.0
-margin_top = -45.0
+margin_top = -43.0
 margin_right = 15.0
-margin_bottom = -29.0
+margin_bottom = -27.0
 rect_scale = Vector2( 1, 0.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -3465,7 +3459,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 28 )
 texture_over = null
-texture_progress = ExtResource( 29 )
+texture_progress = ExtResource( 30 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3499,7 +3493,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 28 )
 texture_over = null
-texture_progress = ExtResource( 30 )
+texture_progress = ExtResource( 31 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -3511,7 +3505,7 @@ editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 31 )
+stream = ExtResource( 32 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -3521,7 +3515,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 32 )
+stream = ExtResource( 33 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
