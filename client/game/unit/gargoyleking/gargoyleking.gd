@@ -16,14 +16,15 @@ func TakeDamage(amount, attackType):
 		if shield < 0:
 			hp += shield
 			shield = 0
-		$Energyshield/EnergyShield.play("energyshield")
+		$Energyshield/AnimationPlayer.play("energyshield")
 	else:
 		hp -= amount
-		$Energyshield/ParticlePhysical2.play("particle-physical")
 		if attackType != "Self":
 			damages[game.step] = 0
 	$Hp/Shield.value = shield
 	node_hp.value = hp
+	node_hp.visible = true
+	$Hp/Shield.visible = true
 
 func Update():
 	SetVelocity(0, 0)

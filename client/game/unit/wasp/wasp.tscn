@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://game/unit/wasp/wasp.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/wasp/body.png" type="Texture" id=2]
@@ -22,9 +22,10 @@
 [ext_resource path="res://game/vfx/laser_replax.png" type="Texture" id=20]
 [ext_resource path="res://game/hpbar/hpbarbg_m.png" type="Texture" id=21]
 [ext_resource path="res://game/hpbar/hpbarblue_m.png" type="Texture" id=22]
-[ext_resource path="res://game/hpbar/hpbarred_m.png" type="Texture" id=23]
-[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=24]
-[ext_resource path="res://game/sfx/explosions_2.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/hpbar/shield_m.png" type="Texture" id=23]
+[ext_resource path="res://game/hpbar/hpbarred_m.png" type="Texture" id=24]
+[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/sfx/explosions_2.wav" type="AudioStream" id=26]
 
 [sub_resource type="Gradient" id=1]
 
@@ -3191,7 +3192,7 @@ tracks/45/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="wasp" type="Node2D" index="0"]
+[node name="wasp" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -4513,7 +4514,7 @@ shadow_item_cull_mask = 1
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="EnergyShieldAni" type="AnimationPlayer" parent="Energyshield" index="0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Energyshield" index="0"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -4725,6 +4726,7 @@ _sections_unfolded = [ "Range", "Transform" ]
 
 [node name="ParticleEnergy" type="Node2D" parent="Energyshield" index="4"]
 
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 512
 scale = Vector2( 1.2, 1 )
@@ -5000,7 +5002,6 @@ blend_times = [  ]
 
 [node name="Hp" type="Position2D" parent="." index="3"]
 
-editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blue" type="TextureProgress" parent="Hp" index="0"]
@@ -5039,15 +5040,16 @@ _sections_unfolded = [ "Rect", "Textures", "Visibility" ]
 
 [node name="Shield" type="TextureProgress" parent="Hp" index="1"]
 
+visible = false
 light_mask = 16
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -26.0
-margin_top = -80.0
+margin_top = -78.0
 margin_right = 30.0
-margin_bottom = -64.0
+margin_bottom = -62.0
 rect_scale = Vector2( 1, 0.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -5064,7 +5066,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 21 )
 texture_over = null
-texture_progress = ExtResource( 22 )
+texture_progress = ExtResource( 23 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5098,7 +5100,7 @@ exp_edit = false
 rounded = false
 texture_under = ExtResource( 21 )
 texture_over = null
-texture_progress = ExtResource( 23 )
+texture_progress = ExtResource( 24 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -5110,7 +5112,7 @@ editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
 
-stream = ExtResource( 24 )
+stream = ExtResource( 25 )
 volume_db = 0.0
 autoplay = false
 max_distance = 2000.0
@@ -5120,7 +5122,7 @@ area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
 
-stream = ExtResource( 25 )
+stream = ExtResource( 26 )
 volume_db = -2.0
 autoplay = false
 max_distance = 2000.0
