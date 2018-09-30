@@ -1,33 +1,25 @@
-[gd_scene load_steps=27 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://game/unit/wasp/body.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/wasp/body_f.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/wasp/body_r.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/wasp/body_s.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/wasp/boosterNnozzle.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/wasp/boosterNnozzle_f.png" type="Texture" id=6]
-[ext_resource path="res://game/unit/wasp/boosterNnozzle_r.png" type="Texture" id=7]
-[ext_resource path="res://game/unit/wasp/boosterNnozzle_s.png" type="Texture" id=8]
+[ext_resource path="res://game/unit/wasp/booster_nozzle.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/wasp/booster_nozzle_f.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/wasp/booster_nozzle_r.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/wasp/booster_nozzle_s.png" type="Texture" id=8]
 [ext_resource path="res://game/unit/wasp/powerpack.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/speare.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=10]
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=11]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=12]
-[ext_resource path="res://game/unit/wasp/energyshield.tres" type="Animation" id=13]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=14]
-[ext_resource path="res://game/vfx/energy_shield-octa.png" type="Texture" id=15]
-[ext_resource path="res://game/vfx/energy_shield2.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/energy_shield1.png" type="Texture" id=17]
-[ext_resource path="res://game/vfx/laser_replax.png" type="Texture" id=18]
-[ext_resource path="res://game/unit/wasp/attack.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/wasp/explosion.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/wasp/idle.tres" type="Animation" id=21]
-[ext_resource path="res://game/unit/wasp/move.tres" type="Animation" id=22]
-[ext_resource path="res://game/hpbar/hpbarbg_m.png" type="Texture" id=23]
-[ext_resource path="res://game/hpbar/hpbarblue_m.png" type="Texture" id=24]
-[ext_resource path="res://game/hpbar/shield_m.png" type="Texture" id=25]
-[ext_resource path="res://game/hpbar/hpbarred_m.png" type="Texture" id=26]
+[ext_resource path="res://game/unit/wasp/attack.tres" type="Animation" id=13]
+[ext_resource path="res://game/unit/wasp/explosion.tres" type="Animation" id=14]
+[ext_resource path="res://game/unit/wasp/idle.tres" type="Animation" id=15]
+[ext_resource path="res://game/unit/wasp/move.tres" type="Animation" id=16]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=18]
 
-[node name="wasp" type="Node2D"]
+[node name="Wasp" type="Node2D"]
 
 [node name="Rotatable" type="Node2D" parent="."]
 
@@ -37,8 +29,6 @@ editor/display_folded = true
 texture = ExtResource( 1 )
 
 [node name="Shade" type="Node2D" parent="Rotatable/Body"]
-
-editor/display_folded = true
 
 [node name="Front" type="Sprite" parent="Rotatable/Body/Shade"]
 
@@ -63,13 +53,11 @@ flip_h = true
 
 [node name="Frame" type="Sprite" parent="Rotatable/Body"]
 
-editor/display_folded = true
 texture = ExtResource( 5 )
 offset = Vector2( 0, -4 )
 
 [node name="Shade" type="Node2D" parent="Rotatable/Body/Frame"]
 
-editor/display_folded = true
 transform/pos = Vector2( 0, -4 )
 
 [node name="Front" type="Sprite" parent="Rotatable/Body/Frame/Shade"]
@@ -95,7 +83,6 @@ flip_h = true
 
 [node name="PowerL1" type="Sprite" parent="Rotatable/Body"]
 
-editor/display_folded = true
 material/use_parent = true
 transform/pos = Vector2( -22, -2 )
 texture = ExtResource( 9 )
@@ -174,7 +161,6 @@ shadow/item_mask = 1
 
 [node name="PowerL2" type="Sprite" parent="Rotatable/Body"]
 
-editor/display_folded = true
 material/use_parent = true
 transform/pos = Vector2( -20, 14 )
 transform/rot = 15.0
@@ -254,7 +240,6 @@ shadow/item_mask = 1
 
 [node name="PowerL3" type="Sprite" parent="Rotatable/Body"]
 
-editor/display_folded = true
 material/use_parent = true
 transform/pos = Vector2( -15, 30 )
 transform/rot = 30.0
@@ -626,13 +611,13 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 1
 
-[node name="Shootpoint" type="Position2D" parent="Rotatable/Body"]
+[node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
 
 transform/pos = Vector2( 0, -48 )
 
-[node name="Shoot" type="Node2D" parent="Rotatable/Body/Shootpoint"]
+[node name="Shot" type="Node2D" parent="Rotatable/Body/Shotpoint"]
 
-[node name="Blow" type="Particles2D" parent="Rotatable/Body/Shootpoint/Shoot"]
+[node name="Blow" type="Particles2D" parent="Rotatable/Body/Shotpoint/Shot"]
 
 config/amount = 17
 config/lifetime = 1.0
@@ -657,7 +642,7 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shootpoint/Shoot"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/Shot"]
 
 enabled = false
 editor_only = false
@@ -679,11 +664,11 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 1
 
-[node name="Exhaust" type="Node2D" parent="Rotatable/Body/Shootpoint"]
+[node name="Exhaust" type="Node2D" parent="Rotatable/Body/Shotpoint"]
 
 transform/pos = Vector2( -40, 70 )
 
-[node name="Melt" type="Particles2D" parent="Rotatable/Body/Shootpoint/Exhaust"]
+[node name="Melt" type="Particles2D" parent="Rotatable/Body/Shotpoint/Exhaust"]
 
 config/amount = 16
 config/lifetime = 1.0
@@ -707,7 +692,7 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shootpoint/Exhaust"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/Exhaust"]
 
 transform/pos = Vector2( 0, -5 )
 enabled = false
@@ -730,11 +715,11 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 1
 
-[node name="Exhaust1" type="Node2D" parent="Rotatable/Body/Shootpoint"]
+[node name="Exhaust1" type="Node2D" parent="Rotatable/Body/Shotpoint"]
 
 transform/pos = Vector2( 40, 70 )
 
-[node name="Melt" type="Particles2D" parent="Rotatable/Body/Shootpoint/Exhaust1"]
+[node name="Melt" type="Particles2D" parent="Rotatable/Body/Shotpoint/Exhaust1"]
 
 config/amount = 16
 config/lifetime = 1.0
@@ -759,7 +744,7 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shootpoint/Exhaust1"]
+[node name="Light2D" type="Light2D" parent="Rotatable/Body/Shotpoint/Exhaust1"]
 
 transform/pos = Vector2( 0, -5 )
 enabled = false
@@ -1099,7 +1084,7 @@ shadow/item_mask = 1
 
 [node name="UnitExplosion" type="Node2D" parent="Rotatable/Body"]
 
-[node name="around" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
+[node name="Around" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
 
 config/amount = 32
 config/lifetime = 2.0
@@ -1122,7 +1107,7 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="center" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
+[node name="Center" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
 
 config/amount = 32
 config/lifetime = 2.0
@@ -1145,7 +1130,7 @@ params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 
-[node name="particle" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
+[node name="Particle" type="Particles2D" parent="Rotatable/Body/UnitExplosion"]
 
 config/amount = 32
 config/lifetime = 2.0
@@ -1236,507 +1221,32 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 1
 
-[node name="Energyshield" type="Node2D" parent="."]
-
-editor/display_folded = true
-transform/scale = Vector2( 0.8, 0.8 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Energyshield"]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/energyshield = ExtResource( 13 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
-
-[node name="Mask" type="Light2D" parent="Energyshield"]
-
-transform/pos = Vector2( 0, 156 )
-transform/scale = Vector2( 0.4, 0.1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 14 )
-offset = Vector2( 0, 0 )
-scale = 5.0
-color = Color( 0.8, 0.509804, 1, 1 )
-energy = 2.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="Shield" type="Sprite" parent="Energyshield"]
-
-visibility/visible = false
-transform/scale = Vector2( 2, 2 )
-texture = ExtResource( 15 )
-modulate = Color( 0.670588, 0.745098, 1, 0 )
-
-[node name="Light2" type="Light2D" parent="Energyshield/Shield"]
-
-transform/rot = -360.0
-enabled = true
-editor_only = false
-texture = ExtResource( 16 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="Light1" type="Light2D" parent="Energyshield/Shield"]
-
-transform/rot = -360.0
-enabled = true
-editor_only = false
-texture = ExtResource( 17 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.945098, 0.568627, 1, 1 )
-energy = 2.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="Circuler" type="Particles2D" parent="Energyshield/Shield"]
-
-config/amount = 32
-config/lifetime = 2.0
-config/emitting = false
-config/process_mode = 1
-params/direction = 0.0
-params/spread = 10.0
-params/linear_velocity = 20.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 9.8
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 1.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-
-[node name="ParticlePhysical" type="Node2D" parent="Energyshield"]
-
-[node name="Particles2D1" type="Particles2D" parent="Energyshield/ParticlePhysical"]
-
-transform/scale = Vector2( 1, 1 )
-config/amount = 32
-config/lifetime = 2.0
-config/emitting = false
-config/process_mode = 1
-params/direction = 0.0
-params/spread = 10.0
-params/linear_velocity = 20.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 9.8
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 1.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-
-[node name="Particles2D" type="Particles2D" parent="Energyshield/ParticlePhysical"]
-
-config/amount = 32
-config/lifetime = 2.0
-config/emitting = false
-config/process_mode = 1
-params/direction = 0.0
-params/spread = 10.0
-params/linear_velocity = 20.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 9.8
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 1.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-
-[node name="Light2D" type="Light2D" parent="Energyshield/ParticlePhysical"]
-
-transform/pos = Vector2( -1, -100 )
-transform/rot = 180.0
-transform/scale = Vector2( 2, 1 )
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-scale = 3.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="ParticleEnergy" type="Node2D" parent="Energyshield"]
-
-visibility/opacity = 0.0
-transform/scale = Vector2( 1.2, 1 )
-
-[node name="LaserL1" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 0.8, 3 )
-texture = ExtResource( 18 )
-offset = Vector2( -40, 55 )
-
-[node name="LightL1" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL1"]
-
-transform/pos = Vector2( -40, 54 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="LaserL2" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-visibility/visible = false
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 1.3, 2.8 )
-texture = ExtResource( 18 )
-offset = Vector2( -40, 55 )
-
-[node name="LaserL2" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL2"]
-
-transform/pos = Vector2( -40, 54 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="LaserL3" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 1.5, 2.5 )
-texture = ExtResource( 18 )
-offset = Vector2( -40, 55 )
-
-[node name="LaserL3" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL3"]
-
-transform/pos = Vector2( -40, 54 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="LaserR1" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 0.4, 3.3 )
-texture = ExtResource( 18 )
-offset = Vector2( 40, 55 )
-flip_h = true
-
-[node name="LaserR1" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR1"]
-
-transform/pos = Vector2( 40, 54 )
-transform/rot = 180.0
-transform/scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="LaserR2" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 1.2, 2.8 )
-texture = ExtResource( 18 )
-offset = Vector2( 40, 55 )
-flip_h = true
-
-[node name="LaserR2" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR2"]
-
-transform/pos = Vector2( 40, 54 )
-transform/rot = 180.0
-transform/scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="LaserR3" type="Sprite" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -126 )
-transform/scale = Vector2( 1.5, 2.4 )
-texture = ExtResource( 18 )
-offset = Vector2( 40, 55 )
-flip_h = true
-
-[node name="LaserR3" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR3"]
-
-transform/pos = Vector2( 40, 54 )
-transform/rot = 180.0
-transform/scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 18 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 0.568627, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
-[node name="Light2D" type="Light2D" parent="Energyshield/ParticleEnergy"]
-
-transform/pos = Vector2( 0, -117 )
-transform/rot = 180.0
-transform/scale = Vector2( 3, 1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-scale = 2.0
-color = Color( 1, 0.25098, 0.25098, 1 )
-energy = 2.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = false
-shadow/color = Color( 0, 0, 0, 0 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack = ExtResource( 19 )
-anims/explosion = ExtResource( 20 )
-anims/idle = ExtResource( 21 )
-anims/move = ExtResource( 22 )
+anims/attack = ExtResource( 13 )
+anims/explosion = ExtResource( 14 )
+anims/idle = ExtResource( 15 )
+anims/move = ExtResource( 16 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="Hp" type="Position2D" parent="."]
-
-[node name="Blue" type="TextureProgress" parent="Hp"]
-
-visibility/visible = false
-rect/scale = Vector2( 1, 0.5 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -26.0
-margin/top = -70.0
-margin/right = 30.0
-margin/bottom = -54.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 0.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 23 )
-texture/over = null
-texture/progress = ExtResource( 24 )
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="Shield" type="TextureProgress" parent="Hp"]
-
-visibility/visible = false
-rect/scale = Vector2( 1, 0.5 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -26.0
-margin/top = -78.0
-margin/right = 30.0
-margin/bottom = -62.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 0.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 23 )
-texture/over = null
-texture/progress = ExtResource( 25 )
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="Red" type="TextureProgress" parent="Hp"]
-
-visibility/visible = false
-rect/scale = Vector2( 1, 0.5 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -26.0
-margin/top = -70.0
-margin/right = 30.0
-margin/bottom = -54.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 0.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 23 )
-texture/over = null
-texture/progress = ExtResource( 26 )
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
 [node name="Sound" type="Node2D" parent="."]
 
+[node name="Energyshield" parent="." instance=ExtResource( 17 )]
 
+editor/display_folded = true
+transform/scale = Vector2( 0.8, 0.8 )
+
+[node name="Hp" parent="." instance=ExtResource( 18 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -70 )
+
+
+[editable path="Energyshield"]
+[editable path="Hp"]
