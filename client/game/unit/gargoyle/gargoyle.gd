@@ -5,7 +5,7 @@ var attack = 0
 var shield
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "gargoyle", player.Team(), level, posX, posY, game)
+	New(id, "gargoyle", player.Team(), level, posX, posY, game)
 	shield = initialShield()
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
@@ -87,7 +87,7 @@ func moveTo(unit):
 	SetVelocity(
 		scalar.Mul(direction[0], speed),
 		scalar.Mul(direction[1], speed))
-	look_at(corner[0], corner[1])
+	look_at_pos(corner[0], corner[1])
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play("move")
 
@@ -97,7 +97,7 @@ func handleAttack():
 		$Sound/sound_fire.play()
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			t.TakeDamage(attackDamage(), "Melee")

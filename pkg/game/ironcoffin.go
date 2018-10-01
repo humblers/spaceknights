@@ -114,7 +114,7 @@ func (i *ironcoffin) Update() {
 			} else if posX > i.maxPosX {
 				posX = i.maxPosX
 			}
-			i.moveTo(fixed.Vector{posX, i.Position().Y})
+			i.moveToPos(fixed.Vector{posX, i.Position().Y})
 			if i.withinRange(t) {
 				if i.attack%i.attackInterval() == 0 {
 					t.TakeDamage(i.attackDamage(), Range)
@@ -129,7 +129,7 @@ func (i *ironcoffin) Update() {
 				i.attack = 0
 			}
 		} else {
-			i.moveTo(i.initPos)
+			i.moveToPos(i.initPos)
 			i.attack = 0
 		}
 	}

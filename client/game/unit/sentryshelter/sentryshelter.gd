@@ -7,7 +7,7 @@ var spawn = 0
 var player
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "sentryshelter", player.Team(), level, posX, posY, game)
+	New(id, "sentryshelter", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
 	TileOccupier = TileOccupier.new(game)

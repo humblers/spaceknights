@@ -68,7 +68,7 @@ func show_damage(elapsed):
 			max_value = value
 	material.set_shader_param("damage_ratio", max_value)
 
-func Init(id, name, team, level, posX, posY, game):
+func New(id, name, team, level, posX, posY, game):
 	self.id = id
 	self.name_ = name
 	self.team = team
@@ -116,7 +116,7 @@ func init_rotation(initial_angle=0):
 		$Rotatable.rotation += PI
 	$Rotatable.rotation -= initial_angle
 
-func look_at(x, y):
+func look_at_pos(x, y):
 	var px = game.World().ToPixel(x)
 	var py = game.World().ToPixel(y)
 	if game.team_swapped:
@@ -308,7 +308,7 @@ func squaredDistanceTo(unit):
 	var y = scalar.Sub(PositionY(), unit.PositionY())
 	return vector.LengthSquared(x, y)
 
-func moveTo(posX, posY):
+func moveToPos(posX, posY):
 	var x = scalar.Sub(posX, PositionX())
 	var y = scalar.Sub(posY, PositionY())
 	var v = vector.Truncated(x, y, speed())

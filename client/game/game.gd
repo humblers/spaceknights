@@ -142,16 +142,16 @@ func _physics_process(delta):
 				iterations = min(10, n)
 			for i in range(iterations):
 				var state = parse_json(tcp.received.pop_front())
-				update(state)
+				Update(state)
 		else:
 			var state = {"Actions": null}
 			if actions.has(step):
 				state["Actions"] = actions[step]
-			update(state)
+			Update(state)
 	
 	frame += 1
 
-func update(state):
+func Update(state):
 	if step == KNIGHT_INITIAL_STEP:
 		for player in cfg.Players:
 			players[player.Id].AddKnights(player.Knights)

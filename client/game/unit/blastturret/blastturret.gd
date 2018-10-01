@@ -7,7 +7,7 @@ var targetId = 0
 var attack = 0
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "blastturret", player.Team(), level, posX, posY, game)
+	New(id, "blastturret", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
 	TileOccupier = TileOccupier.new(game)
@@ -73,7 +73,7 @@ func handleAttack():
 		$AnimationPlayer.play("attack")
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()

@@ -23,7 +23,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "pixieking", player.Team(), level, posX, posY, game)
+	New(id, "pixieking", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
@@ -208,7 +208,7 @@ func handleAttack():
 		$Sound/sound_fire.play()
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()

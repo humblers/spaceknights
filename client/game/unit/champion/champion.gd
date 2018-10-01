@@ -6,7 +6,7 @@ var charge = 0
 var shield
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "champion", player.Team(), level, posX, posY, game)
+	New(id, "champion", player.Team(), level, posX, posY, game)
 	shield = initialShield()
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
@@ -91,7 +91,7 @@ func moveTo(unit):
 	charge += 1
 	
 	# client only
-	look_at(corner[0], corner[1])
+	look_at_pos(corner[0], corner[1])
 	if charge == 1:
 		if $AnimationPlayer.current_animation != "move_human":
 			$AnimationPlayer.play("move_human")
@@ -105,7 +105,7 @@ func handleAttack():
 			$Sound/sound_fire.play()
 		var t = target()
 		if t != null:
-			look_at(t.PositionX(), t.PositionY())
+			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == chargedAttackPreDelay():
 			if t != null and withinRange(t):
 				t.TakeDamage(chargedAttackDamage(), "Melee")
@@ -123,7 +123,7 @@ func handleAttack():
 			$Sound/sound_fire.play()
 		var t = target()
 		if t != null:
-			look_at(t.PositionX(), t.PositionY())
+			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
 				t.TakeDamage(attackDamage(), "Melee")
