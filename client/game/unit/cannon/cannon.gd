@@ -7,7 +7,7 @@ var targetId = 0
 var attack = 0
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "cannon", player.Team(), level, posX, posY, game)
+	New(id, "cannon", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
 	TileOccupier = TileOccupier.new(game)

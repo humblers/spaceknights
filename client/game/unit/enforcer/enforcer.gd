@@ -5,7 +5,7 @@ var targetId = 0
 var attack = 0
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "enforcer", player.Team(), level, posX, posY, game)
+	New(id, "enforcer", player.Team(), level, posX, posY, game)
 	self.player = player
 
 func Update():

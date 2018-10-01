@@ -18,7 +18,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "legion", player.Team(), level, posX, posY, game)
+	New(id, "legion", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1

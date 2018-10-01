@@ -98,7 +98,7 @@ func (a *astra) Update() {
 			} else if posX > a.maxPosX {
 				posX = a.maxPosX
 			}
-			a.moveTo(fixed.Vector{posX, a.Position().Y})
+			a.moveToPos(fixed.Vector{posX, a.Position().Y})
 			if a.withinRange(t) {
 				if a.attack%a.attackInterval() == 0 {
 					t.TakeDamage(a.attackDamage(), Range)
@@ -113,7 +113,7 @@ func (a *astra) Update() {
 				a.attack = 0
 			}
 		} else {
-			a.moveTo(a.initPos)
+			a.moveToPos(a.initPos)
 			a.attack = 0
 		}
 	}

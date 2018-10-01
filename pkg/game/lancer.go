@@ -105,7 +105,7 @@ func (l *lancer) Update() {
 			} else if posX > l.maxPosX {
 				posX = l.maxPosX
 			}
-			l.moveTo(fixed.Vector{posX, l.Position().Y})
+			l.moveToPos(fixed.Vector{posX, l.Position().Y})
 			if l.withinRange(t) {
 				if l.attack%l.attackInterval() == 0 {
 					t.TakeDamage(l.attackDamage(), Range)
@@ -120,7 +120,7 @@ func (l *lancer) Update() {
 				l.attack = 0
 			}
 		} else {
-			l.moveTo(l.initPos)
+			l.moveToPos(l.initPos)
 			l.attack = 0
 		}
 	}

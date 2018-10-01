@@ -8,7 +8,7 @@ var punchPosX
 var punchPosY
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "psabu", player.Team(), level, posX, posY, game)
+	New(id, "psabu", player.Team(), level, posX, posY, game)
 	shield = initialShield()
 	self.player = player
 	$Hp/Shield.max_value = shield

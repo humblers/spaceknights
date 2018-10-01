@@ -5,7 +5,7 @@ var attack = 0
 var charge = 0
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "jouster", player.Team(), level, posX, posY, game)
+	New(id, "jouster", player.Team(), level, posX, posY, game)
 
 func Update():
 	SetVelocity(0, 0)

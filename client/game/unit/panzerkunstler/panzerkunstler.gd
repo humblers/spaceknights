@@ -8,7 +8,7 @@ var punchPosX
 var punchPosY
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "panzerkunstler", player.Team(), level, posX, posY, game)
+	New(id, "panzerkunstler", player.Team(), level, posX, posY, game)
 	self.player = player
 
 func Update():

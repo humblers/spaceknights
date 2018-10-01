@@ -117,7 +117,7 @@ func (ts *tombstone) Update() {
 			} else if posX > ts.maxPosX {
 				posX = ts.maxPosX
 			}
-			ts.moveTo(fixed.Vector{posX, ts.Position().Y})
+			ts.moveToPos(fixed.Vector{posX, ts.Position().Y})
 			if ts.withinRange(t) {
 				if ts.attack%ts.attackInterval() == 0 {
 					t.TakeDamage(ts.attackDamage(), Range)
@@ -132,7 +132,7 @@ func (ts *tombstone) Update() {
 				ts.attack = 0
 			}
 		} else {
-			ts.moveTo(ts.initPos)
+			ts.moveToPos(ts.initPos)
 			ts.attack = 0
 		}
 	}
