@@ -114,7 +114,7 @@ func (p *pixieking) Update() {
 			} else if posX > p.maxPosX {
 				posX = p.maxPosX
 			}
-			p.moveTo(fixed.Vector{posX, p.Position().Y})
+			p.moveToPos(fixed.Vector{posX, p.Position().Y})
 			if p.withinRange(t) {
 				if p.attack%p.attackInterval() == 0 {
 					t.TakeDamage(p.attackDamage(), Range)
@@ -129,7 +129,7 @@ func (p *pixieking) Update() {
 				p.attack = 0
 			}
 		} else {
-			p.moveTo(p.initPos)
+			p.moveToPos(p.initPos)
 			p.attack = 0
 		}
 	}

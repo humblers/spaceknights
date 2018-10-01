@@ -113,7 +113,7 @@ func (n *nagmash) Update() {
 			} else if posX > n.maxPosX {
 				posX = n.maxPosX
 			}
-			n.moveTo(fixed.Vector{posX, n.Position().Y})
+			n.moveToPos(fixed.Vector{posX, n.Position().Y})
 			if n.withinRange(t) {
 				if n.attack%n.attackInterval() == 0 {
 					t.TakeDamage(n.attackDamage(), Range)
@@ -128,7 +128,7 @@ func (n *nagmash) Update() {
 				n.attack = 0
 			}
 		} else {
-			n.moveTo(n.initPos)
+			n.moveToPos(n.initPos)
 			n.attack = 0
 		}
 	}

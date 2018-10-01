@@ -4,7 +4,7 @@ var targetId = 0
 var attack = 0
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "pixie", player.Team(), level, posX, posY, game)
+	New(id, "pixie", player.Team(), level, posX, posY, game)
 
 func Update():
 	SetVelocity(0, 0)

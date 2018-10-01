@@ -6,7 +6,7 @@ var charge = 0
 var shield
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "champion", player.Team(), level, posX, posY, game)
+	New(id, "champion", player.Team(), level, posX, posY, game)
 	shield = initialShield()
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield

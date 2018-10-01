@@ -16,7 +16,7 @@ onready var arm_r = $Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR
 onready var init_rot = $Rotatable.global_rotation
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "frost", player.Team(), level, posX, posY, game)
+	New(id, "frost", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1

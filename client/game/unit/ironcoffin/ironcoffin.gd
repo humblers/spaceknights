@@ -21,7 +21,7 @@ func _ready():
 	$AnimationPlayer.add_animation("skill", dup)
 
 func Init(id, level, posX, posY, game, player):
-	.Init(id, "ironcoffin", player.Team(), level, posX, posY, game)
+	New(id, "ironcoffin", player.Team(), level, posX, posY, game)
 	self.player = player
 	var hp = initialHp()
 	var divider = 1
@@ -106,7 +106,7 @@ func Update():
 		var t = target()
 		if t != null and canSee(t):
 			var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
-			moveTo(posX, PositionY())
+			moveToPos(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
 					$AnimationPlayer.play("attack")
@@ -119,7 +119,7 @@ func Update():
 			else:
 				attack = 0
 		else:
-			moveTo(initPosX, initPosY)
+			moveToPos(initPosX, initPosY)
 			attack = 0
 
 func castDuration():
