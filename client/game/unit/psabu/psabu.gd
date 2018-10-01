@@ -91,7 +91,7 @@ func moveTo(unit):
 	SetVelocity(
 		scalar.Mul(direction[0], speed),
 		scalar.Mul(direction[1], speed))
-	look_at(corner[0], corner[1])
+	look_at_pos(corner[0], corner[1])
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play("move")
 
@@ -100,7 +100,7 @@ func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
 		$Sound/sound_fire.play()
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 		var r = scalar.Add(Radius(), attackRange())
 		var dx = scalar.Sub(t.PositionX(), PositionX())
 		var dy = scalar.Sub(t.PositionY(), PositionY())

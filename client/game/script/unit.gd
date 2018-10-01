@@ -116,7 +116,7 @@ func init_rotation(initial_angle=0):
 		$Rotatable.rotation += PI
 	$Rotatable.rotation -= initial_angle
 
-func look_at(x, y):
+func look_at_pos(x, y):
 	var px = game.World().ToPixel(x)
 	var py = game.World().ToPixel(y)
 	if game.team_swapped:

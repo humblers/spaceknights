@@ -186,7 +186,7 @@ func handleAttack():
 		$Sound/sound_fire.play()
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()
