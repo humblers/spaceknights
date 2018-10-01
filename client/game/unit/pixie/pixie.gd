@@ -59,7 +59,7 @@ func moveTo(unit):
 	SetVelocity(
 		scalar.Mul(direction[0], speed), 
 		scalar.Mul(direction[1], speed))
-	look_at(unit.PositionX(), unit.PositionY())
+	look_at_pos(unit.PositionX(), unit.PositionY())
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play("cloaking")
 
@@ -71,7 +71,7 @@ func handleAttack():
 		$AnimationPlayer.play("cloaking-end")
 	var t = target()
 	if t != null:
-		look_at(t.PositionX(), t.PositionY())
+		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			t.TakeDamage(attackDamage(), "Melee")
