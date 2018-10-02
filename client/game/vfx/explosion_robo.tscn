@@ -5,30 +5,30 @@
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=4]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="CanvasItemMaterial" id=7]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=8]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=9]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0.172852, 0.125, 1, 1 )
 
-[sub_resource type="GradientTexture" id=4]
+[sub_resource type="GradientTexture" id=10]
 
 flags = 4
-gradient = SubResource( 3 )
+gradient = SubResource( 9 )
 width = 2048
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=11]
 
 render_priority = 0
 trail_divisor = 1
@@ -57,7 +57,7 @@ angle = 0.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-color_ramp = SubResource( 4 )
+color_ramp = SubResource( 10 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -67,7 +67,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Color", "Gravity", "Hue Variation", "Radial Accel", "Spread" ]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=12]
 
 length = 1.0
 loop = false
@@ -103,10 +103,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.9, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.308594, 0.0132599, 0.262448, 1 ), Color( 0.643815, 0.480469, 1, 0.74902 ), Color( 0.384314, 0.101961, 1, 0 ) ]
+"values": [ Color( 0.0313726, 0.333333, 0.509804, 1 ), Color( 0.482353, 0.623529, 1, 0.74902 ), Color( 0.384314, 0.101961, 1, 0 ), Color( 0.101961, 0.47451, 1, 0 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Main/Circle1:visible")
@@ -166,7 +166,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0, 0.2, 0.9 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.256363, 0.0372925, 0.367188, 1 ), Color( 0.384314, 0.101961, 1, 0.74902 ), Color( 0.384314, 0.101961, 1, 0 ) ]
+"values": [ Color( 0.0313726, 0.32549, 0.701961, 1 ), Color( 0.101961, 0.388235, 1, 0.74902 ), Color( 0.384314, 0.101961, 1, 0 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("Main/Exp1:rotation_degrees")
@@ -259,10 +259,10 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 0.6, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.6, 0.9, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.473633, 0.234375, 1, 1 ), Color( 0.868408, 0.808594, 1, 1 ), Color( 0.110229, 0, 0.503906, 0.5 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 0.235294, 0.427451, 1, 1 ), Color( 0.807843, 1, 1, 1 ), Color( 0.110229, 0, 0.503906, 0.5 ), Color( 0, 0.509804, 0.662745, 0.498039 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/16/type = "value"
 tracks/16/path = NodePath("Main/Sprite:scale")
@@ -313,7 +313,10 @@ tracks/19/keys = {
 "values": [ true, false ]
 }
 
-[node name="ExplosionViolet" type="Node2D"]
+[node name="Explosion" type="Node2D"]
+editor/display_folded = true
+scale = Vector2( 1.5, 1.5 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="."]
 
@@ -332,15 +335,15 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Sprite" type="Sprite" parent="Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 1 )
+material = SubResource( 7 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle1" type="Sprite" parent="Main"]
 visible = false
-modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = SubResource( 2 )
+modulate = Color( 0.101961, 0.47451, 1, 0 )
+material = SubResource( 8 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
@@ -371,7 +374,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
+process_material = SubResource( 11 )
 texture = null
 normal_map = null
 h_frames = 1
@@ -384,6 +387,6 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 6 )
+anims/explosion = SubResource( 12 )
 blend_times = [  ]
 
