@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://game/unit/blaster/blaster.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/blaster/idle.png" type="Texture" id=2]
@@ -14,17 +14,9 @@
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=12]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=13]
 [ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=14]
-[ext_resource path="res://game/hpbar/hpbar_bg_s.png" type="Texture" id=15]
-[ext_resource path="res://game/hpbar/hpbar_blue_s.png" type="Texture" id=16]
-[ext_resource path="res://game/hpbar/hpbar_red_s.png" type="Texture" id=17]
-[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=18]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=19]
-
-
-
-
-
-
+[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -2369,70 +2361,57 @@ tracks/35/keys = {
 "values": [ false ]
 }
 
-[node name="blaster" type="Node2D" index="0"]
-
+[node name="Blaster" type="Node2D"]
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Rotatable" type="Node2D" parent="." index="0"]
-
+[node name="Rotatable" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
 
-[node name="Main" type="Sprite" parent="Rotatable" index="0"]
-
+[node name="Main" type="Sprite" parent="Rotatable"]
 editor/display_folded = true
-visible = false
-modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Shade" type="Node2D" parent="Rotatable/Main" index="0"]
-
+[node name="Shade" type="Node2D" parent="Rotatable/Main"]
 editor/display_folded = true
 
-[node name="Left" type="Sprite" parent="Rotatable/Main/Shade" index="0"]
-
+[node name="Left" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.0174565 )
 texture = ExtResource( 3 )
 
-[node name="Right" type="Sprite" parent="Rotatable/Main/Shade" index="1"]
-
+[node name="Right" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 3 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Front" type="Sprite" parent="Rotatable/Main/Shade" index="2"]
-
+[node name="Front" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.982543 )
 texture = ExtResource( 4 )
 
-[node name="Rear" type="Sprite" parent="Rotatable/Main/Shade" index="3"]
-
+[node name="Rear" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 5 )
 
-[node name="HatchL" type="AnimatedSprite" parent="Rotatable/Main" index="1"]
-
+[node name="HatchL" type="AnimatedSprite" parent="Rotatable/Main"]
 use_parent_material = true
 position = Vector2( -32, 7 )
 frames = SubResource( 1 )
 animation = "hatchopen"
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="HatchR" type="AnimatedSprite" parent="Rotatable/Main" index="2"]
-
+[node name="HatchR" type="AnimatedSprite" parent="Rotatable/Main"]
 use_parent_material = true
 position = Vector2( 31, 7 )
 frames = SubResource( 1 )
 animation = "hatchopen"
 _sections_unfolded = [ "Material", "Transform" ]
 
-[node name="FlashingGreen" type="Particles2D" parent="Rotatable/Main" index="3"]
-
+[node name="FlashingGreen" type="Particles2D" parent="Rotatable/Main"]
 position = Vector2( -43.5, 36 )
 scale = Vector2( 2, 4 )
 emitting = true
@@ -2455,8 +2434,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="FlashingRed" type="Particles2D" parent="Rotatable/Main" index="4"]
-
+[node name="FlashingRed" type="Particles2D" parent="Rotatable/Main"]
 position = Vector2( 43.5, 36 )
 scale = Vector2( 2, 4 )
 emitting = true
@@ -2479,14 +2457,12 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="Boosterpoint" type="Position2D" parent="Rotatable/Main" index="5"]
-
+[node name="Boosterpoint" type="Position2D" parent="Rotatable/Main"]
 editor/display_folded = true
 position = Vector2( 0, 36 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Booster" type="Particles2D" parent="Rotatable/Main/Boosterpoint" index="0"]
-
+[node name="Booster" type="Particles2D" parent="Rotatable/Main/Boosterpoint"]
 position = Vector2( 0, 10 )
 scale = Vector2( 0.4, 0.8 )
 emitting = false
@@ -2509,8 +2485,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Main/Boosterpoint" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Main/Boosterpoint"]
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
@@ -2533,19 +2508,16 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Shotpoint" type="Node2D" parent="Rotatable" index="1"]
-
+[node name="Shotpoint" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
 position = Vector2( 0, -5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeL" type="Position2D" parent="Rotatable/Shotpoint" index="0"]
-
+[node name="MissileSmokeL" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( -31.5, -10 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireL1" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL" index="0"]
-
+[node name="FireL1" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL"]
 position = Vector2( -0.5, -2 )
 rotation = 0.698132
 scale = Vector2( 0.7, 0.7 )
@@ -2569,8 +2541,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightL1" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL/FireL1" index="0"]
-
+[node name="LightL1" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL/FireL1"]
 position = Vector2( 9.97504, 1.88671 )
 rotation = -0.698132
 scale = Vector2( 1.42857, 1.42857 )
@@ -2597,13 +2568,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeL2" type="Position2D" parent="Rotatable/Shotpoint" index="1"]
-
+[node name="MissileSmokeL2" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( -31.5, 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireL2" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL2" index="0"]
-
+[node name="FireL2" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL2"]
 position = Vector2( -0.5, -1 )
 rotation = 0.523599
 scale = Vector2( 0.7, 0.7 )
@@ -2627,8 +2596,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightL2" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL2/FireL2" index="0"]
-
+[node name="LightL2" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL2/FireL2"]
 position = Vector2( 9.85302, 4.20879 )
 rotation = -0.523599
 scale = Vector2( 1.42857, 1.42857 )
@@ -2655,13 +2623,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeL3" type="Position2D" parent="Rotatable/Shotpoint" index="2"]
-
+[node name="MissileSmokeL3" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( -31.5, 20 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireL3" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL3" index="0"]
-
+[node name="FireL3" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL3"]
 position = Vector2( -0.5, 0 )
 rotation = 0.349066
 scale = Vector2( 0.7, 0.7 )
@@ -2685,8 +2651,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightL3" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL3/FireL3" index="0"]
-
+[node name="LightL3" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL3/FireL3"]
 position = Vector2( 7.99529, 3.17097 )
 rotation = -0.349066
 scale = Vector2( 1.42857, 1.42857 )
@@ -2713,13 +2678,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeL4" type="Position2D" parent="Rotatable/Shotpoint" index="3"]
-
+[node name="MissileSmokeL4" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( -31.5, 34 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireL4" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL4" index="0"]
-
+[node name="FireL4" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeL4"]
 position = Vector2( -0.5, 0 )
 rotation = 0.174533
 scale = Vector2( 0.7, 0.7 )
@@ -2743,8 +2706,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightL4" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL4/FireL4" index="0"]
-
+[node name="LightL4" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeL4/FireL4"]
 position = Vector2( 7.99529, 3.17097 )
 rotation = -0.349066
 scale = Vector2( 1.42857, 1.42857 )
@@ -2771,13 +2733,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeR" type="Position2D" parent="Rotatable/Shotpoint" index="4"]
-
+[node name="MissileSmokeR" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 31.5, -10 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireR1" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR" index="0"]
-
+[node name="FireR1" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR"]
 position = Vector2( 0.5, -2 )
 rotation = 2.44346
 scale = Vector2( 0.7, 0.7 )
@@ -2801,8 +2761,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightR1" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR/FireR1" index="0"]
-
+[node name="LightR1" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR/FireR1"]
 position = Vector2( 9.97505, -1.88671 )
 rotation = -2.44346
 scale = Vector2( 1.42857, 1.42857 )
@@ -2829,13 +2788,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeR2" type="Position2D" parent="Rotatable/Shotpoint" index="5"]
-
+[node name="MissileSmokeR2" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 31.5, 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireR2" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR2" index="0"]
-
+[node name="FireR2" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR2"]
 position = Vector2( 0.5, -1 )
 rotation = 2.61799
 scale = Vector2( 0.7, 0.7 )
@@ -2859,8 +2816,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightR2" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR2/FireR2" index="0"]
-
+[node name="LightR2" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR2/FireR2"]
 position = Vector2( 9.85304, -4.20875 )
 rotation = -2.61799
 scale = Vector2( 1.42857, 1.42857 )
@@ -2887,13 +2843,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeR3" type="Position2D" parent="Rotatable/Shotpoint" index="6"]
-
+[node name="MissileSmokeR3" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 31.5, 20 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireR3" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR3" index="0"]
-
+[node name="FireR3" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR3"]
 position = Vector2( 0.5, 0 )
 rotation = 2.79253
 scale = Vector2( 0.7, 0.7 )
@@ -2917,8 +2871,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="LightR3" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR3/FireR3" index="0"]
-
+[node name="LightR3" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR3/FireR3"]
 position = Vector2( 7.99527, -3.171 )
 rotation = -2.79253
 scale = Vector2( 1.42857, 1.42857 )
@@ -2945,13 +2898,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileSmokeR4" type="Position2D" parent="Rotatable/Shotpoint" index="7"]
-
+[node name="MissileSmokeR4" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 31.5, 34 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="FireR4" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR4" index="0"]
-
+[node name="FireR4" type="Particles2D" parent="Rotatable/Shotpoint/MissileSmokeR4"]
 position = Vector2( 0.5, 0 )
 rotation = 2.96706
 scale = Vector2( 0.7, 0.7 )
@@ -2975,8 +2926,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material" ]
 
-[node name="LightR4" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR4/FireR4" index="0"]
-
+[node name="LightR4" type="Light2D" parent="Rotatable/Shotpoint/MissileSmokeR4/FireR4"]
 position = Vector2( 7.99527, -3.171 )
 rotation = -2.79253
 scale = Vector2( 1.42857, 1.42857 )
@@ -3003,13 +2953,11 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Explosion" type="Node2D" parent="Rotatable" index="2"]
-
+[node name="Explosion" type="Node2D" parent="Rotatable"]
 scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="around" type="Particles2D" parent="Rotatable/Explosion" index="0"]
-
+[node name="around" type="Particles2D" parent="Rotatable/Explosion"]
 emitting = false
 amount = 4
 lifetime = 1.0
@@ -3030,8 +2978,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="center" type="Particles2D" parent="Rotatable/Explosion" index="1"]
-
+[node name="center" type="Particles2D" parent="Rotatable/Explosion"]
 emitting = false
 amount = 10
 lifetime = 1.0
@@ -3052,8 +2999,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="particle" type="Particles2D" parent="Rotatable/Explosion" index="2"]
-
+[node name="particle" type="Particles2D" parent="Rotatable/Explosion"]
 emitting = false
 amount = 30
 lifetime = 1.0
@@ -3074,8 +3020,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion" index="3"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
 rotation = 5.26677
 enabled = false
 editor_only = false
@@ -3100,8 +3045,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion" index="4"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion"]
 emitting = false
 amount = 1
 lifetime = 1.0
@@ -3122,8 +3066,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
-[node name="MissileExp1" type="Particles2D" parent="Rotatable/Explosion" index="5"]
-
+[node name="MissileExp1" type="Particles2D" parent="Rotatable/Explosion"]
 editor/display_folded = true
 position = Vector2( -22.3528, -6.38652 )
 rotation = 2.35619
@@ -3147,8 +3090,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp1" index="0"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp1"]
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
@@ -3172,8 +3114,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileExp2" type="Particles2D" parent="Rotatable/Explosion" index="6"]
-
+[node name="MissileExp2" type="Particles2D" parent="Rotatable/Explosion"]
 editor/display_folded = true
 position = Vector2( 20.7561, -15.9663 )
 rotation = -1.57079
@@ -3197,8 +3138,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp2" index="0"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp2"]
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
@@ -3222,8 +3162,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileExp3" type="Particles2D" parent="Rotatable/Explosion" index="7"]
-
+[node name="MissileExp3" type="Particles2D" parent="Rotatable/Explosion"]
 editor/display_folded = true
 position = Vector2( -26.7435, 10.3781 )
 rotation = 1.57079
@@ -3247,8 +3186,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp3" index="0"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp3"]
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
@@ -3272,8 +3210,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="MissileExp4" type="Particles2D" parent="Rotatable/Explosion" index="8"]
-
+[node name="MissileExp4" type="Particles2D" parent="Rotatable/Explosion"]
 editor/display_folded = true
 position = Vector2( 25.546, 17.1637 )
 rotation = -0.785397
@@ -3297,8 +3234,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp4" index="0"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion/MissileExp4"]
 enabled = false
 editor_only = false
 texture = ExtResource( 10 )
@@ -3322,78 +3258,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Hp" type="Position2D" parent="." index="1"]
-
-_sections_unfolded = [ "Transform" ]
-
-[node name="Blue" type="TextureProgress" parent="Hp" index="0"]
-
-visible = false
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -15.0
-margin_top = -60.0
-margin_right = 15.0
-margin_bottom = -44.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 100.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 15 )
-texture_over = null
-texture_progress = ExtResource( 16 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="Red" type="TextureProgress" parent="Hp" index="1"]
-
-visible = false
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -15.0
-margin_top = -60.0
-margin_right = 15.0
-margin_bottom = -44.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 100.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 15 )
-texture_over = null
-texture_progress = ExtResource( 17 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
-
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
@@ -3405,26 +3270,30 @@ anims/idle = SubResource( 49 )
 anims/move = SubResource( 50 )
 blend_times = [  ]
 
-[node name="Sound" type="Node2D" parent="." index="3"]
+[node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
-
-stream = ExtResource( 18 )
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 15 )
 volume_db = 0.0
+pitch_scale = 1.0
 autoplay = false
+stream_paused = false
 max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
-
-stream = ExtResource( 19 )
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 16 )
 volume_db = 0.0
+pitch_scale = 1.0
 autoplay = false
+stream_paused = false
 max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
+[node name="Hp" parent="." instance=ExtResource( 17 )]
+position = Vector2( 0, -60 )
 
