@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://game/unit/drillram/drillram.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/drillram/body.png" type="Texture" id=2]
@@ -15,19 +15,9 @@
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=13]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=14]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=15]
-[ext_resource path="res://game/hpbar/hpbar_bg_m.png" type="Texture" id=16]
-[ext_resource path="res://game/hpbar/hpbar_blue_m.png" type="Texture" id=17]
-[ext_resource path="res://game/hpbar/hpbar_red_m.png" type="Texture" id=18]
-[ext_resource path="res://game/sfx/drill.wav" type="AudioStream" id=19]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=20]
-
-
-
-
-
-
-
-
+[ext_resource path="res://game/sfx/drill.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -2342,153 +2332,125 @@ tracks/26/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="drillram" type="Node2D" index="0"]
-
+[node name="Drillram" type="Node2D"]
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Rotatable" type="Node2D" parent="." index="0"]
-
+[node name="Rotatable" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
 
-[node name="Main" type="Sprite" parent="Rotatable" index="0"]
-
-visible = false
-modulate = Color( 0, 0, 0, 0 )
+[node name="Main" type="Sprite" parent="Rotatable"]
 use_parent_material = true
-rotation = 0.174533
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Shade" type="Node2D" parent="Rotatable/Main" index="0"]
-
+[node name="Shade" type="Node2D" parent="Rotatable/Main"]
 editor/display_folded = true
 
-[node name="Left" type="Sprite" parent="Rotatable/Main/Shade" index="0"]
-
+[node name="Left" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.0001477 )
 texture = ExtResource( 3 )
 
-[node name="Right" type="Sprite" parent="Rotatable/Main/Shade" index="1"]
-
+[node name="Right" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 3 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Front" type="Sprite" parent="Rotatable/Main/Shade" index="2"]
-
+[node name="Front" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.999852 )
 texture = ExtResource( 4 )
 
-[node name="Rear" type="Sprite" parent="Rotatable/Main/Shade" index="3"]
-
+[node name="Rear" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 5 )
 
-[node name="GuideL" type="Sprite" parent="Rotatable/Main" index="1"]
-
+[node name="GuideL" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -43.291, 6.85837 )
-rotation = -0.523599
+position = Vector2( -23, -5 )
 texture = ExtResource( 6 )
 flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
-[node name="Shade" type="Node2D" parent="Rotatable/Main/GuideL" index="0"]
+[node name="Shade" type="Node2D" parent="Rotatable/Main/GuideL"]
 
-[node name="Left" type="Sprite" parent="Rotatable/Main/GuideL/Shade" index="0"]
-
+[node name="Left" type="Sprite" parent="Rotatable/Main/GuideL/Shade"]
 modulate = Color( 1, 1, 1, 0.0001477 )
 texture = ExtResource( 7 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Right" type="Sprite" parent="Rotatable/Main/GuideL/Shade" index="1"]
-
+[node name="Right" type="Sprite" parent="Rotatable/Main/GuideL/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 8 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Front" type="Sprite" parent="Rotatable/Main/GuideL/Shade" index="2"]
-
+[node name="Front" type="Sprite" parent="Rotatable/Main/GuideL/Shade"]
 modulate = Color( 1, 1, 1, 0.999852 )
 texture = ExtResource( 9 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Rear" type="Sprite" parent="Rotatable/Main/GuideL/Shade" index="3"]
-
+[node name="Rear" type="Sprite" parent="Rotatable/Main/GuideL/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 10 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="GuideR" type="Sprite" parent="Rotatable/Main" index="2"]
-
+[node name="GuideR" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 36.9665, -6.3176 )
+position = Vector2( 23, -5 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Shade" type="Node2D" parent="Rotatable/Main/GuideR" index="0"]
-
+[node name="Shade" type="Node2D" parent="Rotatable/Main/GuideR"]
 _sections_unfolded = [ "Transform" ]
 
-[node name="Left" type="Sprite" parent="Rotatable/Main/GuideR/Shade" index="0"]
-
+[node name="Left" type="Sprite" parent="Rotatable/Main/GuideR/Shade"]
 modulate = Color( 1, 1, 1, 0.0001477 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="Right" type="Sprite" parent="Rotatable/Main/GuideR/Shade" index="1"]
-
+[node name="Right" type="Sprite" parent="Rotatable/Main/GuideR/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="Front" type="Sprite" parent="Rotatable/Main/GuideR/Shade" index="2"]
-
+[node name="Front" type="Sprite" parent="Rotatable/Main/GuideR/Shade"]
 modulate = Color( 1, 1, 1, 0.999852 )
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="Rear" type="Sprite" parent="Rotatable/Main/GuideR/Shade" index="3"]
-
+[node name="Rear" type="Sprite" parent="Rotatable/Main/GuideR/Shade"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="Drill" type="AnimatedSprite" parent="Rotatable/Main" index="3"]
-
+[node name="Drill" type="AnimatedSprite" parent="Rotatable/Main"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 21.3451, -43.7974 )
-rotation = 0.523599
+position = Vector2( 0, -38 )
 frames = SubResource( 1 )
 animation = "default"
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Rcs" type="Node2D" parent="Rotatable" index="1"]
-
+[node name="Rcs" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
 
-[node name="RcsFrontL" type="Position2D" parent="Rotatable/Rcs" index="0"]
-
+[node name="RcsFrontL" type="Position2D" parent="Rotatable/Rcs"]
 editor/display_folded = true
 position = Vector2( -17.5, -14.5 )
 rotation = 2.0944
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsFrontL" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsFrontL"]
 scale = Vector2( 2, 1 )
 emitting = false
 amount = 16
@@ -2510,8 +2472,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsFrontL" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsFrontL"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2534,15 +2495,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="RcsRearL" type="Position2D" parent="Rotatable/Rcs" index="1"]
-
+[node name="RcsRearL" type="Position2D" parent="Rotatable/Rcs"]
 editor/display_folded = true
 position = Vector2( -21.5, 10 )
 rotation = 1.0472
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsRearL" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsRearL"]
 scale = Vector2( 2, 1 )
 emitting = false
 amount = 16
@@ -2564,8 +2523,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsRearL" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsRearL"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2588,15 +2546,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="RcsFrontR" type="Position2D" parent="Rotatable/Rcs" index="2"]
-
+[node name="RcsFrontR" type="Position2D" parent="Rotatable/Rcs"]
 editor/display_folded = true
 position = Vector2( 17.5, -14.5 )
 rotation = -2.0944
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsFrontR" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsFrontR"]
 scale = Vector2( 2, 1 )
 emitting = false
 amount = 16
@@ -2618,8 +2574,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsFrontR" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsFrontR"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2642,15 +2597,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="RcsRearR" type="Position2D" parent="Rotatable/Rcs" index="3"]
-
+[node name="RcsRearR" type="Position2D" parent="Rotatable/Rcs"]
 editor/display_folded = true
 position = Vector2( 21.5, 10 )
 rotation = -1.0472
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsRearR" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Rcs/RcsRearR"]
 scale = Vector2( 2, 1 )
 emitting = false
 amount = 16
@@ -2672,8 +2625,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsRearR" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Rcs/RcsRearR"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2696,14 +2648,12 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Drilling" type="Position2D" parent="Rotatable" index="2"]
-
+[node name="Drilling" type="Position2D" parent="Rotatable"]
 editor/display_folded = true
 position = Vector2( 0, -60 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Spark" type="Particles2D" parent="Rotatable/Drilling" index="0"]
-
+[node name="Spark" type="Particles2D" parent="Rotatable/Drilling"]
 scale = Vector2( 2, 2 )
 emitting = false
 amount = 60
@@ -2725,8 +2675,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Glow" type="Particles2D" parent="Rotatable/Drilling" index="1"]
-
+[node name="Glow" type="Particles2D" parent="Rotatable/Drilling"]
 emitting = false
 amount = 5
 lifetime = 0.8
@@ -2747,8 +2696,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Drilling" index="2"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Drilling"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2771,14 +2719,12 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Booster" type="Position2D" parent="Rotatable" index="3"]
-
+[node name="Booster" type="Position2D" parent="Rotatable"]
 editor/display_folded = true
 position = Vector2( 0, 25 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Booster" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Booster"]
 scale = Vector2( 0.5, 0.7 )
 emitting = false
 amount = 4
@@ -2800,8 +2746,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Booster" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Booster"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2824,10 +2769,9 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Explosion" type="Node2D" parent="Rotatable" index="4"]
+[node name="Explosion" type="Node2D" parent="Rotatable"]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion" index="0"]
-
+[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion"]
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -2848,8 +2792,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time" ]
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion" index="1"]
-
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
 enabled = false
 editor_only = false
 texture = ExtResource( 14 )
@@ -2872,8 +2815,7 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
-
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
@@ -2887,96 +2829,30 @@ anims/idle = SubResource( 31 )
 anims/move = SubResource( 32 )
 blend_times = [  ]
 
-[node name="Hp" type="Position2D" parent="." index="2"]
+[node name="Sound" type="Node2D" parent="."]
 
-_sections_unfolded = [ "Transform" ]
-
-[node name="Blue" type="TextureProgress" parent="Hp" index="0"]
-
-visible = false
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = -95.0
-margin_right = 28.0
-margin_bottom = -79.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 100.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 16 )
-texture_over = null
-texture_progress = ExtResource( 17 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="Red" type="TextureProgress" parent="Hp" index="1"]
-
-visible = false
-light_mask = 16
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = -95.0
-margin_right = 28.0
-margin_bottom = -79.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 100.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 16 )
-texture_over = null
-texture_progress = ExtResource( 18 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Rect", "Textures", "Visibility" ]
-
-[node name="Sound" type="Node2D" parent="." index="3"]
-
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound" index="0"]
-
-stream = ExtResource( 19 )
+[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 16 )
 volume_db = 0.0
+pitch_scale = 1.0
 autoplay = false
+stream_paused = false
 max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound" index="1"]
-
-stream = ExtResource( 20 )
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 17 )
 volume_db = 0.0
+pitch_scale = 1.0
 autoplay = false
+stream_paused = false
 max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
+[node name="Hp" parent="." instance=ExtResource( 18 )]
+position = Vector2( 0, -95 )
 
