@@ -45,7 +45,7 @@ const UNIT = {
 }
 const BULLET = {
 	"archer": preload("res://game/unit/archer/bullet.tscn"),
-	"archsapper": preload("res://game/unit/archsapper/cannonbullet.tscn"),
+	"archsapper": preload("res://game/unit/archsapper/cannon_bullet.tscn"),
 	"cannon": preload("res://game/unit/cannon/bullet.tscn"),
 	"legion": preload("res://game/unit/legion/bullet.tscn"),
 	"shadowvision": preload("res://game/unit/shadowvision/missile.tscn"),
@@ -53,7 +53,7 @@ const BULLET = {
 	"sentry": preload("res://game/unit/sentry/bullet.tscn"),
 	"judge": preload("res://game/unit/judge/bullet.tscn"),
 	"blaster": preload("res://game/unit/blaster/missile.tscn"),
-	"archengineer": preload("res://game/unit/archengineer/energyorb.tscn"),
+	"archengineer": preload("res://game/unit/archengineer/energy_orb.tscn"),
 	"blastturret": preload("res://game/unit/blastturret/missile.tscn"),
 	"ironcoffin": preload("res://game/unit/ironcoffin/missile.tscn"),
 	"pixieking": preload("res://game/unit/pixieking/bullet.tscn"),
@@ -62,7 +62,7 @@ const BULLET = {
 	"starfire": preload("res://game/unit/starfire/bullet.tscn"),
 }
 const SKILL = {
-	"legion": preload("res://game/unit/legion/bombexplosion.tscn"),
+	"legion": preload("res://game/unit/legion/bomb_explosion.tscn"),
 	"judge": preload("res://game/unit/judge/arealshot.tscn"),
 	"frost": preload("res://game/unit/frost/freeze.tscn"),
 	"lancer": preload("res://game/unit/lancer/napalm.tscn"),
@@ -73,17 +73,17 @@ const PASSIVE = {
 
 const CURSOR = {
 	"unit": preload("res://game/ui/unit_cursor.tscn"),
-	"archsapper": preload("res://game/unit/archsapper/targetsquare.tscn"),
-	"legion": preload("res://game/unit/legion/bomingpoint.tscn"),
-	"nagmash": preload("res://game/unit/nagmash/targetcircle.tscn"),
-	"astra": preload("res://game/unit/astra/targetsquare.tscn"),
+	"archsapper": preload("res://game/unit/archsapper/target_square.tscn"),
+	"legion": preload("res://game/unit/legion/boming_point.tscn"),
+	"nagmash": preload("res://game/unit/nagmash/target_circle.tscn"),
+	"astra": preload("res://game/unit/astra/target_square.tscn"),
 	"judge": preload("res://game/unit/judge/bomingpoint.tscn"),
-	"tombstone": preload("res://game/unit/tombstone/targetcircle.tscn"),
-	"frost": preload("res://game/unit/frost/bombingpoint.tscn"),
-	"lancer": preload("res://game/unit/lancer/targetsquare.tscn"),
-	"archengineer": preload("res://game/unit/archengineer/targetsquare.tscn"),
-	"ironcoffin": preload("res://game/unit/ironcoffin/targetsquare.tscn"),
-	"pixieking": preload("res://game/unit/pixieking/targetcircle.tscn"),
+	"tombstone": preload("res://game/unit/tombstone/target_circle.tscn"),
+	"frost": preload("res://game/unit/frost/bombing_point.tscn"),
+	"lancer": preload("res://game/unit/lancer/target_square.tscn"),
+	"archengineer": preload("res://game/unit/archengineer/target_square.tscn"),
+	"ironcoffin": preload("res://game/unit/ironcoffin/target_square.tscn"),
+	"pixieking": preload("res://game/unit/pixieking/target_circle.tscn"),
 }
 
 # temporary

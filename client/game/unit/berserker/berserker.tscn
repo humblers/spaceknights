@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://game/unit/berserker/berserker.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/berserker/body.png" type="Texture" id=2]
@@ -23,28 +23,24 @@
 [ext_resource path="res://game/unit/berserker/sword_s.png" type="Texture" id=21]
 [ext_resource path="res://game/unit/berserker/sword_f.png" type="Texture" id=22]
 [ext_resource path="res://game/unit/berserker/sword_r.png" type="Texture" id=23]
-[ext_resource path="res://game/vfx/bladetrail_1.png" type="Texture" id=24]
-[ext_resource path="res://game/vfx/bladetrail_2.png" type="Texture" id=25]
-[ext_resource path="res://game/vfx/bladetrail_3.png" type="Texture" id=26]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=27]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=28]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=29]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=30]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=31]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=32]
-[ext_resource path="res://game/sfx/ls_swing4.wav" type="AudioStream" id=33]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=34]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=24]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=25]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=26]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=27]
+[ext_resource path="res://game/sfx/ls_swing4.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=30]
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=1]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ null, ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), null ],
+"frames": [ null, null, null, null, null ],
 "loop": true,
 "name": "sword",
 "speed": 5.0
@@ -59,7 +55,7 @@ light_mode = 0
 [sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
-"frames": [ ExtResource( 27 ), ExtResource( 28 ) ],
+"frames": [ null, null ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
@@ -1651,6 +1647,7 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -1807,7 +1804,7 @@ position = Vector2( -20.9999, -32.0001 )
 rotation = 1.5708
 
 [node name="SwordAnim" type="Position2D" parent="Rotatable/Body/UpperarmR/ArmR/Sword/EffectOver"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 position = Vector2( 25, 16 )
 rotation = 1.309
 _sections_unfolded = [ "Material", "Transform", "material" ]
@@ -1818,7 +1815,7 @@ use_parent_material = true
 position = Vector2( -26.2488, -22.5021 )
 rotation = -2.35619
 scale = Vector2( 2.5, 2.5 )
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "sword"
 flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1829,7 +1826,7 @@ use_parent_material = true
 position = Vector2( -27.2276, -18.1083 )
 rotation = -2.35619
 scale = Vector2( 2.2, 2.2 )
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "sword"
 flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1925,6 +1922,7 @@ material = SubResource( 3 )
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 40 )
@@ -1933,7 +1931,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "materia
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL"]
 material = SubResource( 5 )
 scale = Vector2( 0.3, 0.7 )
-texture = ExtResource( 29 )
+texture = ExtResource( 24 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
@@ -1949,7 +1947,6 @@ material = SubResource( 3 )
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 40 )
@@ -1958,12 +1955,12 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "materia
 [node name="Sprite2" type="Sprite" parent="Rotatable/Body/BoosterR"]
 material = SubResource( 5 )
 scale = Vector2( 0.3, 0.7 )
-texture = ExtResource( 29 )
+texture = ExtResource( 24 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="Hitposition" type="Position2D" parent="Rotatable"]
 position = Vector2( 0, -70 )
-rotation = 5.82536e-006
+rotation = 5.82536e-06
 _sections_unfolded = [ "Transform" ]
 
 [node name="Explosion" type="Node2D" parent="."]
@@ -1976,13 +1973,13 @@ _sections_unfolded = [ "Transform" ]
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 30 )
+texture = ExtResource( 25 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 31 )
+texture = ExtResource( 26 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
@@ -1990,7 +1987,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 6 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 29 )
+texture = ExtResource( 24 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
@@ -1999,7 +1996,7 @@ modulate = Color( 0.101961, 0.47451, 1, 0 )
 material = SubResource( 7 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 32 )
+texture = ExtResource( 27 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle2" type="Sprite" parent="Explosion/Main"]
@@ -2007,7 +2004,7 @@ visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 32 )
+texture = ExtResource( 27 )
 flip_h = true
 flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -2060,7 +2057,7 @@ blend_times = [  ]
 editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 33 )
+stream = ExtResource( 28 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -2071,7 +2068,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 34 )
+stream = ExtResource( 29 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -2080,4 +2077,7 @@ max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 30 )]
+position = Vector2( 0, -80 )
 
