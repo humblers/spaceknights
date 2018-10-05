@@ -45,7 +45,7 @@ func fire():
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	game.AddBullet(b)
 	# client only
-	b.global_position = $Rotatable/Body/Booster/Shotpoint.global_position
+	b.global_position = $Rotatable/Shotpoint.global_position
 
 func findTargetAndDoAction():
 	var t = findTarget()
