@@ -216,7 +216,7 @@ func AddUnit(name, level, posX, posY, player):
 	var id = unitCounter
 	var node = resource.UNIT[name].instance()
 	node.Init(id, level, posX, posY, self, player)
-	node.name = str(id)
+#	node.name = str(id)
 	$Units.add_child(node)
 	units[id] = node
 	return id
