@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://game/unit/champion/champion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/champion/shoulder.png" type="Texture" id=2]
@@ -120,57 +120,6 @@ animations = [ {
 "name": "sword-1prince",
 "speed": 5.0
 } ]
-
-[sub_resource type="Gradient" id=10]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.836578, 0.402344, 1, 1, 0.015625, 0.015625, 0 )
-
-[sub_resource type="GradientTexture" id=11]
-
-flags = 4
-gradient = SubResource( 10 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=12]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 30, 20, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 90.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 1.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 11 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angle", "Color", "Radial Accel" ]
 
 [sub_resource type="CanvasItemMaterial" id=13]
 
@@ -491,20 +440,17 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="main" type="Node2D" parent="Rotatable"]
 use_parent_material = true
-rotation = 0.523599
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/main"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -19.5, -1.5 )
-rotation = 0.261799
+position = Vector2( -15, 10 )
 texture = ExtResource( 2 )
 flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/main/ShoulderL"]
-visible = false
 position = Vector2( -2, 14 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -529,7 +475,7 @@ _sections_unfolded = [ "Material", "Transform", "material" ]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-rotation = 0.523599
+position = Vector2( 10, 0 )
 texture = ExtResource( 6 )
 offset = Vector2( -6, 0 )
 flip_h = true
@@ -539,7 +485,6 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -14, 1 )
-rotation = -0.523599
 texture = ExtResource( 7 )
 offset = Vector2( -5, -7 )
 flip_h = true
@@ -576,13 +521,11 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/main"]
 use_parent_material = true
-position = Vector2( 19.5, -1.5 )
-rotation = 0.261799
+position = Vector2( 15, 10 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/main/ShoulderR"]
-visible = false
 position = Vector2( 2, 14 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -607,7 +550,7 @@ _sections_unfolded = [ "Material", "Transform", "material" ]
 [node name="UpperarmR" type="Sprite" parent="Rotatable/main/ShoulderR"]
 show_behind_parent = true
 use_parent_material = true
-rotation = -0.523599
+position = Vector2( -10, 0 )
 texture = ExtResource( 6 )
 offset = Vector2( 6, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -616,7 +559,6 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 14, 1 )
-rotation = 0.261799
 texture = ExtResource( 7 )
 offset = Vector2( 5, -7 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -648,8 +590,7 @@ _sections_unfolded = [ "Offset" ]
 [node name="Sword" type="Node2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 0.5, -20.5 )
-rotation = -1.309
+position = Vector2( -19, 0 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Grip" type="Sprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
@@ -694,6 +635,7 @@ rotation = 1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 5 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "frames", "material" ]
@@ -707,6 +649,7 @@ rotation = -1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 7 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -734,9 +677,9 @@ animation = "sword-1prince"
 frame = 4
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
-[node name="Spark" type="Particles2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword/Attack"]
-position = Vector2( 4.96755, -64.8854 )
-scale = Vector2( 2, 2 )
+[node name="Spark" type="CPUParticles2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword/Attack"]
+position = Vector2( 5, -65 )
+scale = 2.0
 emitting = false
 amount = 20
 lifetime = 1.2
@@ -747,15 +690,54 @@ explosiveness = 0.5
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
 texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 0.0
+gravity = Vector2( 30, 20 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 90.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 100.0
+radial_accel_random = 1.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 2.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 1, 0.713726, 0.345098, 0.784314 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Flags", "Gravity", "Initial Velocity", "Linear Accel", "Radial Accel", "Scale", "Spread", "Time", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable/main"]
 editor/display_folded = true
@@ -764,9 +746,8 @@ _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-position = Vector2( 0, -4 )
+position = Vector2( 0, -24 )
 texture = ExtResource( 21 )
-flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="Shade" type="Node2D" parent="Rotatable/main/Body/Cockpit"]
@@ -795,7 +776,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Front" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-position = Vector2( 0, 5 )
 texture = ExtResource( 25 )
 offset = Vector2( 0, -12 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -825,9 +805,6 @@ texture = ExtResource( 28 )
 
 [node name="Rear" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 0, 9 )
 texture = ExtResource( 29 )
 offset = Vector2( 0, 11 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -857,7 +834,7 @@ texture = ExtResource( 32 )
 
 [node name="BodywingR" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-position = Vector2( 16, 0 )
+position = Vector2( 18, 0 )
 texture = ExtResource( 33 )
 offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -885,7 +862,7 @@ texture = ExtResource( 37 )
 
 [node name="BodywingL" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-position = Vector2( -16, 0 )
+position = Vector2( -18, 0 )
 texture = ExtResource( 33 )
 offset = Vector2( 0, -2 )
 flip_h = true
@@ -922,8 +899,7 @@ _sections_unfolded = [ "Offset" ]
 
 [node name="Head" type="Sprite" parent="Rotatable/main/Body"]
 editor/display_folded = true
-position = Vector2( 0, -2 )
-rotation = -0.523599
+visible = false
 texture = ExtResource( 38 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
