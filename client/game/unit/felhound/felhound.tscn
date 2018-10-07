@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://game/unit/felhound/felhound.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/felhound/body.png" type="Texture" id=2]
@@ -24,21 +24,18 @@
 [ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=22]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=23]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=24]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=25]
-[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=26]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=27]
-[ext_resource path="res://game/vfx/impectreflex.png" type="Texture" id=28]
-[ext_resource path="res://game/sfx/double_jump.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=30]
-[ext_resource path="res://game/hpbar/hpshieldbar_s.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/sfx/double_jump.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=26]
+[ext_resource path="res://game/hpbar/hpshieldbar_s.tscn" type="PackedScene" id=27]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=28]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="CanvasItemMaterial" id=17]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=18]
 
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
@@ -47,25 +44,25 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=3]
+[sub_resource type="CanvasItemMaterial" id=19]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=4]
+[sub_resource type="CanvasItemMaterial" id=20]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=5]
+[sub_resource type="CanvasItemMaterial" id=21]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=22]
 
 animations = [ {
 "frames": [ null, ExtResource( 20 ), ExtResource( 21 ), null ],
@@ -74,75 +71,32 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=7]
+[sub_resource type="CanvasItemMaterial" id=23]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=8]
+[sub_resource type="CanvasItemMaterial" id=24]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=9]
+[sub_resource type="CanvasItemMaterial" id=25]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Curve" id=16]
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.172852, 0.125, 1, 1 )
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="GradientTexture" id=11]
-
-flags = 4
-gradient = SubResource( 10 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=12]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 90.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 1.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 11 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angle", "Color", "Gravity", "Hue Variation", "Radial Accel", "Spread" ]
-
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=26]
 
 length = 1.0
 loop = false
@@ -388,301 +342,7 @@ tracks/19/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=14]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=15]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=16]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="Gradient" id=17]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 0 )
-
-[sub_resource type="GradientTexture" id=18]
-
-flags = 4
-gradient = SubResource( 17 )
-width = 2048
-_sections_unfolded = [ "gradient" ]
-
-[sub_resource type="Curve" id=19]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0.513086 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.984197 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=20]
-
-flags = 4
-width = 2048
-curve = SubResource( 19 )
-
-[sub_resource type="ParticlesMaterial" id=21]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, -40, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 60.0
-linear_accel_random = 1.0
-radial_accel = 100.0
-radial_accel_random = 1.0
-tangential_accel = 30.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 2.0
-scale_random = 0.0
-scale_curve = SubResource( 20 )
-color_ramp = SubResource( 18 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Scale", "Tangential Accel", "color_ramp" ]
-
-[sub_resource type="CanvasItemMaterial" id=22]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=23]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="Animation" id=24]
-
-length = 0.5
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Main/Shield:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 2, 2 ), Vector2( 2, 2 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Main/Shield:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Main/Shield:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.777344, 0.827789, 1, 1 ), Color( 0.671875, 0.746216, 1, 1 ), Color( 0.671875, 0.746216, 1, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Main/ParticlePhysical/Particles:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Main/Mask:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, -167 ), Vector2( 0, 156 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Main/Mask:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.287294 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("Main/ParticleEnergy:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("Main/Mask:scale")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0.8, 0.1 ), Vector2( 1.8, 0.1 ), Vector2( 1.8, 0.1 ), Vector2( 1.2, 0.1 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("Main/Mask:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true, false ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Main/ParticlePhysical/Glow:scale")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 4, 1 ), Vector2( 2, 0.5 ) ]
-}
-tracks/11/type = "value"
-tracks/11/path = NodePath("Main/ParticlePhysical/Glow:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("Main/ParticlePhysical/ImpactEffect:modulate")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("Main/ParticlePhysical/ImpactEffect:visible")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ true, false ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("Main/ParticlePhysical/ImpactEffect:scale")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 0.2 ), Vector2( 3, 0.4 ) ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("Main/ParticlePhysical/Glow:modulate")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.537255, 0.00392157, 0.980392, 1 ) ]
-}
-
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=38]
 
 length = 3.0
 loop = false
@@ -1048,7 +708,7 @@ tracks/29/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=39]
 
 length = 1.0
 loop = false
@@ -1318,7 +978,7 @@ tracks/21/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=40]
 
 length = 0.01
 loop = false
@@ -1636,7 +1296,7 @@ tracks/25/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=41]
 
 length = 0.01
 loop = false
@@ -1942,7 +1602,6 @@ modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 5 )
 
 [node name="Boosterpoint" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 visible = false
 show_behind_parent = true
 position = Vector2( 0, 26 )
@@ -1950,24 +1609,23 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Boosterpoint"]
 modulate = Color( 0.133333, 0.713726, 1, 1 )
-material = SubResource( 1 )
-scale = Vector2( 0.3, 0.4 )
-frames = SubResource( 2 )
+material = SubResource( 17 )
+scale = Vector2( 0.6, 0.8 )
+frames = SubResource( 18 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
-offset = Vector2( 0, 40 )
+offset = Vector2( 0, 20 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Boosterpoint"]
-material = SubResource( 3 )
+material = SubResource( 19 )
 position = Vector2( 0, 6.18237 )
 scale = Vector2( 0.3, 0.6 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="UpperarmL" type="Sprite" parent="Rotatable/Body"]
-editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -18, -5 )
@@ -2018,7 +1676,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 [node name="Shade" type="Node2D" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
 editor/display_folded = true
 position = Vector2( -3, 15 )
-rotation = -1.49012e-08
+rotation = -1.49012e-008
 _sections_unfolded = [ "Transform" ]
 
 [node name="Left" type="Sprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft/Shade"]
@@ -2041,14 +1699,14 @@ texture = ExtResource( 19 )
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
 visible = false
 modulate = Color( 1, 0.611765, 0.0588235, 0 )
-material = SubResource( 4 )
+material = SubResource( 20 )
 position = Vector2( -2, 20 )
-scale = Vector2( 0.4, 1.4 )
+scale = Vector2( 0.3, 1.4 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Effectpoint" type="Position2D" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
-position = Vector2( 10, 1.90735e-06 )
+position = Vector2( 10, 1.90735e-006 )
 rotation = 1.0472
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform" ]
@@ -2056,11 +1714,11 @@ _sections_unfolded = [ "Transform" ]
 [node name="KnifeTrail" type="AnimatedSprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
 visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
-material = SubResource( 5 )
+material = SubResource( 21 )
 position = Vector2( 10, 0 )
 rotation = 1.0472
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 6 )
+frames = SubResource( 22 )
 animation = "knifetrail"
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
@@ -2113,7 +1771,6 @@ flip_h = true
 _sections_unfolded = [ "Offset" ]
 
 [node name="KnifeRight" type="Sprite" parent="Rotatable/Body/UpperarmR/LowerarmR"]
-editor/display_folded = true
 use_parent_material = true
 position = Vector2( 0, -24 )
 rotation = -0.174533
@@ -2154,25 +1811,25 @@ _sections_unfolded = [ "Offset" ]
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
 visible = false
 modulate = Color( 1, 0.611765, 0.0588235, 0 )
-material = SubResource( 4 )
+material = SubResource( 20 )
 position = Vector2( 2, 20 )
-scale = Vector2( 0.4, 1.4 )
+scale = Vector2( 0.3, 1.4 )
 texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Effectpoint" type="Position2D" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
-position = Vector2( -10, 1.90735e-06 )
+position = Vector2( -10, 1.90735e-006 )
 rotation = -1.0472
 _sections_unfolded = [ "Transform" ]
 
 [node name="KnifeTrail2" type="AnimatedSprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
 visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
-material = SubResource( 7 )
-position = Vector2( -10, 1.90735e-06 )
+material = SubResource( 23 )
+position = Vector2( -10, 1.90735e-006 )
 rotation = -1.0472
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 6 )
+frames = SubResource( 22 )
 animation = "knifetrail"
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -2204,7 +1861,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 8 )
+material = SubResource( 24 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -2212,7 +1869,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.101961, 0.47451, 1, 0 )
-material = SubResource( 9 )
+material = SubResource( 25 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 24 )
@@ -2228,26 +1885,64 @@ flip_h = true
 flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion/Main"]
-scale = Vector2( 1.5, 1.5 )
+[node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
+scale = 1.5
 emitting = false
 amount = 20
 lifetime = 1.0
 one_shot = false
 preprocess = 0.0
-speed_scale = 1.0
+speed_scale = 1.5
 explosiveness = 0.5
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 12 )
 texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 120.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.5
+scale_random = 0.0
+scale_curve = SubResource( 16 )
+color = Color( 0.929412, 0.643137, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
@@ -2256,114 +1951,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 13 )
-blend_times = [  ]
-
-[node name="Energyshield" type="Node2D" parent="."]
-editor/display_folded = true
-scale = Vector2( 0.5, 0.5 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Main" type="Node2D" parent="Energyshield"]
-editor/display_folded = true
-
-[node name="Mask" type="Sprite" parent="Energyshield/Main"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-self_modulate = Color( 0.64325, 0.347656, 1, 1 )
-light_mask = 512
-material = SubResource( 14 )
-position = Vector2( 0, 156 )
-scale = Vector2( 1.2, 0.1 )
-texture = ExtResource( 25 )
-_sections_unfolded = [ "Material", "Range", "Transform", "Visibility" ]
-
-[node name="Shield" type="Sprite" parent="Energyshield/Main"]
-editor/display_folded = true
-visible = false
-modulate = Color( 0.671875, 0.746216, 1, 0 )
-self_modulate = Color( 0.918701, 0.71875, 1, 1 )
-light_mask = 512
-scale = Vector2( 2, 2 )
-texture = ExtResource( 26 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Sprite" type="Sprite" parent="Energyshield/Main/Shield"]
-modulate = Color( 0.903992, 0.441406, 1, 1 )
-material = SubResource( 15 )
-texture = ExtResource( 26 )
-_sections_unfolded = [ "Material", "Visibility" ]
-
-[node name="ParticlePhysical" type="Node2D" parent="Energyshield/Main"]
-editor/display_folded = true
-light_mask = 512
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="ImpactEffect" type="Sprite" parent="Energyshield/Main/ParticlePhysical"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-light_mask = 512
-material = SubResource( 16 )
-position = Vector2( 0, -98 )
-scale = Vector2( 3, 0.4 )
-texture = ExtResource( 27 )
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="Particles" type="Particles2D" parent="Energyshield/Main/ParticlePhysical"]
-light_mask = 512
-position = Vector2( -0.999991, -100 )
-rotation = -3.14159
-scale = Vector2( 2, 2 )
-emitting = false
-amount = 30
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 21 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "process_material" ]
-
-[node name="Glow" type="Sprite" parent="Energyshield/Main/ParticlePhysical"]
-visible = false
-modulate = Color( 0.537255, 0.00392157, 0.980392, 1 )
-material = SubResource( 22 )
-position = Vector2( -1, -110 )
-rotation = -3.14159
-scale = Vector2( 2, 0.5 )
-texture = ExtResource( 8 )
-_sections_unfolded = [ "Material", "Range", "Transform", "Visibility" ]
-
-[node name="ParticleEnergy" type="Node2D" parent="Energyshield/Main"]
-editor/display_folded = true
-modulate = Color( 1, 1, 1, 0 )
-light_mask = 512
-scale = Vector2( 2, 2 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Reflex" type="Sprite" parent="Energyshield/Main/ParticleEnergy"]
-material = SubResource( 23 )
-position = Vector2( 0, 20 )
-texture = ExtResource( 28 )
-_sections_unfolded = [ "Material", "Visibility", "material" ]
-
-[node name="EnergyShieldAni" type="AnimationPlayer" parent="Energyshield"]
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/energyshield = SubResource( 24 )
+anims/explosion = SubResource( 26 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -2372,17 +1960,17 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 25 )
-anims/explosion = SubResource( 26 )
-anims/idle = SubResource( 27 )
-anims/move = SubResource( 28 )
+anims/attack = SubResource( 38 )
+anims/explosion = SubResource( 39 )
+anims/idle = SubResource( 40 )
+anims/move = SubResource( 41 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 29 )
+stream = ExtResource( 25 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -2393,7 +1981,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 30 )
+stream = ExtResource( 26 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -2403,6 +1991,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 31 )]
+[node name="Hp" parent="." instance=ExtResource( 27 )]
 position = Vector2( 0, -45 )
+
+[node name="Energyshield" parent="." instance=ExtResource( 28 )]
+scale = Vector2( 0.4, 0.4 )
 
