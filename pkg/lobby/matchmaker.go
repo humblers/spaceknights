@@ -2,13 +2,14 @@ package lobby
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand"
 	"net"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/boj/redistore"
@@ -16,79 +17,137 @@ import (
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
-type MatchMaker struct {
-	*Router
-	redisPool     *redis.Pool
-	matchWaitings map[string]chan game.Config
-
-	logger *log.Logger
+type MatchMaker interface {
+	http.Handler
+	Stop()
 }
 
-func MatchRouter(path string, m *http.ServeMux, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) *MatchMaker {
-	mm := &MatchMaker{
-		Router:        NewRouter(path, m, ss, p, l),
+type matchMaker struct {
+	*Router
+
+	cancelFunc    context.CancelFunc
+	cancelWait    sync.WaitGroup
+	mu            sync.Mutex
+	matchWaitings map[string]chan MatchResponse
+
+	redisPool *redis.Pool
+	logger    *log.Logger
+}
+
+func NewMatchMaker(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, MatchMaker) {
+	mm := &matchMaker{
+		Router: &Router{
+			path:         path,
+			sessionStore: ss,
+			redisPool:    p,
+			logger:       l,
+		},
 		redisPool:     p,
-		matchWaitings: make(map[string]chan game.Config),
+		matchWaitings: make(map[string]chan MatchResponse),
 		logger:        l,
 	}
-	mm.Post("/request", mm.Request)
-	go mm.run()
-	go mm.subscribe()
-	return mm
+	mm.Post("request", mm.request)
+	ctx, cancel := context.WithCancel(context.Background())
+	mm.cancelFunc = cancel
+	go mm.run(ctx)
+	go mm.subscribe(ctx)
+	return path, mm
 }
 
-func (mm *MatchMaker) run() {
-	ticker := time.NewTicker(time.Millisecond * 1000)
+func (mm *matchMaker) Stop() {
+	mm.cancelFunc()
+	mm.cancelWait.Wait()
+
+	args := redis.Args{"match:waitings"}
+	mm.mu.Lock()
+	for k, v := range mm.matchWaitings {
+		v <- MatchResponse{ErrMessage: "match request fail"}
+		delete(mm.matchWaitings, k)
+		args = args.Add(k)
+	}
+	mm.mu.Unlock()
+
+	rc := mm.redisPool.Get()
+	defer rc.Close()
+	if closure, err := lockKey(rc, "match:lock", 2*time.Second); err != nil {
+		mm.logger.Printf("[MATCH] db lock failed on shutdown: %v", err)
+	} else {
+		defer closure()
+	}
+	rc.Do("ZREM", args)
+}
+
+func (mm *matchMaker) run(ctx context.Context) {
+	mm.cancelWait.Add(1)
+	defer mm.cancelWait.Done()
+
+	ticker := time.NewTicker(1000 * time.Millisecond)
 	defer ticker.Stop()
+
 	for {
 		select {
 		case <-ticker.C:
-			mm.MatchMaking()
+			mm.matchMaking(ctx)
+		case <-ctx.Done():
+			return
 		}
 	}
 }
 
-func (mm *MatchMaker) subscribe() {
+func (mm *matchMaker) subscribe(ctx context.Context) {
+	rc := mm.redisPool.Get()
+	rc.Send("SUBSCRIBE", "match")
+	rc.Flush()
+	defer func() {
+		rc.Send("UNSUBSCRIBE", "match")
+		rc.Flush()
+		rc.Close()
+	}()
+
+	go func() {
+		mm.cancelWait.Add(1)
+		defer mm.cancelWait.Done()
+		for {
+			reply, err := redis.Values(rc.Receive())
+			if err != nil {
+				if err.Error() == "redigo: connection closed" {
+					return
+				}
+				panic(err)
+			}
+			if len(reply) > 2 && string(reply[0].([]byte)) == "message" && string(reply[1].([]byte)) == "match" {
+				var cfg game.Config
+				if err := json.Unmarshal(reply[2].([]byte), &cfg); err != nil {
+					mm.logger.Print(err)
+					continue
+				}
+				mm.mu.Lock()
+				for _, player := range cfg.Players {
+					if ch, ok := mm.matchWaitings[player.Id]; ok {
+						ch <- MatchResponse{Config: cfg}
+						delete(mm.matchWaitings, player.Id)
+					}
+				}
+				mm.mu.Unlock()
+			}
+		}
+	}()
+	<-ctx.Done()
+}
+
+func (mm *matchMaker) publish(message []byte) {
+	rc := mm.redisPool.Get()
+	defer rc.Close()
+	if _, err := rc.Do("PUBLISH", "match", message); err != nil {
+		panic(err)
+	}
+}
+
+func (mm *matchMaker) matchMaking(ctx context.Context) {
 	rc := mm.redisPool.Get()
 	defer rc.Close()
 
-	rc.Send("SUBSCRIBE", "match")
-	rc.Flush()
-	_, err := rc.Receive() // ignore first receive
-	if err != nil {
-		panic(err)
-	}
-	for {
-		reply, err := redis.Values(rc.Receive())
-		if err != nil {
-			panic(err)
-		}
-		if len(reply) > 2 && string(reply[0].([]byte)) == "message" && string(reply[1].([]byte)) == "match" {
-			mm.logger.Printf("[SUBSCRIBE] %v", string(reply[2].([]byte)))
-			var cfg game.Config
-			if err := json.Unmarshal(reply[2].([]byte), &cfg); err != nil {
-				mm.logger.Print(err)
-				continue
-			}
-			for _, player := range cfg.Players {
-				if ch, ok := mm.matchWaitings[player.Id]; ok {
-					ch <- cfg
-				}
-			}
-		}
-	}
-}
-
-func (mm *MatchMaker) MatchMaking() {
-	rval := make([]byte, 20)
-	if _, err := rand.Read(rval); err != nil {
-		return
-	}
-
-	c := mm.redisPool.Get()
-	defer c.Close()
-
-	closure, err := lock(c, "match:lock", rval, time.Second*2)
+	closure, err := lockKey(rc, "match:lock", 2*time.Second)
 	if err != nil {
 		mm.logger.Printf("error locking(%v)", err)
 		return
@@ -99,7 +158,7 @@ func (mm *MatchMaker) MatchMaking() {
 		}
 	}()
 
-	waitings, err := redis.Values(c.Do("ZRANGE", "match:waitings", 0, -1, "WITHSCORES"))
+	waitings, err := redis.Values(rc.Do("ZRANGE", "match:waitings", 0, -1, "WITHSCORES"))
 	if err != nil {
 		return
 	}
@@ -112,100 +171,122 @@ func (mm *MatchMaker) MatchMaking() {
 		if err != nil {
 			break
 		}
-		cnt, err := redis.Int(c.Do("ZREM", "match:waitings", uid1, uid2))
+		cnt, err := redis.Int(rc.Do("ZREM", "match:waitings", uid1, uid2))
 		if err != nil {
 			panic(err)
 		}
 		if cnt != 2 {
-			panic(fmt.Errorf("expect count == 2, actual num: %v", cnt))
+			mm.logger.Printf("expect count == 2, actual num: %v", cnt)
+			continue
 		}
-		go mm.MatchNotice(uid1, uid2, regTime1, regTime2)
+		go mm.createMatchConfig(ctx, uid1, uid2, regTime1, regTime2)
 	}
 }
 
-func (mm *MatchMaker) MatchNotice(uid1, uid2 string, regTime1, regTime2 int) {
+func (mm *matchMaker) createMatchConfig(ctx context.Context, uid1, uid2 string, regTime1, regTime2 int) {
 	rc := mm.redisPool.Get()
 	defer rc.Close()
 
-	var err error
-	defer func() {
-		if err != nil {
-			mm.logger.Printf("rollback waitings: %v", err)
-			if _, err := rc.Do("ZADD", "match:waitings", regTime1, uid1, regTime2, uid2); err != nil {
-				mm.logger.Printf("rollback waitings fail: %v", err)
+	go func() {
+		mm.cancelWait.Add(1)
+		defer mm.cancelWait.Done()
+
+		var err error
+		defer func() {
+			if err != nil {
+				mm.logger.Printf("rollback waitings: %v", err)
+				// get new connection. because already closed by cancel context
+				c := mm.redisPool.Get()
+				defer c.Close()
+				if _, err := c.Do("ZADD", "match:waitings", regTime1, uid1, regTime2, uid2); err != nil {
+					mm.logger.Printf("rollback waitings fail: %v", err)
+				}
 			}
+		}()
+
+		config := game.Config{
+			MapName: "Thanatos",
 		}
+		var blue game.PlayerData
+		blue, err = mm.getPlayerData(rc, uid1, "Blue")
+		if err != nil {
+			return
+		}
+		config.Players = append(config.Players, blue)
+		var red game.PlayerData
+		red, err = mm.getPlayerData(rc, uid2, "Red")
+		if err != nil {
+			return
+		}
+		config.Players = append(config.Players, red)
+		var sid int
+		sid, err = redis.Int(rc.Do("INCR", "gen:session"))
+		if err != nil {
+			return
+		}
+		config.Id = strconv.Itoa(sid)
+
+		var conn net.Conn
+		conn, err = net.DialTimeout("tcp", ":9989", 1*time.Second)
+		if err != nil {
+			return
+		}
+		defer conn.Close()
+		var packet []byte
+		packet, err = json.Marshal(config)
+		if err != nil {
+			return
+		}
+		_, err = conn.Write(append(packet, '\n'))
+		if err != nil {
+			return
+		}
+		if err = conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
+			return
+		}
+		reader := bufio.NewReader(conn)
+		b, err := reader.ReadBytes('\n')
+		if err != nil {
+			return
+		}
+		var resp game.LobbyResponse
+		if err = json.Unmarshal(b, &resp); err != nil {
+			return
+		}
+		if !resp.Created {
+			err = fmt.Errorf("game server can't create game session")
+			return
+		}
+		mm.publish(packet)
+
 	}()
-
-	config := game.Config{
-		MapName: "Thanatos",
-	}
-	blue, err := mm.getPlayerData(rc, uid1, "Blue")
-	if err != nil {
-		return
-	}
-	config.Players = append(config.Players, blue)
-	red, err := mm.getPlayerData(rc, uid2, "Red")
-	if err != nil {
-		return
-	}
-	config.Players = append(config.Players, red)
-	sid, err := redis.Int(rc.Do("INCR", "gen:session"))
-	if err != nil {
-		return
-	}
-	config.Id = strconv.Itoa(sid)
-
-	conn, err := net.DialTimeout("tcp", ":9989", time.Second*5)
-	if err != nil {
-		return
-	}
-	defer conn.Close()
-	packet, err := json.Marshal(config)
-	if err != nil {
-		return
-	}
-	packet = append(packet, '\n')
-	_, err = conn.Write(packet)
-	if err != nil {
-		return
-	}
-	if err = conn.SetReadDeadline(time.Now().Add(time.Second * 5)); err != nil {
-		return
-	}
-	reader := bufio.NewReader(conn)
-	b, err := reader.ReadBytes('\n')
-	if err != nil {
-		return
-	}
-	var resp game.LobbyResponse
-	if err = json.Unmarshal(b, &resp); err != nil {
-		return
-	}
-	if !resp.Created {
-		err = fmt.Errorf("game server can't create game session")
-		return
-	}
-	_, err = rc.Do("PUBLISH", "match", packet)
+	<-ctx.Done()
 }
 
-func (mm *MatchMaker) Request(b *bases, w http.ResponseWriter, r *http.Request) {
-	var resp MatchResponse
-	b.response = &resp
-
+func (mm *matchMaker) request(b *bases, w http.ResponseWriter, r *http.Request) {
 	c := b.redisConn
 	if _, err := c.Do("ZADD", "match:waitings", "NX", time.Now().Unix(), b.uid); err != nil {
-		resp.ErrMessage = "match fail"
+		b.response = &MatchResponse{ErrMessage: "match request fail"}
 		return
 	}
-	mm.logger.Printf("[MATCH] requested")
-	mm.matchWaitings[b.uid] = make(chan game.Config)
-	resp.Config = <-mm.matchWaitings[b.uid]
-	resp.Address = "13.125.74.237"
-	mm.logger.Printf("[MATCH] created")
+
+	ch := make(chan MatchResponse)
+	mm.mu.Lock()
+	mm.matchWaitings[b.uid] = ch
+	mm.mu.Unlock()
+
+	select {
+	case resp := <-ch:
+		b.response = &resp
+		if resp.ErrMessage == "" {
+			mm.logger.Printf("[MATCH] created")
+		}
+	case <-r.Context().Done():
+		b.response = &MatchResponse{ErrMessage: "match request fail"}
+	}
 }
 
-func (m *MatchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.PlayerData, error) {
+func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.PlayerData, error) {
 	data := game.PlayerData{
 		Id:   uid,
 		Team: game.Team(team),

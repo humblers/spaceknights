@@ -68,9 +68,10 @@ func main() {
 
 	// set http mux for routing
 	m := http.NewServeMux()
-	lobby.AuthRouter("/auth", m, ss, p, logger)
-	lobby.DataRouter("/data", m, ss, p, logger)
-	lobby.MatchRouter("/match", m, ss, p, logger)
+	m.Handle(lobby.NewAuthRouter("/auth/", ss, p, logger))
+	m.Handle(lobby.NewDataRouter("/data/", ss, p, logger))
+	path, mm := lobby.NewMatchMaker("/match/", ss, p, logger)
+	m.Handle(path, mm)
 
 	// gracefully shutdown http server
 	hs := &http.Server{Addr: ":8080", Handler: gcontext.ClearHandler(m)}
@@ -80,6 +81,7 @@ func main() {
 		signal.Notify(stop, syscall.SIGINT)
 		<-stop
 
+		mm.Stop()
 		// Shutdown close http connection gracefully
 		if err := hs.Shutdown(context.Background()); err != nil {
 			logger.Printf("HTTP server Shutdown(%v)", err)

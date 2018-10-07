@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math/rand"
 	"reflect"
 	"strings"
 	"time"
@@ -304,7 +305,12 @@ func loadStructFromMultipleKeys(rc redis.Conn, dest interface{}, prefix string) 
 
 // lock for redis single instance. if U want lock for multiple redis masters, see below link
 // https://redis.io/topics/distlock
-func lock(c redis.Conn, key string, val []byte, expire time.Duration) (func() error, error) {
+func lockKey(c redis.Conn, key string, expire time.Duration) (func() error, error) {
+	val := make([]byte, 20)
+	if _, err := rand.Read(val); err != nil {
+		return nil, err
+	}
+
 	inMilli := expire.Nanoseconds() / 1000 / 1000
 	ret, err := c.Do("SET", key, val, "PX", inMilli, "NX")
 	if err != nil {

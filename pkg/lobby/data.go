@@ -10,7 +10,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-type Card struct {
+type card struct {
 	Cost   int
 	Unit   string
 	Count  int
@@ -33,9 +33,9 @@ const (
 	Casting Layer = "casting"
 )
 
-var cards = map[string]Card{
+var cards = map[string]card{
 /* //sample card
-"archers": Card{
+"archers": card{
 	Cost:   3000,
 	Unit:   "archer",
 	Count:  2,
@@ -83,26 +83,31 @@ var units = map[string]map[string]interface{}{
 }, */
 }
 
-type Data struct {
+type dataRouter struct {
 	*Router
 	logger *log.Logger
 }
 
-func DataRouter(path string, m *http.ServeMux, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) *Data {
-	d := &Data{
-		Router: NewRouter(path, m, ss, p, l),
+func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+	d := &dataRouter{
+		Router: &Router{
+			path:         path,
+			sessionStore: ss,
+			redisPool:    p,
+			logger:       l,
+		},
 		logger: l,
 	}
-	d.Post("/cards", d.cards)
-	d.Post("/units", d.units)
-	return d
+	d.Post("cards", d.cards)
+	d.Post("units", d.units)
+	return path, http.TimeoutHandler(d, TimeoutDefault, TimeoutMessage)
 }
 
-func (d *Data) cards(b *bases, w http.ResponseWriter, r *http.Request) {
+func (d *dataRouter) cards(b *bases, w http.ResponseWriter, r *http.Request) {
 	b.response = &CardResponse{Cards: cards}
 }
 
-func (d *Data) units(b *bases, w http.ResponseWriter, r *http.Request) {
+func (d *dataRouter) units(b *bases, w http.ResponseWriter, r *http.Request) {
 	b.response = &UnitResponse{Units: units}
 }
 
@@ -119,7 +124,7 @@ func LoadDataFromDB(rp *redis.Pool, overwrite bool) {
 	}
 	for i := 0; i < len(src); i += 2 {
 		k, v := string(src[i].([]byte)), src[i+1].([]byte)
-		var card Card
+		var card card
 		if err := json.Unmarshal(v, &card); err != nil {
 			panic(fmt.Errorf("json parsing err while load data from db: %v", err))
 		}

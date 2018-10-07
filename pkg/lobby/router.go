@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
@@ -28,7 +28,9 @@ const (
 	mTRACE
 )
 
-const SESSION_AUTH = "auth"
+const AuthSession = "auth"
+const TimeoutDefault = 5 * time.Second
+const TimeoutMessage = string(`{"ErrMessage":"503 Handler timeout"}`)
 
 var methodMap = map[string]methodType{
 	"CONNECT": mCONNECT,
@@ -56,32 +58,18 @@ type route struct {
 }
 
 type Router struct {
-	path    string
-	route   map[string]route
-	session *redistore.RediStore
-	pool    *redis.Pool
-	logger  *log.Logger
-}
+	path  string
+	route map[string]route
 
-func NewRouter(path string, m *http.ServeMux, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) *Router {
-	rt := &Router{
-		path:    path,
-		route:   make(map[string]route),
-		session: ss,
-		pool:    p,
-		logger:  l,
-	}
-	if path[len(path)-1:] != "/" {
-		path += "/"
-	}
-	m.Handle(path, rt)
-	return rt
+	sessionStore *redistore.RediStore
+	redisPool    *redis.Pool
+	logger       *log.Logger
 }
 
 func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	status := http.StatusOK
 	b := &bases{
-		redisConn: rt.pool.Get(),
+		redisConn: rt.redisPool.Get(),
 	}
 	defer b.redisConn.Close()
 	defer func() {
@@ -100,7 +88,7 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		b.response = &CommonResponse{"405 method not allowed"}
 		return
 	}
-	session, err := rt.session.Get(r, SESSION_AUTH)
+	session, err := rt.sessionStore.Get(r, AuthSession)
 	if err != nil {
 		status = http.StatusServiceUnavailable
 		b.response = &CommonResponse{"503 service unavailable"}
@@ -115,6 +103,9 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (rt *Router) registerHandler(method methodType, path string, h handler) {
 	if _, exist := rt.route[path]; exist {
 		panic(errors.New("path already exist"))
+	}
+	if rt.route == nil {
+		rt.route = make(map[string]route)
 	}
 	rt.route[path] = route{
 		method:  method,
@@ -142,7 +133,6 @@ func writeHeader(w http.ResponseWriter, code int) {
 
 func (rt *Router) responseJSON(w http.ResponseWriter, r *http.Request, code int, in interface{}) {
 	if in == nil {
-		fmt.Printf("whoray!!")
 		in = &CommonResponse{}
 	}
 	buf := &bytes.Buffer{}

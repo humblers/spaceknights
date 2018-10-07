@@ -23,7 +23,7 @@ type LoginResponse struct {
 
 type CardResponse struct {
 	ErrMessage string
-	Cards      map[string]Card
+	Cards      map[string]card
 }
 
 type UnitResponse struct {

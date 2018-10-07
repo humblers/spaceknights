@@ -10,24 +10,29 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-type Auth struct {
-	router       *Router
+type authRouter struct {
+	*Router
 	sessionStore *redistore.RediStore
 	logger       *log.Logger
 }
 
-func AuthRouter(path string, m *http.ServeMux, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) *Auth {
-	a := &Auth{
-		router:       NewRouter(path, m, ss, p, l),
+func NewAuthRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+	a := &authRouter{
+		Router: &Router{
+			path:         path,
+			sessionStore: ss,
+			redisPool:    p,
+			logger:       l,
+		},
 		sessionStore: ss,
 		logger:       l,
 	}
-	a.router.Post("/login", a.Login)
-	a.router.Post("/logout", a.Logout)
-	return a
+	a.Post("login", a.login)
+	a.Post("logout", a.logout)
+	return path, http.TimeoutHandler(a, TimeoutDefault, TimeoutMessage)
 }
 
-func (a *Auth) Login(b *bases, w http.ResponseWriter, r *http.Request) {
+func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 	var resp LoginResponse
 	b.response = &resp
 
@@ -47,14 +52,14 @@ func (a *Auth) Login(b *bases, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp.UID, resp.User, err = UserFromPlatformInfo(b.redisConn, req.PType, req.PID, enableEmpty)
+	resp.UID, resp.User, err = userFromPlatformInfo(b.redisConn, req.PType, req.PID, enableEmpty)
 	if err != nil {
 		a.logger.Printf("query user fail(%v)", err)
 		resp.ErrMessage = "login fail"
 		return
 	}
 	resp.Token = resp.UID
-	session, err := a.sessionStore.Get(r, SESSION_AUTH)
+	session, err := a.sessionStore.Get(r, AuthSession)
 	if err != nil {
 		resp.ErrMessage = "login fail"
 		return
@@ -66,10 +71,10 @@ func (a *Auth) Login(b *bases, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *Auth) Logout(b *bases, w http.ResponseWriter, r *http.Request) {
+func (a *authRouter) logout(b *bases, w http.ResponseWriter, r *http.Request) {
 	var resp CommonResponse
 	b.response = &resp
-	session, err := a.sessionStore.Get(r, SESSION_AUTH)
+	session, err := a.sessionStore.Get(r, AuthSession)
 	if err != nil {
 		resp.ErrMessage = "logout fail"
 		return
@@ -82,7 +87,7 @@ func (a *Auth) Logout(b *bases, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UserFromPlatformInfo(rc redis.Conn, ptype string, pid string, enableEmpty bool) (string, *user, error) {
+func userFromPlatformInfo(rc redis.Conn, ptype string, pid string, enableEmpty bool) (string, *user, error) {
 	if enableEmpty && pid == "" {
 		ret, err := redis.Int(rc.Do("INCR", fmt.Sprintf("gen:%v", ptype)))
 		if err != nil {
@@ -97,7 +102,7 @@ func UserFromPlatformInfo(rc redis.Conn, ptype string, pid string, enableEmpty b
 	}
 	uid, err := redis.String(rc.Do("GET", pkey))
 	if err == nil {
-		user, err := UserFromUID(rc, uid)
+		user, err := userFromUID(rc, uid)
 		return uid, user, err
 	}
 	if err != redis.ErrNil {
@@ -119,7 +124,7 @@ func UserFromPlatformInfo(rc redis.Conn, ptype string, pid string, enableEmpty b
 	return uid, user, nil
 }
 
-func UserFromUID(rc redis.Conn, uid string) (*user, error) {
+func userFromUID(rc redis.Conn, uid string) (*user, error) {
 	user := &user{
 		Cards: make(map[string]userCard),
 	}

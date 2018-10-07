@@ -1,4 +1,4 @@
-package redis
+package lobby
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-func TestLock(t *testing.T) {
+func TestRedis_Lock(t *testing.T) {
 	p := &redis.Pool{
 		Dial: func() (redis.Conn, error) {
 			c, err := redis.Dial("tcp", ":6379")
@@ -24,7 +24,7 @@ func TestLock(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	val := make([]byte, 20)
 	rand.Read(val)
-	closure, err := Lock(c, "test:lock", val, time.Second*60)
+	closure, err := lock(c, "test:lock", val, time.Second*60)
 	if err != nil {
 		fmt.Printf("error locking(%v)", err)
 		return
