@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://game/unit/astra/astra.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/astra/frame.png" type="Texture" id=2]
@@ -375,57 +375,13 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="Gradient" id=30]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 0, 0.390625, 1, 1 )
-
-[sub_resource type="GradientTexture" id=31]
-
-flags = 4
-gradient = SubResource( 30 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=32]
+[sub_resource type="CanvasItemMaterial" id=33]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 90.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 31 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Radial Accel", "Spread" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="CanvasItemMaterial" id=33]
+[sub_resource type="CanvasItemMaterial" id=35]
 
 render_priority = 0
 blend_mode = 1
@@ -769,6 +725,7 @@ texture = ExtResource( 9 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="BoosterTop" type="Sprite" parent="Rotatable/Body/Core"]
+editor/display_folded = true
 position = Vector2( 0, 70 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Transform" ]
@@ -822,6 +779,7 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="BoosterRignt" type="Sprite" parent="Rotatable/Body/Core"]
+editor/display_folded = true
 position = Vector2( 33, 70 )
 texture = ExtResource( 17 )
 _sections_unfolded = [ "Transform" ]
@@ -875,6 +833,7 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="BoosterLeft" type="Sprite" parent="Rotatable/Body/Core"]
+editor/display_folded = true
 position = Vector2( -33, 70 )
 texture = ExtResource( 17 )
 flip_h = true
@@ -933,7 +892,6 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="Cover" type="Node2D" parent="Rotatable/Body"]
-editor/display_folded = true
 position = Vector2( 0, 7 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1005,6 +963,7 @@ flip_h = true
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="CoverTop" type="Sprite" parent="Rotatable/Body/Cover"]
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 27 )
 offset = Vector2( 0, -40 )
@@ -1037,6 +996,7 @@ texture = ExtResource( 30 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="ShotpointC" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, -80 )
 _sections_unfolded = [ "Transform" ]
@@ -1209,13 +1169,10 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
-visible = false
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="ExRing1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -1282,8 +1239,8 @@ visible = false
 texture = ExtResource( 47 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Particles2D" type="Particles2D" parent="Rotatable/Explosion/Main"]
-scale = Vector2( 2, 2 )
+[node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
+scale = 1.5
 emitting = false
 amount = 35
 lifetime = 1.0
@@ -1294,15 +1251,54 @@ explosiveness = 0.5
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 32 )
 texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 180.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.5
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.54902, 0.65098, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity", "Process Material", "Radial Accel", "Scale", "Time", "Transform" ]
 
 [node name="Center" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -1313,9 +1309,10 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Center2" type="Sprite" parent="Rotatable/Explosion/Main/Center"]
+material = SubResource( 35 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 16 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 root_node = NodePath("..")
