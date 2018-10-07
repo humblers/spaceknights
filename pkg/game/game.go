@@ -335,6 +335,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 		u = newArcher(id, level, posX, posY, g, p)
 	case "astra":
 		u = newAstra(id, level, posX, posY, g, p)
+	case "archengineer":
+		u = newArchengineer(id, level, posX, posY, g, p)
 	case "tombstone":
 		u = newTombstone(id, level, posX, posY, g, p)
 	case "barrack":
