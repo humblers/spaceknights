@@ -1,22 +1,23 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://game/unit/blastturret/missile.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/blastturret/missile_blaster.png" type="Texture" id=2]
 [ext_resource path="res://game/vfx/thrust.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=5]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=10]
 
-[sub_resource type="CanvasItemMaterial" id=26]
+[sub_resource type="CanvasItemMaterial" id=1]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="SpriteFrames" id=27]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
@@ -25,252 +26,35 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=29]
-
-min_value = -360.0
-max_value = 360.0
-bake_resolution = 100
-_data = [ Vector2( 0.00921278, -15.4688 ), 0.0, 0.0, 0, 0, Vector2( 0.987674, -15.4688 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=30]
-
-flags = 4
-width = 2048
-curve = SubResource( 29 )
-
-[sub_resource type="Gradient" id=31]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.421875, 0.421875, 0.421875, 0, 0, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=32]
-
-flags = 4
-gradient = SubResource( 31 )
-width = 2048
-
-[sub_resource type="Curve" id=33]
+[sub_resource type="Curve" id=26]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.1304 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9752 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=34]
-
-flags = 4
-width = 2048
-curve = SubResource( 33 )
-
-[sub_resource type="ParticlesMaterial" id=35]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.5
-angular_velocity_curve = SubResource( 30 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 10.0
-damping_random = 0.5
-angle = 360.0
-angle_random = 1.0
-scale = 2.0
-scale_random = 0.0
-scale_curve = SubResource( 34 )
-color_ramp = SubResource( 32 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color" ]
-
-[sub_resource type="Gradient" id=36]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.615051, 0.0703125, 0.850824, 1, 0.28125, 0, 0 )
-
-[sub_resource type="GradientTexture" id=37]
-
-flags = 4
-gradient = SubResource( 36 )
-width = 2048
-_sections_unfolded = [ "Resource" ]
-
-[sub_resource type="Curve" id=38]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=39]
-
-flags = 4
-width = 2048
-curve = SubResource( 38 )
-
-[sub_resource type="ParticlesMaterial" id=40]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 30.0
-radial_accel_random = 0.2
-tangential_accel = 60.0
-tangential_accel_random = 0.5
-damping = 10.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.5
-scale_curve = SubResource( 39 )
-color_ramp = SubResource( 37 )
-hue_variation = 1.0
-hue_variation_random = 0.04
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Scale" ]
-
-[sub_resource type="Gradient" id=41]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.972656, 0.798238, 0.113983, 1, 1, 0.46875, 0, 1 )
-
-[sub_resource type="GradientTexture" id=42]
-
-flags = 4
-gradient = SubResource( 41 )
-width = 2048
-
-[sub_resource type="Curve" id=43]
-
-min_value = -200.0
-max_value = 200.0
-bake_resolution = 100
-_data = [ Vector2( 0.110406, 85.9375 ), 0.0, 0.0, 0, 0, Vector2( 0.568111, -158.984 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=44]
-
-flags = 4
-width = 2048
-curve = SubResource( 43 )
-
-[sub_resource type="Curve" id=45]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.923066, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=46]
-
-flags = 4
-width = 2048
-curve = SubResource( 45 )
-
-[sub_resource type="ParticlesMaterial" id=47]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 30.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 0.5
-radial_accel_curve = SubResource( 44 )
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.5
-scale_curve = SubResource( 46 )
-color_ramp = SubResource( 42 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Hue Variation" ]
-
-[sub_resource type="CanvasItemMaterial" id=48]
+[sub_resource type="CanvasItemMaterial" id=22]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="SpriteFrames" id=49]
+[sub_resource type="SpriteFrames" id=23]
 
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=50]
+[sub_resource type="CanvasItemMaterial" id=24]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=25]
 
 length = 1.5
 loop = false
@@ -348,7 +132,7 @@ tracks/5/keys = {
 "values": [ 1.00179e-005, 10.0, -5.0, 0.0, -15.0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("HitPosition/Explosion/around:emitting")
+tracks/6/path = NodePath("HitPosition/Explosion/center:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -360,7 +144,7 @@ tracks/6/keys = {
 "values": [ true ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("HitPosition/Explosion/center:emitting")
+tracks/7/path = NodePath("HitPosition/Explosion/Explosion:emitting")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -372,7 +156,7 @@ tracks/7/keys = {
 "values": [ true ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("HitPosition/Explosion/particle:emitting")
+tracks/8/path = NodePath("HitPosition/Exp:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -384,7 +168,7 @@ tracks/8/keys = {
 "values": [ true ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("HitPosition/Exp:visible")
+tracks/9/path = NodePath("HitPosition/Sprite:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -396,47 +180,46 @@ tracks/9/keys = {
 "values": [ true ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("HitPosition/Sprite:visible")
+tracks/10/path = NodePath("HitPosition:modulate")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/11/type = "value"
-tracks/11/path = NodePath("HitPosition:modulate")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
 "times": PoolRealArray( 1, 1.3, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/11/type = "value"
+tracks/11/path = NodePath("HitPosition:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 tracks/12/type = "value"
-tracks/12/path = NodePath("HitPosition:visible")
+tracks/12/path = NodePath("HitPosition/Explosion/Particle2:emitting")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ true ]
 }
 
 [node name="missile" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="MissileL1" type="Sprite" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( -13, -300 )
 rotation = 0.261799
@@ -444,33 +227,32 @@ texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="Position2D" parent="MissileL1"]
-editor/display_folded = true
 position = Vector2( 0, 10 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="MissileL1/Thrust"]
 modulate = Color( 1, 0.564706, 0.219608, 1 )
-material = SubResource( 26 )
-scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 27 )
+material = SubResource( 1 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 2 )
 animation = "default"
 playing = true
-offset = Vector2( 0, 50 )
+offset = Vector2( 0, 25 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Thrust2" type="AnimatedSprite" parent="MissileL1/Thrust"]
 modulate = Color( 1, 0.564706, 0.219608, 1 )
-material = SubResource( 26 )
-scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 27 )
+material = SubResource( 1 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
-offset = Vector2( 0, 50 )
+offset = Vector2( 0, 25 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileR1" type="Sprite" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 13, -300 )
 rotation = -0.261799
@@ -478,34 +260,31 @@ texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust2" type="Position2D" parent="MissileR1"]
-editor/display_folded = true
 position = Vector2( 0, 10 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="MissileR1/Thrust2"]
 modulate = Color( 1, 0.564706, 0.219608, 1 )
-material = SubResource( 26 )
-scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 27 )
+material = SubResource( 1 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 2 )
 animation = "default"
 playing = true
-offset = Vector2( 0, 50 )
+offset = Vector2( 0, 25 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Thrust2" type="AnimatedSprite" parent="MissileR1/Thrust2"]
 modulate = Color( 1, 0.564706, 0.219608, 1 )
-material = SubResource( 26 )
-scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 27 )
+material = SubResource( 1 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 2 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
-offset = Vector2( 0, 50 )
+offset = Vector2( 0, 25 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="HitPosition" type="Position2D" parent="."]
-editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -300 )
@@ -516,30 +295,8 @@ position = Vector2( 1, 0.999985 )
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="around" type="Particles2D" parent="HitPosition/Explosion"]
-scale = Vector2( 1.5, 1.5 )
-emitting = true
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.5
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 35 )
-texture = ExtResource( 5 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
-
-[node name="center" type="Particles2D" parent="HitPosition/Explosion"]
-scale = Vector2( 1.5, 1.5 )
+[node name="center" type="CPUParticles2D" parent="HitPosition/Explosion"]
+material = ExtResource( 5 )
 emitting = true
 amount = 10
 lifetime = 1.0
@@ -550,18 +307,58 @@ explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 40 )
-texture = ExtResource( 5 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+texture = ExtResource( 6 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 30.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 1, 0.458824, 0.0627451, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity", "Material", "Process Material", "Radial Accel", "Spread", "Time", "Transform" ]
 
-[node name="particle" type="Particles2D" parent="HitPosition/Explosion"]
-scale = Vector2( 1.4, 1.4 )
+[node name="Explosion" type="CPUParticles2D" parent="HitPosition/Explosion"]
+material = ExtResource( 5 )
+scale = 1.5
 emitting = true
 amount = 30
 lifetime = 1.0
@@ -572,22 +369,121 @@ explosiveness = 0.8
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 47 )
+texture = ExtResource( 6 )
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 0.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.5
+scale_random = 0.0
+scale_curve = SubResource( 26 )
+color = Color( 1, 0.454902, 0.054902, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Material", "Process Material", "Radial Accel", "Scale", "Spread", "Time", "Transform", "scale_curve" ]
+
+[node name="Particle2" type="CPUParticles2D" parent="HitPosition/Explosion"]
+scale = 1.5
+emitting = true
+amount = 16
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.5
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
 texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 90.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.5
+scale_random = 0.0
+scale_curve = null
+color = Color( 1, 0.67451, 0.411765, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity", "Radial Accel", "Scale", "Time" ]
 
 [node name="Exp" type="AnimatedSprite" parent="HitPosition"]
 modulate = Color( 1, 0.317647, 0.207843, 1 )
-material = SubResource( 48 )
+material = SubResource( 22 )
 position = Vector2( 2.17516, 11.444 )
 scale = Vector2( 1.5, 1.5 )
-frames = SubResource( 49 )
+frames = SubResource( 23 )
 animation = "default"
 frame = 1
 speed_scale = 2.0
@@ -595,9 +491,9 @@ playing = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite" type="Sprite" parent="HitPosition"]
-material = SubResource( 50 )
+material = SubResource( 24 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -606,6 +502,6 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 28 )
+anims/attack = SubResource( 25 )
 blend_times = [  ]
 

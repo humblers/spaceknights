@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://game/unit/barrack/floatingmachine.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/barrack/floatingmachine_s.png" type="Texture" id=2]
@@ -9,72 +9,14 @@
 [ext_resource path="res://game/vfx/beacon_black.png" type="Texture" id=7]
 [ext_resource path="res://game/vfx/beacon_red.png" type="Texture" id=8]
 
-[sub_resource type="Gradient" id=1]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.325961 )
-
-[sub_resource type="GradientTexture" id=2]
-
-flags = 4
-gradient = SubResource( 1 )
-width = 2048
-
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=1]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0, 0.0810547 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.392578 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.2272 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5616 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-
-flags = 4
-width = 2048
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, -120, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 30.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity", "Radial Accel", "Scale" ]
-
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
@@ -83,7 +25,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=3]
 
 length = 1.0
 loop = false
@@ -234,10 +176,10 @@ tracks/11/keys = {
 }
 
 [node name="Float" type="Node2D"]
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Set1" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( -70, -70 )
 texture = ExtResource( 1 )
 flip_h = true
@@ -270,9 +212,9 @@ texture = ExtResource( 5 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Particles2D" type="Particles2D" parent="Set1"]
+[node name="Particles2D" type="CPUParticles2D" parent="Set1"]
 position = Vector2( -20, -20 )
-rotation = -0.785397
+rotation = -3.66519
 emitting = false
 amount = 8
 lifetime = 0.5
@@ -283,22 +225,61 @@ explosiveness = 0.0
 randomness = 0.5
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 98.8 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 30.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 1 )
+color = Color( 1, 1, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Blank" type="AnimatedSprite" parent="Set1"]
 position = Vector2( -18, -18 )
 rotation = -0.785397
 scale = Vector2( 3, 0.5 )
-frames = SubResource( 6 )
+frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -327,9 +308,9 @@ texture = ExtResource( 4 )
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 5 )
 
-[node name="Particles2D2" type="Particles2D" parent="Set2"]
+[node name="Particles2D2" type="CPUParticles2D" parent="Set2"]
 position = Vector2( 20, -20 )
-rotation = 0.785397
+rotation = -2.35619
 emitting = false
 amount = 8
 lifetime = 0.5
@@ -340,22 +321,61 @@ explosiveness = 0.0
 randomness = 0.5
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 98.8 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 30.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 1 )
+color = Color( 1, 1, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Blank2" type="AnimatedSprite" parent="Set2"]
 position = Vector2( 18, -18 )
 rotation = 0.785398
 scale = Vector2( 3, 0.5 )
-frames = SubResource( 6 )
+frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -398,9 +418,9 @@ flip_h = true
 flip_v = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Particles2D3" type="Particles2D" parent="Set3"]
+[node name="Particles2D3" type="CPUParticles2D" parent="Set3"]
 position = Vector2( -20, 20 )
-rotation = -2.35619
+rotation = -5.49778
 emitting = false
 amount = 8
 lifetime = 0.5
@@ -411,26 +431,66 @@ explosiveness = 0.0
 randomness = 0.5
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 98.8 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 30.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 1 )
+color = Color( 1, 1, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Blank3" type="AnimatedSprite" parent="Set3"]
 position = Vector2( -18, 18 )
 rotation = -2.35619
 scale = Vector2( 3, 0.5 )
-frames = SubResource( 6 )
+frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
 [node name="Set4" type="Sprite" parent="."]
+editor/display_folded = true
 position = Vector2( 70, 70 )
 texture = ExtResource( 1 )
 flip_v = true
@@ -463,9 +523,9 @@ texture = ExtResource( 4 )
 flip_v = true
 _sections_unfolded = [ "Offset" ]
 
-[node name="Particles2D4" type="Particles2D" parent="Set4"]
+[node name="Particles2D4" type="CPUParticles2D" parent="Set4"]
 position = Vector2( 20, 20 )
-rotation = 2.35619
+rotation = -0.523598
 emitting = false
 amount = 8
 lifetime = 0.5
@@ -476,22 +536,61 @@ explosiveness = 0.0
 randomness = 0.5
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 98.8 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 30.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 1 )
+color = Color( 1, 1, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
 [node name="Blank4" type="AnimatedSprite" parent="Set4"]
 position = Vector2( 18, 18 )
 rotation = 2.35619
 scale = Vector2( 3, 0.5 )
-frames = SubResource( 6 )
+frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -501,6 +600,6 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/activate = SubResource( 7 )
+anims/activate = SubResource( 3 )
 blend_times = [  ]
 
