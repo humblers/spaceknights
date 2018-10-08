@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://game/unit/psabu/psabu.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/psabu/body.png" type="Texture" id=2]
@@ -49,14 +49,11 @@
 [ext_resource path="res://game/unit/psabu/foot_r.png" type="Texture" id=47]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=48]
 [ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=49]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=50]
-[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=51]
-[ext_resource path="res://game/vfx/energy_shield_2.png" type="Texture" id=52]
-[ext_resource path="res://game/vfx/energy_shield_1.png" type="Texture" id=53]
-[ext_resource path="res://game/vfx/laser_reflex.png" type="Texture" id=54]
-[ext_resource path="res://game/hpbar/hpshieldbar_l.tscn" type="PackedScene" id=55]
-[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=56]
-[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=57]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=50]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=51]
+[ext_resource path="res://game/hpbar/hpshieldbar_l.tscn" type="PackedScene" id=52]
+[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=53]
+[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=54]
 
 [sub_resource type="Curve" id=1]
 
@@ -65,7 +62,7 @@ max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=72]
 
 animations = [ {
 "frames": [ ExtResource( 32 ), ExtResource( 33 ) ],
@@ -390,420 +387,6 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Flags", "Gravity", "Spread" ]
-
-[sub_resource type="Animation" id=54]
-
-length = 0.5
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Shield/Light2:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 360.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Shield:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 2, 2 ), Vector2( 2, 2 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Shield:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Shield:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.777344, 0.827789, 1, 1 ), Color( 0.671875, 0.746216, 1, 1 ), Color( 0.671875, 0.746216, 1, 0 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Shield/Light1:rotation_degrees")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 360.0 ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath(".:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, true ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("ParticlePhysical/Particles2D2:emitting")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("ParticlePhysical/Particles:emitting")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("ParticlePhysical/Light2D:enabled")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("Mask:position")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, -167 ), Vector2( 0, 156 ) ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Mask:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/11/type = "value"
-tracks/11/path = NodePath("ParticleEnergy:modulate")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("ParticleEnergy/LaserL1/LightL1:energy")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("ParticleEnergy/LaserL2/LightL2:energy")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("ParticleEnergy/LaserL3/LightL3:energy")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("ParticleEnergy/LaserR1/LightR1:energy")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("ParticleEnergy/LaserR2/LightR2:energy")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("ParticleEnergy/LaserR3/LightR3:energy")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 2.0, 0.01 ]
-}
-tracks/18/type = "value"
-tracks/18/path = NodePath("ParticleEnergy/LaserL2:visible")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-
-[sub_resource type="Gradient" id=55]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.539063, 0.906372, 1, 0.761719, 0.181503, 0.725455, 1 )
-
-[sub_resource type="GradientTexture" id=56]
-
-flags = 4
-gradient = SubResource( 55 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=57]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 360.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 56 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Initial Velocity", "Spread" ]
-
-[sub_resource type="Gradient" id=58]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.506531, 0.0976563, 1, 1 )
-
-[sub_resource type="GradientTexture" id=59]
-
-flags = 4
-gradient = SubResource( 58 )
-width = 2048
-
-[sub_resource type="Curve" id=60]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0.491276 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=61]
-
-flags = 4
-width = 2048
-curve = SubResource( 60 )
-
-[sub_resource type="ParticlesMaterial" id=62]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 98, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 100.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 2.0
-scale_random = 0.5
-scale_curve = SubResource( 61 )
-color_ramp = SubResource( 59 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Scale", "Spread" ]
-
-[sub_resource type="Gradient" id=63]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0.398438, 0, 0.88949 )
-
-[sub_resource type="GradientTexture" id=64]
-
-flags = 4
-gradient = SubResource( 63 )
-width = 2048
-
-[sub_resource type="Curve" id=65]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0.513086 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.984197 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=66]
-
-flags = 4
-width = 2048
-curve = SubResource( 65 )
-
-[sub_resource type="ParticlesMaterial" id=67]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, -40, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 60.0
-linear_accel_random = 1.0
-radial_accel = 100.0
-radial_accel_random = 1.0
-tangential_accel = 30.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 2.0
-scale_random = 0.0
-scale_curve = SubResource( 66 )
-color_ramp = SubResource( 64 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Scale", "Tangential Accel" ]
 
 [sub_resource type="Animation" id=68]
 
@@ -4372,7 +3955,7 @@ modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
 material = ExtResource( 14 )
 position = Vector2( 0, 5 )
 scale = Vector2( 1.7, 1.8 )
-frames = SubResource( 9 )
+frames = SubResource( 72 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
@@ -4399,7 +3982,7 @@ modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
 material = ExtResource( 14 )
 position = Vector2( 0, 5 )
 scale = Vector2( 1.7, 1.8 )
-frames = SubResource( 9 )
+frames = SubResource( 72 )
 animation = "thrust"
 speed_scale = 3.0
 playing = true
@@ -5006,7 +4589,10 @@ anim_offset_curve = null
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Hue Variation", "Scale", "Spread", "Time", "Transform" ]
 
+[node name="Energyshield" parent="Rotatable" instance=ExtResource( 50 )]
+
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
@@ -5025,7 +4611,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 36 )
-texture = ExtResource( 50 )
+texture = ExtResource( 51 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -5046,7 +4632,7 @@ visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
 process_material = SubResource( 41 )
-texture = ExtResource( 50 )
+texture = ExtResource( 51 )
 normal_map = null
 h_frames = 1
 v_frames = 1
@@ -5142,456 +4728,6 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Energyshield" type="Node2D" parent="."]
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Energyshield"]
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/energyshield = SubResource( 54 )
-blend_times = [  ]
-
-[node name="Mask" type="Light2D" parent="Energyshield"]
-light_mask = 512
-position = Vector2( 0, 156 )
-scale = Vector2( 0.4, 0.1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 15 )
-offset = Vector2( 0, 0 )
-texture_scale = 5.0
-color = Color( 0.800049, 0.507813, 1, 1 )
-energy = 2.0
-mode = 2
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="Shield" type="Sprite" parent="Energyshield"]
-editor/display_folded = true
-visible = false
-modulate = Color( 0.671875, 0.746216, 1, 0 )
-self_modulate = Color( 0.918701, 0.71875, 1, 1 )
-light_mask = 512
-scale = Vector2( 2, 2 )
-texture = ExtResource( 51 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Light2" type="Light2D" parent="Energyshield/Shield"]
-rotation = 6.28319
-enabled = true
-editor_only = false
-texture = ExtResource( 52 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="Light1" type="Light2D" parent="Energyshield/Shield"]
-rotation = 6.28319
-enabled = true
-editor_only = false
-texture = ExtResource( 53 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.946289, 0.570313, 1, 1 )
-energy = 2.0
-mode = 2
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="Circuler" type="Particles2D" parent="Energyshield/Shield"]
-modulate = Color( 1, 1, 1, 0.196078 )
-light_mask = 512
-emitting = true
-amount = 1
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 57 )
-texture = ExtResource( 53 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform", "Visibility" ]
-
-[node name="ParticlePhysical" type="Node2D" parent="Energyshield"]
-editor/display_folded = true
-light_mask = 512
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Particles2D2" type="Particles2D" parent="Energyshield/ParticlePhysical"]
-light_mask = 512
-position = Vector2( 0, -108.3 )
-scale = Vector2( 2, 1 )
-emitting = false
-amount = 12
-lifetime = 0.5
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 1.0
-randomness = 0.5
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 62 )
-texture = ExtResource( 26 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Particles" type="Particles2D" parent="Energyshield/ParticlePhysical"]
-light_mask = 512
-position = Vector2( -0.999991, -100 )
-rotation = -3.14159
-scale = Vector2( 2, 2 )
-emitting = false
-amount = 30
-lifetime = 1.4
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 67 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Light2D" type="Light2D" parent="Energyshield/ParticlePhysical"]
-position = Vector2( -1, -100 )
-rotation = -3.14159
-scale = Vector2( 2, 1 )
-enabled = false
-editor_only = false
-texture = ExtResource( 27 )
-offset = Vector2( 0, 0 )
-texture_scale = 3.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform" ]
-
-[node name="ParticleEnergy" type="Node2D" parent="Energyshield"]
-modulate = Color( 1, 1, 1, 0 )
-light_mask = 512
-scale = Vector2( 1.2, 1 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="LaserL1" type="Sprite" parent="Energyshield/ParticleEnergy"]
-editor/display_folded = true
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 0.8, 3 )
-texture = ExtResource( 54 )
-offset = Vector2( -40, 55 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightL1" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL1"]
-position = Vector2( -40, 54.6667 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform", "Visibility" ]
-
-[node name="LaserL2" type="Sprite" parent="Energyshield/ParticleEnergy"]
-editor/display_folded = true
-visible = false
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 1.3, 2.8 )
-texture = ExtResource( 54 )
-offset = Vector2( -40, 55 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightL2" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL2"]
-position = Vector2( -40, 54.6667 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Range", "Transform" ]
-
-[node name="LaserL3" type="Sprite" parent="Energyshield/ParticleEnergy"]
-editor/display_folded = true
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 1.5, 2.5 )
-texture = ExtResource( 54 )
-offset = Vector2( -40, 55 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightL3" type="Light2D" parent="Energyshield/ParticleEnergy/LaserL3"]
-light_mask = 512
-position = Vector2( -40, 54.6667 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="LaserR1" type="Sprite" parent="Energyshield/ParticleEnergy"]
-editor/display_folded = true
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 0.4, 3.3 )
-texture = ExtResource( 54 )
-offset = Vector2( 40, 55 )
-flip_h = true
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightR1" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR1"]
-position = Vector2( 40, 54.6667 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="LaserR2" type="Sprite" parent="Energyshield/ParticleEnergy"]
-editor/display_folded = true
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 1.2, 2.8 )
-texture = ExtResource( 54 )
-offset = Vector2( 40, 55 )
-flip_h = true
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightR2" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR2"]
-position = Vector2( 40, 54.6667 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="LaserR3" type="Sprite" parent="Energyshield/ParticleEnergy"]
-light_mask = 512
-position = Vector2( 0, -126 )
-scale = Vector2( 1.5, 2.4 )
-texture = ExtResource( 54 )
-offset = Vector2( 40, 55 )
-flip_h = true
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
-
-[node name="LightR3" type="Light2D" parent="Energyshield/ParticleEnergy/LaserR3"]
-position = Vector2( 40, 54.6667 )
-rotation = -3.14159
-scale = Vector2( 1, -1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 54 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 0.570313, 0, 1, 1 )
-energy = 0.01
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="Light2D" type="Light2D" parent="Energyshield/ParticleEnergy"]
-position = Vector2( 7.71582e-006, -117 )
-rotation = -3.14159
-scale = Vector2( 3, 1 )
-enabled = true
-editor_only = false
-texture = ExtResource( 27 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.253906, 0.253906, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 512
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
@@ -5604,13 +4740,13 @@ anims/idle = SubResource( 70 )
 anims/move = SubResource( 71 )
 blend_times = [  ]
 
-[node name="Hp" parent="." instance=ExtResource( 55 )]
+[node name="Hp" parent="." instance=ExtResource( 52 )]
 position = Vector2( 0, -85 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 56 )
+stream = ExtResource( 53 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -5621,7 +4757,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 57 )
+stream = ExtResource( 54 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
