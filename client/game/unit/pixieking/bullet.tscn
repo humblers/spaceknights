@@ -1,8 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://game/script/bullet.gd" type="Script" id=1]
+[ext_resource path="res://game/script/bullet_cluster.gd" type="Script" id=1]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=2]
-
 
 [sub_resource type="Gradient" id=1]
 
@@ -120,12 +119,14 @@ anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Spread" ]
 
 [node name="bullet" type="Node2D"]
-
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="BulletTrail" type="Particles2D" parent="." index="0"]
+[node name="Left1" type="Node2D" parent="."]
+editor/display_folded = true
+visible = false
 
+[node name="BulletTrail" type="Particles2D" parent="Left1"]
 position = Vector2( 0, 5 )
 scale = Vector2( 0.4, 2 )
 emitting = true
@@ -148,8 +149,7 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
 
-[node name="Light2D" type="Light2D" parent="." index="1"]
-
+[node name="Light2D" type="Light2D" parent="Left1"]
 scale = Vector2( 0.2, 1 )
 enabled = true
 editor_only = false
@@ -174,8 +174,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particles" type="Particles2D" parent="." index="2"]
-
+[node name="Particles" type="Particles2D" parent="Left1"]
 position = Vector2( 0, -5 )
 emitting = true
 amount = 16
@@ -197,4 +196,83 @@ h_frames = 1
 v_frames = 1
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
+[node name="Right1" type="Node2D" parent="."]
+editor/display_folded = true
+visible = false
+
+[node name="BulletTrail" type="Particles2D" parent="Right1"]
+position = Vector2( 0, 5 )
+scale = Vector2( 0.4, 2 )
+emitting = true
+amount = 15
+lifetime = 1.0
+one_shot = false
+preprocess = 1.0
+speed_scale = 6.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+
+[node name="Light2D" type="Light2D" parent="Right1"]
+scale = Vector2( 0.2, 1 )
+enabled = true
+editor_only = false
+texture = ExtResource( 2 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Particles" type="Particles2D" parent="Right1"]
+position = Vector2( 0, -5 )
+emitting = true
+amount = 16
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.5
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 8 )
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
 

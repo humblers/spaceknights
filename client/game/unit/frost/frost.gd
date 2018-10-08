@@ -225,13 +225,16 @@ static func angle_diff(a, b):
 	
 func fire():
 	var b = resource.BULLET[name_].instance()
+
+	# client only
+	b.BULLET_COUNT = 6
+	b.spawnerId = Id()
+	b.shotpoints["Left"] = "Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"
+	b.shotpoints["Right"] = "Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR"
+
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):
 		duration += d
 	b.MakeFrozen(duration)
 	game.AddBullet(b)
-	
-	b.spawnerId = Id()
-	b.shotpoints["Left"] = "Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"
-	b.shotpoints["Right"] = "Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR"

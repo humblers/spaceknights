@@ -102,36 +102,28 @@ func (p *pixieking) Update() {
 			p.cast++
 		}
 	} else {
-		if p.target() == nil {
-			p.setTarget(p.findTarget())
-			p.attack = 0
-		}
-		t := p.target()
-		if t != nil && p.canSee(t) {
-			posX := t.Position().X
-			if posX < p.minPosX {
-				posX = p.minPosX
-			} else if posX > p.maxPosX {
-				posX = p.maxPosX
-			}
-			p.moveToPos(fixed.Vector{posX, p.Position().Y})
-			if p.withinRange(t) {
-				if p.attack%p.attackInterval() == 0 {
-					t.TakeDamage(p.attackDamage(), Range)
-					duration := 0
-					for _, d := range p.player.StatRatios("slowduration") {
-						duration += d
-					}
-					t.MakeSlow(duration)
-				}
-				p.attack++
-			} else {
-				p.attack = 0
-			}
+		if p.attack > 0 {
+			p.handleAttack()
 		} else {
-			p.moveToPos(p.initPos)
-			p.attack = 0
+			t := p.target()
+			if t == nil {
+				p.findTargetAndAttack()
+			} else {
+				if p.withinRange(t) {
+					p.handleAttack()
+				} else {
+					p.findTargetAndAttack()
+				}
+			}
 		}
+	}
+}
+
+func (p *pixieking) findTargetAndAttack() {
+	t := p.findTarget()
+	p.setTarget(t)
+	if p != nil && p.withinRange(t) {
+		p.handleAttack()
 	}
 }
 
@@ -212,4 +204,30 @@ func (p *pixieking) setTarget(u Unit) {
 	} else {
 		p.targetId = u.Id()
 	}
+}
+
+func (p *pixieking) handleAttack() {
+	if p.attack == p.preAttackDelay() {
+		t := p.target()
+		if t != nil && p.withinRange(t) {
+			p.fire()
+		} else {
+			p.attack = 0
+			return
+		}
+	}
+	p.attack++
+	if p.attack > p.attackInterval() {
+		p.attack = 0
+	}
+}
+
+func (p *pixieking) fire() {
+	b := newBullet(p.targetId, p.bulletLifeTime(), p.attackDamage(), p.game)
+	duration := 0
+	for _, d := range p.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
+	p.game.AddBullet(b)
 }

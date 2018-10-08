@@ -1,6 +1,5 @@
 extends Node2D
 
-const BULLET_COUNT = 6
 const SHOT_INTERVAL = 0.05
 
 var targetId = 0
@@ -9,6 +8,7 @@ var damage = 0
 var slowDuration = 0
 var game
 
+var BULLET_COUNT
 var spawnerId
 var shotpoints = {"Left": "", "Right": ""}
 var bullet_count = 0
