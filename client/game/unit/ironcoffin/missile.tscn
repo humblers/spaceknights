@@ -1,803 +1,373 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/unit/ironcoffin/missile.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/lancer/missile.png" type="Texture" id=2]
 [ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/unit_explosion_8.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/unit_explosion_5.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=12]
+[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=14]
 
+[sub_resource type="CanvasItemMaterial" id=1]
 
-[sub_resource type="Gradient" id=1]
+render_priority = 0
+blend_mode = 0
+light_mode = 0
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.535156, 0.535156, 0.535156, 1, 0.117188, 0.117188, 0.117188, 0.0331373 )
-
-[sub_resource type="GradientTexture" id=2]
-
-flags = 4
-gradient = SubResource( 1 )
-width = 2048
-
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=2]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
-_data = [ Vector2( 0, 0.096886 ), 0.0, 0.731989, 0, 0, Vector2( 1, 0.662249 ), 1.18108, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.0247999 ), 0.0, 0.0, 0, 0, Vector2( 0.973927, 0.3592 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-
-flags = 4
-width = 2048
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="CanvasItemMaterial" id=3]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 120, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 20.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="SpriteFrames" id=4]
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.875, 1, 0.99707, 1, 0.148438, 0.620789, 1, 0 )
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
 
-[sub_resource type="GradientTexture" id=7]
-
-flags = 4
-gradient = SubResource( 6 )
-width = 2048
-
-[sub_resource type="Curve" id=8]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.88469, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=9]
-
-flags = 4
-width = 2048
-curve = SubResource( 8 )
-
-[sub_resource type="ParticlesMaterial" id=10]
+[sub_resource type="CanvasItemMaterial" id=5]
 
 render_priority = 0
-trail_divisor = 90
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 70, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 9 )
-color_ramp = SubResource( 7 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Scale", "Trail" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Curve" id=16]
-
-min_value = -360.0
-max_value = 360.0
-bake_resolution = 100
-_data = [ Vector2( 0.00921278, -15.4688 ), 0.0, 0.0, 0, 0, Vector2( 0.987674, -15.4688 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=17]
-
-flags = 4
-width = 2048
-curve = SubResource( 16 )
-
-[sub_resource type="Gradient" id=18]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.421875, 0.421875, 0.421875, 0, 0, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=19]
-
-flags = 4
-gradient = SubResource( 18 )
-width = 2048
-
-[sub_resource type="Curve" id=20]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=21]
-
-flags = 4
-width = 2048
-curve = SubResource( 20 )
-
-[sub_resource type="ParticlesMaterial" id=22]
+[sub_resource type="CanvasItemMaterial" id=6]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.5
-angular_velocity_curve = SubResource( 17 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 10.0
-damping_random = 0.5
-angle = 360.0
-angle_random = 1.0
-scale = 2.0
-scale_random = 0.0
-scale_curve = SubResource( 21 )
-color_ramp = SubResource( 19 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=23]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 1, 0.615051, 0.0703125, 0.850824, 1, 0.28125, 0, 0 )
-
-[sub_resource type="GradientTexture" id=24]
-
-flags = 4
-gradient = SubResource( 23 )
-width = 2048
-_sections_unfolded = [ "Resource" ]
-
-[sub_resource type="Curve" id=25]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=26]
-
-flags = 4
-width = 2048
-curve = SubResource( 25 )
-
-[sub_resource type="ParticlesMaterial" id=27]
+[sub_resource type="CanvasItemMaterial" id=7]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 30.0
-radial_accel_random = 0.2
-tangential_accel = 60.0
-tangential_accel_random = 0.5
-damping = 10.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.5
-scale_curve = SubResource( 26 )
-color_ramp = SubResource( 24 )
-hue_variation = 1.0
-hue_variation_random = 0.04
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Scale" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=28]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.972656, 0.798238, 0.113983, 1, 1, 0.46875, 0, 1 )
-
-[sub_resource type="GradientTexture" id=29]
-
-flags = 4
-gradient = SubResource( 28 )
-width = 2048
-
-[sub_resource type="Curve" id=30]
-
-min_value = -200.0
-max_value = 200.0
-bake_resolution = 100
-_data = [ Vector2( 0.110406, 85.9375 ), 0.0, 0.0, 0, 0, Vector2( 0.568111, -158.984 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=31]
-
-flags = 4
-width = 2048
-curve = SubResource( 30 )
-
-[sub_resource type="Curve" id=32]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.923066, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=33]
-
-flags = 4
-width = 2048
-curve = SubResource( 32 )
-
-[sub_resource type="ParticlesMaterial" id=34]
+[sub_resource type="CanvasItemMaterial" id=8]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 30.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 0.5
-radial_accel_curve = SubResource( 31 )
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.5
-scale_curve = SubResource( 33 )
-color_ramp = SubResource( 29 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Hue Variation" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=35]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 1, 0.489624, 0.117188, 0 )
-
-[sub_resource type="GradientTexture" id=36]
-
-flags = 4
-gradient = SubResource( 35 )
-width = 2048
-
-[sub_resource type="Curve" id=37]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=38]
-
-flags = 4
-width = 2048
-curve = SubResource( 37 )
-
-[sub_resource type="ParticlesMaterial" id=39]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 38 )
-color_ramp = SubResource( 36 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Flags", "Gravity", "Initial Velocity", "Spread" ]
-
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=9]
 
 length = 1.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("MissileR1/Position2D/Smoke:emitting")
+tracks/0/path = NodePath("MissileL1:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("MissileR1/Position2D/Particles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("MissileR1/Position2D/Light2D:enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("MissileL1/Position2D/Smoke:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("MissileL1/Position2D/Particles2D:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("MissileL1/Position2D/Light2D:enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("MissileL2/Position2D/Smoke:emitting")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("MissileL2/Position2D/Particles2D:emitting")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("MissileL2/Position2D/Light2D:enabled")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("MissileR2/Position2D/Smoke:emitting")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("MissileR2/Position2D/Particles2D:emitting")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/11/type = "value"
-tracks/11/path = NodePath("MissileR2/Position2D/Light2D:enabled")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("MissileL1:position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -30, -40 ), Vector2( -80, -20 ), Vector2( -70, -240 ), Vector2( -70, -240 ), Vector2( -70, -240 ), Vector2( -10, -600 ) ]
 }
-tracks/13/type = "value"
-tracks/13/path = NodePath("MissileL1:rotation_degrees")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("MissileL1:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
-tracks/14/type = "value"
-tracks/14/path = NodePath("MissileL2:position")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("MissileL2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -55, -35 ), Vector2( -110, -10 ), Vector2( -80, -250 ), Vector2( -80, -300 ), Vector2( -80, -400 ), Vector2( 0, -600 ) ]
+"values": [ Vector2( -30, -40 ), Vector2( -110, -10 ), Vector2( -80, -250 ), Vector2( -80, -300 ), Vector2( -80, -400 ), Vector2( 0, -600 ) ]
 }
-tracks/15/type = "value"
-tracks/15/path = NodePath("MissileL2:rotation_degrees")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("MissileL2:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
-tracks/16/type = "value"
-tracks/16/path = NodePath("MissileR1:position")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("MissileR1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 30, -40 ), Vector2( 80, -20 ), Vector2( 70, -240 ), Vector2( 70, -240 ), Vector2( 70, -240 ), Vector2( 10, -600 ) ]
 }
-tracks/17/type = "value"
-tracks/17/path = NodePath("MissileR1:rotation_degrees")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
+tracks/5/type = "value"
+tracks/5/path = NodePath("MissileR1:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
-tracks/18/type = "value"
-tracks/18/path = NodePath("MissileR2:position")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
+tracks/6/type = "value"
+tracks/6/path = NodePath("MissileR2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 30, -40 ), Vector2( 110, -10 ), Vector2( 80, -250 ), Vector2( 80, -300 ), Vector2( 80, -400 ), Vector2( 0, -600 ) ]
 }
-tracks/19/type = "value"
-tracks/19/path = NodePath("MissileR2:rotation_degrees")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/keys = {
+tracks/7/type = "value"
+tracks/7/path = NodePath("MissileR2:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.8, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
-tracks/20/type = "value"
-tracks/20/path = NodePath("MissileL1:visible")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/keys = {
+tracks/8/type = "value"
+tracks/8/path = NodePath("MissileL1:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
 "times": PoolRealArray( 0, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false ]
 }
-tracks/21/type = "value"
-tracks/21/path = NodePath("MissileL2:visible")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/keys = {
+tracks/9/type = "value"
+tracks/9/path = NodePath("MissileL2:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
 "times": PoolRealArray( 0, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false ]
 }
-tracks/22/type = "value"
-tracks/22/path = NodePath("MissileR1:visible")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/keys = {
+tracks/10/type = "value"
+tracks/10/path = NodePath("MissileR1:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
 "times": PoolRealArray( 0, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false ]
 }
-tracks/23/type = "value"
-tracks/23/path = NodePath("MissileR2:visible")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/keys = {
+tracks/11/type = "value"
+tracks/11/path = NodePath("MissileR2:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
 "times": PoolRealArray( 0, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, true, false ]
 }
-tracks/24/type = "value"
-tracks/24/path = NodePath("HitPosition/Explosion/Around:emitting")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/keys = {
-"times": PoolRealArray( 0, 1, 1.4 ),
+tracks/12/type = "value"
+tracks/12/path = NodePath("HitPosition/Explosion/Main/Ex1a:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.9, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/25/type = "value"
-tracks/25/path = NodePath("HitPosition/Explosion/Center:emitting")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0, 1, 1.4 ),
+tracks/13/type = "value"
+tracks/13/path = NodePath("HitPosition/Explosion/Main/Ex1:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/26/type = "value"
-tracks/26/path = NodePath("HitPosition/Explosion/Particle:emitting")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/keys = {
-"times": PoolRealArray( 0, 1, 1.4 ),
+tracks/14/type = "value"
+tracks/14/path = NodePath("HitPosition/Explosion/Main/Ex2:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/27/type = "value"
-tracks/27/path = NodePath("HitPosition/Explosion/Light2D:enabled")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/keys = {
-"times": PoolRealArray( 0, 1, 1.4 ),
+tracks/15/type = "value"
+tracks/15/path = NodePath("HitPosition/Explosion/Main/Ex3:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 1.1, 1.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/28/type = "value"
-tracks/28/path = NodePath("HitPosition/Explosion/Particles2D:emitting")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/keys = {
+tracks/16/type = "value"
+tracks/16/path = NodePath("HitPosition/Explosion/Main/Ex4:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 1.1, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("HitPosition/Explosion/Main/Ex5:visible")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
 "times": PoolRealArray( 0, 1.2, 1.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/29/type = "value"
-tracks/29/path = NodePath("HitPosition/Explosion/Light2D2:enabled")
-tracks/29/interp = 1
-tracks/29/loop_wrap = true
-tracks/29/imported = false
-tracks/29/enabled = true
-tracks/29/keys = {
-"times": PoolRealArray( 0, 1, 1.4 ),
+tracks/18/type = "value"
+tracks/18/path = NodePath("HitPosition/Explosion/Main/Ex6:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 1.2, 1.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
+tracks/19/type = "value"
+tracks/19/path = NodePath("HitPosition/Explosion/Main/Ex7:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 1.3, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("HitPosition/Explosion/Main/Ex8:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("HitPosition/Explosion/Main/Particle:emitting")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0, 0.9, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("HitPosition/Explosion/Main/Ex1:modulate")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("HitPosition/Explosion/Main/Ex4:scale")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 1.1, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.3, 1.3 ), Vector2( 1.6, 1.6 ) ]
+}
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=10]
 
-resource_name = "explosion"
 length = 1.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("MissileR1/Position2D/Smoke:emitting")
+tracks/0/path = NodePath("MissileL1/ThrustPosition/Smoke:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -809,7 +379,7 @@ tracks/0/keys = {
 "values": [ false, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MissileR1/Position2D/Particles2D:emitting")
+tracks/1/path = NodePath("MissileL1/ThrustPosition/Thrust:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -821,7 +391,7 @@ tracks/1/keys = {
 "values": [ false, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("MissileR1/Position2D/Light2D:enabled")
+tracks/2/path = NodePath("MissileL1/ThrustPosition/Light2D:enabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -833,7 +403,7 @@ tracks/2/keys = {
 "values": [ false, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("MissileL1/Position2D/Smoke:emitting")
+tracks/3/path = NodePath("MissileR1:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -841,11 +411,11 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("MissileL1/Position2D/Particles2D:emitting")
+tracks/4/path = NodePath("MissileL1:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -853,41 +423,137 @@ tracks/4/enabled = true
 tracks/4/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("MissileL1/Position2D/Light2D:enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 1 ),
+
+[sub_resource type="Animation" id=11]
+
+length = 0.01
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("MissileL1/ThrustPosition/Smoke:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MissileL1/ThrustPosition/Thrust:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MissileL1/ThrustPosition/Light2D:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MissileR1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MissileL1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+
+length = 5.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("MissileL1/ThrustPosition/Smoke:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, false ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("MissileR1:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 1 ),
+tracks/1/type = "value"
+tracks/1/path = NodePath("MissileL1/ThrustPosition/Thrust:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MissileL1/ThrustPosition/Light2D:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MissileR1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("MissileL1:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 1 ),
+tracks/4/type = "value"
+tracks/4/path = NodePath("MissileL1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
@@ -895,113 +561,11 @@ tracks/7/keys = {
 
 [sub_resource type="Animation" id=13]
 
-length = 0.01
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("MissileR1/Position2D/Smoke:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("MissileR1/Position2D/Particles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("MissileR1/Position2D/Light2D:enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("MissileL1/Position2D/Smoke:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("MissileL1/Position2D/Particles2D:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("MissileL1/Position2D/Light2D:enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("MissileR1:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("MissileL1:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=14]
-
 length = 5.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("MissileR1/Position2D/Smoke:emitting")
+tracks/0/path = NodePath("MissileL1/ThrustPosition/Smoke:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1013,7 +577,7 @@ tracks/0/keys = {
 "values": [ false, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("MissileR1/Position2D/Particles2D:emitting")
+tracks/1/path = NodePath("MissileL1/ThrustPosition/Thrust:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1025,7 +589,7 @@ tracks/1/keys = {
 "values": [ false, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("MissileR1/Position2D/Light2D:enabled")
+tracks/2/path = NodePath("MissileL1/ThrustPosition/Light2D:enabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1037,7 +601,7 @@ tracks/2/keys = {
 "values": [ false, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("MissileL1/Position2D/Smoke:emitting")
+tracks/3/path = NodePath("MissileR1:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1045,154 +609,16 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("MissileL1/Position2D/Particles2D:emitting")
+tracks/4/path = NodePath("MissileL1:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("MissileL1/Position2D/Light2D:enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("MissileR1:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("MissileL1:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=15]
-
-length = 5.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("MissileR1/Position2D/Smoke:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("MissileR1/Position2D/Particles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("MissileR1/Position2D/Light2D:enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("MissileL1/Position2D/Smoke:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("MissileL1/Position2D/Particles2D:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("MissileL1/Position2D/Light2D:enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("MissileR1:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("MissileL1:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
 "times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -1200,24 +626,112 @@ tracks/7/keys = {
 }
 
 [node name="missile" type="Node2D"]
-
 script = ExtResource( 1 )
 _sections_unfolded = [ "Visibility", "Z Index" ]
 
-[node name="MissileL1" type="Sprite" parent="." index="0"]
-
-position = Vector2( -30, -40 )
+[node name="MissileL1" type="Sprite" parent="."]
+visible = false
+position = Vector2( -10, -600 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Position2D" type="Position2D" parent="MissileL1" index="0"]
-
-position = Vector2( 0, 36 )
+[node name="ThrustPosition" type="Position2D" parent="MissileL1"]
+position = Vector2( 0, 30 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Smoke" type="Particles2D" parent="MissileL1/Position2D" index="0"]
+[node name="Smoke" type="CPUParticles2D" parent="MissileL1/ThrustPosition"]
+visible = false
+material = SubResource( 1 )
+emitting = true
+amount = 16
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 2.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
+texture = ExtResource( 3 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 90 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 0.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 2 )
+color = Color( 0.0196078, 0.0196078, 0.0196078, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Material", "Process Material", "Scale", "Tangential Accel", "Textures", "material", "scale_curve" ]
 
-position = Vector2( 0, -5 )
+[node name="Thrust" type="AnimatedSprite" parent="MissileL1/ThrustPosition"]
+modulate = Color( 0.12549, 0.796078, 1, 1 )
+material = SubResource( 3 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 4 )
+animation = "thrust"
+speed_scale = 4.0
+playing = true
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
+
+[node name="Light2D" type="Sprite" parent="MissileL1/ThrustPosition"]
+material = SubResource( 5 )
+position = Vector2( 0, 5 )
+scale = Vector2( 0.2, 0.5 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Material", "Transform", "material" ]
+
+[node name="MissileL2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -600 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="ThrustPosition2" type="Position2D" parent="MissileL2"]
+position = Vector2( 0, 30 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Smoke" type="CPUParticles2D" parent="MissileL2/ThrustPosition2"]
+visible = false
+material = SubResource( 1 )
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -1228,78 +742,86 @@ explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 90 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 0.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 2 )
+color = Color( 0.0196078, 0.0196078, 0.0196078, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Material", "Process Material", "Scale", "Tangential Accel", "Textures", "material", "scale_curve" ]
 
-[node name="Particles2D" type="Particles2D" parent="MissileL1/Position2D" index="1"]
-
-scale = Vector2( 0.4, 1 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
+[node name="Thrust" type="AnimatedSprite" parent="MissileL2/ThrustPosition2"]
+modulate = Color( 0.12549, 0.796078, 1, 1 )
+material = SubResource( 3 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 4 )
+animation = "thrust"
 speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 10 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+playing = true
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
-[node name="Light2D" type="Light2D" parent="MissileL1/Position2D" index="2"]
+[node name="Light2D" type="Sprite" parent="MissileL2/ThrustPosition2"]
+material = SubResource( 5 )
+position = Vector2( 0, 5 )
+scale = Vector2( 0.2, 0.5 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Material", "Transform", "material" ]
 
-enabled = false
-editor_only = false
-texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.265625, 0.265625, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="MissileL2" type="Sprite" parent="." index="1"]
-
-position = Vector2( -55, -35 )
+[node name="MissileR1" type="Sprite" parent="."]
+visible = false
+position = Vector2( 10, -600 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Position2D" type="Position2D" parent="MissileL2" index="0"]
-
-position = Vector2( 0, 36 )
+[node name="ThrustPosition3" type="Position2D" parent="MissileR1"]
+position = Vector2( 0, 30 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Smoke" type="Particles2D" parent="MissileL2/Position2D" index="0"]
-
-position = Vector2( 0, -5 )
+[node name="Smoke" type="CPUParticles2D" parent="MissileR1/ThrustPosition3"]
+visible = false
+material = SubResource( 1 )
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -1310,79 +832,87 @@ explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 90 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 0.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 2 )
+color = Color( 0.0196078, 0.0196078, 0.0196078, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Material", "Process Material", "Scale", "Tangential Accel", "Textures", "material", "scale_curve" ]
 
-[node name="Particles2D" type="Particles2D" parent="MissileL2/Position2D" index="1"]
-
-scale = Vector2( 0.4, 1 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
+[node name="Thrust" type="AnimatedSprite" parent="MissileR1/ThrustPosition3"]
+modulate = Color( 0.12549, 0.796078, 1, 1 )
+material = SubResource( 3 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 4 )
+animation = "thrust"
+frame = 1
 speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 10 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+playing = true
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
-[node name="Light2D" type="Light2D" parent="MissileL2/Position2D" index="2"]
+[node name="Light2D" type="Sprite" parent="MissileR1/ThrustPosition3"]
+material = SubResource( 5 )
+position = Vector2( 0, 5 )
+scale = Vector2( 0.2, 0.5 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Material", "Transform", "material" ]
 
-enabled = false
-editor_only = false
-texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.265625, 0.265625, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="MissileR1" type="Sprite" parent="." index="2"]
-
-editor/display_folded = true
-position = Vector2( 30, -40 )
+[node name="MissileR2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -600 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Position2D" type="Position2D" parent="MissileR1" index="0"]
-
-position = Vector2( 0, 36 )
+[node name="ThrustPosition4" type="Position2D" parent="MissileR2"]
+position = Vector2( 0, 30 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Smoke" type="Particles2D" parent="MissileR1/Position2D" index="0"]
-
-position = Vector2( 0, -5 )
+[node name="Smoke" type="CPUParticles2D" parent="MissileR2/ThrustPosition4"]
+visible = false
+material = SubResource( 1 )
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -1393,307 +923,221 @@ explosiveness = 0.0
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
 texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Transform" ]
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 90 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 0.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = SubResource( 2 )
+color = Color( 0.0196078, 0.0196078, 0.0196078, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Material", "Process Material", "Scale", "Tangential Accel", "Textures", "material", "scale_curve" ]
 
-[node name="Particles2D" type="Particles2D" parent="MissileR1/Position2D" index="1"]
-
-scale = Vector2( 0.4, 1 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
+[node name="Thrust" type="AnimatedSprite" parent="MissileR2/ThrustPosition4"]
+modulate = Color( 0.12549, 0.796078, 1, 1 )
+material = SubResource( 3 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.4, 0.5 )
+frames = SubResource( 4 )
+animation = "thrust"
+frame = 1
 speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 10 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+playing = true
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
-[node name="Light2D" type="Light2D" parent="MissileR1/Position2D" index="2"]
+[node name="Light2D" type="Sprite" parent="MissileR2/ThrustPosition4"]
+material = SubResource( 5 )
+position = Vector2( 0, 5 )
+scale = Vector2( 0.2, 0.5 )
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Material", "Transform", "material" ]
 
-enabled = false
-editor_only = false
-texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.265625, 0.265625, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="MissileR2" type="Sprite" parent="." index="3"]
-
-position = Vector2( 30, -40 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Position2D" type="Position2D" parent="MissileR2" index="0"]
-
-position = Vector2( 0, 36 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Smoke" type="Particles2D" parent="MissileR2/Position2D" index="0"]
-
-position = Vector2( 0, -5 )
-emitting = false
-amount = 16
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Drawing", "Process Material", "Textures", "Transform" ]
-
-[node name="Particles2D" type="Particles2D" parent="MissileR2/Position2D" index="1"]
-
-scale = Vector2( 0.4, 1 )
-emitting = false
-amount = 4
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 10 )
-texture = ExtResource( 4 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Light2D" type="Light2D" parent="MissileR2/Position2D" index="2"]
-
-enabled = false
-editor_only = false
-texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.265625, 0.265625, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="HitPosition" type="Position2D" parent="." index="4"]
-
-editor/display_folded = true
+[node name="HitPosition" type="Position2D" parent="."]
 position = Vector2( 0, -600 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Explosion" type="Node2D" parent="HitPosition" index="0"]
-
-scale = Vector2( 1.6, 1.6 )
+[node name="Explosion" type="Node2D" parent="HitPosition"]
+scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Around" type="Particles2D" parent="HitPosition/Explosion" index="0"]
+[node name="Main" type="Node2D" parent="HitPosition/Explosion"]
 
+[node name="Ex8" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+rotation = -1.5708
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex7" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 0.1875, 0.162266, 0.154541, 1 )
+texture = ExtResource( 8 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex6" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 0.478431, 0.533333, 1, 1 )
+texture = ExtResource( 9 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex5" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 0.760784, 0.0156863, 1, 1 )
+texture = ExtResource( 10 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex4" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 0.513726, 0.266667, 1, 1 )
+scale = Vector2( 1.6, 1.6 )
+texture = ExtResource( 11 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex3" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.40625, 0.40625, 1 )
+material = SubResource( 6 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Material", "Visibility", "material" ]
+
+[node name="Ex2" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.555267, 0.0351563, 1 )
+rotation = 3.14159
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex1" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+rotation = 1.5708
+texture = ExtResource( 14 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex1a" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+material = SubResource( 7 )
+texture = ExtResource( 14 )
+_sections_unfolded = [ "Material", "Visibility", "material" ]
+
+[node name="Particle" type="CPUParticles2D" parent="HitPosition/Explosion/Main"]
+scale = 1.5
 emitting = false
-amount = 4
+amount = 30
 lifetime = 1.0
 one_shot = false
-preprocess = 0.0
+preprocess = 1.0
 speed_scale = 2.0
 explosiveness = 0.5
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 22 )
-texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
-
-[node name="Center" type="Particles2D" parent="HitPosition/Explosion" index="1"]
-
-emitting = false
-amount = 10
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 27 )
-texture = ExtResource( 3 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
-
-[node name="Particle" type="Particles2D" parent="HitPosition/Explosion" index="2"]
-
-emitting = false
-amount = 30
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 1.5
-explosiveness = 0.8
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 34 )
 texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Time", "Transform" ]
+normalmap = null
+emission_shape = 0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 180.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.5
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.909804, 0.658824, 1, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Gravity", "Process Material", "Radial Accel", "Scale", "Spread", "Time" ]
 
-[node name="Light2D" type="Light2D" parent="HitPosition/Explosion" index="3"]
-
-rotation = 5.26677
-enabled = false
-editor_only = false
-texture = ExtResource( 5 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.5
-color = Color( 1, 0.859619, 0.101563, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
-[node name="Particles2D" type="Particles2D" parent="HitPosition/Explosion" index="4"]
-
-emitting = false
-amount = 1
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 1.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 39 )
+[node name="Center" type="Sprite" parent="HitPosition/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.298096, 0.0234375, 1 )
+material = SubResource( 8 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 6 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
-[node name="Light2D2" type="Light2D" parent="HitPosition/Explosion" index="5"]
-
-enabled = false
-editor_only = false
-texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 2.0
-color = Color( 1, 0.343872, 0.0234375, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
-
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 11 )
-anims/explosion = SubResource( 12 )
-anims/idle = SubResource( 13 )
-anims/show = SubResource( 14 )
-anims/skill = SubResource( 15 )
+anims/attack = SubResource( 9 )
+anims/explosion = SubResource( 10 )
+anims/idle = SubResource( 11 )
+anims/show = SubResource( 12 )
+anims/skill = SubResource( 13 )
 blend_times = [  ]
-
 
