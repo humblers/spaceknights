@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://game/unit/nagmash/nagmash.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/nagmash/body.png" type="Texture" id=2]
@@ -18,11 +18,18 @@
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=16]
 [ext_resource path="res://game/vfx/thrust.png" type="Texture" id=17]
 [ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=18]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=19]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=20]
-[ext_resource path="res://game/sfx/fire1.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=19]
+[ext_resource path="res://game/vfx/unit_explosion_8.png" type="Texture" id=20]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=21]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=22]
+[ext_resource path="res://game/vfx/unit_explosion_5.png" type="Texture" id=23]
+[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=24]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=25]
+[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=26]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=27]
+[ext_resource path="res://game/sfx/fire1.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=30]
 
 [sub_resource type="Curve" id=1]
 
@@ -60,252 +67,290 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Gradient" id=6]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.706401, 0.176453, 0.921875, 0, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=7]
-
-flags = 4
-gradient = SubResource( 6 )
-width = 2048
-
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="CanvasItemMaterial" id=6]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 1.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-color_ramp = SubResource( 7 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=9]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.529541, 0.359375, 1, 0 )
-
-[sub_resource type="GradientTexture" id=10]
-
-flags = 4
-gradient = SubResource( 9 )
-width = 2048
-
-[sub_resource type="Curve" id=11]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=12]
-
-flags = 4
-width = 2048
-curve = SubResource( 11 )
-
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="CanvasItemMaterial" id=7]
 
 render_priority = 0
-trail_divisor = 1
-emission_shape = 0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 0.0
-angle_random = 0.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 12 )
-color_ramp = SubResource( 10 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+blend_mode = 1
+light_mode = 0
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Animation" id=8]
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.859375, 0.957153, 1, 1, 0.40625, 0, 1, 0 )
+resource_name = "explosion"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Main/Ex1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Main/Ex1a:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Main/Ex2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Main/Ex3:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Main/Ex4:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Main/Ex5:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Main/Ex6:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Main/Ex7:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Main/Ex8:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Main/ExRing1:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Main/Particle:emitting")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Main/ExRing1:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.107422, 0.205567, 0.5, 0.5 ), Color( 1, 0.233246, 0.214844, 0 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Main/ExRing1:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ), Vector2( 4, 4 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Main/Ex4:rotation_degrees")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -180.0, 0.0 ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Main/Ex1:rotation_degrees")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 90.0 ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Main/Center:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Main/Ex4:scale")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.3, 1.3 ) ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Main/Center:scale")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 5, 5 ) ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Main/Center:modulate")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.159531, 0.182441, 0.332031, 1 ) ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Main/Ex8:rotation_degrees")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -90.0 ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Main/Ex6:scale")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ) ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Main/Ex6:modulate")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0.742188, 1, 1 ), Color( 0, 0.742188, 1, 0.160235 ) ]
+}
 
-[sub_resource type="GradientTexture" id=15]
-
-flags = 4
-gradient = SubResource( 14 )
-width = 2048
-
-[sub_resource type="Curve" id=16]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.273253, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -1.62281, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=17]
-
-flags = 4
-width = 2048
-curve = SubResource( 16 )
-
-[sub_resource type="ParticlesMaterial" id=18]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 45.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 100.0
-radial_accel_random = 1.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 90.0
-angle_random = 1.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 17 )
-color_ramp = SubResource( 15 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Spread" ]
-
-[sub_resource type="Gradient" id=19]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0.648438, 0.0658569, 0.639335, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=20]
-
-flags = 4
-gradient = SubResource( 19 )
-width = 2048
-
-[sub_resource type="Curve" id=21]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=22]
-
-flags = 4
-width = 2048
-curve = SubResource( 21 )
-
-[sub_resource type="ParticlesMaterial" id=23]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 180.0
-flatness = 0.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 30.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 10.0
-angle_random = 1.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 22 )
-color_ramp = SubResource( 20 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Emission Shape", "Gravity", "Radial Accel", "Spread" ]
-
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=9]
 
 length = 0.5
 loop = false
@@ -443,7 +488,7 @@ tracks/10/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/11/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -455,7 +500,7 @@ tracks/11/keys = {
 "values": [ false, false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/12/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -467,7 +512,7 @@ tracks/12/keys = {
 "values": [ false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/13/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -479,7 +524,7 @@ tracks/13/keys = {
 "values": [ false, false ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/14/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -491,7 +536,7 @@ tracks/14/keys = {
 "values": [ false, false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/15/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -503,7 +548,7 @@ tracks/15/keys = {
 "values": [ false, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/16/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -515,7 +560,7 @@ tracks/16/keys = {
 "values": [ false, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/17/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -527,7 +572,7 @@ tracks/17/keys = {
 "values": [ false, false ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/18/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -539,7 +584,7 @@ tracks/18/keys = {
 "values": [ false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
+tracks/19/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -551,7 +596,7 @@ tracks/19/keys = {
 "values": [ false, false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/20/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -563,7 +608,7 @@ tracks/20/keys = {
 "values": [ false, false ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
+tracks/21/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -575,7 +620,7 @@ tracks/21/keys = {
 "values": [ false, false ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/22/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -586,80 +631,8 @@ tracks/22/keys = {
 "update": 1,
 "values": [ false, false ]
 }
-tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/28/type = "value"
-tracks/28/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=10]
 
 length = 1.0
 loop = false
@@ -833,7 +806,7 @@ tracks/13/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/14/path = NodePath("Rotatable/Body/Dummy:visible")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -845,19 +818,19 @@ tracks/14/keys = {
 "values": [ true, false, false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/15/path = NodePath("Rotatable/Body/Dummy:modulate")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, false ]
+"times": PoolRealArray( 0, 0.7, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/16/path = NodePath("Rotatable/Body:visible")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -869,91 +842,91 @@ tracks/16/keys = {
 "values": [ true, false, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/17/path = NodePath("Rotatable/Body:modulate")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, false ]
+"times": PoolRealArray( 0, 0.7, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/18/path = NodePath("Rotatable/Body/Hanger/HangerR2/Light2D2:visible")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false, false ]
+"values": [ false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/19/path = NodePath("Rotatable/Body/Hanger/HangerL2/Light2D3:visible")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false, false ]
+"values": [ false, false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Body/Dummy:visible")
+tracks/20/path = NodePath("Rotatable/Body/Hanger/HangerR3/Light2D3:visible")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 0, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false, false ]
+"values": [ false, false ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Body/Dummy:modulate")
+tracks/21/path = NodePath("Rotatable/Body/Hanger/HangerL3/Light2D4:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/keys = {
-"times": PoolRealArray( 0, 0.7, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Body:visible")
+tracks/22/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
 tracks/22/enabled = true
 tracks/22/keys = {
-"times": PoolRealArray( 0, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, false, false ]
+"values": [ false, false ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Body:modulate")
+tracks/23/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
 tracks/23/enabled = true
 tracks/23/keys = {
-"times": PoolRealArray( 0, 0.7, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Body/Hanger/HangerR2/Light2D2:visible")
+tracks/24/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:visible")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -965,7 +938,7 @@ tracks/24/keys = {
 "values": [ false, false ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Body/Hanger/HangerL2/Light2D3:visible")
+tracks/25/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -977,7 +950,7 @@ tracks/25/keys = {
 "values": [ false, false ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Body/Hanger/HangerR3/Light2D3:visible")
+tracks/26/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:visible")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -989,7 +962,7 @@ tracks/26/keys = {
 "values": [ false, false ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Body/Hanger/HangerL3/Light2D4:visible")
+tracks/27/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1001,7 +974,7 @@ tracks/27/keys = {
 "values": [ false, false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/28/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -1013,7 +986,7 @@ tracks/28/keys = {
 "values": [ false, false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/29/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -1025,7 +998,7 @@ tracks/29/keys = {
 "values": [ false, false ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:visible")
+tracks/30/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -1037,7 +1010,7 @@ tracks/30/keys = {
 "values": [ false, false ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/31/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -1049,7 +1022,7 @@ tracks/31/keys = {
 "values": [ false, false ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:visible")
+tracks/32/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -1061,7 +1034,7 @@ tracks/32/keys = {
 "values": [ false, false ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/33/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -1072,80 +1045,8 @@ tracks/33/keys = {
 "update": 1,
 "values": [ false, false ]
 }
-tracks/34/type = "value"
-tracks/34/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
-tracks/34/interp = 1
-tracks/34/loop_wrap = true
-tracks/34/imported = false
-tracks/34/enabled = true
-tracks/34/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/35/type = "value"
-tracks/35/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/36/type = "value"
-tracks/36/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
-tracks/36/interp = 1
-tracks/36/loop_wrap = true
-tracks/36/imported = false
-tracks/36/enabled = true
-tracks/36/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/37/type = "value"
-tracks/37/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
-tracks/37/interp = 1
-tracks/37/loop_wrap = true
-tracks/37/imported = false
-tracks/37/enabled = true
-tracks/37/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/38/type = "value"
-tracks/38/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
-tracks/38/interp = 1
-tracks/38/loop_wrap = true
-tracks/38/imported = false
-tracks/38/enabled = true
-tracks/38/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
-tracks/39/type = "value"
-tracks/39/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
-tracks/39/interp = 1
-tracks/39/loop_wrap = true
-tracks/39/imported = false
-tracks/39/enabled = true
-tracks/39/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, false ]
-}
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=11]
 
 length = 0.01
 loop = false
@@ -1367,7 +1268,7 @@ tracks/17/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/18/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -1379,7 +1280,7 @@ tracks/18/keys = {
 "values": [ false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/19/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
@@ -1391,7 +1292,7 @@ tracks/19/keys = {
 "values": [ false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/20/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -1403,7 +1304,7 @@ tracks/20/keys = {
 "values": [ false ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/21/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -1415,7 +1316,7 @@ tracks/21/keys = {
 "values": [ false ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/22/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -1427,7 +1328,7 @@ tracks/22/keys = {
 "values": [ false ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/23/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -1439,7 +1340,7 @@ tracks/23/keys = {
 "values": [ false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/24/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -1451,7 +1352,7 @@ tracks/24/keys = {
 "values": [ false ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/25/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -1463,7 +1364,7 @@ tracks/25/keys = {
 "values": [ false ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
+tracks/26/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -1475,7 +1376,7 @@ tracks/26/keys = {
 "values": [ false ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/27/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -1487,7 +1388,7 @@ tracks/27/keys = {
 "values": [ false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
+tracks/28/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -1499,7 +1400,7 @@ tracks/28/keys = {
 "values": [ false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/29/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -1510,80 +1411,8 @@ tracks/29/keys = {
 "update": 1,
 "values": [ false ]
 }
-tracks/30/type = "value"
-tracks/30/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/31/type = "value"
-tracks/31/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
-tracks/31/interp = 1
-tracks/31/loop_wrap = true
-tracks/31/imported = false
-tracks/31/enabled = true
-tracks/31/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/32/type = "value"
-tracks/32/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
-tracks/32/interp = 1
-tracks/32/loop_wrap = true
-tracks/32/imported = false
-tracks/32/enabled = true
-tracks/32/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/33/type = "value"
-tracks/33/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
-tracks/33/interp = 1
-tracks/33/loop_wrap = true
-tracks/33/imported = false
-tracks/33/enabled = true
-tracks/33/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/34/type = "value"
-tracks/34/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
-tracks/34/interp = 1
-tracks/34/loop_wrap = true
-tracks/34/imported = false
-tracks/34/enabled = true
-tracks/34/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/35/type = "value"
-tracks/35/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=12]
 
 length = 5.0
 loop = false
@@ -1805,223 +1634,151 @@ tracks/17/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/18/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.3, 3.4, 3.7, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Explosion/Emition:emitting")
+tracks/19/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.3, 3.4, 3.7, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Explosion/Explosion:emitting")
+tracks/20/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.2, 3.3, 3.6, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Explosion/Core:emitting")
+tracks/21/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.2, 3.3, 3.6, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Explosion/Explight:enabled")
+tracks/22/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
 tracks/22/enabled = true
 tracks/22/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3, 3.1, 3.4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Explosion/Corelight:enabled")
+tracks/23/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
 tracks/23/enabled = true
 tracks/23/keys = {
-"times": PoolRealArray( 0, 5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 3, 3.1, 3.4, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ false, false, true, false, false ]
 }
 tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/24/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
 tracks/24/enabled = true
 tracks/24/keys = {
-"times": PoolRealArray( 0, 3.3, 3.4, 3.7, 5 ),
+"times": PoolRealArray( 0, 3.4, 3.5, 3.8, 5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, false, true, false, false ]
 }
 tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/25/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
 tracks/25/enabled = true
 tracks/25/keys = {
-"times": PoolRealArray( 0, 3.3, 3.4, 3.7, 5 ),
+"times": PoolRealArray( 0, 3.4, 3.5, 3.8, 5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, false, true, false, false ]
 }
 tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
+tracks/26/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
 tracks/26/enabled = true
 tracks/26/keys = {
-"times": PoolRealArray( 0, 3.2, 3.3, 3.6, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false, true, false, false ]
+"values": [ false, false, true, false, false, true, false ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/27/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
 tracks/27/enabled = true
 tracks/27/keys = {
-"times": PoolRealArray( 0, 3.2, 3.3, 3.6, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false, true, false, false ]
+"values": [ false, false, true, false, false, true, false ]
 }
 tracks/28/type = "value"
-tracks/28/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
+tracks/28/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
 tracks/28/enabled = true
 tracks/28/keys = {
-"times": PoolRealArray( 0, 3, 3.1, 3.4, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, false, true, false, false ]
+"values": [ false, false, true, false, false, true, false ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/29/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = {
-"times": PoolRealArray( 0, 3, 3.1, 3.4, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/30/type = "value"
-tracks/30/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/keys = {
-"times": PoolRealArray( 0, 3.4, 3.5, 3.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/31/type = "value"
-tracks/31/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
-tracks/31/interp = 1
-tracks/31/loop_wrap = true
-tracks/31/imported = false
-tracks/31/enabled = true
-tracks/31/keys = {
-"times": PoolRealArray( 0, 3.4, 3.5, 3.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/32/type = "value"
-tracks/32/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
-tracks/32/interp = 1
-tracks/32/loop_wrap = true
-tracks/32/imported = false
-tracks/32/enabled = true
-tracks/32/keys = {
-"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false, true, false ]
-}
-tracks/33/type = "value"
-tracks/33/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
-tracks/33/interp = 1
-tracks/33/loop_wrap = true
-tracks/33/imported = false
-tracks/33/enabled = true
-tracks/33/keys = {
-"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false, true, false ]
-}
-tracks/34/type = "value"
-tracks/34/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
-tracks/34/interp = 1
-tracks/34/loop_wrap = true
-tracks/34/imported = false
-tracks/34/enabled = true
-tracks/34/keys = {
-"times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false, true, false ]
-}
-tracks/35/type = "value"
-tracks/35/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/keys = {
 "times": PoolRealArray( 0, 4, 4.1, 4.4, 4.7, 4.8, 5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, false, true, false, false, true, false ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=13]
 
 length = 9.0
 loop = false
@@ -2279,115 +2036,115 @@ tracks/20/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Explosion/Particle:emitting")
+tracks/21/path = NodePath("Rotatable/Body/Dummy:position")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Explosion/Emition:emitting")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Explosion/Explosion:emitting")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/24/type = "value"
-tracks/24/path = NodePath("Rotatable/Explosion/Core:emitting")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/25/type = "value"
-tracks/25/path = NodePath("Rotatable/Explosion/Explight:enabled")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/26/type = "value"
-tracks/26/path = NodePath("Rotatable/Explosion/Corelight:enabled")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/keys = {
-"times": PoolRealArray( 0, 1, 3.5, 4.5, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, false, false, false ]
-}
-tracks/27/type = "value"
-tracks/27/path = NodePath("Rotatable/Body/Dummy:position")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/keys = {
 "times": PoolRealArray( 0, 9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
-tracks/28/type = "value"
-tracks/28/path = NodePath("Rotatable/Body:rotation_degrees")
-tracks/28/interp = 2
-tracks/28/loop_wrap = true
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/keys = {
+tracks/22/type = "value"
+tracks/22/path = NodePath("Rotatable/Body:rotation_degrees")
+tracks/22/interp = 2
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
 "times": PoolRealArray( 0, 1, 2.9, 3.3, 3.5, 4.5, 6, 7, 7.5, 9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 20.0, 90.0, 90.0, 180.0, 180.0, 180.0, 0.0, 0.0 ]
 }
-tracks/29/type = "value"
-tracks/29/path = NodePath("Rotatable/Body/Dummy:rotation_degrees")
-tracks/29/interp = 1
-tracks/29/loop_wrap = true
-tracks/29/imported = false
-tracks/29/enabled = true
-tracks/29/keys = {
+tracks/23/type = "value"
+tracks/23/path = NodePath("Rotatable/Body/Dummy:rotation_degrees")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
 "times": PoolRealArray( 0, 9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0 ]
 }
+tracks/24/type = "value"
+tracks/24/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 2.5, 3.1, 3.5, 4.5, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, true, false, false ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 2.5, 3.1, 3.5, 4.5, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, true, false, false ]
+}
+tracks/26/type = "value"
+tracks/26/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.2, 2.4, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, false, true, false, true, true, false, false ]
+}
+tracks/27/type = "value"
+tracks/27/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.2, 2.4, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, false, true, false, true, true, false, false ]
+}
+tracks/28/type = "value"
+tracks/28/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, false, true, false, true, true, false, false ]
+}
+tracks/29/type = "value"
+tracks/29/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/keys = {
+"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, false, true, false, true, true, false, false ]
+}
 tracks/30/type = "value"
-tracks/30/path = NodePath("Rotatable/Body/FloatFL/BoosterFL:emitting")
+tracks/30/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -2399,7 +2156,7 @@ tracks/30/keys = {
 "values": [ false, true, false, true, false, true, false, true, false, false ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Rotatable/Body/FloatFL/LightFL:visible")
+tracks/31/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -2411,120 +2168,48 @@ tracks/31/keys = {
 "values": [ false, true, false, true, false, true, false, true, false, false ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("Rotatable/Body/FloatRL/BoosterRL:emitting")
+tracks/32/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
 tracks/32/enabled = true
 tracks/32/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.2, 2.4, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, true, false, true, false, false, true, false, true, true, false, false ]
+"values": [ false, false, true, true, false, true, false, false ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("Rotatable/Body/FloatRL/LightRL:visible")
+tracks/33/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
 tracks/33/enabled = true
 tracks/33/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.2, 2.4, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, true, false, true, false, false, true, false, true, true, false, false ]
+"values": [ false, false, true, true, false, true, false, false ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("Rotatable/Body/FloatFR/BoosterFR:emitting")
+tracks/34/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
 tracks/34/enabled = true
 tracks/34/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, true, false, false, true, false, true, true, false, false ]
+"values": [ false, false, true, true, false, true, false, false ]
 }
 tracks/35/type = "value"
-tracks/35/path = NodePath("Rotatable/Body/FloatFR/LightFR:visible")
+tracks/35/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
 tracks/35/interp = 1
 tracks/35/loop_wrap = true
 tracks/35/imported = false
 tracks/35/enabled = true
 tracks/35/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 1.7, 2.5, 3.5, 4.3, 4.5, 6, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, false, true, false, true, true, false, false ]
-}
-tracks/36/type = "value"
-tracks/36/path = NodePath("Rotatable/Body/FloatRR/BoosterRR:emitting")
-tracks/36/interp = 1
-tracks/36/loop_wrap = true
-tracks/36/imported = false
-tracks/36/enabled = true
-tracks/36/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 2.5, 3.1, 3.5, 4.5, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false, false ]
-}
-tracks/37/type = "value"
-tracks/37/path = NodePath("Rotatable/Body/FloatRR/LightRR:visible")
-tracks/37/interp = 1
-tracks/37/loop_wrap = true
-tracks/37/imported = false
-tracks/37/enabled = true
-tracks/37/keys = {
-"times": PoolRealArray( 0, 0.2, 1, 2.5, 3.1, 3.5, 4.5, 7, 7.6, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false, false ]
-}
-tracks/38/type = "value"
-tracks/38/path = NodePath("Rotatable/Body/BoosterpointL/ThrustL:visible")
-tracks/38/interp = 1
-tracks/38/loop_wrap = true
-tracks/38/imported = false
-tracks/38/enabled = true
-tracks/38/keys = {
-"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, true, false, true, false, false ]
-}
-tracks/39/type = "value"
-tracks/39/path = NodePath("Rotatable/Body/BoosterpointL/LightL:visible")
-tracks/39/interp = 1
-tracks/39/loop_wrap = true
-tracks/39/imported = false
-tracks/39/enabled = true
-tracks/39/keys = {
-"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, true, false, true, false, false ]
-}
-tracks/40/type = "value"
-tracks/40/path = NodePath("Rotatable/Body/BoosterpointR/ThrustR:visible")
-tracks/40/interp = 1
-tracks/40/loop_wrap = true
-tracks/40/imported = false
-tracks/40/enabled = true
-tracks/40/keys = {
-"times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, true, false, true, false, false ]
-}
-tracks/41/type = "value"
-tracks/41/path = NodePath("Rotatable/Body/BoosterpointR/LightR:visible")
-tracks/41/interp = 1
-tracks/41/loop_wrap = true
-tracks/41/imported = false
-tracks/41/enabled = true
-tracks/41/keys = {
 "times": PoolRealArray( 0, 0.4, 0.7, 1, 3.5, 4.5, 7, 9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
@@ -2541,6 +2226,7 @@ scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 offset = Vector2( 0, -7.5 )
@@ -2588,6 +2274,7 @@ texture = ExtResource( 6 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="FloatFL" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( -48, -53 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -2663,6 +2350,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="FloatRL" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( -48, 47 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -2738,6 +2426,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="FloatFR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( 48, -53 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -2813,6 +2502,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="FloatRR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( 48, 47 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
@@ -3057,6 +2747,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ShotpointLF" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 visible = false
 position = Vector2( -10, -43 )
 _sections_unfolded = [ "Transform" ]
@@ -3215,6 +2906,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ShotpointLR" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 visible = false
 position = Vector2( -15, 35 )
 _sections_unfolded = [ "Transform" ]
@@ -3373,6 +3065,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ShotpointRF" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 visible = false
 position = Vector2( 10, -43 )
 _sections_unfolded = [ "Transform" ]
@@ -3531,6 +3224,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ShotpointRR" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 visible = false
 position = Vector2( 15, 35 )
 _sections_unfolded = [ "Transform" ]
@@ -3742,142 +3436,159 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
-scale = Vector2( 1.4, 1.4 )
+editor/display_folded = true
+scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Particle" type="Particles2D" parent="Rotatable/Explosion"]
-scale = Vector2( 2, 2 )
-emitting = false
-amount = 30
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 1.0
-randomness = 1.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 8 )
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Transform" ]
+[node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+editor/display_folded = true
 
-[node name="Emition" type="Particles2D" parent="Rotatable/Explosion"]
-scale = Vector2( 2, 2 )
-emitting = false
-amount = 2
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 3.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 13 )
+[node name="ExRing1" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.233246, 0.214844, 0 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 19 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Explosion" type="Particles2D" parent="Rotatable/Explosion"]
-scale = Vector2( 3, 3 )
-emitting = false
-amount = 10
-lifetime = 1.0
-one_shot = false
-preprocess = 0.5
-speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 18 )
+[node name="Ex8" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+rotation = -1.5708
 texture = ExtResource( 20 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Core" type="Particles2D" parent="Rotatable/Explosion"]
+[node name="Ex7" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.154541, 0.166643, 0.1875, 1 )
+texture = ExtResource( 21 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex6" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0, 0.742188, 1, 0.160235 )
+material = SubResource( 6 )
 scale = Vector2( 2, 2 )
+texture = ExtResource( 22 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="Ex5" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.241577, 0.109375, 1, 1 )
+texture = ExtResource( 23 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex4" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.265625, 0.380371, 1, 1 )
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 24 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex3" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.40625, 0.666016, 1, 1 )
+texture = ExtResource( 25 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Ex2" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.0351563, 0.819092, 1, 1 )
+rotation = 3.14159
+texture = ExtResource( 26 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex1" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+rotation = 1.5708
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Ex1a" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+texture = ExtResource( 27 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Particle" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 8
+amount = 35
 lifetime = 1.0
 one_shot = false
-preprocess = 0.0
-speed_scale = 2.0
-explosiveness = 0.0
+preprocess = 1.0
+speed_scale = 0.8
+explosiveness = 0.5
 randomness = 0.0
 fixed_fps = 0
 fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 23 )
-texture = ExtResource( 7 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Explight" type="Light2D" parent="Rotatable/Explosion"]
-enabled = false
-editor_only = false
-texture = ExtResource( 7 )
-offset = Vector2( 0, 0 )
-texture_scale = 5.0
-color = Color( 0.701874, 0.735327, 0.824219, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-
-[node name="Corelight" type="Light2D" parent="Rotatable/Explosion"]
-enabled = false
-editor_only = false
-texture = ExtResource( 7 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
+texture = null
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 180.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 180.0
+radial_accel_random = 0.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
 color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+_sections_unfolded = [ "Emission Shape", "Gravity", "Initial Velocity", "Process Material", "Radial Accel", "Spread", "Time", "Transform" ]
+
+[node name="Center" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.159531, 0.182441, 0.332031, 1 )
+material = SubResource( 7 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="Center2" type="Sprite" parent="Rotatable/Explosion/Main/Center"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/explosion = SubResource( 8 )
+blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
@@ -3885,18 +3596,18 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 24 )
-anims/explosion = SubResource( 25 )
-anims/idle = SubResource( 26 )
-anims/show = SubResource( 27 )
-anims/skill = SubResource( 28 )
+anims/attack = SubResource( 9 )
+anims/explosion = SubResource( 10 )
+anims/idle = SubResource( 11 )
+anims/show = SubResource( 12 )
+anims/skill = SubResource( 13 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 visible = false
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
+stream = ExtResource( 28 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -3907,7 +3618,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
+stream = ExtResource( 29 )
 volume_db = -2.0
 pitch_scale = 1.0
 autoplay = false
@@ -3917,6 +3628,6 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 23 )]
+[node name="Hp" parent="." instance=ExtResource( 30 )]
 position = Vector2( 0, -130 )
 

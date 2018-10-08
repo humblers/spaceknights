@@ -1,13 +1,13 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archer/idle.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/archer/archer_s.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/archer/archer_f.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/archer/archer_r.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=7]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=8]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
 [ext_resource path="res://game/vfx/muzzle_flash_1.png" type="Texture" id=10]
 [ext_resource path="res://game/vfx/muzzle_flash_2.png" type="Texture" id=11]
@@ -24,73 +24,43 @@
 [ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="SpriteFrames" id=1]
 
-render_priority = 0
-blend_mode = 1
-light_mode = 0
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
 
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=3]
+[sub_resource type="SpriteFrames" id=3]
 
-render_priority = 0
-blend_mode = 1
-light_mode = 0
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
 
 [sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=5]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="SpriteFrames" id=6]
-
-animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "thrust",
-"speed": 5.0
-} ]
-
-[sub_resource type="CanvasItemMaterial" id=7]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=8]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="SpriteFrames" id=9]
-
-animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "thrust",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=5]
 
 animations = [ {
 "frames": [ null, null ],
@@ -99,7 +69,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=11]
+[sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
 "frames": [ null, null ],
@@ -108,7 +78,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=12]
+[sub_resource type="SpriteFrames" id=7]
 
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), null ],
@@ -117,32 +87,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=13]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=14]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=15]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="Curve" id=16]
+[sub_resource type="Curve" id=8]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=9]
 
 length = 1.0
 loop = false
@@ -438,9 +390,9 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterL"]
 modulate = Color( 0.25, 0.578125, 1, 1 )
-material = SubResource( 1 )
+material = ExtResource( 6 )
 scale = Vector2( 0.4, 0.5 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
@@ -448,7 +400,7 @@ offset = Vector2( 0, 30 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Booster/BoosterL"]
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 position = Vector2( 0, 5 )
 scale = Vector2( 0.2, 0.8 )
 texture = ExtResource( 9 )
@@ -461,9 +413,9 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterLsub"]
 modulate = Color( 0.25, 0.578125, 1, 1 )
-material = SubResource( 3 )
+material = ExtResource( 6 )
 scale = Vector2( 0.3, 0.4 )
-frames = SubResource( 4 )
+frames = SubResource( 2 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
@@ -476,9 +428,9 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterR"]
 modulate = Color( 0.25, 0.578125, 1, 1 )
-material = SubResource( 5 )
+material = ExtResource( 6 )
 scale = Vector2( 0.4, 0.5 )
-frames = SubResource( 6 )
+frames = SubResource( 3 )
 animation = "thrust"
 frame = 1
 speed_scale = 2.0
@@ -487,7 +439,7 @@ offset = Vector2( 0, 30 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Booster/BoosterR"]
-material = SubResource( 7 )
+material = ExtResource( 6 )
 position = Vector2( 0, 5 )
 scale = Vector2( 0.2, 0.8 )
 texture = ExtResource( 9 )
@@ -500,9 +452,9 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterRsub"]
 modulate = Color( 0.25, 0.578125, 1, 1 )
-material = SubResource( 8 )
+material = ExtResource( 6 )
 scale = Vector2( 0.3, 0.4 )
-frames = SubResource( 9 )
+frames = SubResource( 4 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
@@ -512,7 +464,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "frames"
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Body/Booster"]
 position = Vector2( 31.5, 20 )
 rotation = -0.314159
-frames = SubResource( 10 )
+frames = SubResource( 5 )
 animation = "flashred"
 frame = 1
 playing = true
@@ -521,19 +473,20 @@ _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Body/Booster"]
 position = Vector2( -31.5, 20 )
 rotation = 0.314159
-frames = SubResource( 11 )
+frames = SubResource( 6 )
 animation = "flashgreen"
 playing = true
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable"]
+visible = false
 position = Vector2( 0, -42 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Reflax" type="Sprite" parent="Rotatable/Shotpoint"]
 visible = false
 modulate = Color( 1, 0.853302, 0.183594, 1 )
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 position = Vector2( 0, 10 )
 scale = Vector2( 0.4, 1 )
 texture = ExtResource( 9 )
@@ -541,18 +494,19 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="Rotatable/Shotpoint"]
 modulate = Color( 1, 0.65625, 0, 0 )
+material = ExtResource( 6 )
 scale = Vector2( 0.6, 0.5 )
-frames = SubResource( 12 )
+frames = SubResource( 7 )
 animation = "muzzleflash"
 frame = 3
 offset = Vector2( 0, -30 )
-_sections_unfolded = [ "Transform", "Visibility", "frames" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility", "frames" ]
 
 [node name="MuzzleFlash2" type="AnimatedSprite" parent="Rotatable/Shotpoint"]
 modulate = Color( 1, 0.161102, 0.0976563, 1 )
-material = SubResource( 13 )
+material = ExtResource( 6 )
 scale = Vector2( 0.6, 0.5 )
-frames = SubResource( 12 )
+frames = SubResource( 7 )
 animation = "muzzleflash"
 frame = 3
 offset = Vector2( 0, -30 )
@@ -568,18 +522,18 @@ _sections_unfolded = [ "Transform" ]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
 texture = ExtResource( 13 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 14 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 14 )
+material = ExtResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -587,7 +541,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = SubResource( 15 )
+material = ExtResource( 6 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
@@ -601,7 +555,7 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 15 )
 flip_h = true
 flip_v = true
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 scale = 1.5
@@ -648,7 +602,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 16 )
+scale_curve = SubResource( 8 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -661,7 +615,7 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Process Material", "Radial Accel", "Scale", "Spread", "Time", "Transform", "scale_curve" ]
+_sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Material", "Process Material", "Radial Accel", "Scale", "Spread", "Time", "Transform", "scale_curve" ]
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 root_node = NodePath("..")
@@ -669,7 +623,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 17 )
+anims/explosion = SubResource( 9 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

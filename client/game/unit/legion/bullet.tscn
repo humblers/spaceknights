@@ -1,128 +1,40 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/script/bullet.gd" type="Script" id=1]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=5]
 
+[sub_resource type="SpriteFrames" id=1]
 
-[sub_resource type="Gradient" id=1]
-
-offsets = PoolRealArray( 0, 4.2039e-45, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.046875, 1, 0.910645, 0.22098, 0.0615234, 0.984375, 0.378754, 0 )
-
-[sub_resource type="GradientTexture" id=2]
-
-flags = 4
-gradient = SubResource( 1 )
-width = 2048
-
-[sub_resource type="Curve" id=3]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0.709249, 1 ), 0.0, -3.20957, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=4]
-
-flags = 4
-width = 2048
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
-
-render_priority = 0
-trail_divisor = 1
-emission_shape = 1
-emission_sphere_radius = 0.01
-flag_align_y = false
-flag_rotate_y = false
-flag_disable_z = true
-spread = 0.0
-flatness = 0.0
-gravity = Vector3( 0, 90, 0 )
-initial_velocity = 0.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-linear_accel = 0.0
-linear_accel_random = 0.0
-radial_accel = 0.0
-radial_accel_random = 0.0
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-damping = 0.0
-damping_random = 0.0
-angle = 180.0
-angle_random = 1.0
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-hue_variation = 0.0
-hue_variation_random = 0.0
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_loop = false
-_sections_unfolded = [ "Color", "Gravity", "Scale" ]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Bullet" type="Node2D"]
-
 scale = Vector2( 0.2, 0.2 )
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bulletLarge" type="Particles2D" parent="." index="0"]
+[node name="bulletLarge" type="AnimatedSprite" parent="."]
+modulate = Color( 0.164706, 1, 0.313726, 1 )
+material = ExtResource( 2 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.5, 1 )
+frames = SubResource( 1 )
+animation = "default"
+frame = 1
+speed_scale = 3.0
+playing = true
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "Z Index", "frames" ]
 
-position = Vector2( 0, -0.000190735 )
-scale = Vector2( 0.7, 5 )
-emitting = true
-amount = 30
-lifetime = 1.2
-one_shot = false
-preprocess = 0.0
-speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = SubResource( 5 )
-texture = ExtResource( 2 )
-normal_map = null
-h_frames = 1
-v_frames = 1
-_sections_unfolded = [ "Process Material", "Textures", "Transform" ]
-
-[node name="Light2D" type="Light2D" parent="." index="1"]
-
-scale = Vector2( 0.3, 2 )
-enabled = true
-editor_only = false
-texture = ExtResource( 2 )
-offset = Vector2( 0, 0 )
-texture_scale = 1.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
-_sections_unfolded = [ "Transform" ]
-
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 2 )
+scale = Vector2( 0.4, 1.2 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Material", "Transform" ]
 
