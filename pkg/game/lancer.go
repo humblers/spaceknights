@@ -93,36 +93,39 @@ func (l *lancer) Update() {
 			l.cast++
 		}
 	} else {
-		if l.target() == nil {
-			l.setTarget(l.findTarget())
-			l.attack = 0
-		}
-		t := l.target()
-		if t != nil && l.canSee(t) {
-			posX := t.Position().X
-			if posX < l.minPosX {
-				posX = l.minPosX
-			} else if posX > l.maxPosX {
-				posX = l.maxPosX
-			}
-			l.moveToPos(fixed.Vector{posX, l.Position().Y})
-			if l.withinRange(t) {
-				if l.attack%l.attackInterval() == 0 {
-					t.TakeDamage(l.attackDamage(), Range)
-					duration := 0
-					for _, d := range l.player.StatRatios("slowduration") {
-						duration += d
-					}
-					t.MakeSlow(duration)
-				}
-				l.attack++
-			} else {
-				l.attack = 0
-			}
+		if l.attack > 0 {
+			l.handleAttack()
 		} else {
-			l.moveToPos(l.initPos)
-			l.attack = 0
+			t := l.target()
+			if t == nil {
+				l.findTargetAndDoAction()
+			} else {
+				if l.withinRange(t) {
+					l.handleAttack()
+				} else {
+					l.findTargetAndDoAction()
+				}
+			}
 		}
+	}
+}
+
+func (l *lancer) findTargetAndDoAction() {
+	t := l.findTarget()
+	l.setTarget(t)
+	if t != nil {
+		if l.withinRange(t) {
+			l.handleAttack()
+		} else {
+			l.moveToPos(
+				fixed.Vector{
+					t.Position().X.Clamp(l.minPosX, l.maxPosX),
+					l.Position().Y,
+				},
+			)
+		}
+	} else {
+		l.moveToPos(l.initPos) // back to init pos
 	}
 }
 
@@ -198,4 +201,30 @@ func (l *lancer) setTarget(u Unit) {
 	} else {
 		l.targetId = u.Id()
 	}
+}
+
+func (l *lancer) handleAttack() {
+	if l.attack == l.preAttackDelay() {
+		t := l.target()
+		if t != nil && l.withinRange(t) {
+			l.fire()
+		} else {
+			l.attack = 0
+			return
+		}
+	}
+	l.attack++
+	if l.attack > l.attackInterval() {
+		l.attack = 0
+	}
+}
+
+func (l *lancer) fire() {
+	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.game)
+	duration := 0
+	for _, d := range l.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
+	l.game.AddBullet(b)
 }
