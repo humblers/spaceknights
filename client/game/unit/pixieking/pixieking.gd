@@ -15,8 +15,6 @@ var castPosX = 0
 var castPosY = 0
 var castTile = preload("res://game/script/tileoccupier.gd")
 
-var attack_counter = 0
-
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -204,7 +202,7 @@ func setTarget(unit):
 		
 func handleAttack():
 	if attack == 0:
-		$AnimationPlayer.play("attack_%s" % ((attack_counter % 2) + 1))
+		$AnimationPlayer.play("attack")
 		$Sound/sound_fire.play()
 	var t = target()
 	if t != null:
@@ -221,16 +219,16 @@ func handleAttack():
 
 func fire():
 	var b = resource.BULLET[name_].instance()
+	
+	# client only
+	b.BULLET_COUNT = 1
+	b.spawnerId = Id()
+	b.shotpoints["Left"] = "Rotatable/Body/ShotpointL"
+	b.shotpoints["Right"] = "Rotatable/Body/ShotpointR"
+	
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):
 		duration += d
-	b.MakeFrozen(duration)
+	b.MakeFrozen(duration)	
 	game.AddBullet(b)
-	
-	# client only
-	if attack_counter % 2 == 0:
-		b.global_position = $Rotatable/Body/ShotpointL.global_position
-	else:
-		b.global_position = $Rotatable/Body/ShotpointR.global_position
-	attack_counter += 1

@@ -3,7 +3,7 @@ extends Node2D
 var connected = false
 var cfg = config.GAME
 
-const PLAY_TIME = 60000		# milliseconds
+const PLAY_TIME = 600000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
 const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
@@ -54,6 +54,7 @@ func _ready():
 	randomize()
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
+		$Players/Red.hide()
 	else:
 		$Camera2D.zoom = Vector2(1.1, 1.1)
 		$Camera2D.position.y -= 50

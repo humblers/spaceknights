@@ -102,36 +102,39 @@ func (i *ironcoffin) Update() {
 			i.cast++
 		}
 	} else {
-		if i.target() == nil {
-			i.setTarget(i.findTarget())
-			i.attack = 0
-		}
-		t := i.target()
-		if t != nil && i.canSee(t) {
-			posX := t.Position().X
-			if posX < i.minPosX {
-				posX = i.minPosX
-			} else if posX > i.maxPosX {
-				posX = i.maxPosX
-			}
-			i.moveToPos(fixed.Vector{posX, i.Position().Y})
-			if i.withinRange(t) {
-				if i.attack%i.attackInterval() == 0 {
-					t.TakeDamage(i.attackDamage(), Range)
-					duration := 0
-					for _, d := range i.player.StatRatios("slowduration") {
-						duration += d
-					}
-					t.MakeSlow(duration)
-				}
-				i.attack++
-			} else {
-				i.attack = 0
-			}
+		if i.attack > 0 {
+			i.handleAttack()
 		} else {
-			i.moveToPos(i.initPos)
-			i.attack = 0
+			t := i.target()
+			if t == nil {
+				i.findTargetAndDoAction()
+			} else {
+				if i.withinRange(t) {
+					i.handleAttack()
+				} else {
+					i.findTargetAndDoAction()
+				}
+			}
 		}
+	}
+}
+
+func (i *ironcoffin) findTargetAndDoAction() {
+	t := i.findTarget()
+	i.setTarget(t)
+	if t != nil {
+		if i.withinRange(t) {
+			i.handleAttack()
+		} else {
+			i.moveToPos(
+				fixed.Vector{
+					t.Position().X.Clamp(i.minPosX, i.maxPosX),
+					i.Position().Y,
+				},
+			)
+		}
+	} else {
+		i.moveToPos(i.initPos) // back to init pos
 	}
 }
 
@@ -207,4 +210,30 @@ func (i *ironcoffin) setTarget(u Unit) {
 	} else {
 		i.targetId = u.Id()
 	}
+}
+
+func (i *ironcoffin) handleAttack() {
+	if i.attack == i.preAttackDelay() {
+		t := i.target()
+		if t != nil && i.withinRange(t) {
+			i.fire()
+		} else {
+			i.attack = 0
+			return
+		}
+	}
+	i.attack++
+	if i.attack > i.attackInterval() {
+		i.attack = 0
+	}
+}
+
+func (i *ironcoffin) fire() {
+	b := newBullet(i.targetId, i.bulletLifeTime(), i.attackDamage(), i.game)
+	duration := 0
+	for _, d := range i.player.StatRatios("slowduration") {
+		duration += d
+	}
+	b.MakeFrozen(duration)
+	i.game.AddBullet(b)
 }

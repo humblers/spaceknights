@@ -1,13 +1,14 @@
 extends Node2D
 
-var animByKnightId = {}
-
 var game
+var player
 var shade_nodes=[]
 var shader = preload("res://game/script/custom_shader.gd")
+var show_anim_finished = false
 
 func init(game, player, knights):
 	self.game = game
+	self.player = player
 	init_shade(true)	# must init before knight spawn
 	var positions = ["Center", "Left", "Right"]
 	for i in range(len(positions)):
@@ -19,6 +20,9 @@ func init(game, player, knights):
 		deck.add_child(node)
 		node.get_node("AnimationPlayer").play("show")
 	$Ship.play("show")
+	yield($Ship, "animation_finished")
+	show_anim_finished = true
+	remove_dummy_and_show_knights()
 
 func init_shade(enable):
 	shade_nodes = shader.get_shade_nodes(self)
@@ -31,23 +35,18 @@ func _process(delta):
 	for n in shade_nodes:
 		shader.shade(n, game.MAIN_LIGHT_ANGLE)
 
-func knights_added(knightIds):
+func remove_dummy_and_show_knights():
+	for id in player.knightIds:
+		var knight = game.FindUnit(id)
+		knight.visible = true
 	var positions = ["Center", "Left", "Right"]
 	for i in range(len(positions)):
-		var id = knightIds[i]
 		var pos = positions[i]
-		animByKnightId[id] = get_node("Anim%s" % pos)
 		for child in get_node("Nodes/Deck/%s/Position/Unit" % pos).get_children():
 			child.queue_free()
 
-func partial_destroy(knightId):
-	var anim = animByKnightId[knightId]
-	if anim.is_playing():
-		return
-	anim.play("partial_destroy")
+func partial_destroy(side):
+	get_node("Anim%s" % side).play("partial_destroy")
 
-func destroy(knightId):
-	var anim = animByKnightId[knightId]
-	if anim.is_playing() and anim.current_animation == "destroy":
-		return
-	anim.play("destroy")
+func destroy(side):
+	get_node("Anim%s" % side).play("destroy")

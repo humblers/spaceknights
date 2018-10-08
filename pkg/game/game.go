@@ -9,7 +9,7 @@ import "github.com/humblers/spaceknights/pkg/fixed"
 import "github.com/humblers/spaceknights/pkg/physics"
 import "github.com/humblers/spaceknights/pkg/nav"
 
-const playTime = time.Second * 60
+const playTime = time.Second * 600
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 const knightInitialStep = stepPerSec * 5
@@ -331,54 +331,78 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	id := g.unitCounter
 	var u Unit
 	switch name {
+	case "archengineer":
+		u = newArchengineer(id, level, posX, posY, g, p)
 	case "archer":
 		u = newArcher(id, level, posX, posY, g, p)
-	case "astra":
-		u = newAstra(id, level, posX, posY, g, p)
-	case "tombstone":
-		u = newTombstone(id, level, posX, posY, g, p)
-	case "barrack":
-		u = newBarrack(id, level, posX, posY, g, p)
 	case "archsapper":
 		u = newArchsapper(id, level, posX, posY, g, p)
+	case "astra":
+		u = newAstra(id, level, posX, posY, g, p)
+	case "barrack":
+		u = newBarrack(id, level, posX, posY, g, p)
+	case "berserker":
+		u = newBerserker(id, level, posX, posY, g, p)
+	case "blaster":
+		u = newBlaster(id, level, posX, posY, g, p)
+	case "blastturret":
+		u = newBlastturret(id, level, posX, posY, g, p)
 	case "cannon":
 		u = newCannon(id, level, posX, posY, g, p)
-	case "gargoyle":
-		u = newGargoyle(id, level, posX, posY, g, p)
-	case "giant":
-		u = newGiant(id, level, posX, posY, g, p)
-	case "legion":
-		u = newLegion(id, level, posX, posY, g, p)
-	case "psabu":
-		u = newPsabu(id, level, posX, posY, g, p)
-	case "shadowvision":
-		u = newShadowvision(id, level, posX, posY, g, p)
-	case "nagmash":
-		u = newNagmash(id, level, posX, posY, g, p)
-	case "footman":
-		u = newFootman(id, level, posX, posY, g, p)
-	case "judge":
-		u = newJudge(id, level, posX, posY, g, p)
-	case "panzerkunstler":
-		u = newPanzerkunstler(id, level, posX, posY, g, p)
-	case "jouster":
-		u = newJouster(id, level, posX, posY, g, p)
+	case "champion":
+		u = newChampion(id, level, posX, posY, g, p)
+	case "drillram":
+		u = newDrillram(id, level, posX, posY, g, p)
 	case "enforcer":
 		u = newEnforcer(id, level, posX, posY, g, p)
 	case "felhound":
 		u = newFelhound(id, level, posX, posY, g, p)
-	case "trainee":
-		u = newTrainee(id, level, posX, posY, g, p)
-	case "starfire":
-		u = newStarfire(id, level, posX, posY, g, p)
-	case "pixie":
-		u = newPixie(id, level, posX, posY, g, p)
+	case "footman":
+		u = newFootman(id, level, posX, posY, g, p)
+	case "frost":
+		u = newFrost(id, level, posX, posY, g, p)
+	case "gargoyle":
+		u = newGargoyle(id, level, posX, posY, g, p)
 	case "gargoyleking":
 		u = newGargoyleking(id, level, posX, posY, g, p)
-	case "berserker":
-		u = newBerserker(id, level, posX, posY, g, p)
+	case "giant":
+		u = newGiant(id, level, posX, posY, g, p)
+	case "ironcoffin":
+		u = newIroncoffin(id, level, posX, posY, g, p)
+	case "jouster":
+		u = newJouster(id, level, posX, posY, g, p)
+	case "judge":
+		u = newJudge(id, level, posX, posY, g, p)
+	case "lancer":
+		u = newLancer(id, level, posX, posY, g, p)
+	case "legion":
+		u = newLegion(id, level, posX, posY, g, p)
+	case "nagmash":
+		u = newNagmash(id, level, posX, posY, g, p)
 	case "ogre":
 		u = newOgre(id, level, posX, posY, g, p)
+	case "panzerkunstler":
+		u = newPanzerkunstler(id, level, posX, posY, g, p)
+	case "pixie":
+		u = newPixie(id, level, posX, posY, g, p)
+	case "pixiegeode":
+		u = newPixiegeode(id, level, posX, posY, g, p)
+	case "pixieking":
+		u = newPixieking(id, level, posX, posY, g, p)
+	case "psabu":
+		u = newPsabu(id, level, posX, posY, g, p)
+	case "sentry":
+		u = newSentry(id, level, posX, posY, g, p)
+	case "sentryshelter":
+		u = newSentryshelter(id, level, posX, posY, g, p)
+	case "shadowvision":
+		u = newShadowvision(id, level, posX, posY, g, p)
+	case "starfire":
+		u = newStarfire(id, level, posX, posY, g, p)
+	case "tombstone":
+		u = newTombstone(id, level, posX, posY, g, p)
+	case "trainee":
+		u = newTrainee(id, level, posX, posY, g, p)
 	case "wasp":
 		u = newWasp(id, level, posX, posY, g, p)
 	default:

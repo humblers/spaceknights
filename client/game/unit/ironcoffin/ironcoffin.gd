@@ -100,27 +100,44 @@ func Update():
 		else:
 			cast += 1
 	else:
-		if target() == null:
-			setTarget(findTarget())
-			attack = 0
+		if attack > 0:
+			handleAttack()
+		else:
+			var t = target()
+			if t == null:
+				findTargetAndDoAction()
+			else:
+				if withinRange(t):
+					handleAttack()
+				else:
+					findTargetAndDoAction()
+
+func handleAttack():
+	if attack == 0:
+		$AnimationPlayer.play("attack")
+		$Sound/sound_fire.play()
+	if attack == preAttackDelay():
 		var t = target()
-		if t != null and canSee(t):
+		if t != null and withinRange(t):
+			fire()
+		else:
+			attack = 0
+			return
+	attack += 1
+	if attack > attackInterval():
+		attack = 0
+
+func findTargetAndDoAction():
+	var t = findTarget()
+	setTarget(t)
+	if t != null:
+		if withinRange(t):
+			handleAttack()
+		else:
 			var posX = scalar.Clamp(t.PositionX(), minPosX, maxPosX)
 			moveToPos(posX, PositionY())
-			if withinRange(t):
-				if attack % attackInterval() == 0:
-					$AnimationPlayer.play("attack")
-					fire()
-					var duration = 0
-					for d in player.StatRatios("slowduration"):
-						duration += d
-					t.MakeSlow(duration)
-				attack += 1
-			else:
-				attack = 0
-		else:
-			moveToPos(initPosX, initPosY)
-			attack = 0
+	else:
+		moveToPos(initPosX, initPosY)
 
 func castDuration():
 	return stat.cards[Skill()]["castduration"]
@@ -197,10 +214,15 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
-		
+
 func fire():
 	var b = resource.BULLET[name_].instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	var duration = 0
+	for d in player.StatRatios("slowduration"):
+		duration += d
+	b.MakeFrozen(duration)
 	game.AddBullet(b)
+	
+	# client only
 	b.global_position = $Rotatable/Shotpoint.global_position
-

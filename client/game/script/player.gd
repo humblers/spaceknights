@@ -292,6 +292,8 @@ func AddKnights(knights):
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		var knight = game.FindUnit(id)
+		if not get_node("../../Map/MotherShips/%s" % team).show_anim_finished:
+			knight.visible = false
 		if i == KNIGHT_LEADER_INDEX:
 			knight.SetAsLeader()
 			knight.side = "Center"
@@ -300,7 +302,6 @@ func AddKnights(knights):
 		else:
 			knight.side = "Right"
 		knightIds.append(id)
-	get_node("../../Map/MotherShips/%s" % team).knights_added(knightIds)
 
 func Update():
 	if game.step == game.KNIGHT_INITIAL_STEP:
@@ -406,7 +407,7 @@ func OnKnightDead(knight):
 			knightIds[i] = 0
 			break
 	removeCard(knight.Skill())
-	get_node("../../Map/MotherShips/%s" % team).destroy(knight.Id())
+	get_node("../../Map/MotherShips/%s" % team).destroy(knight.side)
 	expand_spawnable_area(knight)
 
 func expand_spawnable_area(knight):
@@ -417,7 +418,7 @@ func expand_spawnable_area(knight):
 	get_node("../../Map/TileUnit/%s%s" % [t, s]).visible = true
 
 func OnKnightHalfDamaged(knight):
-	get_node("../../Map/MotherShips/%s" % team).partial_destroy(knight.Id())
+	get_node("../../Map/MotherShips/%s" % team).partial_destroy(knight.side)
 
 func removeCard(name):
 	if no_deck:
