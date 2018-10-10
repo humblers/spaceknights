@@ -1,4 +1,4 @@
-extends PopupPanel
+extends Popup
 
 func _ready():
 	$TextureButton.connect("pressed", self, "pressed")

@@ -44,7 +44,7 @@ func load_data():
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
-	$Battle/Requesting.pop(req, 30)
+	$Battle/Requesting.pop(req)
 	var resp = yield(req, "response")
 	var cfg = resp[1].Config
 	tcp.Connect(resp[1].Address, 9999)
