@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://game/unit/blaster/blaster.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/blaster/idle.png" type="Texture" id=2]
@@ -11,25 +11,26 @@
 [ext_resource path="res://game/vfx/beacon_black.png" type="Texture" id=9]
 [ext_resource path="res://game/vfx/beacon_green.png" type="Texture" id=10]
 [ext_resource path="res://game/vfx/beacon_red.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=14]
-[ext_resource path="res://game/vfx/blaster_effect_1.png" type="Texture" id=15]
-[ext_resource path="res://game/vfx/blaster_effect_2.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/blaster_effect_3.png" type="Texture" id=17]
-[ext_resource path="res://game/vfx/blaster_effect_4.png" type="Texture" id=18]
-[ext_resource path="res://game/vfx/blaster_effect_5.png" type="Texture" id=19]
-[ext_resource path="res://game/vfx/blaster_effect_6.png" type="Texture" id=20]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=21]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=22]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=23]
-[ext_resource path="res://game/unit/blaster/attack.tres" type="Animation" id=24]
-[ext_resource path="res://game/unit/blaster/explosion.tres" type="Animation" id=25]
-[ext_resource path="res://game/unit/blaster/idle.tres" type="Animation" id=26]
-[ext_resource path="res://game/unit/blaster/move.tres" type="Animation" id=27]
-[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=12]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/blaster_effect_1.png" type="Texture" id=16]
+[ext_resource path="res://game/vfx/blaster_effect_2.png" type="Texture" id=17]
+[ext_resource path="res://game/vfx/blaster_effect_3.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/blaster_effect_4.png" type="Texture" id=19]
+[ext_resource path="res://game/vfx/blaster_effect_5.png" type="Texture" id=20]
+[ext_resource path="res://game/vfx/blaster_effect_6.png" type="Texture" id=21]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=22]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=23]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=24]
+[ext_resource path="res://game/unit/blaster/attack.tres" type="Animation" id=25]
+[ext_resource path="res://game/unit/blaster/explosion.tres" type="Animation" id=26]
+[ext_resource path="res://game/unit/blaster/idle.tres" type="Animation" id=27]
+[ext_resource path="res://game/unit/blaster/move.tres" type="Animation" id=28]
+[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=31]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -58,70 +59,34 @@ animations = [ {
 "speed": 1.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=4]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=6]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=5]
 
 animations = [ {
-"frames": [ null, ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), null ],
+"frames": [ null, ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), null ],
 "loop": true,
 "name": "blast_effect",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=8]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
-"frames": [ null, ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), null ],
+"frames": [ null, ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), null ],
 "loop": true,
 "name": "blast_light",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=10]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=11]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="CanvasItemMaterial" id=12]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=7]
 
 length = 1.0
 loop = true
@@ -527,58 +492,55 @@ playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
 [node name="Boosterpoint" type="Position2D" parent="Rotatable/Main"]
+visible = false
 position = Vector2( 0, 36 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/Main/Boosterpoint"]
 modulate = Color( 0.156863, 0.682353, 1, 1 )
-material = SubResource( 4 )
+material = ExtResource( 12 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 25 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Main/Boosterpoint"]
-material = SubResource( 6 )
+material = ExtResource( 12 )
 position = Vector2( 0, 10 )
 scale = Vector2( 0.3, 1 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="Shotpoint" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -10 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MissileSmokeL1" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( -40, -10 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FireL1" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL1"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightL1" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL1/FireL1"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeL2" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( -40, 5 )
 rotation = -0.349066
 _sections_unfolded = [ "Transform" ]
@@ -586,22 +548,21 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireL2" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL2"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightL2" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL2/FireL2"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeL3" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( -40, 20 )
 rotation = -0.523599
 _sections_unfolded = [ "Transform" ]
@@ -609,22 +570,21 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireL3" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL3"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightL3" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL3/FireL3"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeL4" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( -40, 35 )
 rotation = -0.698132
 _sections_unfolded = [ "Transform" ]
@@ -632,29 +592,28 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireL4" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL4"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightL4" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeL4/FireL4"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeR1" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( 40, -10 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FireR1" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR1"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
@@ -662,16 +621,15 @@ flip_h = true
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightR1" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR1/FireR1"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeR2" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( 40, 5 )
 rotation = 0.349066
 _sections_unfolded = [ "Transform" ]
@@ -679,7 +637,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireR2" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR2"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
@@ -687,16 +645,15 @@ flip_h = true
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightR2" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR2/FireR2"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeR3" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( 40, 20 )
 rotation = 0.523599
 _sections_unfolded = [ "Transform" ]
@@ -704,7 +661,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireR3" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR3"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
@@ -712,16 +669,15 @@ flip_h = true
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightR3" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR3/FireR3"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="MissileSmokeR4" type="Position2D" parent="Rotatable/Shotpoint"]
-editor/display_folded = true
 position = Vector2( 40, 35 )
 rotation = 0.698132
 _sections_unfolded = [ "Transform" ]
@@ -729,7 +685,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="FireR4" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR4"]
 modulate = Color( 0, 0, 0, 0 )
 position = Vector2( -0.5, -2 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "blast_effect"
 frame = 7
 speed_scale = 2.0
@@ -737,9 +693,9 @@ flip_h = true
 _sections_unfolded = [ "Process Material", "Transform", "Visibility", "frames" ]
 
 [node name="LightR4" type="AnimatedSprite" parent="Rotatable/Shotpoint/MissileSmokeR4/FireR4"]
-material = SubResource( 8 )
+material = ExtResource( 12 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 9 )
+frames = SubResource( 6 )
 animation = "blast_light"
 frame = 7
 flip_h = true
@@ -750,40 +706,39 @@ scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 0.380392, 0.141176, 1 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 22 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+texture = ExtResource( 23 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
-material = SubResource( 10 )
-texture = ExtResource( 14 )
+material = ExtResource( 12 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 0.819608, 0, 1 )
-material = SubResource( 11 )
-texture = ExtResource( 23 )
+material = ExtResource( 12 )
+texture = ExtResource( 24 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 0.654902, 0, 1 )
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 flip_h = true
 flip_v = true
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
@@ -847,35 +802,35 @@ _sections_unfolded = [ "Color", "Process Material", "Time", "Transform" ]
 [node name="SubExp" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 12 )
+material = ExtResource( 12 )
 position = Vector2( -16.25, 18.75 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="SubExp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 12 )
+material = ExtResource( 12 )
 position = Vector2( 20, -6.25 )
 scale = Vector2( 1.3, 1.3 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="SubExp3" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 12 )
+material = ExtResource( 12 )
 position = Vector2( -21.25, -12.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Visibility", "material" ]
 
 [node name="SubExp4" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 12 )
+material = ExtResource( 12 )
 position = Vector2( 20, 18.125 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Visibility", "material" ]
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
@@ -884,7 +839,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 13 )
+anims/explosion = SubResource( 7 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -893,26 +848,15 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 24 )
-anims/explosion = ExtResource( 25 )
-anims/idle = ExtResource( 26 )
-anims/move = ExtResource( 27 )
+anims/attack = ExtResource( 25 )
+anims/explosion = ExtResource( 26 )
+anims/idle = ExtResource( 27 )
+anims/move = ExtResource( 28 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 28 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 29 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -923,6 +867,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 30 )]
+[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 30 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 31 )]
 position = Vector2( 0, -60 )
 
