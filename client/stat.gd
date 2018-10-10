@@ -937,8 +937,8 @@ var units = {
 }
 
 func set_data(var_name, data, overwrite):
+	var variant = get(var_name)
 	for k in data.keys():
-		var variant = get(var_name)
 		if not overwrite and variant.has(k):
 			continue
 		variant[k] = data[k]

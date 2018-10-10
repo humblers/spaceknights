@@ -2,12 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/boj/redistore"
@@ -23,38 +21,21 @@ func main() {
 
 	// set redis connection pool
 	p := &redis.Pool{
-		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", ":6379")
-			if err != nil {
-				return nil, err
-			}
-			return c, nil
-		},
-
+		Dial:        func() (redis.Conn, error) { return redis.Dial("tcp", ":6379") },
 		MaxIdle:     3,
 		IdleTimeout: 240 * time.Second,
 	}
+	defer p.Close()
 
 	// redis session store with session key(key get or generate)
 	rc := p.Get()
-	defer rc.Close()
 	key := "session:key"
-	if _, err := rc.Do("WATCH", key); err != nil {
-		panic(err)
-	}
-	sk, err := redis.Bytes(rc.Do("GET", key))
-	switch err {
-	case nil:
-		rc.Do("UNWATCH", key)
-	case redis.ErrNil:
-		sk = securecookie.GenerateRandomKey(32)
-		rc.Send("MULTI")
-		rc.Send("SET", key, sk)
-		if rep, err := rc.Do("EXEC"); rep == nil || err != nil {
-			panic(fmt.Errorf("error occured while session key generating: %v", err))
+	sk := securecookie.GenerateRandomKey(32)
+	if _, err := rc.Do("SETNX", key, sk); err != nil {
+		sk, err = redis.Bytes(rc.Do("GET", key))
+		if err != nil {
+			panic(err)
 		}
-	default:
-		panic(err)
 	}
 	ss, err := redistore.NewRediStoreWithPool(p, sk)
 	if err != nil {
@@ -62,6 +43,7 @@ func main() {
 	}
 	defer ss.Close()
 	ss.SetKeyPrefix("session:")
+	rc.Close()
 
 	// load various game data from redis
 	lobby.LoadDataFromDB(p, false)
@@ -78,7 +60,7 @@ func main() {
 	idleConnClosed := make(chan struct{})
 	go func() {
 		stop := make(chan os.Signal, 1)
-		signal.Notify(stop, syscall.SIGINT)
+		signal.Notify(stop, os.Interrupt)
 		<-stop
 
 		mm.Stop()
@@ -87,8 +69,6 @@ func main() {
 			logger.Printf("HTTP server Shutdown(%v)", err)
 		}
 		close(idleConnClosed)
-
-		p.Close()
 	}()
 
 	// serve http
