@@ -1,22 +1,24 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/unit/shadowvision/shadowvision.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/shadowvision/shadow_vision.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/shadowvision/shadowvision_s.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/shadowvision/shadowvision_f.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/shadowvision/shadowvision_r.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=15]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/unit/normal_material.tres" type="Material" id=2]
+[ext_resource path="res://game/unit/shadowvision/shadow_vision.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/shadowvision/shadowvision_Normal.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/shadowvision/shadowvision_s.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/shadowvision/shadowvision_f.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/shadowvision/shadowvision_r.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=8]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=12]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=18]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=19]
 
 [sub_resource type="Gradient" id=1]
 
@@ -121,7 +123,7 @@ _sections_unfolded = [ "Color", "Initial Velocity" ]
 [sub_resource type="SpriteFrames" id=7]
 
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
@@ -1144,36 +1146,38 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
 use_parent_material = true
+position = Vector2( 200, 270 )
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Main" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
-use_parent_material = true
-texture = ExtResource( 2 )
+material = ExtResource( 2 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Shade" type="Node2D" parent="Rotatable/Main"]
 editor/display_folded = true
+visible = false
 _sections_unfolded = [ "Transform" ]
 
 [node name="Left" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.000465393 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
 [node name="Right" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 flip_h = true
 _sections_unfolded = [ "Offset" ]
 
 [node name="Front" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0.999535 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 
 [node name="Rear" type="Sprite" parent="Rotatable/Main/Shade"]
 modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 
 [node name="FlashingGreen" type="Particles2D" parent="Rotatable/Main/Shade"]
 position = Vector2( 58.5, 23.5 )
@@ -1231,7 +1235,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Main/BoosterPointL"]
 visible = false
 modulate = Color( 0.913725, 0.729412, 0.0980392, 1 )
-material = ExtResource( 6 )
+material = ExtResource( 8 )
 position = Vector2( 0, -5 )
 scale = Vector2( 1, 1.3 )
 frames = SubResource( 7 )
@@ -1244,10 +1248,10 @@ _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Tran
 [node name="LightL" type="Sprite" parent="Rotatable/Main/BoosterPointL"]
 visible = false
 modulate = Color( 0.941176, 0.862745, 0.619608, 1 )
-material = ExtResource( 6 )
+material = ExtResource( 8 )
 position = Vector2( 0, -5 )
 scale = Vector2( 1.3, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="BoosterPointR" type="Position2D" parent="Rotatable/Main"]
@@ -1258,7 +1262,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Main/BoosterPointR"]
 visible = false
 modulate = Color( 0.913725, 0.729412, 0.0980392, 1 )
-material = ExtResource( 6 )
+material = ExtResource( 8 )
 position = Vector2( 0, -5 )
 scale = Vector2( 1, 1.3 )
 frames = SubResource( 7 )
@@ -1271,10 +1275,10 @@ _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Tran
 [node name="LightR" type="Sprite" parent="Rotatable/Main/BoosterPointR"]
 visible = false
 modulate = Color( 0.941176, 0.862745, 0.619608, 1 )
-material = ExtResource( 6 )
+material = ExtResource( 8 )
 position = Vector2( 0, -5 )
 scale = Vector2( 1.3, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Shotpoint" type="Node2D" parent="Rotatable"]
@@ -1295,8 +1299,8 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Light" type="Sprite" parent="Rotatable/Forcefield"]
 modulate = Color( 0.254902, 0.247059, 0.976471, 1 )
-material = ExtResource( 6 )
-texture = ExtResource( 2 )
+material = ExtResource( 8 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Forcefield"]
@@ -1362,10 +1366,11 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Emission Shape", "Gravity", "Initial Velocity", "Linear Accel", "Radial Accel", "Scale", "Spread", "Time", "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Forcefield"]
+visible = false
 modulate = Color( 1, 1, 1, 0.254157 )
 position = Vector2( 0, -65 )
 scale = Vector2( 0.5, 0.1 )
-texture = ExtResource( 10 )
+texture = ExtResource( 12 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
@@ -1378,13 +1383,13 @@ _sections_unfolded = [ "Transform" ]
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 11 )
+texture = ExtResource( 13 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 14 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
@@ -1392,7 +1397,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 9 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 9 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
@@ -1401,7 +1406,7 @@ modulate = Color( 0.384314, 0.101961, 1, 0 )
 material = SubResource( 10 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 13 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
@@ -1409,7 +1414,7 @@ visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 13 )
+texture = ExtResource( 15 )
 flip_h = true
 flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -1483,7 +1488,7 @@ playback_speed = 1.0
 anims/explosion = SubResource( 12 )
 blend_times = [  ]
 
-[node name="Energyshield" parent="." instance=ExtResource( 14 )]
+[node name="Energyshield" parent="." instance=ExtResource( 16 )]
 scale = Vector2( 0.8, 0.8 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1503,7 +1508,7 @@ blend_times = [  ]
 editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 15 )
+stream = ExtResource( 17 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -1514,7 +1519,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 16 )
+stream = ExtResource( 18 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -1524,6 +1529,6 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 17 )]
+[node name="Hp" parent="." instance=ExtResource( 19 )]
 position = Vector2( 0, -75 )
 
