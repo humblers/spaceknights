@@ -171,22 +171,8 @@ func (s *server) listenLobby() {
 					if err := packet(b).parse(&cfg); err != nil {
 						panic(err)
 					}
-					var exists bool
-					if s.findGame(cfg.Id) != nil {
-						exists = true
-					}
-					resp := LobbyResponse{
-						Exists: exists,
-					}
-					if exists {
-						if _, err := conn.Write(newPacket(resp)); err != nil {
-							panic(err)
-						}
-						return
-					}
 					s.runGame(cfg)
-					resp.Created = true
-					if _, err := conn.Write(newPacket(resp)); err != nil {
+					if _, err := conn.Write(newPacket(LobbyResponse{true})); err != nil {
 						panic(err)
 					}
 				}()

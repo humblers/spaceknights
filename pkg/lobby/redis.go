@@ -140,17 +140,6 @@ func convertMap(v reflect.Value, src []interface{}, err error) error {
 	return nil
 }
 
-func scanMap(dest interface{}, src []interface{}, err error) error {
-	if err != nil {
-		return err
-	}
-	d := reflect.ValueOf(dest)
-	if d.Kind() != reflect.Ptr || d.IsNil() {
-		return errors.New("dest must be non-nil pointer to a struct")
-	}
-	return convertMap(d.Elem(), src, nil)
-}
-
 func convertSlice(v reflect.Value, src []interface{}, err error) error {
 	if err != nil {
 		return err
@@ -196,17 +185,6 @@ func convertSlice(v reflect.Value, src []interface{}, err error) error {
 		}
 	}
 	return nil
-}
-
-func scanSlice(dest interface{}, src []interface{}, err error) error {
-	if err != nil {
-		return err
-	}
-	d := reflect.ValueOf(dest)
-	if d.Kind() != reflect.Ptr || d.IsNil() {
-		return errors.New("dest must be non-nil pointer to a struct")
-	}
-	return convertSlice(d.Elem(), src, nil)
 }
 
 func parseTag(sf reflect.StructField) (string, string, error) {

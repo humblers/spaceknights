@@ -31,10 +31,6 @@ type UnitResponse struct {
 	Units      map[string]map[string]interface{}
 }
 
-type MatchRequest struct {
-	Type string
-}
-
 type KnightData struct {
 	Name  string
 	Level int

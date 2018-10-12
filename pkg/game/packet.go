@@ -68,23 +68,6 @@ type Config struct {
 	Players []PlayerData
 }
 
-//// temporary
-type LobbyRequest struct {
-	SessionId string
-	MapName   string
-	Blue      struct {
-		UserId  string
-		Deck    []Card
-		Knights []KnightData
-	}
-	Red struct {
-		UserId  string
-		Deck    []Card
-		Knights []KnightData
-	}
-	DoNotCreate bool
-}
 type LobbyResponse struct {
 	Created bool
-	Exists  bool
 }
