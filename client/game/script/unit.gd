@@ -22,8 +22,6 @@ var slowUntil = 0
 var freeze = 0
 
 var node_hp
-var shade_nodes=[]
-var custom_shader = preload("res://game/script/custom_shader.gd")
 var shader_material = preload("res://game/unit/shader_material.tres")
 var damages = {}
 var client_team
@@ -37,18 +35,8 @@ func InitDummy(posX, posY, game, player, enable_shade, initial_angle=0):
 		posY = game.FlipY(posY)
 	position = Vector2(posX, posY)
 	init_rotation(initial_angle)
-	init_shade(enable_shade)
-
-func init_shade(enable):
-	shade_nodes = custom_shader.get_shade_nodes(self)
-	for n in shade_nodes:
-		custom_shader.init(n, enable)
-	if not enable:
-		shade_nodes = []
 
 func _process(delta):
-	for n in shade_nodes:
-		custom_shader.shade(n, game.MAIN_LIGHT_ANGLE)
 	show_damage(delta)
 
 func show_damage(elapsed):
@@ -94,7 +82,6 @@ func New(id, name, team, level, posX, posY, game):
 		client_team = "Red" if team == "Blue" else "Blue"
 	position = Vector2(posX, posY)
 	init_rotation()
-	init_shade(true)
 	material = shader_material.duplicate()
 	material.set_shader_param("is_blue", true if team == "Blue" else false)
 	return self
