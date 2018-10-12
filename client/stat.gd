@@ -4,7 +4,7 @@ const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
 const SlowPercent = 50
 
-const cards = {
+var cards = {
 	"archers": {
 		"cost":    3000,
 		"unit":    "archer",
@@ -316,7 +316,7 @@ const passives = {
 	},
 }
 
-const units = {
+var units = {
 	"archer": {
 		"type":           "Troop",
 		"layer":          "Normal",
@@ -935,3 +935,10 @@ const units = {
 		"bulletlifetime": 19,
 	},
 }
+
+func set_data(var_name, data, overwrite):
+	var variant = get(var_name)
+	for k in data.keys():
+		if not overwrite and variant.has(k):
+			continue
+		variant[k] = data[k]

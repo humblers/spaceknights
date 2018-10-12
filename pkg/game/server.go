@@ -167,43 +167,12 @@ func (s *server) listenLobby() {
 					if err != nil {
 						panic(err)
 					}
-					var req LobbyRequest
-					if err := packet(b).parse(&req); err != nil {
+					var cfg Config
+					if err := packet(b).parse(&cfg); err != nil {
 						panic(err)
 					}
-					var exists bool
-					if s.findGame(req.SessionId) != nil {
-						exists = true
-					}
-					resp := LobbyResponse{
-						Exists: exists,
-					}
-					if exists || req.DoNotCreate {
-						if _, err := conn.Write(newPacket(resp)); err != nil {
-							panic(err)
-						}
-						return
-					}
-					s.runGame(Config{
-						Id:      req.SessionId,
-						MapName: req.MapName,
-						Players: []PlayerData{
-							PlayerData{
-								Id:      req.Blue.UserId,
-								Team:    Blue,
-								Deck:    req.Blue.Deck,
-								Knights: req.Blue.Knights,
-							},
-							PlayerData{
-								Id:      req.Red.UserId,
-								Team:    Red,
-								Deck:    req.Red.Deck,
-								Knights: req.Red.Knights,
-							},
-						},
-					})
-					resp.Created = true
-					if _, err := conn.Write(newPacket(resp)); err != nil {
+					s.runGame(cfg)
+					if _, err := conn.Write(newPacket(LobbyResponse{true})); err != nil {
 						panic(err)
 					}
 				}()
