@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://game/unit/archsapper/archsapper.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archsapper/meteor_big.png" type="Texture" id=2]
@@ -59,8 +59,9 @@
 [ext_resource path="res://game/sfx/stun.wav" type="AudioStream" id=57]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=58]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=59]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=60]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 32 ), ExtResource( 33 ) ],
@@ -69,35 +70,35 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=2]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.8872 ), 0.0, 0.0, 0, 0, Vector2( 0.954903, 0.2272 ), -0.121345, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.0208615, 0.3064 ), 0.0, 0.0, 0, 0, Vector2( 0.885539, 0.9312 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.9928 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.4912 ), -0.664559, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.412 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 
 resource_name = "explosion"
 length = 1.5
@@ -382,6 +383,7 @@ scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -492,6 +494,7 @@ offset = Vector2( 0, -6 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="Main" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 material = ExtResource( 11 )
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
@@ -852,9 +855,8 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Body/Main/BoosterPointL"]
 modulate = Color( 0.12549, 1, 0.486275, 1 )
 material = ExtResource( 31 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -877,9 +879,8 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Body/Main/BoosterPointR"]
 modulate = Color( 0.12549, 1, 0.486275, 1 )
 material = ExtResource( 31 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -995,7 +996,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 2 )
 color = Color( 0.678431, 0.411765, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1062,7 +1063,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 4 )
+scale_curve = SubResource( 3 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1129,7 +1130,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 4 )
+scale_curve = SubResource( 3 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1196,7 +1197,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 5.0
 scale_random = 0.0
-scale_curve = SubResource( 5 )
+scale_curve = SubResource( 4 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1329,7 +1330,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 6 )
+scale_curve = SubResource( 5 )
 color = Color( 0.552941, 0.603922, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1363,7 +1364,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 7 )
+anims/explosion = SubResource( 6 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1407,4 +1408,30 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 59 )]
 position = Vector2( 0, -105 )
+
+[node name="Node2D" type="Light2D" parent="."]
+position = Vector2( -96.2045, -88.9393 )
+scale = Vector2( 10, 10 )
+enabled = true
+editor_only = false
+texture = ExtResource( 60 )
+offset = Vector2( 0, 0 )
+texture_scale = 50.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.5
+mode = 2
+range_height = 20.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Range", "Transform" ]
 
