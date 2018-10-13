@@ -1,32 +1,28 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://game/unit/wasp/wasp.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/wasp/body.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/wasp/body_f.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/wasp/body_r.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/wasp/body_s.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/wasp/booster_nozzle.png" type="Texture" id=6]
-[ext_resource path="res://game/unit/wasp/booster_nozzle_f.png" type="Texture" id=7]
-[ext_resource path="res://game/unit/wasp/booster_nozzle_r.png" type="Texture" id=8]
-[ext_resource path="res://game/unit/wasp/booster_nozzle_s.png" type="Texture" id=9]
-[ext_resource path="res://game/unit/wasp/powerpack.png" type="Texture" id=10]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=11]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=14]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=15]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=17]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=18]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=19]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=20]
-[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosions_2.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/unit/wasp/body_normal.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/wasp/booster_nozzle.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/wasp/booster_nozzle_normal.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/wasp/powerpack.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=7]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/circle.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=12]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/sfx/explosions_2.wav" type="AudioStream" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
@@ -60,14 +56,14 @@ max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=6]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.8256 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.162958, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=7]
 
 min_value = 0.0
 max_value = 1.0
@@ -2124,8 +2120,9 @@ tracks/39/keys = {
 }
 
 [node name="Wasp" type="Node2D"]
+use_parent_material = true
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
 use_parent_material = true
@@ -2133,89 +2130,44 @@ scale = Vector2( 1.3, 1.3 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Shade" type="Node2D" parent="Rotatable/Body"]
-editor/display_folded = true
-_sections_unfolded = [ "Transform" ]
-
-[node name="Front" type="Sprite" parent="Rotatable/Body/Shade"]
-visible = false
-texture = ExtResource( 3 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Body/Shade"]
-visible = false
-texture = ExtResource( 4 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Body/Shade"]
-visible = false
-texture = ExtResource( 5 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Body/Shade"]
-visible = false
-texture = ExtResource( 5 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
-
 [node name="Frame" type="Sprite" parent="Rotatable/Body"]
-editor/display_folded = true
 show_behind_parent = true
 light_mask = 2
 use_parent_material = true
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
+normal_map = ExtResource( 5 )
 offset = Vector2( 0, -4 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
-
-[node name="Shade" type="Node2D" parent="Rotatable/Body/Frame"]
-editor/display_folded = true
-position = Vector2( 0, -4 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Front" type="Sprite" parent="Rotatable/Body/Frame/Shade"]
-visible = false
-texture = ExtResource( 7 )
-
-[node name="Rear" type="Sprite" parent="Rotatable/Body/Frame/Shade"]
-visible = false
-texture = ExtResource( 8 )
-
-[node name="Left" type="Sprite" parent="Rotatable/Body/Frame/Shade"]
-visible = false
-texture = ExtResource( 9 )
-
-[node name="Right" type="Sprite" parent="Rotatable/Body/Frame/Shade"]
-visible = false
-texture = ExtResource( 9 )
-flip_h = true
-_sections_unfolded = [ "Offset" ]
 
 [node name="PowerL1" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
 position = Vector2( -22, -2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="PowerL2" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
 position = Vector2( -20, 14 )
 rotation = -0.261799
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="PowerL3" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
 position = Vector2( -15, 30 )
 rotation = -0.523599
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="PowerR1" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
 position = Vector2( 22, -2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
@@ -2223,7 +2175,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 use_parent_material = true
 position = Vector2( 20, 14 )
 rotation = 0.261799
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
@@ -2231,18 +2183,18 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 use_parent_material = true
 position = Vector2( 15, 30 )
 rotation = 0.523599
-texture = ExtResource( 10 )
+texture = ExtResource( 6 )
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Boosterpoint" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 position = Vector2( 0, 40 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Boosterpoint"]
+visible = false
 modulate = Color( 0.968627, 0.909804, 0.0156863, 1 )
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 1, 1.3 )
 frames = SubResource( 1 )
 animation = "thrust"
@@ -2253,14 +2205,14 @@ offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Light" type="Sprite" parent="Rotatable/Body/Boosterpoint"]
+visible = false
 modulate = Color( 1, 0.882353, 0.717647, 1 )
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 1.3, 1.8 )
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Shootpoint" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 light_mask = 3
 position = Vector2( 0, -48 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -2269,7 +2221,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 _sections_unfolded = [ "Transform" ]
 
 [node name="Blow" type="CPUParticles2D" parent="Rotatable/Body/Shootpoint/Shoot"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 1.5
 emitting = false
 amount = 17
@@ -2283,7 +2235,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 15 )
+texture = ExtResource( 11 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2332,9 +2284,9 @@ _sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape",
 
 [node name="Light1" type="Sprite" parent="Rotatable/Body/Shootpoint/Shoot"]
 visible = false
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Exhaust" type="Node2D" parent="Rotatable/Body/Shootpoint"]
@@ -2343,7 +2295,7 @@ position = Vector2( -40, 70 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt1" type="CPUParticles2D" parent="Rotatable/Body/Shootpoint/Exhaust"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -2356,7 +2308,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 15 )
+texture = ExtResource( 11 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2405,9 +2357,9 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Drawing", "Emissio
 
 [node name="Light2" type="Sprite" parent="Rotatable/Body/Shootpoint/Exhaust"]
 visible = false
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Exhaust2" type="Node2D" parent="Rotatable/Body/Shootpoint"]
@@ -2416,7 +2368,7 @@ position = Vector2( 40, 70 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt2" type="CPUParticles2D" parent="Rotatable/Body/Shootpoint/Exhaust2"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 emitting = false
 amount = 16
 lifetime = 1.0
@@ -2429,7 +2381,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 15 )
+texture = ExtResource( 11 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2478,18 +2430,17 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Drawing", "Emissio
 
 [node name="Light3" type="Sprite" parent="Rotatable/Body/Shootpoint/Exhaust2"]
 visible = false
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="UnitExplosion" type="Node2D" parent="Rotatable/Body"]
-editor/display_folded = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Around" type="CPUParticles2D" parent="Rotatable/Body/UnitExplosion"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 rotation = 2.98023e-008
 scale = 2.0
 emitting = false
@@ -2504,7 +2455,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 16 )
+texture = ExtResource( 12 )
 normalmap = null
 emission_shape = 2
 emission_rect_extents = Vector2( 1, 1 )
@@ -2567,7 +2518,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 17 )
+texture = ExtResource( 13 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2599,7 +2550,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 6 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -2615,7 +2566,7 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Emission Shape", "Gravity", "Material", "Radial Accel", "Scale", "Spread", "Time", "Transform", "Visibility", "material", "scale_curve" ]
 
 [node name="Center" type="CPUParticles2D" parent="Rotatable/Body/UnitExplosion"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 1.5
 emitting = false
 amount = 10
@@ -2629,7 +2580,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 16 )
+texture = ExtResource( 12 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2661,7 +2612,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.5
-scale_curve = SubResource( 6 )
+scale_curve = SubResource( 7 )
 color = Color( 1, 0.796078, 0.529412, 0.862745 )
 color_ramp = null
 hue_variation = 0.0
@@ -2677,7 +2628,7 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Damping", "Drawing", "Emission Shape", "Gravity", "Hue Variation", "Material", "Radial Accel", "Scale", "Spread", "Tangential Accel", "Time" ]
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Body/UnitExplosion"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 30
@@ -2691,7 +2642,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 15 )
+texture = ExtResource( 11 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 20.0
@@ -2751,7 +2702,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 18 )
+texture = ExtResource( 14 )
 normalmap = null
 emission_shape = 0
 emission_points = PoolVector2Array(  )
@@ -2795,27 +2746,25 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
-_sections_unfolded = [ "Color", "Drawing", "Flags", "Gravity", "Initial Velocity", "Scale", "Spread", "Time" ]
+_sections_unfolded = [ "Color", "Drawing", "Flags", "Gravity", "Initial Velocity", "Material", "Scale", "Spread", "Time" ]
 
 [node name="Light2" type="Sprite" parent="Rotatable/Body/UnitExplosion"]
 visible = false
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Meltexplosion" type="Node2D" parent="Rotatable/Body"]
 position = Vector2( -58.6767, -6.58615 )
-scale = Vector2( 1, 1 )
 
 [node name="Set1" type="Node2D" parent="Rotatable/Body/Meltexplosion"]
-editor/display_folded = true
 position = Vector2( 16.2451, -4.51254 )
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt1" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set1"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -2829,7 +2778,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2882,7 +2831,7 @@ position = Vector2( 110.106, -27.0752 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="Melt2" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set2"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -2896,7 +2845,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -2950,7 +2899,7 @@ scale = Vector2( 1.3, 1.3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt3" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set3"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -2964,7 +2913,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -3018,7 +2967,7 @@ scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt4" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set4"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -3032,7 +2981,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -3085,7 +3034,7 @@ position = Vector2( 27.0752, 72.2006 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="Melt5" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set5"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -3099,7 +3048,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -3147,13 +3096,12 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Hue Variation", "Initial Velocity", "Material", "Radial Accel", "Scale", "Spread", "Time", "Transform" ]
 
 [node name="Set6" type="Node2D" parent="Rotatable/Body/Meltexplosion"]
-editor/display_folded = true
 position = Vector2( 85.7382, 56.858 )
 scale = Vector2( 1, 1.2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Melt6" type="CPUParticles2D" parent="Rotatable/Body/Meltexplosion/Set6"]
-material = ExtResource( 11 )
+material = ExtResource( 7 )
 scale = 2.0
 emitting = false
 amount = 17
@@ -3167,7 +3115,7 @@ fixed_fps = 0
 fract_delta = true
 local_coords = true
 draw_order = 0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -3226,17 +3174,17 @@ anims/idle = SubResource( 13 )
 anims/move = SubResource( 14 )
 blend_times = [  ]
 
-[node name="Energyshield" parent="." instance=ExtResource( 19 )]
+[node name="Energyshield" parent="." instance=ExtResource( 15 )]
 scale = Vector2( 0.8, 0.8 )
 
-[node name="Hp" parent="." instance=ExtResource( 20 )]
+[node name="Hp" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0, -80 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
+stream = ExtResource( 17 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -3247,7 +3195,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
+stream = ExtResource( 18 )
 volume_db = -2.0
 pitch_scale = 1.0
 autoplay = false

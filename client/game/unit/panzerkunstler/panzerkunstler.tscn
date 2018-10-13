@@ -58,7 +58,7 @@ max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 23 ), ExtResource( 24 ) ],
@@ -67,7 +67,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 
 length = 1.0
 loop = false
@@ -313,7 +313,7 @@ tracks/19/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 
 length = 4.0
 loop = false
@@ -1063,7 +1063,7 @@ tracks/61/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=7]
 
 length = 3.0
 loop = false
@@ -1849,7 +1849,7 @@ tracks/64/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=8]
 
 resource_name = "explosion"
 length = 1.0
@@ -2408,7 +2408,7 @@ tracks/45/keys = {
 "values": [ false, false ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=9]
 
 length = 0.01
 loop = false
@@ -2966,7 +2966,7 @@ tracks/45/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 
 length = 0.01
 loop = false
@@ -3544,7 +3544,7 @@ use_parent_material = true
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 offset = Vector2( 0, -2 )
-_sections_unfolded = [ "Material", "Offset", "Transform" ]
+_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Kira" type="Position2D" parent="Rotatable/Body/Head"]
 visible = false
@@ -3575,7 +3575,6 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
-light_mask = 2
 use_parent_material = true
 position = Vector2( -28, 0 )
 texture = ExtResource( 8 )
@@ -3588,7 +3587,7 @@ use_parent_material = true
 rotation = -0.523599
 texture = ExtResource( 10 )
 offset = Vector2( -12, 0 )
-_sections_unfolded = [ "Material", "Transform" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="LowerarmL" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL"]
 show_behind_parent = true
@@ -3778,13 +3777,12 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
-light_mask = 2
 use_parent_material = true
 position = Vector2( 28, 0 )
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 flip_h = true
-_sections_unfolded = [ "Material", "Transform" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="UpperarmR" type="Sprite" parent="Rotatable/Body/ShoulderR"]
 show_behind_parent = true
@@ -3793,7 +3791,7 @@ rotation = 0.523599
 texture = ExtResource( 10 )
 offset = Vector2( 12, 0 )
 flip_h = true
-_sections_unfolded = [ "Material", "Transform" ]
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="LowerarmR" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR"]
 show_behind_parent = true
@@ -3989,7 +3987,6 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Lowerbody" type="Sprite" parent="Rotatable"]
 show_behind_parent = true
-light_mask = 2
 use_parent_material = true
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
@@ -4030,8 +4027,9 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -4057,8 +4055,9 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -4204,7 +4203,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 8 )
+anims/explosion = SubResource( 5 )
 blend_times = [  ]
 
 [node name="Hitpoint" type="Position2D" parent="."]
@@ -4217,11 +4216,11 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 9 )
-anims/attack-2 = SubResource( 10 )
-anims/explosion = SubResource( 11 )
-anims/idle = SubResource( 12 )
-anims/move = SubResource( 13 )
+anims/attack = SubResource( 6 )
+anims/attack-2 = SubResource( 7 )
+anims/explosion = SubResource( 8 )
+anims/idle = SubResource( 9 )
+anims/move = SubResource( 10 )
 next/attack = "attack-2"
 blend_times = [ "attack", "attack", 0.3, "attack", "attack-2", 0.3 ]
 _sections_unfolded = [ "Playback Options" ]
