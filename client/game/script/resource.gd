@@ -1,5 +1,7 @@
 extends Node
 
+const LOBBY = preload("res://lobby/resource/resource.gd")
+
 const WORLD = preload("res://game/script/physics/world.gd")
 const MAP = {
 	"Thanatos": preload("res://game/script/nav/thanatos.gd")

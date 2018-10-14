@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 const LOBBY_HOST = "13.125.74.237"
 const LOBBY_PORT = 8080
@@ -6,6 +6,13 @@ const LOBBY_PORT = 8080
 var uid
 
 func _ready():
+	var dx = self.rect_size.x - $Pages/Viewer/Control.rect_size.x
+	$Pages/Viewer/Control.margin_left -= dx / 2
+	$Pages/Viewer/Control.margin_right += dx / 2
+
+	for page in ["Battle", "Card"]:
+		$Pages/Viewer/Control/Bot.get_node(page).connect("button_up", self, "move_to_page", [page])
+
 	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
@@ -30,8 +37,11 @@ func login():
 		return
 	user.Id = response[1].UID
 	var user = response[1].User
-	$HUD.init(user.Level, user.Exp, user.Galacticoin, user.Dimensium)
-	$Battle/Mid/Match.connect("pressed", self, "match_request")
+	$Pages/Viewer/Control/Top/Level.text = "%d" % (user.Level + 1)
+	$Pages/Viewer/Control/Top/Level/Exp.text = "%d/xxx" % user.Exp
+	$Pages/Viewer/Control/Top/Galacticoin.text = "%d" % user.Galacticoin
+	$Pages/Viewer/Control/Top/Dimensium.text = "%d" % user.Dimensium
+	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
 
 func load_data():
 	var overwrite = false # set true when production level
@@ -44,7 +54,7 @@ func load_data():
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
-	$Battle/Requesting.pop(req)
+	#$Battle/Requesting.pop(req)
 	var resp = yield(req, "response")
 	var cfg = resp[1].Config
 	tcp.Connect(resp[1].Address, 9999)
@@ -56,3 +66,15 @@ func match_request():
 	g.connected = true
 	g.cfg = cfg
 	get_tree().get_root().add_child(g)
+
+func move_to_page(page):
+	var tween = $Pages/Tween
+	var viewer = $Pages/Viewer
+	var dest = $Pages.get_node("%s/CenterPoint" % page)
+	tween.interpolate_property(
+			viewer,
+			"global_position",
+			viewer.global_position,
+			dest.global_position,
+			0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.start()
