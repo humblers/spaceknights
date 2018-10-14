@@ -18,7 +18,7 @@ func TakeDamage(amount, attackType):
 		if shield < 0:
 			hp += shield
 			shield = 0
-		$Energyshield/AnimationPlayer.play("energyshield")
+		$Energyshield/EnergyShieldAni.play("energyshield")
 	else:
 		hp -= amount
 		if attackType != "Self":
