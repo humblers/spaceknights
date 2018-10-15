@@ -2,7 +2,7 @@ extends VBoxContainer
 
 const MAX_ENERGY = 10000
 const START_ENERGY = 7000
-const ENERGY_PER_FRAME = 400
+const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
 const ROLLING_INTERVAL_STEP = 30
 

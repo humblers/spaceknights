@@ -28,7 +28,7 @@ func login():
 	if not response[0]:
 		handle_error(response[1].ErrMessage)
 		return
-	uid = response[1].UID
+	user.Id = response[1].UID
 	var user = response[1].User
 	$HUD.init(user.Level, user.Exp, user.Galacticoin, user.Dimensium)
 	$Battle/Mid/Match.connect("pressed", self, "match_request")
@@ -49,7 +49,7 @@ func match_request():
 	var cfg = resp[1].Config
 	tcp.Connect(resp[1].Address, 9999)
 	yield(tcp, "connected")
-	tcp.Send({"Id": uid, "Token": uid})
+	tcp.Send({"Id": user.Id, "Token": user.Id})
 	tcp.Send({"GameId": cfg.Id})
 	queue_free()
 	var g = preload("res://game/game.tscn").instance()
