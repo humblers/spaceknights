@@ -29,9 +29,9 @@
 [ext_resource path="res://game/unit/psabu/foot_normal.png" type="Texture" id=27]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=28]
 [ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=29]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=31]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=32]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=30]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=31]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=32]
 [ext_resource path="res://game/hpbar/hpshieldbar_l.tscn" type="PackedScene" id=33]
 [ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=34]
 [ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=35]
@@ -3156,6 +3156,7 @@ use_parent_material = true
 _sections_unfolded = [ "Material" ]
 
 [node name="Chest" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
@@ -3503,6 +3504,7 @@ offset = Vector2( 2, -4 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Hitpoint" type="Position2D" parent="Rotatable"]
+editor/display_folded = true
 position = Vector2( 0, -110 )
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -3919,9 +3921,8 @@ anim_offset_curve = null
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Hue Variation", "Scale", "Spread", "Time", "Transform" ]
 
-[node name="Energyshield" parent="Rotatable" instance=ExtResource( 30 )]
-
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 2.5, 2.5 )
 _sections_unfolded = [ "Transform" ]
 
@@ -3930,13 +3931,13 @@ _sections_unfolded = [ "Transform" ]
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 31 )
+texture = ExtResource( 30 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 32 )
+texture = ExtResource( 31 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
@@ -4033,6 +4034,8 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/explosion = SubResource( 7 )
 blend_times = [  ]
+
+[node name="Energyshield" parent="." instance=ExtResource( 32 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
