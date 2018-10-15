@@ -137,6 +137,8 @@ func adjustSkillAnim():
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	if game.team_swapped:
+		vec = vec.rotated(PI)
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
@@ -164,7 +166,11 @@ func bulletrain():
 	# client only
 	var skill = resource.SKILL[name_].instance()
 	game.get_node("Skills").add_child(skill)
-	skill.position = Vector2(castPosX, castPosY)
+	var pos = Vector2(castPosX, castPosY)
+	if game.team_swapped:
+		pos.x = game.FlipX(pos.x)
+		pos.y = game.FlipY(pos.y)
+	skill.position = pos
 	skill.z_index = Z_INDEX["Skill"]
 
 func target():
