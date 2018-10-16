@@ -27,7 +27,7 @@
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=25]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=26]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
@@ -36,7 +36,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
@@ -45,7 +45,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 12 ) ],
@@ -54,7 +54,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=4]
 
 resource_name = "explosion"
 length = 1.0
@@ -325,7 +325,7 @@ tracks/21/keys = {
 "values": [ Color( 0, 0.742188, 1, 1 ), Color( 0, 0.742188, 1, 0.160235 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=5]
 
 resource_name = "attack"
 length = 0.01
@@ -512,7 +512,7 @@ tracks/14/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=6]
 
 length = 1.0
 loop = false
@@ -697,8 +697,18 @@ tracks/14/keys = {
 "update": 1,
 "values": [ false, false ]
 }
+tracks/15/type = "animation"
+tracks/15/path = NodePath("Rotatable/Explosion/ExplosionAni")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"clips": PoolStringArray( "explosion" ),
+"times": PoolRealArray( 0 )
+}
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=7]
 
 length = 0.01
 loop = false
@@ -884,7 +894,7 @@ tracks/14/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=8]
 
 length = 5.0
 loop = false
@@ -1118,7 +1128,7 @@ tracks/18/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=9]
 
 length = 5.0
 loop = false
@@ -1303,6 +1313,7 @@ scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
@@ -1310,6 +1321,7 @@ offset = Vector2( 0, 1 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="BoosterPoint1" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, 47 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -1320,8 +1332,9 @@ modulate = Color( 0.207843, 0.478431, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 0.348488 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -1345,21 +1358,22 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Body"]
 position = Vector2( -59, 82 )
 rotation = -0.523599
-frames = SubResource( 4 )
+frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Body"]
 position = Vector2( 59, 82 )
 rotation = 0.523599
-frames = SubResource( 5 )
+frames = SubResource( 3 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
 [node name="Rear" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 texture = ExtResource( 13 )
@@ -1377,8 +1391,9 @@ visible = false
 modulate = Color( 0.105882, 0.356863, 0.952941, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -1400,6 +1415,7 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Shotpoint" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 position = Vector2( 0, -40 )
 _sections_unfolded = [ "Transform" ]
 
@@ -1418,6 +1434,7 @@ scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+editor/display_folded = true
 
 [node name="ExRing1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -1565,7 +1582,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = SubResource( 10 )
+anims/explosion = SubResource( 4 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1574,11 +1591,11 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 11 )
-anims/explosion = SubResource( 12 )
-anims/idle = SubResource( 13 )
-anims/show = SubResource( 14 )
-anims/skill = SubResource( 15 )
+anims/attack = SubResource( 5 )
+anims/explosion = SubResource( 6 )
+anims/idle = SubResource( 7 )
+anims/show = SubResource( 8 )
+anims/skill = SubResource( 9 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]

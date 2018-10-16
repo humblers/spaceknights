@@ -40,9 +40,11 @@ func Destroy():
 	.Destroy()
 	TileOccupier.Release()
 	$AnimationPlayer.play("explosion")
-	$Float/FloatAni.play("explosion-float")
+	$Rotatable/Explosion/ExplosionAni.play("explosion")
+	#$Float/FloatAni.play("explosion-float")
 	yield($AnimationPlayer, "animation_finished")
-	yield($Float/FloatAni, "animation_finished")
+	yield($Rotatable/Explosion/ExplosionAni, "animation_finished")
+	#yield($Float/FloatAni, "animation_finished")
 	queue_free()
 
 func setHp(amount):
