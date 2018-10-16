@@ -62,6 +62,11 @@ type State struct {
 	Hash    uint32
 }
 
+type Replay struct {
+	Config  Config
+	Actions map[int][]Action
+}
+
 type Config struct {
 	Id      string
 	MapName string

@@ -3,7 +3,7 @@ extends Node2D
 var connected = false
 var cfg = config.GAME
 
-const PLAY_TIME = 600000		# milliseconds
+const PLAY_TIME = 30000		# milliseconds
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
 const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
@@ -178,10 +178,19 @@ func Update(state):
 		var server_hash = state.Hash
 		if client_hash != server_hash:
 			print("desync detected(%s): %s - %s" % [step, client_hash, server_hash])
+			printGameState()
+			get_tree().quit()
 
 	step += 1
 	elapsed = 0
 
+func printGameState():
+	for id in units.keys():
+		var u = units[id]
+		print("%s %s" % [u.Id(), u.Name()])
+		print("\tpos_x: %s" % u.PositionX())
+		print("\tpos_y: %s" % u.PositionY())
+	
 func removeDeadUnits():
 	for id in units.keys():
 		var u = units[id]
