@@ -2407,6 +2407,16 @@ tracks/45/keys = {
 "update": 1,
 "values": [ false, false ]
 }
+tracks/46/type = "animation"
+tracks/46/path = NodePath("Rotatable/Explosion/ExplosionAni")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"clips": PoolStringArray( "explosion" ),
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=9]
 
@@ -3540,6 +3550,7 @@ normal_map = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Head" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
@@ -3547,6 +3558,7 @@ offset = Vector2( 0, -2 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Kira" type="Position2D" parent="Rotatable/Body/Head"]
+editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -3 )
@@ -3574,6 +3586,7 @@ texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -28, 0 )
@@ -3776,6 +3789,7 @@ offset = Vector2( 3, -5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 28, 0 )
@@ -3986,6 +4000,7 @@ flip_h = true
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Lowerbody" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 texture = ExtResource( 20 )
@@ -4029,7 +4044,6 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -4057,7 +4071,6 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -4093,11 +4106,16 @@ offset = Vector2( 15, 0 )
 flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
+[node name="Hitpoint" type="Position2D" parent="Rotatable"]
+position = Vector2( 0, -70 )
+_sections_unfolded = [ "Transform" ]
+
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -4205,10 +4223,6 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/explosion = SubResource( 5 )
 blend_times = [  ]
-
-[node name="Hitpoint" type="Position2D" parent="."]
-position = Vector2( 0, -70 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")

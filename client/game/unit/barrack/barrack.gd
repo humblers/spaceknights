@@ -30,7 +30,7 @@ func Update():
 		return
 	var step = spawn % spawnInterval()
 	if step == 0:
-		$AnimationPlayer.play("spawn-anchor")
+		$AnimationPlayer.play("spawn_anchor")
 	if step == 15:
 		doSpawn()
 	spawn += 1
