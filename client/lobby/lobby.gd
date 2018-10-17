@@ -3,8 +3,6 @@ extends Control
 const LOBBY_HOST = "13.125.74.237"
 const LOBBY_PORT = 8080
 
-var uid
-
 func _ready():
 	var dx = self.rect_size.x - $Pages/Viewer/Control.rect_size.x
 	$Pages/Viewer/Control.margin_left -= dx / 2
@@ -16,41 +14,36 @@ func _ready():
 	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
-		handle_error("Connect to lobby fail!!")
+		http.handle_error("Connect to lobby fail!!")
 		return
-	login()
+	http.modal_dialog = $Modal
 	load_data()
 
-# simply all error back to login process
-func handle_error(message):
-	$Modal.pop(message)
-	yield($Modal, "popup_hide")
-	get_tree().change_scene("res://lobby/lobby.tscn")
-	return
+func load_data():
+	var overwrite = true # set true when production level
+	for path in ["Cards", "Units"]:
+		var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
+		if not response[0]:
+			http.handle_error(response[1].ErrMessage)
+			return
+		stat.set_data(path.to_lower(), response[1]["Data"], overwrite)
+	login()
 
 func login():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/auth/login",
 			{ "ptype": "dev", "pid": "", })
 	var response = yield(req, "response")
 	if not response[0]:
-		handle_error(response[1].ErrMessage)
+		http.handle_error(response[1].ErrMessage)
 		return
 	user.Id = response[1].UID
-	var user = response[1].User
-	$Pages/Viewer/Control/Top/Level.text = "%d" % (user.Level + 1)
-	$Pages/Viewer/Control/Top/Level/Exp.text = "%d/xxx" % user.Exp
-	$Pages/Viewer/Control/Top/Galacticoin.text = "%d" % user.Galacticoin
-	$Pages/Viewer/Control/Top/Dimensium.text = "%d" % user.Dimensium
+	user.User = response[1].User
+	$Pages/Viewer/Control/Top/Level.text = "%d" % (user.User.Level + 1)
+	$Pages/Viewer/Control/Top/Level/Exp.text = "%d/xxx" % user.User.Exp
+	$Pages/Viewer/Control/Top/Galacticoin.text = "%d" % user.User.Galacticoin
+	$Pages/Viewer/Control/Top/Dimensium.text = "%d" % user.User.Dimensium
 	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
-
-func load_data():
-	var overwrite = false # set true when production level
-	for path in ["Cards", "Units"]:
-		var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
-		if not response[0]:
-			handle_error(response[1].ErrMessage)
-			return
-		stat.set_data(path.to_lower(), response[1][path], overwrite)
+	$Pages/Card.invalidate()
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")

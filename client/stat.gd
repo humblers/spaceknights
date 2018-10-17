@@ -944,4 +944,4 @@ func set_data(var_name, data, overwrite):
 	for k in data.keys():
 		if not overwrite and variant.has(k):
 			continue
-		variant[k] = data[k]
+		variant[k] = parse_json(data[k])

@@ -1,13 +1,14 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://lobby/resource/background.png" type="Texture" id=1]
-[ext_resource path="res://lobby/page/card/background.png" type="Texture" id=2]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=3]
-[ext_resource path="res://font/swagger.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=5]
-[ext_resource path="res://lobby/page/card/slot_selected.png" type="Texture" id=6]
-[ext_resource path="res://lobby/resource/card_main.tscn" type="PackedScene" id=7]
-[ext_resource path="res://lobby/resource/card_upgrade.tscn" type="PackedScene" id=8]
+[ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
+[ext_resource path="res://lobby/resource/background.png" type="Texture" id=2]
+[ext_resource path="res://lobby/page/card/background.png" type="Texture" id=3]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=4]
+[ext_resource path="res://font/swagger.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=6]
+[ext_resource path="res://lobby/page/card/slot_selected.png" type="Texture" id=7]
+[ext_resource path="res://lobby/resource/card_main.tscn" type="PackedScene" id=8]
+[ext_resource path="res://lobby/resource/card_upgrade.tscn" type="PackedScene" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -16,13 +17,12 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="ButtonGroup" id=2]
 
 resource_local_to_scene = true
-_sections_unfolded = [ "Script" ]
 
 [sub_resource type="DynamicFont" id=3]
 
@@ -31,7 +31,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=4]
@@ -41,7 +41,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="Card" type="CenterContainer"]
@@ -50,8 +50,9 @@ anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 0.0
 margin_left = -720.0
+margin_top = -2.0
 margin_right = 720.0
-margin_bottom = 1920.0
+margin_bottom = 1918.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -59,6 +60,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 use_top_left = false
+script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Rect", "custom_styles" ]
 
 [node name="TextureRect2" type="TextureRect" parent="."]
@@ -75,7 +77,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
@@ -93,7 +95,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 2
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
@@ -138,7 +140,6 @@ alignment = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="Slots" type="TextureRect" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -151,12 +152,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Slots"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -248,7 +248,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Margin", "Rect", "custom_fonts" ]
 
-[node name="Slot1" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+[node name="Slot0" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -259,20 +259,19 @@ margin_right = 554.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 1
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 1
+toggle_mode = true
+enabled_focus_mode = 0
 shortcut = null
 group = SubResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_focused = ExtResource( 6 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
 _sections_unfolded = [ "Focus", "Textures", "group" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot1"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot0"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -296,7 +295,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Slot2" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+[node name="Slot1" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -307,20 +306,20 @@ margin_right = 646.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 1
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 1
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 0
 shortcut = null
 group = SubResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_focused = ExtResource( 6 )
-_sections_unfolded = [ "Focus", "Textures" ]
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot1"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -344,7 +343,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Slot3" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+[node name="Slot2" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -355,20 +354,19 @@ margin_right = 738.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 1
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 1
+toggle_mode = true
+enabled_focus_mode = 0
 shortcut = null
 group = SubResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_focused = ExtResource( 6 )
-_sections_unfolded = [ "Focus", "Textures" ]
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot3"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot2"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -392,7 +390,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Slot4" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+[node name="Slot3" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -403,20 +401,19 @@ margin_right = 830.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 1
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 1
+toggle_mode = true
+enabled_focus_mode = 0
 shortcut = null
 group = SubResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_focused = ExtResource( 6 )
-_sections_unfolded = [ "Focus", "Textures" ]
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot4"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot3"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -440,7 +437,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Slot5" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+[node name="Slot4" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
 editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
@@ -451,20 +448,19 @@ margin_right = 922.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-focus_mode = 1
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 1
+toggle_mode = true
+enabled_focus_mode = 0
 shortcut = null
 group = SubResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_focused = ExtResource( 6 )
-_sections_unfolded = [ "Focus", "Textures" ]
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot5"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot4"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -489,7 +485,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
 [node name="Knights" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -568,9 +563,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 9 )]
 
 [node name="Center" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Knights"]
 editor/display_folded = true
@@ -636,9 +631,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 9 )]
 
 [node name="Right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Knights"]
 editor/display_folded = true
@@ -704,12 +699,11 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 9 )]
 
 [node name="Troops" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -743,7 +737,6 @@ size_flags_vertical = 1
 alignment = 1
 
 [node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -767,9 +760,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 9 )]
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
 editor/display_folded = true
@@ -811,9 +804,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 9 )]
 
 [node name="Card2" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2"]
 anchor_left = 0.0
@@ -839,9 +832,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 9 )]
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
 editor/display_folded = true
@@ -883,9 +876,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 9 )]
 
 [node name="Card2" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3"]
 anchor_left = 0.0
@@ -911,9 +904,9 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 9 )]
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
 editor/display_folded = true
@@ -932,7 +925,8 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 1
 
-[node name="Troop6" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4"]
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4"]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -956,7 +950,7 @@ flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Troop6" instance=ExtResource( 7 )]
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Card" instance=ExtResource( 8 )]
 
-[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Troop6" instance=ExtResource( 8 )]
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Card" instance=ExtResource( 9 )]
 

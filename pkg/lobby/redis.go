@@ -83,7 +83,7 @@ func newUser() *user {
 			"legion":        userCard{},
 			"judge":         userCard{},
 		},
-		Decks: []deck{defDeck, defDeck, defDeck},
+		Decks: []deck{defDeck, defDeck, defDeck, defDeck, defDeck},
 		Solo:  rank{},
 	}
 }

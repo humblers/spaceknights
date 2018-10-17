@@ -39,7 +39,7 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 	var req LoginRequest
 	var err error
 	if err = parseJSON(r.Body, &req); err != nil {
-		resp.ErrMessage = "invalid login data"
+		resp.ErrMessage = "invalid request"
 		return
 	}
 

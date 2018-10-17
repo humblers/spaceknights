@@ -1,6 +1,7 @@
 extends Node
 
 var Id
+var User
 
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:

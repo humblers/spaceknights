@@ -21,28 +21,17 @@ type LoginResponse struct {
 	Token      string
 }
 
-type CardResponse struct {
+type DataResponse struct {
 	ErrMessage string
-	Cards      map[string]card
-}
-
-type UnitResponse struct {
-	ErrMessage string
-	Units      map[string]map[string]interface{}
-}
-
-type KnightData struct {
-	Name  string
-	Level int
-}
-
-type Deck struct {
-	Cards   []game.Card
-	Knights []game.KnightData
+	Data       map[string]string
 }
 
 type MatchResponse struct {
 	ErrMessage string
 	Address    string
 	Config     game.Config
+}
+
+type DeckChangeRequest struct {
+	Num int
 }

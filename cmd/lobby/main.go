@@ -52,6 +52,7 @@ func main() {
 	m := http.NewServeMux()
 	m.Handle(lobby.NewAuthRouter("/auth/", ss, p, logger))
 	m.Handle(lobby.NewDataRouter("/data/", ss, p, logger))
+	m.Handle(lobby.NewEditRouter("/edit/", ss, p, logger))
 	path, mm := lobby.NewMatchMaker("/match/", ss, p, logger)
 	m.Handle(path, mm)
 
