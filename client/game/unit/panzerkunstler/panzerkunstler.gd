@@ -32,7 +32,7 @@ func Update():
 
 func Destroy():
 	.Destroy()
-	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
@@ -84,7 +84,7 @@ func handleAttack():
 			dy = scalar.Mul(norm[1], r)
 			punchPosX = scalar.Add(PositionX(), dx)
 			punchPosY = scalar.Add(PositionY(), dy)
-			$AnimationPlayer.play("attack")
+			$AnimationPlayer.play("attack_1")
 			$Sound/sound_fire.play()
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack >= powerAttackPreDelay():
@@ -108,7 +108,7 @@ func handleAttack():
 			attackCount += 1
 	else:	
 		if attack == 0:
-			$AnimationPlayer.play("attack-2")
+			$AnimationPlayer.play("attack_2")
 			$Sound/sound_fire2.play()
 		var t = target()
 		if t != null:

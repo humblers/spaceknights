@@ -27,7 +27,7 @@ func Update():
 
 func Destroy():
 	.Destroy()
-	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
@@ -68,7 +68,7 @@ func handleAttack():
 		$AnimationPlayer.play("attack")
 		$Sound/sound_fire.play()
 		setLayer("Normal")
-		$AnimationPlayer.play("cloaking-end")
+		$AnimationPlayer.play("cloaking_end")
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
@@ -78,10 +78,10 @@ func handleAttack():
 		else:
 			attack = 0
 			setLayer(initialLayer())
-			$AnimationPlayer.play("cloaking-pre")
+			$AnimationPlayer.play("cloaking_pre")
 			return
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
 		setLayer(initialLayer())
-		$AnimationPlayer.play("cloaking-pre")
+		$AnimationPlayer.play("cloaking_pre")
