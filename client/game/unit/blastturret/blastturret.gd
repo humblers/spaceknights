@@ -39,7 +39,7 @@ func Update():
 func Destroy():
 	.Destroy()
 	TileOccupier.Release()
-	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 

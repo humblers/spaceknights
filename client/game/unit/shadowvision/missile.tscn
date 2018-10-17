@@ -285,7 +285,7 @@ tracks/21/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/22/type = "value"
-tracks/22/path = NodePath("HitPosition/Main/Ex2:emitting")
+tracks/22/path = NodePath("HitPosition/Main/PScale/Ex2:emitting")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -380,6 +380,18 @@ tracks/29/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/30/type = "value"
+tracks/30/path = NodePath("HitPosition/Main/PScale:scale")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
+"times": PoolRealArray( 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.2, 0.2 ) ]
+}
 
 [sub_resource type="SpriteFrames" id=2]
 
@@ -419,6 +431,7 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -448,6 +461,7 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -479,7 +493,6 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -509,6 +522,7 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -538,6 +552,7 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -568,7 +583,6 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.6 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -595,7 +609,6 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="Ex5" type="CPUParticles2D" parent="HitPosition/Main"]
-visible = false
 modulate = Color( 1, 0.431373, 0.211765, 1 )
 material = ExtResource( 3 )
 emitting = false
@@ -658,7 +671,6 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Emission Shape", "Gravity", "Material", "Radial Accel", "Spread", "Time", "Visibility" ]
 
 [node name="ExRing1" type="CPUParticles2D" parent="HitPosition/Main"]
-visible = false
 modulate = Color( 0, 0, 0, 0 )
 scale = 2.0
 emitting = false
@@ -733,8 +745,11 @@ modulate = Color( 1, 0.40625, 0.40625, 1 )
 texture = ExtResource( 11 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Ex2" type="CPUParticles2D" parent="HitPosition/Main"]
-visible = false
+[node name="PScale" type="Node2D" parent="HitPosition/Main"]
+scale = Vector2( 0.2, 0.2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Ex2" type="CPUParticles2D" parent="HitPosition/Main/PScale"]
 modulate = Color( 1, 0.555267, 0.0351563, 1 )
 material = ExtResource( 3 )
 rotation = 3.14159

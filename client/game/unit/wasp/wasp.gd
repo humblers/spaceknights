@@ -59,7 +59,7 @@ func Destroy():
 		var r = scalar.Add(scalar.Add(Radius(), u.Radius()), destroyRadius())
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(destroyDamage(), "Melee")
-	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 

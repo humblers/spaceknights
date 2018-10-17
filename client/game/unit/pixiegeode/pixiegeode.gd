@@ -19,7 +19,7 @@ func _ready():
 func Destroy():
 	.Destroy()
 	TileOccupier.Release()
-	$AnimationPlayer.play("explosion")
+	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
@@ -30,7 +30,7 @@ func Update():
 		return
 	var step = spawn % spawnInterval()
 	if step == 0:
-		$AnimationPlayer.play("spawn-anchor")
+		$AnimationPlayer.play("spawn_anchor")
 	if step == 5:
 		doSpawn()
 	spawn += 1
