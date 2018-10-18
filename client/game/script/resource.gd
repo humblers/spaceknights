@@ -1,5 +1,7 @@
 extends Node
 
+const LOBBY = preload("res://lobby/resource/resource.gd")
+
 const WORLD = preload("res://game/script/physics/world.gd")
 const MAP = {
 	"Thanatos": preload("res://game/script/nav/thanatos.gd")
@@ -88,9 +90,14 @@ const CURSOR = {
 
 # temporary
 const ICON = {
-	"archers": preload("res://game/ui/unit_icon/archer.png"),
+	"archsapper": preload("res://game/ui/unit_icon/archsapper.png"),
 	"cannon": preload("res://game/ui/unit_icon/archsapper.png"),
+	"judge": preload("res://game/ui/unit_icon/judge.png"),
+	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
+	"legion": preload("res://game/ui/unit_icon/legion.png"),
 	"fireball": preload("res://game/ui/unit_icon/legion.png"),
+
+	"archers": preload("res://game/ui/unit_icon/archer.png"),
 	"gargoylehorde": preload("res://game/ui/unit_icon/gargoyle.png"),
 	"giant": preload("res://game/ui/unit_icon/giant.png"),
 	"shadowvision": preload("res://game/ui/unit_icon/shadowvision.png"),
@@ -98,7 +105,6 @@ const ICON = {
 	"footmans": preload("res://game/ui/unit_icon/footman.png"),
 	"psabu": preload("res://game/ui/unit_icon/psabu.png"),
 	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
-	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
 	"barrack": preload("res://game/ui/unit_icon/tombstone.png"),
 	"panzerkunstler": preload("res://game/ui/unit_icon/panzerkunstler.png"),
 	"jouster": preload("res://game/ui/unit_icon/jouster.png"),

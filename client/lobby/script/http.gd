@@ -12,6 +12,8 @@ var cookie_str # storing cookie in memory(temporary)
 var response_body = PoolByteArray()
 var req_queue = []
 
+var modal_dialog
+
 func _process(delta):
 	# Keep polling until the request is going on
 	if client.get_status() == HTTPClient.STATUS_REQUESTING:
@@ -62,6 +64,13 @@ func handle_request():
 	if err != OK:
 		var request = req_queue.pop_front()
 		request.response(-999, {"errmessage": "unexpected client error"})
+
+# simply all error back to login process
+func handle_error(message):
+	modal_dialog.pop(message)
+	yield(modal_dialog, "popup_hide")
+	get_tree().change_scene("res://lobby/lobby.tscn")
+	return
 
 func connect_to_host(host, port):
 	var err = client.connect_to_host(host, port)

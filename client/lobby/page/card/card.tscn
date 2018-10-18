@@ -1,0 +1,956 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
+[ext_resource path="res://lobby/resource/background.png" type="Texture" id=2]
+[ext_resource path="res://lobby/page/card/background.png" type="Texture" id=3]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=4]
+[ext_resource path="res://font/swagger.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=6]
+[ext_resource path="res://lobby/page/card/slot_selected.png" type="Texture" id=7]
+[ext_resource path="res://lobby/resource/card_main.tscn" type="PackedScene" id=8]
+[ext_resource path="res://lobby/resource/card_upgrade.tscn" type="PackedScene" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 32
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 5 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="ButtonGroup" id=2]
+
+resource_local_to_scene = true
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 32
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 5 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=4]
+
+size = 32
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 5 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="Card" type="CenterContainer"]
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -720.0
+margin_top = -2.0
+margin_right = 720.0
+margin_bottom = 1918.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+script = ExtResource( 1 )
+_sections_unfolded = [ "Anchor", "Rect", "custom_styles" ]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1440.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1440, 1920 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1440.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1440, 1920 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 3 )
+stretch_mode = 2
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[node name="CenterPoint" type="Position2D" parent="."]
+position = Vector2( 720, 960 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 180.0
+margin_right = 1260.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1080, 1920 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/margin_top = 100
+_sections_unfolded = [ "Margin", "Rect", "custom_constants" ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 100.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1080, 1820 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+
+[node name="Slots" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1080.0
+margin_bottom = 133.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 4 )
+stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Slots"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -41.0
+margin_right = 540.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 1080, 0 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Battle" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 157.0
+margin_top = 6.0
+margin_right = 224.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 0, 70 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "Battle"
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Margin", "Rect", "custom_fonts" ]
+
+[node name="Current" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 228.0
+margin_top = 6.0
+margin_right = 258.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 30, 70 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "X"
+align = 1
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Margin", "Rect", "custom_fonts" ]
+
+[node name="Slot" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 262.0
+margin_top = 6.0
+margin_right = 462.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 200, 70 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "Slot"
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Margin", "Rect", "custom_fonts" ]
+
+[node name="Slot0" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 466.0
+margin_right = 554.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 0
+shortcut = null
+group = SubResource( 2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot0"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -16.5
+margin_right = 20.0
+margin_bottom = 16.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "1"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
+
+[node name="Slot1" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 558.0
+margin_right = 646.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 0
+shortcut = null
+group = SubResource( 2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -16.5
+margin_right = 20.0
+margin_bottom = 16.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "2"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
+
+[node name="Slot2" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 650.0
+margin_right = 738.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 0
+shortcut = null
+group = SubResource( 2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -16.5
+margin_right = 20.0
+margin_bottom = 16.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "3"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
+
+[node name="Slot3" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 742.0
+margin_right = 830.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 0
+shortcut = null
+group = SubResource( 2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot3"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -16.5
+margin_right = 20.0
+margin_bottom = 16.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "4"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
+
+[node name="Slot4" type="TextureButton" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 834.0
+margin_right = 922.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 0
+shortcut = null
+group = SubResource( 2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+_sections_unfolded = [ "Focus", "Textures", "group" ]
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Slots/HBoxContainer/Slot4"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -16.5
+margin_right = 20.0
+margin_bottom = 16.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "5"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
+
+[node name="Knights" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 137.0
+margin_right = 1080.0
+margin_bottom = 436.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="Left" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Knights"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 161.0
+margin_right = 411.0
+margin_bottom = 299.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Knights/Left"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 250.0
+margin_bottom = 33.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.917647, 0.858824, 0.239216, 1 )
+text = "LEFT WING"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts", "custom_fonts/font" ]
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Knights/Left"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 37.0
+margin_right = 250.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Left/Card" instance=ExtResource( 9 )]
+
+[node name="Center" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Knights"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 415.0
+margin_right = 665.0
+margin_bottom = 299.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Knights/Center"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 250.0
+margin_bottom = 33.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.917647, 0.858824, 0.239216, 1 )
+text = "CENTER"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts", "custom_fonts/font" ]
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Knights/Center"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 37.0
+margin_right = 250.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Center/Card" instance=ExtResource( 9 )]
+
+[node name="Right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Knights"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 669.0
+margin_right = 919.0
+margin_bottom = 299.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Knights/Right"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 250.0
+margin_bottom = 33.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.917647, 0.858824, 0.239216, 1 )
+text = "RIGHT WING"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts", "custom_fonts/font" ]
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Knights/Right"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 37.0
+margin_right = 250.0
+margin_bottom = 299.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Knights/Right/Card" instance=ExtResource( 9 )]
+
+[node name="Troops" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 440.0
+margin_right = 1080.0
+margin_bottom = 968.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 34.0
+margin_right = 284.0
+margin_bottom = 528.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 133.0
+margin_right = 250.0
+margin_bottom = 395.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer/Card" instance=ExtResource( 9 )]
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 288.0
+margin_right = 538.0
+margin_bottom = 528.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 250.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card" instance=ExtResource( 9 )]
+
+[node name="Card2" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 266.0
+margin_right = 250.0
+margin_bottom = 528.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer2/Card2" instance=ExtResource( 9 )]
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 542.0
+margin_right = 792.0
+margin_bottom = 528.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 250.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card" instance=ExtResource( 9 )]
+
+[node name="Card2" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 266.0
+margin_right = 250.0
+margin_bottom = 528.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer3/Card2" instance=ExtResource( 9 )]
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Troops"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 796.0
+margin_right = 1046.0
+margin_bottom = 528.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+
+[node name="Card" type="Button" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 133.0
+margin_right = 250.0
+margin_bottom = 395.0
+rect_min_size = Vector2( 250, 262 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = true
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Main" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Card" instance=ExtResource( 8 )]
+
+[node name="Upgrade" parent="MarginContainer/VBoxContainer/Troops/VBoxContainer4/Card" instance=ExtResource( 9 )]
+

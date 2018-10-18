@@ -33,6 +33,7 @@ const (
 	Casting Layer = "casting"
 )
 
+var cards_raw = map[string]string{}
 var cards = map[string]card{
 /* //sample card
 "archers": card{
@@ -43,6 +44,7 @@ var cards = map[string]card{
 }, */
 }
 
+var actives_raw = map[string]string{}
 var actives = map[string]map[string]interface{}{
 /* //sample knight active skill
 "barrack": map[string]interface{}{
@@ -52,6 +54,7 @@ var actives = map[string]map[string]interface{}{
 }, */
 }
 
+var passives_raw = map[string]string{}
 var passives = map[string]map[string]interface{}{
 /* //sample knight passive skill
 "gatherfootman": map[string]interface{}{
@@ -63,6 +66,7 @@ var passives = map[string]map[string]interface{}{
 }, */
 }
 
+var units_raw = map[string]string{}
 var units = map[string]map[string]interface{}{
 /* //sample unit
 "archer": map[string]interface{}{
@@ -104,11 +108,11 @@ func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.L
 }
 
 func (d *dataRouter) cards(b *bases, w http.ResponseWriter, r *http.Request) {
-	b.response = &CardResponse{Cards: cards}
+	b.response = &DataResponse{Data: cards_raw}
 }
 
 func (d *dataRouter) units(b *bases, w http.ResponseWriter, r *http.Request) {
-	b.response = &UnitResponse{Units: units}
+	b.response = &DataResponse{Data: units_raw}
 }
 
 func LoadDataFromDB(rp *redis.Pool, overwrite bool) {
@@ -124,6 +128,7 @@ func LoadDataFromDB(rp *redis.Pool, overwrite bool) {
 	}
 	for i := 0; i < len(src); i += 2 {
 		k, v := string(src[i].([]byte)), src[i+1].([]byte)
+		cards_raw[k] = string(v)
 		var card card
 		if err := json.Unmarshal(v, &card); err != nil {
 			panic(fmt.Errorf("json parsing err while load data from db: %v", err))
@@ -141,6 +146,7 @@ func LoadDataFromDB(rp *redis.Pool, overwrite bool) {
 	}
 	for i := 0; i < len(src); i += 2 {
 		k, v := string(src[i].([]byte)), src[i+1].([]byte)
+		units_raw[k] = string(v)
 		var m map[string]interface{}
 		if err := json.Unmarshal(v, &m); err != nil {
 			panic(fmt.Errorf("json parsing err while load data from db: %v", err))
