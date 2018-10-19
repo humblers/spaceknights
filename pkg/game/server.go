@@ -1,6 +1,7 @@
 package game
 
 import "os"
+import "fmt"
 import "net"
 import "log"
 import "time"
@@ -8,6 +9,9 @@ import "sync"
 import "bufio"
 import "runtime"
 import "runtime/pprof"
+import "encoding/json"
+
+import "github.com/gomodule/redigo/redis"
 
 type Server interface {
 	Run()
@@ -18,8 +22,12 @@ type server struct {
 	sync.RWMutex
 	games map[string]Game
 
-	caddr     string
-	laddr     string
+	caddr string
+	laddr string
+
+	// server use TCPListener instead of generic Listener
+	// to use SetDeadline method
+	// SetDeadline is required to distinguish stop signal from unexpected error
 	clistener *net.TCPListener
 	llistener *net.TCPListener
 
@@ -30,6 +38,8 @@ type server struct {
 	logger *log.Logger
 
 	numGR int // # of goroutine for leak detection
+
+	redisPool *redis.Pool // for replay save
 }
 
 func NewServer(caddr, laddr string, logger *log.Logger) Server {
@@ -39,6 +49,14 @@ func NewServer(caddr, laddr string, logger *log.Logger) Server {
 		caddr:  caddr,
 		laddr:  laddr,
 		logger: logger,
+
+		redisPool: &redis.Pool{
+			Dial: func() (redis.Conn, error) {
+				return redis.Dial("tcp", ":6379")
+			},
+			MaxIdle:     3,
+			IdleTimeout: 240 * time.Second,
+		},
 	}
 }
 
@@ -47,52 +65,6 @@ func (s *server) Run() {
 	s.numGR = runtime.NumGoroutine()
 	s.listenClients()
 	s.listenLobby()
-
-	// temporary for debugging
-	s.runGame(Config{
-		Id:      "TEST",
-		MapName: "Thanatos",
-		Players: []PlayerData{
-			PlayerData{
-				Id:   "Alice",
-				Team: Blue,
-				Deck: []Card{
-					Card{"cannon", 0},
-					Card{"megalaser", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-				},
-				Knights: []KnightData{
-					KnightData{"archengineer", 0},
-					KnightData{"archsapper", 0},
-					KnightData{"astra", 0},
-				},
-			},
-			PlayerData{
-				Id:   "Bob",
-				Team: Red,
-				Deck: []Card{
-					Card{"cannon", 0},
-					Card{"megalaser", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-					Card{"archers", 0},
-				},
-				Knights: []KnightData{
-					KnightData{"archengineer", 0},
-					KnightData{"archsapper", 0},
-					KnightData{"astra", 0},
-				},
-			},
-		},
-	})
 }
 
 func (s *server) listenClients() {
@@ -220,12 +192,13 @@ func (s *server) findGame(id string) Game {
 }
 
 func (s *server) runGame(cfg Config) {
-	g := newGame(cfg, s.logger)
+	g := NewGame(cfg, nil, s.logger)
 	s.gwg.Add(1)
 	go func() {
 		defer s.gwg.Done()
+		defer s.saveReplay(g)
 		defer s.logger.Printf("%v stopped", g)
-		defer s.removeGame(cfg.Id)
+		defer s.removeGame(g)
 		s.logger.Printf("%v starting", g)
 		g.Run()
 	}()
@@ -234,8 +207,21 @@ func (s *server) runGame(cfg Config) {
 	s.Unlock()
 }
 
-func (s *server) removeGame(id string) {
+func (s *server) saveReplay(g Game) {
+	conn := s.redisPool.Get()
+	defer conn.Close()
+	key := fmt.Sprintf("game:%v", g.Id())
+	b, err := json.Marshal(g.Replay())
+	if err != nil {
+		s.logger.Print(err)
+	}
+	if _, err := conn.Do("SET", key, string(b)); err != nil {
+		s.logger.Printf("cannot save replay: %v", g.Id())
+	}
+}
+
+func (s *server) removeGame(g Game) {
 	s.Lock()
-	delete(s.games, id)
+	delete(s.games, g.Id())
 	s.Unlock()
 }

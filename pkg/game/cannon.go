@@ -18,12 +18,12 @@ func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 	return c
 }
 
-func (c cannon) Destroy() {
+func (c *cannon) Destroy() {
 	c.unit.Destroy()
 	c.Release()
 }
 
-func (c cannon) Update() {
+func (c *cannon) Update() {
 	c.TakeDecayDamage()
 	if c.freeze > 0 {
 		c.attack = 0

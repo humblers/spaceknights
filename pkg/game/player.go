@@ -54,6 +54,15 @@ func newPlayer(pd PlayerData, g Game) Player {
 
 		game: g,
 	}
+	for i, card := range pd.Deck {
+		if i < handSize {
+			p.hand = append(p.hand, card)
+		} else {
+			p.pending = append(p.pending, card)
+		}
+	}
+	g.Logger().Print(p.hand)
+	g.Logger().Print(p.pending)
 	return p
 }
 
@@ -118,7 +127,7 @@ func (p *player) Do(a *Action) error {
 		}
 	}
 	if index < 0 {
-		return fmt.Errorf("card not found: %v", a.Card.Name)
+		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
 	}
 
 	// check energy

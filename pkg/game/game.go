@@ -29,6 +29,7 @@ var params = map[string]fixed.Scalar{
 }
 
 type Game interface {
+	Id() string
 	Step() int
 	World() physics.World
 	Map() nav.Map
@@ -51,9 +52,14 @@ type Game interface {
 	Join(c Client) error
 	Leave(c Client) error
 	Run()
+	Replay() *Replay
+	Update()
+	Over() bool
+	PrintGameState()
 }
 
 type game struct {
+	config        Config
 	step          int
 	world         physics.World
 	map_          nav.Map
@@ -82,12 +88,24 @@ type game struct {
 	logger  *log.Logger
 }
 
+func (g *game) Id() string {
+	return g.config.Id
+}
+
 func (g *game) Step() int {
 	return g.step
 }
 
-func newGame(cfg Config, l *log.Logger) Game {
+func (g *game) Replay() *Replay {
+	return &Replay{
+		Config:  g.config,
+		Actions: g.actions,
+	}
+}
+
+func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	g := &game{
+		config:        cfg,
 		world:         physics.NewWorld(params),
 		map_:          nav.NewMap(cfg.MapName, params["scale"]),
 		units:         make(map[int]Unit),
@@ -97,7 +115,7 @@ func newGame(cfg Config, l *log.Logger) Game {
 
 		players:         make(map[string]Player),
 		pInitKnightData: make(map[string][]KnightData),
-		actions:         make(map[int][]Action),
+		actions:         actions,
 
 		joinc:   make(chan Client),
 		leavec:  make(chan Client),
@@ -107,6 +125,9 @@ func newGame(cfg Config, l *log.Logger) Game {
 		applied: make(chan error),
 		quit:    make(chan struct{}),
 		logger:  l,
+	}
+	if g.actions == nil {
+		g.actions = make(map[int][]Action)
 	}
 	for _, p := range cfg.Players {
 		g.players[p.Id] = newPlayer(p, g)
@@ -206,19 +227,18 @@ func (g *game) handleApply(i Input) error {
 	return nil
 }
 
-func (g *game) over() bool {
+func (g *game) Over() bool {
 	return g.step >= int(playTime/stepInterval)
 }
 
 func (g *game) Run() {
 	ticker := time.NewTicker(stepInterval)
 	defer ticker.Stop()
-	for !g.over() {
+	for !g.Over() {
 		select {
 		case <-ticker.C:
-			g.update()
+			g.Update()
 			g.broadcast()
-			g.step++
 		case c := <-g.joinc:
 			g.joined <- g.handleJoin(c)
 		case c := <-g.leavec:
@@ -236,9 +256,10 @@ func (g *game) Run() {
 }
 
 func (g *game) broadcast() {
+	step := g.step - 1
 	state := State{
-		Step:    g.step,
-		Actions: g.actions[g.step],
+		Step:    step,
+		Actions: g.actions[step],
 		Hash:    g.world.Digest(),
 	}
 	packet := newPacket(state)
@@ -251,7 +272,7 @@ func (g *game) broadcast() {
 	}
 }
 
-func (g *game) update() {
+func (g *game) Update() {
 	if g.step == knightInitialStep {
 		for _, pid := range g.playerIds {
 			g.players[pid].AddKnights(g.pInitKnightData[pid])
@@ -286,6 +307,16 @@ func (g *game) update() {
 	g.removeExpiredBullets()
 	g.removeExpiredSkills()
 	g.world.Step()
+	g.step++
+}
+
+func (g *game) PrintGameState() {
+	for _, id := range g.unitIds {
+		u := g.units[id]
+		g.logger.Printf("%v %v\n", u.Id(), u.Name())
+		g.logger.Printf("\tpos_x: %v\n", u.Position().X)
+		g.logger.Printf("\tpos_y: %v\n", u.Position().Y)
+	}
 }
 
 func (g *game) removeDeadUnits() {

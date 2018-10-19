@@ -140,7 +140,7 @@ func (a *archsapper) SetAsLeader() {
 		}
 		id := a.game.AddUnit(name, a.level, posX, posY, a.player)
 		unit := a.game.FindUnit(id)
-		if cannon, ok := unit.(cannon); ok {
+		if cannon, ok := unit.(*cannon); ok {
 			tx, ty := a.game.TileFromPos(posX, posY)
 			tr := cannon.GetRect(tx, ty, nx, ny)
 			if err := cannon.Occupy(tr); err != nil {

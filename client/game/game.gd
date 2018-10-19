@@ -178,10 +178,19 @@ func Update(state):
 		var server_hash = state.Hash
 		if client_hash != server_hash:
 			print("desync detected(%s): %s - %s" % [step, client_hash, server_hash])
+			printGameState()
+			get_tree().quit()
 
 	step += 1
 	elapsed = 0
 
+func printGameState():
+	for id in units.keys():
+		var u = units[id]
+		print("%s %s" % [u.Id(), u.Name()])
+		print("\tpos_x: %s" % u.PositionX())
+		print("\tpos_y: %s" % u.PositionY())
+	
 func removeDeadUnits():
 	for id in units.keys():
 		var u = units[id]
