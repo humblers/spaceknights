@@ -54,10 +54,9 @@ func _ready():
 		tcp.connect("disconnected", self, "request_stop")
 		$Players/Red.hide()
 	else:
-		pass
-		#$Camera2D.zoom = Vector2(1.1, 1.1)
-		#$Camera2D.position.y -= 50
-		#$Players/Red.show()
+		$Camera2D.zoom = Vector2(1.1, 1.1)
+		$Camera2D.position.y -= 50
+		$Players/Red.show()
 	set_process(true)
 	set_physics_process(true)
 
