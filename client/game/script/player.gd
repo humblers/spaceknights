@@ -51,7 +51,7 @@ func Init(playerData, game):
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
-		var button = $Cards.get_node("Area%s/Card%s/Button" % [ i+1 , i+1 ])
+		var button = $Cards.get_node("Area%s/Card/Button" % (i+1))
 		button.connect("gui_input", self, "button_input", [i])
 
 func gui_input(ev):
@@ -246,9 +246,9 @@ func update_cards():
 	$Cards/Area0/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
 	for i in range(HAND_SIZE):
 		var card = hand[i]
-		var btn_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Button"])
-		var icon_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Icon"])
-		var cost_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Cost"])
+		var btn_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Button"])
+		var icon_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Icon"])
+		var cost_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Cost"])
 		var modulate = Color(1, 1, 1, 1)
 		match card:
 			selected_card:

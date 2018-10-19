@@ -20,7 +20,7 @@ func _ready():
 	load_data()
 
 func load_data():
-	var overwrite = true # set true when production level
+	var overwrite = false # set true when production level
 	for path in ["Cards", "Units"]:
 		var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
 		if not response[0]:
@@ -47,7 +47,7 @@ func login():
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
-	#$Battle/Requesting.pop(req)
+	$Pages/Battle/Requesting.pop(req)
 	var resp = yield(req, "response")
 	var cfg = resp[1].Config
 	tcp.Connect(resp[1].Address, 9999)
