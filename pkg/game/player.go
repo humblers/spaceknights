@@ -48,8 +48,6 @@ func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
 		team:       pd.Team,
 		energy:     startEnergy,
-		hand:       pd.Deck[:handSize],
-		pending:    pd.Deck[handSize:],
 		statRatios: make(map[string][]int),
 
 		game: g,
