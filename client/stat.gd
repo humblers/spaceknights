@@ -92,6 +92,13 @@ var cards = {
 		"offsetX": [-30, 30, -30, 30],
 		"offsetY": [-30, -30, 30, 30],
 	},
+	"gargoyles": {
+		"cost":    3000,
+		"unit":    "gargoyle",
+		"count":   3,
+		"offsetX": [-40, 40, 0],
+		"offsetY": [-20, -20, 20],
+	},
 	"gargoylehorde": {
 		"cost":    5000,
 		"unit":    "gargoyle",
@@ -938,10 +945,3 @@ var units = {
 		"destroyradius":  100,
 	},
 }
-
-func set_data(var_name, data, overwrite):
-	var variant = get(var_name)
-	for k in data.keys():
-		if not overwrite and variant.has(k):
-			continue
-		variant[k] = parse_json(data[k])

@@ -14,6 +14,7 @@ import (
 
 	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
+	"github.com/humblers/spaceknights/pkg/constants"
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
@@ -322,7 +323,7 @@ func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.Player
 			return data, err
 		}
 		if i != 0 {
-			data.Deck = append(data.Deck, game.Card{Name: units[knight]["active"].(string), Level: card.Level})
+			data.Deck = append(data.Deck, game.Card{Name: constants.Units[knight]["active"].(string), Level: card.Level})
 		}
 		data.Knights = append(data.Knights, game.KnightData{Name: knight, Level: card.Level})
 	}

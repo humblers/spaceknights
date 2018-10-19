@@ -1,15 +1,13 @@
 extends Control
 
-const LOBBY_HOST = "13.125.74.237"
+const PAGE_SIZE_X = 1440
+const LOBBY_HOST = "127.0.0.1"
 const LOBBY_PORT = 8080
 
 func _ready():
-	var dx = self.rect_size.x - $Pages/Viewer/Control.rect_size.x
-	$Pages/Viewer/Control.margin_left -= dx / 2
-	$Pages/Viewer/Control.margin_right += dx / 2
-
 	for page in ["Battle", "Card"]:
-		$Pages/Viewer/Control/Bot.get_node(page).connect("button_up", self, "move_to_page", [page])
+		var btn = $Bot.get_node(page)
+		btn.connect("button_up", self, "move_to_page", [btn])
 
 	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
@@ -20,13 +18,16 @@ func _ready():
 	load_data()
 
 func load_data():
-	var overwrite = false # set true when production level
-	for path in ["Cards", "Units"]:
-		var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
-		if not response[0]:
-			http.handle_error(response[1].ErrMessage)
-			return
-		stat.set_data(path.to_lower(), response[1]["Data"], overwrite)
+	var response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/cards"), "response")
+	if not response[0]:
+		http.handle_error(response[1].ErrMessage)
+		return
+	stat.cards = parse_json(response[1]["Data"])
+	response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/units"), "response")
+	if not response[0]:
+		http.handle_error(response[1].ErrMessage)
+		return
+	stat.units = parse_json(response[1]["Data"])
 	login()
 
 func login():
@@ -38,10 +39,10 @@ func login():
 		return
 	user.Id = response[1].UID
 	user.User = response[1].User
-	$Pages/Viewer/Control/Top/Level.text = "%d" % (user.User.Level + 1)
-	$Pages/Viewer/Control/Top/Level/Exp.text = "%d/xxx" % user.User.Exp
-	$Pages/Viewer/Control/Top/Galacticoin.text = "%d" % user.User.Galacticoin
-	$Pages/Viewer/Control/Top/Dimensium.text = "%d" % user.User.Dimensium
+	$Top/Level.text = "%d" % (user.User.Level + 1)
+	$Top/Level/Exp.text = "%d/xxx" % user.User.Exp
+	$Top/Galacticoin.text = "%d" % user.User.Galacticoin
+	$Top/Dimensium.text = "%d" % user.User.Dimensium
 	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
 	$Pages/Card.invalidate()
 
@@ -60,14 +61,17 @@ func match_request():
 	g.cfg = cfg
 	get_tree().get_root().add_child(g)
 
-func move_to_page(page):
-	var tween = $Pages/Tween
-	var viewer = $Pages/Viewer
-	var dest = $Pages.get_node("%s/CenterPoint" % page)
+func move_to_page(btn):
+	var tween = $Tween
+	var btns = ["Shop", "Card", "Battle", "Explore", "Social"]
+	var to = btn.get_name()
+	var cur = btn.group.get_pressed_button().get_name()
+	var dx = (btns.find(cur) - btns.find(to)) * PAGE_SIZE_X
+	var page_pos = $Pages.rect_position
 	tween.interpolate_property(
-			viewer,
-			"global_position",
-			viewer.global_position,
-			dest.global_position,
+			$Pages,
+			"rect_position",
+			page_pos,
+			Vector2(page_pos.x + dx, page_pos.y),
 			0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
