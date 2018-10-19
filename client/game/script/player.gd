@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 
 const MAX_ENERGY = 10000
 const START_ENERGY = 7000
@@ -51,7 +51,7 @@ func Init(playerData, game):
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
-		var button = $Cards.get_node("Card%s/Button" % (i+1))
+		var button = $Cards.get_node("Area%s/Card%s/Button" % [ i+1 , i+1 ])
 		button.connect("gui_input", self, "button_input", [i])
 
 func gui_input(ev):
@@ -241,14 +241,14 @@ func show_message(msg, pos_y):
 		$Tween.start()
 
 func update_cards():
-	$Cards/Next/Icon.texture = resource.ICON[pending[0].Name]
-	$Cards/Next/Pending.visible = rollingCounter > 0
-	$Cards/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
+	$Cards/Area0/Next/Icon.texture = resource.ICON[pending[0].Name]
+	$Cards/Area0/Next/Pending.visible = rollingCounter > 0
+	$Cards/Area0/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
 	for i in range(HAND_SIZE):
 		var card = hand[i]
-		var btn_node = $Cards.get_node("Card%d/%s" % [i+1, "Button"])
-		var icon_node = $Cards.get_node("Card%d/%s" % [i+1, "Icon"])
-		var cost_node = $Cards.get_node("Card%d/%s" % [i+1, "Cost"])
+		var btn_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Button"])
+		var icon_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Icon"])
+		var cost_node = $Cards.get_node("Area%d/Card%d/%s" % [i+1,i+1, "Cost"])
 		var modulate = Color(1, 1, 1, 1)
 		match card:
 			selected_card:
