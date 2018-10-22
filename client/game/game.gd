@@ -178,7 +178,11 @@ func Update(state):
 		var client_hash = world.Digest()
 		var server_hash = state.Hash
 		if client_hash != server_hash:
-			print("desync detected(%s): %s - %s" % [step, client_hash, server_hash])
+			print("desync detected")
+			print("game id: %s" % cfg.Id)
+			print("step: %s" % step)
+			print("client hash: %s" % client_hash)
+			print("server hash: %s" % server_hash)
 			printGameState()
 			get_tree().quit()
 
