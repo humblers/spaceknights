@@ -87,6 +87,9 @@ func (j *jouster) handleAttack() {
 			t := j.target()
 			if t != nil && j.withinRange(t) {
 				t.TakeDamage(j.chargedAttackDamage(), Melee)
+			} else {
+				j.attack = 0
+				return
 			}
 		}
 		j.attack++
