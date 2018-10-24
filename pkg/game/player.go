@@ -2,6 +2,8 @@ package game
 
 import (
 	"fmt"
+
+	"github.com/humblers/spaceknights/pkg/data"
 )
 
 const maxEnergy = 10000
@@ -52,15 +54,11 @@ func newPlayer(pd PlayerData, g Game) Player {
 
 		game: g,
 	}
-	for i, card := range pd.Deck {
-		if i < handSize {
-			p.hand = append(p.hand, card)
-		} else {
-			p.pending = append(p.pending, card)
-		}
-	}
+	p.hand = append(p.hand, pd.Deck[:4]...)
+	p.pending = append(p.pending, pd.Deck[4:]...)
 	g.Logger().Print(p.hand)
 	g.Logger().Print(p.pending)
+	g.Logger().Print(pd.Deck)
 	return p
 }
 
@@ -129,7 +127,7 @@ func (p *player) Do(a *Action) error {
 	}
 
 	// check energy
-	cost := cards[a.Card.Name]["cost"].(int)
+	cost := data.Cards[a.Card.Name].Cost
 	if p.energy < cost {
 		return fmt.Errorf("not enough energy: %v", a.Card.Name)
 	}
@@ -138,7 +136,8 @@ func (p *player) Do(a *Action) error {
 	if err != nil {
 		return err
 	}
-	if cards[a.Card.Name]["unit"] != nil {
+	t := data.Units[data.Cards[a.Card.Name].Unit]["type"].(data.UnitType)
+	if t != data.Knight {
 		if p.team == Red && a.TileY > p.game.Map().MaxTileYOnTop() {
 			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
 		}
@@ -171,22 +170,16 @@ func (p *player) findKnight(name string) Unit {
 }
 
 func (p *player) useCard(c Card, posX, posY int) error {
-	card := cards[c.Name]
-	if card["caster"] != nil {
-		k := p.findKnight(card["caster"].(string))
-		if k == nil {
-			panic("should not be here")
-		}
+	d := data.Cards[c.Name]
+	name := d.Unit
+	k := p.findKnight(name)
+	if k != nil {
 		if !k.CastSkill(posX, posY) {
 			return fmt.Errorf("%v cannot cast skill now", k.Name())
 		}
 	} else {
-		name := card["unit"].(string)
-		count := card["count"].(int)
-		offsetX := card["offsetX"].([]int)
-		offsetY := card["offsetY"].([]int)
-		for i := 0; i < count; i++ {
-			p.game.AddUnit(name, c.Level, posX+offsetX[i], posY+offsetY[i], p)
+		for i := 0; i < d.Count; i++ {
+			p.game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], p)
 		}
 	}
 	return nil
@@ -215,7 +208,7 @@ func (p *player) OnKnightDead(u Unit) {
 			break
 		}
 	}
-	p.removeCard(u.Skill())
+	p.removeCard(u.Name())
 }
 
 func (p *player) removeCard(name string) {

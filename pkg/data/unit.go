@@ -1,4 +1,4 @@
-package constants
+package data
 
 type UnitType string
 type UnitTypes []UnitType
@@ -9,6 +9,15 @@ const (
 	Building UnitType = "Building"
 )
 
+func (types UnitTypes) Contains(type_ UnitType) bool {
+	for _, t := range types {
+		if t == type_ {
+			return true
+		}
+	}
+	return false
+}
+
 type UnitLayer string
 type UnitLayers []UnitLayer
 
@@ -17,6 +26,15 @@ const (
 	Ether   UnitLayer = "Ether"
 	Casting UnitLayer = "Casting"
 )
+
+func (layers UnitLayers) Contains(layer UnitLayer) bool {
+	for _, l := range layers {
+		if l == layer {
+			return true
+		}
+	}
+	return false
+}
 
 type Unit map[string]interface{}
 
@@ -35,8 +53,17 @@ var Units = map[string]Unit{
 		"attackinterval": 30,
 		"preattackdelay": 10,
 		"bulletlifetime": 10,
-		"active":         "blastturret",
-		"passive":        "louder",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "blastturret",
+				"castduration": 100,
+				"precastdelay": 78,
+			},
+			"leader": map[string]interface{}{
+				"name":      "louder",
+				"arearatio": 120,
+			},
+		},
 	},
 	"archer": map[string]interface{}{
 		"type":           Troop,
@@ -68,8 +95,21 @@ var Units = map[string]Unit{
 		"attackinterval": 10,
 		"preattackdelay": 0,
 		"bulletlifetime": 10,
-		"active":         "cannon",
-		"passive":        "readycannon",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "cannon",
+				"castduration": 100,
+				"precastdelay": 82,
+			},
+			"leader": map[string]interface{}{
+				"name":    "readycannon",
+				"unit":    "cannon",
+				"count":   2,
+				"posX":    []int{325, 675}, // pos based on blue side
+				"posY":    []int{1075, 1075},
+				"hpratio": []int{300, 310, 320},
+			},
+		},
 	},
 	"astra": map[string]interface{}{
 		"mass":           1000,
@@ -84,8 +124,21 @@ var Units = map[string]Unit{
 		"attackdamage":   []int{5},
 		"attackrange":    350,
 		"attackinterval": 1,
-		"active":         "megalaser",
-		"passive":        "reinforce",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":     "megalaser",
+				"duration": 80,
+				"start":    10,
+				"end":      58,
+				"damage":   []int{10, 15, 20},
+				"width":    25,
+				"height":   500,
+			},
+			"leader": map[string]interface{}{
+				"name":    "reinforce",
+				"hpratio": []int{120, 130, 140},
+			},
+		},
 	},
 	"barrack": map[string]interface{}{
 		"type":          Building,
@@ -266,8 +319,18 @@ var Units = map[string]Unit{
 		"attackinterval": 20,
 		"preattackdelay": 0,
 		"bulletlifetime": 2,
-		"active":         "freeze",
-		"passive":        "frozenbullet",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "freeze",
+				"radius":       100,
+				"castduration": 70,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":         "frozenbullet",
+				"slowduration": []int{20},
+			},
+		},
 	},
 	"gargoyle": map[string]interface{}{
 		"type":           Troop,
@@ -331,8 +394,18 @@ var Units = map[string]Unit{
 		"attackinterval": 15,
 		"preattackdelay": 0,
 		"bulletlifetime": 15,
-		"active":         "sentryshelter",
-		"passive":        "gathersentry",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "sentryshelter",
+				"castduration": 50,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":    "gathersentry",
+				"unit":    "sentry",
+				"perstep": 300,
+			},
+		},
 	},
 	"jouster": map[string]interface{}{
 		"type":                  Troop,
@@ -368,8 +441,19 @@ var Units = map[string]Unit{
 		"attackinterval": 20,
 		"preattackdelay": 1,
 		"bulletlifetime": 2,
-		"active":         "bulletrain",
-		"passive":        "morerange",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "bulletrain",
+				"damage":       []int{300, 400, 500},
+				"radius":       70,
+				"castduration": 50,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":             "morerange",
+				"attackrangeratio": []int{120, 130, 140},
+			},
+		},
 	},
 	"lancer": map[string]interface{}{
 		"mass":           1000,
@@ -386,8 +470,27 @@ var Units = map[string]Unit{
 		"attackinterval": 22,
 		"preattackdelay": 0,
 		"bulletlifetime": 22,
-		"active":         "napalm",
-		"passive":        "deathcarpet",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":           "napalm",
+				"castduration":   40,
+				"precastdelay":   25,
+				"damageduration": 50,
+				"damage":         30,
+				"width":          100,
+				"height":         100,
+			},
+			"leader": map[string]interface{}{
+				"name":     "deathcarpet",
+				"duration": 600,
+				"damage":   30,
+				"count":    2,
+				"posX":     []int{225, 775}, // pos based on blue side
+				"posY":     []int{850, 850},
+				"width":    75,
+				"height":   50,
+			},
+		},
 	},
 	"legion": map[string]interface{}{
 		"mass":           0,
@@ -403,8 +506,19 @@ var Units = map[string]Unit{
 		"attackinterval": 2,
 		"preattackdelay": 1,
 		"bulletlifetime": 10,
-		"active":         "fireball",
-		"passive":        "moredamage",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "fireball",
+				"damage":       []int{325, 400, 500},
+				"radius":       70,
+				"castduration": 40,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":              "moredamage",
+				"attackdamageratio": []int{110, 130, 140},
+			},
+		},
 	},
 	"nagmash": map[string]interface{}{
 		"mass":           1000,
@@ -419,8 +533,26 @@ var Units = map[string]Unit{
 		"attackdamage":   []int{5},
 		"attackrange":    350,
 		"attackinterval": 1,
-		"active":         "unload",
-		"passive":        "gatherfootman",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "unload",
+				"unit":         "footman",
+				"count":        4,
+				"offsetX":      []int{-30, 30, -30, 30},
+				"offsetY":      []int{-30, -30, 30, 30},
+				"caster":       "nagmash",
+				"castduration": 100,
+				"precastdelay": 52,
+			},
+			"leader": map[string]interface{}{
+				"name":    "gatherfootman",
+				"unit":    "footman",
+				"count":   4,
+				"offsetX": []int{-30, 30, -30, 30},
+				"offsetY": []int{-30, -30, 30, 30},
+				"perstep": 300,
+			},
+		},
 	},
 	"ogre": map[string]interface{}{
 		"type":           Troop,
@@ -502,8 +634,22 @@ var Units = map[string]Unit{
 		"attackinterval": 10,
 		"preattackdelay": 1,
 		"bulletlifetime": 8,
-		"active":         "pixiegeode",
-		"passive":        "pixiemarch",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "pixiegeode",
+				"unit":         "pixiegeode",
+				"castduration": 50,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":    "pixiemarch",
+				"unit":    "pixie",
+				"perstep": 300,
+				"count":   8,
+				"offsetX": []int{-105, -75, -45, -15, 15, 45, 75, 105},
+				"offsetY": []int{0, 0, 0, 0, 0, 0, 0, 0},
+			},
+		},
 	},
 	"psabu": map[string]interface{}{
 		"type":           Troop,
@@ -602,8 +748,24 @@ var Units = map[string]Unit{
 		"attackdamage":   []int{5},
 		"attackrange":    350,
 		"attackinterval": 1,
-		"active":         "barrack",
-		"passive":        "lemming",
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "barrack",
+				"unit":         "barrack",
+				"count":        1,
+				"offsetX":      []int{0},
+				"offsetY":      []int{0},
+				"castduration": 50,
+				"precastdelay": 20,
+			},
+			"leader": map[string]interface{}{
+				"name":      "lemming",
+				"unit":      "footman",
+				"count":     1,
+				"offsetX":   150,
+				"perdeaths": 4,
+			},
+		},
 	},
 	"trainee": map[string]interface{}{
 		"type":           Troop,

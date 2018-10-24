@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type tombstone struct {
 	*unit
@@ -70,7 +73,7 @@ func (ts *tombstone) attackDamage() int {
 }
 
 func (ts *tombstone) attackRange() fixed.Scalar {
-	atkRange := units[ts.name]["attackrange"].(int)
+	atkRange := data.Units[ts.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range ts.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -81,11 +84,10 @@ func (ts *tombstone) attackRange() fixed.Scalar {
 
 func (ts *tombstone) Update() {
 	if ts.isLeader {
-		data := passives[ts.Skill()]
 		deathToll := ts.game.DeathToll(ts.Team())
-		if deathToll != ts.prevDeathToll && deathToll%data["perdeaths"].(int) == 0 {
+		if deathToll != ts.prevDeathToll && deathToll%ts.Skill()["perdeaths"].(int) == 0 {
 			ts.prevDeathToll = deathToll
-			ts.spawn(data)
+			ts.spawn(ts.Skill())
 		}
 	}
 	if ts.freeze > 0 {
@@ -96,7 +98,7 @@ func (ts *tombstone) Update() {
 	}
 	if ts.cast > 0 {
 		if ts.cast == ts.preCastDelay()+1 {
-			ts.spawn(cards[ts.Skill()])
+			ts.spawn(ts.Skill())
 		}
 		if ts.cast > ts.castDuration() {
 			ts.cast = 0
@@ -139,23 +141,24 @@ func (ts *tombstone) Update() {
 }
 
 func (ts *tombstone) castDuration() int {
-	return cards[ts.Skill()]["castduration"].(int)
+	return ts.Skill()["castduration"].(int)
 }
 
 func (ts *tombstone) preCastDelay() int {
-	return cards[ts.Skill()]["precastdelay"].(int)
+	return ts.Skill()["precastdelay"].(int)
 }
 
 func (ts *tombstone) SetAsLeader() {
 	ts.isLeader = true
 }
 
-func (ts *tombstone) Skill() string {
-	key := "active"
+func (ts *tombstone) Skill() map[string]interface{} {
+	skill := data.Units[ts.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if ts.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[ts.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (ts *tombstone) CastSkill(posX, posY int) bool {
@@ -163,9 +166,9 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[ts.Skill()]["unit"].(string)
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	name := ts.Skill()["unit"].(string)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := ts.game.TileFromPos(posX, posY)
 	tr := ts.castTile.GetRect(tx, ty, nx, ny)
 	if err := ts.castTile.Occupy(tr); err != nil {
@@ -177,7 +180,7 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 	ts.cast++
 	ts.castPosX = posX
 	ts.castPosY = posY
-	ts.setLayer(Casting)
+	ts.setLayer(data.Casting)
 	return true
 }
 

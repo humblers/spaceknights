@@ -65,7 +65,7 @@ const BULLET = {
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bomb_explosion.tscn"),
-	"judge": preload("res://game/unit/judge/arealshot.tscn"),
+	"judge": preload("res://game/unit/judge/bulletrain.tscn"),
 	"frost": preload("res://game/unit/frost/freeze.tscn"),
 	"lancer": preload("res://game/unit/lancer/napalm.tscn"),
 }

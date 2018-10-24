@@ -14,7 +14,6 @@ import (
 
 	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
-	"github.com/humblers/spaceknights/pkg/constants"
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
@@ -281,7 +280,7 @@ func (mm *matchMaker) request(b *bases, w http.ResponseWriter, r *http.Request) 
 		b.response = &resp
 		if resp.ErrMessage == "" {
 			resp.Address = "13.125.74.237"
-			mm.logger.Printf("[MATCH] created")
+			mm.logger.Printf("[MATCH] created server ip: %v", resp.Address)
 		}
 	case <-r.Context().Done():
 		b.response = &MatchResponse{ErrMessage: "match request fail"}
@@ -323,7 +322,7 @@ func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.Player
 			return data, err
 		}
 		if i != 0 {
-			data.Deck = append(data.Deck, game.Card{Name: constants.Units[knight]["active"].(string), Level: card.Level})
+			data.Deck = append(data.Deck, game.Card{Name: knight, Level: card.Level})
 		}
 		data.Knights = append(data.Knights, game.KnightData{Name: knight, Level: card.Level})
 	}

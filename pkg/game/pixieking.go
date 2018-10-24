@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type pixieking struct {
 	*unit
@@ -69,7 +72,7 @@ func (p *pixieking) attackDamage() int {
 }
 
 func (p *pixieking) attackRange() fixed.Scalar {
-	atkRange := units[p.name]["attackrange"].(int)
+	atkRange := data.Units[p.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range p.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -80,9 +83,8 @@ func (p *pixieking) attackRange() fixed.Scalar {
 
 func (p *pixieking) Update() {
 	if p.isLeader {
-		data := passives[p.Skill()]
-		if p.game.Step()%data["perstep"].(int) == 0 {
-			p.spawn(data)
+		if p.game.Step()%p.Skill()["perstep"].(int) == 0 {
+			p.spawn(p.Skill())
 		}
 	}
 	if p.freeze > 0 {
@@ -93,7 +95,7 @@ func (p *pixieking) Update() {
 	}
 	if p.cast > 0 {
 		if p.cast == p.preCastDelay()+1 {
-			p.spawn(cards[p.Skill()])
+			p.spawn(p.Skill())
 		}
 		if p.cast > p.castDuration() {
 			p.cast = 0
@@ -128,23 +130,24 @@ func (p *pixieking) findTargetAndAttack() {
 }
 
 func (p *pixieking) castDuration() int {
-	return cards[p.Skill()]["castduration"].(int)
+	return p.Skill()["castduration"].(int)
 }
 
 func (p *pixieking) preCastDelay() int {
-	return cards[p.Skill()]["precastdelay"].(int)
+	return p.Skill()["precastdelay"].(int)
 }
 
 func (p *pixieking) SetAsLeader() {
 	p.isLeader = true
 }
 
-func (p *pixieking) Skill() string {
-	key := "active"
+func (p *pixieking) Skill() map[string]interface{} {
+	skill := data.Units[p.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if p.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[p.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (p *pixieking) CastSkill(posX, posY int) bool {
@@ -152,9 +155,9 @@ func (p *pixieking) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[p.Skill()]["unit"].(string)
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	name := p.Skill()["unit"].(string)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := p.game.TileFromPos(posX, posY)
 	tr := p.castTile.GetRect(tx, ty, nx, ny)
 	if err := p.castTile.Occupy(tr); err != nil {
@@ -166,7 +169,7 @@ func (p *pixieking) CastSkill(posX, posY int) bool {
 	p.cast++
 	p.castPosX = posX
 	p.castPosY = posY
-	p.setLayer(Casting)
+	p.setLayer(data.Casting)
 	return true
 }
 

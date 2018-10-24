@@ -1,7 +1,7 @@
 extends Control
 
 const PAGE_SIZE_X = 1440
-const LOBBY_HOST = "127.0.0.1"
+const LOBBY_HOST = "13.125.74.237"
 const LOBBY_PORT = 8080
 
 func _ready():
@@ -22,12 +22,12 @@ func load_data():
 	if not response[0]:
 		http.handle_error(response[1].ErrMessage)
 		return
-	stat.cards = parse_json(response[1]["Data"])
+	stat.cards = convertor.cast_float_to_int(parse_json(response[1]["Data"]))
 	response = yield(http.new_request(HTTPClient.METHOD_POST, "/data/units"), "response")
 	if not response[0]:
 		http.handle_error(response[1].ErrMessage)
 		return
-	stat.units = parse_json(response[1]["Data"])
+	stat.units = convertor.cast_float_to_int(parse_json(response[1]["Data"]))
 	login()
 
 func login():

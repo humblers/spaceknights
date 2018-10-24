@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type champion struct {
 	*unit
@@ -113,16 +116,16 @@ func (c *champion) handleAttack() {
 }
 
 func (c *champion) chargeDelay() int {
-	return units[c.name]["chargedelay"].(int)
+	return data.Units[c.name]["chargedelay"].(int)
 }
 
 func (c *champion) chargedMoveSpeed() fixed.Scalar {
-	s := units[c.name]["chargedmovespeed"].(int)
+	s := data.Units[c.name]["chargedmovespeed"].(int)
 	return c.game.World().FromPixel(s)
 }
 
 func (c *champion) chargedAttackDamage() int {
-	switch v := units[c.name]["chargedattackdamage"].(type) {
+	switch v := data.Units[c.name]["chargedattackdamage"].(type) {
 	case int:
 		return v
 	case []int:
@@ -132,11 +135,11 @@ func (c *champion) chargedAttackDamage() int {
 }
 
 func (c *champion) chargedAttackInterval() int {
-	return units[c.name]["chargedattackinterval"].(int)
+	return data.Units[c.name]["chargedattackinterval"].(int)
 }
 
 func (c *champion) chargedAttackPreDelay() int {
-	return units[c.name]["chargedattackpredelay"].(int)
+	return data.Units[c.name]["chargedattackpredelay"].(int)
 }
 
 func (c *champion) charged() bool {

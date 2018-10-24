@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type psabu struct {
 	*unit
@@ -124,7 +127,7 @@ func (p *psabu) handleAttack() {
 }
 
 func (p *psabu) attackRadius() fixed.Scalar {
-	r := units[p.name]["attackradius"].(int)
+	r := data.Units[p.name]["attackradius"].(int)
 	divider := 1
 	for _, ratio := range p.player.StatRatios("arearatio") {
 		r *= ratio
@@ -134,12 +137,12 @@ func (p *psabu) attackRadius() fixed.Scalar {
 }
 
 func (p *psabu) absorb() {
-	radius := p.game.World().FromPixel(units[p.name]["absorbradius"].(int))
-	force := p.game.World().FromPixel(units[p.name]["absorbforce"].(int))
-	damage := units[p.name]["absorbdamage"].(int)
+	radius := p.game.World().FromPixel(data.Units[p.name]["absorbradius"].(int))
+	force := p.game.World().FromPixel(data.Units[p.name]["absorbforce"].(int))
+	damage := data.Units[p.name]["absorbdamage"].(int)
 	for _, id := range p.game.UnitIds() {
 		u := p.game.FindUnit(id)
-		if u.Team() == p.Team() || u.Layer() != Normal {
+		if u.Team() == p.Team() || u.Layer() != data.Normal {
 			continue
 		}
 		d := p.punchPos.Sub(u.Position())

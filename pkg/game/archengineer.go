@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type archengineer struct {
 	*unit
@@ -62,7 +65,7 @@ func (a *archengineer) attackDamage() int {
 }
 
 func (a *archengineer) attackRange() fixed.Scalar {
-	atkRange := units[a.name]["attackrange"].(int)
+	atkRange := data.Units[a.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range a.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -107,11 +110,11 @@ func (a *archengineer) Update() {
 }
 
 func (a *archengineer) castDuration() int {
-	return cards[a.Skill()]["castduration"].(int)
+	return a.Skill()["castduration"].(int)
 }
 
 func (a *archengineer) preCastDelay() int {
-	return cards[a.Skill()]["precastdelay"].(int)
+	return a.Skill()["precastdelay"].(int)
 }
 
 func (a *archengineer) findTargetAndAttack() {
@@ -124,16 +127,16 @@ func (a *archengineer) findTargetAndAttack() {
 
 func (a *archengineer) SetAsLeader() {
 	a.isLeader = true
-	data := passives[a.Skill()]
-	a.player.AddStatRatio("arearatio", data["arearatio"].(int))
+	a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
 }
 
-func (a *archengineer) Skill() string {
-	key := "active"
+func (a *archengineer) Skill() map[string]interface{} {
+	skill := data.Units[a.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if a.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[a.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (a *archengineer) CastSkill(posX, posY int) bool {
@@ -141,9 +144,9 @@ func (a *archengineer) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[a.Skill()]["unit"].(string)
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	name := a.Skill()["unit"].(string)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := a.game.TileFromPos(posX, posY)
 	tr := a.castTile.GetRect(tx, ty, nx, ny)
 	if err := a.castTile.Occupy(tr); err != nil {
@@ -155,12 +158,12 @@ func (a *archengineer) CastSkill(posX, posY int) bool {
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
-	a.setLayer(Casting)
+	a.setLayer(data.Casting)
 	return true
 }
 
 func (a *archengineer) spawn() {
-	name := cards[a.Skill()]["unit"].(string)
+	name := a.Skill()["unit"].(string)
 	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
 	tr := a.castTile.Occupied()
 	a.castTile.Release()

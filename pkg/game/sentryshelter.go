@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type sentryshelter struct {
 	*unit
 	Decayable
@@ -37,11 +39,11 @@ func (s *sentryshelter) Update() {
 }
 
 func (s *sentryshelter) spawnInterval() int {
-	return units[s.name]["spawninterval"].(int)
+	return data.Units[s.name]["spawninterval"].(int)
 }
 
 func (s *sentryshelter) doSpawn() {
-	card := units[s.name]
+	card := data.Units[s.name]
 	name := card["spawn"].(string)
 	count := card["spawncount"].(int)
 	offsetX := card["spawnoffsetX"].([]int)

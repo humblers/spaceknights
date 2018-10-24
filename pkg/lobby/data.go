@@ -8,7 +8,7 @@ import (
 
 	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
-	"github.com/humblers/spaceknights/pkg/constants"
+	"github.com/humblers/spaceknights/pkg/data"
 )
 
 var cards_raw string
@@ -22,12 +22,12 @@ type dataRouter struct {
 func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
 	var b []byte
 	var err error
-	b, err = json.Marshal(constants.Cards)
+	b, err = json.Marshal(data.Cards)
 	if err != nil {
 		panic(fmt.Errorf("Data initialize fail: %v", err))
 	}
 	cards_raw = string(b)
-	b, err = json.Marshal(constants.Units)
+	b, err = json.Marshal(data.Units)
 	if err != nil {
 		panic(fmt.Errorf("Data initialize fail: %v", err))
 	}

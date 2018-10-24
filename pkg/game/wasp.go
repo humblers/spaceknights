@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type wasp struct {
 	*unit
@@ -119,10 +122,10 @@ func (w *wasp) handleAttack() {
 }
 
 func (w *wasp) destroyDamage() int {
-	return units[w.name]["destroydamage"].([]int)[w.level]
+	return data.Units[w.name]["destroydamage"].([]int)[w.level]
 }
 
 func (w *wasp) destroyRadius() fixed.Scalar {
-	r := units[w.name]["destroyradius"].(int)
+	r := data.Units[w.name]["destroyradius"].(int)
 	return w.game.World().FromPixel(r)
 }

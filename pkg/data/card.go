@@ -1,4 +1,4 @@
-package constants
+package data
 
 type CardRarity string
 

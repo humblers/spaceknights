@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/humblers/spaceknights/pkg/constants"
+	"github.com/humblers/spaceknights/pkg/data"
 )
 
 type user struct {
@@ -66,8 +66,8 @@ func (r rank) String() string {
 }
 
 func newUser() *user {
-	defCards := make(map[string]userCard, len(constants.Cards))
-	for k, _ := range constants.Cards {
+	defCards := make(map[string]userCard, len(data.Cards))
+	for k, _ := range data.Cards {
 		defCards[k] = userCard{Holding: 1}
 	}
 	defDeck := deck{

@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type lancer struct {
 	*unit
@@ -66,7 +69,7 @@ func (l *lancer) attackDamage() int {
 }
 
 func (l *lancer) attackRange() fixed.Scalar {
-	atkRange := units[l.name]["attackrange"].(int)
+	atkRange := data.Units[l.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range l.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -130,24 +133,24 @@ func (l *lancer) findTargetAndDoAction() {
 }
 
 func (l *lancer) castDuration() int {
-	return cards[l.Skill()]["castduration"].(int)
+	return l.Skill()["castduration"].(int)
 }
 
 func (l *lancer) preCastDelay() int {
-	return cards[l.Skill()]["precastdelay"].(int)
+	return l.Skill()["precastdelay"].(int)
 }
 
 func (l *lancer) SetAsLeader() {
 	l.isLeader = true
 
-	data := passives[l.Skill()]
-	count := data["count"].(int)
-	posX := data["posX"].([]int)
-	posY := data["posY"].([]int)
-	w := l.game.World().FromPixel(data["width"].(int))
-	h := l.game.World().FromPixel(data["height"].(int))
-	damage := data["damage"].(int)
-	duration := data["duration"].(int)
+	s := l.Skill()
+	count := s["count"].(int)
+	posX := s["posX"].([]int)
+	posY := s["posY"].([]int)
+	w := l.game.World().FromPixel(s["width"].(int))
+	h := l.game.World().FromPixel(s["height"].(int))
+	damage := s["damage"].(int)
+	duration := s["duration"].(int)
 	for i := 0; i < count; i++ {
 		pos := fixed.Vector{
 			l.game.World().FromPixel(posX[i]),
@@ -158,12 +161,13 @@ func (l *lancer) SetAsLeader() {
 	}
 }
 
-func (l *lancer) Skill() string {
-	key := "active"
+func (l *lancer) Skill() map[string]interface{} {
+	skill := data.Units[l.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if l.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[l.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (l *lancer) CastSkill(posX, posY int) bool {
@@ -174,15 +178,15 @@ func (l *lancer) CastSkill(posX, posY int) bool {
 	l.cast++
 	l.castPosX = posX
 	l.castPosY = posY
-	l.setLayer(Casting)
+	l.setLayer(data.Casting)
 	return true
 }
 
 func (l *lancer) drop() {
-	dps := cards[l.Skill()]["damage"].(int)
-	w := l.game.World().FromPixel(cards[l.Skill()]["width"].(int))
-	h := l.game.World().FromPixel(cards[l.Skill()]["height"].(int))
-	remain := cards[l.Skill()]["damageduration"].(int)
+	dps := l.Skill()["damage"].(int)
+	w := l.game.World().FromPixel(l.Skill()["width"].(int))
+	h := l.game.World().FromPixel(l.Skill()["height"].(int))
+	remain := l.Skill()["damageduration"].(int)
 	pos := fixed.Vector{
 		l.game.World().FromPixel(l.castPosX),
 		l.game.World().FromPixel(l.castPosY),

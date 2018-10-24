@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type legion struct {
 	*unit
@@ -59,7 +62,7 @@ func (l *legion) attackDamage() int {
 }
 
 func (l *legion) attackRange() fixed.Scalar {
-	atkRange := units[l.name]["attackrange"].(int)
+	atkRange := data.Units[l.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range l.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -112,26 +115,26 @@ func (l *legion) findTargetAndAttack() {
 }
 
 func (l *legion) castDuration() int {
-	return cards[l.Skill()]["castduration"].(int)
+	return l.Skill()["castduration"].(int)
 }
 
 func (l *legion) preCastDelay() int {
-	return cards[l.Skill()]["precastdelay"].(int)
+	return l.Skill()["precastdelay"].(int)
 }
 
 func (l *legion) SetAsLeader() {
 	l.isLeader = true
-	data := passives[l.Skill()]
-	l.player.AddStatRatio("attackdamageratio", data["attackdamageratio"].([]int)[l.level])
+	l.player.AddStatRatio("attackdamageratio", l.Skill()["attackdamageratio"].([]int)[l.level])
 
 }
 
-func (l *legion) Skill() string {
-	key := "active"
+func (l *legion) Skill() map[string]interface{} {
+	skill := data.Units[l.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if l.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[l.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (l *legion) CastSkill(posX, posY int) bool {
@@ -142,13 +145,13 @@ func (l *legion) CastSkill(posX, posY int) bool {
 	l.cast++
 	l.castPosX = posX
 	l.castPosY = posY
-	l.setLayer(Casting)
+	l.setLayer(data.Casting)
 	return true
 }
 
 func (l *legion) fireball() {
-	damage := cards[l.Skill()]["damage"].([]int)[l.level]
-	radius := l.game.World().FromPixel(cards[l.Skill()]["radius"].(int))
+	damage := l.Skill()["damage"].([]int)[l.level]
+	radius := l.game.World().FromPixel(l.Skill()["radius"].(int))
 	for _, id := range l.game.UnitIds() {
 		u := l.game.FindUnit(id)
 		if u.Team() == l.Team() {

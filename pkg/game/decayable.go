@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type Decayable interface {
 	TakeDecayDamage()
 	SetDecayOff()
@@ -20,7 +22,7 @@ func (d *decayable) TakeDecayDamage() {
 	if d.off {
 		return
 	}
-	damage := units[d.Name()]["decaydamage"].(int)
+	damage := data.Units[d.Name()]["decaydamage"].(int)
 	d.TakeDamage(damage, Self)
 }
 

@@ -105,19 +105,18 @@ func findTargetAndAttack():
 		handleAttack()
 
 func castDuration():
-	return stat.cards[Skill()]["castduration"]
+	return Skill()["castduration"]
 
 func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
+	return Skill()["precastdelay"]
 
 func SetAsLeader():
 	isLeader = true
-	var data = stat.passives[Skill()]
-	player.AddStatRatio("attackrangeratio", data["attackrangeratio"][level])
+	player.AddStatRatio("attackrangeratio", Skill()["attackrangeratio"][level])
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -150,8 +149,8 @@ func adjustSkillAnim():
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func bulletrain():
-	var damage = stat.cards[Skill()]["damage"][level]
-	var radius = game.World().FromPixel(stat.cards[Skill()]["radius"])
+	var damage = Skill()["damage"][level]
+	var radius = game.World().FromPixel(Skill()["radius"])
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():
