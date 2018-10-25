@@ -129,21 +129,7 @@ func (p *player) Do(a *Action) error {
 		return fmt.Errorf("not enough energy: %v", a.Card.Name)
 	}
 
-	posX, posY, err := p.game.PosFromTile(a.TileX, a.TileY)
-	if err != nil {
-		return err
-	}
-	t := data.Units[data.Cards[a.Card.Name].Unit]["type"].(data.UnitType)
-	if t != data.Knight {
-		if p.team == Red && a.TileY > p.game.Map().MaxTileYOnTop() {
-			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
-		}
-		if p.team == Blue && a.TileY < p.game.Map().MinTileYOnBot() {
-			return fmt.Errorf("can't place card on tileY: %v", a.TileY)
-		}
-	}
-
-	if err := p.useCard(a.Card, posX, posY); err != nil {
+	if err := p.useCard(a.Card, a.TileX, a.TileY); err != nil {
 		return err
 	}
 
@@ -166,11 +152,30 @@ func (p *player) findKnight(name string) Unit {
 	return nil
 }
 
-func (p *player) useCard(c Card, posX, posY int) error {
+func (p *player) useCard(c Card, tileX, tileY int) error {
+	posX, posY, err := p.game.PosFromTile(tileX, tileY)
+	if err != nil {
+		return err
+	}
+
 	d := data.Cards[c.Name]
 	name := d.Unit
+	u := data.Units[name]
 	k := p.findKnight(name)
-	if k != nil {
+	isKnight := u["type"].(data.UnitType) == data.Knight
+	if !isKnight || k.Skill()["unit"] != nil {
+		if p.team == Red && tileY > p.game.Map().MaxTileYOnTop() {
+			return fmt.Errorf("can't place card on tileY: %v", tileY)
+		}
+		if p.team == Blue && tileY < p.game.Map().MinTileYOnBot() {
+			return fmt.Errorf("can't place card on tileY: %v", tileY)
+		}
+	}
+
+	if isKnight {
+		if k == nil {
+			panic("should not be here")
+		}
 		if !k.CastSkill(posX, posY) {
 			return fmt.Errorf("%v cannot cast skill now", k.Name())
 		}

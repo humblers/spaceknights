@@ -12,7 +12,7 @@ import (
 	"github.com/humblers/spaceknights/pkg/physics"
 )
 
-const playTime = time.Second * 30
+const playTime = time.Second * 600
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 const knightInitialStep = stepPerSec * 5

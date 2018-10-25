@@ -135,17 +135,25 @@ func add_cursor():
 func update_cursor(x, y):
 	if selected_card == null:
 		return
+	var d = stat.cards[selected_card.Name]
+	var unit = stat.units[d.Unit]
+	if unit["type"] == "Knight":
+		var k = findKnight(d.Unit)
+		if k == null:
+			return
+		if k.Skill().has("unit"):
+			unit = stat.units[k.Skill()["unit"]]
+		else:
+			unit = null
 	var pos_node = get_node("../../BattleField/CursorPos")
 	if pos_node.get_child_count() <= 0:
 		add_cursor()
 	var tile = game.TileFromPos(x, y)
-	var nx = 1
-	var ny = 1
-	var cardData = stat.cards[selected_card.Name]
-	var minTileY = 0
-	var maxTileY = game.Map().TileNumY() - 1
-	if cardData.has("unit"):
-		var unit = stat.units[cardData["unit"]]
+	if unit:
+		var nx = 1
+		var ny = 1
+		var minTileY = 0
+		var maxTileY = game.Map().TileNumY() - 1
 		if unit and unit["type"] == "Building":
 			nx = unit["tilenumx"]
 			ny = unit["tilenumy"]
@@ -197,10 +205,18 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 func update_tile_visible(pressed):
 	if selected_card == null:
 		return
-	var cardData = stat.cards[selected_card.Name]
-	var isUnit = cardData.has("unit")
-	get_node("../../Map/TileSpell").visible = not isUnit and pressed
-	get_node("../../Map/TileUnit").visible = isUnit and pressed
+	var d = stat.cards[selected_card.Name]
+	var unit = stat.units[d.Unit]
+	if unit["type"] == "Knight":
+		var k = findKnight(d.Unit)
+		if k == null:
+			return
+		if k.Skill().has("unit"):
+			unit = stat.units[k.Skill()["unit"]]
+		else:
+			unit = null
+	get_node("../../Map/TileSpell").visible = unit == null and pressed
+	get_node("../../Map/TileUnit").visible = unit != null and pressed
 
 func get_unit(name, x, y):
 	var node = resource.UNIT[name].instance()
@@ -329,11 +345,8 @@ func Do(action):
 	# convert position to int
 	action.TileX = int(action.TileX)
 	action.TileY = int(action.TileY)
-	var pos = game.PosFromTile(action.TileX, action.TileY)
-	if pos[2] != null:
-		return pos[2]
 	if no_deck:
-		var err = useCard(action.Card, pos[0], pos[1])
+		var err = useCard(action.Card, action.TileX, action.TileY)
 		if err != null:
 			return err
 	else:
@@ -350,12 +363,7 @@ func Do(action):
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
 
-		if stat.cards[action.Card.Name].has("unit"):
-			if team == "Red" and action.TileY > game.Map().MaxTileYOnTop():
-				return "can't place card on tileY: %d" % action.TileY
-			if team == "Blue" and action.TileY < game.Map().MinTileYOnBot():
-				return "can't place card on tileY: %d" % action.TileY
-		var err = useCard(action.Card, pos[0], pos[1])
+		var err = useCard(action.Card, action.TileX, action.TileY)
 		if err != null:
 			return err
 		
@@ -372,11 +380,25 @@ func findKnight(name):
 			return u
 	return null
 
-func useCard(c, posX, posY):
+func useCard(c, tileX, tileY):
+	var pos = game.PosFromTile(tileX, tileY)
+	if pos[2] != null:
+		return pos[2]
+	var posX = pos[0]
+	var posY = pos[1]
 	var d = stat.cards[c.Name]
 	var name = d.Unit
+	var u = stat.units[name]
 	var k = findKnight(name)
-	if k != null:
+	var isKnight = u["type"] == "Knight"
+	if not isKnight or k.Skill().has("unit"):
+		if team == "Red" and tileY > game.Map().MaxTileYOnTop():
+			return "can't place card on tileY: %d" % tileY
+		if team == "Blue" and tileY < game.Map().MinTileYOnBot():
+			return "can't place card on tileY: %d" % tileY
+	if isKnight:
+		if k == null:
+			return "should not be here"
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:
