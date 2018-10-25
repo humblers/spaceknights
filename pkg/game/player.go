@@ -56,9 +56,6 @@ func newPlayer(pd PlayerData, g Game) Player {
 	}
 	p.hand = append(p.hand, pd.Deck[:4]...)
 	p.pending = append(p.pending, pd.Deck[4:]...)
-	g.Logger().Print(p.hand)
-	g.Logger().Print(p.pending)
-	g.Logger().Print(pd.Deck)
 	return p
 }
 

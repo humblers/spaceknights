@@ -90,29 +90,20 @@ const CURSOR = {
 
 # temporary
 const ICON = {
+	# Knight
 	"archengineer": preload("res://game/ui/unit_icon/archengineer.png"),
-	"blastturret": preload("res://game/ui/wingskill_icon/blastturret.png"),
 	"archsapper": preload("res://game/ui/unit_icon/archsapper.png"),
-	"cannon": preload("res://game/ui/unit_icon/archsapper.png"),
 	"astra": preload("res://game/ui/unit_icon/astra.png"),
-	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
 	"frost": preload("res://game/ui/unit_icon/frost.png"),
-	"freeze": preload("res://game/ui/unit_icon/frost.png"),
 	"ironcoffin": preload("res://game/ui/unit_icon/ironcoffin.png"),
-	"sentryshelter": preload("res://game/ui/wingskill_icon/sentryshelter.png"),
 	"judge": preload("res://game/ui/unit_icon/judge.png"),
-	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
 	"lancer": preload("res://game/ui/wingskill_icon/napalm.png"),
-	"napalm": preload("res://game/ui/wingskill_icon/napalm.png"),
 	"legion": preload("res://game/ui/unit_icon/legion.png"),
-	"fireball": preload("res://game/ui/unit_icon/legion.png"),
 	"nagmash": preload("res://game/ui/unit_icon/nagmash.png"),
-	"unload": preload("res://game/ui/unit_icon/nagmash.png"),
 	"pixieking": preload("res://game/ui/unit_icon/pixieking.png"),
-	"pixiegeode": preload("res://game/ui/wingskill_icon/pixiegeode.png"),
 	"tombstone": preload("res://game/ui/unit_icon/tombstone.png"),
-	"barrack": preload("res://game/ui/unit_icon/tombstone.png"),
 
+	# Else(Troop)
 	"archers": preload("res://game/ui/unit_icon/archer.png"),
 	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
 	"blaster": preload("res://game/ui/unit_icon/blaster.png"),
