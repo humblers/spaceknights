@@ -197,9 +197,9 @@ var cards = {
 		"OffsetY": [30, 30, 0],
 		"Rarity":  "Common",
 	},
-	"pixiegeode": {
-		"Cost":         3000,
-		"Unit":         "pixiegeode",
+	"pixieking": {
+		"Cost":    3000,
+		"Unit":    "pixieking",
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
@@ -268,31 +268,6 @@ var cards = {
 		"OffsetX": [0],
 		"OffsetY": [0],
 		"Rarity":  "Common",
-	},
-}
-
-const passives = {
-	"deathcarpet": {
-	},
-	"frozenbullet": {
-	},
-	"gatherfootman" : {
-	},
-	"gathersentry": {
-	},
-	"lemming" : {
-	},
-	"louder": {
-	},
-	"moredamage": {
-	},
-	"morerange": {
-	},
-	"pixiemarch": {
-	},
-	"readycannon": {
-	},
-	"reinforce": {
 	},
 }
 
