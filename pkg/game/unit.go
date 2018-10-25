@@ -1,13 +1,10 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
-import "github.com/humblers/spaceknights/pkg/physics"
-
-type Layer string
-type Layers []Layer
-
-type Type string
-type Types []Type
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+	"github.com/humblers/spaceknights/pkg/physics"
+)
 
 type AttackType string
 
@@ -15,8 +12,8 @@ type Unit interface {
 	Id() int
 	Name() string
 	Team() Team
-	Type() Type
-	Layer() Layer
+	Type() data.UnitType
+	Layer() data.UnitLayer
 	IsDead() bool
 	TakeDamage(amount int, t AttackType)
 	Update()
@@ -33,42 +30,16 @@ type Unit interface {
 
 	// for caster type
 	SetAsLeader()
-	Skill() string
+	Skill() map[string]interface{}
 	CastSkill(posX, posY int) bool
 }
 
 const (
-	Normal  Layer = "Normal"
-	Ether   Layer = "Ether"
-	Casting Layer = "Casting"
-
-	Troop    Type = "Troop"
-	Building Type = "Building"
-	Knight   Type = "Knight"
-
 	Melee AttackType = "Melee"
 	Range AttackType = "Range"
 	Skill AttackType = "Skill"
 	Self  AttackType = "Self"
 )
-
-func (layers Layers) Contains(layer Layer) bool {
-	for _, l := range layers {
-		if l == layer {
-			return true
-		}
-	}
-	return false
-}
-
-func (types Types) Contains(type_ Type) bool {
-	for _, t := range types {
-		if t == type_ {
-			return true
-		}
-	}
-	return false
-}
 
 type unit struct {
 	id    int
@@ -88,7 +59,7 @@ func (u *unit) MakeSlow(duration int) {
 }
 
 func (u *unit) Freeze(duration int) {
-	if u.Layer() == Casting {
+	if u.Layer() == data.Casting {
 		return
 	}
 	if u.freeze < duration {
@@ -127,11 +98,11 @@ func (u *unit) Name() string {
 func (u *unit) Team() Team {
 	return u.team
 }
-func (u *unit) Type() Type {
-	return units[u.name]["type"].(Type)
+func (u *unit) Type() data.UnitType {
+	return data.Units[u.name]["type"].(data.UnitType)
 }
-func (u *unit) Layer() Layer {
-	return Layer(u.Body.Layer())
+func (u *unit) Layer() data.UnitLayer {
+	return data.UnitLayer(u.Body.Layer())
 }
 
 func (u *unit) IsDead() bool {
@@ -139,7 +110,7 @@ func (u *unit) IsDead() bool {
 }
 
 func (u *unit) TakeDamage(amount int, t AttackType) {
-	if u.Layer() != Normal {
+	if u.Layer() != data.Normal {
 		return
 	}
 	u.hp -= amount
@@ -151,17 +122,17 @@ func (u *unit) Destroy() {
 func (u *unit) SetAsLeader() {
 	panic("not implemented")
 }
-func (u *unit) Skill() string {
+func (u *unit) Skill() map[string]interface{} {
 	panic("not implemented")
 }
 func (u *unit) CastSkill(posX, posY int) bool {
 	panic("not implemented")
 }
-func (u *unit) initialLayer() Layer {
-	return units[u.name]["layer"].(Layer)
+func (u *unit) initialLayer() data.UnitLayer {
+	return data.Units[u.name]["layer"].(data.UnitLayer)
 }
-func (u *unit) setLayer(l Layer) {
-	if l == Casting {
+func (u *unit) setLayer(l data.UnitLayer) {
+	if l == data.Casting {
 		u.Body.Simulate(false)
 	} else {
 		u.Body.Simulate(true)
@@ -169,15 +140,15 @@ func (u *unit) setLayer(l Layer) {
 	u.Body.SetLayer(string(l))
 }
 func (u *unit) mass() fixed.Scalar {
-	m := units[u.name]["mass"].(int)
+	m := data.Units[u.name]["mass"].(int)
 	return fixed.FromInt(m)
 }
 func (u *unit) radius() fixed.Scalar {
-	r := units[u.name]["radius"].(int)
+	r := data.Units[u.name]["radius"].(int)
 	return u.game.World().FromPixel(r)
 }
 func (u *unit) initialHp() int {
-	switch v := units[u.name]["hp"].(type) {
+	switch v := data.Units[u.name]["hp"].(type) {
 	case int:
 		return v
 	case []int:
@@ -186,7 +157,7 @@ func (u *unit) initialHp() int {
 	panic("invalid hp type")
 }
 func (u *unit) initialShield() int {
-	switch v := units[u.name]["shield"].(type) {
+	switch v := data.Units[u.name]["shield"].(type) {
 	case int:
 		return v
 	case []int:
@@ -195,24 +166,24 @@ func (u *unit) initialShield() int {
 	panic("invalid shield type")
 }
 func (u *unit) sight() fixed.Scalar {
-	s := units[u.name]["sight"].(int)
+	s := data.Units[u.name]["sight"].(int)
 	return u.game.World().FromPixel(s)
 }
 func (u *unit) speed() fixed.Scalar {
-	s := units[u.name]["speed"].(int)
+	s := data.Units[u.name]["speed"].(int)
 	if u.slowUntil >= u.game.Step() {
 		s = s * SlowPercent / 100
 	}
 	return u.game.World().FromPixel(s)
 }
-func (u *unit) targetTypes() Types {
-	return units[u.name]["targettypes"].(Types)
+func (u *unit) targetTypes() data.UnitTypes {
+	return data.Units[u.name]["targettypes"].(data.UnitTypes)
 }
-func (u *unit) targetLayers() Layers {
-	return units[u.name]["targetlayers"].(Layers)
+func (u *unit) targetLayers() data.UnitLayers {
+	return data.Units[u.name]["targetlayers"].(data.UnitLayers)
 }
 func (u *unit) attackDamage() int {
-	switch v := units[u.name]["attackdamage"].(type) {
+	switch v := data.Units[u.name]["attackdamage"].(type) {
 	case int:
 		return v
 	case []int:
@@ -221,24 +192,24 @@ func (u *unit) attackDamage() int {
 	panic("invalid attack damage type")
 }
 func (u *unit) attackRange() fixed.Scalar {
-	r := units[u.name]["attackrange"].(int)
+	r := data.Units[u.name]["attackrange"].(int)
 	return u.game.World().FromPixel(r)
 }
 func (u *unit) attackInterval() int {
-	i := units[u.name]["attackinterval"].(int)
+	i := data.Units[u.name]["attackinterval"].(int)
 	if u.slowUntil >= u.game.Step() {
 		i = i * 100 / SlowPercent
 	}
 	return i
 }
 func (u *unit) preAttackDelay() int {
-	return units[u.name]["preattackdelay"].(int)
+	return data.Units[u.name]["preattackdelay"].(int)
 }
 func (u *unit) bulletLifeTime() int {
-	return units[u.name]["bulletlifetime"].(int)
+	return data.Units[u.name]["bulletlifetime"].(int)
 }
 func (u *unit) canSee(v Unit) bool {
-	if v.Type() == Knight {
+	if v.Type() == data.Knight {
 		return true
 	}
 	r := u.sight() + u.Radius() + v.Radius()

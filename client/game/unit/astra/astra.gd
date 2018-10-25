@@ -138,16 +138,16 @@ func deal():
 			u.TakeDamage(laserDamage(), "Skill")
 	
 func laserDuration():
-	return stat.cards[Skill()]["duration"]
+	return Skill()["duration"]
 
 func laserStart():
-	return stat.cards[Skill()]["start"]
+	return Skill()["start"]
 
 func laserEnd():
-	return stat.cards[Skill()]["end"]
+	return Skill()["end"]
 
 func laserDamage():
-	var v = stat.cards[Skill()]["damage"]
+	var v = Skill()["damage"]
 	var t = typeof(v)
 	if t == TYPE_INT:
 		return v
@@ -156,10 +156,10 @@ func laserDamage():
 	print("invalid laser damage type")
 
 func laserWidth():
-	return game.World().FromPixel(stat.cards[Skill()]["width"])
+	return game.World().FromPixel(Skill()["width"])
 
 func laserHeight():
-	return game.World().FromPixel(stat.cards[Skill()]["height"])
+	return game.World().FromPixel(Skill()["height"])
 
 func inLaserArea(unit):
 	var centerX = game.World().FromPixel(castPosX)
@@ -175,8 +175,7 @@ func inLaserArea(unit):
 
 func SetAsLeader():
 	isLeader = true
-	var data = stat.passives[Skill()]
-	player.AddStatRatio("hpratio", data["hpratio"][level])
+	player.AddStatRatio("hpratio", Skill()["hpratio"][level])
 	var hp = initialHp()
 	var divider = 1
 	var ratios = player.StatRatios("hpratio")
@@ -187,8 +186,8 @@ func SetAsLeader():
 	set_hp()
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:

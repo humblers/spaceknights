@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type archsapper struct {
 	*unit
@@ -62,7 +65,7 @@ func (a *archsapper) attackDamage() int {
 }
 
 func (a *archsapper) attackRange() fixed.Scalar {
-	atkRange := units[a.name]["attackrange"].(int)
+	atkRange := data.Units[a.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range a.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -107,11 +110,11 @@ func (a *archsapper) Update() {
 }
 
 func (a *archsapper) castDuration() int {
-	return cards[a.Skill()]["castduration"].(int)
+	return a.Skill()["castduration"].(int)
 }
 
 func (a *archsapper) preCastDelay() int {
-	return cards[a.Skill()]["precastdelay"].(int)
+	return a.Skill()["precastdelay"].(int)
 }
 
 func (a *archsapper) findTargetAndAttack() {
@@ -125,14 +128,14 @@ func (a *archsapper) findTargetAndAttack() {
 func (a *archsapper) SetAsLeader() {
 	a.isLeader = true
 
-	data := passives[a.Skill()]
-	name := data["unit"].(string)
-	count := data["count"].(int)
-	xArr := data["posX"].([]int)
-	yArr := data["posY"].([]int)
+	d := a.Skill()
+	name := d["unit"].(string)
+	count := d["count"].(int)
+	xArr := d["posX"].([]int)
+	yArr := d["posY"].([]int)
 
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	for i := 0; i < count; i++ {
 		posX, posY := xArr[i], yArr[i]
 		if a.player.Team() == Red {
@@ -147,18 +150,19 @@ func (a *archsapper) SetAsLeader() {
 				panic(err)
 			}
 			cannon.SetDecayOff()
-			hp := cannon.initialHp() * data["hpratio"].([]int)[a.level] / 100
+			hp := cannon.initialHp() * d["hpratio"].([]int)[a.level] / 100
 			cannon.setHp(hp)
 		}
 	}
 }
 
-func (a *archsapper) Skill() string {
-	key := "active"
+func (a *archsapper) Skill() map[string]interface{} {
+	skill := data.Units[a.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if a.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[a.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (a *archsapper) CastSkill(posX, posY int) bool {
@@ -166,9 +170,9 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[a.Skill()]["unit"].(string)
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	name := a.Skill()["unit"].(string)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := a.game.TileFromPos(posX, posY)
 	tr := a.castTile.GetRect(tx, ty, nx, ny)
 	if err := a.castTile.Occupy(tr); err != nil {
@@ -180,12 +184,12 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
-	a.setLayer(Casting)
+	a.setLayer(data.Casting)
 	return true
 }
 
 func (a *archsapper) spawn() {
-	name := cards[a.Skill()]["unit"].(string)
+	name := a.Skill()["unit"].(string)
 	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
 	tr := a.castTile.Occupied()
 	a.castTile.Release()

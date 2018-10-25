@@ -45,9 +45,6 @@ func main() {
 	ss.SetKeyPrefix("session:")
 	rc.Close()
 
-	// load various game data from redis
-	lobby.LoadDataFromDB(p, false)
-
 	// set http mux for routing
 	m := http.NewServeMux()
 	m.Handle(lobby.NewAuthRouter("/auth/", ss, p, logger))

@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type shadowvision struct {
 	*unit
@@ -18,7 +21,7 @@ func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (s *shadowvision) TakeDamage(amount int, t AttackType) {
-	if s.Layer() != Normal {
+	if s.Layer() != data.Normal {
 		return
 	}
 	if t != Melee {
@@ -96,7 +99,7 @@ func (s *shadowvision) moveTo(u Unit) {
 
 func (s *shadowvision) handleAttack() {
 	if s.attack == 0 {
-		s.setLayer(Normal)
+		s.setLayer(data.Normal)
 	}
 	if s.attack == s.preAttackDelay() {
 		t := s.target()

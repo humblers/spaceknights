@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type jouster struct {
 	*unit
@@ -116,16 +119,16 @@ func (j *jouster) handleAttack() {
 }
 
 func (j *jouster) chargeDelay() int {
-	return units[j.name]["chargedelay"].(int)
+	return data.Units[j.name]["chargedelay"].(int)
 }
 
 func (j *jouster) chargedMoveSpeed() fixed.Scalar {
-	s := units[j.name]["chargedmovespeed"].(int)
+	s := data.Units[j.name]["chargedmovespeed"].(int)
 	return j.game.World().FromPixel(s)
 }
 
 func (j *jouster) chargedAttackDamage() int {
-	switch v := units[j.name]["chargedattackdamage"].(type) {
+	switch v := data.Units[j.name]["chargedattackdamage"].(type) {
 	case int:
 		return v
 	case []int:
@@ -135,11 +138,11 @@ func (j *jouster) chargedAttackDamage() int {
 }
 
 func (j *jouster) chargedAttackInterval() int {
-	return units[j.name]["chargedattackinterval"].(int)
+	return data.Units[j.name]["chargedattackinterval"].(int)
 }
 
 func (j *jouster) chargedAttackPreDelay() int {
-	return units[j.name]["chargedattackpredelay"].(int)
+	return data.Units[j.name]["chargedattackpredelay"].(int)
 }
 
 func (j *jouster) charged() bool {

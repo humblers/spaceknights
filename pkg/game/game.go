@@ -1,15 +1,18 @@
 package game
 
-import "fmt"
-import "log"
-import "time"
-import "strings"
+import (
+	"fmt"
+	"log"
+	"strings"
+	"time"
 
-import "github.com/humblers/spaceknights/pkg/fixed"
-import "github.com/humblers/spaceknights/pkg/physics"
-import "github.com/humblers/spaceknights/pkg/nav"
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+	"github.com/humblers/spaceknights/pkg/nav"
+	"github.com/humblers/spaceknights/pkg/physics"
+)
 
-const playTime = time.Second * 600
+const playTime = time.Second * 30
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
 const knightInitialStep = stepPerSec * 5
@@ -150,7 +153,7 @@ func (g *game) createMapObstacles() {
 			g.world.FromPixel(height),
 			fixed.Vector{g.world.FromPixel(x), g.world.FromPixel(y)},
 		)
-		b.SetLayer(string(Normal))
+		b.SetLayer(string(data.Normal))
 	}
 }
 
@@ -325,7 +328,7 @@ func (g *game) removeDeadUnits() {
 		u := g.units[id]
 		if u.IsDead() {
 			delete(g.units, id)
-			if u.Type() != Knight {
+			if u.Type() != data.Knight {
 				g.deathToll[u.Team()]++
 				g.lastDeadPosX[u.Team()] = u.Position().X
 			}

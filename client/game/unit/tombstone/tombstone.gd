@@ -84,11 +84,10 @@ func attackRange():
 
 func Update():
 	if isLeader:
-		var data = stat.passives[Skill()]
 		var deathToll = game.DeathToll(Team())
-		if deathToll != prevDeathToll and deathToll % data["perdeaths"] == 0:
+		if deathToll != prevDeathToll and deathToll % Skill()["perdeaths"] == 0:
 			prevDeathToll = deathToll
-			spawn(data)
+			spawn(Skill())
 	if freeze > 0:
 		attack = 0
 		targetId = 0
@@ -96,7 +95,7 @@ func Update():
 		return
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			spawn(stat.cards[Skill()])
+			spawn(Skill())
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -149,22 +148,22 @@ func show_laser(enable):
 			beam.global_rotation = (to - from).angle() + PI/2
 
 func castDuration():
-	return stat.cards[Skill()]["castduration"]
+	return Skill()["castduration"]
 
 func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
+	return Skill()["precastdelay"]
 
 func SetAsLeader():
 	isLeader = true
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-	var name = stat.cards[Skill()]["unit"]
+	var name = Skill()["unit"]
 	var nx = stat.units[name]["tilenumx"]
 	var ny = stat.units[name]["tilenumy"]
 	var tile = game.TileFromPos(posX, posY)

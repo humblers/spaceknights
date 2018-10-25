@@ -86,14 +86,13 @@ func Update():
 		freeze -= 1
 		return
 	if isLeader:
-		var data = stat.passives[Skill()]
-		if game.Step() % data["perstep"] == 0:
+		if game.Step() % Skill()["perstep"] == 0:
 			var posX = game.World().ToPixel(initPosX)
 			var posY = game.World().ToPixel(initPosY)
-			spawn(data, posX, posY)
+			spawn(Skill(), posX, posY)
 	if cast > 0:
 		if cast == preCastDelay() + 1:
-			spawn(stat.cards[Skill()], castPosX, castPosY)
+			spawn(Skill(), castPosX, castPosY)
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
@@ -144,17 +143,17 @@ func show_laser(enable):
 			beam.global_rotation = (to - from).angle() + PI/2
 
 func castDuration():
-	return stat.cards[Skill()]["castduration"]
+	return Skill()["castduration"]
 
 func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
+	return Skill()["precastdelay"]
 
 func SetAsLeader():
 	isLeader = true
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:

@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type enforcer struct {
 	*unit
@@ -111,7 +114,7 @@ func (e *enforcer) canAttack(u Unit) bool {
 }
 
 func (e *enforcer) attackRadius() fixed.Scalar {
-	r := units[e.name]["attackradius"].(int)
+	r := data.Units[e.name]["attackradius"].(int)
 	divider := 1
 	for _, ratio := range e.player.StatRatios("arearatio") {
 		r *= ratio

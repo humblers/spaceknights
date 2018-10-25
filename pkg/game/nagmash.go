@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type nagmash struct {
 	*unit
@@ -66,7 +69,7 @@ func (n *nagmash) attackDamage() int {
 }
 
 func (n *nagmash) attackRange() fixed.Scalar {
-	atkRange := units[n.name]["attackrange"].(int)
+	atkRange := data.Units[n.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range n.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -83,16 +86,15 @@ func (n *nagmash) Update() {
 		return
 	}
 	if n.isLeader {
-		data := passives[n.Skill()]
-		if n.game.Step()%data["perstep"].(int) == 0 {
+		if n.game.Step()%n.Skill()["perstep"].(int) == 0 {
 			posX := n.game.World().ToPixel(n.initPos.X)
 			posY := n.game.World().ToPixel(n.initPos.Y)
-			n.spawn(data, posX, posY)
+			n.spawn(n.Skill(), posX, posY)
 		}
 	}
 	if n.cast > 0 {
 		if n.cast == n.preCastDelay()+1 {
-			n.spawn(cards[n.Skill()], n.castPosX, n.castPosY)
+			n.spawn(n.Skill(), n.castPosX, n.castPosY)
 		}
 		if n.cast > n.castDuration() {
 			n.cast = 0
@@ -135,23 +137,24 @@ func (n *nagmash) Update() {
 }
 
 func (n *nagmash) castDuration() int {
-	return cards[n.Skill()]["castduration"].(int)
+	return n.Skill()["castduration"].(int)
 }
 
 func (n *nagmash) preCastDelay() int {
-	return cards[n.Skill()]["precastdelay"].(int)
+	return n.Skill()["precastdelay"].(int)
 }
 
 func (n *nagmash) SetAsLeader() {
 	n.isLeader = true
 }
 
-func (n *nagmash) Skill() string {
-	key := "active"
+func (n *nagmash) Skill() map[string]interface{} {
+	skill := data.Units[n.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if n.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[n.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (n *nagmash) CastSkill(posX, posY int) bool {
@@ -162,7 +165,7 @@ func (n *nagmash) CastSkill(posX, posY int) bool {
 	n.cast++
 	n.castPosX = posX
 	n.castPosY = posY
-	n.setLayer(Casting)
+	n.setLayer(data.Casting)
 	return true
 }
 

@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type panzerkunstler struct {
 	*unit
@@ -87,7 +90,7 @@ func (p *panzerkunstler) handleAttack() {
 		if p.attack >= p.powerAttackPreDelay() {
 			for _, id := range p.game.UnitIds() {
 				u := p.game.FindUnit(id)
-				if u.Team() == p.Team() || u.Layer() != Normal {
+				if u.Team() == p.Team() || u.Layer() != data.Normal {
 					continue
 				}
 				d := u.Position().Sub(p.punchPos)
@@ -129,19 +132,19 @@ func (p *panzerkunstler) canDoPowerAttack() bool {
 }
 
 func (p *panzerkunstler) powerAttackInterval() int {
-	return units[p.name]["powerattackinterval"].(int)
+	return data.Units[p.name]["powerattackinterval"].(int)
 }
 
 func (p *panzerkunstler) powerAttackPreDelay() int {
-	return units[p.name]["powerattackpredelay"].(int)
+	return data.Units[p.name]["powerattackpredelay"].(int)
 }
 
 func (p *panzerkunstler) powerAttackFrequency() int {
-	return units[p.name]["powerattackfrequency"].(int)
+	return data.Units[p.name]["powerattackfrequency"].(int)
 }
 
 func (p *panzerkunstler) powerAttackDamage() int {
-	switch v := units[p.name]["powerattackdamage"].(type) {
+	switch v := data.Units[p.name]["powerattackdamage"].(type) {
 	case int:
 		return v
 	case []int:
@@ -151,7 +154,7 @@ func (p *panzerkunstler) powerAttackDamage() int {
 }
 
 func (p *panzerkunstler) powerAttackRadius() fixed.Scalar {
-	r := units[p.name]["powerattackradius"].(int)
+	r := data.Units[p.name]["powerattackradius"].(int)
 	divider := 1
 	for _, ratio := range p.player.StatRatios("arearatio") {
 		r *= ratio
@@ -161,5 +164,5 @@ func (p *panzerkunstler) powerAttackRadius() fixed.Scalar {
 }
 
 func (p *panzerkunstler) powerAttackForce() fixed.Scalar {
-	return p.game.World().FromPixel(units[p.name]["powerattackforce"].(int))
+	return p.game.World().FromPixel(data.Units[p.name]["powerattackforce"].(int))
 }

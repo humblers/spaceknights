@@ -23,7 +23,7 @@ type LoginResponse struct {
 
 type DataResponse struct {
 	ErrMessage string
-	Data       map[string]string
+	Data       string
 }
 
 type MatchResponse struct {
@@ -32,6 +32,11 @@ type MatchResponse struct {
 	Config     game.Config
 }
 
-type DeckChangeRequest struct {
+type DeckSelectRequest struct {
 	Num int
+}
+
+type DeckSetRequest struct {
+	Num  int
+	Deck deck
 }

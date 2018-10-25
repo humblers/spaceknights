@@ -103,10 +103,10 @@ func Update():
 		$AnimationPlayer.play("idle")
 
 func castDuration():
-	return stat.cards[Skill()]["castduration"]
+	return Skill()["castduration"]
 
 func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
+	return Skill()["precastdelay"]
 		
 func findTargetAndAttack():
 	var t = findTarget()
@@ -116,7 +116,7 @@ func findTargetAndAttack():
 
 func SetAsLeader():
 	isLeader = true
-	var data = stat.passives[Skill()]
+	var data = Skill()
 	var name = data["unit"]
 	var count = data["count"]
 	var xArr = data["posX"]
@@ -142,13 +142,13 @@ func SetAsLeader():
 		cannon.setHp(hp)
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
 		return false
-	var name = stat.cards[Skill()]["unit"]
+	var name = Skill()["unit"]
 	var nx = stat.units[name]["tilenumx"]
 	var ny = stat.units[name]["tilenumy"]
 	var tile = game.TileFromPos(posX, posY)
@@ -188,7 +188,7 @@ func adjustSkillAnim():
 			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func spawn():
-	var name = stat.cards[Skill()]["unit"]
+	var name = Skill()["unit"]
 	var id = game.AddUnit(name, level, castPosX, castPosY, player)
 	var tr = castTile.Occupied()
 	castTile.Release()

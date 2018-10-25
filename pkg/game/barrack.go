@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type barrack struct {
 	*unit
 	Decayable
@@ -37,11 +39,11 @@ func (b *barrack) Update() {
 }
 
 func (b *barrack) spawnInterval() int {
-	return units[b.name]["spawninterval"].(int)
+	return data.Units[b.name]["spawninterval"].(int)
 }
 
 func (b *barrack) doSpawn() {
-	card := units[b.name]
+	card := data.Units[b.name]
 	name := card["spawn"].(string)
 	count := card["spawncount"].(int)
 	offsetX := card["spawnoffsetX"].([]int)

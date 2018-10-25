@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type pixie struct {
 	*unit
@@ -69,7 +72,7 @@ func (p *pixie) moveTo(u Unit) {
 
 func (p *pixie) handleAttack() {
 	if p.attack == 0 {
-		p.setLayer(Normal)
+		p.setLayer(data.Normal)
 	}
 	if p.attack == p.preAttackDelay() {
 		t := p.target()

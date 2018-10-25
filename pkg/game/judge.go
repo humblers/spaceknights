@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type judge struct {
 	*unit
@@ -59,7 +62,7 @@ func (j *judge) attackDamage() int {
 }
 
 func (j *judge) attackRange() fixed.Scalar {
-	atkRange := units[j.name]["attackrange"].(int)
+	atkRange := data.Units[j.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range j.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -112,25 +115,25 @@ func (j *judge) findTargetAndAttack() {
 }
 
 func (j *judge) castDuration() int {
-	return cards[j.Skill()]["castduration"].(int)
+	return j.Skill()["castduration"].(int)
 }
 
 func (j *judge) preCastDelay() int {
-	return cards[j.Skill()]["precastdelay"].(int)
+	return j.Skill()["precastdelay"].(int)
 }
 
 func (j *judge) SetAsLeader() {
 	j.isLeader = true
-	data := passives[j.Skill()]
-	j.player.AddStatRatio("attackrangeratio", data["attackrangeratio"].([]int)[j.level])
+	j.player.AddStatRatio("attackrangeratio", j.Skill()["attackrangeratio"].([]int)[j.level])
 }
 
-func (j *judge) Skill() string {
-	key := "active"
+func (j *judge) Skill() map[string]interface{} {
+	skill := data.Units[j.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if j.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[j.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (j *judge) CastSkill(posX, posY int) bool {
@@ -141,13 +144,13 @@ func (j *judge) CastSkill(posX, posY int) bool {
 	j.cast++
 	j.castPosX = posX
 	j.castPosY = posY
-	j.setLayer(Casting)
+	j.setLayer(data.Casting)
 	return true
 }
 
 func (j *judge) bulletrain() {
-	damage := cards[j.Skill()]["damage"].([]int)[j.level]
-	radius := j.game.World().FromPixel(cards[j.Skill()]["radius"].(int))
+	damage := j.Skill()["damage"].([]int)[j.level]
+	radius := j.game.World().FromPixel(j.Skill()["radius"].(int))
 	for _, id := range j.game.UnitIds() {
 		u := j.game.FindUnit(id)
 		if u.Team() == j.Team() {

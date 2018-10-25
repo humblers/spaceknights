@@ -65,7 +65,7 @@ func gui_input(ev):
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
 				return
-			if energy < stat.cards[selected_card.Name]["cost"]:
+			if energy < stat.cards[selected_card.Name]["Cost"]:
 				show_message("Not Enought Energy", pos.y)
 				clear_cursor()
 				return
@@ -122,10 +122,10 @@ func add_cursor():
 		cursor = resource.CURSOR[k.Name()]
 	else:
 		cursor = resource.CURSOR["unit"]
-		var name = cardData["unit"]
-		var count = cardData["count"]
-		var offsetX = cardData["offsetX"]
-		var offsetY = cardData["offsetY"]
+		var name = cardData["Unit"]
+		var count = cardData["Count"]
+		var offsetX = cardData["OffsetX"]
+		var offsetY = cardData["OffsetY"]
 		for i in range(count):
 			pos_node.add_child(get_unit(name, offsetX[i], offsetY[i]))
 	cursor = cursor.instance()
@@ -266,7 +266,7 @@ func update_cards():
 			_:
 				btn_node.visible = true
 				icon_node.texture = resource.ICON[hand[i].Name]
-				cost_node.text = str(stat.cards[hand[i].Name].cost/1000)
+				cost_node.text = str(stat.cards[hand[i].Name].Cost/1000)
 		icon_node.modulate = modulate
 
 func Team():
@@ -346,7 +346,7 @@ func Do(action):
 		if index < 0:
 			return "card not found: %s" % action.Card.Name
 	
-		var cost = stat.cards[action.Card.Name]["cost"]
+		var cost = stat.cards[action.Card.Name]["Cost"]
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
 
@@ -373,20 +373,15 @@ func findKnight(name):
 	return null
 
 func useCard(c, posX, posY):
-	var card = stat.cards[c.Name]
-	if card.has("caster"):
-		var k = findKnight(card["caster"])
-		if k == null:
-			return "should not be here"
+	var d = stat.cards[c.Name]
+	var name = d.Unit
+	var k = findKnight(name)
+	if k != null:
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:
-		var name = card["unit"]
-		var count = card["count"]
-		var offsetX = card["offsetX"]
-		var offsetY = card["offsetY"]
-		for i in range(count):
-			game.AddUnit(name, c.Level, posX+offsetX[i], posY+offsetY[i], self)
+		for i in range(d.Count):
+			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
 	return null
 
 func rollingCard():
@@ -406,7 +401,7 @@ func OnKnightDead(knight):
 		if id == knight.Id():
 			knightIds[i] = 0
 			break
-	removeCard(knight.Skill())
+	removeCard(knight.Name())
 	get_node("../../Map/MotherShips/%s" % team).destroy(knight.side)
 	expand_spawnable_area(knight)
 

@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type ironcoffin struct {
 	*unit
@@ -69,7 +72,7 @@ func (i *ironcoffin) attackDamage() int {
 }
 
 func (i *ironcoffin) attackRange() fixed.Scalar {
-	atkRange := units[i.name]["attackrange"].(int)
+	atkRange := data.Units[i.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range i.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -80,9 +83,8 @@ func (i *ironcoffin) attackRange() fixed.Scalar {
 
 func (i *ironcoffin) Update() {
 	if i.isLeader {
-		data := passives[i.Skill()]
-		if i.game.Step()%data["perstep"].(int) == 0 {
-			i.spawn(data)
+		if i.game.Step()%i.Skill()["perstep"].(int) == 0 {
+			i.spawn(i.Skill())
 		}
 	}
 	if i.freeze > 0 {
@@ -93,7 +95,7 @@ func (i *ironcoffin) Update() {
 	}
 	if i.cast > 0 {
 		if i.cast == i.preCastDelay()+1 {
-			i.spawn(cards[i.Skill()])
+			i.spawn(i.Skill())
 		}
 		if i.cast > i.castDuration() {
 			i.cast = 0
@@ -139,23 +141,24 @@ func (i *ironcoffin) findTargetAndDoAction() {
 }
 
 func (i *ironcoffin) castDuration() int {
-	return cards[i.Skill()]["castduration"].(int)
+	return i.Skill()["castduration"].(int)
 }
 
 func (i *ironcoffin) preCastDelay() int {
-	return cards[i.Skill()]["precastdelay"].(int)
+	return i.Skill()["precastdelay"].(int)
 }
 
 func (i *ironcoffin) SetAsLeader() {
 	i.isLeader = true
 }
 
-func (i *ironcoffin) Skill() string {
-	key := "active"
+func (i *ironcoffin) Skill() map[string]interface{} {
+	skill := data.Units[i.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if i.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[i.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (i *ironcoffin) CastSkill(posX, posY int) bool {
@@ -163,9 +166,9 @@ func (i *ironcoffin) CastSkill(posX, posY int) bool {
 		return false
 	}
 
-	name := cards[i.Skill()]["unit"].(string)
-	nx := units[name]["tilenumx"].(int)
-	ny := units[name]["tilenumy"].(int)
+	name := i.Skill()["unit"].(string)
+	nx := data.Units[name]["tilenumx"].(int)
+	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := i.game.TileFromPos(posX, posY)
 	tr := i.castTile.GetRect(tx, ty, nx, ny)
 	if err := i.castTile.Occupy(tr); err != nil {
@@ -177,7 +180,7 @@ func (i *ironcoffin) CastSkill(posX, posY int) bool {
 	i.cast++
 	i.castPosX = posX
 	i.castPosY = posY
-	i.setLayer(Casting)
+	i.setLayer(data.Casting)
 	return true
 }
 

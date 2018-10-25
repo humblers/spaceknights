@@ -130,21 +130,21 @@ func findTargetAndDoAction():
 		moveToPos(initPosX, initPosY)
 
 func castDuration():
-	return stat.cards[Skill()]["castduration"]
+	return Skill()["castduration"]
 
 func preCastDelay():
-	return stat.cards[Skill()]["precastdelay"]
+	return Skill()["precastdelay"]
 
 func SetAsLeader():
 	isLeader = true
-	var data = stat.passives[Skill()]
-	var count = data["count"]
-	var posX = data["posX"]
-	var posY = data["posY"]
-	var w = game.World().FromPixel(data["width"])
-	var h = game.World().FromPixel(data["height"])
-	var damage = data["damage"]
-	var duration = data["duration"]
+	var s = Skill()
+	var count = s["count"]
+	var posX = s["posX"]
+	var posY = s["posY"]
+	var w = game.World().FromPixel(s["width"])
+	var h = game.World().FromPixel(s["height"])
+	var damage = s["damage"]
+	var duration = s["duration"]
 	for i in count:
 		var x = game.World().FromPixel(posX[i])
 		var y = game.World().FromPixel(posY[i])
@@ -153,8 +153,8 @@ func SetAsLeader():
 		game.AddSkill(dot)
 
 func Skill():
-	var key = "passive" if isLeader else "active"
-	return stat.units[name_][key]
+	var key = "leader" if isLeader else "wing"
+	return stat.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -178,10 +178,10 @@ func rotate_to_cast_pos():
 		$Rotatable.rotation += PI
 	
 func drop():
-	var dps = stat.cards[Skill()]["damage"]
-	var w = game.World().FromPixel(stat.cards[Skill()]["width"])
-	var h = game.World().FromPixel(stat.cards[Skill()]["height"])
-	var remain = stat.cards[Skill()]["damageduration"]
+	var dps = Skill()["damage"]
+	var w = game.World().FromPixel(Skill()["width"])
+	var h = game.World().FromPixel(Skill()["height"])
+	var remain = Skill()["damageduration"]
 	var x = game.World().FromPixel(castPosX)
 	var y = game.World().FromPixel(castPosY)
 	var dot = resource.SKILL[name_].instance()

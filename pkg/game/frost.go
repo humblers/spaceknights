@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type frost struct {
 	*unit
@@ -59,7 +62,7 @@ func (f *frost) attackDamage() int {
 }
 
 func (f *frost) attackRange() fixed.Scalar {
-	atkRange := units[f.name]["attackrange"].(int)
+	atkRange := data.Units[f.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range f.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -112,26 +115,25 @@ func (f *frost) findTargetAndAttack() {
 }
 
 func (f *frost) castDuration() int {
-	return cards[f.Skill()]["castduration"].(int)
+	return f.Skill()["castduration"].(int)
 }
 
 func (f *frost) preCastDelay() int {
-	return cards[f.Skill()]["precastdelay"].(int)
+	return f.Skill()["precastdelay"].(int)
 }
 
 func (f *frost) SetAsLeader() {
 	f.isLeader = true
-	data := passives[f.Skill()]
-	f.player.AddStatRatio("slowduration", data["slowduration"].([]int)[f.level])
-
+	f.player.AddStatRatio("slowduration", f.Skill()["slowduration"].([]int)[f.level])
 }
 
-func (f *frost) Skill() string {
-	key := "active"
+func (f *frost) Skill() map[string]interface{} {
+	skill := data.Units[f.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if f.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[f.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (f *frost) CastSkill(posX, posY int) bool {
@@ -142,13 +144,13 @@ func (f *frost) CastSkill(posX, posY int) bool {
 	f.cast++
 	f.castPosX = posX
 	f.castPosY = posY
-	f.setLayer(Casting)
+	f.setLayer(data.Casting)
 	return true
 }
 
 func (f *frost) doFreeze() {
 	duration := f.castDuration() - f.preCastDelay()
-	radius := f.game.World().FromPixel(cards[f.Skill()]["radius"].(int))
+	radius := f.game.World().FromPixel(f.Skill()["radius"].(int))
 	for _, id := range f.game.UnitIds() {
 		u := f.game.FindUnit(id)
 		if u.Team() == f.Team() {

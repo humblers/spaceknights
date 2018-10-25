@@ -1,6 +1,6 @@
 extends Node
 
-const LOBBY = preload("res://lobby/resource/resource.gd")
+const LOBBY = preload("res://lobby/script/resource.gd")
 
 const WORLD = preload("res://game/script/physics/world.gd")
 const MAP = {
@@ -65,7 +65,7 @@ const BULLET = {
 }
 const SKILL = {
 	"legion": preload("res://game/unit/legion/bomb_explosion.tscn"),
-	"judge": preload("res://game/unit/judge/arealshot.tscn"),
+	"judge": preload("res://game/unit/judge/bulletrain.tscn"),
 	"frost": preload("res://game/unit/frost/freeze.tscn"),
 	"lancer": preload("res://game/unit/lancer/napalm.tscn"),
 }
@@ -90,41 +90,40 @@ const CURSOR = {
 
 # temporary
 const ICON = {
+	# Knight
+	"archengineer": preload("res://game/ui/unit_icon/archengineer.png"),
 	"archsapper": preload("res://game/ui/unit_icon/archsapper.png"),
-	"cannon": preload("res://game/ui/unit_icon/archsapper.png"),
+	"astra": preload("res://game/ui/unit_icon/astra.png"),
+	"frost": preload("res://game/ui/unit_icon/frost.png"),
+	"ironcoffin": preload("res://game/ui/unit_icon/ironcoffin.png"),
 	"judge": preload("res://game/ui/unit_icon/judge.png"),
-	"bulletrain": preload("res://game/ui/unit_icon/judge.png"),
+	"lancer": preload("res://game/ui/wingskill_icon/napalm.png"),
 	"legion": preload("res://game/ui/unit_icon/legion.png"),
-	"fireball": preload("res://game/ui/unit_icon/legion.png"),
+	"nagmash": preload("res://game/ui/unit_icon/nagmash.png"),
+	"pixieking": preload("res://game/ui/unit_icon/pixieking.png"),
+	"tombstone": preload("res://game/ui/unit_icon/tombstone.png"),
 
+	# Else(Troop)
 	"archers": preload("res://game/ui/unit_icon/archer.png"),
-	"gargoylehorde": preload("res://game/ui/unit_icon/gargoyle.png"),
-	"giant": preload("res://game/ui/unit_icon/giant.png"),
-	"shadowvision": preload("res://game/ui/unit_icon/shadowvision.png"),
-	"unload": preload("res://game/ui/unit_icon/nagmash.png"),
-	"footmans": preload("res://game/ui/unit_icon/footman.png"),
-	"psabu": preload("res://game/ui/unit_icon/psabu.png"),
-	"megalaser": preload("res://game/ui/unit_icon/astra.png"),
-	"barrack": preload("res://game/ui/unit_icon/tombstone.png"),
-	"panzerkunstler": preload("res://game/ui/unit_icon/panzerkunstler.png"),
-	"jouster": preload("res://game/ui/unit_icon/jouster.png"),
+	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
+	"blaster": preload("res://game/ui/unit_icon/blaster.png"),
+	"champion": preload("res://game/ui/unit_icon/champion.png"),
+	"drillram": preload("res://game/ui/unit_icon/drillram.png"),
 	"enforcer": preload("res://game/ui/unit_icon/enforcer.png"),
 	"felhound": preload("res://game/ui/unit_icon/felhound.png"),
-	"trainee": preload("res://game/ui/unit_icon/trainee.png"),
-	"starfire": preload("res://game/ui/unit_icon/starfire.png"),
-	"threestarfires": preload("res://game/ui/unit_icon/threestarfires.png"),
-	"pixie": preload("res://game/ui/unit_icon/pixie.png"),
+	"footmans": preload("res://game/ui/unit_icon/footman.png"),
+	"gargoylehorde": preload("res://game/ui/unit_icon/gargoyle.png"),
 	"gargoyleking": preload("res://game/ui/unit_icon/gargoyleking.png"),
-	"berserker": preload("res://game/ui/unit_icon/berserker.png"),
+	"giant": preload("res://game/ui/unit_icon/giant.png"),
+	"jouster": preload("res://game/ui/unit_icon/jouster.png"),
 	"ogre": preload("res://game/ui/unit_icon/ogre.png"),
-	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
-	"freeze": preload("res://game/ui/unit_icon/frost.png"),
-	"champion": preload("res://game/ui/unit_icon/champion.png"),
+	"panzerkunstler": preload("res://game/ui/unit_icon/panzerkunstler.png"),
+	"pixie": preload("res://game/ui/unit_icon/pixie.png"),
+	"psabu": preload("res://game/ui/unit_icon/psabu.png"),
 	"sentry": preload("res://game/ui/unit_icon/sentry.png"),
-	"napalm": preload("res://game/ui/wingskill_icon/napalm.png"),
-	"drillram": preload("res://game/ui/unit_icon/drillram.png"),
-	"blaster": preload("res://game/ui/unit_icon/blaster.png"),
-	"blastturret": preload("res://game/ui/wingskill_icon/blastturret.png"),
-	"sentryshelter": preload("res://game/ui/wingskill_icon/sentryshelter.png"),
-	"pixiegeode": preload("res://game/ui/wingskill_icon/pixiegeode.png"),
+	"shadowvision": preload("res://game/ui/unit_icon/shadowvision.png"),
+	"starfire": preload("res://game/ui/unit_icon/starfire.png"),
+	"trainee": preload("res://game/ui/unit_icon/trainee.png"),
+	"threestarfires": preload("res://game/ui/unit_icon/threestarfires.png"),
+	"wasp": preload("res://game/ui/unit_icon/wasp.png"),
 }

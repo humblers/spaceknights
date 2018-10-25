@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type astra struct {
 	*unit
@@ -59,7 +62,7 @@ func (a *astra) attackDamage() int {
 }
 
 func (a *astra) attackRange() fixed.Scalar {
-	atkRange := units[a.name]["attackrange"].(int)
+	atkRange := data.Units[a.name]["attackrange"].(int)
 	divider := 1
 	for _, ratio := range a.player.StatRatios("attackrangeratio") {
 		atkRange *= ratio
@@ -132,19 +135,19 @@ func (a *astra) deal() {
 }
 
 func (a *astra) laserDuration() int {
-	return cards[a.Skill()]["duration"].(int)
+	return a.Skill()["duration"].(int)
 }
 
 func (a *astra) laserStart() int {
-	return cards[a.Skill()]["start"].(int)
+	return a.Skill()["start"].(int)
 }
 
 func (a *astra) laserEnd() int {
-	return cards[a.Skill()]["end"].(int)
+	return a.Skill()["end"].(int)
 }
 
 func (a *astra) laserDamage() int {
-	switch v := cards[a.Skill()]["damage"].(type) {
+	switch v := a.Skill()["damage"].(type) {
 	case int:
 		return v
 	case []int:
@@ -154,11 +157,11 @@ func (a *astra) laserDamage() int {
 }
 
 func (a *astra) laserWidth() fixed.Scalar {
-	return a.game.World().FromPixel(cards[a.Skill()]["width"].(int))
+	return a.game.World().FromPixel(a.Skill()["width"].(int))
 }
 
 func (a *astra) laserHeight() fixed.Scalar {
-	return a.game.World().FromPixel(cards[a.Skill()]["height"].(int))
+	return a.game.World().FromPixel(a.Skill()["height"].(int))
 }
 
 func (a *astra) inLaserArea(u Unit) bool {
@@ -171,8 +174,7 @@ func (a *astra) inLaserArea(u Unit) bool {
 
 func (a *astra) SetAsLeader() {
 	a.isLeader = true
-	data := passives[a.Skill()]
-	a.player.AddStatRatio("hpratio", data["hpratio"].([]int)[a.level])
+	a.player.AddStatRatio("hpratio", a.Skill()["hpratio"].([]int)[a.level])
 	hp := a.initialHp()
 	divider := 1
 	for _, ratio := range a.player.StatRatios("hpratio") {
@@ -183,12 +185,13 @@ func (a *astra) SetAsLeader() {
 
 }
 
-func (a *astra) Skill() string {
-	key := "active"
+func (a *astra) Skill() map[string]interface{} {
+	skill := data.Units[a.name]["skill"].(map[string]interface{})
+	key := "wing"
 	if a.isLeader {
-		key = "passive"
+		key = "leader"
 	}
-	return units[a.name][key].(string)
+	return skill[key].(map[string]interface{})
 }
 
 func (a *astra) CastSkill(posX, posY int) bool {
@@ -199,7 +202,7 @@ func (a *astra) CastSkill(posX, posY int) bool {
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
-	a.setLayer(Casting)
+	a.setLayer(data.Casting)
 	return true
 }
 

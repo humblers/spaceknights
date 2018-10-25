@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type pixiegeode struct {
 	*unit
 	Decayable
@@ -37,11 +39,11 @@ func (pg *pixiegeode) Update() {
 }
 
 func (pg *pixiegeode) spawnInterval() int {
-	return units[pg.name]["spawninterval"].(int)
+	return data.Units[pg.name]["spawninterval"].(int)
 }
 
 func (pg *pixiegeode) doSpawn() {
-	card := units[pg.name]
+	card := data.Units[pg.name]
 	name := card["spawn"].(string)
 	count := card["spawncount"].(int)
 	offsetX := card["spawnoffsetX"].([]int)
