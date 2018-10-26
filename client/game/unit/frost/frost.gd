@@ -169,7 +169,7 @@ func doFreeze():
 			u.Freeze(duration)
 	
 	# client only
-	var skill = resource.SKILL[name_].instance()
+	var skill = $ResourcePreloader.get_resource("freeze").instance()
 	game.get_node("Skills").add_child(skill)
 	var pos = Vector2(castPosX, castPosY)
 	if game.team_swapped:
@@ -229,7 +229,7 @@ static func angle_diff(a, b):
 	return fposmod((a - b) + PI, 2 * PI) - PI
 	
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("bullet").instance()
 
 	# client only
 	b.BULLET_COUNT = 6

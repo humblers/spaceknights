@@ -39,7 +39,7 @@ onready var containers = {
 	"mode_edit": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeEdit,
 	"mode_normal": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal,
 	"founds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal/CenterContainer/Founds,
-	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal/CenterContainer/NotFounds,
+	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal/NotFounds,
 	"extra": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ExtraButtonHolder,
 }
 
@@ -76,7 +76,7 @@ func invalidate():
 	for i in range(found_cards.size()):
 		var name = found_cards[i]
 		not_found_cards.erase(name)
-		var item = resource.LOBBY.PAGE_CARD.item.instance()
+		var item = $ResourcePreloader.get_resource("item").instance()
 		containers.founds.add_child(item)
 		item.invalidate(name, self)
 
@@ -134,7 +134,7 @@ func toggle_extra_btns(btn):
 			create = false
 		child.queue_free()
 	if create:
-		var extra_btn = resource.LOBBY.PAGE_CARD.extra_btns.instance()
+		var extra_btn = $ResourcePreloader.get_resource("extra_btns").instance()
 		containers.extra.add_child(extra_btn)
 		extra_btn.name = btn.name
 		extra_btn.rect_global_position = btn.extra_btn_global_position()
@@ -145,7 +145,7 @@ func pick_card(btn):
 	btn.queue_free()
 	for child in containers.mode_edit.get_children():
 		child.queue_free()
-	var item = resource.LOBBY.PAGE_CARD.item.instance()
+	var item = $ResourcePreloader.get_resource("item").instance()
 	containers.mode_edit.add_child(item)
 	item.invalidate(picked_card, self)
 	invalidate()

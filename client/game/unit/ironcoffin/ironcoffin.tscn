@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/unit/ironcoffin/ironcoffin.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/ironcoffin/front.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=30]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=31]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/ironcoffin/missile.tscn" type="PackedScene" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -92,7 +93,6 @@ position = Vector2( 0, 0.348488 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -118,7 +118,6 @@ position = Vector2( -59, 82 )
 rotation = -0.523599
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -127,6 +126,7 @@ position = Vector2( 59, 82 )
 rotation = 0.523599
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -151,7 +151,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -383,4 +382,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 32 )]
 position = Vector2( 0, -100 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "missile" ), [ ExtResource( 33 ) ] ]
 

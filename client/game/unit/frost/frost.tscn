@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://game/unit/frost/frost.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/frost/leg.png" type="Texture" id=2]
@@ -41,6 +41,8 @@
 [ext_resource path="res://game/sfx/smg1_fireburst1.wav" type="AudioStream" id=39]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=40]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=41]
+[ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=43]
 
 [sub_resource type="Curve" id=1]
 
@@ -2100,6 +2102,7 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material" ]
 
@@ -2258,7 +2261,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MuzzleFlash" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"]
 visible = false
-rotation = -2.98023e-008
+rotation = -2.98023e-08
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -2367,7 +2370,7 @@ position = Vector2( 18, -24.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR"]
-rotation = -2.02656e-006
+rotation = -2.02656e-06
 scale = Vector2( 0.4, 0.4 )
 _sections_unfolded = [ "Transform" ]
 
@@ -2542,7 +2545,6 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2577,7 +2579,6 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2819,4 +2820,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 41 )]
 position = Vector2( 0, -100 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "bullet", "freeze" ), [ ExtResource( 42 ), ExtResource( 43 ) ] ]
 

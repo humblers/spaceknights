@@ -119,9 +119,9 @@ func add_cursor():
 	var cursor
 	if cardData.has("caster"):
 		var k = findKnight(cardData["caster"])
-		cursor = resource.CURSOR[k.Name()]
+		cursor = $Cursor.get_resource(k.Name())
 	else:
-		cursor = resource.CURSOR["unit"]
+		cursor = $Cursor.get_resource("unit")
 		var name = cardData["Unit"]
 		var count = cardData["Count"]
 		var offsetX = cardData["OffsetX"]
@@ -219,7 +219,7 @@ func update_tile_visible(pressed):
 	get_node("../../Map/TileUnit").visible = unit != null and pressed
 
 func get_unit(name, x, y):
-	var node = resource.UNIT[name].instance()
+	var node = $Unit.get_resource(name).instance()
 	node.InitDummy(x, y, game, self, false)
 	node.modulate = Color(1.0, 1.0, 1.0, 0.5)
 	return node
@@ -240,7 +240,7 @@ func mark_action(input):
 			child.global_position = global_pos
 			action_markers[input.Step].append(child)
 	else:
-		var default_cursor = resource.CURSOR["unit"].instance()
+		var default_cursor = $Cursor.get_resource("unit").instance()
 		var pos = game.PosFromTile(input.Action.TileX, input.Action.TileY)
 		default_cursor.position.x = pos[0]
 		default_cursor.position.y = pos[1]
@@ -257,7 +257,7 @@ func show_message(msg, pos_y):
 		$Tween.start()
 
 func update_cards():
-	$Cards/Area0/Next/Icon.texture = resource.ICON[pending[0].Name]
+	$Cards/Area0/Next/Icon.texture = $Icon.get_resource(pending[0].Name)
 	$Cards/Area0/Next/Pending.visible = rollingCounter > 0
 	$Cards/Area0/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
 	for i in range(HAND_SIZE):
@@ -281,7 +281,7 @@ func update_cards():
 					card.erase("InvisibleTo")
 			_:
 				btn_node.visible = true
-				icon_node.texture = resource.ICON[hand[i].Name]
+				icon_node.texture = $Icon.get_resource(hand[i].Name)
 				cost_node.text = str(stat.cards[hand[i].Name].Cost/1000)
 		icon_node.modulate = modulate
 

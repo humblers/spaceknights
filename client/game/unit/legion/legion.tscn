@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/legion/roid.png" type="Texture" id=2]
@@ -38,6 +38,8 @@
 [ext_resource path="res://game/sfx/fire1.wav" type="AudioStream" id=36]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=37]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=38]
+[ext_resource path="res://game/unit/legion/bomb_explosion.tscn" type="PackedScene" id=39]
+[ext_resource path="res://game/unit/legion/bullet.tscn" type="PackedScene" id=40]
 
 [sub_resource type="Curve" id=1]
 
@@ -97,7 +99,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="EjectionL" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/CartridgeL"]
 position = Vector2( 0.499996, -2 )
-rotation = 1.49012e-008
+rotation = 1.49012e-08
 scale = 0.4
 emitting = false
 amount = 1
@@ -292,7 +294,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="EjectionR" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/ArmR/CartridgeR"]
 position = Vector2( -0.5, -2 )
-rotation = 1.30385e-008
+rotation = 1.30385e-08
 scale = 0.4
 emitting = false
 amount = 1
@@ -357,7 +359,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Drawing", "Emissio
 visible = false
 modulate = Color( 1, 0.623529, 0.290196, 1 )
 material = ExtResource( 9 )
-position = Vector2( -4, 4.76837e-007 )
+position = Vector2( -4, 4.76837e-07 )
 scale = Vector2( 0.6, 1 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -434,7 +436,7 @@ visible = false
 modulate = Color( 0.87451, 1, 0.00392157, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 14 )
-rotation = 4.13921e-009
+rotation = 4.13921e-09
 scale = Vector2( 1.8, 2.8 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -683,4 +685,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 38 )]
 position = Vector2( 0, -70 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "bomb_explosion", "bullet" ), [ ExtResource( 39 ), ExtResource( 40 ) ] ]
 

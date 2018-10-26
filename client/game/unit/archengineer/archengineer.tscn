@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/archengineer/archengineer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archengineer/meteor_big.png" type="Texture" id=2]
@@ -45,6 +45,7 @@
 [ext_resource path="res://game/sfx/stun.wav" type="AudioStream" id=43]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=44]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=45]
+[ext_resource path="res://game/unit/archengineer/energy_orb.tscn" type="PackedScene" id=46]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -132,7 +133,7 @@ _sections_unfolded = [ "Transform" ]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 4
-rotation = 1.74846e-007
+rotation = 1.74846e-07
 _sections_unfolded = [ "Visibility" ]
 
 [node name="AnchorTL" type="Sprite" parent="Rotatable/Body/Turret/Anchor"]
@@ -189,14 +190,14 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Launcher" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-007
+rotation = 1.74846e-07
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="TurretBody" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-007
+rotation = 1.74846e-07
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Visibility" ]
 
@@ -433,6 +434,7 @@ modulate = Color( 1, 0.517647, 0.00392157, 1 )
 material = ExtResource( 19 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -456,6 +458,7 @@ modulate = Color( 1, 0.517647, 0.00392157, 1 )
 material = ExtResource( 19 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 20 )
@@ -1000,4 +1003,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 45 )]
 position = Vector2( 0, -120 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "energy_orb" ), [ ExtResource( 46 ) ] ]
 

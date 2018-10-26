@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://game/unit/blastturret/blastturret.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archengineer/meteor_big.png" type="Texture" id=2]
@@ -44,6 +44,7 @@
 [ext_resource path="res://game/unit/blastturret/move.tres" type="Animation" id=42]
 [ext_resource path="res://game/sfx/explosion_3.wav" type="AudioStream" id=43]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/unit/blastturret/missile.tscn" type="PackedScene" id=45]
 
 [sub_resource type="Curve" id=1]
 
@@ -403,7 +404,6 @@ rotation = -0.785397
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -481,7 +481,6 @@ rotation = 0.785398
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -561,7 +560,6 @@ rotation = -2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -640,7 +638,6 @@ rotation = 2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -663,7 +660,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 [node name="Anchor" type="Node2D" parent="Base"]
 light_mask = 4
 use_parent_material = true
-rotation = 1.74846e-007
+rotation = 1.74846e-07
 _sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="AnchorTL" type="Sprite" parent="Base/Anchor"]
@@ -725,7 +722,7 @@ _sections_unfolded = [ "Material" ]
 
 [node name="TurretBody" type="Sprite" parent="Rotatable"]
 use_parent_material = true
-rotation = 1.74845e-007
+rotation = 1.74845e-07
 texture = ExtResource( 16 )
 normal_map = ExtResource( 17 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -735,6 +732,7 @@ position = Vector2( 0, 4 )
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 4 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -746,7 +744,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="FireL" type="Position2D" parent="Rotatable/TurretBody/Launcher"]
 position = Vector2( -28, -50 )
-rotation = -1.74846e-007
+rotation = -1.74846e-07
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="EffectL" type="AnimatedSprite" parent="Rotatable/TurretBody/Launcher/FireL"]
@@ -770,17 +768,17 @@ _sections_unfolded = [ "Material", "Transform", "frames", "material" ]
 
 [node name="BackfireL" type="Position2D" parent="Rotatable/TurretBody/Launcher"]
 position = Vector2( -30, 36 )
-rotation = -1.74846e-007
+rotation = -1.74846e-07
 _sections_unfolded = [ "Transform" ]
 
 [node name="FireR" type="Position2D" parent="Rotatable/TurretBody/Launcher"]
 position = Vector2( 28, -50 )
-rotation = -1.74846e-007
+rotation = -1.74846e-07
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="EffectR" type="AnimatedSprite" parent="Rotatable/TurretBody/Launcher/FireR"]
 modulate = Color( 1, 0.462745, 0.203922, 1 )
-position = Vector2( 0, -7.62939e-006 )
+position = Vector2( 0, -7.62939e-06 )
 rotation = 0.785398
 frames = SubResource( 5 )
 animation = "default"
@@ -789,7 +787,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "frames" ]
 
 [node name="EffectLight" type="AnimatedSprite" parent="Rotatable/TurretBody/Launcher/FireR"]
 material = ExtResource( 25 )
-position = Vector2( 0, -7.62939e-006 )
+position = Vector2( 0, -7.62939e-06 )
 rotation = 0.785398
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 5 )
@@ -799,12 +797,12 @@ _sections_unfolded = [ "Material", "Transform", "frames", "material" ]
 
 [node name="BackfireR" type="Position2D" parent="Rotatable/TurretBody/Launcher"]
 position = Vector2( 30, 36 )
-rotation = -1.74846e-007
+rotation = -1.74846e-07
 _sections_unfolded = [ "Transform" ]
 
 [node name="Shotpoint" type="Node2D" parent="Rotatable/TurretBody/Launcher"]
 position = Vector2( 0, -2 )
-rotation = -1.74846e-007
+rotation = -1.74846e-07
 
 [node name="Left" type="Position2D" parent="Rotatable/TurretBody/Launcher/Shotpoint"]
 position = Vector2( -28, -43 )
@@ -1004,4 +1002,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 44 )]
 position = Vector2( 0, -80 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "missile" ), [ ExtResource( 45 ) ] ]
 

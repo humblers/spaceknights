@@ -220,7 +220,7 @@ func handleAttack():
 		attack = 0
 
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("bullet").instance()
 	
 	# client only
 	b.BULLET_COUNT = 1
