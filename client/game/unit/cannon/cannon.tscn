@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/cannon/cannon.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archengineer/meteor_big.png" type="Texture" id=2]
@@ -41,6 +41,7 @@
 [ext_resource path="res://game/sfx/explosion_3.wav" type="AudioStream" id=39]
 [ext_resource path="res://game/sfx/bolter2.wav" type="AudioStream" id=40]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=41]
+[ext_resource path="res://game/unit/cannon/bullet.tscn" type="PackedScene" id=42]
 
 [sub_resource type="Curve" id=1]
 
@@ -1408,7 +1409,6 @@ rotation = -0.785397
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -1486,7 +1486,6 @@ rotation = 0.785398
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1566,7 +1565,6 @@ rotation = -2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1645,7 +1643,6 @@ rotation = 2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1747,7 +1744,6 @@ position = Vector2( 0, 9.5 )
 scale = Vector2( 4, 0.6 )
 frames = SubResource( 4 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Time", "Transform", "frames" ]
 
@@ -2051,4 +2047,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 41 )]
 position = Vector2( 0, -75 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 42 ) ] ]
 

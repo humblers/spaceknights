@@ -163,7 +163,7 @@ func bulletrain():
 			u.TakeDamage(damage, "Skill")
 	
 	# client only
-	var skill = resource.SKILL[name_].instance()
+	var skill = $ResourcePreloader.get_resource("bulletrain").instance()
 	game.get_node("Skills").add_child(skill)
 	var pos = Vector2(castPosX, castPosY)
 	if game.team_swapped:
@@ -199,7 +199,7 @@ func handleAttack():
 		attack = 0
 
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("bullet").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):

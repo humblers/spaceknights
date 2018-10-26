@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://game/unit/blaster/blaster.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/blaster/idle.png" type="Texture" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=28]
 [ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=29]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/unit/blaster/missile.tscn" type="PackedScene" id=31]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -119,7 +120,6 @@ _sections_unfolded = [ "Material", "Transform" ]
 position = Vector2( -43.5, 36 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -127,7 +127,6 @@ _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 position = Vector2( 43.5, 36 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -142,7 +141,6 @@ material = ExtResource( 10 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 25 )
@@ -531,4 +529,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 30 )]
 position = Vector2( 0, -60 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "missile" ), [ ExtResource( 31 ) ] ]
 

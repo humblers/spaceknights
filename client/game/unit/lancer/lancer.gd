@@ -148,7 +148,7 @@ func SetAsLeader():
 	for i in count:
 		var x = game.World().FromPixel(posX[i])
 		var y = game.World().FromPixel(posY[i])
-		var dot = resource.PASSIVE[name_].instance()
+		var dot = $ResourcePreloader.get_resource("deathcarpet").instance()
 		dot.Init(team, x, y, w, h, damage, duration, game)
 		game.AddSkill(dot)
 
@@ -184,7 +184,7 @@ func drop():
 	var remain = Skill()["damageduration"]
 	var x = game.World().FromPixel(castPosX)
 	var y = game.World().FromPixel(castPosY)
-	var dot = resource.SKILL[name_].instance()
+	var dot = $ResourcePreloader.get_resource("napalm").instance()
 	dot.Init(team, x, y, w, h, dps, remain, game)
 	game.AddSkill(dot)
 
@@ -198,7 +198,7 @@ func setTarget(unit):
 		targetId = unit.Id()
 
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("missile").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):

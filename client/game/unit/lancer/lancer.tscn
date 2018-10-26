@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/unit/lancer/lancer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/lancer/lancer.png" type="Texture" id=2]
@@ -29,6 +29,9 @@
 [ext_resource path="res://game/sfx/wpn_ift_missile_fire.wav" type="AudioStream" id=27]
 [ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=28]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=29]
+[ext_resource path="res://game/unit/lancer/deathcarpet.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/unit/lancer/missile.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/lancer/napalm.tscn" type="PackedScene" id=32]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -82,6 +85,7 @@ rotation = -0.174533
 scale = Vector2( 1, 1.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -91,7 +95,6 @@ rotation = 0.174533
 scale = Vector2( 1, 1.4 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -109,7 +112,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 3 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -145,7 +147,6 @@ position = Vector2( 0, 7.99999 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 3 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -394,4 +395,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 29 )]
 position = Vector2( 0, -125 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ] ]
 

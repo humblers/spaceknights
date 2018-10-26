@@ -22,7 +22,7 @@ var params = {
 # current simulation step
 var step = 0
 
-var world = resource.WORLD.new(params)
+var world = $Resource/Physics.get_resource("world").new(params)
 var map
 
 var units = {}
@@ -64,7 +64,7 @@ func _ready():
 	self.deathToll = {"Blue":0, "Red":0}
 	self.lastDeadPosX = {"Blue":0, "Red":0}
 
-	map = resource.MAP[cfg.MapName].new(world)
+	map = $Resource/Map.get_resource(cfg.MapName).new(world)
 	team_swapped = user.ShouldSwapTeam(cfg)
 	for p in cfg.Players:
 		var team = p.Team
@@ -227,7 +227,7 @@ func removeExpiredSkills():
 func AddUnit(name, level, posX, posY, player):
 	unitCounter += 1
 	var id = unitCounter
-	var node = resource.UNIT[name].instance()
+	var node = $Resource/Unit.get_resource(name).instance()
 	node.Init(id, level, posX, posY, self, player)
 #	node.name = str(id)
 	$Units.add_child(node)

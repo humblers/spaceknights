@@ -55,11 +55,8 @@ func match_request():
 	yield(tcp, "connected")
 	tcp.Send({"Id": user.Id, "Token": user.Id})
 	tcp.Send({"GameId": cfg.Id})
-	queue_free()
-	var g = preload("res://game/game.tscn").instance()
-	g.connected = true
-	g.cfg = cfg
-	get_tree().get_root().add_child(g)
+	var param = {"connected": true, "cfg": cfg}
+	loading_screen.goto_scene("res://game/game.tscn", param)
 
 func move_to_page(btn):
 	var tween = $Tween

@@ -225,7 +225,7 @@ func handleAttack():
 		attack = 0
 
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("cannon_bullet").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):

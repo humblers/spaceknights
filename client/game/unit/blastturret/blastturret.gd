@@ -53,7 +53,7 @@ func setTarget(unit):
 		targetId = unit.Id()
 
 func fire():
-	var b = resource.BULLET[name_].instance()
+	var b = $ResourcePreloader.get_resource("missile").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
 	game.AddBullet(b)
 	# client only

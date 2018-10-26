@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/unit/starfire/starfire.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/starfire/body.png" type="Texture" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/sfx/left_loop.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/unit/starfire/bullet.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -118,6 +119,7 @@ material = ExtResource( 7 )
 scale = Vector2( 1.2, 1.1 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -128,7 +130,6 @@ material = ExtResource( 7 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -156,6 +157,7 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -183,7 +185,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -350,4 +351,7 @@ max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
 

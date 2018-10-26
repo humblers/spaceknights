@@ -11,7 +11,7 @@ func init(game, player, knights):
 	for i in range(len(positions)):
 		var name = knights[i].Name
 		var pos = positions[i]
-		var node = resource.UNIT[name].instance()
+		var node = $Unit.get_resource(name).instance()
 		var deck = get_node("Nodes/Deck/%s/Position/Unit" % pos)
 		node.InitDummy(0, 0, game, player, true, deck.global_rotation)
 		deck.add_child(node)
