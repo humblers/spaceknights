@@ -22,7 +22,7 @@ var params = {
 # current simulation step
 var step = 0
 
-var world = $Resource/Physics.get_resource("world").new(params)
+onready var world = $Resource/Physics.get_resource("world").new(params)
 var map
 
 var units = {}
