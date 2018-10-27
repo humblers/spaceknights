@@ -20,8 +20,8 @@
 [ext_resource path="res://game/unit/drillram/destroy.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/drillram/idle.tres" type="Animation" id=19]
 [ext_resource path="res://game/unit/drillram/move.tres" type="Animation" id=20]
-[ext_resource path="res://game/sfx/drill.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/drillram_atk.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=23]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -491,7 +491,6 @@ modulate = Color( 1, 0.611765, 0.403922, 1 )
 material = ExtResource( 9 )
 frames = SubResource( 4 )
 animation = "default"
-frame = 1
 playing = true
 offset = Vector2( 0, 25 )
 flip_v = true
@@ -649,9 +648,8 @@ anims/move = ExtResource( 20 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -662,7 +660,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 volume_db = 0.0
 pitch_scale = 1.0

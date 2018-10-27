@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://game/unit/blaster/missile.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/blaster/missile_blaster.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=8]
 [ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=9]
 [ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=10]
+[ext_resource path="res://game/sfx/blaster_missile.wav" type="AudioStream" id=11]
 
 [sub_resource type="Animation" id=1]
 
@@ -485,6 +486,18 @@ tracks/38/keys = {
 "update": 1,
 "values": [ false, true, false ]
 }
+tracks/39/type = "value"
+tracks/39/path = NodePath("Sound/Attack:playing")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="SpriteFrames" id=2]
 
@@ -502,35 +515,35 @@ max_value = 360.0
 bake_resolution = 100
 _data = [ Vector2( 0.00921278, -15.4688 ), 0.0, 0.0, 0, 0, Vector2( 0.987674, -15.4688 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.0192363, 0.0951999 ), 0.0, 0.0, 0, 0, Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=5]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=6]
 
 min_value = -200.0
 max_value = 200.0
 bake_resolution = 100
 _data = [ Vector2( 0.110406, 85.9375 ), 0.0, 0.0, 0, 0, Vector2( 0.568111, -158.984 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=19]
+[sub_resource type="Curve" id=7]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.923066, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=22]
+[sub_resource type="SpriteFrames" id=8]
 
 animations = [ {
 "frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
@@ -539,7 +552,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="missile" type="Node2D"]
+[node name="Missile" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -788,6 +801,7 @@ _sections_unfolded = [ "Transform" ]
 _sections_unfolded = [ "Transform" ]
 
 [node name="HitPosition" type="Position2D" parent="."]
+editor/display_folded = true
 position = Vector2( 0, -600 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -844,7 +858,7 @@ angle_random = 1.0
 angle_curve = null
 scale = 2.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 4 )
 color = Color( 0.203922, 0.203922, 0.203922, 0.517647 )
 color_ramp = null
 hue_variation = 0.0
@@ -906,7 +920,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 0.8
 scale_random = 0.5
-scale_curve = SubResource( 12 )
+scale_curve = SubResource( 5 )
 color = Color( 0.890196, 0.294118, 0.294118, 0.466667 )
 color_ramp = null
 hue_variation = 0.1
@@ -955,7 +969,7 @@ linear_accel_random = 0.0
 linear_accel_curve = null
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 17 )
+radial_accel_curve = SubResource( 6 )
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 tangential_accel_curve = null
@@ -967,7 +981,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 19 )
+scale_curve = SubResource( 7 )
 color = Color( 0.988235, 0.627451, 0.054902, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1035,7 +1049,7 @@ angle_random = 1.0
 angle_curve = null
 scale = 2.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 4 )
 color = Color( 0.203922, 0.203922, 0.203922, 0.517647 )
 color_ramp = null
 hue_variation = 0.0
@@ -1097,7 +1111,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 0.8
 scale_random = 0.5
-scale_curve = SubResource( 12 )
+scale_curve = SubResource( 5 )
 color = Color( 0.890196, 0.294118, 0.294118, 0.466667 )
 color_ramp = null
 hue_variation = 0.1
@@ -1146,7 +1160,7 @@ linear_accel_random = 0.0
 linear_accel_curve = null
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 17 )
+radial_accel_curve = SubResource( 6 )
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 tangential_accel_curve = null
@@ -1158,7 +1172,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 19 )
+scale_curve = SubResource( 7 )
 color = Color( 0.988235, 0.627451, 0.054902, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1226,7 +1240,7 @@ angle_random = 1.0
 angle_curve = null
 scale = 2.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 4 )
 color = Color( 0.203922, 0.203922, 0.203922, 0.517647 )
 color_ramp = null
 hue_variation = 0.0
@@ -1288,7 +1302,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 0.8
 scale_random = 0.5
-scale_curve = SubResource( 12 )
+scale_curve = SubResource( 5 )
 color = Color( 0.890196, 0.294118, 0.294118, 0.466667 )
 color_ramp = null
 hue_variation = 0.1
@@ -1337,7 +1351,7 @@ linear_accel_random = 0.0
 linear_accel_curve = null
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 17 )
+radial_accel_curve = SubResource( 6 )
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 tangential_accel_curve = null
@@ -1349,7 +1363,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 19 )
+scale_curve = SubResource( 7 )
 color = Color( 0.988235, 0.627451, 0.054902, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1414,7 +1428,7 @@ angle_random = 1.0
 angle_curve = null
 scale = 2.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 4 )
 color = Color( 0.203922, 0.203922, 0.203922, 0.517647 )
 color_ramp = null
 hue_variation = 0.0
@@ -1476,7 +1490,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 0.8
 scale_random = 0.5
-scale_curve = SubResource( 12 )
+scale_curve = SubResource( 5 )
 color = Color( 0.890196, 0.294118, 0.294118, 0.466667 )
 color_ramp = null
 hue_variation = 0.1
@@ -1525,7 +1539,7 @@ linear_accel_random = 0.0
 linear_accel_curve = null
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 17 )
+radial_accel_curve = SubResource( 6 )
 tangential_accel = 0.0
 tangential_accel_random = 0.0
 tangential_accel_curve = null
@@ -1537,7 +1551,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 19 )
+scale_curve = SubResource( 7 )
 color = Color( 0.988235, 0.627451, 0.054902, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -1558,7 +1572,7 @@ modulate = Color( 1, 0.317647, 0.207843, 1 )
 material = ExtResource( 3 )
 position = Vector2( 2.17516, 11.444 )
 scale = Vector2( 1.5, 1.5 )
-frames = SubResource( 22 )
+frames = SubResource( 8 )
 animation = "default"
 frame = 2
 speed_scale = 2.0
@@ -1593,4 +1607,17 @@ position = Vector2( -33.6302, 15.3585 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 11 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 

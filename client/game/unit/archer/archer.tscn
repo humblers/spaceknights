@@ -19,8 +19,8 @@
 [ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=17]
 [ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=19]
-[ext_resource path="res://game/sfx/laser_v100.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/archer_atk.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=21]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=23]
 
@@ -103,8 +103,6 @@ use_parent_material = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Body" type="Sprite" parent="Rotatable"]
-visible = false
-modulate = Color( 0, 0, 0, 0 )
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
@@ -197,6 +195,7 @@ position = Vector2( 31.5, 20 )
 rotation = -0.314159
 frames = SubResource( 5 )
 animation = "flashred"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
@@ -205,7 +204,6 @@ position = Vector2( -31.5, 20 )
 rotation = 0.314159
 frames = SubResource( 6 )
 animation = "flashgreen"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
@@ -216,7 +214,6 @@ position = Vector2( 0, -42 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Reflax" type="Sprite" parent="Rotatable/Shotpoint"]
-visible = false
 modulate = Color( 1, 0.853302, 0.183594, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 10 )
@@ -225,12 +222,10 @@ texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="Rotatable/Shotpoint"]
-modulate = Color( 1, 0.65625, 0, 0 )
 material = ExtResource( 4 )
 scale = Vector2( 0.6, 0.5 )
 frames = SubResource( 7 )
 animation = "muzzleflash"
-frame = 3
 offset = Vector2( 0, -30 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames" ]
 
@@ -240,7 +235,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.6, 0.5 )
 frames = SubResource( 7 )
 animation = "muzzleflash"
-frame = 3
 offset = Vector2( 0, -30 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames" ]
 
@@ -373,9 +367,8 @@ anims/show = ExtResource( 19 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 20 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -386,7 +379,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0

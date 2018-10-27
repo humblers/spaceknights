@@ -16,8 +16,8 @@
 [ext_resource path="res://game/unit/gargoyle/move.tres" type="Animation" id=14]
 [ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=15]
 [ext_resource path="res://game/hpbar/hpshieldbar_s.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/sfx/frame.wav" type="AudioStream" id=17]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=18]
+[ext_resource path="res://game/sfx/gargoyle_atk.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=18]
 
 [sub_resource type="Curve" id=1]
 
@@ -149,7 +149,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 16 )
@@ -174,6 +173,7 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 16 )
@@ -190,7 +190,6 @@ position = Vector2( -30, 11.25 )
 rotation = 0.349066
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -199,6 +198,7 @@ position = Vector2( 30, 11.25 )
 rotation = -0.349066
 frames = SubResource( 4 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -336,11 +336,10 @@ scale = Vector2( 0.4, 0.4 )
 position = Vector2( 0, -55 )
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 17 )
-volume_db = -5.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false
@@ -349,7 +348,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 18 )
 volume_db = 0.0
 pitch_scale = 1.0

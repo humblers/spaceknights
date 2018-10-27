@@ -38,8 +38,8 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=36]
 [ext_resource path="res://game/unit/frost/explosion.tres" type="Animation" id=37]
 [ext_resource path="res://game/unit/frost/destroy.tres" type="Animation" id=38]
-[ext_resource path="res://game/sfx/smg1_fireburst1.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/sfx/frost_atk.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=40]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=41]
 [ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=42]
 [ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=43]
@@ -611,6 +611,18 @@ tracks/44/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
+}
+tracks/45/type = "value"
+tracks/45/path = NodePath("Sound/Attack:playing")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -2179,6 +2191,7 @@ flip_h = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="CartridgeL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL"]
+visible = false
 position = Vector2( -18, -24.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -2256,12 +2269,13 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ShotpointL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL"]
+visible = false
 position = Vector2( -3, -70 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MuzzleFlash" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"]
 visible = false
-rotation = -2.98023e-08
+rotation = -2.98023e-008
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -2366,11 +2380,12 @@ offset = Vector2( 8, -20 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="CartrigdeR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR"]
+visible = false
 position = Vector2( 18, -24.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR"]
-rotation = -2.02656e-06
+rotation = -2.02656e-006
 scale = Vector2( 0.4, 0.4 )
 _sections_unfolded = [ "Transform" ]
 
@@ -2444,6 +2459,7 @@ texture = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="ShotpointR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR"]
+visible = false
 position = Vector2( 3, -70 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -2794,9 +2810,8 @@ anims/skill = SubResource( 7 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 39 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -2807,9 +2822,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 40 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

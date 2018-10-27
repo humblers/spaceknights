@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://game/unit/champion/champion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/champion/shoulder.png" type="Texture" id=2]
@@ -37,10 +37,12 @@
 [ext_resource path="res://game/unit/champion/move_human.tres" type="Animation" id=35]
 [ext_resource path="res://game/unit/champion/skill_attack.tres" type="Animation" id=36]
 [ext_resource path="res://game/unit/champion/skill_charge.tres" type="Animation" id=37]
-[ext_resource path="res://game/sfx/ls_swing2.wav" type="AudioStream" id=38]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=40]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=41]
+[ext_resource path="res://game/sfx/champion_atk.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/sfx/champion_charge.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/sfx/champion_skill.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=43]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -97,13 +99,15 @@ _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="main" type="Node2D" parent="Rotatable"]
 use_parent_material = true
+rotation = 0.523599
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/main"]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -15, 10 )
+position = Vector2( -19.5, -1.5 )
+rotation = 0.261799
 texture = ExtResource( 2 )
 flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
@@ -119,7 +123,6 @@ material = ExtResource( 3 )
 scale = Vector2( 0.2, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -134,7 +137,7 @@ _sections_unfolded = [ "Material", "Transform", "material" ]
 [node name="UpperarmL" type="Sprite" parent="Rotatable/main/ShoulderL"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 10, 0 )
+rotation = 0.523599
 texture = ExtResource( 7 )
 offset = Vector2( -6, 0 )
 flip_h = true
@@ -144,6 +147,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -14, 1 )
+rotation = -0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( -5, -7 )
@@ -153,7 +157,8 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index
 [node name="ShoulderR" type="Sprite" parent="Rotatable/main"]
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 15, 10 )
+position = Vector2( 19.5, -1.5 )
+rotation = 0.261799
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
@@ -168,6 +173,7 @@ material = ExtResource( 3 )
 scale = Vector2( 0.2, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -182,7 +188,7 @@ _sections_unfolded = [ "Material", "Transform", "material" ]
 [node name="UpperarmR" type="Sprite" parent="Rotatable/main/ShoulderR"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -10, 0 )
+rotation = -0.523599
 texture = ExtResource( 7 )
 offset = Vector2( 6, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
@@ -191,6 +197,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 14, 1 )
+rotation = 0.261799
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( 5, -7 )
@@ -199,8 +206,8 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 [node name="Sword" type="Node2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -3.48749, -22.1607 )
-rotation = -0.785396
+position = Vector2( 0.5, -20.5 )
+rotation = -1.309
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Grip" type="Sprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
@@ -225,6 +232,7 @@ rotation = 1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "frames", "material" ]
@@ -238,6 +246,7 @@ rotation = -1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -273,20 +282,25 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
-position = Vector2( 0, -24 )
+position = Vector2( 0, -4 )
 texture = ExtResource( 18 )
 normal_map = ExtResource( 19 )
+flip_v = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="Front" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
+position = Vector2( 0, 5 )
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
 offset = Vector2( 0, -12 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Rear" type="Sprite" parent="Rotatable/main/Body"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 use_parent_material = true
+position = Vector2( 0, 9 )
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( 0, 11 )
@@ -294,7 +308,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="BodywingR" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
-position = Vector2( 18, 0 )
+position = Vector2( 16, 0 )
 texture = ExtResource( 24 )
 normal_map = ExtResource( 25 )
 offset = Vector2( 0, -2 )
@@ -302,7 +316,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="BodywingL" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
-position = Vector2( -18, 0 )
+position = Vector2( -16, 0 )
 texture = ExtResource( 24 )
 normal_map = ExtResource( 25 )
 offset = Vector2( 0, -2 )
@@ -310,8 +324,9 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Head" type="Sprite" parent="Rotatable/main/Body"]
-visible = false
 use_parent_material = true
+position = Vector2( 0, -2 )
+rotation = -0.523599
 texture = ExtResource( 26 )
 normal_map = ExtResource( 27 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -522,9 +537,8 @@ anims/skill_charge = ExtResource( 37 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 38 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -535,7 +549,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="SkillCharge" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 39 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -546,10 +560,32 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 40 )]
+[node name="SkillAttack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 40 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 41 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 42 )]
 position = Vector2( 0, -90 )
 
-[node name="Energyshield" parent="." instance=ExtResource( 41 )]
+[node name="Energyshield" parent="." instance=ExtResource( 43 )]
 editor/display_folded = true
 scale = Vector2( 0.85, 0.85 )
 

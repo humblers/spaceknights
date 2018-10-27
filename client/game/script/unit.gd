@@ -148,7 +148,6 @@ func TakeDamage(amount, attackType):
 		damages[game.step] = 0	
 
 func Destroy():
-	$Sound/sound_death.play()
 	game.World().RemoveBody(body)
 
 func MakeSlow(duration):
