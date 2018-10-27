@@ -1,5 +1,7 @@
 extends Control
 
+var use_thread = false
+var path = null
 var param = null
 var thread = null
 onready var progress = $ProgressBar
@@ -9,8 +11,11 @@ func goto_scene(path, param = null):
 	get_tree().current_scene = self
 	progress.value = 0
 	self.param = param
-	thread = Thread.new()
-	thread.start(self, "_load_scene", path)
+	if use_thread:
+		thread = Thread.new()
+		thread.start(self, "_load_scene", path)
+	else:
+		_load_scene_no_thread(path)
 	
 func _load_scene(path):
 	var loader = ResourceLoader.load_interactive(path)
@@ -41,3 +46,27 @@ func _load_done(res):
 			new_scene.set(k, param[k])
 	get_tree().root.add_child(new_scene)
 	get_tree().current_scene = new_scene
+
+func _load_scene_no_thread(path):
+	var loader = ResourceLoader.load_interactive(path)
+	assert(loader != null)
+	progress.max_value = loader.get_stage_count()
+	
+	while(true):
+		progress.value = loader.get_stage()
+		yield(get_tree(), "idle_frame")			# show progress
+		var err = loader.poll()
+		if err == ERR_FILE_EOF:
+			var res = loader.get_resource()
+			assert(res)
+			progress.value = progress.max_value
+			var new_scene = res.instance()
+			if param != null:
+				for k in param:
+					new_scene.set(k, param[k])
+			get_tree().root.add_child(new_scene)
+			get_tree().current_scene = new_scene
+			break
+		elif err != OK:
+			print("error loading %s" % path)
+			break
