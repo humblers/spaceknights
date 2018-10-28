@@ -3,8 +3,8 @@
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/bgm/ingame_glistening courage.ogg" type="AudioStream" id=2]
 [ext_resource path="res://game/script/camera.gd" type="Script" id=3]
-[ext_resource path="res://game/ui/player_deck_ui.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/script/player.gd" type="Script" id=5]
+[ext_resource path="res://game/script/player.gd" type="Script" id=4]
+[ext_resource path="res://game/ui/player_deck_ui.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=6]
 [ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=7]
 [ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=8]
@@ -1943,7 +1943,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Players/Test:visible")
+tracks/2/path = NodePath("Players/Blue/Test:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1955,7 +1955,7 @@ tracks/2/keys = {
 "values": [ false, false, true, true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Players/Test:modulate")
+tracks/3/path = NodePath("Players/Blue/Test:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -2008,18 +2008,13 @@ script = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Players" type="CanvasLayer" parent="."]
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="Test" parent="Players" instance=ExtResource( 4 )]
-_sections_unfolded = [ "Transform", "Visibility" ]
-
 [node name="Blue" type="Control" parent="Players"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -2033,11 +2028,14 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Visibility", "custom_constants" ]
 
+[node name="Test" parent="Players/Blue" instance=ExtResource( 5 )]
+position = Vector2( -40, -1661 )
+
 [node name="Cards" type="HBoxContainer" parent="Players/Blue"]
-editor/display_folded = true
+visible = false
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
@@ -2057,7 +2055,6 @@ alignment = 0
 _sections_unfolded = [ "Margin", "Rect", "custom_constants" ]
 
 [node name="Area1" type="Control" parent="Players/Blue/Cards"]
-editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2076,14 +2073,15 @@ _sections_unfolded = [ "Margin", "Rect" ]
 
 [node name="Card" type="TextureRect" parent="Players/Blue/Cards/Area1"]
 editor/display_folded = true
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -90.0
-margin_top = -90.0
-margin_right = 90.0
-margin_bottom = 90.0
+margin_top = -30.0
+margin_right = 100.0
+margin_bottom = 150.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -2176,7 +2174,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 180.0
+margin_left = 215.0
+margin_right = 395.0
 margin_bottom = 180.0
 rect_min_size = Vector2( 180, 180 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -2192,10 +2191,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -60.0
-margin_right = 90.0
-margin_bottom = 120.0
+margin_left = -107.0
+margin_top = -28.0
+margin_right = 83.0
+margin_bottom = 152.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -2282,7 +2281,6 @@ align = 1
 
 [node name="Area0" type="Control" parent="Players/Blue/Cards"]
 editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2392,12 +2390,12 @@ _sections_unfolded = [ "custom_fonts" ]
 
 [node name="Area3" type="Control" parent="Players/Blue/Cards"]
 editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 180.0
+margin_left = 175.0
+margin_right = 355.0
 margin_bottom = 180.0
 rect_min_size = Vector2( 180, 180 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -2503,12 +2501,12 @@ align = 1
 
 [node name="Area4" type="Control" parent="Players/Blue/Cards"]
 editor/display_folded = true
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 180.0
+margin_left = 390.0
+margin_right = 570.0
 margin_bottom = 180.0
 rect_min_size = Vector2( 180, 180 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -2678,7 +2676,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Visibility", "custom_constants" ]
 
 [node name="Cards" type="HBoxContainer" parent="Players/Red"]
@@ -3290,7 +3288,6 @@ _sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
 [node name="Cursor" parent="Players/Red" instance=ExtResource( 17 )]
 
 [node name="Map" type="Node2D" parent="."]
-editor/display_folded = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Ambient" type="CanvasModulate" parent="Map"]
@@ -3337,9 +3334,8 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="TileUnit" type="Sprite" parent="Map"]
 editor/display_folded = true
-visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
-position = Vector2( 40, 960 )
+position = Vector2( 40, 910 )
 texture = ExtResource( 23 )
 centered = false
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
