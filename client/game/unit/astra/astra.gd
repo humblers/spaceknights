@@ -13,7 +13,6 @@ var minPosX = 0
 var maxPosX = 0
 var castPosX = 0
 var castPosY = 0
-var soundinterval = 20
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -104,16 +103,14 @@ func Update():
 				attack += 1
 			else:
 				attack = 0
-				$Sound/sound_fire.stop()
+				$Sound/Attack.stop()
 		else:
 			moveToPos(initPosX, initPosY)
 			attack = 0
-			$Sound/sound_fire.stop()
+			$Sound/Attack.stop()
 		
 	# client only
 	show_laser(attack > 0)
-	if attack % soundinterval == 1:
-		$Sound/sound_fire.play()
 
 func show_laser(enable):
 	for pos in ["L", "R", "C"]:
@@ -128,6 +125,7 @@ func show_laser(enable):
 			var beam = n.get_node("LaserBeam")
 			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
 			beam.global_rotation = (to - from).angle() + PI/2
+			$Sound/Attack.play()
 
 func deal():
 	for id in game.UnitIds():

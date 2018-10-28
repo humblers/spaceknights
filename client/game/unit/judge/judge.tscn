@@ -37,11 +37,12 @@
 [ext_resource path="res://game/unit/judge/idle.tres" type="Animation" id=35]
 [ext_resource path="res://game/unit/judge/show.tres" type="Animation" id=36]
 [ext_resource path="res://game/unit/judge/skill.tres" type="Animation" id=37]
-[ext_resource path="res://game/sfx/wpn_imp_sniperrifle_fire.wav" type="AudioStream" id=38]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/unit/judge/judge_atk.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=39]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=40]
 [ext_resource path="res://game/unit/judge/bullet.tscn" type="PackedScene" id=41]
 [ext_resource path="res://game/unit/judge/bulletrain.tscn" type="PackedScene" id=42]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -97,7 +98,6 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 [node name="Body" type="Sprite" parent="Rotatable"]
 editor/display_folded = true
 use_parent_material = true
-scale = Vector2( 1.22222, 1.22222 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, -9 )
@@ -114,6 +114,7 @@ position = Vector2( 21, 20 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ThrustRR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
@@ -127,6 +128,7 @@ offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="LightRR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
@@ -140,6 +142,7 @@ position = Vector2( -21, 20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ThrustRL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
@@ -152,6 +155,7 @@ offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="LightRL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
@@ -165,6 +169,7 @@ position = Vector2( 21, -20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ThrustFR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 3.66519
@@ -177,6 +182,7 @@ offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="LightFR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = 3.66519
@@ -190,6 +196,7 @@ position = Vector2( -21, -20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ThrustFL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL2"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 2.61799
@@ -203,6 +210,7 @@ offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="LightFL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL2"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = 2.61799
@@ -612,7 +620,7 @@ position = Vector2( 0, -30 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FireFlash6" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot6"]
-position = Vector2( 3.8147e-06, 0 )
+position = Vector2( 3.8147e-006, 0 )
 scale = 0.5
 emitting = false
 amount = 8
@@ -677,7 +685,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Damping", "Drawing
 visible = false
 modulate = Color( 0.929412, 0.384314, 0.0901961, 1 )
 material = ExtResource( 4 )
-position = Vector2( 3.8147e-06, 0 )
+position = Vector2( 3.8147e-006, 0 )
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
@@ -1013,7 +1021,7 @@ position = Vector2( 0, -24 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FireFlash11" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot11"]
-position = Vector2( 3.8147e-06, 0 )
+position = Vector2( 3.8147e-006, 0 )
 scale = 0.5
 emitting = false
 amount = 8
@@ -1078,7 +1086,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Damping", "Drawing
 visible = false
 modulate = Color( 0.929412, 0.384314, 0.0901961, 1 )
 material = ExtResource( 4 )
-position = Vector2( 3.8147e-06, 0 )
+position = Vector2( 3.8147e-006, 0 )
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
@@ -1229,7 +1237,6 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="GunFrame" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
-rotation = 3.14159
 z_as_relative = false
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
@@ -1457,7 +1464,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Drawing", "Emissio
 [node name="Barrel" type="Sprite" parent="Rotatable/Body/GunFrame"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 24, -20 )
+position = Vector2( 24, -70 )
 z_as_relative = false
 texture = ExtResource( 17 )
 normal_map = ExtResource( 18 )
@@ -1465,7 +1472,7 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index
 
 [node name="Rail" type="Sprite" parent="Rotatable/Body/GunFrame"]
 use_parent_material = true
-position = Vector2( 24, -40 )
+position = Vector2( 24, -50 )
 texture = ExtResource( 19 )
 normal_map = ExtResource( 20 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -1646,7 +1653,7 @@ blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 38 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1657,9 +1664,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 39 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

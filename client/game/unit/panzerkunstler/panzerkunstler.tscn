@@ -35,10 +35,12 @@
 [ext_resource path="res://game/unit/panzerkunstler/destroy.tres" type="Animation" id=33]
 [ext_resource path="res://game/unit/panzerkunstler/idle.tres" type="Animation" id=34]
 [ext_resource path="res://game/unit/panzerkunstler/move.tres" type="Animation" id=35]
-[ext_resource path="res://game/sfx/data_sample_03.tre_00398.wav" type="AudioStream" id=36]
-[ext_resource path="res://game/sfx/data_sample_02.tre_01490.wav" type="AudioStream" id=37]
-[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_1.wav" type="AudioStream" id=36]
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_2.wav" type="AudioStream" id=37]
+[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=38]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=39]
+
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -101,8 +103,6 @@ editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -3 )
-rotation = 3.14159
-scale = Vector2( 0.2, 0.2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Eye_Shining" type="Sprite" parent="Rotatable/Body/Head/Kira"]
@@ -118,6 +118,7 @@ texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="EyeLight" type="Sprite" parent="Rotatable/Body/Head/Kira"]
+visible = false
 modulate = Color( 0.0862745, 1, 0.356863, 1 )
 material = ExtResource( 7 )
 scale = Vector2( 2, 2 )
@@ -380,9 +381,9 @@ enabled = false
 editor_only = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
-texture_scale = 4.0
+texture_scale = 1.0
 color = Color( 1, 0.128418, 0.0625, 1 )
-energy = 3.0
+energy = 2.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -400,6 +401,7 @@ shadow_item_cull_mask = 1
 _sections_unfolded = [ "Range" ]
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+scale = Vector2( 1.4, 1.4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR/Particle"]
@@ -782,7 +784,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack1" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 36 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -793,7 +795,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_fire2" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack2" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 37 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -804,7 +806,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 38 )
 volume_db = 0.0
 pitch_scale = 1.0

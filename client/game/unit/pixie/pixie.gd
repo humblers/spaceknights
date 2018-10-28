@@ -66,7 +66,6 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		$Sound/sound_fire.play()
 		setLayer("Normal")
 		$AnimationPlayer.play("cloaking_end")
 	var t = target()

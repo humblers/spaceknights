@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://game/unit/jouster/jouster.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/jouster/shoulder.png" type="Texture" id=2]
@@ -41,9 +41,16 @@
 [ext_resource path="res://game/unit/jouster/move_human.tres" type="Animation" id=39]
 [ext_resource path="res://game/unit/jouster/skill_attack.tres" type="Animation" id=40]
 [ext_resource path="res://game/unit/jouster/skill_charge.tres" type="Animation" id=41]
-[ext_resource path="res://game/sfx/atom_attack_critical.wav" type="AudioStream" id=42]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=43]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/unit/jouster/jouster_atk.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=43]
+[ext_resource path="res://game/unit/jouster/jouster_skill.wav" type="AudioStream" id=44]
+[ext_resource path="res://game/sfx/charge.wav" type="AudioStream" id=45]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=46]
+
+
+
+
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -109,7 +116,6 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -161,6 +167,7 @@ rotation = -2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -186,6 +193,7 @@ rotation = 2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -221,7 +229,6 @@ material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -284,6 +291,7 @@ rotation = 2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -308,7 +316,6 @@ rotation = 0.872665
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -340,7 +347,6 @@ rotation = -2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -365,6 +371,7 @@ rotation = -0.872665
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -460,7 +467,6 @@ _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index
 
 [node name="Rear" type="Sprite" parent="Rotatable/Main/Body"]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
 use_parent_material = true
 position = Vector2( 0, 8 )
 texture = ExtResource( 26 )
@@ -628,7 +634,7 @@ _sections_unfolded = [ "Playback Options" ]
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 42 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -639,7 +645,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 43 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -650,6 +656,28 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 44 )]
+[node name="SkillAttack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 44 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="SkillCharge" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 45 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 46 )]
 position = Vector2( 0, -80 )
 

@@ -27,10 +27,11 @@
 [ext_resource path="res://game/unit/blaster/destroy.tres" type="Animation" id=25]
 [ext_resource path="res://game/unit/blaster/idle.tres" type="Animation" id=26]
 [ext_resource path="res://game/unit/blaster/move.tres" type="Animation" id=27]
-[ext_resource path="res://game/sfx/missle_fly.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/unit/blaster/blaster_atk.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=29]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=30]
 [ext_resource path="res://game/unit/blaster/missile.tscn" type="PackedScene" id=31]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -120,6 +121,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 position = Vector2( -43.5, 36 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -127,6 +129,7 @@ _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 position = Vector2( 43.5, 36 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -503,9 +506,8 @@ anims/move = ExtResource( 27 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 28 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -516,7 +518,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 29 )
 volume_db = 0.0
 pitch_scale = 1.0

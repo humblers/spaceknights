@@ -34,8 +34,8 @@
 [ext_resource path="res://game/unit/tombstone/idle.tres" type="Animation" id=32]
 [ext_resource path="res://game/unit/tombstone/show.tres" type="Animation" id=33]
 [ext_resource path="res://game/unit/tombstone/skill.tres" type="Animation" id=34]
-[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=35]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=36]
+[ext_resource path="res://game/sfx/laser_loop.wav" type="AudioStream" id=35]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=36]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=37]
 
 [sub_resource type="Curve" id=1]
@@ -651,7 +651,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Boosterr" type="Position2D" parent="Rotatable/Main/Body/Rear"]
 editor/display_folded = true
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.00392157 )
 position = Vector2( 60, 125 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -857,7 +857,7 @@ blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 35 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -868,9 +868,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 36 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

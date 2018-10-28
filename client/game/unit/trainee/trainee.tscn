@@ -28,9 +28,10 @@
 [ext_resource path="res://game/unit/trainee/destroy.tres" type="Animation" id=26]
 [ext_resource path="res://game/unit/trainee/idle.tres" type="Animation" id=27]
 [ext_resource path="res://game/unit/trainee/move.tres" type="Animation" id=28]
-[ext_resource path="res://game/sfx/data_sample_02.tre_01490.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/unit/trainee/trainee_atk.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=30]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=31]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -85,7 +86,6 @@ material = ExtResource( 4 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -212,6 +212,7 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Hitpoint" type="Position2D" parent="Rotatable"]
+visible = false
 position = Vector2( 0, -55 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -411,9 +412,8 @@ anims/move = ExtResource( 28 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 29 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -424,7 +424,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 30 )
 volume_db = 0.0
 pitch_scale = 1.0

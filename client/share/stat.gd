@@ -281,9 +281,9 @@ var units = {
 		"sight":          350,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Normal"],
-		"attackdamage":   [50],
+		"attackdamage":   [100],
 		"attackrange":    330,
-		"attackinterval": 30,
+		"attackinterval": 20,
 		"preattackdelay": 10,
 		"bulletlifetime": 10,
 		"skill": {
@@ -323,11 +323,11 @@ var units = {
 		"sight":          350,
 		"targettypes":    ["Troop"],
 		"targetlayers":   ["Normal"],
-		"attackdamage":   [50],
+		"attackdamage":   [75],
 		"attackrange":    350,
-		"attackinterval": 10,
-		"preattackdelay": 0,
-		"bulletlifetime": 10,
+		"attackinterval": 15,
+		"preattackdelay": 5,
+		"bulletlifetime": 7,
 		"skill": {
 			"wing": {
 				"unit":         "cannon",
@@ -412,9 +412,9 @@ var units = {
 		"targetlayers":   ["Normal"],
 		"attackdamage":   [100, 450, 600],
 		"attackrange":    250,
-		"attackinterval": 19,
+		"attackinterval": 20,
 		"preattackdelay": 0,
-		"bulletlifetime": 19,
+		"bulletlifetime": 20,
 	},
 	"blastturret": {
 		"type":           "Building",
@@ -498,11 +498,11 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    ["Troop", "Building", "Knight"],
 		"targetlayers":   ["Normal"],
-		"attackdamage":   [312, 70, 100],
+		"attackdamage":   [120, 70, 100],
 		"attackrange":    40,
 		"attackradius":   80,
-		"attackinterval": 40,
-		"preattackdelay": 10,
+		"attackinterval": 15,
+		"preattackdelay": 1,
 	},
 	"felhound": {
 		"type":           "Troop",
@@ -839,7 +839,7 @@ var units = {
 		"decaydamage":   1,
 	},
 	"pixieking": {
-		"mass":           1000,
+		"mass":           0,
 		"radius":         110,
 		"type":           "Knight",
 		"layer":          "Normal",

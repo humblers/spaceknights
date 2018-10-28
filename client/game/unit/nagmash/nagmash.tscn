@@ -29,8 +29,8 @@
 [ext_resource path="res://game/unit/nagmash/idle.tres" type="Animation" id=27]
 [ext_resource path="res://game/unit/nagmash/show.tres" type="Animation" id=28]
 [ext_resource path="res://game/unit/nagmash/skill.tres" type="Animation" id=29]
-[ext_resource path="res://game/sfx/fire1.wav" type="AudioStream" id=30]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=31]
+[ext_resource path="res://game/sfx/laser_loop.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=31]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=32]
 
 [sub_resource type="Curve" id=1]
@@ -184,6 +184,7 @@ position = Vector2( -48, 47 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="BoosterRL" type="CPUParticles2D" parent="Rotatable/Body/FloatRL"]
+visible = false
 material = ExtResource( 6 )
 rotation = -1.86265e-009
 scale = 0.6
@@ -261,6 +262,7 @@ position = Vector2( 48, -53 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="BoosterFR" type="CPUParticles2D" parent="Rotatable/Body/FloatFR"]
+visible = false
 material = ExtResource( 6 )
 rotation = -1.86265e-009
 scale = 0.6
@@ -424,6 +426,7 @@ offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D2" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2"]
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -440,6 +443,7 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerL2"]
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -455,6 +459,7 @@ offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerR3"]
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -471,6 +476,7 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D4" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3"]
+visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -1350,7 +1356,7 @@ blend_times = [  ]
 [node name="Sound" type="Node2D" parent="."]
 visible = false
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 30 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1361,9 +1367,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 31 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

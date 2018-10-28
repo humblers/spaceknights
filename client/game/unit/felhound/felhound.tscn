@@ -19,10 +19,11 @@
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=17]
 [ext_resource path="res://game/unit/felhound/explosion.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/felhound/destroy.tres" type="Animation" id=19]
-[ext_resource path="res://game/sfx/double_jump.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/unit/felhound/fellhound_atk.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/explosion_xs.wav" type="AudioStream" id=21]
 [ext_resource path="res://game/hpbar/hpshieldbar_s.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=23]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -409,6 +410,18 @@ tracks/29/loop_wrap = true
 tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/30/type = "value"
+tracks/30/path = NodePath("Sound/Attack:playing")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -1050,6 +1063,7 @@ offset = Vector2( -3, 15 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
+visible = false
 modulate = Color( 1, 0.611765, 0.0588235, 0 )
 material = ExtResource( 4 )
 position = Vector2( -2, 20 )
@@ -1064,6 +1078,7 @@ scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="KnifeTrail" type="AnimatedSprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
+visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
 material = ExtResource( 4 )
 position = Vector2( 10, 0 )
@@ -1104,6 +1119,7 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
+visible = false
 modulate = Color( 1, 0.611765, 0.0588235, 0 )
 material = ExtResource( 4 )
 position = Vector2( 2, 20 )
@@ -1117,6 +1133,7 @@ rotation = -1.0472
 _sections_unfolded = [ "Transform" ]
 
 [node name="KnifeTrail2" type="AnimatedSprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
+visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
 material = ExtResource( 4 )
 position = Vector2( -10, 1.90735e-006 )
@@ -1259,9 +1276,8 @@ anims/move = SubResource( 6 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 20 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1272,7 +1288,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0

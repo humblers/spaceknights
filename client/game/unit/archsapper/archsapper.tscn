@@ -42,10 +42,11 @@
 [ext_resource path="res://game/unit/archsapper/idle.tres" type="Animation" id=40]
 [ext_resource path="res://game/unit/archsapper/show.tres" type="Animation" id=41]
 [ext_resource path="res://game/unit/archsapper/skill.tres" type="Animation" id=42]
-[ext_resource path="res://game/sfx/stun.wav" type="AudioStream" id=43]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=44]
+[ext_resource path="res://game/unit/archsapper/archsapper_atk.wav" type="AudioStream" id=43]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=44]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=45]
 [ext_resource path="res://game/unit/archsapper/cannon_bullet.tscn" type="PackedScene" id=46]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -141,7 +142,7 @@ editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 4
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 _sections_unfolded = [ "Visibility" ]
 
 [node name="AnchorTL" type="Sprite" parent="Rotatable/Body/Turret/Anchor"]
@@ -194,7 +195,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="TurretBody" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 texture = ExtResource( 9 )
 offset = Vector2( 0, -16 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -202,7 +203,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 [node name="Launcher" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 texture = ExtResource( 10 )
 offset = Vector2( 0, -6 )
 _sections_unfolded = [ "Offset", "Visibility" ]
@@ -432,7 +433,7 @@ _sections_unfolded = [ "Color", "Material", "Process Material", "Radial Accel", 
 
 [node name="BoosterPointL" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
-modulate = Color( 1, 1, 1, 0 )
+visible = false
 position = Vector2( -22, 47 )
 rotation = 0.349066
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -456,7 +457,7 @@ _sections_unfolded = [ "Material", "Transform", "material" ]
 
 [node name="BoosterPointR" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
-modulate = Color( 1, 1, 1, 0 )
+visible = false
 position = Vector2( 22, 47 )
 rotation = -0.349066
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -500,6 +501,7 @@ texture = ExtResource( 22 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="RearEffect" type="Sprite" parent="Rotatable/Body/Main/Gun/ShootingPoint"]
+visible = false
 modulate = Color( 0.627451, 0.25098, 1, 0 )
 material = ExtResource( 19 )
 position = Vector2( 0, 110 )
@@ -943,9 +945,8 @@ anims/skill = ExtResource( 42 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 43 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -956,9 +957,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 44 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

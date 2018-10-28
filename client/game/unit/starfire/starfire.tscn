@@ -21,9 +21,10 @@
 [ext_resource path="res://game/unit/starfire/idle.tres" type="Animation" id=19]
 [ext_resource path="res://game/unit/starfire/move.tres" type="Animation" id=20]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=21]
-[ext_resource path="res://game/sfx/left_loop.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/explosion_large1.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/unit/starfire/starfire_atk.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
 [ext_resource path="res://game/unit/starfire/bullet.tscn" type="PackedScene" id=24]
+
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -90,6 +91,7 @@ position = Vector2( 42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -98,7 +100,6 @@ position = Vector2( -42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -119,7 +120,6 @@ material = ExtResource( 7 )
 scale = Vector2( 1.2, 1.1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -130,6 +130,7 @@ material = ExtResource( 7 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -157,7 +158,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -185,6 +185,7 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -330,7 +331,7 @@ position = Vector2( 0, -65 )
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -341,7 +342,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 volume_db = 0.0
 pitch_scale = 1.0

@@ -114,7 +114,6 @@ func Update():
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		$Sound/sound_fire.play()
 	if attack == preAttackDelay():
 		var t = target()
 		if t != null and withinRange(t):
