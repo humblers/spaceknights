@@ -19,8 +19,8 @@
 [ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=17]
 [ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=19]
-[ext_resource path="res://game/sfx/bolter2.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/explosion_small1.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/sentry_atk.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=21]
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=23]
 
@@ -81,6 +81,7 @@ rotation = 1.5708
 scale = Vector2( 0.8, 1.6 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -280,7 +281,7 @@ blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 20 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -291,7 +292,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0

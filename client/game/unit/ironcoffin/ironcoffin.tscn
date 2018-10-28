@@ -29,8 +29,8 @@
 [ext_resource path="res://game/unit/ironcoffin/idle.tres" type="Animation" id=27]
 [ext_resource path="res://game/unit/ironcoffin/show.tres" type="Animation" id=28]
 [ext_resource path="res://game/unit/ironcoffin/skill.tres" type="Animation" id=29]
-[ext_resource path="res://game/sfx/wpn_gunship_laser_lp.wav" type="AudioStream" id=30]
-[ext_resource path="res://game/sfx/electric_explosion2.wav" type="AudioStream" id=31]
+[ext_resource path="res://game/sfx/ironcoffin_atk.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=31]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=32]
 [ext_resource path="res://game/unit/ironcoffin/missile.tscn" type="PackedScene" id=33]
 
@@ -118,6 +118,7 @@ position = Vector2( -59, 82 )
 rotation = -0.523599
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -126,7 +127,6 @@ position = Vector2( 59, 82 )
 rotation = 0.523599
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -356,9 +356,8 @@ anims/skill = ExtResource( 29 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 30 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -369,9 +368,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 31 )
-volume_db = -2.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false

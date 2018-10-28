@@ -11,8 +11,8 @@
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
 [ext_resource path="res://game/unit/gargoyleking/explosion.tres" type="Animation" id=10]
 [ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=11]
-[ext_resource path="res://game/sfx/frame.wav" type="AudioStream" id=12]
-[ext_resource path="res://game/sfx/explosion_medium3.wav" type="AudioStream" id=13]
+[ext_resource path="res://game/sfx/gargoyleking_atk.wav" type="AudioStream" id=12]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=13]
 [ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=14]
 [ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=15]
 
@@ -163,6 +163,18 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("Sound/Attack:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=8]
 
@@ -260,6 +272,18 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Sound/Attack:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -366,6 +390,18 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Sound/Attack:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [node name="Gargoyleking" type="Node2D"]
@@ -528,7 +564,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -553,7 +588,6 @@ material = SubResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -713,11 +747,10 @@ anims/move = SubResource( 9 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
-[node name="sound_fire" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 12 )
-volume_db = -5.0
+volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
 stream_paused = false
@@ -726,7 +759,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="sound_death" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 13 )
 volume_db = 0.0
 pitch_scale = 1.0

@@ -85,7 +85,6 @@ func handleAttack():
 			punchPosX = scalar.Add(PositionX(), dx)
 			punchPosY = scalar.Add(PositionY(), dy)
 			$AnimationPlayer.play("attack_1")
-			$Sound/sound_fire.play()
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack >= powerAttackPreDelay():
 			for id in game.UnitIds():
@@ -109,7 +108,6 @@ func handleAttack():
 	else:	
 		if attack == 0:
 			$AnimationPlayer.play("attack_2")
-			$Sound/sound_fire2.play()
 		var t = target()
 		if t != null:
 			look_at_pos(t.PositionX(), t.PositionY())
