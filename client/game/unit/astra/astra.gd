@@ -125,7 +125,8 @@ func show_laser(enable):
 			var beam = n.get_node("LaserBeam")
 			beam.global_scale.y = (to - from).length() / beam.texture.get_height()
 			beam.global_rotation = (to - from).angle() + PI/2
-			$Sound/Attack.play()
+			if $Sound/Attack.playing == false:
+				$Sound/Attack.play()
 
 func deal():
 	for id in game.UnitIds():

@@ -70,6 +70,8 @@ func moveTo(unit):
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
+		if $Sound/Attack.playing == false:
+			$Sound/Attack.play()
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
