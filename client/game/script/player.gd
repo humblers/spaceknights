@@ -14,6 +14,7 @@ const INPUT_DELAY_STEP = 10
 
 var id
 var team
+var score
 var energy = 0
 var hand = []
 var pending = []
@@ -31,6 +32,7 @@ var action_markers = {}
 func Init(playerData, game):
 	id = playerData.Id
 	team = playerData.Team
+	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	if playerData.has("Deck"):
 		energy = START_ENERGY
 		for i in range(len(playerData.Deck)):
@@ -47,6 +49,9 @@ func Init(playerData, game):
 	$Energy.value = energy
 	if not no_deck:
 		update_cards()
+
+func Score():
+	return score
 
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
@@ -418,12 +423,19 @@ func rollingCard():
 	rollingCounter = ROLLING_INTERVAL_STEP
 
 func OnKnightDead(knight):
+	var isLeader = false
 	for i in range(len(knightIds)):
 		var id = knightIds[i]
 		if id == knight.Id():
 			knightIds[i] = 0
+			if i == 0:
+				isLeader = true
 			break
 	removeCard(knight.Name())
+	if isLeader:
+		score -= game.LEADER_SCORE
+	else:
+		score -= game.WING_SCORE
 	get_node("../../Map/MotherShips/%s" % team).destroy(knight.side)
 	expand_spawnable_area(knight)
 

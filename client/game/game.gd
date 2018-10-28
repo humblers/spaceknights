@@ -3,10 +3,13 @@ extends Node2D
 var connected = false
 var cfg = config.GAME
 
-const PLAY_TIME = 600000		# milliseconds
+const PLAY_TIME = 180000		# milliseconds
+const OVER_TIME = 180000
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
 const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
+const LEADER_SCORE = 3
+const WING_SCORE = 1
 
 const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
@@ -76,8 +79,29 @@ func _ready():
 		get_node("Map/MotherShips/%s" % team).init(self, n, p.Knights)
 	CreateMapObstacles()
 
-func over():
-	return step >= PLAY_TIME/STEP_INTERVAL
+func Over():
+	if step < toStep(PLAY_TIME):
+		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
+			return true
+		else:
+			return false
+	elif step < toStep(PLAY_TIME + OVER_TIME):
+		if score("Blue") != score("Red"):
+			return true
+		else:
+			return false
+	return true
+
+func toStep(duration):
+	return int(duration/STEP_INTERVAL)
+
+func score(team):
+	var score = 0
+	for id in players:
+		var p = players[id]
+		if p.Team() == team:
+			score += p.Score()
+	return score
 
 func request_stop():
 	to_stop = true
@@ -128,26 +152,37 @@ func _process(delta):
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
-		if connected:
-			var iterations = 1
-			var n = tcp.received.size()
-			if n <= 0:
-				if to_stop:
-					stop()
-					return
-				print("not enough packets")
-				iterations = 0
-			if n > PACKET_WINDOW:
-				print("too many packets %s" % [n])
-				iterations = min(10, n)
-			for i in range(iterations):
-				var state = parse_json(tcp.received.pop_front())
-				Update(state)
+		if Over():
+			var b = score("Blue")
+			var r = score("Red")
+			if b > r:
+				print("%s team won" % "Red" if team_swapped else "Blue")
+			elif r > b:
+				print("%s team won" % "Blue" if team_swapped else "Red")
+			else:
+				print("Draw")
+			set_physics_process(false)
 		else:
-			var state = {"Actions": null}
-			if actions.has(step):
-				state["Actions"] = actions[step]
-			Update(state)
+			if connected:
+				var iterations = 1
+				var n = tcp.received.size()
+				if n <= 0:
+					if to_stop:
+						stop()
+						return
+					print("not enough packets")
+					iterations = 0
+				if n > PACKET_WINDOW:
+					print("too many packets %s" % [n])
+					iterations = min(10, n)
+				for i in range(iterations):
+					var state = parse_json(tcp.received.pop_front())
+					Update(state)
+			else:
+				var state = {"Actions": null}
+				if actions.has(step):
+					state["Actions"] = actions[step]
+				Update(state)
 	
 	frame += 1
 

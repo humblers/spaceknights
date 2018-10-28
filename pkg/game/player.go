@@ -29,6 +29,7 @@ type Player interface {
 	Do(a *Action) error
 	OnKnightDead(u Unit)
 	Update()
+	Score() int
 }
 
 type player struct {
@@ -39,6 +40,7 @@ type player struct {
 	emptyIdx       []int
 	rollingCounter int
 	knightIds      []int
+	score          int
 
 	statRatios map[string][]int
 
@@ -50,6 +52,7 @@ func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
 		team:       pd.Team,
 		energy:     startEnergy,
+		score:      leaderScore + wingScore*2,
 		statRatios: make(map[string][]int),
 
 		game: g,
@@ -57,6 +60,10 @@ func newPlayer(pd PlayerData, g Game) Player {
 	p.hand = append(p.hand, pd.Deck[:4]...)
 	p.pending = append(p.pending, pd.Deck[4:]...)
 	return p
+}
+
+func (p *player) Score() int {
+	return p.score
 }
 
 func (p *player) Client() Client {
@@ -204,13 +211,22 @@ func (p *player) rollingCard() {
 }
 
 func (p *player) OnKnightDead(u Unit) {
+	isLeader := false
 	for i, id := range p.knightIds {
 		if id == u.Id() {
 			p.knightIds[i] = 0
+			if i == 0 {
+				isLeader = true
+			}
 			break
 		}
 	}
 	p.removeCard(u.Name())
+	if isLeader {
+		p.score -= leaderScore
+	} else {
+		p.score -= wingScore
+	}
 }
 
 func (p *player) removeCard(name string) {
