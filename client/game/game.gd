@@ -153,15 +153,17 @@ func _process(delta):
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
 		if Over():
-			var b = score("Blue")
-			var r = score("Red")
-			if b > r:
-				print("%s team won" % "Red" if team_swapped else "Blue")
-			elif r > b:
-				print("%s team won" % "Blue" if team_swapped else "Red")
-			else:
-				print("Draw")
 			set_physics_process(false)
+			$Players/Blue.disconnect_input()
+			$Players/Red.disconnect_input()
+			var anim = "draw"
+			if score("Blue") > score("Red"):
+				anim = "win" if $Players/Blue.team == "Blue" else "lose"
+			elif score("Red") > score("Blue"):
+				anim = "win" if $Players/Blue.team == "Red" else "lose"
+			$StartEnd/StartWin.play(anim)
+			yield($StartEnd/StartWin, "animation_finished")
+			$GoToLobby.visible = true
 		else:
 			if connected:
 				var iterations = 1
@@ -349,3 +351,6 @@ static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	if d > scalar.Mul(radius, radius):
 		return false
 	return true
+
+func go_to_lobby():
+	loading_screen.goto_scene("res://lobby/lobby.tscn")

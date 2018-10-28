@@ -59,6 +59,12 @@ func connect_input():
 		var button = $Cards.get_node("Area%s/Card/Button" % (i+1))
 		button.connect("gui_input", self, "button_input", [i])
 
+func disconnect_input():
+	get_node("../../BattleField").disconnect("gui_input", self, "gui_input")
+	for i in range(HAND_SIZE):
+		var button = $Cards.get_node("Area%s/Card/Button" % (i+1))
+		button.disconnect("gui_input", self, "button_input")
+
 func gui_input(ev):
 	var field = get_node("../../BattleField")
 	var pos = field.get_local_mouse_position()
