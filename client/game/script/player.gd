@@ -268,14 +268,13 @@ func show_message(msg, pos_y):
 		$Tween.start()
 
 func update_cards():
-	$Cards/Area0/Next/Icon.texture = $Icon.get_resource(pending[0].Name)
-	$Cards/Area0/Next/Pending.visible = rollingCounter > 0
-	$Cards/Area0/Next/Pending/Time.text = String(rollingCounter / 10 + 1)
+	$Cards/Next/Base/Icon.texture = $Icon.get_resource(pending[0].Name)
+	$Cards/Next/Base/Disable.visible = rollingCounter > 0
 	for i in range(HAND_SIZE):
 		var card = hand[i]
-		var btn_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Button"])
-		var icon_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Icon"])
-		var cost_node = $Cards.get_node("Area%d/Card/%s" % [i+1, "Cost"])
+		var btn_node = $Cards.get_node("Card%d/%s" % [i+1, "Button"])
+		var icon_node = $Cards.get_node("Card%d/%s" % [i+1, "Icon"])
+		var cost_node = $Cards.get_node("Card%d/%s" % [i+1, "Cost"])
 		var modulate = Color(1, 1, 1, 1)
 		match card:
 			selected_card:
