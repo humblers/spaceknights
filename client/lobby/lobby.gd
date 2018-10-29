@@ -1,20 +1,19 @@
 extends Control
 
-const PAGE_SIZE_X = 1440
-const LOBBY_HOST = "13.125.74.237"
+const LOBBY_HOST = "127.0.0.1"
 const LOBBY_PORT = 8080
 
 func _ready():
 	for page in ["Battle", "Card"]:
-		var btn = $Bot.get_node(page)
-		btn.connect("button_up", self, "move_to_page", [btn])
+		var btn = $Headup/Bot.get_node(page)
+		btn.connect("button_up", $Scroll, "move_to_page", [btn])
 
 	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
-	http.modal_dialog = $Modal
+	http.modal_dialog = $Headup/Modal
 	load_data()
 
 func load_data():
@@ -31,20 +30,27 @@ func load_data():
 	login()
 
 func login():
+	var params = { "ptype": "dev" }
+	var config = ConfigFile.new()
+	var err = config.load(user.CONFIG_FILE)
+	if err == OK:
+		if config.has_section_key("auth", "uid"):
+			params["pid"] = config.get_value("auth", "uid")
 	var req = http.new_request(HTTPClient.METHOD_POST, "/auth/login",
-			{ "ptype": "dev", "pid": "", })
+			params)
 	var response = yield(req, "response")
 	if not response[0]:
 		http.handle_error(response[1].ErrMessage)
 		return
 	user.Id = response[1].UID
-	user.User = response[1].User
-	$Top/Level.text = "%d" % (user.User.Level + 1)
-	$Top/Level/Exp.text = "%d/xxx" % user.User.Exp
-	$Top/Galacticoin.text = "%d" % user.User.Galacticoin
-	$Top/Dimensium.text = "%d" % user.User.Dimensium
-	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
+	user.PlatformId = response[1].PID
+	config.set_value("auth", "uid", user.PlatformId)
+	config.save(user.CONFIG_FILE)
+	for k in response[1].User.keys():
+		user.set(k, response[1].User[k])
+	$Headup.invalidate()
 	$Pages/Card.invalidate()
+	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
@@ -57,18 +63,3 @@ func match_request():
 	tcp.Send({"GameId": cfg.Id})
 	var param = {"connected": true, "cfg": cfg}
 	loading_screen.goto_scene("res://game/game.tscn", param)
-
-func move_to_page(btn):
-	var tween = $Tween
-	var btns = ["Shop", "Card", "Battle", "Explore", "Social"]
-	var to = btn.get_name()
-	var cur = btn.group.get_pressed_button().get_name()
-	var dx = (btns.find(cur) - btns.find(to)) * PAGE_SIZE_X
-	var page_pos = $Pages.rect_position
-	tween.interpolate_property(
-			$Pages,
-			"rect_position",
-			page_pos,
-			Vector2(page_pos.x + dx, page_pos.y),
-			0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	tween.start()

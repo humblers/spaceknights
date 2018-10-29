@@ -18,6 +18,7 @@ type LoginResponse struct {
 	ErrMessage string
 	User       *user
 	UID        string
+	PID        string
 	Token      string
 }
 
