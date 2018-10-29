@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archer/archer.png" type="Texture" id=2]
@@ -20,10 +20,10 @@
 [ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=19]
 [ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
-[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=23]
-
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -380,7 +380,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -391,9 +391,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 22 )]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 22 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 23 )]
 position = Vector2( 0, -55 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 23 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
 
