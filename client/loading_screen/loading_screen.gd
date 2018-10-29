@@ -7,6 +7,7 @@ var thread = null
 onready var progress = $ProgressBar
 
 func goto_scene(path, param = null):
+	self.visible = true
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = self
 	progress.value = 0
@@ -70,3 +71,4 @@ func _load_scene_no_thread(path):
 		elif err != OK:
 			print("error loading %s" % path)
 			break
+	self.visible = false

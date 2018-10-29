@@ -52,12 +52,13 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp.UID, resp.User, err = userFromPlatformInfo(b.redisConn, req.PType, req.PID, enableEmpty)
+	resp.UID, resp.User, err = userFromPlatformInfo(b.redisConn, req.PType, &req.PID, enableEmpty)
 	if err != nil {
 		a.logger.Printf("query user fail(%v)", err)
 		resp.ErrMessage = "login fail"
 		return
 	}
+	resp.PID = req.PID
 	resp.Token = resp.UID
 	session, err := a.sessionStore.Get(r, AuthSession)
 	if err != nil {
@@ -87,16 +88,16 @@ func (a *authRouter) logout(b *bases, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func userFromPlatformInfo(rc redis.Conn, ptype string, pid string, enableEmpty bool) (string, *user, error) {
-	if enableEmpty && pid == "" {
+func userFromPlatformInfo(rc redis.Conn, ptype string, pid *string, enableEmpty bool) (string, *user, error) {
+	if enableEmpty && *pid == "" {
 		ret, err := redis.Int(rc.Do("INCR", fmt.Sprintf("gen:%v", ptype)))
 		if err != nil {
 			return "", nil, err
 		}
-		pid = strconv.Itoa(ret)
+		*pid = strconv.Itoa(ret)
 	}
 
-	pkey := fmt.Sprintf("%v:%v", ptype, pid)
+	pkey := fmt.Sprintf("%v:%v", ptype, *pid)
 	if _, err := rc.Do("WATCH", pkey); err != nil {
 		return "", nil, err
 	}

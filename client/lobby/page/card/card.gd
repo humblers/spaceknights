@@ -1,9 +1,6 @@
-extends Control
+extends "res://lobby/page/page.gd"
 
-const MODE_NORMAL = "NORMAL"
-const MODE_EDIT_KNIGHT = "EDIT_KNIGHT"
-const MODE_EDIT_TROOP = "EDIT_TROOP"
-
+var toggled_extra_card
 var picked_card
 
 onready var deck_label = $PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Current
@@ -44,6 +41,9 @@ onready var containers = {
 }
 
 func _ready():
+	scroll_max_y = get_vertical_scrollable_control().rect_position.y
+	var size_modifier = $PageMain/MarginContainer/VBoxContainer/BottomContainers
+	size_modifier.connect("resized", self, "calc_scroll_threshold", [self, size_modifier.rect_size.y])
 	for btn in deck_btns:
 		btn.connect("button_up", self, "button_up_deck_num", [btn])
 	for btn in knights:
@@ -53,13 +53,13 @@ func _ready():
 
 func invalidate():
 	var cur_mode = current_mode()
-	var selected = user.User.DeckSelected
+	var selected = user.DeckSelected
 	deck_label.text = "%d" % (selected + 1)
 	deck_btns[selected].pressed = true
 
 	var not_found_cards = stat.cards.keys()
-	var found_cards = user.User.Cards.keys()
-	var deck = user.User.Decks[selected]
+	var found_cards = user.Cards.keys()
+	var deck = user.Decks[selected]
 	for i in range(deck.Knights.size()):
 		var name = deck.Knights[i]
 		not_found_cards.erase(name)
@@ -87,6 +87,9 @@ func invalidate():
 	tabs.troops.visible = not is_edit
 	tabs.knights.visible = not is_edit
 
+func calc_scroll_threshold(control, org_size_y):
+	scroll_min_y = org_size_y - control.rect_size.y
+
 func current_mode():
 	if not stat.cards.has(picked_card):
 		return MODE_NORMAL
@@ -104,44 +107,43 @@ func button_up_deck_num(btn):
 	if not response[0]:
 		http.handle_error(response[1].ErrMessage)
 		return
-	user.User.DeckSelected = pressed_num
+	user.DeckSelected = pressed_num
 	invalidate()
 
 func button_up_deck_item(btn):
 	if current_mode() == MODE_NORMAL:
 		return
 	var params = {
-		"num": user.User.DeckSelected,
+		"num": user.DeckSelected,
 		"deck" : {"Knights": [], "Troops": []},
 	}
 	for knight_btn in knights:
-		params.deck.Knights.append(picked_card if knight_btn.name == btn.name else knight_btn.name)
+		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
 	for troop_btn in troops:
-		params.deck.Troops.append(picked_card if troop_btn.name == btn.name else troop_btn.name)
+		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
 	var request = http.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
 	var response = yield(request, "response")
 	if not response[0]:
 		http.handle_error(response[1].ErrMessage)
 		return
 	picked_card = null
-	user.User.Decks[params.num] = params.deck
+	user.Decks[params.num] = params.deck
 	invalidate()
 
 func toggle_extra_btns(btn):
-	var create = btn != null
 	for child in containers.extra.get_children():
-		if child.name == btn.name:
-			create = false
 		child.queue_free()
-	if create:
-		var extra_btn = $ResourcePreloader.get_resource("extra_btns").instance()
-		containers.extra.add_child(extra_btn)
-		extra_btn.name = btn.name
-		extra_btn.rect_global_position = btn.extra_btn_global_position()
-		extra_btn.get_node("Use").connect("button_up", self, "pick_card", [extra_btn])
+	if toggled_extra_card == btn.name_:
+		toggled_extra_card = null
+		return
+	toggled_extra_card = btn.name_
+	var extra_btn = $ResourcePreloader.get_resource("extra_btns").instance()
+	containers.extra.add_child(extra_btn)
+	extra_btn.rect_global_position = btn.extra_btn_global_position()
+	extra_btn.get_node("Use").connect("button_up", self, "pick_card", [extra_btn])
 
 func pick_card(btn):
-	picked_card = btn.name
+	picked_card = toggled_extra_card
 	btn.queue_free()
 	for child in containers.mode_edit.get_children():
 		child.queue_free()
@@ -149,3 +151,6 @@ func pick_card(btn):
 	containers.mode_edit.add_child(item)
 	item.invalidate(picked_card, self)
 	invalidate()
+
+func get_vertical_scrollable_control():
+	return $PageMain/MarginContainer
