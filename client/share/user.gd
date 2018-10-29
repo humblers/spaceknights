@@ -20,3 +20,13 @@ func ShouldSwapTeam(cfg):
 		if p.Id == Id and not p.Team == "Blue":
 			return true
 	return false
+
+func CardInDeck(card):
+	var deck = Decks[DeckSelected]
+	for k in deck.Knights:
+		if k == card:
+			return true
+	for t in deck.Troops:
+		if t == card:
+			return true
+	return false

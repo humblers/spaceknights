@@ -1,7 +1,9 @@
 extends "res://lobby/page/page.gd"
 
-var toggled_extra_card
+var pressed_card
 var picked_card
+
+var filter = "Troop"
 
 onready var deck_label = $PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Current
 onready var deck_btns = [
@@ -27,18 +29,14 @@ onready var troops = [
 	$PageMain/MarginContainer/VBoxContainer/Troops/VBoxContainer4/Item,
 ]
 
-onready var tabs = {
-	"troops" : $PageMain/MarginContainer/VBoxContainer/Tab/HBoxContainer/Troops,
-	"knights" : $PageMain/MarginContainer/VBoxContainer/Tab/HBoxContainer/Knights,
+onready var containers = {
+	"lists": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists,
+	"founds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds,
+	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/NotFounds,
 }
 
-onready var containers = {
-	"mode_edit": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeEdit,
-	"mode_normal": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal,
-	"founds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal/CenterContainer/Founds,
-	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ModeNormal/NotFounds,
-	"extra": $PageMain/MarginContainer/VBoxContainer/BottomContainers/ExtraButtonHolder,
-}
+onready var pressed = $PageMain/MarginContainer/Control/Pressed
+onready var picked = $PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Picked
 
 func _ready():
 	scroll_max_y = get_vertical_scrollable_control().rect_position.y
@@ -70,22 +68,35 @@ func invalidate():
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		troops[i].invalidate(name, self, cur_mode == MODE_EDIT_KNIGHT)
-
 	for child in containers.founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
 		var name = found_cards[i]
 		not_found_cards.erase(name)
+		if filter != stat.units[stat.cards[name].Unit]["type"]:
+			continue
 		var item = $ResourcePreloader.get_resource("item").instance()
 		containers.founds.add_child(item)
 		item.invalidate(name, self)
+	pressed.invalidate(pressed_card, self)
+	picked.invalidate(picked_card, self)
 
 	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_TROOP]
-	containers.mode_edit.visible = is_edit
-	containers.mode_normal.visible = not is_edit
-	containers.extra.visible = not is_edit
-	tabs.troops.visible = not is_edit
-	tabs.knights.visible = not is_edit
+	if is_edit:
+		get_vertical_scrollable_control().rect_position.y = scroll_max_y
+	pressed.visible = pressed_card != null and not is_edit
+	picked.visible = is_edit
+	containers.lists.visible = not is_edit
+
+func sort_knight(a, b):
+	if stat.units[stat.cards[b].Unit]["type"] == "Knight":
+		return false
+	return true
+
+func sort_troops(a, b):
+	if stat.units[stat.cards[b].Unit]["type"] == "Troops":
+		return false
+	return true
 
 func calc_scroll_threshold(control, org_size_y):
 	scroll_min_y = org_size_y - control.rect_size.y
@@ -127,29 +138,24 @@ func button_up_deck_item(btn):
 		http.handle_error(response[1].ErrMessage)
 		return
 	picked_card = null
+	pressed_card = null
 	user.Decks[params.num] = params.deck
 	invalidate()
 
-func toggle_extra_btns(btn):
-	for child in containers.extra.get_children():
-		child.queue_free()
-	if toggled_extra_card == btn.name_:
-		toggled_extra_card = null
+func set_pressed_card(btn):
+	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_TROOP]:
 		return
-	toggled_extra_card = btn.name_
-	var extra_btn = $ResourcePreloader.get_resource("extra_btns").instance()
-	containers.extra.add_child(extra_btn)
-	extra_btn.rect_global_position = btn.extra_btn_global_position()
-	extra_btn.get_node("Use").connect("button_up", self, "pick_card", [extra_btn])
+	if pressed_card == btn.name_:
+		pressed_card = null
+		return
+	pressed_card = btn.name_
+	pressed.rect_global_position = btn.get_node("Position2D").global_position
+	if user.CardInDeck(pressed_card):
+		filter = stat.units[stat.cards[pressed_card].Unit]["type"]
+	invalidate()
 
-func pick_card(btn):
-	picked_card = toggled_extra_card
-	btn.queue_free()
-	for child in containers.mode_edit.get_children():
-		child.queue_free()
-	var item = $ResourcePreloader.get_resource("item").instance()
-	containers.mode_edit.add_child(item)
-	item.invalidate(picked_card, self)
+func set_picked_card(btn):
+	picked_card = pressed_card
 	invalidate()
 
 func get_vertical_scrollable_control():
