@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://game/unit/shadowvision/shadowvision.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/shadowvision/shadow_vision.png" type="Texture" id=2]
@@ -18,8 +18,9 @@
 [ext_resource path="res://game/unit/shadowvision/idle.tres" type="Animation" id=16]
 [ext_resource path="res://game/unit/shadowvision/move.tres" type="Animation" id=17]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=18]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=19]
-[ext_resource path="res://game/unit/shadowvision/missile.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/sfx/ether.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/unit/shadowvision/missile.tscn" type="PackedScene" id=21]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -417,9 +418,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 19 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 19 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 20 )]
 position = Vector2( 0, -75 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "missile" ), [ ExtResource( 20 ) ] ]
+resources = [ PoolStringArray( "missile" ), [ ExtResource( 21 ) ] ]
 

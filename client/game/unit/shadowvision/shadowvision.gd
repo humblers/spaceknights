@@ -94,7 +94,8 @@ func moveTo(unit):
 	look_at_pos(unit.PositionX(), unit.PositionY())
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play("move")
-	
+	if $Sound/Move.playing == false:
+		$Sound/Move.play()
 
 func handleAttack():
 	if attack == 0:

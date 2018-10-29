@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://game/unit/starfire/starfire.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/starfire/body.png" type="Texture" id=2]
@@ -23,8 +23,8 @@
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/unit/starfire/starfire_atk.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/unit/starfire/bullet.tscn" type="PackedScene" id=24]
-
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/unit/starfire/bullet.tscn" type="PackedScene" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -91,7 +91,6 @@ position = Vector2( 42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -100,6 +99,7 @@ position = Vector2( -42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -158,6 +158,7 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -185,7 +186,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -353,6 +353,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 24 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 25 ) ] ]
 

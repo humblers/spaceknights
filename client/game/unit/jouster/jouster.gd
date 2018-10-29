@@ -65,6 +65,11 @@ func moveTo(unit):
 	var speed = speed()
 	if charged():
 		speed = chargedMoveSpeed()
+		if $Sound/WingMove.playing == false:
+			$Sound/WingMove.play()
+	else:
+		if $Sound/Move.playing == false:
+			$Sound/Move.play()
 	SetVelocity(
 		scalar.Mul(direction[0], speed), 
 		scalar.Mul(direction[1], speed))

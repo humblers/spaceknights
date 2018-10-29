@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/gargoyleking/body.png" type="Texture" id=2]
@@ -13,8 +13,9 @@
 [ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=11]
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=12]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=13]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=14]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=16]
 
 [sub_resource type="Curve" id=1]
 
@@ -163,6 +164,18 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("Sound/Move:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=8]
 
@@ -272,6 +285,18 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Sound/Move:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -552,6 +577,7 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -576,6 +602,7 @@ material = SubResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -758,10 +785,21 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 14 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 14 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, -60 )
 
-[node name="Energyshield" parent="." instance=ExtResource( 15 )]
+[node name="Energyshield" parent="." instance=ExtResource( 16 )]
 editor/display_folded = true
 scale = Vector2( 0.6, 0.6 )
 

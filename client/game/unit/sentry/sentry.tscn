@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/unit/sentry/sentry.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/sentry/body.png" type="Texture" id=2]
@@ -21,9 +21,9 @@
 [ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=19]
 [ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=20]
 [ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
-[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=23]
-
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -82,7 +82,6 @@ rotation = 1.5708
 scale = Vector2( 0.8, 1.6 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -104,7 +103,6 @@ material = ExtResource( 6 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -115,6 +113,7 @@ modulate = Color( 1, 1, 1, 0.439216 )
 material = ExtResource( 6 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Angle", "Color", "Drawing", "Gravity", "Initial Velocity", "Material", "Scale", "Time", "Transform", "Visibility", "frames" ]
@@ -304,9 +303,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 22 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 22 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 23 )]
 position = Vector2( 0, -45 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 23 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
 

@@ -71,7 +71,9 @@ func moveTo(unit):
 		scalar.Mul(direction[1], speed))
 	look_at_pos(corner[0], corner[1])
 	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
-		$AnimationPlayer.play("move")	
+		$AnimationPlayer.play("move")
+	if $Sound/Move.playing == false:
+		$Sound/Move.play()
 
 func handleAttack():
 	if attack == 0:
