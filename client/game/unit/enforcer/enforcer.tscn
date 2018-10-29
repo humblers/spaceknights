@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://game/unit/enforcer/enforcer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/enforcer/body.png" type="Texture" id=2]
@@ -20,8 +20,8 @@
 [ext_resource path="res://game/unit/enforcer/destroy.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/enforcer/enforcer_atk.wav" type="AudioStream" id=19]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=21]
-
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=22]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -393,6 +393,18 @@ tracks/26/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/27/type = "value"
+tracks/27/path = NodePath("Sound/Move:playing")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=7]
 
@@ -695,6 +707,18 @@ tracks/24/imported = false
 tracks/24/enabled = true
 tracks/24/keys = {
 "times": PoolRealArray( -0.00452518 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Sound/Move:playing")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
@@ -1352,6 +1376,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 21 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 21 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -60 )
 
