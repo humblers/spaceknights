@@ -1,6 +1,6 @@
 extends Control
 
-const LOBBY_HOST = "127.0.0.1"
+const LOBBY_HOST = "13.125.74.237"
 const LOBBY_PORT = 8080
 
 func _ready():
