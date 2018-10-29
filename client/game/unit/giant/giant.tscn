@@ -1,10 +1,10 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game/unit/giant/giant.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/giant/body.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/giant/body_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/giant/drill_1.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/giant/drill_2.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/giant/giantdrill.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/giant/giantdrill_normal.png" type="Texture" id=5]
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=6]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=7]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=8]
@@ -22,37 +22,28 @@
 [ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=20]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=21]
 
-[sub_resource type="SpriteFrames" id=1]
-
-animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "default",
-"speed": 20.0
-} ]
-
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=1]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0.000664171, 0 ), 0.0, 0.971592, 0, 0, Vector2( 1, 1 ), 0.0695606, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=2]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.27855, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.489258 ), 2.70302, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
@@ -61,7 +52,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 
 min_value = 0.0
 max_value = 1.0
@@ -84,24 +75,26 @@ texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="DrillL" type="AnimatedSprite" parent="Rotatable/Main"]
+[node name="DrillL" type="Sprite" parent="Rotatable/Main"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -21.6667, -43.3333 )
-frames = SubResource( 1 )
-animation = "default"
+position = Vector2( -21, -43 )
+texture = ExtResource( 4 )
+normal_map = ExtResource( 5 )
+hframes = 2
 frame = 1
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+region_rect = Rect2( 0, 0, 40, 45 )
+_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform", "Visibility", "texture" ]
 
-[node name="DrillR" type="AnimatedSprite" parent="Rotatable/Main"]
+[node name="DrillL2" type="Sprite" parent="Rotatable/Main"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 21.6667, -43.3333 )
-frames = SubResource( 1 )
-animation = "default"
-frame = 1
-flip_h = true
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+position = Vector2( 21, -43 )
+texture = ExtResource( 4 )
+normal_map = ExtResource( 5 )
+hframes = 2
+region_rect = Rect2( 0, 0, 40, 45 )
+_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform", "Visibility", "texture" ]
 
 [node name="Rcs" type="Node2D" parent="Rotatable/Main"]
 editor/display_folded = true
@@ -159,7 +152,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 0.592118 )
 color_ramp = null
 hue_variation = 0.0
@@ -235,7 +228,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 0.592118 )
 color_ramp = null
 hue_variation = 0.0
@@ -311,7 +304,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 0.592118 )
 color_ramp = null
 hue_variation = 0.0
@@ -387,7 +380,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 0.592118 )
 color_ramp = null
 hue_variation = 0.0
@@ -463,7 +456,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 2.2
 scale_random = 0.0
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 2 )
 color = Color( 1, 0.427451, 0.145098, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -522,7 +515,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 1.0
-scale_curve = SubResource( 4 )
+scale_curve = SubResource( 3 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -605,7 +598,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 2.2
 scale_random = 0.0
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 2 )
 color = Color( 1, 0.427451, 0.145098, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -664,7 +657,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 1.0
-scale_curve = SubResource( 4 )
+scale_curve = SubResource( 3 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -707,7 +700,7 @@ modulate = Color( 1, 0.290196, 0.101961, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, -15 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
@@ -734,7 +727,7 @@ modulate = Color( 1, 0.290196, 0.101961, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, -15 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "thrust"
 speed_scale = 2.0
 playing = true
@@ -840,7 +833,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 6 )
+scale_curve = SubResource( 5 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
