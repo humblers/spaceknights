@@ -4,20 +4,20 @@
 [ext_resource path="res://game/bgm/ingame_glistening courage.ogg" type="AudioStream" id=2]
 [ext_resource path="res://game/script/camera.gd" type="Script" id=3]
 [ext_resource path="res://game/script/player.gd" type="Script" id=4]
-[ext_resource path="res://game/ui/player_deck_ui.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=6]
-[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=7]
-[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://game/ui/bt_wait_bot.png" type="Texture" id=9]
-[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=11]
-[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=12]
-[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=13]
-[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=14]
-[ext_resource path="res://share/icon/card/resource_preloader.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/ui/cursor/resource_preloader.tscn" type="PackedScene" id=17]
-[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=18]
+[ext_resource path="res://game/ui/card.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/ui/next.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=7]
+[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=8]
+[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=9]
+[ext_resource path="res://share/icon/card/resource_preloader.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/ui/cursor/resource_preloader.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=13]
+[ext_resource path="res://game/ui/bt_ready_top.png" type="Texture" id=14]
+[ext_resource path="res://font/city_bold_italic.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://game/ui/bt_next_bot.png" type="Texture" id=16]
+[ext_resource path="res://game/ui/bt_next_top.png" type="Texture" id=17]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=18]
 [ext_resource path="res://game/bg/kinetica/kinetica_scroll.tscn" type="PackedScene" id=19]
 [ext_resource path="res://game/vfx/vertical_gradation.png" type="Texture" id=20]
 [ext_resource path="res://game/bg/mothership/mothership/mother_ships.tscn" type="PackedScene" id=21]
@@ -53,7 +53,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 8 )
+font_data = ExtResource( 15 )
 _sections_unfolded = [ "Font", "Resource", "Settings" ]
 
 [sub_resource type="DynamicFont" id=2]
@@ -63,7 +63,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 8 )
+font_data = ExtResource( 15 )
 _sections_unfolded = [ "Font", "Resource", "Settings" ]
 
 [sub_resource type="DynamicFont" id=3]
@@ -1942,30 +1942,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Players/Blue/Test:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 5.1, 5.2, 5.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Players/Blue/Test:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 5.1, 5.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
@@ -2029,588 +2005,56 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 script = ExtResource( 4 )
-_sections_unfolded = [ "Visibility", "custom_constants" ]
-
-[node name="Test" parent="Players/Blue" instance=ExtResource( 5 )]
-position = Vector2( -40, -1661 )
+_sections_unfolded = [ "Rect", "Visibility", "custom_constants" ]
 
 [node name="Cards" type="HBoxContainer" parent="Players/Blue"]
-visible = false
-anchor_left = 0.5
+editor/display_folded = true
+anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.0
-margin_left = -500.0
-margin_top = -60.0
-margin_right = 500.0
-margin_bottom = 100.0
+margin_bottom = 31.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 35
+custom_constants/separation = 12
 alignment = 0
-_sections_unfolded = [ "Margin", "Rect", "custom_constants" ]
+_sections_unfolded = [ "Rect", "custom_constants" ]
 
-[node name="Area1" type="Control" parent="Players/Blue/Cards"]
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="Card" parent="Players/Blue/Cards" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 180.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 180, 180 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Margin", "Rect" ]
+margin_right = 190.0
+margin_bottom = 151.0
 
-[node name="Card" type="TextureRect" parent="Players/Blue/Cards/Area1"]
-editor/display_folded = true
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -30.0
-margin_right = 100.0
-margin_bottom = 150.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags", "Theme" ]
-
-[node name="Icon" type="TextureRect" parent="Players/Blue/Cards/Area1/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch_mode = 0
-_sections_unfolded = [ "Material", "Rect" ]
-
-[node name="Over" type="TextureRect" parent="Players/Blue/Cards/Area1/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="Card2" parent="Players/Blue/Cards" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 180.0
-margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 7 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect", "texture" ]
+margin_left = 202.0
+margin_right = 392.0
+margin_bottom = 151.0
 
-[node name="Cost" type="Label" parent="Players/Blue/Cards/Area1/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="Next" parent="Players/Blue/Cards" instance=ExtResource( 6 )]
+margin_left = 404.0
+margin_right = 594.0
+margin_bottom = 151.0
+
+[node name="Card3" parent="Players/Blue/Cards" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 42.0
-margin_bottom = 46.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
-text = "3"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Mouse", "Rect", "Visibility", "custom_colors", "custom_fonts" ]
+margin_left = 606.0
+margin_right = 796.0
+margin_bottom = 151.0
 
-[node name="Button" type="Button" parent="Players/Blue/Cards/Area1/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = true
-align = 1
-_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
-
-[node name="Area2" type="Control" parent="Players/Blue/Cards"]
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="Card4" parent="Players/Blue/Cards" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 215.0
-margin_right = 395.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 180, 180 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="Card" type="TextureRect" parent="Players/Blue/Cards/Area2"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -107.0
-margin_top = -28.0
-margin_right = 83.0
-margin_bottom = 152.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
-
-[node name="Icon" type="TextureRect" parent="Players/Blue/Cards/Area2/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch_mode = 0
-_sections_unfolded = [ "Material" ]
-
-[node name="Over" type="TextureRect" parent="Players/Blue/Cards/Area2/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 7 )
-stretch_mode = 0
-
-[node name="Cost" type="Label" parent="Players/Blue/Cards/Area2/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 42.0
-margin_bottom = 46.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
-text = "3"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Mouse", "Rect", "Visibility", "custom_colors", "custom_fonts" ]
-
-[node name="Button" type="Button" parent="Players/Blue/Cards/Area2/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = true
-align = 1
-
-[node name="Area0" type="Control" parent="Players/Blue/Cards"]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 140.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 140, 180 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="Next" type="TextureRect" parent="Players/Blue/Cards/Area0"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -21.0
-margin_top = 50.0
-margin_right = 159.0
-margin_bottom = 230.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 9 )
-stretch_mode = 0
-_sections_unfolded = [ "Margin", "Rect", "Visibility" ]
-
-[node name="Icon" type="TextureRect" parent="Players/Blue/Cards/Area0/Next"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -60.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
-
-[node name="Over" type="TextureRect" parent="Players/Blue/Cards/Area0/Next"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 180.0
-margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 10 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
-
-[node name="Pending" type="TextureRect" parent="Players/Blue/Cards/Area0/Next"]
-editor/display_folded = true
-self_modulate = Color( 0.136719, 0.114288, 0.114288, 0.77349 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 180.0
-margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 11 )
-stretch_mode = 2
-_sections_unfolded = [ "Rect", "Visibility" ]
-
-[node name="Time" type="Label" parent="Players/Blue/Cards/Area0/Next/Pending"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -22.0
-margin_right = 20.0
-margin_bottom = 22.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 2 )
-text = "3"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
-
-[node name="Area3" type="Control" parent="Players/Blue/Cards"]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 175.0
-margin_right = 355.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 180, 180 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="Card" type="TextureRect" parent="Players/Blue/Cards/Area3"]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -60.0
-margin_right = 90.0
-margin_bottom = 120.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Grow Direction", "Margin", "Rect" ]
-
-[node name="Icon" type="TextureRect" parent="Players/Blue/Cards/Area3/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch_mode = 0
-
-[node name="Over" type="TextureRect" parent="Players/Blue/Cards/Area3/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 7 )
-stretch_mode = 0
-
-[node name="Cost" type="Label" parent="Players/Blue/Cards/Area3/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 42.0
-margin_bottom = 46.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
-text = "3"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
-
-[node name="Button" type="Button" parent="Players/Blue/Cards/Area3/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = true
-align = 1
-
-[node name="Area4" type="Control" parent="Players/Blue/Cards"]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 390.0
-margin_right = 570.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 180, 180 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="Card" type="TextureRect" parent="Players/Blue/Cards/Area4"]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -90.0
-margin_right = 90.0
-margin_bottom = 90.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Margin", "Rect" ]
-
-[node name="Icon" type="TextureRect" parent="Players/Blue/Cards/Area4/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-stretch_mode = 0
-
-[node name="Over" type="TextureRect" parent="Players/Blue/Cards/Area4/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 7 )
-stretch_mode = 0
-
-[node name="Cost" type="Label" parent="Players/Blue/Cards/Area4/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 42.0
-margin_bottom = 46.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
-text = "3"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Rect", "Visibility", "custom_colors", "custom_fonts" ]
-
-[node name="Button" type="Button" parent="Players/Blue/Cards/Area4/Card"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = true
-align = 1
+margin_left = 808.0
+margin_right = 998.0
+margin_bottom = 151.0
 
 [node name="Energy" type="TextureProgress" parent="Players/Blue"]
 anchor_left = 0.5
@@ -2636,9 +2080,9 @@ exp_edit = false
 rounded = false
 allow_greater = false
 allow_lesser = false
-texture_under = ExtResource( 12 )
-texture_over = ExtResource( 13 )
-texture_progress = ExtResource( 14 )
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 1 )
 tint_over = Color( 1, 1, 1, 1 )
 tint_progress = Color( 1, 1, 1, 1 )
@@ -2655,11 +2099,11 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
-[node name="Icon" parent="Players/Blue" instance=ExtResource( 15 )]
+[node name="Icon" parent="Players/Blue" instance=ExtResource( 10 )]
 
-[node name="Unit" parent="Players/Blue" instance=ExtResource( 16 )]
+[node name="Unit" parent="Players/Blue" instance=ExtResource( 11 )]
 
-[node name="Cursor" parent="Players/Blue" instance=ExtResource( 17 )]
+[node name="Cursor" parent="Players/Blue" instance=ExtResource( 12 )]
 
 [node name="Red" type="Control" parent="Players"]
 editor/display_folded = true
@@ -2728,7 +2172,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags", "Theme" ]
 
@@ -2759,7 +2203,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 7 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
@@ -2841,7 +2285,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
@@ -2872,7 +2316,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 7 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 
 [node name="Cost" type="Label" parent="Players/Red/Cards/Area2/Card"]
@@ -2949,7 +2393,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 18 )
+texture = ExtResource( 16 )
 stretch_mode = 0
 _sections_unfolded = [ "Margin", "Rect", "Visibility" ]
 
@@ -2981,7 +2425,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 10 )
+texture = ExtResource( 17 )
 stretch_mode = 0
 
 [node name="Pending" type="TextureRect" parent="Players/Red/Cards/Area0/Next"]
@@ -2999,7 +2443,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -3058,7 +2502,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Grow Direction", "Margin", "Rect" ]
 
@@ -3088,7 +2532,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 7 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 
 [node name="Cost" type="Label" parent="Players/Red/Cards/Area3/Card"]
@@ -3168,7 +2612,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 13 )
 stretch_mode = 0
 _sections_unfolded = [ "Margin", "Rect" ]
 
@@ -3200,7 +2644,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 7 )
+texture = ExtResource( 14 )
 stretch_mode = 0
 
 [node name="Cost" type="Label" parent="Players/Red/Cards/Area4/Card"]
@@ -3270,9 +2714,9 @@ exp_edit = false
 rounded = false
 allow_greater = false
 allow_lesser = false
-texture_under = ExtResource( 12 )
-texture_over = ExtResource( 13 )
-texture_progress = ExtResource( 14 )
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
 tint_under = Color( 1, 1, 1, 1 )
 tint_over = Color( 1, 1, 1, 1 )
 tint_progress = Color( 1, 1, 1, 1 )
@@ -3281,11 +2725,11 @@ radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
 
-[node name="Icon" parent="Players/Red" instance=ExtResource( 15 )]
+[node name="Icon" parent="Players/Red" instance=ExtResource( 10 )]
 
-[node name="Unit" parent="Players/Red" instance=ExtResource( 16 )]
+[node name="Unit" parent="Players/Red" instance=ExtResource( 11 )]
 
-[node name="Cursor" parent="Players/Red" instance=ExtResource( 17 )]
+[node name="Cursor" parent="Players/Red" instance=ExtResource( 12 )]
 
 [node name="Map" type="Node2D" parent="."]
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
@@ -3298,7 +2742,7 @@ _sections_unfolded = [ "Visibility" ]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 540, 920 )
 scale = Vector2( 400, 600 )
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Battlefield" type="Node2D" parent="Map"]
@@ -3374,7 +2818,7 @@ position = Vector2( 540, 960 )
 scale = Vector2( 4, 5 )
 enabled = true
 editor_only = false
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 offset = Vector2( 0, 0 )
 texture_scale = 50.0
 color = Color( 1, 1, 1, 1 )
@@ -3450,7 +2894,7 @@ anchor_bottom = 0.0
 margin_left = 40.0
 margin_top = 60.0
 margin_right = 1040.0
-margin_bottom = 1860.0
+margin_bottom = 1660.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -3496,7 +2940,7 @@ _sections_unfolded = [ "Transform" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 235, 50 )
 z_index = 3
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 offset = Vector2( 0, -23.2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -3504,7 +2948,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 235, 50 )
 z_index = 3
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 offset = Vector2( 0, 23.2 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -3512,7 +2956,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 50, 300 )
 z_index = 3
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 offset = Vector2( 14.8, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -3520,7 +2964,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 50, 300 )
 z_index = 3
-texture = ExtResource( 11 )
+texture = ExtResource( 18 )
 offset = Vector2( -14.8, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
@@ -3705,7 +3149,7 @@ blend_times = [  ]
 [node name="Resource" type="Node" parent="."]
 editor/display_folded = true
 
-[node name="Unit" parent="Resource" instance=ExtResource( 16 )]
+[node name="Unit" parent="Resource" instance=ExtResource( 11 )]
 
 [node name="Map" type="ResourcePreloader" parent="Resource"]
 resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 44 ) ] ]
