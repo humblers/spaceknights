@@ -1,12 +1,12 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/unit/drillram/drillram.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/drillram/body.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/drillram/body_normal.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/drillram/guide.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/drillram/guide_normal.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/drillram/drill_2.png" type="Texture" id=6]
-[ext_resource path="res://game/unit/drillram/drill_1.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/drillram/drillram_drill.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/drillram/drillram_drill_normal.png" type="Texture" id=7]
 [ext_resource path="res://game/vfx/circle.png" type="Texture" id=8]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=9]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=10]
@@ -24,15 +24,6 @@
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=23]
 
-[sub_resource type="SpriteFrames" id=1]
-
-animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "default",
-"speed": 20.0
-} ]
-
 [sub_resource type="Curve" id=2]
 
 min_value = 0.0
@@ -47,15 +38,6 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 10.0
-} ]
-
-[sub_resource type="SpriteFrames" id=4]
-
-animations = [ {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=5]
@@ -85,7 +67,6 @@ scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Main" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
@@ -108,13 +89,15 @@ texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Drill" type="AnimatedSprite" parent="Rotatable/Main"]
+[node name="Drill" type="Sprite" parent="Rotatable/Main"]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 0, -38 )
-frames = SubResource( 1 )
-animation = "default"
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+texture = ExtResource( 6 )
+normal_map = ExtResource( 7 )
+hframes = 2
+frame = 1
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Rcs" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
@@ -406,7 +389,6 @@ texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="Drilling" type="Position2D" parent="Rotatable"]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -60 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -472,6 +454,7 @@ anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Material", "Process Material", "Radial Accel", "Scale", "Spread", "Time", "Transform" ]
 
 [node name="Glow" type="AnimatedSprite" parent="Rotatable/Drilling"]
+visible = false
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 3 )
 animation = "default"
@@ -486,15 +469,14 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/Drilling"]
+[node name="Drill" type="Sprite" parent="Rotatable/Drilling"]
 modulate = Color( 1, 0.611765, 0.403922, 1 )
 material = ExtResource( 9 )
-frames = SubResource( 4 )
-animation = "default"
-playing = true
+position = Vector2( 0, -3.33333 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, 25 )
-flip_v = true
-_sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
+hframes = 2
+_sections_unfolded = [ "Animation", "Material", "Offset", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Booster" type="Position2D" parent="Rotatable"]
 editor/display_folded = true
