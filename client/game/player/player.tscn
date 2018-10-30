@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://game/player/player.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/card/card.tscn" type="PackedScene" id=2]
@@ -8,7 +8,28 @@
 [ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=6]
 [ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=7]
 [ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=8]
-
+[ext_resource path="res://game/player/unit_ready_sound/archers.wav" type="AudioStream" id=9]
+[ext_resource path="res://game/player/unit_ready_sound/berserker.wav" type="AudioStream" id=10]
+[ext_resource path="res://game/player/unit_ready_sound/blaster.wav" type="AudioStream" id=11]
+[ext_resource path="res://game/player/unit_ready_sound/champion.wav" type="AudioStream" id=12]
+[ext_resource path="res://game/player/unit_ready_sound/drillram.wav" type="AudioStream" id=13]
+[ext_resource path="res://game/player/unit_ready_sound/enforcer.wav" type="AudioStream" id=14]
+[ext_resource path="res://game/player/unit_ready_sound/felhound.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/player/unit_ready_sound/footmans.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/player/unit_ready_sound/gargoylehorde.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/player/unit_ready_sound/gargoyleking.wav" type="AudioStream" id=18]
+[ext_resource path="res://game/player/unit_ready_sound/giant.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/player/unit_ready_sound/jouster.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/player/unit_ready_sound/oger.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/player/unit_ready_sound/panzerkunstler.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/player/unit_ready_sound/pixie.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/player/unit_ready_sound/psabu.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/player/unit_ready_sound/sentry.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/player/unit_ready_sound/shadowvision.wav" type="AudioStream" id=26]
+[ext_resource path="res://game/player/unit_ready_sound/starfire.wav" type="AudioStream" id=27]
+[ext_resource path="res://game/player/unit_ready_sound/threestarfires.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/player/unit_ready_sound/trainee.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/player/unit_ready_sound/wasp.wav" type="AudioStream" id=30]
 
 [node name="Player" type="VBoxContainer"]
 anchor_left = 0.5
@@ -30,6 +51,7 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Rect", "Visibility", "custom_constants" ]
 
 [node name="Cards" type="HBoxContainer" parent="."]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -127,4 +149,18 @@ radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Textures" ]
+
+[node name="UnitReady" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UnitReady"]
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+mix_target = 0
+bus = "Master"
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="UnitReady"]
+resources = [ PoolStringArray( "archers", "berserker", "blaster", "champion", "drillram", "enforcer", "felhound", "footmans", "gargoylehorde", "gargoyleking", "giant", "jouster", "oger", "panzerkunstler", "pixie", "psabu", "sentry", "shadowvision", "starfire", "threestarfires", "trainee", "wasp" ), [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ) ] ]
 
