@@ -6,6 +6,9 @@ var param = null
 var thread = null
 onready var progress = $ProgressBar
 
+func _ready():
+	visible = false
+	
 func goto_scene(path, param = null):
 	self.visible = true
 	get_tree().current_scene.queue_free()
