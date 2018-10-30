@@ -14,7 +14,7 @@ const rollingIntervalStep = 30
 const knightLeaderIndex = 0
 
 var knightInitialPositionX = []int{500, 200, 800}
-var knightInitialPositionY = []int{1500, 1400, 1400}
+var knightInitialPositionY = []int{1450, 1350, 1350}
 
 type Player interface {
 	Client() Client
