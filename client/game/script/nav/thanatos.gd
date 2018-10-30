@@ -33,7 +33,7 @@ func _init(world):
 	tileWidth = scalar.Mul(scalar.FromInt(50), world.scale)
 	tileHeight = tileWidth
 	tileNumX = scalar.FromInt(20)
-	tileNumY = scalar.FromInt(34)
+	tileNumY = scalar.FromInt(32)
 	centerX = scalar.Div(scalar.Mul(tileWidth, tileNumX), scalar.Two)
 	centerY = scalar.Div(scalar.Mul(tileHeight, tileNumY), scalar.Two)
 	top = {

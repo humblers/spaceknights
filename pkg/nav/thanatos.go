@@ -74,7 +74,7 @@ func newThanatos(scale fixed.Scalar) *thanatos {
 	t.tileWidth = fixed.FromInt(50).Mul(scale)
 	t.tileHeight = t.tileWidth
 	t.tileNumX = fixed.FromInt(20)
-	t.tileNumY = fixed.FromInt(34)
+	t.tileNumY = fixed.FromInt(32)
 	t.centerX = t.tileWidth.Mul(t.tileNumX).Div(fixed.Two)
 	t.centerY = t.tileHeight.Mul(t.tileNumY).Div(fixed.Two)
 	t.top = &area{

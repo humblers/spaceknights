@@ -45,8 +45,8 @@ func Init(playerData, game):
 		no_deck = true
 	self.game = game
 
-	$Energy.max_value = MAX_ENERGY
-	$Energy.value = energy
+	$CenterContainer/Energy.max_value = MAX_ENERGY
+	$CenterContainer/Energy.value = energy
 	if not no_deck:
 		update_cards()
 
@@ -56,13 +56,13 @@ func Score():
 func connect_input():
 	get_node("../../BattleField").connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
-		var button = $Cards.get_node("Area%s/Card/Button" % (i+1))
+		var button = $Cards.get_node("Card%s/Base/Button" % (i+1))
 		button.connect("gui_input", self, "button_input", [i])
 
 func disconnect_input():
 	get_node("../../BattleField").disconnect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
-		var button = $Cards.get_node("Area%s/Card/Button" % (i+1))
+		var button = $Cards.get_node("Card%s/Base/Button" % (i+1))
 		button.disconnect("gui_input", self, "button_input")
 
 func gui_input(ev):
@@ -268,32 +268,25 @@ func show_message(msg, pos_y):
 		$Tween.start()
 
 func update_cards():
-	$Cards/Next/Base/Icon.texture = $Icon.get_resource(pending[0].Name)
-	$Cards/Next/Base/Disable.visible = rollingCounter > 0
+	$Cards/Next.Set(pending[0].Name, rollingCounter <= 0)
 	for i in range(HAND_SIZE):
 		var card = hand[i]
-		var btn_node = $Cards.get_node("Card%d/%s" % [i+1, "Button"])
-		var icon_node = $Cards.get_node("Card%d/%s" % [i+1, "Icon"])
-		var cost_node = $Cards.get_node("Card%d/%s" % [i+1, "Cost"])
+		var node = $Cards.get_node("Card%s" % (i+1))
 		var modulate = Color(1, 1, 1, 1)
 		match card:
 			selected_card:
 				modulate = Color(1, 0.69, 0, 1)
 				continue
 			{"Name":"", ..}:
-				btn_node.visible = false
-				icon_node.texture = null
+				node.Set(null)
 			{"InvisibleTo": var to, ..}:
-				if to < game.step:
-					btn_node.visible = false
-					icon_node.texture = null
+				if to > game.step:
+					node.Set(null)
 				else:
 					card.erase("InvisibleTo")
 			_:
-				btn_node.visible = true
-				icon_node.texture = $Icon.get_resource(hand[i].Name)
-				cost_node.text = str(stat.cards[hand[i].Name].Cost/1000)
-		icon_node.modulate = modulate
+				node.Set(card.Name, energy)
+		node.modulate = modulate
 
 func Team():
 	return team
@@ -335,7 +328,7 @@ func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
-	$Energy.value = energy
+	$CenterContainer/Energy.value = energy
 
 	rollingCard()
 	update_cards()
