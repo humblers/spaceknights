@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/unit/drillram/drillram.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/drillram/body.png" type="Texture" id=2]
@@ -22,16 +22,17 @@
 [ext_resource path="res://game/unit/drillram/move.tres" type="Animation" id=20]
 [ext_resource path="res://game/unit/drillram/drillram_atk.wav" type="AudioStream" id=21]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/sfx/thrust_l.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=24]
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=1]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.1656 ), 0.0, 0.0, 0, 0, Vector2( 0.902328, 0.984 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 8 ) ],
@@ -40,7 +41,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
@@ -49,7 +50,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.0
 max_value = 1.0
@@ -154,7 +155,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -225,7 +226,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -296,7 +297,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -367,7 +368,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 2 )
+scale_curve = SubResource( 1 )
 color = Color( 1, 1, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -456,8 +457,9 @@ _sections_unfolded = [ "Angular Velocity", "Color", "Gravity", "Material", "Proc
 [node name="Glow" type="AnimatedSprite" parent="Rotatable/Drilling"]
 visible = false
 scale = Vector2( 0.8, 0.8 )
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "Visibility", "frames" ]
@@ -488,7 +490,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 modulate = Color( 1, 0.313726, 0.0745098, 1 )
 material = ExtResource( 9 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 5 )
+frames = SubResource( 3 )
 animation = "default"
 speed_scale = 2.0
 playing = true
@@ -592,7 +594,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 6 )
+scale_curve = SubResource( 4 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -652,6 +654,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 23 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 23 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 24 )]
 position = Vector2( 0, -95 )
 

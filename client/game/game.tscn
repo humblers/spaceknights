@@ -1,7 +1,7 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
-[ext_resource path="res://game/bgm/ingame_glistening courage.ogg" type="AudioStream" id=2]
+[ext_resource path="res://game/bgm/bgm_maoudamashii_orchestra24.ogg" type="AudioStream" id=2]
 [ext_resource path="res://game/script/camera.gd" type="Script" id=3]
 [ext_resource path="res://game/player/player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
@@ -30,9 +30,10 @@
 [ext_resource path="res://game/ui/draw.png" type="Texture" id=28]
 [ext_resource path="res://game/ui/win_deco.png" type="Texture" id=29]
 [ext_resource path="res://game/ui/draw_deco.png" type="Texture" id=30]
-[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=31]
-[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=32]
-[ext_resource path="res://game/script/physics/world.gd" type="Script" id=33]
+[ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=31]
+[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=33]
+[ext_resource path="res://game/script/physics/world.gd" type="Script" id=34]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -1322,6 +1323,18 @@ tracks/45/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/46/type = "value"
+tracks/46/path = NodePath("StartVoice:playing")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0, 3.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=5]
 
@@ -1887,7 +1900,7 @@ _sections_unfolded = [ "Editor", "Script", "Transform" ]
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
-volume_db = -10.0
+volume_db = -15.0
 pitch_scale = 1.0
 autoplay = true
 stream_paused = false
@@ -1939,7 +1952,6 @@ margin_left = -499.0
 margin_right = 499.0
 
 [node name="Map" type="Node2D" parent="."]
-editor/display_folded = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Ambient" type="CanvasModulate" parent="Map"]
@@ -2178,7 +2190,6 @@ offset = Vector2( -14.8, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="StartEnd" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 540, 960 )
 z_index = 2
 _sections_unfolded = [ "Transform", "Z Index" ]
@@ -2204,6 +2215,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 editor/display_folded = true
 
 [node name="Ready" type="Sprite" parent="StartEnd/Start"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -100 )
 texture = ExtResource( 17 )
@@ -2211,22 +2223,25 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="1" type="Sprite" parent="StartEnd/Start"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 18 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="2" type="Sprite" parent="StartEnd/Start"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 19 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="3" type="Sprite" parent="StartEnd/Start"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 4, 4 )
 texture = ExtResource( 20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="BattleBlue" type="Sprite" parent="StartEnd/Start"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -100 )
 texture = ExtResource( 21 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -2239,10 +2254,12 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Start" type="Sprite" parent="StartEnd/Start"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 23 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="HorizionLineBlue" type="Sprite" parent="StartEnd"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -60 )
 scale = Vector2( 10, 1 )
@@ -2278,6 +2295,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Deco4" type="Sprite" parent="StartEnd/Deco"]
 visible = false
+position = Vector2( 0, -27 )
 texture = ExtResource( 29 )
 offset = Vector2( 330, 0 )
 flip_h = true
@@ -2294,6 +2312,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco6" type="Sprite" parent="StartEnd/Deco"]
 visible = false
+position = Vector2( 0, 27 )
 texture = ExtResource( 29 )
 offset = Vector2( 330, 0 )
 flip_h = true
@@ -2302,6 +2321,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco1" type="Sprite" parent="StartEnd/Deco"]
 visible = false
+position = Vector2( 0, -27 )
 texture = ExtResource( 29 )
 offset = Vector2( -330, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -2314,6 +2334,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco3" type="Sprite" parent="StartEnd/Deco"]
 visible = false
+position = Vector2( 0, 27 )
 texture = ExtResource( 29 )
 offset = Vector2( -330, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -2346,16 +2367,27 @@ anims/start_siquence = SubResource( 4 )
 anims/win = SubResource( 5 )
 blend_times = [  ]
 
+[node name="StartVoice" type="AudioStreamPlayer2D" parent="StartEnd"]
+stream = ExtResource( 31 )
+volume_db = 10.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
 [node name="Resource" type="Node" parent="."]
 editor/display_folded = true
 
-[node name="Unit" parent="Resource" instance=ExtResource( 31 )]
+[node name="Unit" parent="Resource" instance=ExtResource( 32 )]
 
 [node name="Map" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 32 ) ] ]
+resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 33 ) ] ]
 
 [node name="Physics" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "world" ), [ ExtResource( 33 ) ] ]
+resources = [ PoolStringArray( "world" ), [ ExtResource( 34 ) ] ]
 
 [node name="GoToLobby" type="Button" parent="."]
 visible = false
