@@ -168,7 +168,7 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
-	var offset = $Rotatable/DummyTurret.offset * $Rotatable.scale
+	var offset = $Rotatable/Body/Turret.position * $Rotatable.scale
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
