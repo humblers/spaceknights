@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://game/script/mothership.gd" type="Script" id=1]
 [ext_resource path="res://game/bg/mothership/mothership/body.png" type="Texture" id=2]
@@ -35,6 +35,7 @@
 [ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=33]
 [ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=34]
 [ext_resource path="res://game/bg/mothership/knight_deck/red_deck.tscn" type="PackedScene" id=35]
+[ext_resource path="res://game/bg/mothership/gui_deck/gui_module_red.tscn" type="PackedScene" id=36]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -6476,6 +6477,16 @@ tracks/24/keys = {
 "update": 0,
 "values": [ Vector2( 100, 0 ), Vector2( 100, 0 ), Vector2( 473, 0 ), Vector2( 473, 0 ) ]
 }
+tracks/25/type = "animation"
+tracks/25/path = NodePath("Nodes/Container/GUI/Module/AnimationGUI")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"clips": PoolStringArray( "gui" ),
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=22]
 
@@ -8561,11 +8572,11 @@ __meta__ = {
 }
 
 [node name="Blue" type="Node2D" parent="."]
+editor/display_folded = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Nodes" type="Node2D" parent="Blue"]
-editor/display_folded = true
 position = Vector2( 0, 1050 )
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -11384,14 +11395,12 @@ _sections_unfolded = [ "Playback Options" ]
 [node name="Unit" parent="Blue" instance=ExtResource( 34 )]
 
 [node name="Red" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 0, -100 )
 rotation = 3.14159
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Nodes" type="Node2D" parent="Red"]
-editor/display_folded = true
 position = Vector2( 0, 1050 )
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -12519,12 +12528,12 @@ _sections_unfolded = [ "Offset", "Visibility" ]
 [node name="Deck" parent="Red/Nodes" instance=ExtResource( 35 )]
 
 [node name="Container" type="Node2D" parent="Red/Nodes"]
-editor/display_folded = true
 light_mask = 0
 z_index = 2
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Sprite" type="Node2D" parent="Red/Nodes/Container"]
+editor/display_folded = true
 
 [node name="Normal" type="Sprite" parent="Red/Nodes/Container/Sprite"]
 texture = ExtResource( 22 )
@@ -12579,6 +12588,7 @@ offset = Vector2( -80, 0 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="ReverseBoosterL" type="Position2D" parent="Red/Nodes/Container"]
+editor/display_folded = true
 position = Vector2( 257, -57 )
 rotation = 2.618
 scale = Vector2( 1, 0.7 )
@@ -12674,6 +12684,7 @@ shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
 
 [node name="ReverseBoosterR" type="Position2D" parent="Red/Nodes/Container"]
+editor/display_folded = true
 position = Vector2( 257, 57 )
 rotation = -2.618
 scale = Vector2( 1, 0.7 )
@@ -12766,6 +12777,8 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
+
+[node name="GUI" parent="Red/Nodes/Container" instance=ExtResource( 36 )]
 
 [node name="Engine" type="Node2D" parent="Red/Nodes"]
 editor/display_folded = true
