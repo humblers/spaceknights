@@ -88,16 +88,6 @@ func invalidate():
 	picked.visible = is_edit
 	containers.lists.visible = not is_edit
 
-func sort_knight(a, b):
-	if stat.units[stat.cards[b].Unit]["type"] == "Knight":
-		return false
-	return true
-
-func sort_troops(a, b):
-	if stat.units[stat.cards[b].Unit]["type"] == "Troops":
-		return false
-	return true
-
 func calc_scroll_threshold(control, org_size_y):
 	scroll_min_y = org_size_y - control.rect_size.y
 
