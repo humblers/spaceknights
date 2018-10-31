@@ -32,7 +32,7 @@ onready var troops = [
 onready var containers = {
 	"lists": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists,
 	"founds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds,
-	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/NotFounds,
+	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds,
 }
 
 onready var pressed = $PageMain/MarginContainer/Control/Pressed
