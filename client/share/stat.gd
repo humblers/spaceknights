@@ -12,7 +12,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"archers": {
 		"Cost":    3000,
@@ -36,7 +36,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Legendary",
 	},
 	"berserker": {
 		"Cost":    4000,
@@ -44,7 +44,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"blaster": {
 		"Cost": 3000,
@@ -60,7 +60,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"drillram": {
 		"Cost": 4000,
@@ -68,7 +68,7 @@ var cards = {
 		"Count": 1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"enforcer": {
 		"Cost":    4000,
@@ -76,7 +76,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"felhound": {
 		"Cost":    2000,
@@ -100,6 +100,15 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
+		"Rarity":  "Epic",
+	},
+	"gargoyles": {
+		"Cost":    3000,
+		"Unit":    "gargoyle",
+		"Count":   3,
+		"OffsetX": [-20, 20, 0],
+		"OffsetY": [20, 20, 0],
+		"Rarity":  "Common",
 	},
 	"gargoylehorde": {
 		"Cost":    5000,
@@ -115,7 +124,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"giant": {
 		"Cost": 5000,
@@ -123,7 +132,7 @@ var cards = {
 		"Count": 1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"ironcoffin": {
 		"Cost":    5000,
@@ -131,7 +140,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"jouster": {
 		"Cost":    5000,
@@ -139,7 +148,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"judge": {
 		"Cost":   3000,
@@ -155,7 +164,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"legion": {
 		"Cost":    4000,
@@ -163,7 +172,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"nagmash": {
 		"Cost":    4000,
@@ -171,7 +180,7 @@ var cards = {
 		"Count":   4,
 		"OffsetX": [-30, 30, -30, 30],
 		"OffsetY": [-30, -30, 30, 30],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"ogre": {
 		"Cost":    7000,
@@ -179,7 +188,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"panzerkunstler": {
 		"Cost":    5000,
@@ -187,7 +196,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"pixie": {
 		"Cost":    1000,
@@ -195,7 +204,7 @@ var cards = {
 		"Count":   3,
 		"OffsetX": [-30, 30, 0],
 		"OffsetY": [30, 30, 0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"pixieking": {
 		"Cost":    3000,
@@ -203,7 +212,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"psabu": {
 		"Cost":    7000,
@@ -211,7 +220,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Legendary",
 	},
 	"sentry": {
 		"Cost":    2000,
@@ -227,7 +236,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 	"starfire": {
 		"Cost":    4000,
@@ -235,7 +244,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"threestarfires": {
 		"Cost":    9000,
@@ -243,7 +252,7 @@ var cards = {
 		"Count":   3,
 		"OffsetX": [-60, 60, 0],
 		"OffsetY": [60, 60, 0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"tombstone": {
 		"Cost":    7000,
@@ -251,7 +260,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"trainee": {
 		"Cost":    2000,
@@ -259,7 +268,7 @@ var cards = {
 		"Count":   3,
 		"OffsetX": [-30, 30, 0],
 		"OffsetY": [30, 30, 0],
-		"Rarity":  "Common",
+		"Rarity":  "Rare",
 	},
 	"wasp": {
 		"Cost":    5000,
@@ -267,7 +276,7 @@ var cards = {
 		"Count":   1,
 		"OffsetX": [0],
 		"OffsetY": [0],
-		"Rarity":  "Common",
+		"Rarity":  "Epic",
 	},
 }
 
@@ -330,11 +339,13 @@ var units = {
 		"bulletlifetime": 7,
 		"skill": {
 			"wing": {
+				"name":         "cannon",
 				"unit":         "cannon",
 				"castduration": 100,
 				"precastdelay": 82,
 			},
 			"leader": {
+				"name":         "readycannon",
 				"unit":         "cannon",
 				"count":        2,
 				"posX":         [325, 675],	 # pos based on blue side
@@ -624,11 +635,13 @@ var units = {
 		"bulletlifetime": 15,
 		"skill": {
 			"wing": {
+				"name":         "sentryshelter",
 				"unit":         "sentryshelter",
 				"castduration": 50,
 				"precastdelay": 20,
 			},
 			"leader": {
+				"name":    "gathersentry",
 				"unit":    "sentry",
 				"perstep": 300,
 			},
@@ -670,12 +683,14 @@ var units = {
 		"bulletlifetime": 2,
 		"skill": {
 			"wing": {
+				"name":             "bulletrain",
 				"damage":           [300, 400, 500],
 				"radius":           70,
 				"castduration":     100,
 				"precastdelay":     78,
 			},
 			"leader": {
+				"name":             "morerange",
 				"attackrangeratio": [120, 130, 140],
 			},
 		},
@@ -697,6 +712,7 @@ var units = {
 		"bulletlifetime": 22,
 		"skill": {
 			"wing": {
+				"name":           "napalm",
 				"castduration":   40,
 				"precastdelay":   25,
 				"damageduration": 50,
@@ -705,6 +721,7 @@ var units = {
 				"height":         100,
 			},
 			"leader": {
+				"name":           "deathcarpet",
 				"duration":       600,
 				"damage":         30,
 				"count":          2,
@@ -731,12 +748,14 @@ var units = {
 		"bulletlifetime": 10,
 		"skill": {
 			"wing": {
+				"name":         "fireball",
 				"damage":       [325, 400, 500],
 				"radius":       70,
 				"castduration": 40,
 				"precastdelay": 20,
 			},
 			"leader": {
+				"name":              "moredamage",
 				"attackdamageratio": [110, 130, 140],
 			},
 		},
@@ -756,6 +775,7 @@ var units = {
 		"attackinterval": 1,
 		"skill": {
 			"wing": {
+				"name":         "unload",
 				"unit":         "footman",
 				"count":        4,
 				"offsetX":      [-30, 30, -30, 30],
@@ -764,6 +784,7 @@ var units = {
 				"precastdelay": 20,
 			},
 			"leader": {
+				"name":         "gatherfootman",
 				"unit":         "footman",
 				"count":        4,
 				"offsetX":      [-30, 30, -30, 30],
@@ -854,11 +875,13 @@ var units = {
 		"bulletlifetime": 8,
 		"skill": {
 			"wing": {
+				"name":         "pixiegeode",
 				"unit":         "pixiegeode",
 				"castduration": 50,
 				"precastdelay": 20,
 			},
 			"leader": {
+				"name":    "pixiemarch",
 				"unit":    "pixie",
 				"perstep": 300,
 				"count":   8,

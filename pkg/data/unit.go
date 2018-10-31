@@ -56,6 +56,7 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "blastturret",
+				"unit":         "blastturret",
 				"castduration": 100,
 				"precastdelay": 78,
 			},
@@ -98,6 +99,7 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "cannon",
+				"unit":         "cannon",
 				"castduration": 100,
 				"precastdelay": 82,
 			},
@@ -397,6 +399,7 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "sentryshelter",
+				"unit":         "sentryshelter",
 				"castduration": 50,
 				"precastdelay": 20,
 			},
