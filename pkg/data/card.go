@@ -3,10 +3,10 @@ package data
 type CardRarity string
 
 const (
-	Common CardRarity = "Common"
-	Rare   CardRarity = "Rare"
-	Epic   CardRarity = "Epic"
-	Legend CardRarity = "Legend"
+	Common    CardRarity = "Common"
+	Rare      CardRarity = "Rare"
+	Epic      CardRarity = "Epic"
+	Legendary CardRarity = "Legendary"
 )
 
 type Card struct {
@@ -25,7 +25,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"archers": Card{
 		Cost:    3000,
@@ -41,6 +41,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
+		Rarity:  Common,
 	},
 	"astra": Card{
 		Cost:    4000,
@@ -48,7 +49,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Legendary,
 	},
 	"berserker": Card{
 		Cost:    4000,
@@ -56,7 +57,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"blaster": Card{
 		Cost:    3000,
@@ -72,7 +73,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"drillram": Card{
 		Cost:    4000,
@@ -80,7 +81,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"enforcer": Card{
 		Cost:    4000,
@@ -88,7 +89,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"felhound": Card{
 		Cost:    2000,
@@ -112,6 +113,14 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
+		Rarity:  Epic,
+	},
+	"gargoyles": Card{
+		Cost:    3000,
+		Unit:    "gargoyle",
+		Count:   3,
+		OffsetX: []int{-20, 20, 0},
+		OffsetY: []int{20, 20, 0},
 		Rarity:  Common,
 	},
 	"gargoylehorde": Card{
@@ -128,7 +137,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"giant": Card{
 		Cost:    5000,
@@ -136,7 +145,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"ironcoffin": Card{
 		Cost:    5000,
@@ -144,7 +153,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"jouster": Card{
 		Cost:    5000,
@@ -152,7 +161,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"judge": Card{
 		Cost:    3000,
@@ -168,7 +177,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"legion": Card{
 		Cost:    4000,
@@ -176,7 +185,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"nagmash": Card{
 		Cost:    4000,
@@ -184,7 +193,7 @@ var Cards = map[string]Card{
 		Count:   4,
 		OffsetX: []int{-30, 30, -30, 30},
 		OffsetY: []int{-30, -30, 30, 30},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"ogre": Card{
 		Cost:    7000,
@@ -192,7 +201,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"panzerkunstler": Card{
 		Cost:    5000,
@@ -200,7 +209,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"pixie": Card{
 		Cost:    1000,
@@ -208,7 +217,7 @@ var Cards = map[string]Card{
 		Count:   3,
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"pixieking": Card{
 		Cost:    3000,
@@ -216,7 +225,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"psabu": Card{
 		Cost:    7000,
@@ -224,7 +233,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Legendary,
 	},
 	"sentry": Card{
 		Cost:    2000,
@@ -240,7 +249,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 	"starfire": Card{
 		Cost:    4000,
@@ -248,7 +257,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"threestarfires": Card{
 		Cost:    9000,
@@ -256,7 +265,7 @@ var Cards = map[string]Card{
 		Count:   3,
 		OffsetX: []int{-60, 60, 0},
 		OffsetY: []int{60, 60, 0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"tombstone": Card{
 		Cost:    7000,
@@ -264,7 +273,7 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"trainee": Card{
 		Cost:    2000,
@@ -272,7 +281,7 @@ var Cards = map[string]Card{
 		Count:   3,
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
-		Rarity:  Common,
+		Rarity:  Rare,
 	},
 	"wasp": Card{
 		Cost:    5000,
@@ -280,6 +289,6 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Common,
+		Rarity:  Epic,
 	},
 }

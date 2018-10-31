@@ -1,14 +1,10 @@
 extends Control
 
-const LOBBY_HOST = "13.125.74.237"
-const LOBBY_PORT = 8080
-
 func _ready():
 	for page in ["Battle", "Card"]:
 		var btn = $Headup/Bot.get_node(page)
 		btn.connect("button_up", $Scroll, "move_to_page", [btn])
-
-	var err = http.connect_to_host(LOBBY_HOST, LOBBY_PORT)
+	var err = http.connect_to_host(config.LOBBY_HOST, config.LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
