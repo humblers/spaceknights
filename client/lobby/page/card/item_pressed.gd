@@ -9,7 +9,7 @@ func invalidate(name, page_card):
 	self.name_ = name
 	if not self.is_connected("button_up", page_card, "set_pressed_card"):
 		self.connect("button_up", page_card, "set_pressed_card", [self])
-	if not use.is_connected("button_up", page_card, ""):
+	if not use.is_connected("button_up", page_card, "set_picked_card"):
 		use.connect("button_up", page_card, "set_picked_card", [self])
 	if name != null:
 		$MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use.visible = not user.CardInDeck(name)

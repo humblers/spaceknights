@@ -45,17 +45,5 @@ func login():
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
 	$Headup.invalidate()
+	$Pages/Battle.invalidate()
 	$Pages/Card.invalidate()
-	$Pages/Battle/Mid/Match.connect("pressed", self, "match_request")
-
-func match_request():
-	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
-	$Pages/Battle/Requesting.pop(req)
-	var resp = yield(req, "response")
-	var cfg = resp[1].Config
-	tcp.Connect(resp[1].Address, 9999)
-	yield(tcp, "connected")
-	tcp.Send({"Id": user.Id, "Token": user.Id})
-	tcp.Send({"GameId": cfg.Id})
-	var param = {"connected": true, "cfg": cfg}
-	loading_screen.goto_scene("res://game/game.tscn", param)
