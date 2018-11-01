@@ -57,8 +57,8 @@ var Units = map[string]Unit{
 			"wing": map[string]interface{}{
 				"name":         "blastturret",
 				"unit":         "blastturret",
-				"castduration": 100,
-				"precastdelay": 78,
+				"castduration": 50,
+				"precastdelay": 38,
 			},
 			"leader": map[string]interface{}{
 				"name":      "louder",
@@ -100,8 +100,8 @@ var Units = map[string]Unit{
 			"wing": map[string]interface{}{
 				"name":         "cannon",
 				"unit":         "cannon",
-				"castduration": 100,
-				"precastdelay": 82,
+				"castduration": 50,
+				"precastdelay": 39,
 			},
 			"leader": map[string]interface{}{
 				"name":    "readycannon",
@@ -129,11 +129,11 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":     "megalaser",
-				"duration": 80,
-				"start":    10,
-				"end":      58,
-				"damage":   []int{10, 15, 20},
-				"width":    25,
+				"duration": 40,
+				"start":    11,
+				"end":      31,
+				"damage":   []int{100, 150, 200},
+				"width":    100,
 				"height":   500,
 			},
 			"leader": map[string]interface{}{
@@ -324,9 +324,9 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "freeze",
-				"radius":       100,
-				"castduration": 70,
-				"precastdelay": 20,
+				"radius":       150,
+				"castduration": 30,
+				"precastdelay": 14,
 			},
 			"leader": map[string]interface{}{
 				"name":         "frozenbullet",
@@ -447,10 +447,10 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "bulletrain",
-				"damage":       []int{300, 400, 500},
-				"radius":       70,
-				"castduration": 50,
-				"precastdelay": 20,
+				"damage":       []int{115, 400, 500},
+				"radius":       200,
+				"castduration": 20,
+				"precastdelay": 10,
 			},
 			"leader": map[string]interface{}{
 				"name":             "morerange",
@@ -476,12 +476,12 @@ var Units = map[string]Unit{
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":           "napalm",
-				"castduration":   40,
-				"precastdelay":   25,
+				"castduration":   30,
+				"precastdelay":   15,
 				"damageduration": 50,
 				"damage":         30,
-				"width":          100,
-				"height":         100,
+				"width":          200,
+				"height":         400,
 			},
 			"leader": map[string]interface{}{
 				"name":     "deathcarpet",
@@ -513,9 +513,9 @@ var Units = map[string]Unit{
 			"wing": map[string]interface{}{
 				"name":         "fireball",
 				"damage":       []int{325, 400, 500},
-				"radius":       70,
-				"castduration": 40,
-				"precastdelay": 20,
+				"radius":       125,
+				"castduration": 30,
+				"precastdelay": 15,
 			},
 			"leader": map[string]interface{}{
 				"name":              "moredamage",
@@ -544,8 +544,8 @@ var Units = map[string]Unit{
 				"offsetX":      []int{-30, 30, -30, 30},
 				"offsetY":      []int{-30, -30, 30, 30},
 				"caster":       "nagmash",
-				"castduration": 100,
-				"precastdelay": 52,
+				"castduration": 50,
+				"precastdelay": 18,
 			},
 			"leader": map[string]interface{}{
 				"name":    "gatherfootman",

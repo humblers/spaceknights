@@ -299,8 +299,8 @@ var units = {
 			"wing": {
 				"name":         "blastturret",
 				"unit":         "blastturret",
-				"castduration": 100,
-				"precastdelay": 78,
+				"castduration": 50,
+				"precastdelay": 38,
 			},
 			"leader": {
 				"arearatio":    120,
@@ -341,8 +341,8 @@ var units = {
 			"wing": {
 				"name":         "cannon",
 				"unit":         "cannon",
-				"castduration": 100,
-				"precastdelay": 82,
+				"castduration": 50,
+				"precastdelay": 39,
 			},
 			"leader": {
 				"name":         "readycannon",
@@ -369,11 +369,11 @@ var units = {
 		"attackinterval": 1,
 		"skill": {
 			"wing": {
-				"damage":   [10, 15, 20],
-				"duration": 80,
-				"start":    10,
-				"end":      58,
-				"width":    25,
+				"damage":   [100, 150, 200],
+				"duration": 40,
+				"start":    11,
+				"end":      31,
+				"width":    100,
 				"height":   500,
 			},
 			"leader": {
@@ -562,9 +562,9 @@ var units = {
 		"bulletlifetime": 2,
 		"skill": {
 			"wing": {
-				"radius":       100,
-				"castduration": 70,
-				"precastdelay": 20,
+				"radius":       150,
+				"castduration": 30,
+				"precastdelay": 14,
 			},
 			"leader": {
 				"slowduration": [20],
@@ -684,10 +684,10 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":             "bulletrain",
-				"damage":           [300, 400, 500],
-				"radius":           70,
-				"castduration":     100,
-				"precastdelay":     78,
+				"damage":           [115, 400, 500],
+				"radius":           200,
+				"castduration":     20,
+				"precastdelay":     10,
 			},
 			"leader": {
 				"name":             "morerange",
@@ -713,12 +713,12 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":           "napalm",
-				"castduration":   40,
-				"precastdelay":   25,
+				"castduration":   30,
+				"precastdelay":   15,
 				"damageduration": 50,
 				"damage":         30,
-				"width":          100,
-				"height":         100,
+				"width":          200,
+				"height":         400,
 			},
 			"leader": {
 				"name":           "deathcarpet",
@@ -750,9 +750,9 @@ var units = {
 			"wing": {
 				"name":         "fireball",
 				"damage":       [325, 400, 500],
-				"radius":       70,
-				"castduration": 40,
-				"precastdelay": 20,
+				"radius":       125,
+				"castduration": 30,
+				"precastdelay": 15,
 			},
 			"leader": {
 				"name":              "moredamage",
@@ -781,7 +781,7 @@ var units = {
 				"offsetX":      [-30, 30, -30, 30],
 				"offsetY":      [-30, -30, 30, 30],
 				"castduration": 50,
-				"precastdelay": 20,
+				"precastdelay": 18,
 			},
 			"leader": {
 				"name":         "gatherfootman",
