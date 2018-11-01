@@ -73,7 +73,7 @@ func init_trajectory(hit_pos):
 func update_hit_position(gpos):
 	$HitPosition.global_position = gpos
 	for side in ["L", "R"]:
-		for i in range(3):
+		for i in range(1):
 			var path = "Missile%s%s:position" % [side, (i + 1)]
 			var track_idx = anim.find_track(path)
 			var key_idx = anim.track_get_key_count(track_idx) - 1
