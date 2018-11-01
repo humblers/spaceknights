@@ -18,12 +18,12 @@ func newBlastturret(id int, level, posX, posY int, g Game, p Player) Unit {
 	return b
 }
 
-func (b blastturret) Destroy() {
+func (b *blastturret) Destroy() {
 	b.unit.Destroy()
 	b.Release()
 }
 
-func (b blastturret) Update() {
+func (b *blastturret) Update() {
 	b.TakeDecayDamage()
 	if b.freeze > 0 {
 		b.attack = 0
