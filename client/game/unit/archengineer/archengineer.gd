@@ -156,7 +156,7 @@ func adjustSkillAnim():
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position", "Rotatable/DummyTurret:position"]
+	var tracks = ["Rotatable/Body:position", "Rotatable/Body/Turret:position"]
 	for track in tracks:
 		var track_idx = old_anim.find_track(track)
 		var key_count = old_anim.track_get_key_count(track_idx)
