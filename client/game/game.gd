@@ -26,6 +26,10 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
+onready var player_blue = $InGameUI/Blue
+onready var player_red = $InGameUI/Red
+onready var result_anim = $HUD/StartEnd/StartWin
+
 var map
 
 var units = {}
@@ -55,12 +59,7 @@ func _ready():
 	randomize()
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
-		$Players/Red.hide()
-	else:
-		#$Camera2D.zoom = Vector2(1.1, 1.1)
-		#$Camera2D.position.y -= 50
-		#$Players/Red.show()
-		pass
+		player_red.hide()
 	set_process(true)
 	set_physics_process(true)
 
@@ -73,10 +72,10 @@ func _ready():
 		var team = p.Team
 		if team_swapped:
 			team = "Blue" if p.Team == "Red" else "Red"
-		var n = $Players.get_node(team)
+		var n = $InGameUI.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
-		get_node("Map/MotherShips/%s" % team).init(self, n, p.Knights)
+		get_node("MotherShips/%s" % team).init(self, n, p.Knights)
 	CreateMapObstacles()
 
 func Over():
@@ -154,16 +153,16 @@ func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
 		if Over():
 			set_physics_process(false)
-			$Players/Blue.disconnect_input()
-			$Players/Red.disconnect_input()
+			player_blue.disconnect_input()
+			player_red.disconnect_input()
 			var anim = "draw"
 			if score("Blue") > score("Red"):
-				anim = "win" if $Players/Blue.team == "Blue" else "lose"
+				anim = "win" if player_blue.team == "Blue" else "lose"
 			elif score("Red") > score("Blue"):
-				anim = "win" if $Players/Blue.team == "Red" else "lose"
-			$StartEnd/StartWin.play(anim)
-			yield($StartEnd/StartWin, "animation_finished")
-			$GoToLobby.visible = true
+				anim = "win" if player_blue.team == "Red" else "lose"
+			result_anim.play(anim)
+			yield(result_anim, "animation_finished")
+			$HUD/GoToLobby.visible = true
 		else:
 			if connected:
 				var iterations = 1

@@ -22,14 +22,18 @@ func Shake(duration, frequency, amplitude):
 		var t = curr - prev
 		var decay = elapsed / duration
 		var shake = samples[prev].linear_interpolate(samples[next], t) * (1 - decay)
-		offset = initial_offset + shake * amplitude
+		apply_offset(initial_offset + shake * amplitude)
 
 		yield(get_tree(), "idle_frame")
 		elapsed += get_process_delta_time()
 	
-	offset = initial_offset
+	apply_offset(initial_offset)
 	is_shaking = false
 
+func apply_offset(ofs):
+	offset = ofs
+	get_node("../InGameUI").offset = ofs
+	
 static func get_samples(count):
 	var samples = []
 	for i in range(count):

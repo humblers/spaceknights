@@ -29,6 +29,10 @@ var game
 var selected_card = null
 var action_markers = {}
 
+onready var battle_field = get_node("../BattleField")
+onready var cursor_pos = get_node("../BattleField/CursorPos")
+onready var message_bar = get_node("../BattleField/MessageBar")
+
 func Init(playerData, game):
 	id = playerData.Id
 	team = playerData.Team
@@ -54,24 +58,23 @@ func Score():
 	return score
 
 func connect_input():
-	get_node("../../BattleField").connect("gui_input", self, "gui_input")
+	battle_field.connect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Base/Button" % (i+1))
 		button.connect("gui_input", self, "button_input", [i])
 
 func disconnect_input():
-	get_node("../../BattleField").disconnect("gui_input", self, "gui_input")
+	battle_field.disconnect("gui_input", self, "gui_input")
 	for i in range(HAND_SIZE):
 		var button = $Cards.get_node("Card%s/Base/Button" % (i+1))
 		button.disconnect("gui_input", self, "button_input")
 
 func gui_input(ev):
-	var field = get_node("../../BattleField")
-	var pos = field.get_local_mouse_position()
-	var belowField = pos.y > field.get_rect().end.y - field.rect_position.y
+	var pos = battle_field.get_local_mouse_position()
+	var belowField = pos.y > battle_field.get_rect().end.y - battle_field.rect_position.y
 	if ev is InputEventMouseButton:
 		update_tile_visible(ev.pressed)
-		get_node("../../BattleField/CursorPos").visible = ev.pressed
+		cursor_pos.visible = ev.pressed
 		if not ev.pressed and not belowField:
 			if selected_card == null:
 				show_message("No Selected Card", pos.y)
@@ -81,7 +84,7 @@ func gui_input(ev):
 				clear_cursor()
 				return
 			if name == "Blue":
-				pos = get_node("../../BattleField/CursorPos").position
+				pos = cursor_pos.position
 			var x = int(pos.x)
 			var y = int(pos.y)
 			if game.team_swapped:
@@ -125,7 +128,6 @@ func button_input(ev, i):
 		gui_input(ev)
 
 func add_cursor():
-	var pos_node = get_node("../../BattleField/CursorPos")
 	var cardData = stat.cards[selected_card.Name]
 	var cursor
 	if cardData.has("caster"):
@@ -138,10 +140,10 @@ func add_cursor():
 		var offsetX = cardData["OffsetX"]
 		var offsetY = cardData["OffsetY"]
 		for i in range(count):
-			pos_node.add_child(get_unit(name, offsetX[i], offsetY[i]))
+			cursor_pos.add_child(get_unit(name, offsetX[i], offsetY[i]))
 	cursor = cursor.instance()
-	pos_node.add_child(cursor)
-	pos_node.move_child(cursor, 0)
+	cursor_pos.add_child(cursor)
+	cursor_pos.move_child(cursor, 0)
 
 func update_cursor(x, y):
 	if selected_card == null:
@@ -156,8 +158,7 @@ func update_cursor(x, y):
 			unit = stat.units[k.Skill()["unit"]]
 		else:
 			unit = null
-	var pos_node = get_node("../../BattleField/CursorPos")
-	if pos_node.get_child_count() <= 0:
+	if cursor_pos.get_child_count() <= 0:
 		add_cursor()
 	var tile = game.TileFromPos(x, y)
 	if unit:
@@ -179,7 +180,7 @@ func update_cursor(x, y):
 			tile[0] = (tr.l + tr.r) / 2
 			tile[1] = (tr.t + tr.b) / 2
 	var pos = game.PosFromTile(tile[0], tile[1])
-	pos_node.position = Vector2(pos[0], pos[1])
+	cursor_pos.position = Vector2(pos[0], pos[1])
 
 func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 	var shifted = []
@@ -226,8 +227,8 @@ func update_tile_visible(pressed):
 			unit = stat.units[k.Skill()["unit"]]
 		else:
 			unit = null
-	get_node("../../Map/TileSpell").visible = unit == null and pressed
-	get_node("../../Map/TileUnit").visible = unit != null and pressed
+	get_node("../TileSpell").visible = unit == null and pressed
+	get_node("../TileUnit").visible = unit != null and pressed
 
 func get_unit(name, x, y):
 	var node = $Unit.get_resource(name).instance()
@@ -236,18 +237,17 @@ func get_unit(name, x, y):
 	return node
 
 func clear_cursor():
-	for child in get_node("../../BattleField/CursorPos").get_children():
+	for child in cursor_pos.get_children():
 		child.queue_free()
 
 func mark_action(input):
 	if not action_markers.has(input.Step):
 		action_markers[input.Step] = []
 	if name == "Blue":
-		var pos_node = get_node("../../BattleField/CursorPos")
-		for child in pos_node.get_children():
+		for child in cursor_pos.get_children():
 			var global_pos = child.global_position
-			pos_node.remove_child(child)
-			get_node("../../BattleField").add_child(child)
+			cursor_pos.remove_child(child)
+			battle_field.add_child(child)
 			child.global_position = global_pos
 			action_markers[input.Step].append(child)
 	else:
@@ -255,16 +255,15 @@ func mark_action(input):
 		var pos = game.PosFromTile(input.Action.TileX, input.Action.TileY)
 		default_cursor.position.x = pos[0]
 		default_cursor.position.y = pos[1]
-		get_node("../../BattleField").add_child(default_cursor)
+		battle_field.add_child(default_cursor)
 		action_markers[input.Step].append(default_cursor)
 
 func show_message(msg, pos_y):
 	if name == "Blue":
-		var msgBar = get_node("../../BattleField/MessageBar")
-		var pos_x = msgBar.rect_position.x
-		msgBar.text = msg
-		$Tween.interpolate_property(msgBar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-		$Tween.interpolate_property(msgBar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		var pos_x = message_bar.rect_position.x
+		message_bar.text = msg
+		$Tween.interpolate_property(message_bar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		$Tween.interpolate_property(message_bar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
 		$Tween.start()
 
 func update_cards():
@@ -311,7 +310,7 @@ func AddKnights(knights):
 			y = game.FlipY(y)
 		var id = game.AddUnit(k.Name, k.Level, x, y, self)
 		var knight = game.FindUnit(id)
-		if not get_node("../../Map/MotherShips/%s" % team).show_anim_finished:
+		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
 			knight.visible = false
 		if i == KNIGHT_LEADER_INDEX:
 			knight.SetAsLeader()
@@ -438,7 +437,7 @@ func OnKnightDead(knight):
 		score -= game.LEADER_SCORE
 	else:
 		score -= game.WING_SCORE
-	get_node("../../Map/MotherShips/%s" % team).destroy(knight.side)
+	get_node("../../MotherShips/%s" % team).destroy(knight.side)
 	expand_spawnable_area(knight)
 
 func expand_spawnable_area(knight):
@@ -446,10 +445,11 @@ func expand_spawnable_area(knight):
 		return
 	var t = knight.client_team
 	var s = knight.side
-	get_node("../../Map/TileUnit/%s%s" % [t, s]).visible = true
+# TODO: change node path
+#	get_node("../TileUnit/%s%s" % [t, s]).visible = true
 
 func OnKnightHalfDamaged(knight):
-	get_node("../../Map/MotherShips/%s" % team).partial_destroy(knight.side)
+	get_node("../../MotherShips/%s" % team).partial_destroy(knight.side)
 
 func removeCard(name):
 	if no_deck:
