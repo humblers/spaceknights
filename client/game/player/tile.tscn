@@ -1,11 +1,12 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://game/ui/ui_tile_color.png" type="Texture" id=1]
-[ext_resource path="res://game/ui/ui_tile.png" type="Texture" id=2]
-[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=4]
-[ext_resource path="res://font/noto_sans_display_blackitalic.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://font/noto_sans_display_semibold.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://game/player/tile.gd" type="Script" id=1]
+[ext_resource path="res://game/player/ui_tile_color.png" type="Texture" id=2]
+[ext_resource path="res://game/player/ui_tile.png" type="Texture" id=3]
+[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
+[ext_resource path="res://font/noto_sans_display_blackitalic.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://font/noto_sans_display_semibold.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -14,7 +15,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 _sections_unfolded = [ "Font", "Settings", "font_data" ]
 
 [sub_resource type="StreamTexture" id=2]
@@ -29,7 +30,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=4]
@@ -39,7 +40,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 5 )
+font_data = ExtResource( 6 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=5]
@@ -51,7 +52,7 @@ use_mipmaps = false
 use_filter = true
 extra_spacing_bottom = -6
 extra_spacing_char = 2
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=6]
@@ -62,7 +63,7 @@ outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = true
 extra_spacing_char = 4
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=7]
@@ -74,7 +75,7 @@ use_mipmaps = false
 use_filter = true
 extra_spacing_bottom = -6
 extra_spacing_char = 2
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=8]
@@ -86,12 +87,26 @@ use_mipmaps = false
 use_filter = true
 extra_spacing_bottom = -6
 extra_spacing_char = 2
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="Tile" type="Node2D"]
-z_index = 2
-_sections_unfolded = [ "Visibility", "Z Index" ]
+[node name="Tile" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -960.0
+margin_right = 540.0
+margin_bottom = 960.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 1 )
+_sections_unfolded = [ "Anchor", "Margin", "Visibility", "Z Index" ]
 
 [node name="Screen" type="TextureRect" parent="."]
 modulate = Color( 0.227451, 0.227451, 0.227451, 0.345098 )
@@ -109,11 +124,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="Greed" type="TextureRect" parent="."]
+[node name="Grid" type="TextureRect" parent="."]
 modulate = Color( 1, 1, 1, 0.121569 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -129,13 +144,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Rect", "Transform", "Visibility", "texture" ]
 
 [node name="Unit" type="Node2D" parent="."]
-editor/display_folded = true
-visible = false
 
 [node name="MaskT" type="TextureRect" parent="Unit"]
 editor/display_folded = true
@@ -154,7 +167,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -197,7 +210,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -217,7 +230,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -237,7 +250,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -257,7 +270,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
@@ -341,7 +354,7 @@ texture = SubResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect" ]
 
-[node name="KnightLeft" type="TextureRect" parent="Unit"]
+[node name="BlueLeft" type="TextureRect" parent="Unit"]
 visible = false
 modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
 anchor_left = 0.0
@@ -358,11 +371,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="KnightRight" type="TextureRect" parent="Unit"]
+[node name="BlueRight" type="TextureRect" parent="Unit"]
 visible = false
 modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
 anchor_left = 0.0
@@ -379,12 +392,13 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="ExtendLeft" type="TextureRect" parent="Unit"]
+[node name="ExtendRight" type="TextureRect" parent="Unit"]
 editor/display_folded = true
+visible = false
 modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -400,11 +414,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Rect", "Transform", "Visibility" ]
 
-[node name="Label2" type="Label" parent="Unit/ExtendLeft"]
+[node name="Label2" type="Label" parent="Unit/ExtendRight"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -427,8 +441,9 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts", "custom_fonts/font" ]
 
-[node name="ExtendRight" type="TextureRect" parent="Unit"]
+[node name="ExtendLeft" type="TextureRect" parent="Unit"]
 editor/display_folded = true
+visible = false
 modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -444,11 +459,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Rect", "Transform", "Visibility" ]
 
-[node name="Label3" type="Label" parent="Unit/ExtendRight"]
+[node name="Label3" type="Label" parent="Unit/ExtendLeft"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -487,12 +502,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="RedLeft" type="TextureRect" parent="Unit"]
-visible = false
+[node name="RedRight" type="TextureRect" parent="Unit"]
 modulate = Color( 1, 0.305882, 0.0666667, 0.121569 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -508,12 +522,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Rect", "Transform", "Visibility" ]
 
-[node name="RedRight" type="TextureRect" parent="Unit"]
-visible = false
+[node name="RedLeft" type="TextureRect" parent="Unit"]
 modulate = Color( 1, 0.305882, 0.0666667, 0.121569 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -529,29 +542,29 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Offset", "Rect", "Transform", "Visibility" ]
 
 [node name="Deco" type="Node2D" parent="Unit"]
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.411765 )
 position = Vector2( 40, 60 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="KnightR" type="Node2D" parent="Unit/Deco"]
+[node name="KnightRight" type="Node2D" parent="Unit/Deco"]
+editor/display_folded = true
 position = Vector2( 800, 1350 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Parts" type="Node2D" parent="Unit/Deco/KnightR"]
+[node name="Parts" type="Node2D" parent="Unit/Deco/KnightRight"]
 editor/display_folded = true
 
-[node name="Mark" type="Sprite" parent="Unit/Deco/KnightR/Parts"]
+[node name="Mark" type="Sprite" parent="Unit/Deco/KnightRight/Parts"]
 position = Vector2( -93.3431, -110 )
 rotation = -0.785397
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
-[node name="Label" type="Label" parent="Unit/Deco/KnightR/Parts"]
+[node name="Label" type="Label" parent="Unit/Deco/KnightRight/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -573,20 +586,20 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Line" type="Sprite" parent="Unit/Deco/KnightR/Parts"]
+[node name="Line" type="Sprite" parent="Unit/Deco/KnightRight/Parts"]
 position = Vector2( 58.8, -120.1 )
 scale = Vector2( 10, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Line2" type="Sprite" parent="Unit/Deco/KnightR/Parts"]
+[node name="Line2" type="Sprite" parent="Unit/Deco/KnightRight/Parts"]
 position = Vector2( 8, -109 )
 rotation = -0.785397
 scale = Vector2( 4, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Label2" type="Label" parent="Unit/Deco/KnightR/Parts"]
+[node name="Label2" type="Label" parent="Unit/Deco/KnightRight/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -609,30 +622,31 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightR"]
+[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightRight"]
 scale = Vector2( 4, 4 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightR"]
+[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightRight"]
 modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
 scale = Vector2( 3.8, 3.8 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="KnightC" type="Node2D" parent="Unit/Deco"]
+[node name="KnightCenter" type="Node2D" parent="Unit/Deco"]
+editor/display_folded = true
 position = Vector2( 500, 1450 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Parts" type="Node2D" parent="Unit/Deco/KnightC"]
+[node name="Parts" type="Node2D" parent="Unit/Deco/KnightCenter"]
 editor/display_folded = true
 
-[node name="Mark" type="Sprite" parent="Unit/Deco/KnightC/Parts"]
+[node name="Mark" type="Sprite" parent="Unit/Deco/KnightCenter/Parts"]
 position = Vector2( -93.3431, -110 )
 rotation = -0.785397
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
-[node name="Label" type="Label" parent="Unit/Deco/KnightC/Parts"]
+[node name="Label" type="Label" parent="Unit/Deco/KnightCenter/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -654,7 +668,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Label3" type="Label" parent="Unit/Deco/KnightC/Parts"]
+[node name="Label3" type="Label" parent="Unit/Deco/KnightCenter/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -671,26 +685,26 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.776471, 0.105882, 1 )
-text = "READER"
+text = "LEADER"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_fonts", "custom_fonts/font" ]
 
-[node name="Line" type="Sprite" parent="Unit/Deco/KnightC/Parts"]
+[node name="Line" type="Sprite" parent="Unit/Deco/KnightCenter/Parts"]
 position = Vector2( 58.8, -120.1 )
 scale = Vector2( 10, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Line2" type="Sprite" parent="Unit/Deco/KnightC/Parts"]
+[node name="Line2" type="Sprite" parent="Unit/Deco/KnightCenter/Parts"]
 position = Vector2( 8, -109 )
 rotation = -0.785397
 scale = Vector2( 4, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Label2" type="Label" parent="Unit/Deco/KnightC/Parts"]
+[node name="Label2" type="Label" parent="Unit/Deco/KnightCenter/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -713,30 +727,31 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightC"]
+[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightCenter"]
 scale = Vector2( 4, 4 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightC"]
+[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightCenter"]
 modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
 scale = Vector2( 3.8, 3.8 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="KnightL" type="Node2D" parent="Unit/Deco"]
+[node name="KnightLeft" type="Node2D" parent="Unit/Deco"]
+editor/display_folded = true
 position = Vector2( 200, 1350 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Parts" type="Node2D" parent="Unit/Deco/KnightL"]
+[node name="Parts" type="Node2D" parent="Unit/Deco/KnightLeft"]
 editor/display_folded = true
 
-[node name="Mark" type="Sprite" parent="Unit/Deco/KnightL/Parts"]
+[node name="Mark" type="Sprite" parent="Unit/Deco/KnightLeft/Parts"]
 position = Vector2( -93.3431, -110 )
 rotation = -0.785397
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
-[node name="Label" type="Label" parent="Unit/Deco/KnightL/Parts"]
+[node name="Label" type="Label" parent="Unit/Deco/KnightLeft/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -758,20 +773,20 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Line" type="Sprite" parent="Unit/Deco/KnightL/Parts"]
+[node name="Line" type="Sprite" parent="Unit/Deco/KnightLeft/Parts"]
 position = Vector2( 58.8, -120.1 )
 scale = Vector2( 10, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Line2" type="Sprite" parent="Unit/Deco/KnightL/Parts"]
+[node name="Line2" type="Sprite" parent="Unit/Deco/KnightLeft/Parts"]
 position = Vector2( 8, -109 )
 rotation = -0.785397
 scale = Vector2( 4, 0.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Label2" type="Label" parent="Unit/Deco/KnightL/Parts"]
+[node name="Label2" type="Label" parent="Unit/Deco/KnightLeft/Parts"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -794,19 +809,21 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
-[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightL"]
+[node name="Sprite" type="Sprite" parent="Unit/Deco/KnightLeft"]
 scale = Vector2( 4, 4 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightL"]
+[node name="Sprite2" type="Sprite" parent="Unit/Deco/KnightLeft"]
 modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
 scale = Vector2( 3.8, 3.8 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
+[node name="Node2D" type="Node2D" parent="Unit"]
+
 [node name="Spell" type="Node2D" parent="."]
-editor/display_folded = true
+visible = false
 
 [node name="Blue" type="TextureRect" parent="Spell"]
 modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
@@ -824,7 +841,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 _sections_unfolded = [ "Rect", "Visibility" ]
 

@@ -32,6 +32,7 @@ var action_markers = {}
 onready var battle_field = get_node("../BattleField")
 onready var cursor_pos = get_node("../BattleField/CursorPos")
 onready var message_bar = get_node("../BattleField/MessageBar")
+onready var tile = get_node("../Tile")
 
 func Init(playerData, game):
 	id = playerData.Id
@@ -227,8 +228,10 @@ func update_tile_visible(pressed):
 			unit = stat.units[k.Skill()["unit"]]
 		else:
 			unit = null
-	get_node("../TileSpell").visible = unit == null and pressed
-	get_node("../TileUnit").visible = unit != null and pressed
+	if pressed:
+		tile.ShowArea(unit != null)
+	else:
+		tile.Hide()
 
 func get_unit(name, x, y):
 	var node = $Unit.get_resource(name).instance()
@@ -445,8 +448,7 @@ func expand_spawnable_area(knight):
 		return
 	var t = knight.client_team
 	var s = knight.side
-# TODO: change node path
-#	get_node("../TileUnit/%s%s" % [t, s]).visible = true
+	tile.OnKnightDead(t, s)
 
 func OnKnightHalfDamaged(knight):
 	get_node("../../MotherShips/%s" % team).partial_destroy(knight.side)
