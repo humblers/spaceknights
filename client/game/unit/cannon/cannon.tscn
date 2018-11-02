@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://game/unit/cannon/cannon.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archengineer/meteor_big.png" type="Texture" id=2]
@@ -38,11 +38,12 @@
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=36]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=37]
 [ext_resource path="res://game/unit/cannon/explosion.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/cannon/destroy.tres" type="Animation" id=39]
-[ext_resource path="res://game/unit/cannon/cannon_atk.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=41]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=42]
-[ext_resource path="res://game/unit/cannon/bullet.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=39]
+[ext_resource path="res://game/unit/cannon/destroy.tres" type="Animation" id=40]
+[ext_resource path="res://game/unit/cannon/cannon_atk.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/unit/cannon/bullet.tscn" type="PackedScene" id=44]
 
 [sub_resource type="Curve" id=1]
 
@@ -1355,6 +1356,7 @@ texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Float" type="Node2D" parent="."]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 use_parent_material = true
 _sections_unfolded = [ "Material", "Pause", "Script", "Transform", "Visibility", "Z Index" ]
@@ -1433,7 +1435,6 @@ rotation = -0.785397
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -1510,7 +1511,6 @@ rotation = 0.785398
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1589,7 +1589,6 @@ rotation = -2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1667,7 +1666,6 @@ rotation = 2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1758,6 +1756,7 @@ normal_map = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -2045,6 +2044,10 @@ anims/explosion = ExtResource( 38 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause", "Playback Options" ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 39 )]
+type = 0
+rect_area = Rect2( -30, -30, 60, 60 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
@@ -2053,25 +2056,15 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/anchor = SubResource( 6 )
 anims/attack = SubResource( 7 )
-anims/destroy = ExtResource( 39 )
+anims/destroy = ExtResource( 40 )
 anims/idle = SubResource( 8 )
 anims/move = SubResource( 9 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 40 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 41 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -2082,9 +2075,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 42 )]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 42 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 43 )]
 position = Vector2( 0, -75 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 43 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 44 ) ] ]
 

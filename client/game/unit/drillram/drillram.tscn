@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/unit/drillram/drillram.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/drillram/body.png" type="Texture" id=2]
@@ -16,14 +16,15 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=14]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=15]
 [ext_resource path="res://game/unit/drillram/explosion.tres" type="Animation" id=16]
-[ext_resource path="res://game/unit/drillram/attack.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/drillram/destroy.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/drillram/idle.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/drillram/move.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/drillram/drillram_atk.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/thrust_l.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/unit/drillram/attack.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/drillram/destroy.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/drillram/idle.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/drillram/move.tres" type="Animation" id=21]
+[ext_resource path="res://game/unit/drillram/drillram_atk.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/sfx/thrust_l.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=25]
 
 [sub_resource type="Curve" id=1]
 
@@ -58,11 +59,11 @@ bake_resolution = 100
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Drillram" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -618,32 +619,26 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 16 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 17 )]
+position = Vector2( 0, -5 )
+circle_radius = 30.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 17 )
-anims/destroy = ExtResource( 18 )
-anims/idle = ExtResource( 19 )
-anims/move = ExtResource( 20 )
+anims/attack = ExtResource( 18 )
+anims/destroy = ExtResource( 19 )
+anims/idle = ExtResource( 20 )
+anims/move = ExtResource( 21 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -654,7 +649,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -665,6 +660,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 24 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 24 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 25 )]
 position = Vector2( 0, -95 )
 

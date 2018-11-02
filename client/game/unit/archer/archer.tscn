@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archer/archer.png" type="Texture" id=2]
@@ -14,16 +14,17 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=12]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
 [ext_resource path="res://game/unit/archer/explosion.tres" type="Animation" id=14]
-[ext_resource path="res://game/unit/archer/attack.tres" type="Animation" id=15]
-[ext_resource path="res://game/unit/archer/destroy.tres" type="Animation" id=16]
-[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
-[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/unit/archer/attack.tres" type="Animation" id=16]
+[ext_resource path="res://game/unit/archer/destroy.tres" type="Animation" id=17]
+[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -100,10 +101,12 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
@@ -124,7 +127,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -148,7 +150,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.3, 0.4 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -164,6 +165,7 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 3 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -187,7 +189,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.3, 0.4 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -198,6 +199,7 @@ position = Vector2( 31.5, 20 )
 rotation = -0.314159
 frames = SubResource( 5 )
 animation = "flashred"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
@@ -206,7 +208,6 @@ position = Vector2( -31.5, 20 )
 rotation = 0.314159
 frames = SubResource( 6 )
 animation = "flashgreen"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
@@ -242,6 +243,7 @@ offset = Vector2( 0, -30 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "frames" ]
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform" ]
 
@@ -356,33 +358,25 @@ anims/explosion = ExtResource( 14 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause", "Playback Options" ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 15 )]
+circle_radius = 30.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 15 )
-anims/destroy = ExtResource( 16 )
-anims/idle = ExtResource( 17 )
-anims/move = ExtResource( 18 )
-anims/show = ExtResource( 19 )
+anims/attack = ExtResource( 16 )
+anims/destroy = ExtResource( 17 )
+anims/idle = ExtResource( 18 )
+anims/move = ExtResource( 19 )
+anims/show = ExtResource( 20 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 20 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -393,7 +387,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -404,9 +398,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 23 )]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 23 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 24 )]
 position = Vector2( 0, -55 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 25 ) ] ]
 

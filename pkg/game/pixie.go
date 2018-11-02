@@ -77,7 +77,7 @@ func (p *pixie) handleAttack() {
 	if p.attack == p.preAttackDelay() {
 		t := p.target()
 		if t != nil && p.withinRange(t) {
-			t.TakeDamage(p.attackDamage(), Melee)
+			t.TakeDamage(p.attackDamage(), p)
 		} else {
 			p.attack = 0
 			p.setLayer(p.initialLayer())

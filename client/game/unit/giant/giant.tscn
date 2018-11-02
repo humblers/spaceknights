@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/unit/giant/giant.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/giant/body.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=20]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=21]
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Curve" id=1]
 
@@ -61,11 +62,11 @@ bake_resolution = 100
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Giant" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -871,6 +872,7 @@ anims/move = ExtResource( 18 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 19 )
@@ -907,4 +909,9 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -100 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 23 )]
+type = 0
+rect_area = Rect2( -50, -50, 100, 100 )
+circle_radius = 50.0
 

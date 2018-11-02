@@ -43,10 +43,10 @@ func Init(id, level, posX, posY, game, player):
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	var initHp = initialHp()
 	var underHalf = initHp / 2 > hp
-	.TakeDamage(amount, attackType)
+	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():
@@ -108,7 +108,7 @@ func Update():
 			moveToPos(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), "Range")
+					t.TakeDamage(attackDamage(), self)
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d

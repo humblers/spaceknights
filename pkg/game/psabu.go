@@ -23,8 +23,8 @@ func newPsabu(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (p *psabu) TakeDamage(amount int, t AttackType) {
-	if t != Melee {
+func (p *psabu) TakeDamage(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
 		p.shield -= amount
 		if p.shield < 0 {
 			p.hp += p.shield
@@ -116,7 +116,7 @@ func (p *psabu) handleAttack() {
 			d := p.punchPos.Sub(u.Position()).LengthSquared()
 			r := u.Radius().Add(radius)
 			if d < r.Mul(r) {
-				u.TakeDamage(p.attackDamage(), Melee)
+				u.TakeDamage(p.attackDamage(), p)
 			}
 		}
 	}
@@ -150,7 +150,7 @@ func (p *psabu) absorb() {
 		if d.LengthSquared() < r.Mul(r) {
 			n := d.Normalized()
 			u.AddForce(n.Mul(force))
-			u.TakeDamage(damage, Skill)
+			u.TakeDamage(damage, p)
 		}
 	}
 }

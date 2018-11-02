@@ -14,17 +14,20 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
-func TakeDamage(amount, attackType):
-	if attackType != "Melee":
+func TakeDamage(amount, attacker):
+	if attacker.DamageType() != "AntiShield":
 		shield -= amount
 		if shield < 0:
 			hp += shield
 			shield = 0
-		$Energyshield/EnergyShieldAni.play("energyshield")
+			damages[game.step] = 0
+			$HitEffect.hit(attacker)
+		else:
+			$Energyshield/EnergyShieldAni.play("energyshield")
 	else:
 		hp -= amount
-		if attackType != "Self":
-			damages[game.step] = 0
+		damages[game.step] = 0
+		$HitEffect.hit(attacker)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true
@@ -123,7 +126,7 @@ func handleAttack():
 			var d = vector.LengthSquared(x, y)
 			var r = scalar.Add(u.Radius(), radius)
 			if d < scalar.Mul(r, r):
-				u.TakeDamage(attackDamage(), "Melee")
+				u.TakeDamage(attackDamage(), self)
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
@@ -145,7 +148,7 @@ func absorb():
 			var fx = scalar.Mul(n[0], force)
 			var fy = scalar.Mul(n[1], force)
 			u.AddForce(fx, fy)
-			u.TakeDamage(damage, "Skill")
+			u.TakeDamage(damage, self)
 			
 
 func absorbRadius():

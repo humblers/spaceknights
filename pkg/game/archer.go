@@ -51,7 +51,7 @@ func (a *archer) setTarget(u Unit) {
 }
 
 func (a *archer) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
 	a.game.AddBullet(b)
 }
 

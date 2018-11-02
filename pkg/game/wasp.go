@@ -20,8 +20,8 @@ func newWasp(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (w *wasp) TakeDamage(amount int, t AttackType) {
-	if t != Melee {
+func (w *wasp) TakeDamage(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
 		w.shield -= amount
 		if w.shield < 0 {
 			w.hp += w.shield
@@ -42,7 +42,7 @@ func (w *wasp) Destroy() {
 		d := w.Position().Sub(u.Position()).LengthSquared()
 		r := w.Radius().Add(u.Radius()).Add(w.destroyRadius())
 		if d < r.Mul(r) {
-			u.TakeDamage(w.destroyDamage(), Melee)
+			u.TakeDamage(w.destroyDamage(), w)
 		}
 	}
 }
@@ -109,7 +109,7 @@ func (w *wasp) handleAttack() {
 	if w.attack == w.preAttackDelay() {
 		t := w.target()
 		if t != nil && w.withinRange(t) {
-			t.TakeDamage(w.attackDamage(), Melee)
+			t.TakeDamage(w.attackDamage(), w)
 		} else {
 			w.attack = 0
 			return

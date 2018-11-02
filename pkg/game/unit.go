@@ -6,7 +6,9 @@ import (
 	"github.com/humblers/spaceknights/pkg/physics"
 )
 
-type AttackType string
+type Attacker interface {
+	DamageType() data.DamageType
+}
 
 type Unit interface {
 	Id() int
@@ -15,7 +17,7 @@ type Unit interface {
 	Type() data.UnitType
 	Layer() data.UnitLayer
 	IsDead() bool
-	TakeDamage(amount int, t AttackType)
+	TakeDamage(amount int, t Attacker)
 	Update()
 	Destroy()
 	Freeze(duration int)
@@ -33,13 +35,6 @@ type Unit interface {
 	Skill() map[string]interface{}
 	CastSkill(posX, posY int) bool
 }
-
-const (
-	Melee AttackType = "Melee"
-	Range AttackType = "Range"
-	Skill AttackType = "Skill"
-	Self  AttackType = "Self"
-)
 
 type unit struct {
 	id    int
@@ -109,7 +104,7 @@ func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
 
-func (u *unit) TakeDamage(amount int, t AttackType) {
+func (u *unit) TakeDamage(amount int, a Attacker) {
 	if u.Layer() != data.Normal {
 		return
 	}
@@ -127,6 +122,9 @@ func (u *unit) Skill() map[string]interface{} {
 }
 func (u *unit) CastSkill(posX, posY int) bool {
 	panic("not implemented")
+}
+func (u *unit) DamageType() data.DamageType {
+	return data.Units[u.name]["damagetype"].(data.DamageType)
 }
 func (u *unit) initialLayer() data.UnitLayer {
 	return data.Units[u.name]["layer"].(data.UnitLayer)

@@ -76,7 +76,7 @@ func (g *giant) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()
 		if t != nil && g.withinRange(t) {
-			t.TakeDamage(g.attackDamage(), Melee)
+			t.TakeDamage(g.attackDamage(), g)
 		} else {
 			g.attack = 0
 			return

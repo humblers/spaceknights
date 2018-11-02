@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://game/unit/panzerkunstler/panzerkunstler.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/panzerkunstler/body.png" type="Texture" id=2]
@@ -30,16 +30,17 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=28]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=29]
 [ext_resource path="res://game/unit/panzerkunstler/explosion.tres" type="Animation" id=30]
-[ext_resource path="res://game/unit/panzerkunstler/attack_1.tres" type="Animation" id=31]
-[ext_resource path="res://game/unit/panzerkunstler/attack_2.tres" type="Animation" id=32]
-[ext_resource path="res://game/unit/panzerkunstler/destroy.tres" type="Animation" id=33]
-[ext_resource path="res://game/unit/panzerkunstler/idle.tres" type="Animation" id=34]
-[ext_resource path="res://game/unit/panzerkunstler/move.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_1.wav" type="AudioStream" id=36]
-[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_2.wav" type="AudioStream" id=37]
-[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=38]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=40]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/panzerkunstler/attack_1.tres" type="Animation" id=32]
+[ext_resource path="res://game/unit/panzerkunstler/attack_2.tres" type="Animation" id=33]
+[ext_resource path="res://game/unit/panzerkunstler/destroy.tres" type="Animation" id=34]
+[ext_resource path="res://game/unit/panzerkunstler/idle.tres" type="Animation" id=35]
+[ext_resource path="res://game/unit/panzerkunstler/move.tres" type="Animation" id=36]
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_1.wav" type="AudioStream" id=37]
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk_2.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=39]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=41]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -75,11 +76,11 @@ animations = [ {
 } ]
 
 [node name="Panzerkunstler" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -105,13 +106,13 @@ position = Vector2( 0, -3 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Eye_Shining" type="Sprite" parent="Rotatable/Body/Head/Kira"]
-rotation = -1.86264e-008
+rotation = -1.86264e-08
 scale = Vector2( 0.2, 4 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Transform" ]
 
 [node name="Eye_Shining2" type="Sprite" parent="Rotatable/Body/Head/Kira"]
-rotation = 1.70299e-008
+rotation = 1.70299e-08
 scale = Vector2( 3.5, 0.2 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -168,7 +169,7 @@ animation = "impect"
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
-rotation = -2.98023e-008
+rotation = -2.98023e-08
 scale = 1.4
 emitting = false
 amount = 16
@@ -254,7 +255,7 @@ shadow_item_cull_mask = 1
 _sections_unfolded = [ "Range", "Z Index" ]
 
 [node name="Charge2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
-rotation = -2.98023e-008
+rotation = -2.98023e-08
 emitting = false
 amount = 30
 lifetime = 1.3
@@ -764,35 +765,28 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 30 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 31 )]
+circle_radius = 30.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack_1 = ExtResource( 31 )
-anims/attack_2 = ExtResource( 32 )
-anims/destroy = ExtResource( 33 )
-anims/idle = ExtResource( 34 )
-anims/move = ExtResource( 35 )
+anims/attack_1 = ExtResource( 32 )
+anims/attack_2 = ExtResource( 33 )
+anims/destroy = ExtResource( 34 )
+anims/idle = ExtResource( 35 )
+anims/move = ExtResource( 36 )
 next/attack_1 = "attack-2"
 blend_times = [ "attack_1", "attack_1", 0.3, "attack_1", "attack_2", 0.3 ]
 _sections_unfolded = [ "Playback Options" ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack1" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 36 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Attack2" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 37 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -803,7 +797,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Attack2" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 38 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -814,7 +808,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 39 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -825,6 +819,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 40 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 40 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 41 )]
 position = Vector2( 0, -50 )
 

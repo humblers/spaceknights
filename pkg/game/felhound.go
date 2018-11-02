@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type felhound struct {
 	*unit
@@ -15,8 +18,8 @@ func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (f *felhound) TakeDamage(amount int, t AttackType) {
-	if t != Melee {
+func (f *felhound) TakeDamage(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
 		f.shield -= amount
 		if f.shield < 0 {
 			f.hp += f.shield
@@ -93,7 +96,7 @@ func (f *felhound) handleAttack() {
 	if f.attack == f.preAttackDelay() {
 		t := f.target()
 		if t != nil && f.withinRange(t) {
-			t.TakeDamage(f.attackDamage(), Melee)
+			t.TakeDamage(f.attackDamage(), f)
 		} else {
 			f.attack = 0
 			return

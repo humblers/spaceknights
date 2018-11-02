@@ -76,7 +76,7 @@ func (tr *trainee) handleAttack() {
 	if tr.attack == tr.preAttackDelay() {
 		t := tr.target()
 		if t != nil && tr.withinRange(t) {
-			t.TakeDamage(tr.attackDamage(), Melee)
+			t.TakeDamage(tr.attackDamage(), tr)
 		} else {
 			tr.attack = 0
 			return

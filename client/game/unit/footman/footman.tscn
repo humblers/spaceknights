@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://game/unit/footman/footman.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/footman/body.png" type="Texture" id=2]
@@ -19,11 +19,12 @@
 [ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=17]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=18]
 [ext_resource path="res://game/unit/footman/explosion.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/footman/destroy.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/footman/footman_atk.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/unit/footman/destroy.tres" type="Animation" id=21]
+[ext_resource path="res://game/unit/footman/footman_atk.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -1031,11 +1032,11 @@ tracks/25/keys = {
 }
 
 [node name="Footman" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Render Target", "Rendering", "Shadow Atlas", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
@@ -1225,6 +1226,7 @@ modulate = Color( 1, 0.231373, 0.054902, 1 )
 material = ExtResource( 6 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Time", "Transform", "Visibility", "frames", "material" ]
@@ -1349,6 +1351,10 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 19 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 20 )]
+position = Vector2( 0, 9 )
+circle_radius = 25.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
@@ -1356,26 +1362,16 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 4 )
-anims/destroy = ExtResource( 20 )
+anims/destroy = ExtResource( 21 )
 anims/idle = SubResource( 5 )
 anims/move = SubResource( 6 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause", "Playback Options" ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1386,7 +1382,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1397,6 +1393,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 24 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 24 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 25 )]
 position = Vector2( 0, -60 )
 

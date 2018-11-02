@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type ISkill interface {
 	Update()
@@ -14,10 +17,11 @@ type DOT struct {
 	height        fixed.Scalar
 	damagePerSec  int
 	remainingStep int
+	damageType    data.DamageType
 	game          Game
 }
 
-func newDOT(t Team, p fixed.Vector, w, h fixed.Scalar, dps, remain int, g Game) ISkill {
+func newDOT(t Team, p fixed.Vector, w, h fixed.Scalar, dps, remain int, damageType data.DamageType, g Game) ISkill {
 	return &DOT{
 		team:          t,
 		position:      p,
@@ -25,6 +29,7 @@ func newDOT(t Team, p fixed.Vector, w, h fixed.Scalar, dps, remain int, g Game) 
 		height:        h,
 		damagePerSec:  dps,
 		remainingStep: remain,
+		damageType:    damageType,
 		game:          g,
 	}
 }
@@ -37,7 +42,7 @@ func (dot *DOT) Update() {
 				continue
 			}
 			if dot.InArea(u) {
-				u.TakeDamage(dot.damagePerSec, Skill)
+				u.TakeDamage(dot.damagePerSec, dot)
 			}
 		}
 	}
@@ -46,6 +51,10 @@ func (dot *DOT) Update() {
 
 func (dot *DOT) IsExpired() bool {
 	return dot.remainingStep <= 0
+}
+
+func (dot *DOT) DamageType() data.DamageType {
+	return dot.damageType
 }
 
 func (dot *DOT) InArea(u Unit) bool {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/unit/wasp/wasp.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/wasp/body.png" type="Texture" id=2]
@@ -15,15 +15,16 @@
 [ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=13]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=14]
 [ext_resource path="res://game/vfx/ring.png" type="Texture" id=15]
-[ext_resource path="res://game/unit/wasp/attack.tres" type="Animation" id=16]
-[ext_resource path="res://game/unit/wasp/destroy.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/wasp/idle.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/wasp/move.tres" type="Animation" id=19]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=20]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=21]
-[ext_resource path="res://game/unit/wasp/wasp_atk.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/unit/wasp/attack.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/wasp/destroy.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/wasp/idle.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/wasp/move.tres" type="Animation" id=21]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/unit/wasp/wasp_atk.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -98,11 +99,11 @@ bake_resolution = 100
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Wasp" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.3, 1.3 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -424,7 +425,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Around" type="CPUParticles2D" parent="Rotatable/Body/UnitExplosion"]
 material = ExtResource( 8 )
-rotation = 2.98023e-008
+rotation = 2.98023e-08
 scale = 2.0
 emitting = false
 amount = 4
@@ -488,7 +489,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Damping", "Drawing
 [node name="Explosion" type="CPUParticles2D" parent="Rotatable/Body/UnitExplosion"]
 visible = false
 modulate = Color( 0, 0, 0, 1 )
-rotation = -2.98023e-008
+rotation = -2.98023e-08
 emitting = true
 amount = 12
 lifetime = 1.0
@@ -1145,38 +1146,32 @@ anim_offset_curve = null
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Color", "Drawing", "Emission Shape", "Gravity", "Hue Variation", "Initial Velocity", "Material", "Radial Accel", "Scale", "Spread", "Time", "Transform" ]
 
+[node name="Energyshield" parent="." instance=ExtResource( 16 )]
+scale = Vector2( 0.8, 0.8 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 17 )]
+type = 0
+rect_area = Rect2( -50, -10, 100, 55 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 16 )
-anims/destroy = ExtResource( 17 )
-anims/idle = ExtResource( 18 )
-anims/move = ExtResource( 19 )
+anims/attack = ExtResource( 18 )
+anims/destroy = ExtResource( 19 )
+anims/idle = ExtResource( 20 )
+anims/move = ExtResource( 21 )
 blend_times = [  ]
 
-[node name="Energyshield" parent="." instance=ExtResource( 20 )]
-scale = Vector2( 0.8, 0.8 )
-
-[node name="Hp" parent="." instance=ExtResource( 21 )]
+[node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -80 )
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -1187,8 +1182,19 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 24 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 25 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false

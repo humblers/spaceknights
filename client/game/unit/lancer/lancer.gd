@@ -38,10 +38,10 @@ func Init(id, level, posX, posY, game, player):
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	var initHp = initialHp()
 	var underHalf = initHp / 2 > hp
-	.TakeDamage(amount, attackType)
+	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():
@@ -148,7 +148,8 @@ func SetAsLeader():
 		var x = game.World().FromPixel(posX[i])
 		var y = game.World().FromPixel(posY[i])
 		var dot = $ResourcePreloader.get_resource("deathcarpet").instance()
-		dot.Init(team, x, y, w, h, damage, duration, game)
+		var damageType = s["damagetype"]
+		dot.Init(team, x, y, w, h, damage, duration, damageType, game)
 		game.AddSkill(dot)
 
 func Skill():
@@ -184,7 +185,8 @@ func drop():
 	var x = game.World().FromPixel(castPosX)
 	var y = game.World().FromPixel(castPosY)
 	var dot = $ResourcePreloader.get_resource("napalm").instance()
-	dot.Init(team, x, y, w, h, dps, remain, game)
+	var damageType = Skill()["damagetype"]
+	dot.Init(team, x, y, w, h, dps, remain, damageType, game)
 	game.AddSkill(dot)
 
 func target():
@@ -198,7 +200,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("missile").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):
 		duration += d

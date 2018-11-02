@@ -51,7 +51,7 @@ func (s *sentry) setTarget(u Unit) {
 }
 
 func (s *sentry) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.game)
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.DamageType(), s.game)
 	s.game.AddBullet(b)
 }
 

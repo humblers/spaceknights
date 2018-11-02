@@ -51,7 +51,7 @@ func (b *blaster) setTarget(u Unit) {
 }
 
 func (bl *blaster) fire() {
-	b := newBullet(bl.targetId, bl.bulletLifeTime(), bl.attackDamage(), bl.game)
+	b := newBullet(bl.targetId, bl.bulletLifeTime(), bl.attackDamage(), bl.DamageType(), bl.game)
 	bl.game.AddBullet(b)
 }
 

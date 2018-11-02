@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/gargoyleking/body.png" type="Texture" id=2]
@@ -10,12 +10,13 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=8]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
 [ext_resource path="res://game/unit/gargoyleking/explosion.tres" type="Animation" id=10]
-[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=11]
-[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=12]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=13]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=14]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=13]
+[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=14]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=17]
 
 [sub_resource type="Curve" id=1]
 
@@ -418,11 +419,11 @@ tracks/8/keys = {
 }
 
 [node name="Gargoyleking" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -620,6 +621,7 @@ rotation = 0.855211
 scale = Vector2( 1, 0.8 )
 frames = SubResource( 5 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "Visibility", "frames" ]
 
@@ -629,7 +631,6 @@ rotation = -0.855211
 scale = Vector2( 1, 0.8 )
 frames = SubResource( 6 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -749,6 +750,14 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 10 )
 blend_times = [  ]
 
+[node name="Energyshield" parent="." instance=ExtResource( 11 )]
+editor/display_folded = true
+scale = Vector2( 0.6, 0.6 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 12 )]
+type = 0
+rect_area = Rect2( -40, -10, 80, 40 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
@@ -756,36 +765,15 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 7 )
-anims/destroy = ExtResource( 11 )
+anims/destroy = ExtResource( 13 )
 anims/idle = SubResource( 8 )
 anims/move = SubResource( 9 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 12 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 13 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 14 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -796,10 +784,28 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 15 )]
-position = Vector2( 0, -60 )
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 15 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
-[node name="Energyshield" parent="." instance=ExtResource( 16 )]
-editor/display_folded = true
-scale = Vector2( 0.6, 0.6 )
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 16 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 17 )]
+position = Vector2( 0, -60 )
 
