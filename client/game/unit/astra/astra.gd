@@ -35,10 +35,10 @@ func Init(id, level, posX, posY, game, player):
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	var initHp = initialHp()
 	var underHalf = initHp / 2 > hp
-	.TakeDamage(amount, attackType)
+	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():
@@ -51,6 +51,11 @@ func Destroy():
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
+func DamageType():
+	if cast > 0:
+		return Skill()["damagetype"]
+	return .DamageType()
+ 
 func attackDamage():
 	var damage = .attackDamage()
 	var divider = 1
@@ -95,7 +100,7 @@ func Update():
 			moveToPos(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), "Range")
+					t.TakeDamage(attackDamage(), self)
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d
@@ -134,7 +139,7 @@ func deal():
 		if u.Team() == Team():
 			continue
 		if inLaserArea(u):
-			u.TakeDamage(laserDamage(), "Skill")
+			u.TakeDamage(laserDamage(), self)
 	
 func laserDuration():
 	return Skill()["duration"]
@@ -225,4 +230,3 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
-	

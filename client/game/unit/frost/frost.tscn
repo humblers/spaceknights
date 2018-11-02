@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://game/unit/frost/frost.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/frost/leg.png" type="Texture" id=2]
@@ -37,13 +37,14 @@
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=35]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=36]
 [ext_resource path="res://game/unit/frost/explosion.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/frost/destroy.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/frost/frost_atk.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/unit/frost/frost_skill.wav" type="AudioStream" id=41]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=42]
-[ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=43]
-[ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=38]
+[ext_resource path="res://game/unit/frost/destroy.tres" type="Animation" id=39]
+[ext_resource path="res://game/unit/frost/frost_atk.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/unit/frost/frost_skill.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=45]
 
 [sub_resource type="Curve" id=1]
 
@@ -2122,7 +2123,6 @@ tracks/46/keys = {
 }
 
 [node name="Frost" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -2288,7 +2288,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MuzzleFlash" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"]
 visible = false
-rotation = -2.98023e-008
+rotation = -2.98023e-08
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -2398,7 +2398,7 @@ position = Vector2( 18, -24.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR"]
-rotation = -2.02656e-006
+rotation = -2.02656e-06
 scale = Vector2( 0.4, 0.4 )
 _sections_unfolded = [ "Transform" ]
 
@@ -2574,7 +2574,6 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2609,7 +2608,6 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2811,6 +2809,9 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 37 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 38 )]
+circle_radius = 50.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
@@ -2818,26 +2819,16 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 4 )
-anims/destroy = ExtResource( 38 )
+anims/destroy = ExtResource( 39 )
 anims/idle = SubResource( 5 )
 anims/show = SubResource( 6 )
 anims/skill = SubResource( 7 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 39 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 40 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -2848,7 +2839,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 41 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -2859,9 +2850,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 42 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 42 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 43 )]
 position = Vector2( 0, -100 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet", "freeze" ), [ ExtResource( 43 ), ExtResource( 44 ) ] ]
+resources = [ PoolStringArray( "bullet", "freeze" ), [ ExtResource( 44 ), ExtResource( 45 ) ] ]
 

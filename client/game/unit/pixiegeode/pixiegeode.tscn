@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://game/unit/pixiegeode/pixiegeode.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/parts/float/floatingmachine.png" type="Texture" id=2]
@@ -33,14 +33,15 @@
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=31]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=32]
 [ext_resource path="res://game/unit/pixiegeode/explosion.tres" type="Animation" id=33]
-[ext_resource path="res://game/unit/pixiegeode/anchor.tres" type="Animation" id=34]
-[ext_resource path="res://game/unit/pixiegeode/destroy.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/pixiegeode/idle.tres" type="Animation" id=36]
-[ext_resource path="res://game/unit/pixiegeode/spawn.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/pixiegeode/spawn_anchor.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/pixiegeode/spawn_pre.tres" type="Animation" id=39]
-[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=41]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=34]
+[ext_resource path="res://game/unit/pixiegeode/anchor.tres" type="Animation" id=35]
+[ext_resource path="res://game/unit/pixiegeode/destroy.tres" type="Animation" id=36]
+[ext_resource path="res://game/unit/pixiegeode/idle.tres" type="Animation" id=37]
+[ext_resource path="res://game/unit/pixiegeode/spawn.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/pixiegeode/spawn_anchor.tres" type="Animation" id=39]
+[ext_resource path="res://game/unit/pixiegeode/spawn_pre.tres" type="Animation" id=40]
+[ext_resource path="res://game/sfx/explosion_l.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=42]
 
 [sub_resource type="Curve" id=1]
 
@@ -281,11 +282,11 @@ tracks/17/keys = {
 }
 
 [node name="Pixiegeode" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -894,24 +895,28 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 33 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 34 )]
+circle_radius = 60.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/anchor = ExtResource( 34 )
-anims/destroy = ExtResource( 35 )
-anims/idle = ExtResource( 36 )
-anims/spawn = ExtResource( 37 )
-anims/spawn_anchor = ExtResource( 38 )
-anims/spawn_pre = ExtResource( 39 )
+anims/anchor = ExtResource( 35 )
+anims/destroy = ExtResource( 36 )
+anims/idle = ExtResource( 37 )
+anims/spawn = ExtResource( 38 )
+anims/spawn_anchor = ExtResource( 39 )
+anims/spawn_pre = ExtResource( 40 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 40 )
+stream = ExtResource( 41 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -921,6 +926,6 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 41 )]
+[node name="Hp" parent="." instance=ExtResource( 42 )]
 position = Vector2( 0, -110 )
 

@@ -42,7 +42,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("bullet").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	game.AddBullet(b)
 	# client only
 	b.global_position = $Rotatable/Shotpoint.global_position

@@ -10,19 +10,22 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 	
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	if Layer() != "Normal":
 		return
-	if attackType != "Melee":
+	if attacker.DamageType() != "AntiShield":
 		shield -= amount
 		if shield < 0:
 			hp += shield
 			shield = 0
-		$Energyshield/EnergyShieldAni.play("energyshield")
+			damages[game.step] = 0
+			$HitEffect.hit(attacker)
+		else:
+			$Energyshield/EnergyShieldAni.play("energyshield")
 	else:
 		hp -= amount
-		if attackType != "Self":
-			damages[game.step] = 0
+		damages[game.step] = 0
+		$HitEffect.hit(attacker)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true
@@ -68,7 +71,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("missile").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	game.AddBullet(b)
 	b.global_position = $Rotatable/Shotpoint.global_position
 

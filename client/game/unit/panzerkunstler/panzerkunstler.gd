@@ -102,7 +102,7 @@ func handleAttack():
 					var fx = scalar.Mul(n[0], powerAttackForce())
 					var fy = scalar.Mul(n[1], powerAttackForce())
 					u.AddForce(fx, fy)
-					u.TakeDamage(powerAttackDamage(), "Melee")
+					u.TakeDamage(powerAttackDamage(), self)
 		attack += 1
 		if attack > powerAttackInterval():
 			attack = 0
@@ -115,7 +115,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(attackDamage(), "Melee")
+				t.TakeDamage(attackDamage(), self)
 			else:
 				attack = 0
 				return

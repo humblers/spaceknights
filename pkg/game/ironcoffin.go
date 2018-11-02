@@ -48,8 +48,8 @@ func newIroncoffin(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (i *ironcoffin) TakeDamage(amount int, t AttackType) {
-	i.unit.TakeDamage(amount, t)
+func (i *ironcoffin) TakeDamage(amount int, a Attacker) {
+	i.unit.TakeDamage(amount, a)
 	if i.IsDead() {
 		i.player.OnKnightDead(i)
 	}
@@ -232,7 +232,7 @@ func (i *ironcoffin) handleAttack() {
 }
 
 func (i *ironcoffin) fire() {
-	b := newBullet(i.targetId, i.bulletLifeTime(), i.attackDamage(), i.game)
+	b := newBullet(i.targetId, i.bulletLifeTime(), i.attackDamage(), i.DamageType(), i.game)
 	duration := 0
 	for _, d := range i.player.StatRatios("slowduration") {
 		duration += d

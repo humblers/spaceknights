@@ -1,6 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type gargoyle struct {
 	*unit
@@ -17,8 +20,8 @@ func newGargoyle(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (g *gargoyle) TakeDamage(amount int, t AttackType) {
-	if t != Melee {
+func (g *gargoyle) TakeDamage(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
 		g.shield -= amount
 		if g.shield < 0 {
 			g.hp += g.shield
@@ -95,7 +98,7 @@ func (g *gargoyle) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()
 		if t != nil && g.withinRange(t) {
-			t.TakeDamage(g.attackDamage(), Melee)
+			t.TakeDamage(g.attackDamage(), g)
 		} else {
 			g.attack = 0
 			return

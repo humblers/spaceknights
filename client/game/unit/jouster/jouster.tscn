@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://game/unit/jouster/jouster.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/jouster/shoulder.png" type="Texture" id=2]
@@ -35,19 +35,20 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=33]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=34]
 [ext_resource path="res://game/unit/jouster/explosion.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/jouster/attack.tres" type="Animation" id=36]
-[ext_resource path="res://game/unit/jouster/destroy.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/jouster/idle.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/jouster/move_human.tres" type="Animation" id=39]
-[ext_resource path="res://game/unit/jouster/skill_attack.tres" type="Animation" id=40]
-[ext_resource path="res://game/unit/jouster/skill_charge.tres" type="Animation" id=41]
-[ext_resource path="res://game/unit/jouster/jouster_atk.wav" type="AudioStream" id=42]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=43]
-[ext_resource path="res://game/unit/jouster/jouster_skill.wav" type="AudioStream" id=44]
-[ext_resource path="res://game/sfx/charge.wav" type="AudioStream" id=45]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=46]
-[ext_resource path="res://game/sfx/thrust_l.wav" type="AudioStream" id=47]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=48]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=36]
+[ext_resource path="res://game/unit/jouster/attack.tres" type="Animation" id=37]
+[ext_resource path="res://game/unit/jouster/destroy.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/jouster/idle.tres" type="Animation" id=39]
+[ext_resource path="res://game/unit/jouster/move_human.tres" type="Animation" id=40]
+[ext_resource path="res://game/unit/jouster/skill_attack.tres" type="Animation" id=41]
+[ext_resource path="res://game/unit/jouster/skill_charge.tres" type="Animation" id=42]
+[ext_resource path="res://game/unit/jouster/jouster_atk.wav" type="AudioStream" id=43]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=44]
+[ext_resource path="res://game/unit/jouster/jouster_skill.wav" type="AudioStream" id=45]
+[ext_resource path="res://game/sfx/charge.wav" type="AudioStream" id=46]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=47]
+[ext_resource path="res://game/sfx/thrust_l.wav" type="AudioStream" id=48]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=49]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -78,11 +79,11 @@ animations = [ {
 } ]
 
 [node name="Jouster" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -441,7 +442,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index", "materi
 [node name="Body" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 use_parent_material = true
-rotation = -3.35276e-008
+rotation = -3.35276e-08
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
@@ -614,35 +615,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 35 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 36 )]
+position = Vector2( 2, -3 )
+circle_radius = 25.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 36 )
-anims/destroy = ExtResource( 37 )
-anims/idle = ExtResource( 38 )
-anims/move_human = ExtResource( 39 )
-anims/skill_attack = ExtResource( 40 )
-anims/skill_charge = ExtResource( 41 )
+anims/attack = ExtResource( 37 )
+anims/destroy = ExtResource( 38 )
+anims/idle = ExtResource( 39 )
+anims/move_human = ExtResource( 40 )
+anims/skill_attack = ExtResource( 41 )
+anims/skill_charge = ExtResource( 42 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 42 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 43 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -653,7 +648,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="SkillAttack" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 44 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -664,7 +659,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="SkillCharge" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="SkillAttack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 45 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -675,7 +670,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="SkillCharge" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 46 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -686,7 +681,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="WingMove" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 47 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -697,6 +692,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 48 )]
+[node name="WingMove" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 48 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 49 )]
 position = Vector2( 0, -80 )
 

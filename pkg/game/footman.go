@@ -76,7 +76,7 @@ func (f *footman) handleAttack() {
 	if f.attack == f.preAttackDelay() {
 		t := f.target()
 		if t != nil && f.withinRange(t) {
-			t.TakeDamage(f.attackDamage(), Melee)
+			t.TakeDamage(f.attackDamage(), f)
 		} else {
 			f.attack = 0
 			return

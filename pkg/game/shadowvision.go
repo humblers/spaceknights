@@ -20,11 +20,11 @@ func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (s *shadowvision) TakeDamage(amount int, t AttackType) {
+func (s *shadowvision) TakeDamage(amount int, a Attacker) {
 	if s.Layer() != data.Normal {
 		return
 	}
-	if t != Melee {
+	if a.DamageType() != data.AntiShield {
 		s.shield -= amount
 		if s.shield < 0 {
 			s.hp += s.shield
@@ -76,7 +76,7 @@ func (s *shadowvision) setTarget(u Unit) {
 }
 
 func (s *shadowvision) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.game)
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.DamageType(), s.game)
 	s.game.AddBullet(b)
 }
 

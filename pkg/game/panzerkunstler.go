@@ -99,7 +99,7 @@ func (p *panzerkunstler) handleAttack() {
 					n := d.Normalized()
 					u.AddForce(n.Mul(p.powerAttackForce()))
 					if p.attack == p.powerAttackPreDelay() {
-						u.TakeDamage(p.powerAttackDamage(), Melee)
+						u.TakeDamage(p.powerAttackDamage(), p)
 					}
 				}
 			}
@@ -113,7 +113,7 @@ func (p *panzerkunstler) handleAttack() {
 		if p.attack == p.preAttackDelay() {
 			t := p.target()
 			if t != nil && p.withinRange(t) {
-				t.TakeDamage(p.attackDamage(), Melee)
+				t.TakeDamage(p.attackDamage(), p)
 			} else {
 				p.attack = 0
 				return

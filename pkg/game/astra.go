@@ -39,8 +39,8 @@ func newAstra(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (a *astra) TakeDamage(amount int, t AttackType) {
-	a.unit.TakeDamage(amount, t)
+func (a *astra) TakeDamage(amount int, atk Attacker) {
+	a.unit.TakeDamage(amount, atk)
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
@@ -49,6 +49,13 @@ func (a *astra) TakeDamage(amount int, t AttackType) {
 func (a *astra) Destroy() {
 	a.unit.Destroy()
 	a.Release()
+}
+
+func (a *astra) DamageType() data.DamageType {
+	if a.cast > 0 {
+		return a.Skill()["damagetype"].(data.DamageType)
+	}
+	return a.unit.DamageType()
 }
 
 func (a *astra) attackDamage() int {
@@ -104,7 +111,7 @@ func (a *astra) Update() {
 			a.moveToPos(fixed.Vector{posX, a.Position().Y})
 			if a.withinRange(t) {
 				if a.attack%a.attackInterval() == 0 {
-					t.TakeDamage(a.attackDamage(), Range)
+					t.TakeDamage(a.attackDamage(), a)
 					duration := 0
 					for _, d := range a.player.StatRatios("slowduration") {
 						duration += d
@@ -129,7 +136,7 @@ func (a *astra) deal() {
 			continue
 		}
 		if a.inLaserArea(u) {
-			u.TakeDamage(a.laserDamage(), Skill)
+			u.TakeDamage(a.laserDamage(), a)
 		}
 	}
 }

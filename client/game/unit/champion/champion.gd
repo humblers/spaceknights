@@ -11,17 +11,20 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 	
-func TakeDamage(amount, attackType):
-	if attackType != "Melee":
+func TakeDamage(amount, attacker):
+	if attacker.DamageType() != "AntiShield":
 		shield -= amount
 		if shield < 0:
 			hp += shield
 			shield = 0
-		$Energyshield/EnergyShieldAni.play("energyshield")
+			damages[game.step] = 0
+			$HitEffect.hit(attacker)
+		else:
+			$Energyshield/EnergyShieldAni.play("energyshield")
 	else:
 		hp -= amount
-		if attackType != "Self":
-			damages[game.step] = 0
+		damages[game.step] = 0
+		$HitEffect.hit(attacker)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true
@@ -112,7 +115,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == chargedAttackPreDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(chargedAttackDamage(), "Melee")
+				t.TakeDamage(chargedAttackDamage(), self)
 			else:
 				attack = 0
 				return
@@ -129,7 +132,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(attackDamage(), "Melee")
+				t.TakeDamage(attackDamage(), self)
 			else:
 				attack = 0
 				return

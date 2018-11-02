@@ -48,8 +48,8 @@ func newPixieking(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (p *pixieking) TakeDamage(amount int, t AttackType) {
-	p.unit.TakeDamage(amount, t)
+func (p *pixieking) TakeDamage(amount int, a Attacker) {
+	p.unit.TakeDamage(amount, a)
 	if p.IsDead() {
 		p.player.OnKnightDead(p)
 	}
@@ -226,7 +226,7 @@ func (p *pixieking) handleAttack() {
 }
 
 func (p *pixieking) fire() {
-	b := newBullet(p.targetId, p.bulletLifeTime(), p.attackDamage(), p.game)
+	b := newBullet(p.targetId, p.bulletLifeTime(), p.attackDamage(), p.DamageType(), p.game)
 	duration := 0
 	for _, d := range p.player.StatRatios("slowduration") {
 		duration += d

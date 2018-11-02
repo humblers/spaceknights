@@ -41,8 +41,8 @@ func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (a *archsapper) TakeDamage(amount int, t AttackType) {
-	a.unit.TakeDamage(amount, t)
+func (a *archsapper) TakeDamage(amount int, atk Attacker) {
+	a.unit.TakeDamage(amount, atk)
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
@@ -229,7 +229,7 @@ func (a *archsapper) handleAttack() {
 }
 
 func (a *archsapper) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
 	duration := 0
 	for _, d := range a.player.StatRatios("slowduration") {
 		duration += d

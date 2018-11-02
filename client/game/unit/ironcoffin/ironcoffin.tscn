@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://game/unit/ironcoffin/ironcoffin.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/ironcoffin/front.png" type="Texture" id=2]
@@ -24,16 +24,17 @@
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=22]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=23]
 [ext_resource path="res://game/unit/ironcoffin/explosion.tres" type="Animation" id=24]
-[ext_resource path="res://game/unit/ironcoffin/attack.tres" type="Animation" id=25]
-[ext_resource path="res://game/unit/ironcoffin/destroy.tres" type="Animation" id=26]
-[ext_resource path="res://game/unit/ironcoffin/idle.tres" type="Animation" id=27]
-[ext_resource path="res://game/unit/ironcoffin/show.tres" type="Animation" id=28]
-[ext_resource path="res://game/unit/ironcoffin/skill.tres" type="Animation" id=29]
-[ext_resource path="res://game/unit/ironcoffin/ironcoffin_atk.wav" type="AudioStream" id=30]
-[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=31]
-[ext_resource path="res://game/unit/ironcoffin/ironcoffin_skill.wav" type="AudioStream" id=32]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=33]
-[ext_resource path="res://game/unit/ironcoffin/missile.tscn" type="PackedScene" id=34]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/unit/ironcoffin/attack.tres" type="Animation" id=26]
+[ext_resource path="res://game/unit/ironcoffin/destroy.tres" type="Animation" id=27]
+[ext_resource path="res://game/unit/ironcoffin/idle.tres" type="Animation" id=28]
+[ext_resource path="res://game/unit/ironcoffin/show.tres" type="Animation" id=29]
+[ext_resource path="res://game/unit/ironcoffin/skill.tres" type="Animation" id=30]
+[ext_resource path="res://game/unit/ironcoffin/ironcoffin_atk.wav" type="AudioStream" id=31]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=32]
+[ext_resource path="res://game/unit/ironcoffin/ironcoffin_skill.wav" type="AudioStream" id=33]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=34]
+[ext_resource path="res://game/unit/ironcoffin/missile.tscn" type="PackedScene" id=35]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -63,11 +64,11 @@ animations = [ {
 } ]
 
 [node name="Ironcoffin" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Visibility", "Z Index" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -119,7 +120,6 @@ position = Vector2( -59, 82 )
 rotation = -0.523599
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -128,6 +128,7 @@ position = Vector2( 59, 82 )
 rotation = 0.523599
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -343,33 +344,27 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 24 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 25 )]
+type = 0
+rect_area = Rect2( -40, -50, 80, 120 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 25 )
-anims/destroy = ExtResource( 26 )
-anims/idle = ExtResource( 27 )
-anims/show = ExtResource( 28 )
-anims/skill = ExtResource( 29 )
+anims/attack = ExtResource( 26 )
+anims/destroy = ExtResource( 27 )
+anims/idle = ExtResource( 28 )
+anims/show = ExtResource( 29 )
+anims/skill = ExtResource( 30 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 30 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 31 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -380,7 +375,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 32 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -391,9 +386,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 33 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 33 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 34 )]
 position = Vector2( 0, -100 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "missile" ), [ ExtResource( 34 ) ] ]
+resources = [ PoolStringArray( "missile" ), [ ExtResource( 35 ) ] ]
 

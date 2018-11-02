@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://game/unit/pixie/pixie.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/pixie/core.png" type="Texture" id=2]
@@ -19,16 +19,17 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=17]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=18]
 [ext_resource path="res://game/unit/pixie/explosion.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/pixie/attack.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/pixie/cloaking.tres" type="Animation" id=21]
-[ext_resource path="res://game/unit/pixie/cloaking_end.tres" type="Animation" id=22]
-[ext_resource path="res://game/unit/pixie/cloaking_pre.tres" type="Animation" id=23]
-[ext_resource path="res://game/unit/pixie/destroy.tres" type="Animation" id=24]
-[ext_resource path="res://game/unit/pixie/idle.tres" type="Animation" id=25]
-[ext_resource path="res://game/unit/pixie/pixie_atk.wav" type="AudioStream" id=26]
-[ext_resource path="res://game/sfx/explosion_xs.wav" type="AudioStream" id=27]
-[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=29]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/unit/pixie/attack.tres" type="Animation" id=21]
+[ext_resource path="res://game/unit/pixie/cloaking.tres" type="Animation" id=22]
+[ext_resource path="res://game/unit/pixie/cloaking_end.tres" type="Animation" id=23]
+[ext_resource path="res://game/unit/pixie/cloaking_pre.tres" type="Animation" id=24]
+[ext_resource path="res://game/unit/pixie/destroy.tres" type="Animation" id=25]
+[ext_resource path="res://game/unit/pixie/idle.tres" type="Animation" id=26]
+[ext_resource path="res://game/unit/pixie/pixie_atk.wav" type="AudioStream" id=27]
+[ext_resource path="res://game/sfx/explosion_xs.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=30]
 
 [sub_resource type="Curve" id=1]
 
@@ -61,11 +62,11 @@ bake_resolution = 100
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Pixie" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.5, 0.5 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -186,7 +187,6 @@ material = ExtResource( 5 )
 scale = Vector2( 1, 1.2 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -212,7 +212,6 @@ material = ExtResource( 5 )
 scale = Vector2( 1, 1.2 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -527,34 +526,27 @@ scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "material", "texture" ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 20 )]
+circle_radius = 15.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 20 )
-anims/cloaking = ExtResource( 21 )
-anims/cloaking_end = ExtResource( 22 )
-anims/cloaking_pre = ExtResource( 23 )
-anims/destroy = ExtResource( 24 )
-anims/idle = ExtResource( 25 )
+anims/attack = ExtResource( 21 )
+anims/cloaking = ExtResource( 22 )
+anims/cloaking_end = ExtResource( 23 )
+anims/cloaking_pre = ExtResource( 24 )
+anims/destroy = ExtResource( 25 )
+anims/idle = ExtResource( 26 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 26 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 27 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -565,7 +557,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 28 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -576,6 +568,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 29 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 29 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 30 )]
 position = Vector2( 0, -35 )
 

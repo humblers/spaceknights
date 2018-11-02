@@ -41,8 +41,8 @@ func newArchengineer(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (a *archengineer) TakeDamage(amount int, t AttackType) {
-	a.unit.TakeDamage(amount, t)
+func (a *archengineer) TakeDamage(amount int, atk Attacker) {
+	a.unit.TakeDamage(amount, atk)
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
@@ -203,7 +203,7 @@ func (a *archengineer) handleAttack() {
 }
 
 func (a *archengineer) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.game)
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
 	duration := 0
 	for _, d := range a.player.StatRatios("slowduration") {
 		duration += d

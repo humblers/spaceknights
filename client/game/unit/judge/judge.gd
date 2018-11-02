@@ -34,10 +34,10 @@ func Init(id, level, posX, posY, game, player):
 		print(err)
 		return
 
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	var initHp = initialHp()
 	var underHalf = initHp / 2 > hp
-	.TakeDamage(amount, attackType)
+	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():
@@ -49,6 +49,11 @@ func Destroy():
 	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
+
+func DamageType():
+	if cast > 0:
+		return Skill()["damagetype"]
+	return .DamageType()
 
 func attackDamage():
 	var damage = .attackDamage()
@@ -160,7 +165,7 @@ func bulletrain():
 		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(Radius(), radius)
 		if d < scalar.Mul(r, r):
-			u.TakeDamage(damage, "Skill")
+			u.TakeDamage(damage, self)
 	
 	# client only
 	var skill = $ResourcePreloader.get_resource("bulletrain").instance()
@@ -199,7 +204,7 @@ func handleAttack():
 
 func fire():
 	var b = $ResourcePreloader.get_resource("bullet").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):
 		duration += d

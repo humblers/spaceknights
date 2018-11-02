@@ -138,14 +138,18 @@ func Layer():
 func IsDead():
 	return hp <= 0
 
-func TakeDamage(amount, attackType):
+func TakeDamage(amount, attacker):
 	if Layer() != "Normal":
 		return
 	hp -= amount
 	node_hp.value = hp
 	node_hp.visible = true
-	if attackType != "Self":
-		damages[game.step] = 0	
+
+	# client only
+	if attacker.DamageType() == "Decay":
+		return
+	damages[game.step] = 0
+	$HitEffect.hit(attacker)
 
 func Destroy():
 	game.World().RemoveBody(body)
@@ -189,6 +193,9 @@ func Skill():
 
 func CastSkill(posX, posY):
 	print("not implemented")
+
+func DamageType():
+	return stat.units[name_]["damagetype"]
 
 func initialLayer():
 	return stat.units[name_]["layer"]

@@ -7,9 +7,10 @@ var width
 var height
 var damagePerSec
 var remainingStep
+var damageType
 var game
 
-func Init(team, x, y, w, h, dps, remain, game):
+func Init(team, x, y, w, h, dps, remain, damageType, game):
 	self.team = team
 	self.x = x
 	self.y = y
@@ -17,6 +18,7 @@ func Init(team, x, y, w, h, dps, remain, game):
 	height = h
 	damagePerSec = dps
 	remainingStep = remain
+	self.damageType = damageType
 	self.game = game
 	
 	# client only
@@ -34,11 +36,14 @@ func Update():
 			if u.Team() == team:
 				continue
 			if InArea(u):
-				u.TakeDamage(damagePerSec, "Skill")
+				u.TakeDamage(damagePerSec, self)
 	remainingStep -= 1
 
 func IsExpired():
 	return remainingStep <= 0
+
+func DamageType():
+	return damageType
 
 func InArea(unit):
 	return game.boxVScircle(

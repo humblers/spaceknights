@@ -10,11 +10,26 @@ type champion struct {
 	targetId int
 	attack   int
 	charge   int
+	shield   int
 }
 
 func newChampion(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "champion", p.Team(), level, posX, posY, g)
 	return &champion{
-		unit: newUnit(id, "champion", p.Team(), level, posX, posY, g),
+		unit:   u,
+		shield: u.initialShield(),
+	}
+}
+
+func (c *champion) TakeDamge(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
+		c.shield -= amount
+		if c.shield < 0 {
+			c.hp += c.shield
+			c.shield = 0
+		}
+	} else {
+		c.hp -= amount
 	}
 }
 
@@ -89,7 +104,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.chargedAttackPreDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				t.TakeDamage(c.chargedAttackDamage(), Melee)
+				t.TakeDamage(c.chargedAttackDamage(), c)
 			}
 		}
 		c.attack++
@@ -102,7 +117,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.preAttackDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				t.TakeDamage(c.attackDamage(), Melee)
+				t.TakeDamage(c.attackDamage(), c)
 			} else {
 				c.attack = 0
 				return

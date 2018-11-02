@@ -42,6 +42,7 @@ func main() {
 	for !g.Over() {
 		g.Update()
 		if g.Step() == step {
+			fmt.Println(g.World().Digest())
 			g.PrintGameState()
 			break
 		}

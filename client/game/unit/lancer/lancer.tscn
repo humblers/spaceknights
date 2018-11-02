@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://game/unit/lancer/lancer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/lancer/lancer.png" type="Texture" id=2]
@@ -21,18 +21,19 @@
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=19]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=20]
 [ext_resource path="res://game/unit/lancer/explosion.tres" type="Animation" id=21]
-[ext_resource path="res://game/unit/lancer/attack.tres" type="Animation" id=22]
-[ext_resource path="res://game/unit/lancer/destroy.tres" type="Animation" id=23]
-[ext_resource path="res://game/unit/lancer/idle.tres" type="Animation" id=24]
-[ext_resource path="res://game/unit/lancer/show.tres" type="Animation" id=25]
-[ext_resource path="res://game/unit/lancer/skill.tres" type="Animation" id=26]
-[ext_resource path="res://game/unit/lancer/lancer_atk.wav" type="AudioStream" id=27]
-[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/unit/lancer/lancer_skill.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/unit/lancer/deathcarpet.tscn" type="PackedScene" id=31]
-[ext_resource path="res://game/unit/lancer/missile.tscn" type="PackedScene" id=32]
-[ext_resource path="res://game/unit/lancer/napalm.tscn" type="PackedScene" id=33]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/unit/lancer/attack.tres" type="Animation" id=23]
+[ext_resource path="res://game/unit/lancer/destroy.tres" type="Animation" id=24]
+[ext_resource path="res://game/unit/lancer/idle.tres" type="Animation" id=25]
+[ext_resource path="res://game/unit/lancer/show.tres" type="Animation" id=26]
+[ext_resource path="res://game/unit/lancer/skill.tres" type="Animation" id=27]
+[ext_resource path="res://game/unit/lancer/lancer_atk.wav" type="AudioStream" id=28]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/unit/lancer/lancer_skill.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/lancer/deathcarpet.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/lancer/missile.tscn" type="PackedScene" id=33]
+[ext_resource path="res://game/unit/lancer/napalm.tscn" type="PackedScene" id=34]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -62,7 +63,6 @@ animations = [ {
 } ]
 
 [node name="Lancer" type="Node2D"]
-use_parent_material = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 __meta__ = {
@@ -70,6 +70,7 @@ __meta__ = {
 }
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -354,17 +355,21 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 21 )
 blend_times = [  ]
 
+[node name="HitEffect" parent="." instance=ExtResource( 22 )]
+type = 0
+rect_area = Rect2( -40, -60, 80, 140 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 22 )
-anims/destroy = ExtResource( 23 )
-anims/idle = ExtResource( 24 )
-anims/show = ExtResource( 25 )
-anims/skill = ExtResource( 26 )
+anims/attack = ExtResource( 23 )
+anims/destroy = ExtResource( 24 )
+anims/idle = ExtResource( 25 )
+anims/show = ExtResource( 26 )
+anims/skill = ExtResource( 27 )
 blend_times = [  ]
 
 [node name="AttackPosition" type="Position2D" parent="."]
@@ -373,19 +378,9 @@ scale = Vector2( 5, 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 27 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 28 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -396,7 +391,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 29 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -407,9 +402,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 30 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 30 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 31 )]
 position = Vector2( 0, -125 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ] ]
+resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ] ]
 

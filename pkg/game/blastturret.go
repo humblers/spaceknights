@@ -60,7 +60,7 @@ func (b *blastturret) setTarget(u Unit) {
 }
 
 func (b *blastturret) fire() {
-	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.game)
+	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.DamageType(), b.game)
 	b.game.AddBullet(bullet)
 }
 

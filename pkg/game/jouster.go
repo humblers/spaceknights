@@ -89,7 +89,7 @@ func (j *jouster) handleAttack() {
 		if j.attack == j.chargedAttackPreDelay() {
 			t := j.target()
 			if t != nil && j.withinRange(t) {
-				t.TakeDamage(j.chargedAttackDamage(), Melee)
+				t.TakeDamage(j.chargedAttackDamage(), j)
 			} else {
 				j.attack = 0
 				return
@@ -105,7 +105,7 @@ func (j *jouster) handleAttack() {
 		if j.attack == j.preAttackDelay() {
 			t := j.target()
 			if t != nil && j.withinRange(t) {
-				t.TakeDamage(j.attackDamage(), Melee)
+				t.TakeDamage(j.attackDamage(), j)
 			} else {
 				j.attack = 0
 				return

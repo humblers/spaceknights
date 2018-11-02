@@ -79,7 +79,7 @@ func handleAttack():
 		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
-			t.TakeDamage(attackDamage(), "Melee")
+			t.TakeDamage(attackDamage(), self)
 		else:
 			attack = 0
 			return
