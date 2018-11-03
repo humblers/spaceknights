@@ -57,13 +57,9 @@ func newPlayer(pd PlayerData, g Game) Player {
 
 		game: g,
 	}
-	p.hand = append(p.hand, pd.Deck[:4]...)
-	p.pending = append(p.pending, pd.Deck[4:]...)
+	p.hand = append(p.hand, pd.Deck[:handSize]...)
+	p.pending = append(p.pending, pd.Deck[handSize:]...)
 	return p
-}
-
-func (p *player) Score() int {
-	return p.score
 }
 
 func (p *player) Client() Client {
@@ -72,8 +68,21 @@ func (p *player) Client() Client {
 func (p *player) SetClient(c Client) {
 	p.client = c
 }
+
+func (p *player) Score() int {
+	return p.score
+}
+
 func (p *player) Team() Team {
 	return p.team
+}
+
+func (p *player) StatRatios(name string) []int {
+	return p.statRatios[name]
+}
+
+func (p *player) AddStatRatio(name string, ratio int) {
+	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
 func (p *player) AddKnights(knights []KnightData) {
@@ -84,20 +93,12 @@ func (p *player) AddKnights(knights []KnightData) {
 			x = p.game.FlipX(x)
 			y = p.game.FlipY(y)
 		}
-		id := p.game.AddUnit(k.Name, k.Level, x, y, p)
+		unit := p.game.AddUnit(k.Name, k.Level, x, y, p)
 		if i == knightLeaderIndex {
-			p.game.FindUnit(id).SetAsLeader()
+			unit.SetAsLeader()
 		}
-		p.knightIds = append(p.knightIds, id)
+		p.knightIds = append(p.knightIds, unit.Id())
 	}
-}
-
-func (p *player) StatRatios(name string) []int {
-	return p.statRatios[name]
-}
-
-func (p *player) AddStatRatio(name string, ratio int) {
-	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
 func (p *player) Update() {
@@ -142,10 +143,11 @@ func (p *player) Do(a *Action) error {
 
 	// decrement energy
 	p.energy -= cost
+
 	// put empty card
 	p.hand[index] = Card{}
-	p.emptyIdx = append(p.emptyIdx, index)
 	p.pending = append(p.pending, a.Card)
+	p.emptyIdx = append(p.emptyIdx, index)
 	return nil
 }
 
@@ -240,7 +242,7 @@ func (p *player) removeCard(name string) {
 	for i, c := range p.pending {
 		if c.Name == name {
 			p.pending = append(p.pending[:i], p.pending[i+1:]...)
-			break
+			return
 		}
 	}
 }

@@ -164,10 +164,10 @@ func (a *archengineer) CastSkill(posX, posY int) bool {
 
 func (a *archengineer) spawn() {
 	name := a.Skill()["unit"].(string)
-	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
+	u := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
 	tr := a.castTile.Occupied()
 	a.castTile.Release()
-	if occupier, ok := a.game.FindUnit(id).(TileOccupier); ok {
+	if occupier, ok := u.(TileOccupier); ok {
 		if err := occupier.Occupy(tr); err != nil {
 			panic(err)
 		}

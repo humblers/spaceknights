@@ -50,7 +50,7 @@ type Game interface {
 	TileFromPos(x, y int) (int, int)
 	PosFromTile(x, y int) (int, int, error)
 	FindUnit(id int) Unit
-	AddUnit(name string, level, posX, posY int, p Player) int
+	AddUnit(name string, level, posX, posY int, p Player) Unit
 	AddBullet(b Bullet)
 	AddSkill(s ISkill)
 
@@ -393,7 +393,7 @@ func (g *game) removeExpiredSkills() {
 	g.skills = filtered
 }
 
-func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
+func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 	g.unitCounter++
 	id := g.unitCounter
 	var u Unit
@@ -477,7 +477,7 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) int {
 	}
 	g.units[id] = u
 	g.unitIds = append(g.unitIds, id)
-	return id
+	return u
 }
 
 func (g *game) FindUnit(id int) Unit {
