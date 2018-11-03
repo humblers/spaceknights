@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/frost/frost.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/frost/leg.png" type="Texture" id=2]
@@ -40,9 +40,10 @@
 [ext_resource path="res://game/unit/frost/destroy.tres" type="Animation" id=38]
 [ext_resource path="res://game/unit/frost/frost_atk.wav" type="AudioStream" id=39]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=41]
-[ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=42]
-[ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/unit/frost/frost_skill.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/unit/frost/bullet.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=44]
 
 [sub_resource type="Curve" id=1]
 
@@ -2107,6 +2108,18 @@ tracks/45/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/46/type = "value"
+tracks/46/path = NodePath("Sound/Skill:playing")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="Frost" type="Node2D"]
 use_parent_material = true
@@ -2561,6 +2574,7 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2595,6 +2609,7 @@ material = ExtResource( 15 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -2833,9 +2848,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 41 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 41 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 42 )]
 position = Vector2( 0, -100 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet", "freeze" ), [ ExtResource( 42 ), ExtResource( 43 ) ] ]
+resources = [ PoolStringArray( "bullet", "freeze" ), [ ExtResource( 43 ), ExtResource( 44 ) ] ]
 

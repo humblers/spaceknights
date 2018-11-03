@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://game/unit/judge/judge.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/judge/body.png" type="Texture" id=2]
@@ -39,9 +39,10 @@
 [ext_resource path="res://game/unit/judge/skill.tres" type="Animation" id=37]
 [ext_resource path="res://game/unit/judge/judge_atk.wav" type="AudioStream" id=38]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=40]
-[ext_resource path="res://game/unit/judge/bullet.tscn" type="PackedScene" id=41]
-[ext_resource path="res://game/unit/judge/bulletrain.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/unit/judge/judge_skill.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=41]
+[ext_resource path="res://game/unit/judge/bullet.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/unit/judge/bulletrain.tscn" type="PackedScene" id=43]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -103,31 +104,28 @@ offset = Vector2( 0, -9 )
 _sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Booster" type="Node2D" parent="Rotatable/Body"]
-scale = Vector2( 1.15, 1.15 )
 z_index = -1
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/Booster"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 21, 20 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ThrustRR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR"]
-visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
 [node name="LightRR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR"]
-visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
@@ -137,68 +135,14 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="BoosterpointL" type="Position2D" parent="Rotatable/Body/Booster"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -21, 20 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ThrustRL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL"]
-visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
-scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
-animation = "thrust"
-speed_scale = 3.0
-playing = true
-offset = Vector2( 0, 15 )
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
-
-[node name="LightRL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL"]
-visible = false
-modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
-material = ExtResource( 4 )
-rotation = 0.523599
-scale = Vector2( 1.5, 1.9 )
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
-
-[node name="BoosterpointR2" type="Position2D" parent="Rotatable/Body/Booster"]
-editor/display_folded = true
-position = Vector2( 21, -20 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="ThrustFR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
-visible = false
-modulate = Color( 0.184314, 1, 0.427451, 1 )
-material = ExtResource( 4 )
-rotation = 3.66519
-scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
-animation = "thrust"
-speed_scale = 3.0
-playing = true
-offset = Vector2( 0, 15 )
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
-
-[node name="LightFR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
-visible = false
-modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
-material = ExtResource( 4 )
-rotation = 3.66519
-scale = Vector2( 1.5, 1.9 )
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
-
-[node name="BoosterpointL2" type="Position2D" parent="Rotatable/Body/Booster"]
-editor/display_folded = true
-position = Vector2( -21, -20 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="ThrustFL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL2"]
-visible = false
-modulate = Color( 0.184314, 1, 0.427451, 1 )
-material = ExtResource( 4 )
-rotation = 2.61799
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
@@ -208,8 +152,60 @@ playing = true
 offset = Vector2( 0, 15 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
 
+[node name="LightRL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL"]
+modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
+material = ExtResource( 4 )
+rotation = 0.523599
+scale = Vector2( 1.5, 1.9 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="BoosterpointR2" type="Position2D" parent="Rotatable/Body/Booster"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 21, -20 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="ThrustFR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
+modulate = Color( 0.184314, 1, 0.427451, 1 )
+material = ExtResource( 4 )
+rotation = 3.66519
+scale = Vector2( 0.8, 1 )
+frames = SubResource( 1 )
+animation = "thrust"
+frame = 1
+speed_scale = 3.0
+playing = true
+offset = Vector2( 0, 15 )
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
+
+[node name="LightFR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR2"]
+modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
+material = ExtResource( 4 )
+rotation = 3.66519
+scale = Vector2( 1.5, 1.9 )
+texture = ExtResource( 7 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="BoosterpointL2" type="Position2D" parent="Rotatable/Body/Booster"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -21, -20 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="ThrustFL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL2"]
+modulate = Color( 0.184314, 1, 0.427451, 1 )
+material = ExtResource( 4 )
+rotation = 2.61799
+scale = Vector2( 0.8, 1 )
+frames = SubResource( 1 )
+animation = "thrust"
+speed_scale = 3.0
+playing = true
+offset = Vector2( 0, 15 )
+_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility", "frames", "material" ]
+
 [node name="LightFL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL2"]
-visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = 2.61799
@@ -1674,9 +1670,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 40 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 40 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 41 )]
 position = Vector2( 0, -145 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet", "bulletrain" ), [ ExtResource( 41 ), ExtResource( 42 ) ] ]
+resources = [ PoolStringArray( "bullet", "bulletrain" ), [ ExtResource( 42 ), ExtResource( 43 ) ] ]
 

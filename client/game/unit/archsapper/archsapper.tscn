@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://game/unit/archsapper/archsapper.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archsapper/meteor_big.png" type="Texture" id=2]
@@ -44,8 +44,9 @@
 [ext_resource path="res://game/unit/archsapper/skill.tres" type="Animation" id=42]
 [ext_resource path="res://game/unit/archsapper/archsapper_atk.wav" type="AudioStream" id=43]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=44]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=45]
-[ext_resource path="res://game/unit/archsapper/cannon_bullet.tscn" type="PackedScene" id=46]
+[ext_resource path="res://game/unit/archsapper/archsapper_skill.wav" type="AudioStream" id=45]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=46]
+[ext_resource path="res://game/unit/archsapper/cannon_bullet.tscn" type="PackedScene" id=47]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -140,7 +141,7 @@ _sections_unfolded = [ "Transform" ]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 4
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 _sections_unfolded = [ "Visibility" ]
 
 [node name="AnchorTL" type="Sprite" parent="Rotatable/Body/Turret/Anchor"]
@@ -196,7 +197,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="TurretBody" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 texture = ExtResource( 9 )
 offset = Vector2( 0, -16 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -204,7 +205,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 [node name="Launcher" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-rotation = 1.74846e-07
+rotation = 1.74846e-007
 texture = ExtResource( 10 )
 offset = Vector2( 0, -6 )
 _sections_unfolded = [ "Offset", "Visibility" ]
@@ -972,9 +973,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 45 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 45 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 46 )]
 position = Vector2( 0, -105 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "cannon_bullet" ), [ ExtResource( 46 ) ] ]
+resources = [ PoolStringArray( "cannon_bullet" ), [ ExtResource( 47 ) ] ]
 

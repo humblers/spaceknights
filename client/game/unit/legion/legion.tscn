@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/legion/roid.png" type="Texture" id=2]
@@ -37,9 +37,10 @@
 [ext_resource path="res://game/unit/legion/skill.tres" type="Animation" id=35]
 [ext_resource path="res://game/unit/legion/legion_atk.wav" type="AudioStream" id=36]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=37]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=38]
-[ext_resource path="res://game/unit/legion/bomb_explosion.tscn" type="PackedScene" id=39]
-[ext_resource path="res://game/unit/legion/bullet.tscn" type="PackedScene" id=40]
+[ext_resource path="res://game/unit/legion/legion_skill.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=39]
+[ext_resource path="res://game/unit/legion/bomb_explosion.tscn" type="PackedScene" id=40]
+[ext_resource path="res://game/unit/legion/bullet.tscn" type="PackedScene" id=41]
 
 [sub_resource type="Curve" id=1]
 
@@ -683,9 +684,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 38 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 38 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 39 )]
 position = Vector2( 0, -70 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bomb_explosion", "bullet" ), [ ExtResource( 39 ), ExtResource( 40 ) ] ]
+resources = [ PoolStringArray( "bomb_explosion", "bullet" ), [ ExtResource( 40 ), ExtResource( 41 ) ] ]
 

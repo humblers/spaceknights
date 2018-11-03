@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://game/unit/archengineer/archengineer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archengineer/meteor_big.png" type="Texture" id=2]
@@ -44,8 +44,9 @@
 [ext_resource path="res://game/unit/archengineer/skill.tres" type="Animation" id=42]
 [ext_resource path="res://game/unit/archengineer/archengineer_atk.wav" type="AudioStream" id=43]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=44]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=45]
-[ext_resource path="res://game/unit/archengineer/energy_orb.tscn" type="PackedScene" id=46]
+[ext_resource path="res://game/unit/archengineer/archengineer_skill.wav" type="AudioStream" id=45]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=46]
+[ext_resource path="res://game/unit/archengineer/energy_orb.tscn" type="PackedScene" id=47]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -97,30 +98,30 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 [node name="Debries" type="Node2D" parent="Rotatable/Body"]
 editor/display_folded = true
 visible = false
-modulate = Color( 0.392157, 0.392157, 0.392157, 0 )
+modulate = Color( 1, 1, 1, 0 )
 show_behind_parent = true
-position = Vector2( 0, -90 )
+position = Vector2( 0, -110 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="MeteoBig" type="Sprite" parent="Rotatable/Body/Debries"]
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="DebriesBig" type="Sprite" parent="Rotatable/Body/Debries"]
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="MeteoSmall" type="Sprite" parent="Rotatable/Body/Debries"]
 position = Vector2( -10, 12 )
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="DebriesSmall" type="Sprite" parent="Rotatable/Body/Debries"]
 position = Vector2( 8, -26 )
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
@@ -131,6 +132,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Anchor" type="Node2D" parent="Rotatable/Body/Turret"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 light_mask = 4
 rotation = 1.74846e-007
 _sections_unfolded = [ "Visibility" ]
@@ -181,18 +183,21 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Base" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 show_behind_parent = true
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Launcher" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 rotation = 1.74846e-007
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="TurretBody" type="Sprite" parent="Rotatable/Body/Turret"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 rotation = 1.74846e-007
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Visibility" ]
@@ -998,9 +1003,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 45 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 45 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 46 )]
 position = Vector2( 0, -120 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "energy_orb" ), [ ExtResource( 46 ) ] ]
+resources = [ PoolStringArray( "energy_orb" ), [ ExtResource( 47 ) ] ]
 
