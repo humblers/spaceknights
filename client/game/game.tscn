@@ -1,33 +1,34 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
-[ext_resource path="res://game/script/camera.gd" type="Script" id=2]
-[ext_resource path="res://game/bgm/bgm_maoudamashii_orchestra24.ogg" type="AudioStream" id=3]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=4]
-[ext_resource path="res://game/player/player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://font/city_bold.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://game/player/tile.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/vfx/vertical_gradation.png" type="Texture" id=8]
-[ext_resource path="res://game/ui/ready.png" type="Texture" id=9]
-[ext_resource path="res://game/ui/1.png" type="Texture" id=10]
-[ext_resource path="res://game/ui/2.png" type="Texture" id=11]
-[ext_resource path="res://game/ui/3.png" type="Texture" id=12]
-[ext_resource path="res://game/ui/battle.png" type="Texture" id=13]
-[ext_resource path="res://game/ui/battle_red.png" type="Texture" id=14]
-[ext_resource path="res://game/ui/start.png" type="Texture" id=15]
-[ext_resource path="res://game/ui/line.png" type="Texture" id=16]
-[ext_resource path="res://game/ui/line_red.png" type="Texture" id=17]
-[ext_resource path="res://game/ui/win.png" type="Texture" id=18]
-[ext_resource path="res://game/ui/lose.png" type="Texture" id=19]
-[ext_resource path="res://game/ui/draw.png" type="Texture" id=20]
-[ext_resource path="res://game/ui/win_deco.png" type="Texture" id=21]
-[ext_resource path="res://game/ui/draw_deco.png" type="Texture" id=22]
-[ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/bg/kinetica/kinetica_scroll.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/bg/mothership/mothership/mother_ships.tscn" type="PackedScene" id=25]
-[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=26]
-[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=27]
-[ext_resource path="res://game/script/physics/world.gd" type="Script" id=28]
+[ext_resource path="res://game/player/player.gd" type="Script" id=2]
+[ext_resource path="res://game/script/camera.gd" type="Script" id=3]
+[ext_resource path="res://game/bgm/bgm_maoudamashii_orchestra24.ogg" type="AudioStream" id=4]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
+[ext_resource path="res://game/player/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://font/city_bold.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://game/player/tile.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/vfx/vertical_gradation.png" type="Texture" id=9]
+[ext_resource path="res://game/ui/ready.png" type="Texture" id=10]
+[ext_resource path="res://game/ui/1.png" type="Texture" id=11]
+[ext_resource path="res://game/ui/2.png" type="Texture" id=12]
+[ext_resource path="res://game/ui/3.png" type="Texture" id=13]
+[ext_resource path="res://game/ui/battle.png" type="Texture" id=14]
+[ext_resource path="res://game/ui/battle_red.png" type="Texture" id=15]
+[ext_resource path="res://game/ui/start.png" type="Texture" id=16]
+[ext_resource path="res://game/ui/line.png" type="Texture" id=17]
+[ext_resource path="res://game/ui/line_red.png" type="Texture" id=18]
+[ext_resource path="res://game/ui/win.png" type="Texture" id=19]
+[ext_resource path="res://game/ui/lose.png" type="Texture" id=20]
+[ext_resource path="res://game/ui/draw.png" type="Texture" id=21]
+[ext_resource path="res://game/ui/win_deco.png" type="Texture" id=22]
+[ext_resource path="res://game/ui/draw_deco.png" type="Texture" id=23]
+[ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/bg/kinetica/kinetica_scroll.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/bg/mothership/mothership/mother_ships.tscn" type="PackedScene" id=26]
+[ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=27]
+[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=28]
+[ext_resource path="res://game/script/physics/world.gd" type="Script" id=29]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -36,8 +37,8 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 6 )
-_sections_unfolded = [ "Font", "Settings" ]
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Font", "Resource", "Settings", "font_data" ]
 
 [sub_resource type="Animation" id=2]
 
@@ -1891,6 +1892,13 @@ tracks/45/keys = {
 script = ExtResource( 1 )
 _sections_unfolded = [ "Editor", "Script", "Transform" ]
 
+[node name="Players" type="Node" parent="."]
+
+[node name="Blue" type="Node" parent="Players"]
+script = ExtResource( 2 )
+
+[node name="Red" type="Node" parent="Players"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 540, 960 )
 anchor_mode = 1
@@ -1915,11 +1923,11 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )
 volume_db = -15.0
 pitch_scale = 1.0
 autoplay = true
@@ -1939,7 +1947,7 @@ position = Vector2( 540, 960 )
 scale = Vector2( 4, 5 )
 enabled = true
 editor_only = false
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 offset = Vector2( 0, 0 )
 texture_scale = 50.0
 color = Color( 1, 1, 1, 1 )
@@ -1968,7 +1976,7 @@ scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 _sections_unfolded = [ "Rect", "Z Index" ]
 
-[node name="Blue" parent="InGameUI" instance=ExtResource( 5 )]
+[node name="Blue" parent="InGameUI" instance=ExtResource( 6 )]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = -499.0
@@ -1977,7 +1985,7 @@ margin_right = 499.0
 margin_bottom = -5.0
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Visibility", "custom_constants" ]
 
-[node name="Red" parent="InGameUI" instance=ExtResource( 5 )]
+[node name="Red" parent="InGameUI" instance=ExtResource( 6 )]
 margin_left = -499.0
 margin_right = 499.0
 
@@ -2024,9 +2032,9 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Rect", "Visibility" ]
+_sections_unfolded = [ "Rect", "Visibility", "custom_fonts", "custom_fonts/font" ]
 
-[node name="Tile" parent="InGameUI" instance=ExtResource( 7 )]
+[node name="Tile" parent="InGameUI" instance=ExtResource( 8 )]
 visible = false
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -2054,7 +2062,7 @@ _sections_unfolded = [ "Transform", "Z Index" ]
 visible = false
 modulate = Color( 0, 0, 0, 0 )
 scale = Vector2( 250, 1 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, -128 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
@@ -2062,7 +2070,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 visible = false
 modulate = Color( 0, 0, 0, 0 )
 scale = Vector2( 250, 1 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 128 )
 flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -2073,41 +2081,41 @@ editor/display_folded = true
 [node name="Ready" type="Sprite" parent="HUD/StartEnd/Start"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -100 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="1" type="Sprite" parent="HUD/StartEnd/Start"]
 visible = false
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="2" type="Sprite" parent="HUD/StartEnd/Start"]
 visible = false
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="3" type="Sprite" parent="HUD/StartEnd/Start"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 4, 4 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="BattleBlue" type="Sprite" parent="HUD/StartEnd/Start"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -100 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="BattleRed" type="Sprite" parent="HUD/StartEnd/Start"]
 visible = false
 position = Vector2( 0, -100 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Start" type="Sprite" parent="HUD/StartEnd/Start"]
 visible = false
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="HorizionLineBlue" type="Sprite" parent="HUD/StartEnd"]
@@ -2115,30 +2123,30 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -60 )
 scale = Vector2( 10, 1 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="HorizionLineRed" type="Sprite" parent="HUD/StartEnd"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -60 )
 scale = Vector2( 10, 1 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Win" type="Sprite" parent="HUD/StartEnd"]
 visible = false
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Lose" type="Sprite" parent="HUD/StartEnd"]
 visible = false
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 
 [node name="Draw" type="Sprite" parent="HUD/StartEnd"]
 visible = false
 modulate = Color( 1, 1, 1, 0.636364 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Deco" type="Node2D" parent="HUD/StartEnd"]
@@ -2147,7 +2155,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Deco4" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( 330, 0 )
 flip_h = true
 flip_v = true
@@ -2155,7 +2163,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Deco5" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( 330, 0 )
 flip_h = true
 flip_v = true
@@ -2163,7 +2171,7 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco6" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( 330, 0 )
 flip_h = true
 flip_v = true
@@ -2171,19 +2179,19 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco1" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( -330, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco2" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( -330, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="Deco3" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 offset = Vector2( -330, 0 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
@@ -2191,14 +2199,14 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 138, 34 )
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="DecoD2" type="Sprite" parent="HUD/StartEnd/Deco"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -138, -34 )
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 flip_h = true
 flip_v = true
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
@@ -2216,7 +2224,7 @@ anims/win = SubResource( 5 )
 blend_times = [  ]
 
 [node name="StartVoice" type="AudioStreamPlayer2D" parent="HUD/StartEnd"]
-stream = ExtResource( 23 )
+stream = ExtResource( 24 )
 volume_db = 10.0
 pitch_scale = 1.0
 autoplay = false
@@ -2256,15 +2264,15 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 540, 920 )
 scale = Vector2( 400, 600 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="kineticascroll" parent="Map" instance=ExtResource( 24 )]
+[node name="kineticascroll" parent="Map" instance=ExtResource( 25 )]
 light_mask = 1
 z_index = 0
 _sections_unfolded = [ "Material", "Visibility", "Z Index" ]
 
-[node name="MotherShips" parent="." instance=ExtResource( 25 )]
+[node name="MotherShips" parent="." instance=ExtResource( 26 )]
 
 [node name="Units" type="Position2D" parent="."]
 position = Vector2( 40, 60 )
@@ -2281,12 +2289,12 @@ _sections_unfolded = [ "Transform" ]
 [node name="Resource" type="Node" parent="."]
 editor/display_folded = true
 
-[node name="Unit" parent="Resource" instance=ExtResource( 26 )]
+[node name="Unit" parent="Resource" instance=ExtResource( 27 )]
 
 [node name="Map" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 27 ) ] ]
+resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 28 ) ] ]
 
 [node name="Physics" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "world" ), [ ExtResource( 28 ) ] ]
+resources = [ PoolStringArray( "world" ), [ ExtResource( 29 ) ] ]
 
 [connection signal="button_up" from="HUD/GoToLobby" to="." method="go_to_lobby"]

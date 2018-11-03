@@ -194,10 +194,10 @@ func adjustSkillAnim():
 func spawn(data):
 	var name = data["unit"]
 	if name == "sentryshelter":
-		var id = game.AddUnit(name, level, castPosX, castPosY, player)
+		var unit = game.AddUnit(name, level, castPosX, castPosY, player)
 		var tr = castTile.Occupied()
 		castTile.Release()
-		var occupier = game.FindUnit(id).get("TileOccupier")
+		var occupier = unit.get("TileOccupier")
 		if occupier != null:
 			var err = occupier.Occupy(tr)
 			if err != null:

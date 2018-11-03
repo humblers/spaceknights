@@ -265,10 +265,9 @@ func AddUnit(name, level, posX, posY, player):
 	var id = unitCounter
 	var node = $Resource/Unit.get_resource(name).instance()
 	node.Init(id, level, posX, posY, self, player)
-#	node.name = str(id)
 	$Units.add_child(node)
 	units[id] = node
-	return id
+	return node
 
 func FindUnit(id):
 	if units.has(id):
