@@ -20,7 +20,7 @@ func TakeDamage(amount, attacker):
 			damages[game.step] = 0
 			$HitEffect.hit(attacker)
 		else:
-			$Energyshield/EnergyShieldAni.play("energyshield")
+			$Energyshield.hit(attacker)
 	else:
 		hp -= amount
 		damages[game.step] = 0
