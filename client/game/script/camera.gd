@@ -32,7 +32,7 @@ func Shake(duration, frequency, amplitude):
 
 func apply_offset(ofs):
 	offset = ofs
-	get_node("../InGameUI").offset = ofs
+	get_node("../CameraFollowingUI").offset = ofs
 	
 static func get_samples(count):
 	var samples = []
