@@ -2,16 +2,16 @@ extends CanvasLayer
 
 func _ready():
 	$Top/Config.connect("button_up", self, "show_config")
-	$Config/MarginContainer/VBoxContainer/HBoxContainer/Close.connect("button_up", self, "hide_config")
-	$Config/MarginContainer/VBoxContainer/Account/Change.connect("button_up", self, "change_uid")
-	$Config/MarginContainer/VBoxContainer/Replay/Play.connect("button_up", self, "play_replay")
+	$Config/MarginContainer/Close.connect("button_up", self, "hide_config")
+	$Config/MarginContainer/Change.connect("button_up", self, "change_uid")
+	$Config/MarginContainer/Play.connect("button_up", self, "play_replay")
 
 func invalidate():
 	$Top/Level.text = "%d" % (user.Level + 1)
 	$Top/Level/Exp.text = "%d/xxx" % user.Exp
 	$Top/Galacticoin.text = "%d" % user.Galacticoin
 	$Top/Dimensium.text = "%d" % user.Dimensium
-	$Config/MarginContainer/VBoxContainer/Account/PID.text = user.PlatformId
+	$Config/MarginContainer/PID.text = user.PlatformId
 
 func show_config():
 	$Config.popup()
@@ -20,7 +20,7 @@ func hide_config():
 	$Config.visible = false
 
 func change_uid():
-	var to = $Config/MarginContainer/VBoxContainer/Account/LineEdit.text
+	var to = $Config/MarginContainer/PIDEdit.text
 	if to == "":
 		return
 	var config = ConfigFile.new()
