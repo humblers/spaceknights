@@ -16,4 +16,4 @@ func invalidate(name, page_card):
 		$MarginContainer.rect_size.y = 0 # resizing
 		base.get_node("CardFrame/Icon").texture = base.get_node("Icon").get_resource(name_)
 		base.get_node("CardFrame/Frame").texture = base.get_node("Frame").get_resource(stat.cards[name_]["Rarity"])
-		base.get_node("CardFrame/VBoxContainer/Top/Energy/Label").text = "%d" % (stat.cards[name_]["Cost"] / 1000)
+		base.get_node("CardFrame/Control/Energy/Label").text = "%d" % (stat.cards[name_]["Cost"] / 1000)

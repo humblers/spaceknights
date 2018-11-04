@@ -1,7 +1,7 @@
 extends "res://lobby/page/page.gd"
 
 func _ready():
-	$Mid/Match.connect("pressed", self, "match_request")
+	$Mid/NinePatchRect/Match.connect("pressed", self, "match_request")
 	$Boxes/GridContainer/Box0.connect("button_down", self, "show_boxes_second_line")
 
 func invalidate():

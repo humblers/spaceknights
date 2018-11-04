@@ -4,12 +4,12 @@ func _ready():
 	for page in ["Battle", "Card"]:
 		var btn = $Headup/Bot.get_node(page)
 		btn.connect("button_up", $Scroll, "move_to_page", [btn])
+	http.modal_dialog = $Headup/Modal
 	var err = http.connect_to_host(config.LOBBY_HOST, config.LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
-	http.modal_dialog = $Headup/Modal
 	load_data()
 
 func load_data():
