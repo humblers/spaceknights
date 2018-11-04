@@ -1,13 +1,14 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://game/vfx/target_circle_1.png" type="Texture" id=1]
-[ext_resource path="res://game/vfx/target_circle_2.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/target_arrow.png" type="Texture" id=3]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
-[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=7]
-[ext_resource path="res://share/icon/ingame/wingskill/barrack.png" type="Texture" id=8]
+[ext_resource path="res://game/unit/pixieking/dummy.png" type="Texture" id=1]
+[ext_resource path="res://game/vfx/target_square_1.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/target_square_2.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/target_arrow.png" type="Texture" id=4]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=6]
+[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=8]
+[ext_resource path="res://share/icon/ingame/wingskill/pixiegeode.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -16,7 +17,7 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = true
 use_filter = false
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=2]
@@ -26,34 +27,40 @@ outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="BomingPoint" type="Node2D"]
+[node name="TargetSquare" type="Node2D"]
 light_mask = 4096
-scale = Vector2( 2, 2 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Dummy" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.431373 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Target1" type="Sprite" parent="."]
 light_mask = 4096
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 _sections_unfolded = [ "Process Material", "Textures" ]
 
 [node name="Target2" type="Sprite" parent="."]
 light_mask = 4096
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Process Material", "Time" ]
+scale = Vector2( 1.17, 1.17 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Arrow" type="Sprite" parent="."]
 light_mask = 4096
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Process Material", "Time", "Transform" ]
 
 [node name="Deco" type="Node2D" parent="."]
 
 [node name="NameNod" type="Node2D" parent="Deco"]
-position = Vector2( -30.4999, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Label" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
@@ -62,9 +69,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 36.0
-margin_top = -99.0
+margin_top = -98.0
 margin_right = 183.0
-margin_bottom = -74.0
+margin_bottom = -73.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -78,7 +85,7 @@ custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
 custom_constants/shadow_as_outline = 1
-text = "BARRACK"
+text = "PIXIE GEODE"
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
@@ -90,7 +97,7 @@ light_mask = 4096
 position = Vector2( 118.73, -80.7275 )
 rotation = 0.785397
 scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, 4 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
@@ -99,7 +106,7 @@ light_mask = 4096
 position = Vector2( 118.211, -80.5676 )
 rotation = 1.5708
 scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, -4 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
@@ -111,7 +118,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 93.0
 margin_top = -15.0
-margin_right = 211.0
+margin_right = 268.0
 margin_bottom = 87.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -120,16 +127,19 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
-text = "Fly into the targeted 
-area and release the 
-barrack from the hull."
+text = "Fly into the targeted area 
+and make a motion like 
+summoning pixie geode 
+condensing space dust to 
+materialize and then 
+complete pixie geode."
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Margin", "Size Flags", "custom_colors", "custom_fonts", "custom_fonts/font" ]
+_sections_unfolded = [ "custom_fonts", "custom_fonts/font" ]
 
 [node name="ImageNod" type="Node2D" parent="Deco"]
-position = Vector2( -30.4999, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Sprite3" type="Sprite" parent="Deco/ImageNod"]
 visible = false
@@ -137,7 +147,7 @@ light_mask = 4096
 position = Vector2( -51.2527, 49.025 )
 rotation = -2.35619
 scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, 4 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
@@ -147,7 +157,7 @@ light_mask = 4096
 position = Vector2( -50.6982, 48.8 )
 rotation = 4.71238
 scale = Vector2( 0.2, 4 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 offset = Vector2( 0, -4 )
 _sections_unfolded = [ "Offset", "Transform" ]
 
@@ -155,13 +165,13 @@ _sections_unfolded = [ "Offset", "Transform" ]
 light_mask = 4096
 position = Vector2( 137.211, -47.3638 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="SkillImage" type="Sprite" parent="Deco/ImageNod"]
 light_mask = 4096
 position = Vector2( 137.211, -47.3638 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 _sections_unfolded = [ "Transform" ]
 
