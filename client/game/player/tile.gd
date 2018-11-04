@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 func ShowArea(is_unit):
 	visible = true

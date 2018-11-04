@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Node2D
 
 func Set(name, ready):
 	var cost = stat.cards[name].Cost

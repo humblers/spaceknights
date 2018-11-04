@@ -72,7 +72,7 @@ func _ready():
 		var team = p.Team
 		if team_swapped:
 			team = "Blue" if p.Team == "Red" else "Red"
-		var n = $InGameUI.get_node(team)
+		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
 		get_node("MotherShips/%s" % team).init(self, n, p.Knights)

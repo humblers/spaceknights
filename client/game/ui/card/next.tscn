@@ -1,15 +1,15 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://game/ui/card/next.gd" type="Script" id=1]
-[ext_resource path="res://game/ui/card/bt_bot.png" type="Texture" id=2]
-[ext_resource path="res://share/icon/ingame/card/panzerkunstler.png" type="Texture" id=3]
-[ext_resource path="res://game/ui/card/bt_wait_top.png" type="Texture" id=4]
-[ext_resource path="res://font/noto_sans_display_semibold.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://game/ui/card/bt_next_top.png" type="Texture" id=6]
-[ext_resource path="res://game/ui/card/scanline.png" type="Texture" id=7]
-[ext_resource path="res://game/ui/card/bt_next_bot_frame.png" type="Texture" id=8]
-[ext_resource path="res://share/icon/ingame/card/resource_preloader.tscn" type="PackedScene" id=9]
-
+[ext_resource path="res://game/ui/no_light.tres" type="Material" id=1]
+[ext_resource path="res://game/ui/card/next.gd" type="Script" id=2]
+[ext_resource path="res://game/ui/card/bt_bot.png" type="Texture" id=3]
+[ext_resource path="res://share/icon/ingame/card/panzerkunstler.png" type="Texture" id=4]
+[ext_resource path="res://game/ui/card/bt_wait_top.png" type="Texture" id=5]
+[ext_resource path="res://font/noto_sans_display_semibold.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://game/ui/card/bt_next_top.png" type="Texture" id=7]
+[ext_resource path="res://game/ui/card/scanline.png" type="Texture" id=8]
+[ext_resource path="res://game/ui/card/bt_next_bot_frame.png" type="Texture" id=9]
+[ext_resource path="res://share/icon/ingame/card/resource_preloader.tscn" type="PackedScene" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -18,90 +18,38 @@ outline_size = 3
 outline_color = Color( 1, 0.184314, 0.0980392, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 5 )
+font_data = ExtResource( 6 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="Next" type="MarginContainer"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/margin_bottom = 21
-script = ExtResource( 1 )
-_sections_unfolded = [ "Rect", "custom_constants" ]
+[node name="Next" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Rect", "custom_constants" ]
 
-[node name="Base" type="TextureRect" parent="."]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 190.0
-margin_bottom = 130.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect", "custom_constants" ]
-
-[node name="Icon" type="TextureRect" parent="Base"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -90.0
-margin_top = -60.0
-margin_right = 90.0
-margin_bottom = 60.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+[node name="Base" type="Sprite" parent="."]
+use_parent_material = true
 texture = ExtResource( 3 )
-stretch_mode = 0
+_sections_unfolded = [ "Rect", "custom_constants" ]
+
+[node name="Icon" type="Sprite" parent="."]
+use_parent_material = true
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Rect", "texture" ]
 
-[node name="NotReady" type="TextureRect" parent="Base/Icon"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -95.0
-margin_top = -65.0
-margin_right = 95.0
-margin_bottom = 65.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 4 )
-stretch_mode = 0
+[node name="NotReady" type="Sprite" parent="Icon"]
+use_parent_material = true
+texture = ExtResource( 5 )
 
-[node name="Cost" type="Label" parent="Base/Icon"]
+[node name="Cost" type="Label" parent="Icon"]
+use_parent_material = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 7.0
-margin_top = -8.0
-margin_right = 197.0
-margin_bottom = 47.0
+margin_left = -83.0
+margin_top = -63.0
+margin_right = -61.0
+margin_bottom = -8.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -115,63 +63,21 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_fonts", "custom_fonts/font" ]
 
-[node name="Next" type="TextureRect" parent="Base"]
+[node name="Next" type="Sprite" parent="."]
 modulate = Color( 1, 0.0352941, 0.0352941, 1 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -95.0
-margin_top = -65.0
-margin_right = 95.0
-margin_bottom = 65.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 6 )
-stretch_mode = 0
+use_parent_material = true
+texture = ExtResource( 7 )
 _sections_unfolded = [ "Visibility", "texture" ]
 
-[node name="Scanline" type="TextureRect" parent="Base"]
+[node name="Scanline" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.164706 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -95.0
-margin_top = -65.0
-margin_right = 95.0
-margin_bottom = 65.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 7 )
-stretch_mode = 0
-_sections_unfolded = [ "Visibility" ]
-
-[node name="Frame" type="TextureRect" parent="Base"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -95.0
-margin_top = -65.0
-margin_right = 95.0
-margin_bottom = 65.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+use_parent_material = true
 texture = ExtResource( 8 )
-stretch_mode = 0
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="ResourcePreloader" parent="." instance=ExtResource( 9 )]
+[node name="Frame" type="Sprite" parent="."]
+use_parent_material = true
+texture = ExtResource( 9 )
+
+[node name="ResourcePreloader" parent="." instance=ExtResource( 10 )]
 
