@@ -70,7 +70,6 @@ __meta__ = {
 }
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -114,7 +113,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 3 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -150,7 +148,6 @@ position = Vector2( 0, 7.99999 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 3 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -355,6 +352,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 21 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 10 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 22 )]
 type = 0
 rect_area = Rect2( -40, -60, 80, 140 )
@@ -415,6 +435,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 31 )]
 position = Vector2( 0, -125 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ] ]

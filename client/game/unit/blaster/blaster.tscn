@@ -93,7 +93,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -123,7 +122,6 @@ _sections_unfolded = [ "Material", "Transform" ]
 position = Vector2( -43.5, 36 )
 frames = SubResource( 2 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -131,7 +129,6 @@ _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 position = Vector2( 43.5, 36 )
 frames = SubResource( 3 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -495,6 +492,29 @@ anims/explosion = ExtResource( 23 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause" ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 13 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 24 )]
 type = 0
 rect_area = Rect2( -35, -20, 70, 55 )
@@ -549,6 +569,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 32 )]
 position = Vector2( 0, -60 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "missile" ), [ ExtResource( 33 ) ] ]

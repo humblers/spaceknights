@@ -80,7 +80,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -103,22 +102,23 @@ editor/display_folded = true
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -3 )
+rotation = 3.14159
+scale = Vector2( 0.2, 0.2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Eye_Shining" type="Sprite" parent="Rotatable/Body/Head/Kira"]
-rotation = -1.86264e-08
+rotation = -1.86264e-008
 scale = Vector2( 0.2, 4 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Transform" ]
 
 [node name="Eye_Shining2" type="Sprite" parent="Rotatable/Body/Head/Kira"]
-rotation = 1.70299e-08
+rotation = 1.70299e-008
 scale = Vector2( 3.5, 0.2 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="EyeLight" type="Sprite" parent="Rotatable/Body/Head/Kira"]
-visible = false
 modulate = Color( 0.0862745, 1, 0.356863, 1 )
 material = ExtResource( 7 )
 scale = Vector2( 2, 2 )
@@ -169,7 +169,7 @@ animation = "impect"
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
-rotation = -2.98023e-08
+rotation = -2.98023e-008
 scale = 1.4
 emitting = false
 amount = 16
@@ -255,7 +255,7 @@ shadow_item_cull_mask = 1
 _sections_unfolded = [ "Range", "Z Index" ]
 
 [node name="Charge2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
-rotation = -2.98023e-08
+rotation = -2.98023e-008
 emitting = false
 amount = 30
 lifetime = 1.3
@@ -381,9 +381,9 @@ enabled = false
 editor_only = false
 texture = ExtResource( 6 )
 offset = Vector2( 0, 0 )
-texture_scale = 1.0
+texture_scale = 4.0
 color = Color( 1, 0.128418, 0.0625, 1 )
-energy = 2.0
+energy = 3.0
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -401,7 +401,6 @@ shadow_item_cull_mask = 1
 _sections_unfolded = [ "Range" ]
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
-scale = Vector2( 1.4, 1.4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR/Particle"]
@@ -585,6 +584,7 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -612,6 +612,7 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -765,6 +766,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 30 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 31 )]
 circle_radius = 30.0
 
@@ -832,4 +856,5 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 41 )]
 position = Vector2( 0, -50 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 

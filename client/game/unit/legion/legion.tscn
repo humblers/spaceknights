@@ -65,7 +65,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -101,7 +100,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="EjectionL" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/CartridgeL"]
 position = Vector2( 0.499996, -2 )
-rotation = 1.49012e-08
+rotation = 1.49012e-008
 scale = 0.4
 emitting = false
 amount = 1
@@ -260,7 +259,6 @@ position = Vector2( 0, 12 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -297,7 +295,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="EjectionR" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/ArmR/CartridgeR"]
 position = Vector2( -0.5, -2 )
-rotation = 1.30385e-08
+rotation = 1.30385e-008
 scale = 0.4
 emitting = false
 amount = 1
@@ -362,7 +360,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Drawing", "Emissio
 visible = false
 modulate = Color( 1, 0.623529, 0.290196, 1 )
 material = ExtResource( 9 )
-position = Vector2( -4, 4.76837e-07 )
+position = Vector2( -4, 4.76837e-007 )
 scale = Vector2( 0.6, 1 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -439,7 +437,7 @@ visible = false
 modulate = Color( 0.87451, 1, 0.00392157, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 14 )
-rotation = 4.13921e-09
+rotation = 4.13921e-009
 scale = Vector2( 1.8, 2.8 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
@@ -457,6 +455,7 @@ position = Vector2( 0, 12 )
 scale = Vector2( 0.6, 1 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -647,6 +646,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 29 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 10 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 30 )]
 type = 0
 rect_area = Rect2( -60, -20, 120, 60 )
@@ -703,6 +725,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 40 )]
 position = Vector2( 0, -70 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "bomb_explosion", "bullet" ), [ ExtResource( 41 ), ExtResource( 42 ) ] ]

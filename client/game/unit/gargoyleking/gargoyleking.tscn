@@ -303,6 +303,30 @@ tracks/9/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/10/type = "value"
+tracks/10/path = NodePath("Hp:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Rotatable/Explosion/Light2D:enabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=9]
 
@@ -423,7 +447,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -578,7 +601,6 @@ material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -603,7 +625,6 @@ material = SubResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -621,7 +642,6 @@ rotation = 0.855211
 scale = Vector2( 1, 0.8 )
 frames = SubResource( 5 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "Visibility", "frames" ]
 
@@ -631,6 +651,7 @@ rotation = -0.855211
 scale = Vector2( 1, 0.8 )
 frames = SubResource( 6 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -750,8 +771,30 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 10 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="Energyshield" parent="." instance=ExtResource( 11 )]
-editor/display_folded = true
 scale = Vector2( 0.6, 0.6 )
 
 [node name="HitEffect" parent="." instance=ExtResource( 12 )]
@@ -808,4 +851,5 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 17 )]
 position = Vector2( 0, -60 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 

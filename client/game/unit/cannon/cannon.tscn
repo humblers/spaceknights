@@ -1038,6 +1038,30 @@ tracks/21/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/22/type = "value"
+tracks/22/path = NodePath("Hp:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Rotatable/Explosion/Light2D:enabled")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=9]
 
@@ -1435,6 +1459,7 @@ rotation = -0.785397
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -1511,6 +1536,7 @@ rotation = 0.785398
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1589,6 +1615,7 @@ rotation = -2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1666,6 +1693,7 @@ rotation = 2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -1756,7 +1784,6 @@ normal_map = ExtResource( 16 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 _sections_unfolded = [ "Material", "Transform" ]
 
@@ -2044,6 +2071,29 @@ anims/explosion = ExtResource( 38 )
 blend_times = [  ]
 _sections_unfolded = [ "Pause", "Playback Options" ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 27 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 39 )]
 type = 0
 rect_area = Rect2( -30, -30, 60, 60 )
@@ -2088,6 +2138,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 43 )]
 position = Vector2( 0, -75 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "bullet" ), [ ExtResource( 44 ) ] ]

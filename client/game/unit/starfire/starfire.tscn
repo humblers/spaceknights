@@ -75,7 +75,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -92,7 +91,6 @@ position = Vector2( 42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Transform", "frames" ]
 
@@ -101,6 +99,7 @@ position = Vector2( -42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -159,7 +158,6 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -187,6 +185,7 @@ position = Vector2( 0, 8 )
 scale = Vector2( 1, 1.8 )
 frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -315,6 +314,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 16 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 10 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="HitEffect" parent="." instance=ExtResource( 17 )]
 type = 0
 rect_area = Rect2( -20, -30, 40, 70 )
@@ -333,6 +355,7 @@ blend_times = [  ]
 
 [node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -65 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true

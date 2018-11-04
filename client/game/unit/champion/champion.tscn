@@ -95,7 +95,6 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Material", "Transform", "Z Index" ]
@@ -236,6 +235,7 @@ rotation = 1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "frames", "material" ]
@@ -249,6 +249,7 @@ rotation = -1.0472
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 3 )
 animation = "default"
+frame = 1
 speed_scale = 5.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -524,6 +525,29 @@ playback_speed = 1.0
 anims/explosion = ExtResource( 31 )
 blend_times = [  ]
 
+[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 6 )
+offset = Vector2( 0, 0 )
+texture_scale = 10.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
 [node name="Energyshield" parent="." instance=ExtResource( 32 )]
 scale = Vector2( 0.85, 0.85 )
 
@@ -616,6 +640,7 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 46 )]
 position = Vector2( 0, -90 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 
 [editable path="Energyshield"]
