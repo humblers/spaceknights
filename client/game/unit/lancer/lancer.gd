@@ -51,6 +51,7 @@ func Destroy():
 	.Destroy()
 	TileOccupier.Release()
 	$AnimationPlayer.play("destroy")
+	game.camera.Shake(1, 60, 20)
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
 
