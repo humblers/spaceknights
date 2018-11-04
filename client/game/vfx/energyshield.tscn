@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=1]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/impectreflex.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/energyshield.tres" type="Animation" id=7]
+[ext_resource path="res://game/vfx/energyshield.gd" type="Script" id=1]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://game/vfx/ring.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/impectreflex.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/energyshield.tres" type="Animation" id=8]
 
 [sub_resource type="Curve" id=1]
 
@@ -17,19 +18,22 @@ _data = [ Vector2( 0, 0.513086 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.984197 ), 0.0, 0
 _sections_unfolded = [ "Resource" ]
 
 [node name="Energyshield" type="Node2D"]
+editor/display_folded = true
+script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Main" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Mask" type="Sprite" parent="Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0.64325, 0.347656, 1, 1 )
 light_mask = 512
-material = ExtResource( 1 )
+material = ExtResource( 2 )
 position = Vector2( 0, 156 )
 scale = Vector2( 1.2, 0.1 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Material", "Range", "Transform", "Visibility", "material" ]
 
 [node name="Shield" type="Sprite" parent="Main"]
@@ -38,13 +42,13 @@ modulate = Color( 0.671875, 0.746216, 1, 0 )
 self_modulate = Color( 0.918701, 0.71875, 1, 1 )
 light_mask = 512
 scale = Vector2( 2, 2 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Main/Shield"]
 modulate = Color( 0.903992, 0.441406, 1, 1 )
-material = ExtResource( 1 )
-texture = ExtResource( 3 )
+material = ExtResource( 2 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="ParticlePhysical" type="Node2D" parent="Main"]
@@ -55,10 +59,10 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 512
-material = ExtResource( 1 )
+material = ExtResource( 2 )
 position = Vector2( 0, -98 )
 scale = Vector2( 3, 0.4 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility" ]
 
 [node name="Particle" type="CPUParticles2D" parent="Main/ParticlePhysical"]
@@ -127,11 +131,11 @@ _sections_unfolded = [ "Angle", "Color", "Damping", "Drawing", "Emission Shape",
 [node name="Glow" type="Sprite" parent="Main/ParticlePhysical"]
 visible = false
 modulate = Color( 0.537255, 0.00392157, 0.980392, 1 )
-material = ExtResource( 1 )
+material = ExtResource( 2 )
 position = Vector2( -1, -110 )
 rotation = -3.14159
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Range", "Transform", "Visibility" ]
 
 [node name="ParticleEnergy" type="Node2D" parent="Main"]
@@ -141,9 +145,9 @@ scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Reflex" type="Sprite" parent="Main/ParticleEnergy"]
-material = ExtResource( 1 )
+material = ExtResource( 2 )
 position = Vector2( 0, 20 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Visibility", "material" ]
 
 [node name="EnergyShieldAni" type="AnimationPlayer" parent="."]
@@ -152,6 +156,6 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/energyshield = ExtResource( 7 )
+anims/energyshield = ExtResource( 8 )
 blend_times = [  ]
 
