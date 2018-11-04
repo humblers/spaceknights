@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://game/unit/pixieking/pixieking.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/pixieking/pixieking.png" type="Texture" id=2]
@@ -29,8 +29,9 @@
 [ext_resource path="res://game/unit/pixieking/skill.tres" type="Animation" id=27]
 [ext_resource path="res://game/unit/pixieking/pixieking_atk.wav" type="AudioStream" id=28]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/unit/pixieking/bullet.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/pixieking/pixieking_skill.wav" type="AudioStream" id=30]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/pixieking/bullet.tscn" type="PackedScene" id=32]
 
 [sub_resource type="Curve" id=1]
 
@@ -255,6 +256,7 @@ material = ExtResource( 5 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -292,6 +294,7 @@ rotation = 3.72529e-007
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 2 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -318,7 +321,6 @@ material = ExtResource( 5 )
 scale = Vector2( 1.4, 1.4 )
 frames = SubResource( 2 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -524,9 +526,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 30 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 30 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 31 )]
 position = Vector2( 0, -100 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 31 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 32 ) ] ]
 

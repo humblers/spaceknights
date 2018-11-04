@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/unit/lancer/lancer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/lancer/lancer.png" type="Texture" id=2]
@@ -28,10 +28,11 @@
 [ext_resource path="res://game/unit/lancer/skill.tres" type="Animation" id=26]
 [ext_resource path="res://game/unit/lancer/lancer_atk.wav" type="AudioStream" id=27]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=29]
-[ext_resource path="res://game/unit/lancer/deathcarpet.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/unit/lancer/missile.tscn" type="PackedScene" id=31]
-[ext_resource path="res://game/unit/lancer/napalm.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/lancer/lancer_skill.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/unit/lancer/deathcarpet.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/lancer/missile.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/lancer/napalm.tscn" type="PackedScene" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -85,7 +86,6 @@ rotation = -0.174533
 scale = Vector2( 1, 1.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -95,6 +95,7 @@ rotation = 0.174533
 scale = Vector2( 1, 1.4 )
 frames = SubResource( 2 )
 animation = "default"
+frame = 1
 playing = true
 _sections_unfolded = [ "Process Material", "Transform", "frames" ]
 
@@ -129,7 +130,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Main/BoosterpointL"]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 0, 250 )
+position = Vector2( 0, 450 )
 scale = Vector2( 3, 0.1 )
 texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -165,7 +166,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/Main/BoosterpointR"]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 0, 250 )
+position = Vector2( 0, 450 )
 scale = Vector2( 3, 0.1 )
 texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
@@ -174,7 +175,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 7 )
 position = Vector2( 0, 1070 )
-scale = Vector2( 4, 0.2 )
+scale = Vector2( 6, 0.3 )
 texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
@@ -395,9 +396,20 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 29 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 29 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 30 )]
 position = Vector2( 0, -125 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ] ]
+resources = [ PoolStringArray( "deathcarpet", "missile", "napalm" ), [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ] ]
 

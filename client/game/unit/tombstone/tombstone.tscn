@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://game/unit/tombstone/tombstone.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/tombstone/frame.png" type="Texture" id=2]
@@ -36,7 +36,8 @@
 [ext_resource path="res://game/unit/tombstone/skill.tres" type="Animation" id=34]
 [ext_resource path="res://game/sfx/laser_loop.wav" type="AudioStream" id=35]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=36]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=37]
+[ext_resource path="res://game/unit/tombstone/tombstone_skill.wav" type="AudioStream" id=37]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=38]
 
 [sub_resource type="Curve" id=1]
 
@@ -651,7 +652,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Boosterr" type="Position2D" parent="Rotatable/Main/Body/Rear"]
 editor/display_folded = true
-modulate = Color( 1, 1, 1, 0.00392157 )
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 60, 125 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
@@ -879,6 +880,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 37 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 37 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 38 )]
 position = Vector2( 0, -130 )
 

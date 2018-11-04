@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://game/unit/nagmash/nagmash.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/nagmash/body.png" type="Texture" id=2]
@@ -31,7 +31,8 @@
 [ext_resource path="res://game/unit/nagmash/skill.tres" type="Animation" id=29]
 [ext_resource path="res://game/sfx/laser_loop.wav" type="AudioStream" id=30]
 [ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=31]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/nagmash/nagmash_skill.wav" type="AudioStream" id=32]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=33]
 
 [sub_resource type="Curve" id=1]
 
@@ -426,7 +427,6 @@ offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D2" type="Sprite" parent="Rotatable/Body/Hanger/HangerR2"]
-visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -443,7 +443,6 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerL2"]
-visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -459,7 +458,6 @@ offset = Vector2( 22, 0 )
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D3" type="Sprite" parent="Rotatable/Body/Hanger/HangerR3"]
-visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( 8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -476,7 +474,6 @@ flip_h = true
 _sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Light2D4" type="Sprite" parent="Rotatable/Body/Hanger/HangerL3"]
-visible = false
 modulate = Color( 0.247059, 1, 0.137255, 1 )
 position = Vector2( -8, 0 )
 scale = Vector2( 0.6, 0.6 )
@@ -1378,6 +1375,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 32 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 32 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 33 )]
 position = Vector2( 0, -130 )
 
