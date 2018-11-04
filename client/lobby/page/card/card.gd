@@ -1,5 +1,6 @@
 extends "res://lobby/page/page.gd"
 
+var lobby
 var pressed_card
 var picked_card
 
@@ -109,7 +110,7 @@ func button_up_deck_num(btn):
 		http.handle_error(response[1].ErrMessage)
 		return
 	user.DeckSelected = pressed_num
-	invalidate()
+	lobby.invalidate()
 
 func button_up_deck_item(btn):
 	if current_mode() == MODE_NORMAL:
@@ -130,7 +131,7 @@ func button_up_deck_item(btn):
 	picked_card = null
 	pressed_card = null
 	user.Decks[params.num] = params.deck
-	invalidate()
+	lobby.invalidate()
 
 func set_pressed_card(btn):
 	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_TROOP]:

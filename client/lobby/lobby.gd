@@ -10,6 +10,7 @@ func _ready():
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
+	$Pages/Card.lobby = self
 	load_data()
 
 func load_data():
@@ -45,5 +46,8 @@ func login():
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
 	$Headup.invalidate()
+	invalidate()
+
+func invalidate():
 	$Pages/Battle.invalidate()
 	$Pages/Card.invalidate()
