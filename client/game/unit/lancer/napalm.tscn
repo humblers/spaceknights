@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/script/dot.gd" type="Script" id=1]
 [ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=2]
 [ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/lancer/skill_napalm.wav" type="AudioStream" id=6]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -164,8 +165,20 @@ tracks/10/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/11/type = "value"
+tracks/11/path = NodePath("Sound/Napalm:playing")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[node name="deathcarpet" type="Node2D"]
+[node name="Napalm" type="Node2D"]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ -50.0, 350.0 ],
@@ -174,11 +187,14 @@ __meta__ = {
 
 [node name="Set" type="Node2D" parent="."]
 editor/display_folded = true
+visible = false
 position = Vector2( -30, -150 )
+scale = Vector2( 1.2, 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Set1" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -20, -20 )
 scale = Vector2( 0.6, 0.6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -315,6 +331,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set2" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 50, -10 )
 _sections_unfolded = [ "Visibility" ]
 
@@ -450,6 +467,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set3" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 10, 40 )
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -586,6 +604,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set4" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 50, 66 )
 _sections_unfolded = [ "Visibility" ]
 
@@ -720,6 +739,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set5" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, 100 )
 _sections_unfolded = [ "Visibility" ]
 
@@ -855,6 +875,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set6" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 30, 154 )
 scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -991,6 +1012,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set7" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, 210 )
 _sections_unfolded = [ "Visibility" ]
 
@@ -1126,6 +1148,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set8" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0.00392157 )
 position = Vector2( 70, 216 )
 scale = Vector2( 0.6, 0.6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1262,6 +1285,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set9" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -20, 320 )
 scale = Vector2( 0.6, 0.6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1398,6 +1422,7 @@ _sections_unfolded = [ "Color", "Drawing", "Gravity", "Material", "Radial Accel"
 
 [node name="Set10" type="Node2D" parent="Set"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 30, 280 )
 scale = Vector2( 1.5, 1.5 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -1539,4 +1564,17 @@ playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/napalm = SubResource( 4 )
 blend_times = [  ]
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Napalm" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 6 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
