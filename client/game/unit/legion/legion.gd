@@ -167,7 +167,7 @@ func fireball():
 		var x = scalar.Sub(game.World().FromPixel(castPosX), u.PositionX())
 		var y = scalar.Sub(game.World().FromPixel(castPosY), u.PositionY())
 		var d = vector.LengthSquared(x, y)
-		var r = scalar.Add(Radius(), radius)
+		var r = scalar.Add(u.Radius(), radius)
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(damage, self)
 

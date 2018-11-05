@@ -92,6 +92,7 @@ func (j *jouster) handleAttack() {
 				t.TakeDamage(j.chargedAttackDamage(), j)
 			} else {
 				j.attack = 0
+				j.charge = 0
 				return
 			}
 		}

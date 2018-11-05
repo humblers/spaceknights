@@ -11,6 +11,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 
 func TakeDamage(amount, attacker):
+	var dead = hp <= 0
 	if attacker.DamageType() != "AntiShield":
 		shield -= amount
 		if shield < 0:
@@ -24,6 +25,17 @@ func TakeDamage(amount, attacker):
 		hp -= amount
 		damages[game.step] = 0
 		$HitEffect.hit(attacker)
+	if not dead and hp <= 0:
+		for id in game.UnitIds():
+			var u = game.FindUnit(id)
+			if u.Team() == Team():
+				continue
+			var x = scalar.Sub(PositionX(), u.PositionX())
+			var y = scalar.Sub(PositionY(), u.PositionY())
+			var d = vector.LengthSquared(x, y)
+			var r = scalar.Add(scalar.Add(Radius(), u.Radius()), destroyRadius())
+			if d < scalar.Mul(r, r):
+				u.TakeDamage(destroyDamage(), self)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true
@@ -52,16 +64,6 @@ func Update():
 
 func Destroy():
 	.Destroy()
-	for id in game.UnitIds():
-		var u = game.FindUnit(id)
-		if u.Team() == Team():
-			continue
-		var x = scalar.Sub(PositionX(), u.PositionX())
-		var y = scalar.Sub(PositionY(), u.PositionY())
-		var d = vector.LengthSquared(x, y)
-		var r = scalar.Add(scalar.Add(Radius(), u.Radius()), destroyRadius())
-		if d < scalar.Mul(r, r):
-			u.TakeDamage(destroyDamage(), self)
 	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()

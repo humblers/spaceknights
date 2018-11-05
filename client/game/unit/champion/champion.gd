@@ -49,6 +49,10 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
+	shield += stat.ShieldRegenPerStep
+	if shield > initialShield():
+		shield = initialShield()
+	$Hp/Shield.value = shield
 
 func Destroy():
 	.Destroy()
@@ -118,6 +122,7 @@ func handleAttack():
 				t.TakeDamage(chargedAttackDamage(), self)
 			else:
 				attack = 0
+				charge = 0
 				return
 		attack += 1
 		if attack > chargedAttackInterval():

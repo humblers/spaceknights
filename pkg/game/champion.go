@@ -21,7 +21,7 @@ func newChampion(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (c *champion) TakeDamge(amount int, a Attacker) {
+func (c *champion) TakeDamage(amount int, a Attacker) {
 	if a.DamageType() != data.AntiShield {
 		c.shield -= amount
 		if c.shield < 0 {
@@ -55,6 +55,10 @@ func (c *champion) Update() {
 				c.findTargetAndDoAction()
 			}
 		}
+	}
+	c.shield += ShieldRegenPerStep
+	if c.shield > c.initialShield() {
+		c.shield = c.initialShield()
 	}
 }
 
@@ -105,6 +109,10 @@ func (c *champion) handleAttack() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
 				t.TakeDamage(c.chargedAttackDamage(), c)
+			} else {
+				c.attack = 0
+				c.charge = 0
+				return
 			}
 		}
 		c.attack++

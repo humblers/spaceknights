@@ -13,8 +13,10 @@ type felhound struct {
 }
 
 func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "felhound", p.Team(), level, posX, posY, g)
 	return &felhound{
-		unit: newUnit(id, "felhound", p.Team(), level, posX, posY, g),
+		unit:   u,
+		shield: u.initialShield(),
 	}
 }
 

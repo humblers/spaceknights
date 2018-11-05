@@ -21,6 +21,7 @@ func newWasp(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (w *wasp) TakeDamage(amount int, a Attacker) {
+	dead := w.hp <= 0
 	if a.DamageType() != data.AntiShield {
 		w.shield -= amount
 		if w.shield < 0 {
@@ -30,19 +31,17 @@ func (w *wasp) TakeDamage(amount int, a Attacker) {
 	} else {
 		w.hp -= amount
 	}
-}
-
-func (w *wasp) Destroy() {
-	w.unit.Destroy()
-	for _, id := range w.game.UnitIds() {
-		u := w.game.FindUnit(id)
-		if u.Team() == w.Team() {
-			continue
-		}
-		d := w.Position().Sub(u.Position()).LengthSquared()
-		r := w.Radius().Add(u.Radius()).Add(w.destroyRadius())
-		if d < r.Mul(r) {
-			u.TakeDamage(w.destroyDamage(), w)
+	if !dead && w.hp <= 0 {
+		for _, id := range w.game.UnitIds() {
+			u := w.game.FindUnit(id)
+			if u.Team() == w.Team() {
+				continue
+			}
+			d := w.Position().Sub(u.Position()).LengthSquared()
+			r := w.Radius().Add(u.Radius()).Add(w.destroyRadius())
+			if d < r.Mul(r) {
+				u.TakeDamage(w.destroyDamage(), w)
+			}
 		}
 	}
 }
