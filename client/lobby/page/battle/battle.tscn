@@ -1,4 +1,4 @@
-[gd_scene load_steps=129 format=2]
+[gd_scene load_steps=131 format=2]
 
 [ext_resource path="res://lobby/page/battle/battle.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -95,10 +95,11 @@
 [ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=93]
 [ext_resource path="res://lobby/page/battle/rewardbox_pay_bg.png" type="Texture" id=94]
 [ext_resource path="res://lobby/headup/dimensium.png" type="Texture" id=95]
-[ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_pressed.png" type="Texture" id=96]
-[ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_hover.png" type="Texture" id=97]
-[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=98]
-[ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=99]
+[ext_resource path="res://lobby/headup/dimensium.tscn" type="PackedScene" id=96]
+[ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_pressed.png" type="Texture" id=97]
+[ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_hover.png" type="Texture" id=98]
+[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=99]
+[ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=100]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -1711,9 +1712,76 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id=11]
 
-resource_name = "move"
+resource_name = "appear"
 length = 2.0
 loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterL/RBoosterL:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7, 0.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterL/RBoosterLight1:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7, 0.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterR/RBoosterR:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7, 0.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterR/RBoosterLight2:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7, 0.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1960, 201 ), Vector2( -511, -669.3 ), Vector2( -350, -766 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+
+resource_name = "idle"
+length = 10.0
+loop = true
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Nodes:position")
@@ -1722,61 +1790,49 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
+"times": PoolRealArray( 0, 5, 10 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -1970, 1043 ), Vector2( -328.333, 1048.83 ), Vector2( 0, 1050 ) ]
+"values": [ Vector2( 0, 1050 ), Vector2( 11.6636, 1029.8 ), Vector2( 0, 1050 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterL/RBoosterL:emitting")
-tracks/1/interp = 1
+tracks/1/path = NodePath("Nodes/Deck:position")
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false ]
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -91.4452, -16.6117 ), Vector2( -95.9452, -8.81738 ), Vector2( -91.4452, -16.6117 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterL/RBoosterLight1:enabled")
-tracks/2/interp = 1
+tracks/2/path = NodePath("Nodes/Deck/Left:position")
+tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false ]
+"times": PoolRealArray( 0, 2, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -150, -270 ), Vector2( -150, -264.871 ), Vector2( -150, -270 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterR/RBoosterR:emitting")
-tracks/3/interp = 1
+tracks/3/path = NodePath("Nodes/Deck/Right:position")
+tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Nodes/Container/Rerverse/ReverseBoosterR/RBoosterLight2:enabled")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false ]
+"times": PoolRealArray( 0, 6.3, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 150, -270 ), Vector2( 146.5, -268.502 ), Vector2( 150, -270 ) ]
 }
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=32]
 
 size = 32
 outline_size = 0
@@ -1786,7 +1842,7 @@ use_filter = true
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=33]
 
 size = 32
 outline_size = 0
@@ -1796,7 +1852,7 @@ use_filter = true
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=34]
 
 size = 26
 outline_size = 2
@@ -1806,7 +1862,7 @@ use_filter = true
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=35]
 
 size = 28
 outline_size = 0
@@ -1816,7 +1872,7 @@ use_filter = true
 font_data = ExtResource( 84 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=36]
 
 size = 58
 outline_size = 2
@@ -1827,7 +1883,7 @@ extra_spacing_char = 4
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings", "font_data" ]
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=37]
 
 size = 32
 outline_size = 0
@@ -1837,7 +1893,7 @@ use_filter = true
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=38]
 
 size = 24
 outline_size = 0
@@ -1847,7 +1903,7 @@ use_filter = true
 font_data = ExtResource( 84 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=39]
 
 size = 24
 outline_size = 0
@@ -1857,7 +1913,7 @@ use_filter = true
 font_data = ExtResource( 82 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=40]
 
 size = 24
 outline_size = 0
@@ -1867,7 +1923,7 @@ use_filter = true
 font_data = ExtResource( 84 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=41]
 
 length = 0.2
 loop = false
@@ -1885,7 +1941,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=42]
 
 length = 0.2
 loop = false
@@ -1903,7 +1959,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=43]
 
 length = 0.2
 loop = false
@@ -1921,7 +1977,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=44]
 
 length = 0.2
 loop = false
@@ -1939,7 +1995,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=45]
 
 length = 0.2
 loop = false
@@ -1957,7 +2013,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=46]
 
 length = 0.2
 loop = false
@@ -1975,7 +2031,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=47]
 
 length = 0.2
 loop = false
@@ -1993,7 +2049,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=48]
 
 length = 0.2
 loop = false
@@ -2011,7 +2067,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=30]
 
 length = 0.5
 loop = false
@@ -2053,7 +2109,7 @@ anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 0.0
 margin_left = -720.0
-margin_top = 1120.0
+margin_top = 1070.0
 margin_right = 720.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 1440, 600 )
@@ -2179,7 +2235,7 @@ _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Nodes" type="Node2D" parent="CenterTop/Mothership"]
 light_mask = 2
-position = Vector2( 0, 1050 )
+position = Vector2( 4.94537, 1041.44 )
 scale = Vector2( 2, 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
@@ -2212,7 +2268,6 @@ position = Vector2( -30.5, -82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -2239,6 +2294,7 @@ position = Vector2( -30.5, 82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 2 )
 animation = "indicatorG"
+frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -2283,7 +2339,6 @@ position = Vector2( -193, -26.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -2310,19 +2365,20 @@ position = Vector2( -193, 256.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
 [node name="Deck" type="Node2D" parent="CenterTop/Mothership/Nodes"]
+editor/display_folded = true
 light_mask = 2
-position = Vector2( -95.9452, -8.81738 )
+position = Vector2( -93.3532, -13.3069 )
 rotation = 0.523598
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Left" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck"]
+editor/display_folded = true
 light_mask = 2
-position = Vector2( -150, -270 )
+position = Vector2( -150, -264.871 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Link" type="Sprite" parent="CenterTop/Mothership/Nodes/Deck/Left"]
@@ -2505,7 +2561,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="Right" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck"]
 editor/display_folded = true
 light_mask = 2
-position = Vector2( 150, -270 )
+position = Vector2( 148.907, -269.532 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Link3" type="Sprite" parent="CenterTop/Mothership/Nodes/Deck/Right"]
@@ -2683,6 +2739,7 @@ _sections_unfolded = [ "Transform" ]
 _sections_unfolded = [ "Transform" ]
 
 [node name="Center" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( 0, -230 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -3064,7 +3121,6 @@ position = Vector2( 137, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3074,7 +3130,6 @@ position = Vector2( -199, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3084,6 +3139,7 @@ position = Vector2( 137, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3093,6 +3149,7 @@ position = Vector2( -199, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3123,6 +3180,7 @@ position = Vector2( -6.99998, -133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3133,7 +3191,6 @@ rotation = -1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3161,7 +3218,6 @@ position = Vector2( -7, 133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3172,7 +3228,6 @@ rotation = 1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform", "frames" ]
 
@@ -3700,6 +3755,7 @@ normal_map = ExtResource( 77 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="DeckAni" type="Node2D" parent="CenterTop/Mothership"]
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="DeckLeft" type="AnimationPlayer" parent="CenterTop/Mothership/DeckAni"]
@@ -3725,13 +3781,22 @@ anims/right_skill_on = SubResource( 10 )
 blend_times = [  ]
 _sections_unfolded = [ "Playback Options" ]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterTop/Mothership"]
+[node name="AppearAni" type="AnimationPlayer" parent="CenterTop/Mothership"]
 root_node = NodePath("..")
-autoplay = "move"
+autoplay = "appear"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/move = SubResource( 11 )
+anims/appear = SubResource( 11 )
+blend_times = [  ]
+
+[node name="IdleAni" type="AnimationPlayer" parent="CenterTop/Mothership"]
+root_node = NodePath("..")
+autoplay = "idle"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/idle = SubResource( 31 )
 blend_times = [  ]
 
 [node name="Light2D" type="Light2D" parent="CenterTop"]
@@ -3854,7 +3919,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 32 )
 text = "JoyB"
 valign = 1
 percent_visible = 1.0
@@ -3876,7 +3941,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 32 )
 custom_colors/font_color = Color( 0.0745098, 0.505882, 0.694118, 1 )
 text = "No Clan"
 valign = 1
@@ -3919,7 +3984,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 33 )
 text = "25"
 valign = 1
 percent_visible = 1.0
@@ -3968,7 +4033,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 34 )
 custom_colors/font_color = Color( 1, 0.835294, 0.27451, 1 )
 text = "MEDAL BOX"
 align = 1
@@ -3993,7 +4058,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 35 )
 text = "0 / 10"
 align = 1
 valign = 1
@@ -4029,9 +4094,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -720.0
-margin_top = 5.0
+margin_top = -44.0
 margin_right = 720.0
-margin_bottom = 178.0
+margin_bottom = 129.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -4104,7 +4169,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 36 )
 text = "BATTLE"
 align = 1
 valign = 1
@@ -4114,7 +4179,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Mouse", "custom_colors", "custom_constants", "custom_fonts", "custom_fonts/font" ]
 
 [node name="Boxes" type="NinePatchRect" parent="."]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -4156,6 +4220,7 @@ stretch_mode = 0
 _sections_unfolded = [ "Margin" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Boxes/TextureRect"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
@@ -4185,7 +4250,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 37 )
 custom_colors/font_color = Color( 1, 0.780392, 0.027451, 1 )
 text = "MEDAL BOX"
 valign = 1
@@ -4209,7 +4274,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 35 )
 text = "2 / 8"
 align = 1
 valign = 1
@@ -4294,7 +4359,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4359,7 +4424,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -4382,7 +4447,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -4408,13 +4473,16 @@ size_flags_vertical = 1
 texture = ExtResource( 95 )
 stretch_mode = 0
 
+[node name="Dimensium2" parent="Boxes/GridContainer/Box0/OpenNow" instance=ExtResource( 96 )]
+position = Vector2( 178, 62 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box0"]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 21 )
+anims/down = SubResource( 41 )
 blend_times = [  ]
 
 [node name="Box1" type="TextureButton" parent="Boxes/GridContainer"]
@@ -4474,7 +4542,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4539,7 +4607,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -4562,7 +4630,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -4588,13 +4656,16 @@ size_flags_vertical = 1
 texture = ExtResource( 95 )
 stretch_mode = 0
 
+[node name="Dimensium" parent="Boxes/GridContainer/Box1/OpenNow" instance=ExtResource( 96 )]
+position = Vector2( 177, 61 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box1"]
 root_node = NodePath("..")
 autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 22 )
+anims/down = SubResource( 42 )
 blend_times = [  ]
 
 [node name="Box2" type="TextureButton" parent="Boxes/GridContainer"]
@@ -4618,8 +4689,8 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 texture_normal = ExtResource( 91 )
-texture_pressed = ExtResource( 96 )
-texture_hover = ExtResource( 97 )
+texture_pressed = ExtResource( 97 )
+texture_hover = ExtResource( 98 )
 script = ExtResource( 92 )
 _sections_unfolded = [ "Rect", "Textures" ]
 
@@ -4659,7 +4730,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4726,7 +4797,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -4749,7 +4820,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -4781,7 +4852,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 23 )
+anims/down = SubResource( 43 )
 blend_times = [  ]
 
 [node name="Box3" type="TextureButton" parent="Boxes/GridContainer"]
@@ -4845,7 +4916,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4912,7 +4983,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -4935,7 +5006,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -4967,7 +5038,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 24 )
+anims/down = SubResource( 44 )
 blend_times = [  ]
 
 [node name="Box4" type="TextureButton" parent="Boxes/GridContainer"]
@@ -5031,7 +5102,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -5098,7 +5169,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -5121,7 +5192,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -5153,7 +5224,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 25 )
+anims/down = SubResource( 45 )
 blend_times = [  ]
 
 [node name="Box5" type="TextureButton" parent="Boxes/GridContainer"]
@@ -5218,7 +5289,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -5285,7 +5356,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -5308,7 +5379,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -5340,7 +5411,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 26 )
+anims/down = SubResource( 46 )
 blend_times = [  ]
 
 [node name="Box6" type="TextureButton" parent="Boxes/GridContainer"]
@@ -5405,7 +5476,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -5472,7 +5543,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -5495,7 +5566,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -5527,7 +5598,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 27 )
+anims/down = SubResource( 47 )
 blend_times = [  ]
 
 [node name="Box7" type="TextureButton" parent="Boxes/GridContainer"]
@@ -5592,7 +5663,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 38 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -5659,7 +5730,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OPEN NOW"
 percent_visible = 1.0
@@ -5682,7 +5753,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 40 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -5714,7 +5785,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/down = SubResource( 28 )
+anims/down = SubResource( 48 )
 blend_times = [  ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes"]
@@ -5723,11 +5794,11 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/show_second = SubResource( 29 )
+anims/show_second = SubResource( 30 )
 blend_times = [  ]
 
-[node name="Requesting" parent="." instance=ExtResource( 98 )]
+[node name="Requesting" parent="." instance=ExtResource( 99 )]
 visible = false
 
-[node name="Knights" parent="." instance=ExtResource( 99 )]
+[node name="Knights" parent="." instance=ExtResource( 100 )]
 
