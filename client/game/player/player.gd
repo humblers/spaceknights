@@ -44,7 +44,7 @@ func Init(playerData, game):
 	else:
 		no_deck = true
 	self.game = game
-
+	
 func Score():
 	return score
 
@@ -79,7 +79,6 @@ func AddKnights(knights):
 			knight.side = "Right"
 		knightIds.append(knight.Id())
 		
-		# client only
 		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
 			knight.visible = false
 		if i == KNIGHT_LEADER_INDEX:
@@ -95,6 +94,10 @@ func Update():
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	rollingCard()
+	
+	# client only
+	if color == "Blue":
+		get_node("../../CameraFollowingUI/Energy").value = energy
 
 func Do(action):
 	if action.Card.Name == "":

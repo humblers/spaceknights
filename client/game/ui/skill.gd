@@ -5,19 +5,26 @@ onready var player = get_node("../../Players/Blue")
 onready var tile = get_node("../Tile")
 onready var map = get_node("../Map")
 onready var cursor_resource = get_node("../../Resource/Unit")
-onready var mothership = get_node("../../Motherships/Blue")
+onready var mothership = get_node("../../MotherShips/Blue")
+onready var mothership_anim = get_node("../../MotherShips/Blue/Ship")
+
+export(int, 1, 2) var index
+export(String, "Left", "Right") var side
 
 var card_name
 var card_level
 var pressed = false
+var ready_node
 
-func init(card):
-	card_name = card.Name
-	card_level = card.Level
+func init():
+	var knight = game.FindUnit(player.knightIds[index])
+	card_name = knight.name_
+	card_level = knight.level
 	$Cursor.add_child(cursor_resource.get_resource(card_name).instance())
 	$Cursor.visible = false
 	connect("gui_input", self, "handle_input")
-	
+	ready_node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(0)])
+
 func is_in_hand():
 	for card in player.hand:
 		if card.Name == card_name:
@@ -25,15 +32,23 @@ func is_in_hand():
 	return false
 
 func _process(delta):
-	if is_in_hand():
-		pass
+	if mothership_anim.is_playing():
 		return
-	var cost = stat.cards[card_name].Cost
-	var ready = player.energy >= cost
-	if ready:
-		pass
-	else:
-		pass
+#	if len(player.knightIds) <= 0:
+#		return
+	if card_name == null or card_name == "":
+		init()
+#func _process(delta):
+#	if not is_in_hand():
+#		mothership_anim.play("default_%s" % side.to_lower())
+#		return
+#	if 
+#	var cost = stat.cards[card_name].Cost
+#	var ready = player.energy >= cost
+#	if ready:
+#		mothership_anim.play("%s_skill_" % side.to_lower())
+#	else:
+#		pass
 
 func handle_input(ev):
 	if ev is InputEventMouseMotion and pressed:
@@ -57,7 +72,8 @@ func on_released(ev):
 	var pos = map.get_local_mouse_position()
 	if pos.y > map.rect_size.y:
 		return
-	
+
+	# check energy
 	if player.energy < stat.cards[card_name]["Cost"]:
 		show_message("Not Enought Energy", pos.y)
 
@@ -93,6 +109,7 @@ func send_input(pos):
 func on_dragged(ev):
 	var pos = map.get_local_mouse_position()
 	set_cursor_pos(int(pos.x), int(pos.y))
+	print(pos)
 
 func set_cursor_pos(x, y):
 	var card = stat.cards[card_name]
@@ -109,7 +126,7 @@ func set_cursor_pos(x, y):
 		if name == "Blue":
 			minTileY = game.Map().MinTileYOnBot()
 		else:
-			maxTileY = game.Map().MaxTileOnTop()
+			maxTileY = game.Map().MaxTileYOnTop()
 		tile[1] = int(clamp(tile[1], minTileY, maxTileY))
 		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
 		if res[1] == null:

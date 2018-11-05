@@ -7,9 +7,9 @@ onready var map = get_node("../Map")
 onready var map_bottom = map.rect_position.y + map.rect_size.y
 onready var unit_resource = get_node("../../Resource/Unit")
 onready var icon_resource = get_node("../../Resource/Icon")
-onready var mothership = get_node("../../Motherships/Blue")
+onready var mothership_anim = get_node("../../MotherShips/Blue/Ship")
 
-var index = 0
+export(int) var index
 var card_name
 var card_level
 var init_pos
@@ -118,10 +118,10 @@ func send_input(pos):
 
 func play_skill_rolling():
 	var name = player.pending[0].Name
-	var knight = player.find_knight(name)
+	var knight = player.findKnight(name)
 	if knight == null:
 		return
-	mothership.get_node("Ship").play("%s_skill_rolling" % knight.side)
+	mothership_anim.play("%s_skill_rolling" % knight.side)
 	
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -134,7 +134,6 @@ func on_dragged(ev):
 		var ratio = abs(y) / dist
 		var s = lerp(1, 0, clamp(ratio, 0, 1))
 		$Card.scale = Vector2(s, s)
-	print(ev.position)
 
 	# set cursor
 	if y < -dist:
