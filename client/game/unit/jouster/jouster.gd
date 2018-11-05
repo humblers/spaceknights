@@ -95,6 +95,7 @@ func handleAttack():
 				t.TakeDamage(chargedAttackDamage(), self)
 			else:
 				attack = 0
+				charge = 0
 				return
 		attack += 1
 		if attack > chargedAttackInterval():

@@ -484,7 +484,7 @@ var units = {
 		"layer":          "Normal",
 		"mass":           6,
 		"radius":         30,
-		"hp":             [775],		
+		"hp":             [775],
 		"shield":         [150],
 		"sight":          350,
 		"speed":          100,	#pixels per second
