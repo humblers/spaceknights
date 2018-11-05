@@ -365,17 +365,41 @@ tracks/26/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/27/type = "value"
+tracks/27/path = NodePath("Explosion/Light2D:enabled")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0, 2.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/28/type = "value"
+tracks/28/path = NodePath("Explosion/Light2D:energy")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0, 2.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 3.0, 1.0 ]
+}
 
 [node name="Bomb_explosion" type="Node2D"]
 
 [node name="Explosion" type="Node2D" parent="."]
-editor/display_folded = true
 scale = Vector2( 1.2, 1.2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Oval" type="Sprite" parent="Explosion"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 1024
 rotation = -0.785396
 scale = Vector2( 4, 0.5 )
 texture = ExtResource( 1 )
@@ -384,6 +408,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Oval2" type="Sprite" parent="Explosion"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 1024
 rotation = 0.785396
 scale = Vector2( 4, 0.5 )
 texture = ExtResource( 1 )
@@ -391,12 +416,14 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Exp6" type="Sprite" parent="Explosion"]
 modulate = Color( 0.309804, 0.133333, 0.133333, 0 )
+light_mask = 1025
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Exp4" type="CPUParticles2D" parent="Explosion"]
 modulate = Color( 1, 0.0196078, 0.0196078, 0 )
+light_mask = 1025
 scale = 2.0
 emitting = true
 amount = 8
@@ -459,6 +486,7 @@ _sections_unfolded = [ "Angular Velocity", "Emission Shape", "Gravity", "Materia
 
 [node name="Exp3" type="CPUParticles2D" parent="Explosion"]
 modulate = Color( 1, 0.592157, 0.196078, 0 )
+light_mask = 1025
 scale = 1.5
 emitting = true
 amount = 8
@@ -520,11 +548,13 @@ _sections_unfolded = [ "Angular Velocity", "Gravity", "Linear Accel", "Radial Ac
 
 [node name="Core" type="Sprite" parent="Explosion"]
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 1024
 scale = Vector2( 10, 10 )
 texture = ExtResource( 5 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Explosion"]
+light_mask = 1025
 scale = 1.5
 emitting = false
 amount = 24
@@ -587,15 +617,18 @@ _sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Gravity",
 
 [node name="Exp2" type="Sprite" parent="Explosion"]
 modulate = Color( 1, 0.498039, 0.227451, 0 )
+light_mask = 1025
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="ForScale" type="Node2D" parent="Explosion"]
+light_mask = 1025
 _sections_unfolded = [ "Transform" ]
 
 [node name="Exp1" type="CPUParticles2D" parent="Explosion/ForScale"]
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 1025
 material = ExtResource( 7 )
 scale = 3.0
 emitting = true
@@ -659,21 +692,47 @@ _sections_unfolded = [ "Angular Velocity", "Emission Shape", "Gravity", "Materia
 
 [node name="Smoke1" type="Sprite" parent="Explosion"]
 modulate = Color( 0, 0, 0, 0 )
+light_mask = 1025
 scale = Vector2( 2.5, 2.5 )
 texture = ExtResource( 9 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Smoke2" type="Sprite" parent="Explosion"]
 modulate = Color( 0, 0, 0, 0 )
+light_mask = 1025
 scale = Vector2( 3, 3 )
 texture = ExtResource( 10 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Circle" type="Sprite" parent="Explosion"]
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 1024
 scale = Vector2( 3, 3 )
 texture = ExtResource( 11 )
 _sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+
+[node name="Light2D" type="Light2D" parent="Explosion"]
+enabled = false
+editor_only = false
+texture = ExtResource( 5 )
+offset = Vector2( 0, 0 )
+texture_scale = 30.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("..")
