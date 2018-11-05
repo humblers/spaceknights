@@ -26,8 +26,6 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
-onready var player_blue = $InGameUI/Blue
-onready var player_red = $InGameUI/Red
 onready var result_anim = $HUD/StartEnd/StartWin
 
 var map
@@ -59,7 +57,6 @@ func _ready():
 	randomize()
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
-		player_red.hide()
 	set_process(true)
 	set_physics_process(true)
 
@@ -153,13 +150,11 @@ func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
 		if Over():
 			set_physics_process(false)
-			player_blue.disconnect_input()
-			player_red.disconnect_input()
 			var anim = "draw"
 			if score("Blue") > score("Red"):
-				anim = "win" if player_blue.team == "Blue" else "lose"
+				anim = "win" if $Players/Blue.team == "Blue" else "lose"
 			elif score("Red") > score("Blue"):
-				anim = "win" if player_blue.team == "Red" else "lose"
+				anim = "win" if $Players/Blue.team == "Red" else "lose"
 			result_anim.play(anim)
 			yield(result_anim, "animation_finished")
 			$HUD/GoToLobby.visible = true
