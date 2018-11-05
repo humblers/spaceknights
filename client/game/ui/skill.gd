@@ -38,6 +38,9 @@ func _process(delta):
 		return
 	if card_name == null or card_name == "":
 		init()
+	var cost = float(stat.cards[card_name].Cost)
+	ready_node.modulate.a = clamp(player.energy/cost, 0, 1)
+
 #func _process(delta):
 #	if not is_in_hand():
 #		mothership_anim.play("default_%s" % side.to_lower())
@@ -61,7 +64,12 @@ func handle_input(ev):
 			on_released(ev)
 
 func on_pressed():
-	tile.ShowArea(false)
+	var card = stat.cards[card_name]
+	var unit = stat.units[card.Unit]
+	if unit.skill.wing.has("unit"):
+		tile.ShowArea(true)
+	else:
+		tile.ShowArea(false)
 	$Cursor.visible = true
 	
 func on_released(ev):
@@ -76,6 +84,7 @@ func on_released(ev):
 	# check energy
 	if player.energy < stat.cards[card_name]["Cost"]:
 		show_message("Not Enought Energy", pos.y)
+		return
 
 	send_input(pos)
 
