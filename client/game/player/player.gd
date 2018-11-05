@@ -8,8 +8,11 @@ const ROLLING_INTERVAL_STEP = 30
 const KNIGHT_LEADER_INDEX = 0
 const KNIGHT_INITIAL_POSX = [500, 200, 800]
 const KNIGHT_INITIAL_POSY = [1450, 1350, 1350]
+const INPUT_DELAY_STEP = 10
 
+var id
 var team
+var color
 var energy = 0
 var hand = []
 var pending = []
@@ -21,8 +24,14 @@ var statRatios = {}
 var game
 var no_deck = false
 
+onready var tile = get_node("../Tile")
+
 func Init(playerData, game):
+	id = playerData.Id
 	team = playerData.Team
+	color = team
+	if game.team_swapped:
+		color = "Blue" if team == "Red" else "Red"
 	energy = START_ENERGY
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	if playerData.has("Deck"):
@@ -69,7 +78,18 @@ func AddKnights(knights):
 		else:
 			knight.side = "Right"
 		knightIds.append(knight.Id())
-
+		
+		# client only
+		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
+			knight.visible = false
+		if i == KNIGHT_LEADER_INDEX:
+			knight.SetAsLeader()
+			knight.side = "Center"
+		elif i == 1:
+			knight.side = "Left"
+		else:
+			knight.side = "Right"
+			
 func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
@@ -178,6 +198,21 @@ func OnKnightDead(knight):
 		score -= game.LEADER_SCORE
 	else:
 		score -= game.WING_SCORE
+	
+	# client only
+	get_node("../../MotherShips/%s" % color).destroy(knight.side)
+	if color == "Blue":
+		expand_spawnable_area(knight)
+
+func expand_spawnable_area(knight):
+	if knight.side == "Center":
+		return
+	var t = knight.client_team
+	var s = knight.side
+	tile.OnKnightDead(t, s)
+
+func OnKnightHalfDamaged(knight):
+	get_node("../../MotherShips/%s" % color).partial_destroy(knight.side)
 
 func removeCard(name):
 	if no_deck:

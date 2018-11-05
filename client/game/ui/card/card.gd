@@ -12,10 +12,7 @@ onready var tile = get_node("../../Tile")
 onready var battle_field = get_node("../../BattleField")
 
 func _ready():
-	Set("archers")
 	$Button.connect("gui_input", self, "_handle_input")
-#	yield(get_tree().create_timer(0.5), "timeout")
-
 
 func _handle_input(ev):
 	if ev is InputEventMouseMotion and pressed:
