@@ -55,6 +55,8 @@ func _process(delta):
 	$Card/Energy.value = player.energy
 
 func handle_input(ev):
+	if card_name == null:
+		return
 	if is_knight_card(card_name):
 		return
 	if ev is InputEventMouseMotion and pressed:

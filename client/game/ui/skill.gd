@@ -4,7 +4,7 @@ onready var game = get_node("../../")
 onready var player = get_node("../../Players/Blue")
 onready var tile = get_node("../Tile")
 onready var map = get_node("../Map")
-onready var cursor_resource = get_node("../../Resource/Unit")
+onready var cursor_resource = get_node("../../Resource/Cursor")
 onready var mothership = get_node("../../MotherShips/Blue")
 onready var mothership_anim = get_node("../../MotherShips/Blue/Ship")
 
@@ -34,8 +34,8 @@ func is_in_hand():
 func _process(delta):
 	if mothership_anim.is_playing():
 		return
-#	if len(player.knightIds) <= 0:
-#		return
+	if len(player.knightIds) <= 0:
+		return
 	if card_name == null or card_name == "":
 		init()
 #func _process(delta):
