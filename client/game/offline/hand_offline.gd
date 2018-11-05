@@ -7,7 +7,6 @@ onready var map = get_node("../Map")
 onready var map_bottom = map.rect_position.y + map.rect_size.y
 onready var unit_resource = get_node("../../Resource/Unit")
 onready var icon_resource = get_node("../../Resource/Icon")
-onready var mothership_anim = get_node("../../MotherShips/%s/Ship" % color)
 
 export(String, "Blue", "Red") var color
 export(int) var index
@@ -33,6 +32,8 @@ func _process(delta):
 	if name == null or name == "":
 		return
 	if is_knight_card(name):
+		$Card.visible = true
+		$Cursor.visible = false
 		$Card/Icon.visible = false
 		$Card/NotAvailable.visible = true
 		$Card/Energy.value = 0
@@ -97,7 +98,6 @@ func on_released(ev):
 	$Cursor.visible = true
 	$Card.visible = false
 	send_input(pos)
-	play_skill_rolling()
 
 func send_input(pos):
 	var x = int(pos.x)
@@ -125,13 +125,6 @@ func send_input(pos):
 			game.actions[input.Step].append(input.Action)
 		else:
 			game.actions[input.Step] = [input.Action]
-
-func play_skill_rolling():
-	var name = player.pending[0].Name
-	var knight = player.findKnight(name)
-	if knight == null:
-		return
-	mothership_anim.play("%s_skill_rolling" % knight.side.to_lower())
 	
 func on_dragged(ev):
 	$Card.position = ev.position

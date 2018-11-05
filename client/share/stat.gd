@@ -377,6 +377,7 @@ var units = {
 		"attackinterval": 1,
 		"skill": {
 			"wing": {
+				"damagetype": "NormalDamage",
 				"damage":   [100, 150, 200],
 				"duration": 40,
 				"start":    11,
