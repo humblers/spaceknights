@@ -187,10 +187,10 @@ func (i *ironcoffin) CastSkill(posX, posY int) bool {
 func (i *ironcoffin) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "sentryshelter" {
-		id := i.game.AddUnit(name, i.level, i.castPosX, i.castPosY, i.player)
+		unit := i.game.AddUnit(name, i.level, i.castPosX, i.castPosY, i.player)
 		tr := i.castTile.Occupied()
 		i.castTile.Release()
-		if occupier, ok := i.game.FindUnit(id).(TileOccupier); ok {
+		if occupier, ok := unit.(TileOccupier); ok {
 			if err := occupier.Occupy(tr); err != nil {
 				panic(err)
 			}

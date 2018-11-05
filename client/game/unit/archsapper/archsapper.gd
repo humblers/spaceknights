@@ -130,8 +130,7 @@ func SetAsLeader():
 		if player.Team() == "Red":
 			posX = game.FlipX(posX)
 			posY = game.FlipY(posY)
-		var id = game.AddUnit(name, level, posX, posY, player)
-		var cannon = game.FindUnit(id)
+		var cannon = game.AddUnit(name, level, posX, posY, player)
 		var tile = game.TileFromPos(posX, posY)
 		var tr = cannon.TileOccupier.GetRect(tile[0], tile[1], nx, ny)
 		var err = cannon.TileOccupier.Occupy(tr)
@@ -190,10 +189,10 @@ func adjustSkillAnim():
 
 func spawn():
 	var name = Skill()["unit"]
-	var id = game.AddUnit(name, level, castPosX, castPosY, player)
+	var unit = game.AddUnit(name, level, castPosX, castPosY, player)
 	var tr = castTile.Occupied()
 	castTile.Release()
-	var occupier = game.FindUnit(id).get("TileOccupier")
+	var occupier = unit.get("TileOccupier")
 	if occupier != null:
 		var err = occupier.Occupy(tr)
 		if err != null:

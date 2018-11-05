@@ -141,8 +141,7 @@ func (a *archsapper) SetAsLeader() {
 		if a.player.Team() == Red {
 			posX, posY = a.game.FlipX(posX), a.game.FlipY(posY)
 		}
-		id := a.game.AddUnit(name, a.level, posX, posY, a.player)
-		unit := a.game.FindUnit(id)
+		unit := a.game.AddUnit(name, a.level, posX, posY, a.player)
 		if cannon, ok := unit.(*cannon); ok {
 			tx, ty := a.game.TileFromPos(posX, posY)
 			tr := cannon.GetRect(tx, ty, nx, ny)
@@ -190,10 +189,10 @@ func (a *archsapper) CastSkill(posX, posY int) bool {
 
 func (a *archsapper) spawn() {
 	name := a.Skill()["unit"].(string)
-	id := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
+	unit := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
 	tr := a.castTile.Occupied()
 	a.castTile.Release()
-	if occupier, ok := a.game.FindUnit(id).(TileOccupier); ok {
+	if occupier, ok := unit.(TileOccupier); ok {
 		if err := occupier.Occupy(tr); err != nil {
 			panic(err)
 		}

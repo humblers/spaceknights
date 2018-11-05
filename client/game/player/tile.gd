@@ -1,4 +1,6 @@
-extends Control
+extends Node2D
+
+onready var players = get_node("../../Players")
 
 func ShowArea(is_unit):
 	visible = true
@@ -7,10 +9,10 @@ func ShowArea(is_unit):
 
 func Hide():
 	visible = false
-
-func OnKnightDead(team, side):
-	if team == "Blue":
-		$Unit.get_node("%s%s" % [team, side]).visible = true
+	
+func OnKnightDead(color, side):
+	if color == "Blue":
+		$Unit.get_node("%s%s" % [color, side]).visible = true
 		$Unit/Deco.get_node("Knight%s" % side).visible = false
 	else:
 		$Unit.get_node("Extend%s" % side).visible = true

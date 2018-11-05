@@ -187,10 +187,10 @@ func (ts *tombstone) CastSkill(posX, posY int) bool {
 func (ts *tombstone) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "barrack" {
-		id := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
+		unit := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
 		tr := ts.castTile.Occupied()
 		ts.castTile.Release()
-		if occupier, ok := ts.game.FindUnit(id).(TileOccupier); ok {
+		if occupier, ok := unit.(TileOccupier); ok {
 			if err := occupier.Occupy(tr); err != nil {
 				panic(err)
 			}

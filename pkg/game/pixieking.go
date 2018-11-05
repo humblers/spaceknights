@@ -176,10 +176,10 @@ func (p *pixieking) CastSkill(posX, posY int) bool {
 func (p *pixieking) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "pixiegeode" {
-		id := p.game.AddUnit(name, p.level, p.castPosX, p.castPosY, p.player)
+		unit := p.game.AddUnit(name, p.level, p.castPosX, p.castPosY, p.player)
 		tr := p.castTile.Occupied()
 		p.castTile.Release()
-		if occupier, ok := p.game.FindUnit(id).(TileOccupier); ok {
+		if occupier, ok := unit.(TileOccupier); ok {
 			if err := occupier.Occupy(tr); err != nil {
 				panic(err)
 			}

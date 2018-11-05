@@ -72,7 +72,7 @@ func _ready():
 		var team = p.Team
 		if team_swapped:
 			team = "Blue" if p.Team == "Red" else "Red"
-		var n = $InGameUI.get_node(team)
+		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
 		get_node("MotherShips/%s" % team).init(self, n, p.Knights)
@@ -265,10 +265,9 @@ func AddUnit(name, level, posX, posY, player):
 	var id = unitCounter
 	var node = $Resource/Unit.get_resource(name).instance()
 	node.Init(id, level, posX, posY, self, player)
-#	node.name = str(id)
 	$Units.add_child(node)
 	units[id] = node
-	return id
+	return node
 
 func FindUnit(id):
 	if units.has(id):
