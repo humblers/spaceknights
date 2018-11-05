@@ -39,6 +39,7 @@ func _process(delta):
 	if card_name == null or card_name == "":
 		init()
 	if hand_index != get_hand_index():
+		$Cursor.visible = false
 		hand_index = get_hand_index()
 		if hand_index < 0:
 			anim.play("deck_off")

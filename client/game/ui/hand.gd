@@ -30,6 +30,8 @@ func _process(delta):
 	if name == null or name == "":
 		return
 	if is_knight_card(name):
+		$Card.visible = true
+		$Cursor.visible = false
 		$Card/Icon.visible = false
 		$Card/NotAvailable.visible = true
 		$Card/Energy.value = 0
