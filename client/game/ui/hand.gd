@@ -88,6 +88,8 @@ func on_released(ev):
 	
 	if player.energy < stat.cards[card_name]["Cost"]:
 		show_message("Not Enought Energy", pos.y)
+		return
+
 	send_input(pos)
 	play_skill_rolling()
 

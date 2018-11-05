@@ -24,7 +24,7 @@ var statRatios = {}
 var game
 var no_deck = false
 
-onready var tile = get_node("../Tile")
+onready var tile = get_node("../../CameraFollowingUI/Tile")
 
 func Init(playerData, game):
 	id = playerData.Id
@@ -208,15 +208,13 @@ func OnKnightDead(knight):
 	
 	# client only
 	get_node("../../MotherShips/%s" % color).destroy(knight.side)
-	if color == "Blue":
-		expand_spawnable_area(knight)
+	expand_spawnable_area(knight)
 
 func expand_spawnable_area(knight):
 	if knight.side == "Center":
 		return
-	var t = knight.client_team
 	var s = knight.side
-	tile.OnKnightDead(t, s)
+	tile.OnKnightDead(color, s)
 
 func OnKnightHalfDamaged(knight):
 	get_node("../../MotherShips/%s" % color).partial_destroy(knight.side)
