@@ -3857,9 +3857,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 41.0
-margin_top = 20.0
 margin_right = 231.0
-margin_bottom = 150.0
+margin_bottom = 130.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -4046,9 +4045,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 243.0
-margin_top = 20.0
 margin_right = 433.0
-margin_bottom = 150.0
+margin_bottom = 130.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -4235,9 +4233,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 647.0
-margin_top = 20.0
 margin_right = 837.0
-margin_bottom = 150.0
+margin_bottom = 130.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -4424,9 +4421,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 849.0
-margin_top = 20.0
 margin_right = 1039.0
-margin_bottom = 150.0
+margin_bottom = 130.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -4609,7 +4605,7 @@ _sections_unfolded = [ "Material", "Rect", "Textures" ]
 [node name="Next2" type="Node2D" parent="CameraFollowingUI"]
 editor/display_folded = true
 material = ExtResource( 12 )
-position = Vector2( 540, 95 )
+position = Vector2( 540, 75 )
 script = ExtResource( 25 )
 _sections_unfolded = [ "Material", "Rect", "Transform", "custom_constants" ]
 
@@ -4667,43 +4663,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 use_parent_material = true
 texture = ExtResource( 28 )
 
-[node name="Energy2" type="TextureProgress" parent="CameraFollowingUI"]
-material = ExtResource( 12 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 93.0
-margin_right = 987.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 35.0
-exp_edit = false
-rounded = false
-allow_greater = false
-allow_lesser = false
-texture_under = ExtResource( 29 )
-texture_over = ExtResource( 30 )
-texture_progress = ExtResource( 31 )
-tint_under = Color( 1, 1, 1, 1 )
-tint_over = Color( 1, 1, 1, 1 )
-tint_progress = Color( 1, 1, 1, 1 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-_sections_unfolded = [ "Anchor", "Margin", "Material", "Rect", "Textures" ]
-
 [node name="NonCameraFollowingUI" type="CanvasLayer" parent="."]
-editor/display_folded = true
 layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -4923,6 +4883,7 @@ align = 1
 _sections_unfolded = [ "Anchor", "Margin", "Rect", "Size Flags", "Visibility" ]
 
 [node name="Map" type="Node2D" parent="."]
+editor/display_folded = true
 _sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="BGBasic" type="Sprite" parent="Map"]
@@ -4938,13 +4899,29 @@ z_index = 0
 _sections_unfolded = [ "Material", "Visibility", "Z Index" ]
 
 [node name="MotherShips" parent="." instance=ExtResource( 49 )]
+editor/display_folded = true
 _sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Blue" parent="MotherShips" index="0"]
+editor/display_folded = true
 
 [node name="Nodes" parent="MotherShips/Blue" index="0"]
 editor/display_folded = true
 
 [node name="Body" parent="MotherShips/Blue/Nodes" index="0"]
 editor/display_folded = true
+
+[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Body/BodyL/Sprite/Normal" index="0"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Body/BodyR/Sprite/Normal" index="0"]
+frame = 1
+
+[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Nose/NoseL/Sprite" index="2"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Nose/NoseR/Sprite" index="2"]
+frame = 0
 
 [node name="Link" parent="MotherShips/Blue/Nodes/Deck/Left" index="0"]
 editor/display_folded = true
@@ -4963,14 +4940,17 @@ visible = true
 
 [node name="Scroll1" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL/ReadySign" index="0"]
 visible = true
+frame = 6
 playing = true
 
 [node name="Scroll2" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL/ReadySign" index="1"]
 visible = true
+frame = 6
 playing = true
 
 [node name="Scroll3" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL/ReadySign" index="2"]
 visible = true
+frame = 6
 playing = true
 
 [node name="ReadyR" parent="MotherShips/Blue/Nodes/Deck/Right" index="5"]
@@ -4979,8 +4959,71 @@ editor/display_folded = false
 [node name="Container" parent="MotherShips/Blue/Nodes" index="4"]
 editor/display_folded = true
 
+[node name="IndicatorRed1" parent="MotherShips/Blue/Nodes/Container/Sprite" index="2"]
+frame = 0
+
+[node name="IndicatorRed2" parent="MotherShips/Blue/Nodes/Container/Sprite" index="3"]
+frame = 0
+
+[node name="IndicatorGreen1" parent="MotherShips/Blue/Nodes/Container/Sprite" index="4"]
+frame = 1
+
+[node name="IndicatorGreen2" parent="MotherShips/Blue/Nodes/Container/Sprite" index="5"]
+frame = 1
+
+[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Engine/EngineL/Sprite/Normal" index="0"]
+frame = 1
+
+[node name="IndicatorRed2" parent="MotherShips/Blue/Nodes/Engine/EngineL/Sprite" index="3"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Engine/EngineR/Sprite/Normal" index="0"]
+frame = 0
+
+[node name="IndicatorGreen2" parent="MotherShips/Blue/Nodes/Engine/EngineR/Sprite" index="3"]
+frame = 0
+
+[node name="Red" parent="MotherShips" index="1"]
+editor/display_folded = true
+
+[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Body/BodyL/Sprite/Normal" index="0"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Body/BodyR/Sprite/Normal" index="0"]
+frame = 1
+
+[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Nose/NoseL/Sprite" index="2"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Nose/NoseR/Sprite" index="2"]
+frame = 0
+
 [node name="Left" parent="MotherShips/Red/Nodes/Deck" index="0"]
 editor/display_folded = true
+
+[node name="IndicatorRed1" parent="MotherShips/Red/Nodes/Container/Sprite" index="2"]
+frame = 0
+
+[node name="IndicatorRed2" parent="MotherShips/Red/Nodes/Container/Sprite" index="3"]
+frame = 0
+
+[node name="IndicatorGreen1" parent="MotherShips/Red/Nodes/Container/Sprite" index="4"]
+frame = 1
+
+[node name="IndicatorGreen2" parent="MotherShips/Red/Nodes/Container/Sprite" index="5"]
+frame = 1
+
+[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Engine/EngineL/Sprite/Normal" index="0"]
+frame = 1
+
+[node name="IndicatorRed2" parent="MotherShips/Red/Nodes/Engine/EngineL/Sprite" index="3"]
+frame = 0
+
+[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Engine/EngineR/Sprite/Normal" index="0"]
+frame = 0
+
+[node name="IndicatorGreen2" parent="MotherShips/Red/Nodes/Engine/EngineR/Sprite" index="3"]
+frame = 0
 
 [node name="Units" type="Position2D" parent="."]
 position = Vector2( 40, 60 )
