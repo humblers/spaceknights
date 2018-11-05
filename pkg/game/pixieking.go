@@ -124,7 +124,7 @@ func (p *pixieking) Update() {
 func (p *pixieking) findTargetAndAttack() {
 	t := p.findTarget()
 	p.setTarget(t)
-	if p != nil && p.withinRange(t) {
+	if t != nil && p.withinRange(t) {
 		p.handleAttack()
 	}
 }
