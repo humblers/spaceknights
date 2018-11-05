@@ -348,3 +348,6 @@ static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 
 func go_to_lobby():
 	loading_screen.goto_scene("res://lobby/lobby.tscn")
+
+func restart_game():
+	loading_screen.goto_scene("res://game/offline/offline.tscn")
