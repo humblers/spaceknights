@@ -44,7 +44,11 @@ func Init(playerData, game):
 	else:
 		no_deck = true
 	self.game = game
-	
+
+	# client only
+	if color == "Blue":
+		get_node("../../CameraFollowingUI/Energy").max_value = MAX_ENERGY
+
 func Score():
 	return score
 

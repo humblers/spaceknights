@@ -23,7 +23,7 @@ func init():
 	$Cursor.add_child(cursor_resource.get_resource(card_name).instance())
 	$Cursor.visible = false
 	connect("gui_input", self, "handle_input")
-	ready_node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(0)])
+	ready_node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(1)])
 
 func is_in_hand():
 	for card in player.hand:

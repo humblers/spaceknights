@@ -123,7 +123,7 @@ func play_skill_rolling():
 	var knight = player.findKnight(name)
 	if knight == null:
 		return
-	mothership_anim.play("%s_skill_rolling" % knight.side)
+	mothership_anim.play("%s_skill_rolling" % knight.side.to_lower())
 	
 func on_dragged(ev):
 	$Card.position = ev.position

@@ -26,7 +26,8 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
-onready var result_anim = $HUD/StartEnd/StartWin
+onready var result_anim = $NonCameraFollowingUI/StartEnd/StartWin
+onready var go_to_lobby = $NonCameraFollowingUI/GoToLobby
 
 var map
 
@@ -157,7 +158,7 @@ func _physics_process(delta):
 				anim = "win" if $Players/Blue.team == "Red" else "lose"
 			result_anim.play(anim)
 			yield(result_anim, "animation_finished")
-			$HUD/GoToLobby.visible = true
+			go_to_lobby.visible = true
 		else:
 			if connected:
 				var iterations = 1
