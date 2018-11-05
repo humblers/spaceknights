@@ -109,7 +109,6 @@ func send_input(pos):
 func on_dragged(ev):
 	var pos = map.get_local_mouse_position()
 	set_cursor_pos(int(pos.x), int(pos.y))
-	print(pos)
 
 func set_cursor_pos(x, y):
 	var card = stat.cards[card_name]
@@ -118,15 +117,11 @@ func set_cursor_pos(x, y):
 	if unit.skill.wing.has("unit"):
 		var nx = 1
 		var ny = 1
-		var minTileY = 0
+		var minTileY = game.Map().MinTileYOnBot()
 		var maxTileY = game.Map().TileNumY() - 1
 		if unit and unit["type"] == "Building":
 			nx = unit["tilenumx"]
 			ny = unit["tilenumy"]
-		if name == "Blue":
-			minTileY = game.Map().MinTileYOnBot()
-		else:
-			maxTileY = game.Map().MaxTileYOnTop()
 		tile[1] = int(clamp(tile[1], minTileY, maxTileY))
 		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minTileY, maxTileY)
 		if res[1] == null:
