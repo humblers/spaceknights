@@ -82,17 +82,11 @@ func AddKnights(knights):
 		else:
 			knight.side = "Right"
 		knightIds.append(knight.Id())
-		
+
+		# client_only
 		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
 			knight.visible = false
-		if i == KNIGHT_LEADER_INDEX:
-			knight.SetAsLeader()
-			knight.side = "Center"
-		elif i == 1:
-			knight.side = "Left"
-		else:
-			knight.side = "Right"
-			
+
 func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:

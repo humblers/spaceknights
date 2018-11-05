@@ -6,15 +6,16 @@ onready var tile = get_node("../Tile")
 onready var map = get_node("../Map")
 onready var cursor_resource = get_node("../../Resource/Cursor")
 onready var mothership = get_node("../../MotherShips/Blue")
-onready var mothership_anim = get_node("../../MotherShips/Blue/Ship")
 
 export(int, 1, 2) var index
 export(String, "Left", "Right") var side
 
+var hand_index = -1
 var card_name
 var card_level
 var pressed = false
 var ready_node
+var anim
 
 func init():
 	var knight = game.FindUnit(player.knightIds[index])
@@ -22,38 +23,47 @@ func init():
 	card_level = knight.level
 	$Cursor.add_child(cursor_resource.get_resource(card_name).instance())
 	$Cursor.visible = false
+	anim = mothership.get_node("Anim%s" % side)
 	connect("gui_input", self, "handle_input")
-	ready_node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(1)])
 
-func is_in_hand():
-	for card in player.hand:
+func get_hand_index():
+	for i in len(player.hand):
+		var card = player.hand[i]
 		if card.Name == card_name:
-			return true
-	return false
+			return i
+	return -1
 
 func _process(delta):
-	if mothership_anim.is_playing():
-		return
 	if len(player.knightIds) <= 0:
 		return
 	if card_name == null or card_name == "":
 		init()
-	var cost = float(stat.cards[card_name].Cost)
-	ready_node.modulate.a = clamp(player.energy/cost, 0, 1)
+	if hand_index != get_hand_index():
+		hand_index = get_hand_index()
+		if hand_index < 0:
+			anim.play("deck_off")
+		else:
+			anim.play("deck_on")
+			yield(anim, "animation_finished")
+			mothership.get_node("Nodes/Deck/%s/Link/Effect" % side).visible = false
+			mothership.get_node("Nodes/Deck/%s/Link/Effect" % side).playing = false
+			mothership.get_node("Nodes/Deck/%s/Link2/Effect" % side).visible = false
+			mothership.get_node("Nodes/Deck/%s/Link2/Effect" % side).playing = false
 
-#func _process(delta):
-#	if not is_in_hand():
-#		mothership_anim.play("default_%s" % side.to_lower())
-#		return
-#	if 
-#	var cost = stat.cards[card_name].Cost
-#	var ready = player.energy >= cost
-#	if ready:
-#		mothership_anim.play("%s_skill_" % side.to_lower())
-#	else:
-#		pass
+	if hand_index < 0:
+		return
+	var cost = float(stat.cards[card_name].Cost)
+	var ratio = float(player.energy)/cost
+	var node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(1)])
+	node.modulate.a = clamp(ratio, 0, 1)
+	for i in 3:
+		var n = mothership.get_node("Nodes/Deck/%s/Ready%s/ReadySign/Scroll%s" % [side, side.left(1), (i+1)])
+		n.visible = ratio > 1
+		n.playing = ratio > 1
 
 func handle_input(ev):
+	if get_hand_index() < 0:
+		return
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)
 	if ev is InputEventMouseButton:
@@ -64,6 +74,8 @@ func handle_input(ev):
 			on_released(ev)
 
 func on_pressed():
+	if side == "Right":
+		print("right pressed")
 	var card = stat.cards[card_name]
 	var unit = stat.units[card.Unit]
 	if unit.skill.wing.has("unit"):
@@ -86,6 +98,7 @@ func on_released(ev):
 		show_message("Not Enought Energy", pos.y)
 		return
 
+	$Cursor.visible = true
 	send_input(pos)
 
 func send_input(pos):
