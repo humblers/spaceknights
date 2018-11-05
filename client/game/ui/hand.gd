@@ -41,6 +41,7 @@ func _process(delta):
 		clear_units()
 		add_units()
 		var cost = stat.cards[card_name].Cost
+		$Card.visible = true
 		$Card/Icon.visible = true
 		$Card/NotAvailable.visible = false
 		$Card/Icon.texture = icon_resource.get_resource(card_name)
@@ -80,6 +81,7 @@ func on_released(ev):
 	$Card.position = init_pos
 	$Card.scale = Vector2(1, 1)
 	$Card.z_index = init_z_index
+	$Cursor.visible = false
 
 	# released on map?
 	var pos = map.get_local_mouse_position()
@@ -90,6 +92,8 @@ func on_released(ev):
 		show_message("Not Enought Energy", pos.y)
 		return
 
+	$Cursor.visible = true
+	$Card.visible = false
 	send_input(pos)
 	play_skill_rolling()
 
