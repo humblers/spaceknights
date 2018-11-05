@@ -54,7 +54,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("missile").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	game.AddBullet(b)
 	# client only
 	b.global_position = $Rotatable/TurretBody/Launcher/Shotpoint/Left.global_position
