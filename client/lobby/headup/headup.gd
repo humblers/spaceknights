@@ -1,6 +1,18 @@
 extends CanvasLayer
 
+var lobby
+var scroll
+
+onready var page_btns = [
+	$Bot/Card,
+	$Bot/Battle,
+	$Bot/Explore,
+]
+
 func _ready():
+	for i in len(page_btns):
+		var btn = page_btns[i]
+		btn.connect("button_up", self, "page_select", [btn, i])
 	$Top/Config.connect("button_up", self, "show_config")
 	$Config/MarginContainer/Close.connect("button_up", self, "hide_config")
 	$Config/MarginContainer/Account/Change.connect("button_up", self, "change_uid")
@@ -28,6 +40,10 @@ func change_uid():
 	config.save(user.CONFIG_FILE)
 	http.cookie_str = ""
 	loading_screen.goto_scene("res://lobby/lobby.tscn")
+
+func page_select(btn, i):
+	lobby.button_group_behavior(page_btns, i)
+	scroll.move_to_page(btn)
 
 func play_replay():
 	#TODO : implement replay

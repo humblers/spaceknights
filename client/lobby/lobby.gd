@@ -1,16 +1,17 @@
 extends Control
 
 func _ready():
-	for page in ["Battle", "Card"]:
-		var btn = $Headup/Bot.get_node(page)
-		btn.connect("button_up", $Scroll, "move_to_page", [btn])
 	http.modal_dialog = $Headup/Modal
 	var err = http.connect_to_host(config.LOBBY_HOST, config.LOBBY_PORT)
 	if err != OK:
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
+	$Headup.lobby = self
+	$Headup.scroll = $Scroll
+	$Headup.page_select($Headup.page_btns[1], 1)
 	$Pages/Card.lobby = self
+	$Pages/Battle.lobby = self
 	load_data()
 
 func load_data():
@@ -51,3 +52,10 @@ func login():
 func invalidate():
 	$Pages/Battle.invalidate()
 	$Pages/Card.invalidate()
+
+# temporary? avoid godot's button group foolish behavior(pressed button hover)
+static func button_group_behavior(buttons, selected_idx):
+	for i in len(buttons):
+		var btn = buttons[i]
+		var tex = btn.texture_pressed if i == selected_idx else btn.texture_disabled
+		btn.texture_normal = tex

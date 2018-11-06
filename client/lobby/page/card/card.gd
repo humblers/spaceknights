@@ -54,7 +54,7 @@ func invalidate():
 	var cur_mode = current_mode()
 	var selected = user.DeckSelected
 	deck_label.text = "%d" % (selected + 1)
-	deck_btns[selected].pressed = true
+	lobby.button_group_behavior(deck_btns, selected)
 
 	var not_found_cards = stat.cards.keys()
 	var found_cards = user.Cards.keys()

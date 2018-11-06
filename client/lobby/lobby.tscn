@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/page/scroll.gd" type="Script" id=2]
 [ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=3]
 [ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=5]
-[ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/bgm/lobby_dusty_shrine.ogg" type="AudioStream" id=7]
+[ext_resource path="res://lobby/page/page.gd" type="Script" id=6]
+[ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/bgm/lobby_dusty_shrine.ogg" type="AudioStream" id=8]
 
 [node name="lobby" type="Control"]
 anchor_left = 0.0
@@ -94,11 +95,12 @@ margin_right = -1440.0
 [node name="Explore" parent="Pages" instance=ExtResource( 5 )]
 margin_left = 1440.0
 margin_right = 1440.0
+script = ExtResource( 6 )
 
-[node name="Headup" parent="." instance=ExtResource( 6 )]
+[node name="Headup" parent="." instance=ExtResource( 7 )]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource( 8 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = true

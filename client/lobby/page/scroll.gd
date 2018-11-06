@@ -76,7 +76,7 @@ func scroll_mode():
 	return scroll
 
 func move_to_page(btn):
-	cur_page = pages.get_node(btn.get_name())
+	cur_page = pages.get_node(btn.name)
 	$Tween.interpolate_property(
 			$Camera2D,
 			"global_position",
