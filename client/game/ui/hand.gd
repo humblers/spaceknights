@@ -7,6 +7,7 @@ onready var map = get_node("../Map")
 onready var map_bottom = map.rect_position.y + map.rect_size.y
 onready var unit_resource = get_node("../../Resource/Unit")
 onready var icon_resource = get_node("../../Resource/Icon")
+onready var dummy_init_pos = $Dummy.position
 
 export(int) var index
 var card_name
@@ -96,6 +97,13 @@ func on_released(ev):
 	$Cursor.visible = true
 	$Card.visible = false
 	send_input(pos)
+	$AnimationPlayer.play("launch")
+	yield($AnimationPlayer, "animation_finished")
+	$Dummy.position = $Cursor.position
+	$AnimationPlayer.play("show")
+	yield($AnimationPlayer, "animation_finished")
+	$Dummy.position = dummy_init_pos
+	$Dummy.visible = false
 
 func send_input(pos):
 	var x = int(pos.x)
@@ -204,6 +212,7 @@ func add_units():
 		var node = unit_resource.get_resource(unit).instance()
 		node.position = Vector2(offsetX[i], offsetY[i])
 		$Dummy.add_child(node)
+		$Dummy.visible = true
 		node = node.duplicate()
 		node.modulate = Color(1.0, 1.0, 1.0, 0.5)
 		$Cursor.add_child(node)
