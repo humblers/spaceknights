@@ -17,6 +17,8 @@ import (
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
+const MatchTimeoutInSeconds = 30
+
 type MatchMaker interface {
 	http.Handler
 	Stop()
@@ -49,6 +51,7 @@ func NewMatchMaker(path string, ss *redistore.RediStore, p *redis.Pool, l *log.L
 	mm.Post("request", mm.request)
 	ctx, cancel := context.WithCancel(context.Background())
 	mm.cancelFunc = cancel
+	mm.cancelWait.Add(2)
 	go mm.run(ctx)
 	go mm.subscribe(ctx)
 	return path, mm
@@ -78,7 +81,6 @@ func (mm *matchMaker) Stop() {
 }
 
 func (mm *matchMaker) run(ctx context.Context) {
-	mm.cancelWait.Add(1)
 	defer mm.cancelWait.Done()
 
 	ticker := time.NewTicker(1000 * time.Millisecond)
@@ -95,40 +97,49 @@ func (mm *matchMaker) run(ctx context.Context) {
 }
 
 func (mm *matchMaker) subscribe(ctx context.Context) {
+	defer mm.cancelWait.Done()
+
 	rc := mm.redisPool.Get()
 	rc.Send("SUBSCRIBE", "match")
 	rc.Flush()
 	defer func() {
 		rc.Send("UNSUBSCRIBE", "match")
 		rc.Flush()
-		rc.Close()
 	}()
 
+	mm.cancelWait.Add(1)
 	go func() {
-		mm.cancelWait.Add(1)
 		defer mm.cancelWait.Done()
 		for {
 			reply, err := redis.Values(rc.Receive())
 			if err != nil {
-				if err.Error() == "redigo: connection closed" {
-					return
-				}
 				panic(err)
 			}
-			if len(reply) > 2 && string(reply[0].([]byte)) == "message" && string(reply[1].([]byte)) == "match" {
-				var cfg game.Config
-				if err := json.Unmarshal(reply[2].([]byte), &cfg); err != nil {
-					mm.logger.Print(err)
-					continue
-				}
-				mm.mu.Lock()
-				for _, player := range cfg.Players {
-					if ch, ok := mm.matchWaitings[player.Id]; ok {
-						ch <- MatchResponse{Config: cfg}
-						delete(mm.matchWaitings, player.Id)
+			if len(reply) > 2 {
+				cat, ch := string(reply[0].([]byte)), string(reply[1].([]byte))
+				switch cat {
+				case "message":
+					if ch == "match" {
+						var cfg game.Config
+						if err := json.Unmarshal(reply[2].([]byte), &cfg); err != nil {
+							mm.logger.Print(err)
+							continue
+						}
+						mm.mu.Lock()
+						for _, player := range cfg.Players {
+							if ch, ok := mm.matchWaitings[player.Id]; ok {
+								ch <- MatchResponse{Config: cfg}
+								delete(mm.matchWaitings, player.Id)
+							}
+						}
+						mm.mu.Unlock()
+					}
+				case "unsubscribe":
+					if ch == "match" {
+						rc.Close()
+						return
 					}
 				}
-				mm.mu.Unlock()
 			}
 		}
 	}()
@@ -164,31 +175,45 @@ func (mm *matchMaker) matchMaking(ctx context.Context) {
 	}
 	// TODO: add matching rule
 	// score means match registration time
+	var uids []string
+	var regTimes []int64
 	for {
-		var uid1, uid2 string
-		var regTime1, regTime2 int
-		waitings, err = redis.Scan(waitings, &uid1, &regTime1, &uid2, &regTime2)
+		var uid string
+		var regTime int64
+		waitings, err = redis.Scan(waitings, &uid, &regTime)
 		if err != nil {
 			break
 		}
-		cnt, err := redis.Int(rc.Do("ZREM", "match:waitings", uid1, uid2))
-		if err != nil {
-			panic(err)
-		}
-		if cnt != 2 {
-			mm.logger.Printf("expect count == 2, actual num: %v", cnt)
+		if time.Now().Unix()-regTime >= MatchTimeoutInSeconds {
+			if _, err := rc.Do("ZREM", "match:waitings", uid); err != nil {
+				mm.logger.Printf("error while remove old waiting: %v", err)
+			}
 			continue
 		}
-		go mm.createMatchConfig(ctx, uid1, uid2, regTime1, regTime2)
+		uids = append(uids, uid)
+		regTimes = append(regTimes, regTime)
+		if len(uids) >= 2 {
+			cnt, err := redis.Int(rc.Do("ZREM", "match:waitings", uids[0], uids[1]))
+			if err != nil {
+				panic(err)
+			}
+			if cnt != 2 {
+				mm.logger.Printf("expect count == 2, actual num: %v", cnt)
+				continue
+			}
+			uids = uids[2:]
+			regTimes = regTimes[2:]
+			go mm.createMatchConfig(ctx, uids[0], uids[1], regTimes[0], regTimes[1])
+		}
 	}
 }
 
-func (mm *matchMaker) createMatchConfig(ctx context.Context, uid1, uid2 string, regTime1, regTime2 int) {
+func (mm *matchMaker) createMatchConfig(ctx context.Context, uid1, uid2 string, regTime1, regTime2 int64) {
 	rc := mm.redisPool.Get()
 	defer rc.Close()
 
+	mm.cancelWait.Add(1)
 	go func() {
-		mm.cancelWait.Add(1)
 		defer mm.cancelWait.Done()
 
 		var err error
@@ -253,8 +278,9 @@ func (mm *matchMaker) createMatchConfig(ctx context.Context, uid1, uid2 string, 
 		if err = json.Unmarshal(b, &resp); err != nil {
 			return
 		}
-		if !resp.Created {
-			err = fmt.Errorf("game server can't create game session")
+		config.Address = resp.Address
+		packet, err = json.Marshal(config)
+		if err != nil {
 			return
 		}
 		mm.publish(packet)
@@ -279,10 +305,17 @@ func (mm *matchMaker) request(b *bases, w http.ResponseWriter, r *http.Request) 
 	case resp := <-ch:
 		b.response = &resp
 		if resp.ErrMessage == "" {
-			resp.Address = "13.125.74.237"
-			mm.logger.Printf("[MATCH] created server ip: %v", resp.Address)
+			mm.logger.Printf("[MATCH] game config: %v", resp.Config)
 		}
+	case <-time.After(MatchTimeoutInSeconds * time.Second):
+		mm.mu.Lock()
+		delete(mm.matchWaitings, b.uid)
+		mm.mu.Unlock()
+		b.response = &MatchResponse{ErrMessage: "match request fail"}
 	case <-r.Context().Done():
+		mm.mu.Lock()
+		delete(mm.matchWaitings, b.uid)
+		mm.mu.Unlock()
 		b.response = &MatchResponse{ErrMessage: "match request fail"}
 	}
 }

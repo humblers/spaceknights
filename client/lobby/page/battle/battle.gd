@@ -34,10 +34,14 @@ func recursive_light_masking(node, mask):
 
 func match_request():
 	var req = http.new_request(HTTPClient.METHOD_POST, "/match/request")
-	$Requesting.pop(req)
-	var resp = yield(req, "response")
-	var cfg = resp[1].Config
-	tcp.Connect(resp[1].Address, 9999)
+	lobby.get_node("Headup/Requesting").pop(req)
+	var response = yield(req, "response")
+	if not response[0]:
+		http.handle_error(response[1].ErrMessage)
+		return
+	var cfg = response[1].Config
+	var addr = cfg.Address.split(":")
+	tcp.Connect(addr[0], int(addr[1]))
 	yield(tcp, "connected")
 	tcp.Send({"Id": user.Id, "Token": user.Id})
 	tcp.Send({"GameId": cfg.Id})

@@ -146,5 +146,5 @@ func (rt *Router) responseJSON(w http.ResponseWriter, r *http.Request, code int,
 	}
 	writeHeader(w, code)
 	w.Write(buf.Bytes())
-	rt.logger.Printf("[%v]code:%v, ret:%v", r.URL.Path, code, string(buf.Bytes()))
+	rt.logger.Printf("[%v]code:%v", r.URL.Path, code)
 }
