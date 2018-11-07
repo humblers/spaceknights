@@ -6,28 +6,28 @@ var picked_card
 
 var filter = "Troop"
 
-onready var deck_label = $PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Current
+onready var deck_label = $PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Current
 onready var deck_btns = [
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Deck0,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Deck1,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Deck2,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Deck3,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Decks/HBoxContainer/Deck4,
+	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck0,
+	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck1,
+	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck2,
+	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck3,
+	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck4,
 ]
 
 onready var knights = [
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Knights/Center/Item,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Knights/Left/Item,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Knights/Right/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Center/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Left/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Right/Item,
 ]
 
 onready var troops = [
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer/Item,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer2/Item,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer2/Item2,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer3/Item,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer3/Item2,
-	$PageMain/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Troops/VBoxContainer4/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer2/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer2/Item2,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer3/Item,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer3/Item2,
+	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer4/Item,
 ]
 
 onready var containers = {
