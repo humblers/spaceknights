@@ -9,7 +9,6 @@ func _ready():
 		return
 	$Headup.lobby = self
 	$Headup.scroll = $Scroll
-	$Headup.page_select($Headup.page_btns[1], 1)
 	$Pages/Card.lobby = self
 	$Pages/Battle.lobby = self
 	load_data()
@@ -52,10 +51,3 @@ func login():
 func invalidate():
 	$Pages/Battle.invalidate()
 	$Pages/Card.invalidate()
-
-# temporary? avoid godot's button group foolish behavior(pressed button hover)
-static func button_group_behavior(buttons, selected_idx):
-	for i in len(buttons):
-		var btn = buttons[i]
-		var tex = btn.texture_pressed if i == selected_idx else btn.texture_disabled
-		btn.texture_normal = tex

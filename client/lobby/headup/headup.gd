@@ -42,7 +42,6 @@ func change_uid():
 	loading_screen.goto_scene("res://lobby/lobby.tscn")
 
 func page_select(btn, i):
-	lobby.button_group_behavior(page_btns, i)
 	scroll.move_to_page(btn)
 
 func play_replay():
