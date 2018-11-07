@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://game/bg/mothership/gui_deck/container_hole.png" type="Texture" id=1]
 [ext_resource path="res://game/bg/mothership/gui_deck/container_middle.png" type="Texture" id=2]
@@ -36,6 +36,9 @@
 [ext_resource path="res://game/bg/mothership/gui_deck/pivot_cover_normal.png" type="Texture" id=34]
 [ext_resource path="res://game/bg/mothership/gui_deck/next_top.png" type="Texture" id=35]
 [ext_resource path="res://game/bg/mothership/gui_deck/next_top_normal.png" type="Texture" id=36]
+[ext_resource path="res://game/bg/mothership/gui_deck/next_top_cover.png" type="Texture" id=37]
+[ext_resource path="res://game/bg/mothership/gui_deck/next_top_cover_normal.png" type="Texture" id=38]
+[ext_resource path="res://game/bg/mothership/gui_deck/next_text.png" type="Texture" id=39]
 
 [sub_resource type="Animation" id=1]
 
@@ -223,7 +226,7 @@ tracks/14/keys = {
 "values": [ Vector2( 22, -24 ), Vector2( 22, -24 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Set/ElixirBar/Pivot/Cover:position")
+tracks/15/path = NodePath("Set/ElixirBar/Pivot/Arms/Cover:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -1062,6 +1065,30 @@ tracks/84/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 404, 0 ) ]
 }
+tracks/85/type = "value"
+tracks/85/path = NodePath("Set/ElixirBar/Pivot/NextTop/Cover:position")
+tracks/85/interp = 1
+tracks/85/loop_wrap = true
+tracks/85/imported = false
+tracks/85/enabled = true
+tracks/85/keys = {
+"times": PoolRealArray( 0, 4.7, 4.9, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -23 ), Vector2( 0, -23 ), Vector2( 0, -44 ), Vector2( 0, -44 ) ]
+}
+tracks/86/type = "value"
+tracks/86/path = NodePath("Set/ElixirBar/Pivot/NextTop/Cover/NextText:visible")
+tracks/86/interp = 1
+tracks/86/loop_wrap = true
+tracks/86/imported = false
+tracks/86/enabled = true
+tracks/86/keys = {
+"times": PoolRealArray( 0, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true ]
+}
 
 [node name="GUI" type="Position2D"]
 position = Vector2( 0, -525 )
@@ -1799,7 +1826,7 @@ normal_map = ExtResource( 32 )
 offset = Vector2( -62, 0 )
 flip_h = true
 
-[node name="Cover" type="Sprite" parent="Module/Set/ElixirBar/Pivot"]
+[node name="Cover" type="Sprite" parent="Module/Set/ElixirBar/Pivot/Arms"]
 position = Vector2( 0, 20 )
 texture = ExtResource( 33 )
 normal_map = ExtResource( 34 )
@@ -1809,6 +1836,15 @@ position = Vector2( 0, -120 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 35 )
 normal_map = ExtResource( 36 )
+
+[node name="Cover" type="Sprite" parent="Module/Set/ElixirBar/Pivot/NextTop"]
+position = Vector2( 0, -44 )
+texture = ExtResource( 37 )
+normal_map = ExtResource( 38 )
+
+[node name="NextText" type="Sprite" parent="Module/Set/ElixirBar/Pivot/NextTop/Cover"]
+position = Vector2( -21, -4 )
+texture = ExtResource( 39 )
 
 [node name="AnimationGUI" type="AnimationPlayer" parent="Module"]
 root_node = NodePath("..")
