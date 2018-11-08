@@ -170,7 +170,7 @@ func useCard(c, tileX, tileY):
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:
-		if team == "Blue":
+		if color == "Blue":
 			var sound = $UnitReadySound/ResourcePreloader.get_resource(c.Name)
 			$UnitReadySound/AudioStreamPlayer.stream = sound
 			$UnitReadySound/AudioStreamPlayer.play()
