@@ -84,7 +84,7 @@ func AddKnights(knights):
 		knightIds.append(knight.Id())
 
 		# client_only
-		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
+		if not get_node("../../Motherships/%s" % team).show_anim_finished:
 			knight.visible = false
 
 func Update():
@@ -201,7 +201,7 @@ func OnKnightDead(knight):
 		score -= game.WING_SCORE
 	
 	# client only
-	get_node("../../MotherShips/%s" % color).destroy(knight.side)
+	get_node("../../Motherships/%s" % color).destroy(knight.side)
 	expand_spawnable_area(knight)
 
 func expand_spawnable_area(knight):
@@ -211,7 +211,7 @@ func expand_spawnable_area(knight):
 	tile.OnKnightDead(color, s)
 
 func OnKnightHalfDamaged(knight):
-	get_node("../../MotherShips/%s" % color).partial_destroy(knight.side)
+	get_node("../../Motherships/%s" % color).partial_destroy(knight.side)
 
 func removeCard(name):
 	if no_deck:

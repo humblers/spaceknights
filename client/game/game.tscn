@@ -48,7 +48,7 @@
 [ext_resource path="res://game/ui/draw_deco.png" type="Texture" id=46]
 [ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=47]
 [ext_resource path="res://game/bg/kinetica/kinetica_scroll.tscn" type="PackedScene" id=48]
-[ext_resource path="res://game/bg/mothership/mothership/mother_ships.tscn" type="PackedScene" id=49]
+[ext_resource path="res://game/bg/mothership/mothership/motherships.tscn" type="PackedScene" id=49]
 [ext_resource path="res://share/icon/ingame/card/resource_preloader.tscn" type="PackedScene" id=50]
 [ext_resource path="res://game/unit/resource_preloader.tscn" type="PackedScene" id=51]
 [ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=52]
@@ -309,7 +309,7 @@ use_mipmaps = false
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=20]
 
 resource_name = "visiblecontrol"
 length = 5.0
@@ -448,7 +448,7 @@ tracks/10/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=21]
 
 length = 3.0
 loop = false
@@ -610,7 +610,7 @@ tracks/12/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=22]
 
 length = 3.0
 loop = false
@@ -1168,7 +1168,7 @@ tracks/45/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=23]
 
 length = 6.0
 loop = false
@@ -1738,7 +1738,7 @@ tracks/46/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=24]
 
 length = 3.0
 loop = false
@@ -2374,6 +2374,7 @@ shadow_filter_smooth = 4.0
 shadow_item_cull_mask = 1
 
 [node name="CameraFollowingUI" type="Node2D" parent="."]
+editor/display_folded = true
 z_index = 10
 
 [node name="Tile" type="Node2D" parent="CameraFollowingUI"]
@@ -4020,7 +4021,7 @@ autoplay = "visiblecontrol"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/visiblecontrol = SubResource( 24 )
+anims/visiblecontrol = SubResource( 20 )
 blend_times = [  ]
 
 [node name="NonCameraFollowingUI" type="CanvasLayer" parent="."]
@@ -4175,10 +4176,10 @@ autoplay = "start_siquence"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/draw = SubResource( 20 )
-anims/lose = SubResource( 21 )
-anims/start_siquence = SubResource( 22 )
-anims/win = SubResource( 23 )
+anims/draw = SubResource( 21 )
+anims/lose = SubResource( 22 )
+anims/start_siquence = SubResource( 23 )
+anims/win = SubResource( 24 )
 blend_times = [  ]
 
 [node name="StartVoice" type="AudioStreamPlayer2D" parent="NonCameraFollowingUI/StartEnd"]
@@ -4226,131 +4227,7 @@ texture = ExtResource( 5 )
 light_mask = 1
 z_index = 0
 
-[node name="MotherShips" parent="." instance=ExtResource( 49 )]
-editor/display_folded = true
-
-[node name="Body" parent="MotherShips/Blue/Nodes" index="0"]
-editor/display_folded = true
-
-[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Body/BodyL/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Body/BodyR/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Nose/NoseL/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Nose/NoseR/Sprite" index="2"]
-frame = 0
-
-[node name="Link" parent="MotherShips/Blue/Nodes/Deck/Left" index="0"]
-editor/display_folded = true
-
-[node name="Link2" parent="MotherShips/Blue/Nodes/Deck/Left" index="1"]
-editor/display_folded = true
-
-[node name="Set1" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL" index="1"]
-editor/display_folded = true
-
-[node name="Set2" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL" index="2"]
-editor/display_folded = true
-
-[node name="Set3" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL" index="3"]
-editor/display_folded = true
-
-[node name="ReadySign" parent="MotherShips/Blue/Nodes/Deck/Left/ReadyL" index="4"]
-editor/display_folded = true
-
-[node name="Link2" parent="MotherShips/Blue/Nodes/Deck/Right" index="0"]
-editor/display_folded = true
-
-[node name="Effect" parent="MotherShips/Blue/Nodes/Deck/Right/Link2" index="0"]
-frame = 1
-
-[node name="Link" parent="MotherShips/Blue/Nodes/Deck/Right" index="1"]
-editor/display_folded = true
-
-[node name="Effect" parent="MotherShips/Blue/Nodes/Deck/Right/Link" index="0"]
-frame = 0
-
-[node name="ReadyR" parent="MotherShips/Blue/Nodes/Deck/Right" index="5"]
-editor/display_folded = false
-
-[node name="Set1" parent="MotherShips/Blue/Nodes/Deck/Right/ReadyR" index="1"]
-editor/display_folded = true
-
-[node name="Container" parent="MotherShips/Blue/Nodes" index="4"]
-editor/display_folded = false
-
-[node name="Sprite" parent="MotherShips/Blue/Nodes/Container" index="0"]
-editor/display_folded = false
-
-[node name="IndicatorRed1" parent="MotherShips/Blue/Nodes/Container/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorRed2" parent="MotherShips/Blue/Nodes/Container/Sprite" index="3"]
-frame = 0
-
-[node name="IndicatorGreen1" parent="MotherShips/Blue/Nodes/Container/Sprite" index="4"]
-frame = 1
-
-[node name="IndicatorGreen2" parent="MotherShips/Blue/Nodes/Container/Sprite" index="5"]
-frame = 1
-
-[node name="IndicatorRed" parent="MotherShips/Blue/Nodes/Engine/EngineL/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorRed2" parent="MotherShips/Blue/Nodes/Engine/EngineL/Sprite" index="3"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Blue/Nodes/Engine/EngineR/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorGreen2" parent="MotherShips/Blue/Nodes/Engine/EngineR/Sprite" index="3"]
-frame = 0
-
-[node name="Red" parent="MotherShips" index="1"]
-editor/display_folded = true
-
-[node name="Nodes" parent="MotherShips/Red" index="0"]
-editor/display_folded = true
-
-[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Body/BodyL/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Body/BodyR/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Nose/NoseL/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Nose/NoseR/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorRed1" parent="MotherShips/Red/Nodes/Container/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorRed2" parent="MotherShips/Red/Nodes/Container/Sprite" index="3"]
-frame = 0
-
-[node name="IndicatorGreen1" parent="MotherShips/Red/Nodes/Container/Sprite" index="4"]
-frame = 1
-
-[node name="IndicatorGreen2" parent="MotherShips/Red/Nodes/Container/Sprite" index="5"]
-frame = 1
-
-[node name="IndicatorRed" parent="MotherShips/Red/Nodes/Engine/EngineL/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorRed2" parent="MotherShips/Red/Nodes/Engine/EngineL/Sprite" index="3"]
-frame = 0
-
-[node name="IndicatorGreen" parent="MotherShips/Red/Nodes/Engine/EngineR/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorGreen2" parent="MotherShips/Red/Nodes/Engine/EngineR/Sprite" index="3"]
-frame = 0
+[node name="Motherships" parent="." instance=ExtResource( 49 )]
 
 [node name="Units" type="Position2D" parent="."]
 position = Vector2( 40, 60 )
@@ -4376,7 +4253,3 @@ resources = [ PoolStringArray( "world" ), [ ExtResource( 53 ) ] ]
 [node name="Cursor" parent="Resource" instance=ExtResource( 54 )]
 
 [connection signal="button_up" from="NonCameraFollowingUI/GoToLobby" to="." method="go_to_lobby"]
-
-[editable path="MotherShips"]
-
-[editable path="MotherShips/Blue/Nodes/Deck"]

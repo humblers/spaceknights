@@ -73,7 +73,7 @@ func _ready():
 		var n = $Players.get_node(team)
 		n.Init(p, self)
 		players[p.Id] = n
-		get_node("MotherShips/%s" % team).init(self, n, p.Knights)
+		get_node("Motherships/%s" % team).init(self, n, p.Knights)
 	CreateMapObstacles()
 
 func Over():
