@@ -70,7 +70,7 @@ func moveTo(unit):
 		$Sound/Move.play()
 
 func handleAttack():
-	if attack == 0:
+	if attack == 0 and $AnimationPlayer.current_animation != "attack": 
 		$AnimationPlayer.play("attack")
 		if $Sound/Attack.playing == false:
 			$Sound/Attack.play()
