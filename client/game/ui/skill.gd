@@ -5,7 +5,7 @@ onready var player = get_node("../../Players/Blue")
 onready var tile = get_node("../Tile")
 onready var map = get_node("../Map")
 onready var cursor_resource = get_node("../../Resource/Cursor")
-onready var mothership = get_node("../../MotherShips/Blue")
+onready var mothership = get_node("../../Motherships/Blue")
 
 export(int, 1, 2) var index
 export(String, "Left", "Right") var side

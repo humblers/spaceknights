@@ -84,7 +84,7 @@ func AddKnights(knights):
 		knightIds.append(knight.Id())
 
 		# client_only
-		if not get_node("../../MotherShips/%s" % team).show_anim_finished:
+		if not get_node("../../Motherships/%s" % team).show_anim_finished:
 			knight.visible = false
 
 func Update():
@@ -170,6 +170,10 @@ func useCard(c, tileX, tileY):
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:
+		if team == "Blue":
+			var sound = $UnitReadySound/ResourcePreloader.get_resource(c.Name)
+			$UnitReadySound/AudioStreamPlayer.stream = sound
+			$UnitReadySound/AudioStreamPlayer.play()
 		for i in range(d.Count):
 			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
 	return null
@@ -201,7 +205,7 @@ func OnKnightDead(knight):
 		score -= game.WING_SCORE
 	
 	# client only
-	get_node("../../MotherShips/%s" % color).destroy(knight.side)
+	get_node("../../Motherships/%s" % color).destroy(knight.side)
 	expand_spawnable_area(knight)
 
 func expand_spawnable_area(knight):
@@ -211,7 +215,7 @@ func expand_spawnable_area(knight):
 	tile.OnKnightDead(color, s)
 
 func OnKnightHalfDamaged(knight):
-	get_node("../../MotherShips/%s" % color).partial_destroy(knight.side)
+	get_node("../../Motherships/%s" % color).partial_destroy(knight.side)
 
 func removeCard(name):
 	if no_deck:
