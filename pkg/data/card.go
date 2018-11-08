@@ -172,7 +172,7 @@ var Cards = map[string]Card{
 		Rarity:  Common,
 	},
 	"lancer": Card{
-		Cost:    5000,
+		Cost:    4000,
 		Unit:    "lancer",
 		Count:   1,
 		OffsetX: []int{0},
@@ -268,7 +268,7 @@ var Cards = map[string]Card{
 		Rarity:  Rare,
 	},
 	"tombstone": Card{
-		Cost:    7000,
+		Cost:    6000,
 		Unit:    "tombstone",
 		Count:   1,
 		OffsetX: []int{0},
