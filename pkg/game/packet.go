@@ -69,10 +69,11 @@ type Replay struct {
 
 type Config struct {
 	Id      string
+	Address string
 	MapName string
 	Players []PlayerData
 }
 
 type LobbyResponse struct {
-	Created bool
+	Address string
 }

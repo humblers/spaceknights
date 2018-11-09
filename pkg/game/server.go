@@ -72,6 +72,10 @@ func (s *server) listenClients() {
 	if err != nil {
 		panic(err)
 	}
+	if addr.IP.String() != "127.0.0.1" {
+		//AWS EC2 public address can't binding(VM)
+		addr.IP = nil
+	}
 	listener, err := net.ListenTCP("tcp", addr)
 	if err != nil {
 		panic(err)
@@ -144,7 +148,7 @@ func (s *server) listenLobby() {
 						panic(err)
 					}
 					s.runGame(cfg)
-					if _, err := conn.Write(newPacket(LobbyResponse{true})); err != nil {
+					if _, err := conn.Write(newPacket(LobbyResponse{s.caddr})); err != nil {
 						panic(err)
 					}
 				}()

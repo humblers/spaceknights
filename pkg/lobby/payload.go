@@ -29,7 +29,6 @@ type DataResponse struct {
 
 type MatchResponse struct {
 	ErrMessage string
-	Address    string
 	Config     game.Config
 }
 

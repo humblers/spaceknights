@@ -69,7 +69,7 @@ func handle_request():
 func handle_error(message):
 	modal_dialog.pop(message)
 	yield(modal_dialog, "popup_hide")
-	get_tree().change_scene("res://lobby/lobby.tscn")
+	loading_screen.goto_scene("res://lobby/lobby.tscn")
 	return
 
 func connect_to_host(host, port):
