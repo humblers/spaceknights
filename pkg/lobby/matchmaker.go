@@ -201,9 +201,9 @@ func (mm *matchMaker) matchMaking(ctx context.Context) {
 				mm.logger.Printf("expect count == 2, actual num: %v", cnt)
 				continue
 			}
+			go mm.createMatchConfig(ctx, uids[0], uids[1], regTimes[0], regTimes[1])
 			uids = uids[2:]
 			regTimes = regTimes[2:]
-			go mm.createMatchConfig(ctx, uids[0], uids[1], regTimes[0], regTimes[1])
 		}
 	}
 }
