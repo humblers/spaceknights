@@ -1,16 +1,19 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
 import "github.com/humblers/spaceknights/pkg/fixed"
 
 type blaster struct {
 	*unit
+	player   Player
 	targetId int
 	attack   int // elapsed time since attack start
 }
 
 func newBlaster(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &blaster{
-		unit: newUnit(id, "blaster", p.Team(), level, posX, posY, g),
+		unit:   newUnit(id, "blaster", p.Team(), level, posX, posY, g),
+		player: p,
 	}
 }
 
@@ -50,9 +53,10 @@ func (b *blaster) setTarget(u Unit) {
 	}
 }
 
-func (bl *blaster) fire() {
-	b := newBullet(bl.targetId, bl.bulletLifeTime(), bl.attackDamage(), bl.DamageType(), bl.game)
-	bl.game.AddBullet(b)
+func (b *blaster) fire() {
+	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.DamageType(), b.game)
+	bullet.MakeSplash(b.damageRadius())
+	b.game.AddBullet(bullet)
 }
 
 func (b *blaster) findTargetAndDoAction() {
@@ -91,4 +95,14 @@ func (b *blaster) handleAttack() {
 	if b.attack > b.attackInterval() {
 		b.attack = 0
 	}
+}
+
+func (b *blaster) damageRadius() fixed.Scalar {
+	r := data.Units[b.name]["damageradius"].(int)
+	divider := 1
+	for _, ratio := range b.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return b.game.World().FromPixel(r / divider)
 }

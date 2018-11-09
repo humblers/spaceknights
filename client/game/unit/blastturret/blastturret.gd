@@ -5,9 +5,11 @@ var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var targetId = 0
 var attack = 0
+var player
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "blastturret", player.Team(), level, posX, posY, game)
+	self.player = player
 	Decayable = Decayable.new()
 	Decayable.Init(self)
 	TileOccupier = TileOccupier.new(game)
@@ -55,6 +57,7 @@ func setTarget(unit):
 func fire():
 	var b = $ResourcePreloader.get_resource("missile").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
+	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
 	# client only
 	b.global_position = $Rotatable/TurretBody/Launcher/Shotpoint/Left.global_position
@@ -81,3 +84,12 @@ func handleAttack():
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
+
+func damageRadius():
+	var r = stat.units[name_]["damageradius"]
+	var divider = 1
+	var ratios = player.StatRatios("arearatio")
+	for i in range(len(ratios)):
+		r *= ratios[i]
+		divider *= 100
+	return game.World().FromPixel(r / divider)
