@@ -7,6 +7,7 @@ import (
 
 type champion struct {
 	*unit
+	player   Player
 	targetId int
 	attack   int
 	charge   int
@@ -17,6 +18,7 @@ func newChampion(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "champion", p.Team(), level, posX, posY, g)
 	return &champion{
 		unit:   u,
+		player: p,
 		shield: u.initialShield(),
 	}
 }
@@ -108,7 +110,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.chargedAttackPreDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				t.TakeDamage(c.chargedAttackDamage(), c)
+				c.splashAttack(t, c.chargedAttackDamage())
 			} else {
 				c.attack = 0
 				c.charge = 0
@@ -125,7 +127,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.preAttackDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				t.TakeDamage(c.attackDamage(), c)
+				c.splashAttack(t, c.attackDamage())
 			} else {
 				c.attack = 0
 				return
@@ -134,6 +136,20 @@ func (c *champion) handleAttack() {
 		c.attack++
 		if c.attack > c.attackInterval() {
 			c.attack = 0
+		}
+	}
+}
+
+func (c *champion) splashAttack(target Unit, damage int) {
+	for _, id := range c.game.UnitIds() {
+		u := c.game.FindUnit(id)
+		if u.Team() == c.Team() {
+			continue
+		}
+		d := target.Position().Sub(u.Position()).LengthSquared()
+		r := u.Radius().Add(c.damageRadius())
+		if d < r.Mul(r) {
+			u.TakeDamage(damage, c)
 		}
 	}
 }
@@ -167,4 +183,14 @@ func (c *champion) chargedAttackPreDelay() int {
 
 func (c *champion) charged() bool {
 	return c.charge >= c.chargeDelay()
+}
+
+func (c *champion) damageRadius() fixed.Scalar {
+	r := data.Units[c.name]["damageradius"].(int)
+	divider := 1
+	for _, ratio := range c.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return c.game.World().FromPixel(r / divider)
 }

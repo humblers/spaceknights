@@ -275,6 +275,7 @@ var Units = map[string]Unit{
 		"damagetype":            AntiShield,
 		"attackdamage":          []int{200, 70, 100},
 		"attackrange":           40,
+		"damageradius":          300,
 		"attackinterval":        13,
 		"preattackdelay":        5,
 		"chargedelay":           20,
