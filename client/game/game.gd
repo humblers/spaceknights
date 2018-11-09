@@ -19,7 +19,7 @@ var params = {
 	"scale": scalar.Div(scalar.One, scalar.FromInt(10)),
 	"dt": scalar.Div(scalar.One, scalar.FromInt(STEP_PER_SEC)),
 	"gravity_y": 0,
-	"restitution": scalar.Div(scalar.One, scalar.FromInt(10)),
+	"restitution": 0,
 }
 
 # current simulation step

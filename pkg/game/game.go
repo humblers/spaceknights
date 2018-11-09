@@ -31,7 +31,7 @@ var params = map[string]fixed.Scalar{
 	"scale":       fixed.One.Div(fixed.FromInt(10)),
 	"dt":          fixed.One.Div(fixed.FromInt(stepPerSec)),
 	"gravity_y":   0,
-	"restitution": fixed.One.Div(fixed.FromInt(10)),
+	"restitution": 0,
 }
 
 type Game interface {
