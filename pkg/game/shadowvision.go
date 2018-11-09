@@ -7,6 +7,7 @@ import (
 
 type shadowvision struct {
 	*unit
+	player   Player
 	targetId int
 	attack   int
 	shield   int
@@ -16,6 +17,7 @@ func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "shadowvision", p.Team(), level, posX, posY, g)
 	return &shadowvision{
 		unit:   u,
+		player: p,
 		shield: u.initialShield(),
 	}
 }
@@ -77,6 +79,7 @@ func (s *shadowvision) setTarget(u Unit) {
 
 func (s *shadowvision) fire() {
 	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.DamageType(), s.game)
+	b.MakeSplash(s.damageRadius())
 	s.game.AddBullet(b)
 }
 
@@ -116,4 +119,14 @@ func (s *shadowvision) handleAttack() {
 		s.attack = 0
 		s.setLayer(s.initialLayer())
 	}
+}
+
+func (s *shadowvision) damageRadius() fixed.Scalar {
+	r := data.Units[s.name]["damageradius"].(int)
+	divider := 1
+	for _, ratio := range s.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return s.game.World().FromPixel(r / divider)
 }

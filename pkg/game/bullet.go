@@ -1,11 +1,13 @@
 package game
 
 import "github.com/humblers/spaceknights/pkg/data"
+import "github.com/humblers/spaceknights/pkg/fixed"
 
 type Bullet interface {
 	Update()
 	IsExpired() bool
 	MakeFrozen(slowDuration int)
+	MakeSplash(radius fixed.Scalar)
 }
 
 type bullet struct {
@@ -15,6 +17,11 @@ type bullet struct {
 	damageType   data.DamageType
 	slowDuration int
 	game         Game
+
+	// for splash attack
+	targetTeam         Team
+	damageRadius       fixed.Scalar
+	lastTargetPosition fixed.Vector
 }
 
 func newBullet(targetId, lifetime, damage int, damageType data.DamageType, game Game) Bullet {
@@ -28,11 +35,29 @@ func newBullet(targetId, lifetime, damage int, damageType data.DamageType, game 
 }
 
 func (b *bullet) Update() {
+	target := b.game.FindUnit(b.targetId)
+	if target != nil {
+		b.lastTargetPosition = target.Position()
+	}
 	if b.lifetime <= 0 {
-		target := b.game.FindUnit(b.targetId)
-		if target != nil {
-			target.TakeDamage(b.damage, b)
-			target.MakeSlow(b.slowDuration)
+		if b.damageRadius == 0 { // normal
+			if target != nil {
+				target.TakeDamage(b.damage, b)
+				target.MakeSlow(b.slowDuration)
+			}
+		} else { // splash
+			for _, id := range b.game.UnitIds() {
+				u := b.game.FindUnit(id)
+				if u.Team() != b.targetTeam {
+					continue
+				}
+				d := b.lastTargetPosition.Sub(u.Position()).LengthSquared()
+				r := u.Radius().Add(b.damageRadius)
+				if d < r.Mul(r) {
+					u.TakeDamage(b.damage, b)
+					u.MakeSlow(b.slowDuration)
+				}
+			}
 		}
 	}
 	b.lifetime--
@@ -44,6 +69,12 @@ func (b *bullet) IsExpired() bool {
 
 func (b *bullet) MakeFrozen(slowDuration int) {
 	b.slowDuration = slowDuration
+}
+
+func (b *bullet) MakeSplash(radius fixed.Scalar) {
+	target := b.game.FindUnit(b.targetId)
+	b.targetTeam = target.Team()
+	b.damageRadius = radius
 }
 
 func (b *bullet) DamageType() data.DamageType {

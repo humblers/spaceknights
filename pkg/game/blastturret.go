@@ -1,7 +1,11 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+import "github.com/humblers/spaceknights/pkg/fixed"
+
 type blastturret struct {
 	*unit
+	player Player
 	Decayable
 	TileOccupier
 	targetId int
@@ -12,6 +16,7 @@ func newBlastturret(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "blastturret", p.Team(), level, posX, posY, g)
 	b := &blastturret{
 		unit:         u,
+		player:       p,
 		TileOccupier: newTileOccupier(g),
 	}
 	b.Decayable = newDecayable(b)
@@ -61,6 +66,7 @@ func (b *blastturret) setTarget(u Unit) {
 
 func (b *blastturret) fire() {
 	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.DamageType(), b.game)
+	bullet.MakeSplash(b.damageRadius())
 	b.game.AddBullet(bullet)
 }
 
@@ -88,4 +94,14 @@ func (b *blastturret) handleAttack() {
 	if b.attack > b.attackInterval() {
 		b.attack = 0
 	}
+}
+
+func (b *blastturret) damageRadius() fixed.Scalar {
+	r := data.Units[b.name]["damageradius"].(int)
+	divider := 1
+	for _, ratio := range b.player.StatRatios("arearatio") {
+		r *= ratio
+		divider *= 100
+	}
+	return b.game.World().FromPixel(r / divider)
 }
