@@ -1,20 +1,20 @@
 [gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/champion/champion.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/champion/shoulder.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
-[ext_resource path="res://game/unit/champion/upperarm.png" type="Texture" id=7]
-[ext_resource path="res://game/unit/champion/arm.png" type="Texture" id=8]
-[ext_resource path="res://game/unit/champion/arm_normal.png" type="Texture" id=9]
-[ext_resource path="res://game/unit/champion/grip.png" type="Texture" id=10]
-[ext_resource path="res://game/unit/champion/blade.png" type="Texture" id=11]
-[ext_resource path="res://game/unit/champion/blade_normal.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/bladetrail_L_1.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/bladetrail_L_2.png" type="Texture" id=14]
-[ext_resource path="res://game/vfx/bladetrail_L_3.png" type="Texture" id=15]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://game/vfx/bladetrail_L_1.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/bladetrail_L_2.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/bladetrail_L_3.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/champion/shoulder.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
+[ext_resource path="res://game/unit/champion/upperarm.png" type="Texture" id=10]
+[ext_resource path="res://game/unit/champion/arm.png" type="Texture" id=11]
+[ext_resource path="res://game/unit/champion/arm_normal.png" type="Texture" id=12]
+[ext_resource path="res://game/unit/champion/grip.png" type="Texture" id=13]
+[ext_resource path="res://game/unit/champion/blade.png" type="Texture" id=14]
+[ext_resource path="res://game/unit/champion/blade_normal.png" type="Texture" id=15]
 [ext_resource path="res://game/unit/champion/bodyframe.png" type="Texture" id=16]
 [ext_resource path="res://game/unit/champion/bodyframe_normal.png" type="Texture" id=17]
 [ext_resource path="res://game/unit/champion/cockpit.png" type="Texture" id=18]
@@ -47,10 +47,19 @@
 [ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=45]
 [ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=46]
 
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [ null, ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), null ],
+"loop": true,
+"name": "sword-1prince",
+"speed": 5.0
+} ]
+
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
@@ -59,7 +68,7 @@ animations = [ {
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -68,18 +77,9 @@ animations = [ {
 [sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=4]
-
-animations = [ {
-"frames": [ null, ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), null ],
-"loop": true,
-"name": "sword-1prince",
 "speed": 5.0
 } ]
 
@@ -92,37 +92,98 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Champion" type="Node2D"]
 script = ExtResource( 1 )
-_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Rotatable" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
-_sections_unfolded = [ "Material", "Transform", "Z Index" ]
+
+[node name="Attack" type="Position2D" parent="Rotatable"]
+rotation = -0.523597
+scale = Vector2( 1, 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/Attack"]
+self_modulate = Color( 0.4375, 1, 0.762695, 1 )
+material = ExtResource( 2 )
+rotation = 0.523598
+scale = Vector2( 1.5, 1.5 )
+frames = SubResource( 4 )
+animation = "sword-1prince"
+frame = 4
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="Rotatable/Attack"]
+self_modulate = Color( 0.4375, 1, 0.762695, 1 )
+material = ExtResource( 2 )
+rotation = 0.523598
+scale = Vector2( 1.5, 1.5 )
+frames = SubResource( 4 )
+animation = "sword-1prince"
+frame = 4
 
 [node name="main" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 use_parent_material = true
-rotation = 0.523599
-_sections_unfolded = [ "Material", "Transform" ]
+rotation = 0.785398
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/main"]
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( -19.5, -1.5 )
-rotation = 0.261799
-texture = ExtResource( 2 )
+position = Vector2( -19.15, -5.6 )
+rotation = 0.523599
+texture = ExtResource( 6 )
 flip_h = true
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/main/ShoulderL"]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -2, 14 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/main/ShoulderL/BoosterL"]
 modulate = Color( 0.176471, 1, 0.631373, 1 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
+scale = Vector2( 0.2, 0.4 )
+frames = SubResource( 1 )
+animation = "default"
+speed_scale = 2.0
+playing = true
+offset = Vector2( 0, 30 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/main/ShoulderL/BoosterL"]
+material = ExtResource( 2 )
+scale = Vector2( 0.3, 0.8 )
+texture = ExtResource( 9 )
+
+[node name="UpperarmL" type="Sprite" parent="Rotatable/main/ShoulderL"]
+show_behind_parent = true
+use_parent_material = true
+rotation = -0.261799
+texture = ExtResource( 10 )
+offset = Vector2( -6, 0 )
+flip_h = true
+
+[node name="ArmL" type="Sprite" parent="Rotatable/main/ShoulderL/UpperarmL"]
+show_behind_parent = true
+use_parent_material = true
+position = Vector2( -14, 1 )
+rotation = -0.785398
+texture = ExtResource( 11 )
+normal_map = ExtResource( 12 )
+offset = Vector2( -5, -7 )
+flip_h = true
+
+[node name="ShoulderR" type="Sprite" parent="Rotatable/main"]
+use_parent_material = true
+position = Vector2( 19.5, -1.5 )
+rotation = 0.523599
+texture = ExtResource( 6 )
+
+[node name="BoosterR" type="Position2D" parent="Rotatable/main/ShoulderR"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 2, 14 )
+
+[node name="Thrust2" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/BoosterR"]
+modulate = Color( 0.176471, 1, 0.631373, 1 )
+material = ExtResource( 2 )
 scale = Vector2( 0.2, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
@@ -130,106 +191,49 @@ frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
-
-[node name="Sprite" type="Sprite" parent="Rotatable/main/ShoulderL/BoosterL"]
-material = ExtResource( 3 )
-scale = Vector2( 0.3, 0.8 )
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Material", "Transform", "material" ]
-
-[node name="UpperarmL" type="Sprite" parent="Rotatable/main/ShoulderL"]
-show_behind_parent = true
-use_parent_material = true
-rotation = 0.523599
-texture = ExtResource( 7 )
-offset = Vector2( -6, 0 )
-flip_h = true
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
-
-[node name="ArmL" type="Sprite" parent="Rotatable/main/ShoulderL/UpperarmL"]
-show_behind_parent = true
-use_parent_material = true
-position = Vector2( -14, 1 )
-rotation = -0.523599
-texture = ExtResource( 8 )
-normal_map = ExtResource( 9 )
-offset = Vector2( -5, -7 )
-flip_h = true
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
-
-[node name="ShoulderR" type="Sprite" parent="Rotatable/main"]
-editor/display_folded = true
-use_parent_material = true
-position = Vector2( 19.5, -1.5 )
-rotation = 0.261799
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Material", "Transform", "Z Index" ]
-
-[node name="BoosterR" type="Position2D" parent="Rotatable/main/ShoulderR"]
-visible = false
-position = Vector2( 2, 14 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="Thrust2" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/BoosterR"]
-modulate = Color( 0.176471, 1, 0.631373, 1 )
-material = ExtResource( 3 )
-scale = Vector2( 0.2, 0.4 )
-frames = SubResource( 1 )
-animation = "default"
-speed_scale = 2.0
-playing = true
-offset = Vector2( 0, 30 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/main/ShoulderR/BoosterR"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 scale = Vector2( 0.3, 0.8 )
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Material", "Transform", "material" ]
+texture = ExtResource( 9 )
 
 [node name="UpperarmR" type="Sprite" parent="Rotatable/main/ShoulderR"]
 show_behind_parent = true
 use_parent_material = true
 rotation = -0.523599
-texture = ExtResource( 7 )
+texture = ExtResource( 10 )
 offset = Vector2( 6, 0 )
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="ArmR" type="Sprite" parent="Rotatable/main/ShoulderR/UpperarmR"]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 14, 1 )
-rotation = 0.261799
-texture = ExtResource( 8 )
-normal_map = ExtResource( 9 )
+rotation = 1.5708
+texture = ExtResource( 11 )
+normal_map = ExtResource( 12 )
 offset = Vector2( 5, -7 )
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="Sword" type="Node2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR"]
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 0.5, -20.5 )
 rotation = -1.309
-_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Grip" type="Sprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
 use_parent_material = true
 position = Vector2( 0, 5.5 )
-texture = ExtResource( 10 )
-_sections_unfolded = [ "Material", "Transform" ]
+texture = ExtResource( 13 )
 
 [node name="Blade" type="Sprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
 use_parent_material = true
 position = Vector2( 0, -45.5 )
-texture = ExtResource( 11 )
-normal_map = ExtResource( 12 )
-_sections_unfolded = [ "Material", "Offset", "Transform" ]
+texture = ExtResource( 14 )
+normal_map = ExtResource( 15 )
 
 [node name="ParticleL" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
 visible = false
 modulate = Color( 0.243137, 0.678431, 1, 1 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( -18.8596, -12.0322 )
 rotation = 1.0472
 scale = Vector2( 0.3, 0.3 )
@@ -238,12 +242,11 @@ animation = "default"
 frame = 1
 speed_scale = 5.0
 playing = true
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "frames", "material" ]
 
 [node name="ParticleR" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
 visible = false
 modulate = Color( 0.243137, 0.678431, 1, 1 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( 10.8691, -15.2165 )
 rotation = -1.0472
 scale = Vector2( 0.3, 0.3 )
@@ -253,35 +256,11 @@ frame = 1
 speed_scale = 5.0
 playing = true
 offset = Vector2( 0, 30 )
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Transform", "Visibility", "frames", "material" ]
-
-[node name="Attack" type="Position2D" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword"]
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword/Attack"]
-self_modulate = Color( 0.4375, 1, 0.762695, 1 )
-material = ExtResource( 3 )
-position = Vector2( -55.0871, 39.5253 )
-scale = Vector2( 1.2, 2 )
-frames = SubResource( 4 )
-animation = "sword-1prince"
-_sections_unfolded = [ "Material", "Transform", "Visibility", "frames", "material" ]
-
-[node name="AnimatedSprite2" type="AnimatedSprite" parent="Rotatable/main/ShoulderR/UpperarmR/ArmR/Sword/Attack"]
-self_modulate = Color( 0.4375, 1, 0.762695, 1 )
-material = ExtResource( 3 )
-position = Vector2( -55.0871, 39.5253 )
-scale = Vector2( 1.2, 2 )
-frames = SubResource( 4 )
-animation = "sword-1prince"
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Body" type="Sprite" parent="Rotatable/main"]
-editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 16 )
 normal_map = ExtResource( 17 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
@@ -289,7 +268,6 @@ position = Vector2( 0, -4 )
 texture = ExtResource( 18 )
 normal_map = ExtResource( 19 )
 flip_v = true
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility", "Z Index" ]
 
 [node name="Front" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
@@ -297,7 +275,6 @@ position = Vector2( 0, 5 )
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
 offset = Vector2( 0, -12 )
-_sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Rear" type="Sprite" parent="Rotatable/main/Body"]
 visible = false
@@ -307,7 +284,6 @@ position = Vector2( 0, 9 )
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( 0, 11 )
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="BodywingR" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
@@ -315,7 +291,6 @@ position = Vector2( 16, 0 )
 texture = ExtResource( 24 )
 normal_map = ExtResource( 25 )
 offset = Vector2( 0, -2 )
-_sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="BodywingL" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
@@ -324,7 +299,6 @@ texture = ExtResource( 24 )
 normal_map = ExtResource( 25 )
 offset = Vector2( 0, -2 )
 flip_h = true
-_sections_unfolded = [ "Material", "Offset", "Transform" ]
 
 [node name="Head" type="Sprite" parent="Rotatable/main/Body"]
 use_parent_material = true
@@ -332,15 +306,12 @@ position = Vector2( 0, -2 )
 rotation = -0.523599
 texture = ExtResource( 26 )
 normal_map = ExtResource( 27 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="HitPoint" type="Position2D" parent="Rotatable"]
-editor/display_folded = true
 position = Vector2( -5, -90 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="Spark" type="CPUParticles2D" parent="Rotatable/HitPoint"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( 4.158, 0 )
 rotation = -0.785397
 scale = 2.0
@@ -401,50 +372,45 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
-_sections_unfolded = [ "Angular Velocity", "Color", "Emission Shape", "Flags", "Gravity", "Initial Velocity", "Linear Accel", "Material", "Radial Accel", "Scale", "Spread", "Time", "Transform", "scale_curve" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/HitPoint"]
 visible = false
-modulate = Color( 1, 0.74902, 0.454902, 0.987143 )
-material = ExtResource( 3 )
-scale = Vector2( 2, 2 )
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+modulate = Color( 1, 0.74902, 0.454902, 0 )
+material = ExtResource( 2 )
+rotation = -0.523598
+scale = Vector2( 2, 5 )
+texture = ExtResource( 9 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 scale = Vector2( 1.8, 1.8 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
 texture = ExtResource( 28 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 29 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 6 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
+texture = ExtResource( 9 )
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.101961, 0.47451, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 30 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -454,7 +420,6 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 30 )
 flip_h = true
 flip_v = true
-_sections_unfolded = [ "Material", "Offset", "Transform", "Visibility" ]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 scale = 1.5
@@ -514,7 +479,6 @@ anim_offset = 0.0
 anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
-_sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Gravity", "Hue Variation", "Material", "Radial Accel", "Scale", "Spread", "Time" ]
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 root_node = NodePath("..")
@@ -528,11 +492,11 @@ blend_times = [  ]
 [node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
 enabled = false
 editor_only = false
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 offset = Vector2( 0, 0 )
 texture_scale = 10.0
 color = Color( 1, 1, 1, 1 )
-energy = 0.5
+energy = 1.5
 mode = 0
 range_height = 0.0
 range_z_min = -1024
@@ -640,7 +604,6 @@ area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 46 )]
 position = Vector2( 0, -90 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 
 [editable path="Energyshield"]

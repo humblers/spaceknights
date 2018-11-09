@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archer/archer.png" type="Texture" id=2]
@@ -7,24 +7,21 @@
 [ext_resource path="res://game/vfx/thrust.png" type="Texture" id=5]
 [ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=6]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/muzzle_flash_1.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/muzzle_flash_2.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/muzzle_flash_3.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
-[ext_resource path="res://game/unit/archer/explosion.tres" type="Animation" id=14]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/unit/archer/attack.tres" type="Animation" id=16]
-[ext_resource path="res://game/unit/archer/destroy.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=10]
+[ext_resource path="res://game/unit/archer/explosion.tres" type="Animation" id=11]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/unit/archer/attack.tres" type="Animation" id=13]
+[ext_resource path="res://game/unit/archer/destroy.tres" type="Animation" id=14]
+[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=15]
+[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=16]
+[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=17]
+[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=18]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=21]
+[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=22]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -80,16 +77,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=7]
-
-animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), null ],
-"loop": true,
-"name": "muzzleflash",
-"speed": 5.0
-} ]
-
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=7]
 
 min_value = 0.0
 max_value = 1.0
@@ -100,7 +88,6 @@ _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 1.1, 1.1 )
 
@@ -199,31 +186,15 @@ frame = 1
 playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable"]
-editor/display_folded = true
-visible = false
 position = Vector2( 0, -42 )
 
 [node name="Reflax" type="Sprite" parent="Rotatable/Shotpoint"]
-modulate = Color( 1, 0.853302, 0.183594, 1 )
+visible = false
+modulate = Color( 0.992157, 0.894118, 0.447059, 1 )
 material = ExtResource( 4 )
-position = Vector2( 0, 10 )
-scale = Vector2( 0.4, 1 )
+position = Vector2( 0, 10.1818 )
+scale = Vector2( 0.4, 1.2 )
 texture = ExtResource( 7 )
-
-[node name="MuzzleFlash" type="AnimatedSprite" parent="Rotatable/Shotpoint"]
-material = ExtResource( 4 )
-scale = Vector2( 0.6, 0.5 )
-frames = SubResource( 7 )
-animation = "muzzleflash"
-offset = Vector2( 0, -30 )
-
-[node name="MuzzleFlash2" type="AnimatedSprite" parent="Rotatable/Shotpoint"]
-modulate = Color( 1, 0.161102, 0.0976563, 1 )
-material = ExtResource( 4 )
-scale = Vector2( 0.6, 0.5 )
-frames = SubResource( 7 )
-animation = "muzzleflash"
-offset = Vector2( 0, -30 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
@@ -234,12 +205,12 @@ scale = Vector2( 1.2, 1.2 )
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 11 )
+texture = ExtResource( 8 )
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 9 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -254,14 +225,14 @@ modulate = Color( 0.384314, 0.101961, 1, 0 )
 material = ExtResource( 4 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 13 )
+texture = ExtResource( 10 )
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 13 )
+texture = ExtResource( 10 )
 flip_h = true
 flip_v = true
 
@@ -310,7 +281,7 @@ angle_random = 0.0
 angle_curve = null
 scale = 1.5
 scale_random = 0.0
-scale_curve = SubResource( 8 )
+scale_curve = SubResource( 7 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 color_ramp = null
 hue_variation = 0.0
@@ -330,10 +301,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = ExtResource( 14 )
+anims/explosion = ExtResource( 11 )
 blend_times = [  ]
 
-[node name="HitEffect" parent="." instance=ExtResource( 15 )]
+[node name="HitEffect" parent="." instance=ExtResource( 12 )]
 circle_radius = 30.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -342,17 +313,18 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 16 )
-anims/destroy = ExtResource( 17 )
-anims/idle = ExtResource( 18 )
-anims/move = ExtResource( 19 )
-anims/show = ExtResource( 20 )
+anims/attack = ExtResource( 13 )
+anims/destroy = ExtResource( 14 )
+anims/idle = ExtResource( 15 )
+anims/move = ExtResource( 16 )
+anims/show = ExtResource( 17 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
+stream = ExtResource( 18 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -363,7 +335,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
+stream = ExtResource( 19 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -374,7 +346,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 23 )
+stream = ExtResource( 20 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -384,9 +356,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 24 )]
+[node name="Hp" parent="." instance=ExtResource( 21 )]
 position = Vector2( 0, -55 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 25 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 22 ) ] ]
 

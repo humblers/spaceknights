@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/gargoyleking/body.png" type="Texture" id=2]
@@ -10,13 +10,14 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=8]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
 [ext_resource path="res://game/unit/gargoyleking/explosion.tres" type="Animation" id=10]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=11]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=13]
-[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=14]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=15]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/vfx/energyshield_nodirection.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=13]
+[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=14]
+[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Curve" id=1]
 
@@ -446,6 +447,7 @@ tracks/8/keys = {
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.9, 0.9 )
 
@@ -641,6 +643,7 @@ animation = "default"
 playing = true
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 1.7, 1.7 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
@@ -771,10 +774,13 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
-[node name="Energyshield" parent="." instance=ExtResource( 11 )]
+[node name="EnergyshieldND" parent="." instance=ExtResource( 11 )]
 scale = Vector2( 0.6, 0.6 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 12 )]
+[node name="Energyshield" parent="." instance=ExtResource( 12 )]
+scale = Vector2( 0.6, 0.6 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 13 )]
 type = 0
 rect_area = Rect2( -40, -10, 80, 40 )
 
@@ -785,7 +791,7 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = SubResource( 7 )
-anims/destroy = ExtResource( 13 )
+anims/destroy = ExtResource( 14 )
 anims/idle = SubResource( 8 )
 anims/move = SubResource( 9 )
 blend_times = [  ]
@@ -794,17 +800,6 @@ blend_times = [  ]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 14 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 15 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -815,7 +810,7 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 16 )
 volume_db = 0.0
 pitch_scale = 1.0
@@ -826,6 +821,17 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 17 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 17 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+stream_paused = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
+
+[node name="Hp" parent="." instance=ExtResource( 18 )]
 position = Vector2( 0, -60 )
 
