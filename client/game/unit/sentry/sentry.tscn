@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://game/unit/sentry/sentry.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/sentry/body.png" type="Texture" id=2]
@@ -6,25 +6,23 @@
 [ext_resource path="res://game/vfx/beacon_black.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/beacon_red.png" type="Texture" id=5]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
-[ext_resource path="res://game/vfx/muzzle_flash_1.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/muzzle_flash_3.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=14]
-[ext_resource path="res://game/unit/sentry/explosion.tres" type="Animation" id=15]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/unit/sentry/attack.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=12]
+[ext_resource path="res://game/unit/sentry/explosion.tres" type="Animation" id=13]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=14]
+[ext_resource path="res://game/unit/sentry/attack.tres" type="Animation" id=15]
+[ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=16]
+[ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=17]
+[ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=23]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -35,19 +33,10 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
-
-animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "default",
-"speed": 10.0
-} ]
-
 [sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
@@ -64,7 +53,6 @@ _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 use_parent_material = true
 
 [node name="Body" type="Sprite" parent="Rotatable"]
@@ -82,41 +70,15 @@ animation = "default"
 playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 position = Vector2( 0, -26.9231 )
-
-[node name="Particle" type="Node2D" parent="Rotatable/Body/Shotpoint"]
-editor/display_folded = true
-position = Vector2( 0, 4.80771 )
-scale = Vector2( 0.3, 0.3 )
-
-[node name="Muzzleflash" type="AnimatedSprite" parent="Rotatable/Body/Shotpoint/Particle"]
-visible = false
-modulate = Color( 1, 0.607843, 0.192157, 1 )
-material = ExtResource( 6 )
-scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 2 )
-animation = "default"
-speed_scale = 2.0
-playing = true
-
-[node name="Muzzleflash2" type="AnimatedSprite" parent="Rotatable/Body/Shotpoint/Particle"]
-visible = false
-modulate = Color( 1, 1, 1, 0.439216 )
-material = ExtResource( 6 )
-frames = SubResource( 2 )
-animation = "default"
-frame = 1
-speed_scale = 2.0
-playing = true
 
 [node name="Light2" type="Sprite" parent="Rotatable/Body/Shotpoint"]
 visible = false
 modulate = Color( 0.921569, 0.921569, 0.247059, 0.952941 )
 material = ExtResource( 6 )
 position = Vector2( 0, 21 )
-scale = Vector2( 0.2, 0.5 )
-texture = ExtResource( 9 )
+scale = Vector2( 0.4, 0.7 )
+texture = ExtResource( 7 )
 
 [node name="Boosterpoint" type="Position2D" parent="Rotatable/Body"]
 editor/display_folded = true
@@ -140,7 +102,7 @@ visible = false
 material = ExtResource( 6 )
 position = Vector2( 0, 3 )
 scale = Vector2( 0.4, 1 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable/Body"]
 
@@ -150,19 +112,19 @@ editor/display_folded = true
 [node name="Exp1" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
 visible = false
 modulate = Color( 0.435294, 0.172549, 0, 0 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 13 )
+texture = ExtResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 6 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
 visible = false
@@ -170,14 +132,14 @@ modulate = Color( 1, 0.352941, 0.101961, 0 )
 material = ExtResource( 6 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 12 )
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
 visible = false
 modulate = Color( 1, 0.352941, 0.101961, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 12 )
 flip_h = true
 flip_v = true
 
@@ -246,10 +208,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/explosion = ExtResource( 15 )
+anims/explosion = ExtResource( 13 )
 blend_times = [  ]
 
-[node name="HitEffect" parent="." instance=ExtResource( 16 )]
+[node name="HitEffect" parent="." instance=ExtResource( 14 )]
 position = Vector2( 0, 4 )
 circle_radius = 20.0
 
@@ -259,17 +221,17 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = ExtResource( 17 )
-anims/destroy = ExtResource( 18 )
-anims/idle = ExtResource( 19 )
-anims/move = ExtResource( 20 )
+anims/attack = ExtResource( 15 )
+anims/destroy = ExtResource( 16 )
+anims/idle = ExtResource( 17 )
+anims/move = ExtResource( 18 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
+stream = ExtResource( 19 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -280,7 +242,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
+stream = ExtResource( 20 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -291,7 +253,7 @@ bus = "Master"
 area_mask = 1
 
 [node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 23 )
+stream = ExtResource( 21 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -301,9 +263,9 @@ attenuation = 1.0
 bus = "Master"
 area_mask = 1
 
-[node name="Hp" parent="." instance=ExtResource( 24 )]
+[node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -45 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 25 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 23 ) ] ]
 
