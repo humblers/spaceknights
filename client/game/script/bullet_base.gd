@@ -9,7 +9,7 @@ var game
 
 # for splash attack
 var targetTeam
-var damageRadius
+var damageRadius = 0
 var lastTargetPositionX
 var lastTargetPositionY
 
