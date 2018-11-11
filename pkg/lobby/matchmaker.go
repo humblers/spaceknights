@@ -354,9 +354,6 @@ func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.Player
 		if err := json.Unmarshal(reply[len(deck.Troops)+i].([]byte), &card); err != nil {
 			return data, err
 		}
-		if i != 0 {
-			data.Deck = append(data.Deck, game.Card{Name: knight, Level: card.Level})
-		}
 		data.Knights = append(data.Knights, game.KnightData{Name: knight, Level: card.Level})
 	}
 	return data, nil

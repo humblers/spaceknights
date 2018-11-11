@@ -10,7 +10,6 @@ onready var mothership = get_node("../../Motherships/Blue")
 export(int, 1, 2) var index
 export(String, "Left", "Right") var side
 
-var hand_index = -1
 var card_name
 var card_level
 var pressed = false
@@ -26,33 +25,11 @@ func init():
 	anim = mothership.get_node("Anim%s" % side)
 	connect("gui_input", self, "handle_input")
 
-func get_hand_index():
-	for i in len(player.hand):
-		var card = player.hand[i]
-		if card.Name == card_name:
-			return i
-	return -1
-
 func _process(delta):
 	if len(player.knightIds) <= 0:
 		return
 	if card_name == null or card_name == "":
 		init()
-	if hand_index != get_hand_index():
-		$Cursor.visible = false
-		hand_index = get_hand_index()
-		if hand_index < 0:
-			anim.play("deck_off")
-		else:
-			anim.play("deck_on")
-			yield(anim, "animation_finished")
-			mothership.get_node("Nodes/Deck/%s/Link/Effect" % side).visible = false
-			mothership.get_node("Nodes/Deck/%s/Link/Effect" % side).playing = false
-			mothership.get_node("Nodes/Deck/%s/Link2/Effect" % side).visible = false
-			mothership.get_node("Nodes/Deck/%s/Link2/Effect" % side).playing = false
-
-	if hand_index < 0:
-		return
 	var cost = float(stat.cards[card_name].Cost)
 	var ratio = float(player.energy)/cost
 	var node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(1)])
@@ -63,8 +40,6 @@ func _process(delta):
 		n.playing = ratio > 1
 
 func handle_input(ev):
-	if get_hand_index() < 0:
-		return
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)
 	if ev is InputEventMouseButton:
@@ -99,7 +74,6 @@ func on_released(ev):
 		show_message("Not Enought Energy", pos.y)
 		return
 
-	$Cursor.visible = true
 	send_input(pos)
 
 func send_input(pos):
