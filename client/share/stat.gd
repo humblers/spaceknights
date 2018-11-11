@@ -382,8 +382,8 @@ var units = {
 				"duration": 40,
 				"start":    11,
 				"end":      31,
-				"width":    100,
-				"height":   500,
+				"width":    50,
+				"height":   250,
 			},
 			"leader": {
 				"hpratio":  [120, 130, 140],

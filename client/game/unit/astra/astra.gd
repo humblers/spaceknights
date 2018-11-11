@@ -209,7 +209,7 @@ func CastSkill(posX, posY):
 func adjustSkillAnim():
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
-	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY+100), PositionY()))
 	var vec = Vector2(x, y).rotated($Rotatable.rotation)
 	if game.team_swapped:
 		vec = vec.rotated(PI)
