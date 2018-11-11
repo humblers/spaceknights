@@ -121,7 +121,8 @@ func Do(action):
 				index = i
 				break
 		if index < 0:
-			return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
+			if findKnight(action.Card.Name) == null:
+				return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
 
 		# check energy
 		var cost = stat.cards[action.Card.Name]["Cost"]
@@ -136,9 +137,10 @@ func Do(action):
 		energy -= cost
 		
 		# put empty card
-		hand[index] = {"Name":"", "Level":0}
-		pending.append(action.Card)
-		emptyIdx.append(index)
+		if index >= 0:
+			hand[index] = {"Name":"", "Level":0}
+			pending.append(action.Card)
+			emptyIdx.append(index)
 	return null
 
 func findKnight(name):

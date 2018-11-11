@@ -128,7 +128,9 @@ func (p *player) Do(a *Action) error {
 		}
 	}
 	if index < 0 {
-		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
+		if p.findKnight(a.Card.Name) == nil {
+			return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
+		}
 	}
 
 	// check energy
@@ -145,9 +147,11 @@ func (p *player) Do(a *Action) error {
 	p.energy -= cost
 
 	// put empty card
-	p.hand[index] = Card{}
-	p.pending = append(p.pending, a.Card)
-	p.emptyIdx = append(p.emptyIdx, index)
+	if index >= 0 {
+		p.hand[index] = Card{}
+		p.pending = append(p.pending, a.Card)
+		p.emptyIdx = append(p.emptyIdx, index)
+	}
 	return nil
 }
 

@@ -20,7 +20,8 @@ func init(game, player, knights):
 	yield($Ship, "animation_finished")
 	show_anim_finished = true
 	remove_dummy_and_show_knights()
-
+	$AnimLeft.play("deck_on")
+	$AnimRight.play("deck_on")
 
 func remove_dummy_and_show_knights():
 	for id in player.knightIds:
