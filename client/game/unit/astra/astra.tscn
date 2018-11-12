@@ -229,7 +229,7 @@ position = Vector2( 0, -200 )
 
 [node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/ShotpointC/HitPoint"]
 material = ExtResource( 8 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -386,7 +386,7 @@ position = Vector2( 0, -200 )
 
 [node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/ShotpointL/HitPoint"]
 material = ExtResource( 8 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -543,7 +543,7 @@ position = Vector2( 0, -200 )
 
 [node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/ShotpointR/HitPoint"]
 material = ExtResource( 8 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 emitting = true
 amount = 8
 lifetime = 1.0
@@ -689,37 +689,42 @@ material = ExtResource( 8 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 11 )
 
-[node name="Fire" type="Node2D" parent="Rotatable/Body"]
+[node name="LaserStart" type="Position2D" parent="Rotatable/Body"]
+position = Vector2( 0, -100 )
 
-[node name="LightSprad" type="Sprite" parent="Rotatable/Body/Fire"]
+[node name="Fire" type="Node2D" parent="Rotatable/Body/LaserStart"]
+position = Vector2( 0, 100 )
+
+[node name="LightSpread" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
 material = ExtResource( 8 )
 position = Vector2( 0, -70 )
-scale = Vector2( 1e-005, 12 )
+scale = Vector2( 1e-05, 12 )
 texture = ExtResource( 21 )
 offset = Vector2( 0, -65 )
 
-[node name="Charge" type="AnimatedSprite" parent="Rotatable/Body/Fire"]
+[node name="Charge" type="AnimatedSprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 scale = Vector2( 1, 0.7 )
 frames = SubResource( 4 )
 animation = "astra_charge"
+frame = 1
 playing = true
 
-[node name="Laser1" type="Sprite" parent="Rotatable/Body/Fire"]
+[node name="Laser1" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -80 )
 texture = ExtResource( 11 )
 
-[node name="Particle" type="Node2D" parent="Rotatable/Body/Fire"]
+[node name="Particle" type="Node2D" parent="Rotatable/Body/LaserStart/Fire"]
 editor/display_folded = true
 scale = Vector2( 1, 2 )
 
-[node name="LaserParticle" type="CPUParticles2D" parent="Rotatable/Body/Fire/Particle"]
+[node name="LaserParticle" type="CPUParticles2D" parent="Rotatable/Body/LaserStart/Fire/Particle"]
 position = Vector2( 0, -40 )
 emitting = false
 amount = 16
@@ -779,7 +784,7 @@ anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
 
-[node name="EndCircle" type="Sprite" parent="Rotatable/Body/Fire"]
+[node name="EndCircle" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
@@ -787,7 +792,7 @@ position = Vector2( 0, -150 )
 scale = Vector2( 4, 0.2 )
 texture = ExtResource( 26 )
 
-[node name="LaserBeam2" type="Sprite" parent="Rotatable/Body/Fire"]
+[node name="LaserBeam2" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -70 )
@@ -795,7 +800,7 @@ scale = Vector2( 0.1, 1 )
 texture = ExtResource( 19 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Fire"]
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -62 )
@@ -803,12 +808,12 @@ scale = Vector2( 0.2, 19 )
 texture = ExtResource( 19 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserHit" type="Node2D" parent="Rotatable/Body/Fire"]
+[node name="LaserHit" type="Node2D" parent="Rotatable/Body/LaserStart/Fire"]
 editor/display_folded = true
 position = Vector2( 0, -440 )
 scale = Vector2( 1.5, 1.5 )
 
-[node name="Impact" type="CPUParticles2D" parent="Rotatable/Body/Fire/LaserHit"]
+[node name="Impact" type="CPUParticles2D" parent="Rotatable/Body/LaserStart/Fire/LaserHit"]
 material = ExtResource( 8 )
 emitting = false
 amount = 30
@@ -868,7 +873,7 @@ anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
 
-[node name="Particle" type="CPUParticles2D" parent="Rotatable/Body/Fire/LaserHit"]
+[node name="Particle" type="CPUParticles2D" parent="Rotatable/Body/LaserStart/Fire/LaserHit"]
 scale = 4.0
 emitting = false
 amount = 30
@@ -928,12 +933,12 @@ anim_offset_random = 0.0
 anim_offset_curve = null
 anim_loop = false
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/Fire/LaserHit"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/LaserStart/Fire/LaserHit"]
 visible = false
 material = ExtResource( 8 )
 texture = ExtResource( 11 )
 
-[node name="SkillLight2D" type="Light2D" parent="Rotatable/Body/Fire"]
+[node name="SkillLight2D" type="Light2D" parent="Rotatable/Body/LaserStart/Fire"]
 position = Vector2( 0, -600 )
 scale = Vector2( 1, 1.5 )
 enabled = false

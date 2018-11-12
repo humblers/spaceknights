@@ -207,10 +207,11 @@ func CastSkill(posX, posY):
 	return true
 
 func adjustSkillAnim():
+	var offset = $Rotatable/Body/LaserStart.position * $Rotatable.scale
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
-	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY+100), PositionY()))
-	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = (Vector2(x, y) - offset).rotated($Rotatable.rotation)
 	if game.team_swapped:
 		vec = vec.rotated(PI)
 	var angle = ref_vec.angle_to(vec)
