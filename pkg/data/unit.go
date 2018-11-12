@@ -159,8 +159,8 @@ var Units = map[string]Unit{
 				"end":        31,
 				"damagetype": NormalDamage,
 				"damage":     []int{25, 150, 200},
-				"width":      100,
-				"height":     500,
+				"width":      50,
+				"height":     250,
 			},
 			"leader": map[string]interface{}{
 				"name":    "reinforce",
