@@ -1,0 +1,2074 @@
+[gd_scene load_steps=48 format=2]
+
+[ext_resource path="res://game/player/tile.gd" type="Script" id=1]
+[ext_resource path="res://game/player/ui_tile_color.png" type="Texture" id=2]
+[ext_resource path="res://game/player/ui_tile.png" type="Texture" id=3]
+[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
+[ext_resource path="res://font/noto_sans_display_blackitalic.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://font/noto_sans_display_semibold.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://game/ui/no_light.tres" type="Material" id=8]
+[ext_resource path="res://game/ui/skill.gd" type="Script" id=9]
+[ext_resource path="res://game/ui/hand.gd" type="Script" id=10]
+[ext_resource path="res://game/ui/card/bt_bot.png" type="Texture" id=11]
+[ext_resource path="res://share/icon/ingame/card/felhound.png" type="Texture" id=12]
+[ext_resource path="res://game/ui/card/bt_wait_top.png" type="Texture" id=13]
+[ext_resource path="res://game/ui/card/bt_ready_top.png" type="Texture" id=14]
+[ext_resource path="res://game/ui/card/bt_noise.png" type="Texture" id=15]
+[ext_resource path="res://game/ui/card/scanline.png" type="Texture" id=16]
+[ext_resource path="res://game/ui/card/bt_ready_bot_frame.png" type="Texture" id=17]
+[ext_resource path="res://game/ui/card/unit_cost_gage_bot.png" type="Texture" id=18]
+[ext_resource path="res://game/ui/card/unit_cost_gage_top.png" type="Texture" id=19]
+[ext_resource path="res://game/ui/card/unit_cost_gage_inside.png" type="Texture" id=20]
+[ext_resource path="res://game/ui/card/next.gd" type="Script" id=21]
+[ext_resource path="res://share/icon/ingame/card/panzerkunstler.png" type="Texture" id=22]
+[ext_resource path="res://game/ui/card/bt_next_top.png" type="Texture" id=23]
+[ext_resource path="res://game/ui/card/bt_next_bot_frame.png" type="Texture" id=24]
+[ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=25]
+[ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=26]
+[ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=27]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 24
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="StreamTexture" id=2]
+
+flags = 4
+load_path = "res://.import/ui_tile_color.png-7d925cd00dce0d0fe7edc5c36cd37ead.stex"
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 24
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
+
+size = 21
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 8
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+extra_spacing_bottom = -6
+extra_spacing_char = 2
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=6]
+
+size = 16
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+extra_spacing_char = 4
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=7]
+
+size = 8
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+extra_spacing_bottom = -6
+extra_spacing_char = 2
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=8]
+
+size = 8
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = true
+extra_spacing_bottom = -6
+extra_spacing_char = 2
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=9]
+
+size = 32
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=10]
+
+resource_name = "launch"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 95, 65 ), Vector2( 95, -300 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+
+resource_name = "show"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=12]
+
+size = 48
+outline_size = 2
+outline_color = Color( 0.329412, 0.329412, 0.329412, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=13]
+
+resource_name = "launch"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 95, 65 ), Vector2( 95, -300 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+
+resource_name = "show"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+
+resource_name = "launch"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 95, 65 ), Vector2( 95, -300 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+
+resource_name = "show"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+
+resource_name = "launch"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 95, 65 ), Vector2( 95, -300 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+
+resource_name = "show"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Dummy:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=19]
+
+size = 40
+outline_size = 3
+outline_color = Color( 0.0980392, 0.388235, 1, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=20]
+
+resource_name = "visiblecontrol"
+length = 5.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4.3, 4.5, 4.6854 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4.4, 4.6, 4.7854 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand3:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4.5, 4.7, 4.8854 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand4:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 4.6, 4.8, 4.9854 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Next:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 4.6, 4.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Energy:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 4.7, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Energy:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 4.9, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Hand1:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 4.5, 4.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Hand2:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 4.6, 4.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Hand3:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 4.7, 4.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Hand4:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="CameraFollowingUI" type="Node2D"]
+editor/display_folded = true
+z_index = 10
+
+[node name="Tile" type="Node2D" parent="."]
+visible = false
+script = ExtResource( 1 )
+
+[node name="Screen" type="TextureRect" parent="Tile"]
+visible = false
+modulate = Color( 0.227451, 0.227451, 0.227451, 0.345098 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 36.0
+margin_top = 56.0
+margin_right = 1044.0
+margin_bottom = 1664.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Grid" type="TextureRect" parent="Tile"]
+modulate = Color( 1, 1, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 3 )
+stretch_mode = 2
+
+[node name="Unit" type="Node2D" parent="Tile"]
+editor/display_folded = true
+
+[node name="MaskT" type="TextureRect" parent="Tile/Unit"]
+editor/display_folded = true
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 910.0
+margin_right = 1040.0
+margin_bottom = 1310.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="Tile/Unit/MaskT"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 390.0
+margin_top = 58.0
+margin_right = 611.0
+margin_bottom = 92.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "DEPLOYMENT AREA"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="MaskC1" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 440.0
+margin_top = 1310.0
+margin_right = 640.0
+margin_bottom = 1410.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="MaskC2" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 440.0
+margin_top = 1610.0
+margin_right = 640.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="MaskBL" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 1510.0
+margin_right = 440.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="MaskBR" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 640.0
+margin_top = 1510.0
+margin_right = 1040.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="MaskM1" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 1310.0
+margin_right = 140.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = SubResource( 2 )
+stretch_mode = 2
+
+[node name="MaskM2" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 340.0
+margin_top = 1310.0
+margin_right = 440.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = SubResource( 2 )
+stretch_mode = 2
+
+[node name="MaskM3" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 640.0
+margin_top = 1310.0
+margin_right = 740.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = SubResource( 2 )
+stretch_mode = 2
+
+[node name="MaskM4" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 940.0
+margin_top = 1310.0
+margin_right = 1040.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = SubResource( 2 )
+stretch_mode = 2
+
+[node name="BlueLeft" type="TextureRect" parent="Tile/Unit"]
+visible = false
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 140.0
+margin_top = 1310.0
+margin_right = 340.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="BlueRight" type="TextureRect" parent="Tile/Unit"]
+visible = false
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 740.0
+margin_top = 1310.0
+margin_right = 940.0
+margin_bottom = 1510.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="ExtendRight" type="TextureRect" parent="Tile/Unit"]
+editor/display_folded = true
+visible = false
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 610.0
+margin_right = 540.0
+margin_bottom = 810.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Label2" type="Label" parent="Tile/Unit/ExtendRight"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 78.0
+margin_top = 11.0
+margin_right = 421.0
+margin_bottom = 45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "EXTENDED DEPLOYMENT AREA"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ExtendLeft" type="TextureRect" parent="Tile/Unit"]
+editor/display_folded = true
+visible = false
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 540.0
+margin_top = 610.0
+margin_right = 1040.0
+margin_bottom = 810.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Label3" type="Label" parent="Tile/Unit/ExtendLeft"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 78.0
+margin_top = 11.0
+margin_right = 422.0
+margin_bottom = 45.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "EXTENDED DEPLOYMENT AREA"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="RedMain" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 1, 0.305882, 0.0666667, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 610.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="RedRight" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 1, 0.305882, 0.0666667, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 610.0
+margin_right = 540.0
+margin_bottom = 810.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="RedLeft" type="TextureRect" parent="Tile/Unit"]
+modulate = Color( 1, 0.305882, 0.0666667, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 540.0
+margin_top = 610.0
+margin_right = 1040.0
+margin_bottom = 810.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Deco" type="Node2D" parent="Tile/Unit"]
+modulate = Color( 1, 1, 1, 0.411765 )
+position = Vector2( 40, 60 )
+
+[node name="KnightRight" type="Node2D" parent="Tile/Unit/Deco"]
+editor/display_folded = true
+position = Vector2( 800, 1350 )
+
+[node name="Parts" type="Node2D" parent="Tile/Unit/Deco/KnightRight"]
+editor/display_folded = true
+
+[node name="Mark" type="Sprite" parent="Tile/Unit/Deco/KnightRight/Parts"]
+position = Vector2( -93.3431, -110 )
+rotation = -0.785397
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Tile/Unit/Deco/KnightRight/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -87.0
+margin_top = -126.0
+margin_right = 2.0
+margin_bottom = -92.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "KNIGHT"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Line" type="Sprite" parent="Tile/Unit/Deco/KnightRight/Parts"]
+position = Vector2( 58.8, -120.1 )
+scale = Vector2( 10, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Line2" type="Sprite" parent="Tile/Unit/Deco/KnightRight/Parts"]
+position = Vector2( 8, -109 )
+rotation = -0.785397
+scale = Vector2( 4, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Label2" type="Label" parent="Tile/Unit/Deco/KnightRight/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 19.0
+margin_top = -120.0
+margin_right = 100.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "KNIGHT SLOT 3
+ACTIVATIED>>>"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="Tile/Unit/Deco/KnightRight"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="Tile/Unit/Deco/KnightRight"]
+modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
+scale = Vector2( 3.8, 3.8 )
+texture = ExtResource( 3 )
+
+[node name="KnightCenter" type="Node2D" parent="Tile/Unit/Deco"]
+editor/display_folded = true
+position = Vector2( 500, 1450 )
+
+[node name="Parts" type="Node2D" parent="Tile/Unit/Deco/KnightCenter"]
+editor/display_folded = true
+
+[node name="Mark" type="Sprite" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+position = Vector2( -93.3431, -110 )
+rotation = -0.785397
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -87.0
+margin_top = -126.0
+margin_right = 2.0
+margin_bottom = -92.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "KNIGHT"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label3" type="Label" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 19.0
+margin_top = -140.0
+margin_right = 108.0
+margin_bottom = -106.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 0.776471, 0.105882, 1 )
+text = "LEADER"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Line" type="Sprite" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+position = Vector2( 58.8, -120.1 )
+scale = Vector2( 10, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Line2" type="Sprite" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+position = Vector2( 8, -109 )
+rotation = -0.785397
+scale = Vector2( 4, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Label2" type="Label" parent="Tile/Unit/Deco/KnightCenter/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 19.0
+margin_top = -120.0
+margin_right = 100.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 7 )
+text = "KNIGHT SLOT 2
+ACTIVATIED>>>"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="Tile/Unit/Deco/KnightCenter"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="Tile/Unit/Deco/KnightCenter"]
+modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
+scale = Vector2( 3.8, 3.8 )
+texture = ExtResource( 3 )
+
+[node name="KnightLeft" type="Node2D" parent="Tile/Unit/Deco"]
+editor/display_folded = true
+position = Vector2( 200, 1350 )
+
+[node name="Parts" type="Node2D" parent="Tile/Unit/Deco/KnightLeft"]
+editor/display_folded = true
+
+[node name="Mark" type="Sprite" parent="Tile/Unit/Deco/KnightLeft/Parts"]
+position = Vector2( -93.3431, -110 )
+rotation = -0.785397
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Tile/Unit/Deco/KnightLeft/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -87.0
+margin_top = -126.0
+margin_right = 2.0
+margin_bottom = -92.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "KNIGHT"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Line" type="Sprite" parent="Tile/Unit/Deco/KnightLeft/Parts"]
+position = Vector2( 58.8, -120.1 )
+scale = Vector2( 10, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Line2" type="Sprite" parent="Tile/Unit/Deco/KnightLeft/Parts"]
+position = Vector2( 8, -109 )
+rotation = -0.785397
+scale = Vector2( 4, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="Label2" type="Label" parent="Tile/Unit/Deco/KnightLeft/Parts"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 19.0
+margin_top = -120.0
+margin_right = 100.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 8 )
+text = "KNIGHT SLOT 1
+ACTIVATIED>>>"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="Tile/Unit/Deco/KnightLeft"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="Sprite2" type="Sprite" parent="Tile/Unit/Deco/KnightLeft"]
+modulate = Color( 0.0784314, 0.654902, 1, 0.27451 )
+scale = Vector2( 3.8, 3.8 )
+texture = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="Tile/Unit"]
+
+[node name="Spell" type="Node2D" parent="Tile"]
+editor/display_folded = true
+visible = false
+
+[node name="Blue" type="TextureRect" parent="Tile/Spell"]
+modulate = Color( 0.298039, 0.686275, 1, 0.121569 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="Map" type="Control" parent="."]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 1040.0
+margin_bottom = 1660.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Message" type="Label" parent="Map"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 8 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1000.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0.784314, 0.247059, 0.247059, 1 )
+custom_colors/font_color_shadow = Color( 0.695312, 0.621979, 0.621979, 1 )
+text = "Not Enough Energy"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Tween" type="Tween" parent="Map/Message"]
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="SkillLeft" type="Control" parent="."]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 1210.0
+margin_right = 440.0
+margin_bottom = 1610.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 9 )
+index = 1
+side = "Left"
+
+[node name="Cursor" type="Position2D" parent="SkillLeft"]
+
+[node name="SkillRight" type="Control" parent="."]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 640.0
+margin_top = 1210.0
+margin_right = 1040.0
+margin_bottom = 1610.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 9 )
+index = 2
+side = "Right"
+
+[node name="Cursor" type="Position2D" parent="SkillRight"]
+
+[node name="Hand1" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0.499998 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 248.0
+margin_top = 1710.0
+margin_right = 438.0
+margin_bottom = 1840.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 10 )
+index = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand1"]
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/launch = SubResource( 10 )
+anims/show = SubResource( 11 )
+blend_times = [  ]
+
+[node name="Dummy" type="Position2D" parent="Hand1"]
+position = Vector2( 95, 65 )
+
+[node name="Cursor" type="Position2D" parent="Hand1"]
+position = Vector2( 95, 65 )
+
+[node name="Card" type="Node2D" parent="Hand1"]
+editor/display_folded = true
+material = ExtResource( 8 )
+position = Vector2( 95, 65 )
+
+[node name="Base" type="Sprite" parent="Hand1/Card"]
+use_parent_material = true
+texture = ExtResource( 11 )
+
+[node name="Icon" type="Sprite" parent="Hand1/Card"]
+editor/display_folded = true
+use_parent_material = true
+texture = ExtResource( 12 )
+
+[node name="NotReady" type="Sprite" parent="Hand1/Card/Icon"]
+use_parent_material = true
+texture = ExtResource( 13 )
+
+[node name="Ready" type="Sprite" parent="Hand1/Card/Icon"]
+visible = false
+use_parent_material = true
+texture = ExtResource( 14 )
+
+[node name="Cost" type="Label" parent="Hand1/Card/Icon"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -83.0
+margin_top = -71.0
+margin_right = -55.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 12 )
+text = "4"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NotAvailable" type="CPUParticles2D" parent="Hand1/Card"]
+visible = false
+light_mask = 32768
+use_parent_material = true
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 10.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
+texture = ExtResource( 15 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 2.0
+radial_accel_random = 1.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.458824, 0.545098, 0.54902, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+
+[node name="Scanline" type="Sprite" parent="Hand1/Card"]
+modulate = Color( 1, 1, 1, 0.164706 )
+use_parent_material = true
+texture = ExtResource( 16 )
+
+[node name="Frame" type="Sprite" parent="Hand1/Card"]
+use_parent_material = true
+texture = ExtResource( 17 )
+
+[node name="Energy" type="TextureProgress" parent="Hand1/Card"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -95.0
+margin_top = 66.0
+margin_right = 95.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 30.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+texture_under = ExtResource( 18 )
+texture_over = ExtResource( 19 )
+texture_progress = ExtResource( 20 )
+tint_under = Color( 1, 1, 1, 1 )
+tint_over = Color( 1, 1, 1, 1 )
+tint_progress = Color( 1, 1, 1, 1 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Hand2" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0.5 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 450.0
+margin_top = 1710.0
+margin_right = 640.0
+margin_bottom = 1840.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 10 )
+index = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand2"]
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/launch = SubResource( 13 )
+anims/show = SubResource( 14 )
+blend_times = [  ]
+
+[node name="Dummy" type="Position2D" parent="Hand2"]
+position = Vector2( 95, 65 )
+
+[node name="Cursor" type="Position2D" parent="Hand2"]
+position = Vector2( 95, 65 )
+
+[node name="Card" type="Node2D" parent="Hand2"]
+editor/display_folded = true
+material = ExtResource( 8 )
+position = Vector2( 95, 65 )
+
+[node name="Base" type="Sprite" parent="Hand2/Card"]
+use_parent_material = true
+texture = ExtResource( 11 )
+
+[node name="Icon" type="Sprite" parent="Hand2/Card"]
+editor/display_folded = true
+use_parent_material = true
+texture = ExtResource( 12 )
+
+[node name="NotReady" type="Sprite" parent="Hand2/Card/Icon"]
+use_parent_material = true
+texture = ExtResource( 13 )
+
+[node name="Ready" type="Sprite" parent="Hand2/Card/Icon"]
+visible = false
+use_parent_material = true
+texture = ExtResource( 14 )
+
+[node name="Cost" type="Label" parent="Hand2/Card/Icon"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -83.0
+margin_top = -71.0
+margin_right = -55.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 12 )
+text = "4"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NotAvailable" type="CPUParticles2D" parent="Hand2/Card"]
+visible = false
+light_mask = 32768
+use_parent_material = true
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 10.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
+texture = ExtResource( 15 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 2.0
+radial_accel_random = 1.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.458824, 0.545098, 0.54902, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+
+[node name="Scanline" type="Sprite" parent="Hand2/Card"]
+modulate = Color( 1, 1, 1, 0.164706 )
+use_parent_material = true
+texture = ExtResource( 16 )
+
+[node name="Frame" type="Sprite" parent="Hand2/Card"]
+use_parent_material = true
+texture = ExtResource( 17 )
+
+[node name="Energy" type="TextureProgress" parent="Hand2/Card"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -95.0
+margin_top = 66.0
+margin_right = 95.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 30.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+texture_under = ExtResource( 18 )
+texture_over = ExtResource( 19 )
+texture_progress = ExtResource( 20 )
+tint_under = Color( 1, 1, 1, 1 )
+tint_over = Color( 1, 1, 1, 1 )
+tint_progress = Color( 1, 1, 1, 1 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Hand3" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 652.0
+margin_top = 1710.0
+margin_right = 842.0
+margin_bottom = 1840.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 10 )
+index = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand3"]
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/launch = SubResource( 15 )
+anims/show = SubResource( 16 )
+blend_times = [  ]
+
+[node name="Dummy" type="Position2D" parent="Hand3"]
+position = Vector2( 95, 65 )
+
+[node name="Cursor" type="Position2D" parent="Hand3"]
+position = Vector2( 95, 65 )
+
+[node name="Card" type="Node2D" parent="Hand3"]
+material = ExtResource( 8 )
+position = Vector2( 95, 65 )
+
+[node name="Base" type="Sprite" parent="Hand3/Card"]
+use_parent_material = true
+texture = ExtResource( 11 )
+
+[node name="Icon" type="Sprite" parent="Hand3/Card"]
+editor/display_folded = true
+use_parent_material = true
+texture = ExtResource( 12 )
+
+[node name="NotReady" type="Sprite" parent="Hand3/Card/Icon"]
+use_parent_material = true
+texture = ExtResource( 13 )
+
+[node name="Ready" type="Sprite" parent="Hand3/Card/Icon"]
+visible = false
+use_parent_material = true
+texture = ExtResource( 14 )
+
+[node name="Cost" type="Label" parent="Hand3/Card/Icon"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -83.0
+margin_top = -71.0
+margin_right = -55.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 12 )
+text = "4"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NotAvailable" type="CPUParticles2D" parent="Hand3/Card"]
+visible = false
+light_mask = 32768
+use_parent_material = true
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 10.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
+texture = ExtResource( 15 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 2.0
+radial_accel_random = 1.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.458824, 0.545098, 0.54902, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+
+[node name="Scanline" type="Sprite" parent="Hand3/Card"]
+modulate = Color( 1, 1, 1, 0.164706 )
+use_parent_material = true
+texture = ExtResource( 16 )
+
+[node name="Frame" type="Sprite" parent="Hand3/Card"]
+use_parent_material = true
+texture = ExtResource( 17 )
+
+[node name="Energy" type="TextureProgress" parent="Hand3/Card"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -95.0
+margin_top = 66.0
+margin_right = 95.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 30.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+texture_under = ExtResource( 18 )
+texture_over = ExtResource( 19 )
+texture_progress = ExtResource( 20 )
+tint_under = Color( 1, 1, 1, 1 )
+tint_over = Color( 1, 1, 1, 1 )
+tint_progress = Color( 1, 1, 1, 1 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Hand4" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 854.0
+margin_top = 1710.0
+margin_right = 1044.0
+margin_bottom = 1840.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 10 )
+index = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand4"]
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/launch = SubResource( 17 )
+anims/show = SubResource( 18 )
+blend_times = [  ]
+
+[node name="Dummy" type="Position2D" parent="Hand4"]
+position = Vector2( 95, 65 )
+
+[node name="Cursor" type="Position2D" parent="Hand4"]
+position = Vector2( 95, 65 )
+
+[node name="Card" type="Node2D" parent="Hand4"]
+editor/display_folded = true
+material = ExtResource( 8 )
+position = Vector2( 95, 65 )
+
+[node name="Base" type="Sprite" parent="Hand4/Card"]
+use_parent_material = true
+texture = ExtResource( 11 )
+
+[node name="Icon" type="Sprite" parent="Hand4/Card"]
+editor/display_folded = true
+use_parent_material = true
+texture = ExtResource( 12 )
+
+[node name="NotReady" type="Sprite" parent="Hand4/Card/Icon"]
+use_parent_material = true
+texture = ExtResource( 13 )
+
+[node name="Ready" type="Sprite" parent="Hand4/Card/Icon"]
+visible = false
+use_parent_material = true
+texture = ExtResource( 14 )
+
+[node name="Cost" type="Label" parent="Hand4/Card/Icon"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -83.0
+margin_top = -71.0
+margin_right = -55.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 12 )
+text = "4"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="NotAvailable" type="CPUParticles2D" parent="Hand4/Card"]
+visible = false
+light_mask = 32768
+use_parent_material = true
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 10.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+local_coords = true
+draw_order = 0
+texture = ExtResource( 15 )
+normalmap = null
+emission_shape = 1
+emission_sphere_radius = 1.0
+emission_points = PoolVector2Array(  )
+emission_colors = PoolColorArray(  )
+flag_align_y = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+angular_velocity_curve = null
+linear_accel = 0.0
+linear_accel_random = 0.0
+linear_accel_curve = null
+radial_accel = 2.0
+radial_accel_random = 1.0
+radial_accel_curve = null
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+tangential_accel_curve = null
+damping = 0.0
+damping_random = 0.0
+damping_curve = null
+angle = 0.0
+angle_random = 0.0
+angle_curve = null
+scale = 1.0
+scale_random = 0.0
+scale_curve = null
+color = Color( 0.458824, 0.545098, 0.54902, 1 )
+color_ramp = null
+hue_variation = 0.0
+hue_variation_random = 0.0
+hue_variation_curve = null
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_speed_curve = null
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_offset_curve = null
+anim_loop = false
+
+[node name="Scanline" type="Sprite" parent="Hand4/Card"]
+modulate = Color( 1, 1, 1, 0.164706 )
+use_parent_material = true
+texture = ExtResource( 16 )
+
+[node name="Frame" type="Sprite" parent="Hand4/Card"]
+use_parent_material = true
+texture = ExtResource( 17 )
+
+[node name="Energy" type="TextureProgress" parent="Hand4/Card"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -95.0
+margin_top = 66.0
+margin_right = 95.0
+margin_bottom = 86.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 30.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+texture_under = ExtResource( 18 )
+texture_over = ExtResource( 19 )
+texture_progress = ExtResource( 20 )
+tint_under = Color( 1, 1, 1, 1 )
+tint_over = Color( 1, 1, 1, 1 )
+tint_progress = Color( 1, 1, 1, 1 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="Next" type="Node2D" parent="."]
+editor/display_folded = true
+visible = false
+material = ExtResource( 8 )
+position = Vector2( 136, 1784 )
+scale = Vector2( 0.9, 0.98 )
+script = ExtResource( 21 )
+
+[node name="Base" type="Sprite" parent="Next"]
+use_parent_material = true
+texture = ExtResource( 11 )
+
+[node name="Icon" type="Sprite" parent="Next"]
+use_parent_material = true
+texture = ExtResource( 22 )
+
+[node name="NotReady" type="Sprite" parent="Next/Icon"]
+use_parent_material = true
+texture = ExtResource( 13 )
+
+[node name="Cost" type="Label" parent="Next/Icon"]
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -83.0
+margin_top = -63.0
+margin_right = -61.0
+margin_bottom = -8.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 19 )
+text = "4"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Next" type="Sprite" parent="Next"]
+modulate = Color( 0.235294, 0.603922, 1, 1 )
+use_parent_material = true
+texture = ExtResource( 23 )
+
+[node name="Scanline" type="Sprite" parent="Next"]
+modulate = Color( 1, 1, 1, 0.164706 )
+use_parent_material = true
+texture = ExtResource( 16 )
+
+[node name="Frame" type="Sprite" parent="Next"]
+use_parent_material = true
+texture = ExtResource( 24 )
+
+[node name="Energy" type="TextureProgress" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 8 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 93.0
+margin_top = 1890.0
+margin_right = 987.0
+margin_bottom = 1910.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+page = 0.0
+value = 35.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+texture_under = ExtResource( 25 )
+texture_over = ExtResource( 26 )
+texture_progress = ExtResource( 27 )
+tint_under = Color( 1, 1, 1, 1 )
+tint_over = Color( 1, 1, 1, 1 )
+tint_progress = Color( 1, 1, 1, 1 )
+radial_fill_degrees = 360.0
+radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
+
+[node name="UIAni" type="AnimationPlayer" parent="."]
+root_node = NodePath("..")
+autoplay = "visiblecontrol"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/visiblecontrol = SubResource( 20 )
+blend_times = [  ]
+
