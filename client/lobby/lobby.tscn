@@ -1,13 +1,15 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/page/scroll.gd" type="Script" id=2]
-[ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=3]
-[ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=4]
-[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=5]
-[ext_resource path="res://lobby/page/page.gd" type="Script" id=6]
-[ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=8]
+[ext_resource path="res://lobby/page/shop/shop.tscn" type="PackedScene" id=3]
+[ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=4]
+[ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=5]
+[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=6]
+[ext_resource path="res://lobby/page/page.gd" type="Script" id=7]
+[ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=8]
+[ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=10]
 
 [node name="lobby" type="Control"]
 anchor_left = 0.0
@@ -82,21 +84,29 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Card" parent="Pages" instance=ExtResource( 3 )]
+[node name="Shop" parent="Pages" instance=ExtResource( 3 )]
+margin_left = -2882.0
+margin_right = -2882.0
+
+[node name="Card" parent="Pages" instance=ExtResource( 4 )]
 margin_left = -1440.0
 margin_right = -1440.0
 
-[node name="Battle" parent="Pages" instance=ExtResource( 4 )]
+[node name="Battle" parent="Pages" instance=ExtResource( 5 )]
 
-[node name="Explore" parent="Pages" instance=ExtResource( 5 )]
+[node name="Explore" parent="Pages" instance=ExtResource( 6 )]
 margin_left = 1440.0
 margin_right = 1440.0
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
-[node name="Headup" parent="." instance=ExtResource( 7 )]
+[node name="Social" parent="Pages" instance=ExtResource( 8 )]
+margin_left = 2699.0
+margin_right = 3059.0
+
+[node name="Headup" parent="." instance=ExtResource( 9 )]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource( 10 )
 volume_db = -10.0
 pitch_scale = 1.0
 autoplay = false
