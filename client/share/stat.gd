@@ -596,7 +596,8 @@ var units = {
 			"wing": {
 				"radius":       150,
 				"castduration": 30,
-				"precastdelay": 14,
+				"freezeduration": 50,
+				"precastdelay": 20,
 			},
 			"leader": {
 				"slowduration": [20],

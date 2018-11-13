@@ -117,6 +117,9 @@ func castDuration():
 func preCastDelay():
 	return Skill()["precastdelay"]
 
+func freezeDuration():
+	return Skill()["freezeduration"]
+
 func SetAsLeader():
 	isLeader = true
 	player.AddStatRatio("slowduration", Skill()["slowduration"][level])
@@ -156,7 +159,7 @@ func adjustSkillAnim():
 		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func doFreeze():
-	var duration = castDuration() - preCastDelay()
+	var duration = freezeDuration()
 	var radius = game.World().FromPixel(Skill()["radius"])
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
