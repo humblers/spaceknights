@@ -147,6 +147,8 @@ func CastSkill(posX, posY):
 
 func adjustSkillAnim():
 	var offset = $Rotatable/Body/Turret.position * $Rotatable.scale
+	if player.Team() == "Red":
+		offset = offset * -1
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
