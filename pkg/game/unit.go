@@ -50,6 +50,9 @@ type unit struct {
 }
 
 func (u *unit) MakeSlow(duration int) {
+	if duration <= 0 {
+		return
+	}
 	u.slowUntil = u.game.Step() + duration
 }
 
