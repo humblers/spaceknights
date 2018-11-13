@@ -150,14 +150,14 @@ func adjustSkillAnim():
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
-	var vec = (Vector2(x, y) - offset).rotated($Rotatable.rotation)
+	var vec = Vector2(x, y).rotated($Rotatable.rotation) - offset
 	if game.team_swapped:
 		vec = vec.rotated(PI)
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position", "Rotatable/Body/Turret:position"]
+	var tracks = ["Rotatable/Body:position"]
 	for track in tracks:
 		var track_idx = old_anim.find_track(track)
 		var key_count = old_anim.track_get_key_count(track_idx)
