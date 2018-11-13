@@ -122,6 +122,10 @@ func (f *frost) preCastDelay() int {
 	return f.Skill()["precastdelay"].(int)
 }
 
+func (f *frost) freezeDuration() int {
+	return f.Skill()["freezeduration"].(int)
+}
+
 func (f *frost) SetAsLeader() {
 	f.isLeader = true
 	f.player.AddStatRatio("slowduration", f.Skill()["slowduration"].([]int)[f.level])
@@ -149,7 +153,7 @@ func (f *frost) CastSkill(posX, posY int) bool {
 }
 
 func (f *frost) doFreeze() {
-	duration := f.castDuration() - f.preCastDelay()
+	duration := f.freezeDuration()
 	radius := f.game.World().FromPixel(f.Skill()["radius"].(int))
 	for _, id := range f.game.UnitIds() {
 		u := f.game.FindUnit(id)

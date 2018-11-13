@@ -155,6 +155,8 @@ func Destroy():
 	game.World().RemoveBody(body)
 
 func MakeSlow(duration):
+	if duration <= 0:
+		return
 	slowUntil = game.Step() + duration
 
 func Freeze(duration):

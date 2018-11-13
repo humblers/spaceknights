@@ -372,10 +372,11 @@ var Units = map[string]Unit{
 		"bulletlifetime": 2,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
-				"name":         "freeze",
-				"radius":       150,
-				"castduration": 30,
-				"precastdelay": 14,
+				"name":           "freeze",
+				"radius":         150,
+				"castduration":   30,
+				"freezeduration": 50,
+				"precastdelay":   20,
 			},
 			"leader": map[string]interface{}{
 				"name":         "frozenbullet",
