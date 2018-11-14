@@ -7,6 +7,9 @@ func _ready():
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
+	$Headup.lobby = self
+	$Headup.scroll = $Scroll
+	$Pages/Card.lobby = self
 	$Pages/Battle.lobby = self
 	load_data()
 
