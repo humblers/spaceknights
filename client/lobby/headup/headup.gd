@@ -19,10 +19,10 @@ func _ready():
 	$Config/MarginContainer/Replay/Play.connect("button_up", self, "play_replay")
 
 func invalidate():
-	$Top/Level.text = "%d" % (user.Level + 1)
-	$Top/Level/Exp.text = "%d/xxx" % user.Exp
-	$Top/Galacticoin.text = "%d" % user.Galacticoin
-	$Top/Dimensium.text = "%d" % user.Dimensium
+	$Top/Stat/Level.text = "%d" % (user.Level + 1)
+	$Top/Stat/Exp.text = "%d/xxx" % user.Exp
+	$Top/Galacticoin/Label.text = "%d" % user.Galacticoin
+	$Top/Dimensium/Label.text = "%d" % user.Dimensium
 	$Config/MarginContainer/Account/PID.text = user.PlatformId
 
 func show_config():
