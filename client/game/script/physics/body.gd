@@ -12,6 +12,7 @@ var force_x = 0
 var force_y = 0
 var no_physics = false
 var layer = ""
+var colliding = false
 
 # geometry
 var shape = ""
@@ -23,6 +24,7 @@ var height = 0
 var prev_pos_x = 0
 var prev_pos_y = 0
 var node = null
+var set_position = false
 
 func _init(id, mass, rest, pos_x, pos_y):
 	self.id = id
@@ -48,6 +50,7 @@ func SetPosition(x, y):
 	prev_pos_y = pos_y
 	pos_x = x
 	pos_y = y
+	set_position = true
 
 func VelocityX():
 	return vel_x
@@ -97,10 +100,13 @@ func applyForce(gravity_x, gravity_y, dt):
 func move(dt):
 	if mass == 0 or no_physics:
 		return
-	SetPosition(
-		scalar.Add(pos_x, scalar.Mul(vel_x, dt)),
-		scalar.Add(pos_y, scalar.Mul(vel_y, dt))
-	)
+	if not set_position:
+		prev_pos_x = pos_x
+		prev_pos_y = pos_y
+	else:
+		set_position = false
+	pos_x = scalar.Add(pos_x, scalar.Mul(vel_x, dt))
+	pos_y = scalar.Add(pos_y, scalar.Mul(vel_y, dt))
 
 func digest(h=djb2.INITIAL_HASH):
 	var elems = [id, mass, imass, rest,

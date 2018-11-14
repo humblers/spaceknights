@@ -50,10 +50,11 @@ func Step():
 			if c != null:
 				collisions.append(c)
 	for b in bodies:
+		b.colliding = false
 		b.applyForce(gravity_x, gravity_y, dt)
-	for i in range(iterations):
-		for c in collisions:
-			c.resolve()
+#	for i in range(iterations):
+#		for c in collisions:
+#			c.resolve()
 	for b in bodies:
 		b.move(dt)
 	for c in collisions:

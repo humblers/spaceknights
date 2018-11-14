@@ -33,7 +33,7 @@ func TakeDamage(amount, attacker):
 	$Hp/Shield.visible = true
 
 func Update():
-	SetVelocity(0, 0)
+	.Update()
 	if freeze > 0:
 		attack = 0
 		targetId = 0
@@ -84,12 +84,18 @@ func findTargetAndDoAction():
 		charge = 0
 
 func moveTo(unit):
-	var corner = game.Map().FindNextCornerInPath(
-		PositionX(), PositionY(),
-		unit.PositionX(), unit.PositionY(),
-		Radius())
-	var x = scalar.Sub(corner[0], PositionX())
-	var y = scalar.Sub(corner[1], PositionY())
+	var x
+	var y
+	if Layer() == "Ether":
+		x = scalar.Sub(unit.PositionX(), PositionX())
+		y = scalar.Sub(unit.PositionY(), PositionY())
+	else:
+		var corner = game.Map().FindNextCornerInPath(
+			PositionX(), PositionY(),
+			unit.PositionX(), unit.PositionY(),
+			Radius())
+		x = scalar.Sub(corner[0], PositionX())
+		y = scalar.Sub(corner[1], PositionY())
 	var direction = vector.Normalized(x, y)
 	var speed = speed()
 	if charged():
@@ -99,13 +105,34 @@ func moveTo(unit):
 	else:
 		if $Sound/Move.playing == false:
 			$Sound/Move.play()
-	SetVelocity(
-		scalar.Mul(direction[0], speed), 
-		scalar.Mul(direction[1], speed))
+	var desired_vel_x = scalar.Mul(direction[0], speed)
+	var desired_vel_y = scalar.Mul(direction[1], speed)
+	var desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
+	var desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
+	if body.colliding and moving:
+		print("colliding")
+		var diff_x = scalar.Sub(prev_desired_pos_x, body.pos_x)
+		var diff_y = scalar.Sub(prev_desired_pos_y, body.pos_y)
+		var l = vector.Length(diff_x, diff_y)
+		var adjust_ratio = scalar.Clamp(scalar.Div(l, scalar.Mul(speed, game.world.dt)), 0, scalar.One)
+		var to_x = -desired_vel_y if diff_x < 0 else desired_vel_y
+		var to_y = desired_vel_x if diff_x < 0 else -desired_vel_x
+		desired_vel_x = scalar.Add(desired_vel_x, scalar.Mul(to_x, adjust_ratio))
+		desired_vel_y = scalar.Add(desired_vel_y, scalar.Mul(to_y, adjust_ratio))
+		var truncated = vector.Truncated(desired_vel_x, desired_vel_y, speed)
+		desired_vel_x = truncated[0]
+		desired_vel_y = truncated[1]
+		desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
+		desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
+	else:
+		print("not colliding")
+	SetPosition(desired_pos_x, desired_pos_y)
 	charge += 1
+	prev_desired_pos_x = desired_pos_x
+	prev_desired_pos_y = desired_pos_y
 	
 	# client only
-	look_at_pos(corner[0], corner[1])
+	set_rot(desired_vel_x, desired_vel_y)
 	if charge == 1:
 		if $AnimationPlayer.current_animation != "move_human":
 			$AnimationPlayer.play("move_human")

@@ -20,6 +20,9 @@ var game
 var body
 var slowUntil = 0
 var freeze = 0
+var prev_desired_pos_x
+var prev_desired_pos_y
+var moving = false
 
 var node_hp
 var shader_material = preload("res://game/unit/shader_material.tres")
@@ -112,6 +115,11 @@ func look_at_pos(x, y):
 	var dir = Vector2(px, py) - position
 	$Rotatable.rotation = PI/2 + dir.angle()	# unit initial angle = -90
 
+func set_rot(vel_x, vel_y):
+	$Rotatable.rotation = PI/2 + Vector2(vel_x, vel_y).angle()
+	if game.team_swapped:
+		$Rotatable.rotation += PI
+	
 func set_hp():
 	var color = Team()
 	if game.team_swapped:
@@ -306,3 +314,53 @@ func moveToPos(posX, posY):
 	var y = scalar.Sub(posY, PositionY())
 	var v = vector.Truncated(x, y, speed())
 	SetVelocity(v[0], v[1])
+
+func moveTo(unit):
+	var x
+	var y
+	if Layer() == "Ether":
+		x = scalar.Sub(unit.PositionX(), PositionX())
+		y = scalar.Sub(unit.PositionY(), PositionY())
+	else:
+		var corner = game.Map().FindNextCornerInPath(
+			PositionX(), PositionY(),
+			unit.PositionX(), unit.PositionY(),
+			Radius())
+		x = scalar.Sub(corner[0], PositionX())
+		y = scalar.Sub(corner[1], PositionY())
+	var direction = vector.Normalized(x, y)
+	var speed = speed()
+	var desired_vel_x = scalar.Mul(direction[0], speed)
+	var desired_vel_y = scalar.Mul(direction[1], speed)
+	var desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
+	var desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
+	if body.colliding and moving:
+		var diff_x = scalar.Sub(prev_desired_pos_x, body.pos_x)
+		var diff_y = scalar.Sub(prev_desired_pos_y, body.pos_y)
+		var l = vector.Length(diff_x, diff_y)
+		var adjust_ratio = scalar.Clamp(scalar.Div(l, scalar.Mul(speed, game.world.dt)), 0, scalar.One)
+		var to_x = -desired_vel_y if diff_x < 0 else desired_vel_y
+		var to_y = desired_vel_x if diff_x < 0 else -desired_vel_x
+		desired_vel_x = scalar.Add(desired_vel_x, scalar.Mul(to_x, adjust_ratio))
+		desired_vel_y = scalar.Add(desired_vel_y, scalar.Mul(to_y, adjust_ratio))
+		var truncated = vector.Truncated(desired_vel_x, desired_vel_y, speed)
+		desired_vel_x = truncated[0]
+		desired_vel_y = truncated[1]
+		desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
+		desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
+	SetPosition(desired_pos_x, desired_pos_y)
+	prev_desired_pos_x = desired_pos_x
+	prev_desired_pos_y = desired_pos_y
+	moving = true
+	set_rot(desired_vel_x, desired_vel_y)
+	if $AnimationPlayer.current_animation != "move":
+		if Layer() == "Ether" and name_ != "shadowvision":
+			$AnimationPlayer.play("cloaking")
+		else:
+			$AnimationPlayer.play("move")
+	if $Sound/Move.playing == false:
+		$Sound/Move.play()
+
+func Update():
+	moving = false
+	SetVelocity(0, 0)

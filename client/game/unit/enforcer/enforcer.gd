@@ -9,7 +9,7 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 
 func Update():
-	SetVelocity(0, 0)
+	.Update()
 	if freeze > 0:
 		attack = 0
 		targetId = 0
@@ -52,24 +52,6 @@ func findTargetAndDoAction():
 			moveTo(t)
 	else:
 		$AnimationPlayer.play("idle")
-
-func moveTo(unit):
-	var corner = game.Map().FindNextCornerInPath(
-		PositionX(), PositionY(),
-		unit.PositionX(), unit.PositionY(),
-		Radius())
-	var x = scalar.Sub(corner[0], PositionX())
-	var y = scalar.Sub(corner[1], PositionY())
-	var direction = vector.Normalized(x, y)
-	var speed = speed()
-	SetVelocity(
-		scalar.Mul(direction[0], speed), 
-		scalar.Mul(direction[1], speed))
-	look_at_pos(corner[0], corner[1])
-	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
-		$AnimationPlayer.play("move")
-	if $Sound/Move.playing == false:
-		$Sound/Move.play()
 
 func handleAttack():
 	if attack == 0:

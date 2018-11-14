@@ -19,6 +19,8 @@ func positionalCorrect(threshold, percent):
 	a.pos_y = scalar.Sub(a.pos_y, scalar.Mul(correction_y, a.imass))
 	b.pos_x = scalar.Add(b.pos_x, scalar.Mul(correction_x, b.imass))
 	b.pos_y = scalar.Add(b.pos_y, scalar.Mul(correction_y, b.imass))
+	a.colliding = true
+	b.colliding = true
 
 func resolve():
 	var relVel_x = scalar.Sub(b.vel_x, a.vel_x)
