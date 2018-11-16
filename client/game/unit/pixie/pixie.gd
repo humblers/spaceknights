@@ -7,7 +7,7 @@ func Init(id, level, posX, posY, game, player):
 	New(id, "pixie", player.Team(), level, posX, posY, game)
 
 func Update():
-	SetVelocity(0, 0)
+	.Update()
 	if freeze > 0:
 		attack = 0
 		targetId = 0
@@ -50,20 +50,6 @@ func findTargetAndDoAction():
 			moveTo(t)
 	else:
 		$AnimationPlayer.play("idle")
-
-func moveTo(unit):
-	var x = scalar.Sub(unit.PositionX(), PositionX())
-	var y = scalar.Sub(unit.PositionY(), PositionY())
-	var direction = vector.Normalized(x, y)
-	var speed = speed()
-	SetVelocity(
-		scalar.Mul(direction[0], speed), 
-		scalar.Mul(direction[1], speed))
-	look_at_pos(unit.PositionX(), unit.PositionY())
-	if $AnimationPlayer.current_animation != "move" or not $AnimationPlayer.is_playing():
-		$AnimationPlayer.play("cloaking")
-	if $Sound/Move.playing == false:
-		$Sound/Move.play()
 
 func handleAttack():
 	if attack == 0:

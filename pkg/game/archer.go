@@ -15,7 +15,7 @@ func newArcher(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (a *archer) Update() {
-	a.SetVelocity(fixed.Vector{0, 0})
+	a.unit.Update()
 	if a.freeze > 0 {
 		a.attack = 0
 		a.targetId = 0
@@ -65,16 +65,6 @@ func (a *archer) findTargetAndDoAction() {
 			a.moveTo(t)
 		}
 	}
-}
-
-func (a *archer) moveTo(u Unit) {
-	corner := a.game.Map().FindNextCornerInPath(
-		a.Position(),
-		u.Position(),
-		a.Radius(),
-	)
-	direction := corner.Sub(a.Position()).Normalized()
-	a.SetVelocity(direction.Mul(a.speed()))
 }
 
 func (a *archer) handleAttack() {

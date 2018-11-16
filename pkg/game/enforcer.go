@@ -67,16 +67,6 @@ func (e *enforcer) findTargetAndDoAction() {
 	}
 }
 
-func (e *enforcer) moveTo(u Unit) {
-	corner := e.game.Map().FindNextCornerInPath(
-		e.Position(),
-		u.Position(),
-		e.Radius(),
-	)
-	direction := corner.Sub(e.Position()).Normalized()
-	e.SetVelocity(direction.Mul(e.speed()))
-}
-
 func (e *enforcer) handleAttack() {
 	if e.attack == e.preAttackDelay() {
 		t := e.target()

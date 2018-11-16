@@ -70,17 +70,7 @@ func (j *jouster) findTargetAndDoAction() {
 }
 
 func (j *jouster) moveTo(u Unit) {
-	corner := j.game.Map().FindNextCornerInPath(
-		j.Position(),
-		u.Position(),
-		j.Radius(),
-	)
-	direction := corner.Sub(j.Position()).Normalized()
-	speed := j.speed()
-	if j.charged() {
-		speed = j.chargedMoveSpeed()
-	}
-	j.SetVelocity(direction.Mul(speed))
+	j.unit.moveTo(u)
 	j.charge++
 }
 

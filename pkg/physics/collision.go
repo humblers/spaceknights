@@ -25,6 +25,8 @@ func (c *collision) positionalCorrect(threshold, percent fixed.Scalar) {
 	correction := c.normal.Mul(s)
 	c.a.pos = c.a.pos.Sub(correction.Mul(c.a.imass))
 	c.b.pos = c.b.pos.Add(correction.Mul(c.b.imass))
+	c.a.colliding = true
+	c.b.colliding = true
 }
 
 func (c *collision) resolve() {

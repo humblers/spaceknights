@@ -62,16 +62,6 @@ func (f *footman) findTargetAndDoAction() {
 	}
 }
 
-func (f *footman) moveTo(u Unit) {
-	corner := f.game.Map().FindNextCornerInPath(
-		f.Position(),
-		u.Position(),
-		f.Radius(),
-	)
-	direction := corner.Sub(f.Position()).Normalized()
-	f.SetVelocity(direction.Mul(f.speed()))
-}
-
 func (f *footman) handleAttack() {
 	if f.attack == f.preAttackDelay() {
 		t := f.target()

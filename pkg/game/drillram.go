@@ -62,16 +62,6 @@ func (d *drillram) findTargetAndDoAction() {
 	}
 }
 
-func (d *drillram) moveTo(u Unit) {
-	corner := d.game.Map().FindNextCornerInPath(
-		d.Position(),
-		u.Position(),
-		d.Radius(),
-	)
-	direction := corner.Sub(d.Position()).Normalized()
-	d.SetVelocity(direction.Mul(d.speed()))
-}
-
 func (d *drillram) handleAttack() {
 	if d.attack == d.preAttackDelay() {
 		t := d.target()

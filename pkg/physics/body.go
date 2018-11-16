@@ -16,6 +16,7 @@ type Body interface {
 	Layer() string
 	SetLayer(l string)
 	AddForce(f fixed.Vector)
+	Colliding() bool
 }
 
 type body struct {
@@ -34,6 +35,7 @@ type body struct {
 
 	no_physics bool
 	layer      string
+	colliding  bool
 }
 
 type shape string
@@ -69,6 +71,10 @@ func (b *body) Position() fixed.Vector {
 
 func (b *body) SetPosition(p fixed.Vector) {
 	b.pos = p
+}
+
+func (b *body) Colliding() bool {
+	return b.colliding
 }
 
 func (b *body) Velocity() fixed.Vector {

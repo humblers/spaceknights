@@ -45,8 +45,10 @@ type unit struct {
 	game  Game
 	physics.Body
 
-	slowUntil int
-	freeze    int
+	slowUntil        int
+	freeze           int
+	prev_desired_pos fixed.Vector
+	moving           bool
 }
 
 func (u *unit) MakeSlow(duration int) {
@@ -261,4 +263,42 @@ func (u *unit) squaredDistanceTo(v Unit) fixed.Scalar {
 func (u *unit) moveToPos(pos fixed.Vector) {
 	v := pos.Sub(u.Position()).Truncated(u.speed())
 	u.SetVelocity(v)
+}
+
+func (u *unit) moveTo(target Unit) {
+	var pos fixed.Vector
+	if u.Layer() == data.Ether {
+		pos = target.Position().Sub(u.Position())
+	} else {
+		corner := u.game.Map().FindNextCornerInPath(
+			u.Position(),
+			target.Position(),
+			u.Radius(),
+		)
+		pos = corner.Sub(u.Position())
+	}
+	direction := pos.Normalized()
+	desired_vel := direction.Mul(u.speed())
+	desired_pos := u.Position().Add(desired_vel.Mul(u.game.World().Dt()))
+	if u.Colliding() && u.moving {
+		diff := u.prev_desired_pos.Sub(u.Position())
+		l := diff.Length()
+		adjust_ratio := l.Div(u.speed().Mul(u.game.World().Dt())).Clamp(0, fixed.One)
+		var to fixed.Vector
+		if diff.X < 0 {
+			to = fixed.Vector{-desired_vel.Y, desired_vel.X}
+		} else {
+			to = fixed.Vector{desired_vel.Y, -desired_vel.X}
+		}
+		desired_vel = desired_vel.Add(to.Mul(adjust_ratio)).Truncated(u.speed())
+		desired_pos = u.Position().Add(desired_vel.Mul(u.game.World().Dt()))
+	}
+	u.SetPosition(desired_pos)
+	u.prev_desired_pos = desired_pos
+	u.moving = true
+}
+
+func (u *unit) Update() {
+	u.moving = false
+	u.SetVelocity(fixed.Vector{0, 0})
 }

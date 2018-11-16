@@ -87,16 +87,6 @@ func (p *psabu) findTargetAndDoAction() {
 	}
 }
 
-func (p *psabu) moveTo(u Unit) {
-	corner := p.game.Map().FindNextCornerInPath(
-		p.Position(),
-		u.Position(),
-		p.Radius(),
-	)
-	direction := corner.Sub(p.Position()).Normalized()
-	p.SetVelocity(direction.Mul(p.speed()))
-}
-
 func (p *psabu) handleAttack() {
 	t := p.target()
 	if p.attack == 0 {

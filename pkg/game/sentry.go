@@ -67,16 +67,6 @@ func (s *sentry) findTargetAndDoAction() {
 	}
 }
 
-func (s *sentry) moveTo(u Unit) {
-	corner := s.game.Map().FindNextCornerInPath(
-		s.Position(),
-		u.Position(),
-		s.Radius(),
-	)
-	direction := corner.Sub(s.Position()).Normalized()
-	s.SetVelocity(direction.Mul(s.speed()))
-}
-
 func (s *sentry) handleAttack() {
 	if s.attack == s.preAttackDelay() {
 		t := s.target()

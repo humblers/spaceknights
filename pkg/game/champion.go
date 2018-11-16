@@ -36,7 +36,7 @@ func (c *champion) TakeDamage(amount int, a Attacker) {
 }
 
 func (c *champion) Update() {
-	c.SetVelocity(fixed.Vector{0, 0})
+	c.unit.Update()
 	if c.freeze > 0 {
 		c.attack = 0
 		c.targetId = 0
@@ -91,17 +91,7 @@ func (c *champion) findTargetAndDoAction() {
 }
 
 func (c *champion) moveTo(u Unit) {
-	corner := c.game.Map().FindNextCornerInPath(
-		c.Position(),
-		u.Position(),
-		c.Radius(),
-	)
-	direction := corner.Sub(c.Position()).Normalized()
-	speed := c.speed()
-	if c.charged() {
-		speed = c.chargedMoveSpeed()
-	}
-	c.SetVelocity(direction.Mul(speed))
+	c.unit.moveTo(u)
 	c.charge++
 }
 

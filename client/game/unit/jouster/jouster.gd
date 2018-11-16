@@ -8,7 +8,7 @@ func Init(id, level, posX, posY, game, player):
 	New(id, "jouster", player.Team(), level, posX, posY, game)
 
 func Update():
-	SetVelocity(0, 0)
+	.Update()
 	if freeze > 0:
 		attack = 0
 		targetId = 0
@@ -54,39 +54,18 @@ func findTargetAndDoAction():
 		$AnimationPlayer.play("idle")
 		charge = 0
 
-func moveTo(unit):
-	var corner = game.Map().FindNextCornerInPath(
-		PositionX(), PositionY(),
-		unit.PositionX(), unit.PositionY(),
-		Radius())
-	var x = scalar.Sub(corner[0], PositionX())
-	var y = scalar.Sub(corner[1], PositionY())
-	var direction = vector.Normalized(x, y)
-	var speed = speed()
-	if charged():
-		speed = chargedMoveSpeed()
-		if $Sound/WingMove.playing == false:
-			$Sound/WingMove.play()
-	else:
-		if $Sound/Move.playing == false:
-			$Sound/Move.play()
-	SetVelocity(
-		scalar.Mul(direction[0], speed), 
-		scalar.Mul(direction[1], speed))
+func moveTo(unit, play_anim = false):
+	.moveTo(unit, play_anim)
 	charge += 1
-	
-	# client only
-	look_at_pos(corner[0], corner[1])
 	if charge == 1:
-		if $AnimationPlayer.current_animation != "move_human":
-			$AnimationPlayer.play("move_human")
+		$AnimationPlayer.play("move")
 	if charge == chargeDelay():
-		$AnimationPlayer.play("skill_charge")
+		$AnimationPlayer.play("charge")
 
 func handleAttack():
 	if charged():
 		if attack == 0:
-			$AnimationPlayer.play("skill_attack")
+			$AnimationPlayer.play("charged_attack")
 		var t = target()
 		if t != null:
 			look_at_pos(t.PositionX(), t.PositionY())
@@ -121,8 +100,15 @@ func handleAttack():
 func chargeDelay():
 	return stat.units[name_]["chargedelay"]
 
-func chargedMoveSpeed():
-	var s = stat.units[name_]["chargedmovespeed"]
+func speed():
+	var s
+	if charged():
+		s = stat.units[name_]["chargedmovespeed"]
+	else:
+		s = stat.units[name_]["speed"]
+	
+	if slowUntil >= game.Step():
+		s = s * stat.SlowPercent / 100
 	return game.World().FromPixel(s)
 
 func chargedAttackDamage():

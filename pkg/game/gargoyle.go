@@ -84,16 +84,6 @@ func (g *gargoyle) findTargetAndDoAction() {
 	}
 }
 
-func (g *gargoyle) moveTo(u Unit) {
-	corner := g.game.Map().FindNextCornerInPath(
-		g.Position(),
-		u.Position(),
-		g.Radius(),
-	)
-	direction := corner.Sub(g.Position()).Normalized()
-	g.SetVelocity(direction.Mul(g.speed()))
-}
-
 func (g *gargoyle) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()

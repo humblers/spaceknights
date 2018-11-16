@@ -69,16 +69,6 @@ func (p *panzerkunstler) findTargetAndDoAction() {
 	}
 }
 
-func (p *panzerkunstler) moveTo(u Unit) {
-	corner := p.game.Map().FindNextCornerInPath(
-		p.Position(),
-		u.Position(),
-		p.Radius(),
-	)
-	direction := corner.Sub(p.Position()).Normalized()
-	p.SetVelocity(direction.Mul(p.speed()))
-}
-
 func (p *panzerkunstler) handleAttack() {
 	if p.canDoPowerAttack() {
 		if p.attack == 0 {

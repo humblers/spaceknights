@@ -94,16 +94,6 @@ func (w *wasp) findTargetAndDoAction() {
 	}
 }
 
-func (w *wasp) moveTo(u Unit) {
-	corner := w.game.Map().FindNextCornerInPath(
-		w.Position(),
-		u.Position(),
-		w.Radius(),
-	)
-	direction := corner.Sub(w.Position()).Normalized()
-	w.SetVelocity(direction.Mul(w.speed()))
-}
-
 func (w *wasp) handleAttack() {
 	if w.attack == w.preAttackDelay() {
 		t := w.target()

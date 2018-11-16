@@ -62,16 +62,6 @@ func (o *ogre) findTargetAndDoAction() {
 	}
 }
 
-func (o *ogre) moveTo(u Unit) {
-	corner := o.game.Map().FindNextCornerInPath(
-		o.Position(),
-		u.Position(),
-		o.Radius(),
-	)
-	direction := corner.Sub(o.Position()).Normalized()
-	o.SetVelocity(direction.Mul(o.speed()))
-}
-
 func (o *ogre) handleAttack() {
 	if o.attack == o.preAttackDelay() {
 		t := o.target()
