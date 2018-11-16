@@ -95,11 +95,6 @@ func (s *shadowvision) findTargetAndDoAction() {
 	}
 }
 
-func (s *shadowvision) moveTo(u Unit) {
-	direction := u.Position().Sub(s.Position()).Normalized()
-	s.SetVelocity(direction.Mul(s.speed()))
-}
-
 func (s *shadowvision) handleAttack() {
 	if s.attack == 0 {
 		s.setLayer(data.Normal)

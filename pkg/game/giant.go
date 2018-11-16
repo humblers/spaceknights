@@ -62,16 +62,6 @@ func (g *giant) findTargetAndDoAction() {
 	}
 }
 
-func (g *giant) moveTo(u Unit) {
-	corner := g.game.Map().FindNextCornerInPath(
-		g.Position(),
-		u.Position(),
-		g.Radius(),
-	)
-	direction := corner.Sub(g.Position()).Normalized()
-	g.SetVelocity(direction.Mul(g.speed()))
-}
-
 func (g *giant) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()

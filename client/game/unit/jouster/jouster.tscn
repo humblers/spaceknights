@@ -37,11 +37,11 @@
 [ext_resource path="res://game/unit/jouster/explosion.tres" type="Animation" id=35]
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=36]
 [ext_resource path="res://game/unit/jouster/attack.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/jouster/destroy.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/jouster/idle.tres" type="Animation" id=39]
-[ext_resource path="res://game/unit/jouster/move_human.tres" type="Animation" id=40]
-[ext_resource path="res://game/unit/jouster/skill_attack.tres" type="Animation" id=41]
-[ext_resource path="res://game/unit/jouster/skill_charge.tres" type="Animation" id=42]
+[ext_resource path="res://game/unit/jouster/charge.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/jouster/charged_attack.tres" type="Animation" id=39]
+[ext_resource path="res://game/unit/jouster/destroy.tres" type="Animation" id=40]
+[ext_resource path="res://game/unit/jouster/idle.tres" type="Animation" id=41]
+[ext_resource path="res://game/unit/jouster/move.tres" type="Animation" id=42]
 [ext_resource path="res://game/unit/jouster/jouster_atk.wav" type="AudioStream" id=43]
 [ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=44]
 [ext_resource path="res://game/unit/jouster/jouster_skill.wav" type="AudioStream" id=45]
@@ -85,14 +85,13 @@ use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Main" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 use_parent_material = true
-rotation = 0.523599
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( -19.5, 1.5 )
-rotation = 0.261799
+position = Vector2( -15, 10 )
 texture = ExtResource( 2 )
 flip_h = true
 
@@ -101,19 +100,16 @@ editor/display_folded = true
 position = Vector2( -2, 14 )
 
 [node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Main/ShoulderL/BoosterL"]
-visible = false
 modulate = Color( 0.227451, 0.482353, 0.882353, 1 )
 material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
 
 [node name="LightL" type="Sprite" parent="Rotatable/Main/ShoulderL/BoosterL"]
-visible = false
 modulate = Color( 0.607843, 0.686275, 0.847059, 1 )
 material = ExtResource( 3 )
 scale = Vector2( 0.7, 1.8 )
@@ -123,7 +119,7 @@ texture = ExtResource( 6 )
 editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
-rotation = 0.785396
+position = Vector2( 10, 0 )
 texture = ExtResource( 7 )
 offset = Vector2( -6, 0 )
 flip_h = true
@@ -132,7 +128,6 @@ flip_h = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -14, 1 )
-rotation = -0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( -5, -7 )
@@ -140,8 +135,7 @@ flip_h = true
 
 [node name="Shield" type="Sprite" parent="Rotatable/Main/ShoulderL/UpperarmL/ArmL"]
 use_parent_material = true
-position = Vector2( -7, -20 )
-rotation = -1.0472
+position = Vector2( 19, 0 )
 texture = ExtResource( 10 )
 normal_map = ExtResource( 11 )
 
@@ -154,6 +148,7 @@ rotation = -2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -177,6 +172,7 @@ rotation = 2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -192,28 +188,25 @@ scale = Vector2( 0.5, 0.8 )
 texture = ExtResource( 6 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Main"]
+editor/display_folded = true
 use_parent_material = true
-position = Vector2( 19.5, 1.5 )
-rotation = -0.261799
+position = Vector2( 15, 10 )
 texture = ExtResource( 2 )
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/Main/ShoulderR"]
 position = Vector2( 2, 14 )
 
 [node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Main/ShoulderR/BoosterR"]
-visible = false
 modulate = Color( 0.227451, 0.482353, 0.882353, 1 )
 material = ExtResource( 3 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
 
 [node name="LightR" type="Sprite" parent="Rotatable/Main/ShoulderR/BoosterR"]
-visible = false
 modulate = Color( 0.607843, 0.686275, 0.847059, 1 )
 material = ExtResource( 3 )
 scale = Vector2( 0.7, 1.8 )
@@ -222,6 +215,7 @@ texture = ExtResource( 6 )
 [node name="UpperarmR" type="Sprite" parent="Rotatable/Main/ShoulderR"]
 show_behind_parent = true
 use_parent_material = true
+position = Vector2( -10, 0 )
 texture = ExtResource( 7 )
 offset = Vector2( 6, 0 )
 
@@ -229,7 +223,6 @@ offset = Vector2( 6, 0 )
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 14, 1 )
-rotation = -0.261799
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( 5, -7 )
@@ -237,20 +230,20 @@ offset = Vector2( 5, -7 )
 [node name="Lance" type="Sprite" parent="Rotatable/Main/ShoulderR/UpperarmR/ArmR"]
 show_behind_parent = true
 use_parent_material = true
-position = Vector2( 0, -23 )
+position = Vector2( -19, -10 )
 texture = ExtResource( 12 )
 offset = Vector2( 0, -10 )
 
 [node name="Tip" type="Sprite" parent="Rotatable/Main/ShoulderR/UpperarmR/ArmR/Lance"]
 use_parent_material = true
-position = Vector2( 0, -56 )
+position = Vector2( 0, -50 )
 texture = ExtResource( 13 )
 normal_map = ExtResource( 14 )
 
 [node name="BodyL" type="Sprite" parent="Rotatable/Main/ShoulderR/UpperarmR/ArmR/Lance"]
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( -8, -20 )
+position = Vector2( -13, -20 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 flip_h = true
@@ -264,6 +257,7 @@ rotation = 2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -286,7 +280,6 @@ rotation = 0.872665
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -303,7 +296,7 @@ texture = ExtResource( 6 )
 [node name="BodyR" type="Sprite" parent="Rotatable/Main/ShoulderR/UpperarmR/ArmR/Lance"]
 editor/display_folded = true
 use_parent_material = true
-position = Vector2( 8, -20 )
+position = Vector2( 13, -20 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 
@@ -316,7 +309,6 @@ rotation = -2.61799
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -339,6 +331,7 @@ rotation = -0.872665
 scale = Vector2( 0.25, 0.4 )
 frames = SubResource( 1 )
 animation = "default"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 30 )
@@ -402,51 +395,46 @@ offset = Vector2( 0, -14 )
 [node name="Body" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 use_parent_material = true
-rotation = -3.35276e-008
+rotation = -3.35276e-08
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/Main/Body"]
 use_parent_material = true
-position = Vector2( 0, -4 )
+position = Vector2( 0, -24 )
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
-flip_v = true
 
 [node name="Front" type="Sprite" parent="Rotatable/Main/Body"]
 use_parent_material = true
-position = Vector2( 0, 5 )
 texture = ExtResource( 24 )
 normal_map = ExtResource( 25 )
 offset = Vector2( 0, -12 )
 
 [node name="Rear" type="Sprite" parent="Rotatable/Main/Body"]
-visible = false
 use_parent_material = true
-position = Vector2( 0, 8 )
 texture = ExtResource( 26 )
 normal_map = ExtResource( 27 )
 offset = Vector2( 0, 11 )
 
 [node name="BodywingR" type="Sprite" parent="Rotatable/Main/Body"]
 use_parent_material = true
-position = Vector2( 16, 0 )
+position = Vector2( 18, 0 )
 texture = ExtResource( 28 )
 normal_map = ExtResource( 29 )
 offset = Vector2( 0, -2 )
 
 [node name="BodywingL" type="Sprite" parent="Rotatable/Main/Body"]
 use_parent_material = true
-position = Vector2( -16, 0 )
+position = Vector2( -18, 0 )
 texture = ExtResource( 28 )
 normal_map = ExtResource( 29 )
 offset = Vector2( 0, -2 )
 flip_h = true
 
 [node name="Head" type="Sprite" parent="Rotatable/Main/Body"]
+visible = false
 use_parent_material = true
-position = Vector2( 0, -2 )
-rotation = -0.523599
 texture = ExtResource( 30 )
 normal_map = ExtResource( 31 )
 
@@ -454,6 +442,7 @@ normal_map = ExtResource( 31 )
 position = Vector2( -12.5, -82.5 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 2, 2 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
@@ -585,7 +574,7 @@ shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 
 [node name="HitEffect" parent="." instance=ExtResource( 36 )]
-position = Vector2( 2, -3.05176e-005 )
+position = Vector2( 2, -3.05176e-05 )
 circle_radius = 25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -595,15 +584,14 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/attack = ExtResource( 37 )
-anims/destroy = ExtResource( 38 )
-anims/idle = ExtResource( 39 )
-anims/move_human = ExtResource( 40 )
-anims/skill_attack = ExtResource( 41 )
-anims/skill_charge = ExtResource( 42 )
+anims/charge = ExtResource( 38 )
+anims/charged_attack = ExtResource( 39 )
+anims/destroy = ExtResource( 40 )
+anims/idle = ExtResource( 41 )
+anims/move = ExtResource( 42 )
 blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 43 )

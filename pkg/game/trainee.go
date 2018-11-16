@@ -62,16 +62,6 @@ func (tr *trainee) findTargetAndDoAction() {
 	}
 }
 
-func (tr *trainee) moveTo(u Unit) {
-	corner := tr.game.Map().FindNextCornerInPath(
-		tr.Position(),
-		u.Position(),
-		tr.Radius(),
-	)
-	direction := corner.Sub(tr.Position()).Normalized()
-	tr.SetVelocity(direction.Mul(tr.speed()))
-}
-
 func (tr *trainee) handleAttack() {
 	if tr.attack == tr.preAttackDelay() {
 		t := tr.target()

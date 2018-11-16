@@ -315,7 +315,7 @@ func moveToPos(posX, posY):
 	var v = vector.Truncated(x, y, speed())
 	SetVelocity(v[0], v[1])
 
-func moveTo(unit):
+func moveTo(unit, play_anim = true):
 	var x
 	var y
 	if Layer() == "Ether":
@@ -352,14 +352,14 @@ func moveTo(unit):
 	prev_desired_pos_x = desired_pos_x
 	prev_desired_pos_y = desired_pos_y
 	moving = true
+	
+	# client only
 	set_rot(desired_vel_x, desired_vel_y)
-	if $AnimationPlayer.current_animation != "move":
-		if Layer() == "Ether" and name_ != "shadowvision":
-			$AnimationPlayer.play("cloaking")
-		else:
+	if play_anim:
+		if $AnimationPlayer.current_animation != "move":
 			$AnimationPlayer.play("move")
-	if $Sound/Move.playing == false:
-		$Sound/Move.play()
+		if $Sound/Move.playing == false:
+			$Sound/Move.play()
 
 func Update():
 	moving = false

@@ -15,7 +15,7 @@ func newBerserker(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (b *berserker) Update() {
-	b.SetVelocity(fixed.Vector{0, 0})
+	b.unit.Update()
 	if b.freeze > 0 {
 		b.attack = 0
 		b.targetId = 0
@@ -60,16 +60,6 @@ func (b *berserker) findTargetAndDoAction() {
 			b.moveTo(t)
 		}
 	}
-}
-
-func (b *berserker) moveTo(u Unit) {
-	corner := b.game.Map().FindNextCornerInPath(
-		b.Position(),
-		u.Position(),
-		b.Radius(),
-	)
-	direction := corner.Sub(b.Position()).Normalized()
-	b.SetVelocity(direction.Mul(b.speed()))
 }
 
 func (b *berserker) handleAttack() {

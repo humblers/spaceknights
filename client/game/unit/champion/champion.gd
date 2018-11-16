@@ -83,66 +83,18 @@ func findTargetAndDoAction():
 		$AnimationPlayer.play("idle")
 		charge = 0
 
-func moveTo(unit):
-	var x
-	var y
-	if Layer() == "Ether":
-		x = scalar.Sub(unit.PositionX(), PositionX())
-		y = scalar.Sub(unit.PositionY(), PositionY())
-	else:
-		var corner = game.Map().FindNextCornerInPath(
-			PositionX(), PositionY(),
-			unit.PositionX(), unit.PositionY(),
-			Radius())
-		x = scalar.Sub(corner[0], PositionX())
-		y = scalar.Sub(corner[1], PositionY())
-	var direction = vector.Normalized(x, y)
-	var speed = speed()
-	if charged():
-		speed = chargedMoveSpeed()
-		if $Sound/WingMove.playing == false:
-			$Sound/WingMove.play()
-	else:
-		if $Sound/Move.playing == false:
-			$Sound/Move.play()
-	var desired_vel_x = scalar.Mul(direction[0], speed)
-	var desired_vel_y = scalar.Mul(direction[1], speed)
-	var desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
-	var desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
-	if body.colliding and moving:
-		print("colliding")
-		var diff_x = scalar.Sub(prev_desired_pos_x, body.pos_x)
-		var diff_y = scalar.Sub(prev_desired_pos_y, body.pos_y)
-		var l = vector.Length(diff_x, diff_y)
-		var adjust_ratio = scalar.Clamp(scalar.Div(l, scalar.Mul(speed, game.world.dt)), 0, scalar.One)
-		var to_x = -desired_vel_y if diff_x < 0 else desired_vel_y
-		var to_y = desired_vel_x if diff_x < 0 else -desired_vel_x
-		desired_vel_x = scalar.Add(desired_vel_x, scalar.Mul(to_x, adjust_ratio))
-		desired_vel_y = scalar.Add(desired_vel_y, scalar.Mul(to_y, adjust_ratio))
-		var truncated = vector.Truncated(desired_vel_x, desired_vel_y, speed)
-		desired_vel_x = truncated[0]
-		desired_vel_y = truncated[1]
-		desired_pos_x = scalar.Add(PositionX(), scalar.Mul(desired_vel_x, game.world.dt))
-		desired_pos_y = scalar.Add(PositionY(), scalar.Mul(desired_vel_y, game.world.dt))
-	else:
-		print("not colliding")
-	SetPosition(desired_pos_x, desired_pos_y)
+func moveTo(unit, play_anim = false):
+	.moveTo(unit, play_anim)
 	charge += 1
-	prev_desired_pos_x = desired_pos_x
-	prev_desired_pos_y = desired_pos_y
-	
-	# client only
-	set_rot(desired_vel_x, desired_vel_y)
 	if charge == 1:
-		if $AnimationPlayer.current_animation != "move_human":
-			$AnimationPlayer.play("move_human")
+		$AnimationPlayer.play("move")
 	if charge == chargeDelay():
-		$AnimationPlayer.play("skill_charge")
+		$AnimationPlayer.play("charge")
 
 func handleAttack():
 	if charged():
 		if attack == 0:
-			$AnimationPlayer.play("skill_attack")
+			$AnimationPlayer.play("charged_attack")
 		var t = target()
 		if t != null:
 			look_at_pos(t.PositionX(), t.PositionY())
@@ -189,8 +141,15 @@ func splashAttack(target, damage):
 func chargeDelay():
 	return stat.units[name_]["chargedelay"]
 
-func chargedMoveSpeed():
-	var s = stat.units[name_]["chargedmovespeed"]
+func speed():
+	var s
+	if charged():
+		s = stat.units[name_]["chargedmovespeed"]
+	else:
+		s = stat.units[name_]["speed"]
+	
+	if slowUntil >= game.Step():
+		s = s * stat.SlowPercent / 100
 	return game.World().FromPixel(s)
 
 func chargedAttackDamage():

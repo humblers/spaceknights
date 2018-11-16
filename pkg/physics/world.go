@@ -85,13 +85,16 @@ func (w *world) Step() {
 		}
 	}
 	for _, b := range w.bodies {
+		b.colliding = false
 		b.applyForce(w.gravity, w.dt)
 	}
-	for i := 0; i < w.iterations; i++ {
-		for _, c := range w.collisions {
-			c.resolve()
+	/*
+		for i := 0; i < w.iterations; i++ {
+			for _, c := range w.collisions {
+				c.resolve()
+			}
 		}
-	}
+	*/
 	for _, b := range w.bodies {
 		b.move(w.dt)
 	}

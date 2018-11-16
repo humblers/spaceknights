@@ -65,11 +65,6 @@ func (p *pixie) findTargetAndDoAction() {
 	}
 }
 
-func (p *pixie) moveTo(u Unit) {
-	direction := u.Position().Sub(p.Position()).Normalized()
-	p.SetVelocity(direction.Mul(p.speed()))
-}
-
 func (p *pixie) handleAttack() {
 	if p.attack == 0 {
 		p.setLayer(data.Normal)
