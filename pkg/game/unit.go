@@ -278,19 +278,20 @@ func (u *unit) moveTo(target Unit) {
 		pos = corner.Sub(u.Position())
 	}
 	direction := pos.Normalized()
-	desired_vel := direction.Mul(u.speed())
+	speed := u.speed()
+	desired_vel := direction.Mul(speed)
 	desired_pos := u.Position().Add(desired_vel.Mul(u.game.World().Dt()))
 	if u.Colliding() && u.moving {
 		diff := u.prev_desired_pos.Sub(u.Position())
 		l := diff.Length()
-		adjust_ratio := l.Div(u.speed().Mul(u.game.World().Dt())).Clamp(0, fixed.One)
+		adjust_ratio := l.Div(speed.Mul(u.game.World().Dt())).Clamp(0, fixed.One)
 		var to fixed.Vector
 		if diff.X < 0 {
 			to = fixed.Vector{-desired_vel.Y, desired_vel.X}
 		} else {
 			to = fixed.Vector{desired_vel.Y, -desired_vel.X}
 		}
-		desired_vel = desired_vel.Add(to.Mul(adjust_ratio)).Truncated(u.speed())
+		desired_vel = desired_vel.Add(to.Mul(adjust_ratio)).Truncated(speed)
 		desired_pos = u.Position().Add(desired_vel.Mul(u.game.World().Dt()))
 	}
 	u.SetPosition(desired_pos)

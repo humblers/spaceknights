@@ -70,7 +70,37 @@ func (j *jouster) findTargetAndDoAction() {
 }
 
 func (j *jouster) moveTo(u Unit) {
-	j.unit.moveTo(u)
+	var pos fixed.Vector
+	if j.Layer() == data.Ether {
+		pos = u.Position().Sub(j.Position())
+	} else {
+		corner := j.game.Map().FindNextCornerInPath(
+			j.Position(),
+			u.Position(),
+			j.Radius(),
+		)
+		pos = corner.Sub(j.Position())
+	}
+	direction := pos.Normalized()
+	speed := j.speed()
+	desired_vel := direction.Mul(speed)
+	desired_pos := j.Position().Add(desired_vel.Mul(j.game.World().Dt()))
+	if j.Colliding() && j.moving {
+		diff := j.prev_desired_pos.Sub(j.Position())
+		l := diff.Length()
+		adjust_ratio := l.Div(speed.Mul(j.game.World().Dt())).Clamp(0, fixed.One)
+		var to fixed.Vector
+		if diff.X < 0 {
+			to = fixed.Vector{-desired_vel.Y, desired_vel.X}
+		} else {
+			to = fixed.Vector{desired_vel.Y, -desired_vel.X}
+		}
+		desired_vel = desired_vel.Add(to.Mul(adjust_ratio)).Truncated(speed)
+		desired_pos = j.Position().Add(desired_vel.Mul(j.game.World().Dt()))
+	}
+	j.SetPosition(desired_pos)
+	j.prev_desired_pos = desired_pos
+	j.moving = true
 	j.charge++
 }
 

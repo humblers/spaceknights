@@ -91,7 +91,36 @@ func (c *champion) findTargetAndDoAction() {
 }
 
 func (c *champion) moveTo(u Unit) {
-	c.unit.moveTo(u)
+	var pos fixed.Vector
+	if c.Layer() == data.Ether {
+		pos = u.Position().Sub(c.Position())
+	} else {
+		corner := c.game.Map().FindNextCornerInPath(
+			c.Position(),
+			u.Position(),
+			c.Radius(),
+		)
+		pos = corner.Sub(c.Position())
+	}
+	direction := pos.Normalized()
+	speed := c.speed()
+	desired_vel := direction.Mul(speed)
+	desired_pos := c.Position().Add(desired_vel.Mul(c.game.World().Dt()))
+	if c.Colliding() && c.moving {
+		diff := c.prev_desired_pos.Sub(c.Position())
+		l := diff.Length()
+		adjust_ratio := l.Div(speed.Mul(c.game.World().Dt())).Clamp(0, fixed.One)
+		var to fixed.Vector
+		if diff.X < 0 {
+			to = fixed.Vector{-desired_vel.Y, desired_vel.X}
+		} else {
+			to = fixed.Vector{desired_vel.Y, -desired_vel.X}
+		}
+		desired_vel = desired_vel.Add(to.Mul(adjust_ratio)).Truncated(speed)
+	}
+	c.SetPosition(desired_pos)
+	c.prev_desired_pos = desired_pos
+	c.moving = true
 	c.charge++
 }
 
