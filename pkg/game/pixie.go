@@ -2,7 +2,6 @@ package game
 
 import (
 	"github.com/humblers/spaceknights/pkg/data"
-	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 type pixie struct {

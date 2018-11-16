@@ -1,7 +1,5 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
-
 type sentry struct {
 	*unit
 	targetId int

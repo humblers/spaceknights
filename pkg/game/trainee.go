@@ -1,7 +1,5 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
-
 type trainee struct {
 	*unit
 	targetId int

@@ -1,7 +1,5 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/fixed"
-
 type drillram struct {
 	*unit
 	targetId int
