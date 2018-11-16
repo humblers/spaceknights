@@ -20,7 +20,7 @@ func newEnforcer(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (e *enforcer) Update() {
-	e.SetVelocity(fixed.Vector{0, 0})
+	e.unit.Update()
 	if e.freeze > 0 {
 		e.attack = 0
 		e.targetId = 0

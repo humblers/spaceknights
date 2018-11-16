@@ -33,7 +33,7 @@ func (f *felhound) TakeDamage(amount int, a Attacker) {
 }
 
 func (f *felhound) Update() {
-	f.SetVelocity(fixed.Vector{0, 0})
+	f.unit.Update()
 	if f.freeze > 0 {
 		f.attack = 0
 		f.targetId = 0

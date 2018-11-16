@@ -15,7 +15,7 @@ func newGiant(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (g *giant) Update() {
-	g.SetVelocity(fixed.Vector{0, 0})
+	g.unit.Update()
 	if g.freeze > 0 {
 		g.attack = 0
 		g.targetId = 0

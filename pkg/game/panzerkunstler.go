@@ -22,7 +22,7 @@ func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (p *panzerkunstler) Update() {
-	p.SetVelocity(fixed.Vector{0, 0})
+	p.unit.Update()
 	if p.freeze > 0 {
 		p.attack = 0
 		p.targetId = 0

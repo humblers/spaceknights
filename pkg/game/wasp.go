@@ -47,7 +47,7 @@ func (w *wasp) TakeDamage(amount int, a Attacker) {
 }
 
 func (w *wasp) Update() {
-	w.SetVelocity(fixed.Vector{0, 0})
+	w.unit.Update()
 	if w.freeze > 0 {
 		w.attack = 0
 		w.targetId = 0

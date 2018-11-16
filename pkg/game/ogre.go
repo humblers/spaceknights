@@ -15,7 +15,7 @@ func newOgre(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (o *ogre) Update() {
-	o.SetVelocity(fixed.Vector{0, 0})
+	o.unit.Update()
 	if o.freeze > 0 {
 		o.attack = 0
 		o.targetId = 0

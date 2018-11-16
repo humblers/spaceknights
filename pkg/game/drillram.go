@@ -15,7 +15,7 @@ func newDrillram(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (d *drillram) Update() {
-	d.SetVelocity(fixed.Vector{0, 0})
+	d.unit.Update()
 	if d.freeze > 0 {
 		d.attack = 0
 		d.targetId = 0

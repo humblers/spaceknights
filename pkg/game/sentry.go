@@ -15,7 +15,7 @@ func newSentry(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (s *sentry) Update() {
-	s.SetVelocity(fixed.Vector{0, 0})
+	s.unit.Update()
 	if s.freeze > 0 {
 		s.attack = 0
 		s.targetId = 0

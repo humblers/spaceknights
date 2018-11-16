@@ -36,7 +36,7 @@ func (p *psabu) TakeDamage(amount int, a Attacker) {
 }
 
 func (p *psabu) Update() {
-	p.SetVelocity(fixed.Vector{0, 0})
+	p.unit.Update()
 	if p.freeze > 0 {
 		p.attack = 0
 		p.targetId = 0

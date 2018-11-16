@@ -33,7 +33,7 @@ func (g *gargoyleking) TakeDamage(amount int, a Attacker) {
 }
 
 func (g *gargoyleking) Update() {
-	g.SetVelocity(fixed.Vector{0, 0})
+	g.unit.Update()
 	if g.freeze > 0 {
 		g.attack = 0
 		g.targetId = 0

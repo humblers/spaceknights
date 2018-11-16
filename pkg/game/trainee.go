@@ -15,7 +15,7 @@ func newTrainee(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (tr *trainee) Update() {
-	tr.SetVelocity(fixed.Vector{0, 0})
+	tr.unit.Update()
 	if tr.freeze > 0 {
 		tr.attack = 0
 		tr.targetId = 0
