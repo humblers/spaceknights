@@ -177,8 +177,16 @@ func (c *champion) chargeDelay() int {
 	return data.Units[c.name]["chargedelay"].(int)
 }
 
-func (c *champion) chargedMoveSpeed() fixed.Scalar {
-	s := data.Units[c.name]["chargedmovespeed"].(int)
+func (c *champion) speed() fixed.Scalar {
+	var s int
+	if c.charged() {
+		s = data.Units[c.name]["chargedmovespeed"].(int)
+	} else {
+		s = data.Units[c.name]["speed"].(int)
+	}
+	if c.slowUntil >= c.game.Step() {
+		s = s * SlowPercent / 100
+	}
 	return c.game.World().FromPixel(s)
 }
 

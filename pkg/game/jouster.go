@@ -143,8 +143,16 @@ func (j *jouster) chargeDelay() int {
 	return data.Units[j.name]["chargedelay"].(int)
 }
 
-func (j *jouster) chargedMoveSpeed() fixed.Scalar {
-	s := data.Units[j.name]["chargedmovespeed"].(int)
+func (j *jouster) speed() fixed.Scalar {
+	var s int
+	if j.charged() {
+		s = data.Units[j.name]["chargedmovespeed"].(int)
+	} else {
+		s = data.Units[j.name]["speed"].(int)
+	}
+	if j.slowUntil >= j.game.Step() {
+		s = s * SlowPercent / 100
+	}
 	return j.game.World().FromPixel(s)
 }
 
