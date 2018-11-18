@@ -30,7 +30,7 @@ var damages = {}
 var client_team
 var side	# knight position: Left, Center, or Right 
 
-func InitDummy(posX, posY, game, player, enable_shade, initial_angle=0):
+func InitDummy(posX, posY, game, player, initial_angle=0):
 	self.team = player.team
 	self.game = game
 	if game.team_swapped:

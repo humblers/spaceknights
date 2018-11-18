@@ -13,15 +13,16 @@ func init(game, player, knights):
 		var pos = positions[i]
 		var node = $Unit.get_resource(name).instance()
 		var deck = get_node("Nodes/Deck/%s/Position/Unit" % pos)
-		node.InitDummy(0, 0, game, player, true, deck.global_rotation)
+		node.InitDummy(0, 0, game, player, deck.global_rotation)
 		deck.add_child(node)
 		node.get_node("AnimationPlayer").play("show")
 	$Ship.play("show")
 	yield($Ship, "animation_finished")
 	show_anim_finished = true
 	remove_dummy_and_show_knights()
-	$AnimLeft.play("deck_on")
-	$AnimRight.play("deck_on")
+	if player.color == "Blue":
+		$AnimLeft.play("deck_on")
+		$AnimRight.play("deck_on")
 
 func remove_dummy_and_show_knights():
 	for id in player.knightIds:
