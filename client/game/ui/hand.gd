@@ -47,7 +47,7 @@ func _process(delta):
 		$Card/Icon.visible = true
 		$Card/NotAvailable.visible = false
 		$Card/Icon.texture = icon_resource.get_resource(card_name)
-		$Card/Icon/Cost.text = str(cost/1000)
+		$Card/Icon/Energy/Cost.text = str(cost/1000)
 		$Card/Energy.max_value = cost
 
 	# update energy
@@ -56,6 +56,7 @@ func _process(delta):
 	$Card/Icon/NotReady.visible = not ready
 	$Card/Icon/Ready.visible = ready
 	$Card/Energy.value = player.energy
+	$Card/Icon/Energy.playing = ready
 
 func handle_input(ev):
 	if card_name == null:
