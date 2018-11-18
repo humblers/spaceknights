@@ -1,59 +1,44 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/ui/no_light.tres" type="Material" id=1]
 [ext_resource path="res://game/vfx/laser_target_area.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=3]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
-[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://game/ui/bt_ready_bot.png" type="Texture" id=7]
-[ext_resource path="res://share/icon/ingame/wingskill/napalm.png" type="Texture" id=8]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://font/noto_serif_cjk_kr_black.otf" type="DynamicFontData" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 
-size = 16
-outline_size = 0
+size = 40
+outline_size = 3
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = true
 use_filter = false
-font_data = ExtResource( 4 )
-_sections_unfolded = [ "Font", "Settings" ]
+font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
 
-size = 12
-outline_size = 0
-outline_color = Color( 1, 1, 1, 1 )
+size = 50
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 6 )
-_sections_unfolded = [ "Font", "Settings" ]
+font_data = ExtResource( 4 )
 
-[node name="Targetsquare" type="Node2D"]
+[node name="TargetSquare" type="Node2D"]
 light_mask = 4096
 material = ExtResource( 1 )
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="Target1" type="Sprite" parent="."]
 light_mask = 4096
 use_parent_material = true
 scale = Vector2( 4, 1.6 )
 texture = ExtResource( 2 )
-_sections_unfolded = [ "Process Material", "Textures", "Time", "Transform" ]
-
-[node name="Arrow" type="Sprite" parent="."]
-light_mask = 4096
-use_parent_material = true
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Process Material", "Textures", "Time" ]
 
 [node name="Deco" type="Node2D" parent="."]
 use_parent_material = true
 
 [node name="NameNod" type="Node2D" parent="Deco"]
 use_parent_material = true
-position = Vector2( 40, -30 )
-_sections_unfolded = [ "Transform" ]
+position = Vector2( 0, 150 )
 
 [node name="Label" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
@@ -62,10 +47,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 20.0
-margin_top = -98.0
-margin_right = 167.0
-margin_bottom = -73.0
+margin_left = -100.0
+margin_top = -150.0
+margin_right = 100.0
+margin_bottom = -100.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -74,37 +59,17 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.360784, 0.360784, 0.360784, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
 custom_constants/shadow_offset_y = 1
 custom_constants/shadow_as_outline = 1
-text = "NAPALM"
-align = 2
+text = "lvl. 7"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts", "custom_fonts/font", "custom_styles" ]
-
-[node name="Sprite" type="Sprite" parent="Deco/NameNod"]
-light_mask = 4096
-use_parent_material = true
-position = Vector2( 102.73, -80.7275 )
-rotation = 0.785397
-scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
-offset = Vector2( 0, 4 )
-_sections_unfolded = [ "Offset", "Transform" ]
-
-[node name="Sprite2" type="Sprite" parent="Deco/NameNod"]
-light_mask = 4096
-use_parent_material = true
-position = Vector2( 102.211, -80.5676 )
-rotation = 1.5708
-scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
-offset = Vector2( 0, -4 )
-_sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Label2" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
@@ -113,10 +78,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 77.0
-margin_top = -15.0
-margin_right = 263.0
-margin_bottom = 87.0
+margin_left = -200.0
+margin_top = -210.0
+margin_right = 200.0
+margin_bottom = -60.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -124,56 +89,12 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
-text = "Target the area of the rectangle.
-When casting, it bombs as it flew 
-over the area, where a poisonous 
-cloud of DOT is placed in the 
-bombed area."
+text = "네이팜
+
+"
+align = 1
+valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Size Flags", "custom_fonts", "custom_fonts/font" ]
-
-[node name="ImageNod" type="Node2D" parent="Deco"]
-use_parent_material = true
-position = Vector2( 40, -30 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="Sprite3" type="Sprite" parent="Deco/ImageNod"]
-visible = false
-light_mask = 4096
-use_parent_material = true
-position = Vector2( -51.2527, 49.025 )
-rotation = -2.35619
-scale = Vector2( 0.2, 8 )
-texture = ExtResource( 5 )
-offset = Vector2( 0, 4 )
-_sections_unfolded = [ "Offset", "Transform" ]
-
-[node name="Sprite4" type="Sprite" parent="Deco/ImageNod"]
-visible = false
-light_mask = 4096
-use_parent_material = true
-position = Vector2( -50.6982, 48.8 )
-rotation = 4.71238
-scale = Vector2( 0.2, 4 )
-texture = ExtResource( 5 )
-offset = Vector2( 0, -4 )
-_sections_unfolded = [ "Offset", "Transform" ]
-
-[node name="Flame" type="Sprite" parent="Deco/ImageNod"]
-light_mask = 4096
-use_parent_material = true
-position = Vector2( 127, -47.3638 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="SkillImage" type="Sprite" parent="Deco/ImageNod"]
-light_mask = 4096
-use_parent_material = true
-position = Vector2( 127, -47.3638 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-_sections_unfolded = [ "Transform" ]
 
