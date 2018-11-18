@@ -146,6 +146,15 @@ func _process(delta):
 			b.node.position = prev.linear_interpolate(curr, t)
 	if has_node("Debug"):
 		get_node("Debug").update(self)
+	if toStep(PLAY_TIME) - step > 0:
+		var minute = int( (toStep(PLAY_TIME) - step) / 600)
+		var sec = int((toStep(PLAY_TIME) - step) /10) % 60
+		$NonCameraFollowingUI/TimeBox/NameNode/Time.text = String(minute) + ":" + String(sec)
+	else:
+		var minute = int( (toStep(PLAY_TIME + OVER_TIME) - step) / 600)
+		var sec = int((toStep(PLAY_TIME + OVER_TIME) - step) /10) % 60
+		$NonCameraFollowingUI/TimeBox/NameNode/Text.text ="Sudden Death"
+		$NonCameraFollowingUI/TimeBox/NameNode/Time.text = String(minute) + ":" + String(sec)
 
 func _physics_process(delta):
 	if frame % FRAME_PER_STEP == 0:
