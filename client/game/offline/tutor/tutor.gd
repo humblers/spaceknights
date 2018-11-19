@@ -1,100 +1,181 @@
 extends "res://game/player/player.gd"
 
-const KnightTileX = 4
-
+onready var opposite_player = get_node("../Blue")
 onready var resources = get_node("../../Resource")
 onready var tutor_data = resources.get_node("Tutor").get_resource("tutor_data").new()
 
-var mapTileNumX
-var mapTileNumY
+var map_tile_num_x
+var map_tile_num_y
 
-var leftRefPoint
-var leftRadRange
-var rightRefPoint
-var rightRadRange
+var left_dest
+var left_deploy_range
+var right_dest
+var right_deploy_range
 
-var reservate_cards = {}
-var energy_prediction = 0
+var prev_analyzed_data
+var cur_analyzed_data
 
 func Init(playerData, game):
 	.Init(playerData, game)
-	energy_prediction = energy + ENERGY_PER_FRAME * INPUT_DELAY_STEP
-	mapTileNumX = game.Map().TileNumX()
-	mapTileNumY = game.Map().TileNumY()
-	
-	var mw = game.World().ToPixel(game.Map().Width())
-	var tl = Vector2(0, 0)
-	var tc = Vector2(mw / 2, 0)
-	var tr = Vector2(mw, 0)
-	var l = Vector2(250, 550)
-	var r = Vector2(750, 550)
-	leftRefPoint = [game.World().FromPixel(int(l.x)), game.World().FromPixel(int(l.y))]
-	leftRadRange = [l.angle_to_point(tl), l.angle_to_point(tc)]
-	rightRefPoint = [game.World().FromPixel(int(r.x)), game.World().FromPixel(int(r.y))]
-	rightRadRange = [r.angle_to_point(tc), r.angle_to_point(tr)]
+	map_tile_num_x = game.Map().TileNumX()
+	map_tile_num_y = game.Map().TileNumY()
+	var map_width = game.World().ToPixel(game.Map().Width())
+	left_dest = [
+		game.World().FromPixel(int(tutor_data.LEFT_DEST.x)),
+		game.World().FromPixel(int(tutor_data.LEFT_DEST.y))]
+	right_dest = [
+		game.World().FromPixel(int(tutor_data.RIGHT_DEST.x)),
+		game.World().FromPixel(int(tutor_data.RIGHT_DEST.y))]
+	left_deploy_range = [
+		tutor_data.LEFT_DEST.angle_to_point(Vector2(0, 0)),
+		tutor_data.LEFT_DEST.angle_to_point(Vector2(map_width / 2, 0))]
+	right_deploy_range = [
+		tutor_data.RIGHT_DEST.angle_to_point(Vector2(map_width / 2, 0)),
+		tutor_data.RIGHT_DEST.angle_to_point(Vector2(map_width, 0))]
 
 func Update():
-	if energy < MAX_ENERGY:
-		energy_prediction += ENERGY_PER_FRAME
 	.Update()
-	var analyzed = analyze_opposite()
+	prev_analyzed_data = cur_analyzed_data
+	cur_analyzed_data = analyze_battlefield()
 	var card_candidates = []
 	for knightId in knightIds:
 		var k = game.FindUnit(knightId)
 		if k == null or k.side == "Center":
 			continue
-		var name = k.Name()
-		if reservate_cards.has(name):
-			continue
 		if k.cast > 0:
 			continue
-		if decision_knight(name, analyzed):
-			card_candidates.append([name, k.level])
+		if make_decision_for_use_card(k.Name(), k.level):
+			card_candidates.append([k.Name(), k.level, "Knight"])
 	for card in hand:
-		var name = card.Name
-		if reservate_cards.has(name):
-			continue
+		# filtering empty hand
 		if card.Name == "":
 			continue
-		if decision_squire(name, analyzed):
-			card_candidates.append([name, card.Level])
+		if make_decision_for_use_card(card.Name, card.Level):
+			card_candidates.append([card.Name, card.Level, "Squire"])
 	if len(card_candidates) == 0:
 		return
-	make_input(elect_card(card_candidates), analyzed)
+	var card = elect_best_card(card_candidates)
+	if card != null:
+		make_input(card)
 
-func Do(action):
-	var res = .Do(action)
-	reservate_cards.erase(action.Card.Name)
-	return res
+func analyze_battlefield():
+	var d = tutor_data.new_dict_for_analyze()
+	for id in game.UnitIds():
+		var u = game.FindUnit(id)
+		d.unit_positions[u.Id()] = [u.PositionX(), u.PositionY()]
+		var cost = tutor_data.units[u.Name()].Cost
+		if cost <= 0:
+			continue
+		var t = d[u.Team()]
+		t.total_cost += cost
+		var loc = "%s_%s" % ["top" if on_top(u) else "bot", "left" if on_left(u) else "right"]
+		t[loc].cost += cost
+		if t[loc].front_unit != null and t[loc].front_unit.PositionY() < u.PositionY():
+			continue
+		t[loc].front_unit = u
+	return d
 
-func decision_knight(knight, analyzed):
-	match knight:
+func on_top(u):
+	return u.PositionY() < scalar.Sub(game.Map().top.b, u.Radius())
+
+func on_left(u):
+	return u.PositionX() < scalar.Sub(game.Map().centerX, u.Radius())
+
+func make_decision_for_use_card(card, level):
+	var cost = stat.cards[card].Cost
+	if cost > energy:
+		return false
+	var opposite = cur_analyzed_data[opposite_player.Team()]
+	if opposite.total_cost < 1:
+		return false
+	match card:
 		"archengineer", "archsapper":
-			if analyzed.total_cost >= 4:
-				return true
-			return false
+			if opposite.total_cost < tutor_data.DEFENSE_TYPE_BUILDING_DECISON_COST:
+				return false
+			var building = stat.units[card]["skill"]["wing"]["unit"]
+			var tw = stat.units[building]["tilenumx"]
+			var th = stat.units[building]["tilenumy"]
+			var x = map_tile_num_x / 2
+			var lcost = opposite["top_left"].cost + opposite["bot_left"].cost
+			var rcost = opposite["top_right"].cost + opposite["bot_right"].cost
+			if lcost > rcost:
+				x -= 1
+			var y = map_tile_num_y / 2 / 2
+			cur_analyzed_data[card] = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
+			return true
 		"ironcoffin", "pixieking", "tombstone":
-			if analyzed.top.cost <= 5:
-				return true
+			if opposite.top_left.cost + opposite.top_right.cost > tutor_data.SPAWN_TYPE_BUILDING_DECISION_COST:
+				return false
+			var building = stat.units[card]["skill"]["wing"]["unit"]
+			var tw = stat.units[building]["tilenumx"]
+			var th = stat.units[building]["tilenumy"]
+			var x = tw / 2
+			x = randi() % (map_tile_num_x / 2 - x)
+			x = x if randf() > 0.5 else map_tile_num_x - 1 - x
+			var y = th / 2
+			cur_analyzed_data = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
+			return true
+		"judge", "legion":
+			if opposite.total_cost <= cost:
+				return false
+			return find_out_whether_to_use_area_skill(
+				card,
+				level,
+				"value_of_instant_damage_skill",
+				tutor_data.INSTANT_DAMAGE_SKILL_VALUE_MIN)
+		"frost":
+			var tb = "top" if opposite["top_left"].cost + opposite["top_right"].cost > 0 else "bot"
+			var lr = "left" if opposite["%s_left" % [tb]].cost > opposite["%s_right" % [tb]].cost else "right"
+			var extra = cur_analyzed_data[team]["%s_%s" % [tb, lr]].cost
+			if tb == "top":
+				extra += energy - cost
+			if extra >= tutor_data.FREEZE_COMBINATION_REQUIRED_ENERGY:
+				return find_out_whether_to_use_area_skill(
+					card,
+					level,
+					"value_of_freeze_skill",
+					tutor_data.FREEZE_MIN_TARGET_COUNT)
 			return false
+		"astra", "lancer":
+			if opposite.total_cost <= cost:
+				return false
+			return find_out_whether_to_use_area_skill(
+				card,
+				level,
+				"value_of_dot_damage_skill",
+				tutor_data.DOT_DAMAGE_SKILL_VALUE_MIN)
+		_:
+			return true
 	return false
 
-func decision_squire(squire, analyzed):
-	return true
+func elect_best_card(card_candidates):
+	var best
+	var energy_cap = energy + tutor_data.DONOT_BE_LESS_THAN_OPPISITE_ENERGY
+	var opposite_spends = cur_analyzed_data[opposite_player.Team()].total_cost
+	for card in card_candidates:
+		var cost = stat.cards[card[0]].Cost
+		if energy_cap - cost < opposite_player.energy:
+			continue
+		if best != null:
+			if best[2] == "Knight" and card[2] == "Squire":
+				continue
+			var d = abs(opposite_spends - stat.cards[best[0]].Cost)
+			if d < abs(opposite_spends - cost):
+				continue
+		best = card
+	return best
 
-func elect_card(card_candidates):
-	return card_candidates[0]
-
-func make_input(card, analyzed):
-	var tile = gen_card_tile(card, analyzed)
-	if tile[0] == null or tile[1] == null:
+func make_input(card):
+	var name = card[0]
+	var tile = cur_analyzed_data[name] if cur_analyzed_data.has(name) else find_out_where_to_use_squire(card)
+	if tile == null or tile[0] == null or tile[1] == null:
 		return
 	var input = {
-		"Step": game.step + INPUT_DELAY_STEP,
+		"Step": game.step + 1,
 		"Action": {
 			"Id": id,
 			"Card": {
-				"Name": card[0],
+				"Name": name,
 				"Level": card[1],
 			},
 			"TileX": tile[0],
@@ -105,105 +186,115 @@ func make_input(card, analyzed):
 		game.actions[input.Step].append(input.Action)
 	else:
 		game.actions[input.Step] = [input.Action]
-	reservate_cards[input.Action.Card.Name] = true
-	energy_prediction -= stat.cards[card[0]].Cost
 
-func gen_card_tile(card, analyzed):
-	var x
-	var y
-	var tw = 1
-	var th = 1
-	var lr
-	var name = card[0]
-	# choose target (left /right)
-	if analyzed.left.cost > 0 or analyzed.right.cost > 0:
-		lr = analyzed.left if analyzed.left.cost > analyzed.right.cost else analyzed.right
-	# predict use card location (target's top / bottom)
-	if lr != null:
-		var target = lr.most_advanced
-		var ustat = stat.units[stat.cards[name].Unit]
-		var r
-		if ustat.has("radius"):
-			r = ustat["radius"] + game.World().ToPixel(target.Radius())
-		if ustat.has("attackrange"):
-			r += ustat["attackrange"]
-		if on_top(target):
-			var angle = rand_range(0, PI) + PI / 2
-			x = game.World().ToPixel(target.PositionX()) - r * cos(angle)
-			y = game.World().ToPixel(target.PositionY()) - r * sin(angle)
-			var tile = game.TileFromPos(int(x), int(y))
-			x = tile[0]
-			y = tile[1]
-		elif ustat.has("speed"):
-			var d = calc_distance(
-				[target.PositionX(), target.PositionY()], 
-				lr.ref_point, 
-				target.Radius())
-			var t = scalar.ToInt(scalar.Div(d, target.speed()))
-			var away = t * ustat["speed"] + r
-			var angle = rand_range(lr.ref_rads[0], lr.ref_rads[1])
-			x = game.World().ToPixel(lr.ref_point[0]) - away * cos(angle)
-			y = game.World().ToPixel(lr.ref_point[1]) - away * sin(angle)
-			if x < 0 or y < 0:
-				return [null, null]
-			var tile = game.TileFromPos(int(x), int(y))
-			x = tile[0]
-			y = tile[1]
-	# adjust special cases
-	match name:
-		"ironcoffin", "pixieking", "tombstone":
-			var building = stat.units[name]["skill"]["wing"]["unit"]
-			tw = stat.units[building]["tilenumx"]
-			th = stat.units[building]["tilenumy"]
-			if x == null:
-				x = tw / 2
-				x = randi() % ((mapTileNumX - KnightTileX) / 2 - x)
-				x = x if randf() > 0.5 else mapTileNumX - 1 - x
-			if y == null:
-				y = th / 2
-	return avoid_occupied_tiles(x, y, tw, th, 0, mapTileNumY / 2 - 1)
-
-func analyze_opposite():
-	var anal = {
-		"top": { "cost": 0, "most_advanced": null },
-		"bottom": { "cost": 0, "most_advanced": null },
-		"left": { 
-			"cost": 0, "most_advanced": null, 
-			"ref_point": leftRefPoint,
-			"ref_rads": leftRadRange,
-		},
-		"right": { 
-			"cost": 0, "most_advanced": null, 
-			"ref_point": rightRefPoint,
-			"ref_rads": rightRadRange,
-		},
-		"total_cost": 0,
-	}
+func find_out_whether_to_use_area_skill(knight, level, value_func, min_val):
+	var skill = stat.units[knight]["skill"]["wing"]
+	var skill_shape
+	var range_x
+	var range_y
+	if skill.has("radius"):
+		skill_shape = "circle"
+		range_x = skill["radius"]
+		range_y = skill["radius"]
+	if skill.has("width") and skill.has("height"):
+		skill_shape = "box"
+		range_x = skill["width"]
+		range_y = skill["height"]
+	assert(skill_shape != null)
+	var delay = skill["start"] if knight == "astra" else skill["precastdelay"]
+	var dt = scalar.Div(scalar.FromInt(delay), scalar.FromInt(10))
+	var potentials = []
+	var tiles = {}
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == team:
 			continue
-		var cost = tutor_data.units[u.Name()].Cost
-		if cost <= 0:
+		if not prev_analyzed_data.unit_positions.has(u.Id()):
 			continue
-		var tb = anal.top if on_top(u) else anal.bottom
-		update_analyze_data(tb, u, cost)
-		var lr = anal.left if on_left(u) else anal.right
-		update_analyze_data(lr, u, cost)
-		anal.total_cost += cost
-	return anal
+		var prev_pos = prev_analyzed_data.unit_positions[u.Id()]
+		var vel_x = scalar.Mul(scalar.Sub(u.PositionX(), prev_pos[0]), scalar.FromInt(10))
+		var vel_y = scalar.Mul(scalar.Sub(u.PositionY(), prev_pos[1]), scalar.FromInt(10))
+		var pos_x = scalar.Add(u.PositionX(), scalar.Mul(vel_x, dt))
+		var pos_y = scalar.Add(u.PositionY(), scalar.Mul(vel_y, dt))
+		var potential_pos = Vector2(game.World().ToPixel(pos_x), game.World().ToPixel(pos_y))
+		var ur = game.World().ToPixel(u.Radius())
+		var v = tutor_data.call(value_func, u, skill, level)
+		potentials.append({"pos": potential_pos, "r": ur, "v":v})
+		var min_x = potential_pos.x - range_x - ur
+		var max_x = potential_pos.x + range_x + ur
+		var min_y = potential_pos.y - range_y - ur
+		var max_y = potential_pos.y + range_y + ur
+		var tile_tl = game.TileFromPos(int(min_x), int(min_y))
+		var tile_br = game.TileFromPos(int(max_x), int(max_y))
+		for i in range(tile_tl[0], tile_br[0]):
+			for j in range(tile_tl[1], tile_br[1]):
+				tiles[Vector2(i, j)] = 0
+	var best = {"tile": null, "val": 0}
+	for tile in tiles:
+		var val = 0
+		var pos_arr = game.PosFromTile(tile.x, tile.y)
+		var cast_pos = Vector2(pos_arr[0], pos_arr[1])
+		for p in potentials:
+			var overlap = false
+			if skill_shape == "box":
+				overlap = box_vs_circle_in_pixel(cast_pos, Vector2(range_x, range_y), p["pos"], p["r"])
+			elif skill_shape == "circle":
+				var ls = (cast_pos - p["pos"]).length_squared()
+				var r = skill["radius"] + p["r"]
+				if ls < r * r:
+					overlap = true
+			if overlap:
+				val += p["v"]
+		if best.tile != null and best.val > val:
+			continue
+		best = {"tile":tile, "val":val}
+	if best.val > min_val:
+		cur_analyzed_data[knight] = best.tile
+		return true
+	return false
 
-func update_analyze_data(dict, u, cost):
-	dict.cost += cost
-	if dict.most_advanced != null and dict.most_advanced.PositionY() <= u.PositionY():
-		return
-	dict.most_advanced = u
-
-func on_top(u):
-	return u.PositionY() < scalar.Sub(game.Map().top.b, u.Radius())
-
-func on_left(u):
-	return u.PositionX() < scalar.Sub(game.Map().centerX, u.Radius())
+func find_out_where_to_use_squire(card):
+	var opposite = cur_analyzed_data[opposite_player.Team()]
+	var lcost = opposite["top_left"].cost + opposite["bot_left"].cost
+	var rcost = opposite["top_right"].cost + opposite["bot_right"].cost
+	var x
+	var y
+	var name = card[0]
+	var lr = "left" if lcost > rcost else "right"
+	var tb = "top" if opposite["top_%s" % [lr]].front_unit != null else "bot"
+	var front_unit = opposite["%s_%s" % [tb, lr]].front_unit
+	var ustat = stat.units[stat.cards[name].Unit]
+	var range_
+	if ustat.has("radius"):
+		range_ = ustat["radius"] + game.World().ToPixel(front_unit.Radius())
+	if ustat.has("attackrange"):
+		range_ += ustat["attackrange"]
+	if tb == "top":
+		var angle = rand_range(0, PI)
+		angle = angle + PI / 2 if lr == "left" else angle - PI / 2
+		x = game.World().ToPixel(front_unit.PositionX()) - range_ * cos(angle)
+		y = game.World().ToPixel(front_unit.PositionY()) - range_ * sin(angle)
+		var tile = game.TileFromPos(int(x), int(y))
+		x = tile[0]
+		y = tile[1]
+	elif stat.units[front_unit.Name()].has("speed") and ustat.has("speed"):
+		var dest = left_dest if lr == "left" else right_dest
+		var deploy_range = left_deploy_range if lr == "left" else right_deploy_range
+		var d = calc_distance(
+			[front_unit.PositionX(), front_unit.PositionY()],
+			dest,
+			front_unit.Radius())
+		var t = scalar.ToInt(scalar.Div(d, front_unit.speed()))
+		var away = t * ustat["speed"] + range_
+		var angle = rand_range(deploy_range[0], deploy_range[1])
+		x = game.World().ToPixel(dest[0]) - away * cos(angle)
+		y = game.World().ToPixel(dest[1]) - away * sin(angle)
+		if x < 0 or y < 0:
+			return [null, null]
+		var tile = game.TileFromPos(int(x), int(y))
+		x = tile[0]
+		y = tile[1]
+	return avoid_occupied_tiles(x, y, 1, 1, 0, map_tile_num_y / 2 - 1)
 
 func calc_distance(from, dest, r, dist = 0):
 	var corner = game.Map().FindNextCornerInPath(
@@ -218,8 +309,6 @@ func calc_distance(from, dest, r, dist = 0):
 	return calc_distance(corner, dest, r, dist)
 
 func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
-	if x == null or y == null or w == null or h == null:
-		return [null, null]
 	var shifted = []
 	# left
 	if x-w/2-counter >= 0:
@@ -250,3 +339,16 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 			return [(tr.l + tr.r) / 2, (tr.t + tr.b) / 2]
 	counter += 1
 	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
+
+func box_vs_circle_in_pixel(rect_center, rect_size, circle_center, circle_rad):
+	var relPos = circle_center - rect_center
+	var closest = relPos
+	closest.x = clamp(closest.x, -rect_size.x, rect_size.x)
+	closest.y = clamp(closest.y, -rect_size.y, rect_size.y)
+	if relPos.x == closest.x and relPos.y == closest.y:
+		return true
+	var normal = relPos - closest
+	var d = normal.length_squared()
+	if d > circle_rad * circle_rad:
+		return false
+	return true
