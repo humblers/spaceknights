@@ -113,7 +113,7 @@ func make_decision_for_use_card(card, level):
 			x = randi() % (map_tile_num_x / 2 - x)
 			x = x if randf() > 0.5 else map_tile_num_x - 1 - x
 			var y = th / 2
-			cur_analyzed_data = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
+			cur_analyzed_data[card] = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
 			return true
 		"judge", "legion":
 			if opposite.total_cost <= cost:
@@ -294,6 +294,8 @@ func find_out_where_to_use_squire(card):
 		var tile = game.TileFromPos(int(x), int(y))
 		x = tile[0]
 		y = tile[1]
+	if x == null or y == null:
+		return [null, null]
 	return avoid_occupied_tiles(x, y, 1, 1, 0, map_tile_num_y / 2 - 1)
 
 func calc_distance(from, dest, r, dist = 0):
