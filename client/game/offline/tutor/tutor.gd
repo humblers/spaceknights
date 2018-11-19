@@ -4,6 +4,11 @@ onready var opposite_player = get_node("../Blue")
 onready var resources = get_node("../../Resource")
 onready var tutor_data = resources.get_node("Tutor").get_resource("tutor_data").new()
 
+var tutor_difficulty
+var done_bad_decision = false
+var decision_delay = 0
+var unstable_input_modifier = null
+
 var map_tile_num_x
 var map_tile_num_y
 
@@ -17,6 +22,7 @@ var cur_analyzed_data
 
 func Init(playerData, game):
 	.Init(playerData, game)
+	tutor_difficulty = playerData.Difficulty
 	map_tile_num_x = game.Map().TileNumX()
 	map_tile_num_y = game.Map().TileNumY()
 	var map_width = game.World().ToPixel(game.Map().Width())
@@ -37,6 +43,10 @@ func Update():
 	.Update()
 	prev_analyzed_data = cur_analyzed_data
 	cur_analyzed_data = analyze_battlefield()
+	if not done_bad_decision:
+		done_bad_decision = true
+		do_bad(tutor_data.pick_bad_behavior(tutor_difficulty))
+		return
 	var card_candidates = []
 	for knightId in knightIds:
 		var k = game.FindUnit(knightId)
@@ -55,8 +65,8 @@ func Update():
 	if len(card_candidates) == 0:
 		return
 	var card = elect_best_card(card_candidates)
-	if card != null:
-		make_input(card)
+	if card != null and make_input(card):
+		done_bad_decision = false
 
 func analyze_battlefield():
 	var d = tutor_data.new_dict_for_analyze()
@@ -169,7 +179,14 @@ func make_input(card):
 	var name = card[0]
 	var tile = cur_analyzed_data[name] if cur_analyzed_data.has(name) else find_out_where_to_use_squire(card)
 	if tile == null or tile[0] == null or tile[1] == null:
-		return
+		return false
+	if decision_delay > 0:
+		decision_delay -= 1
+		return false
+	if unstable_input_modifier != null:
+		tile[0] += unstable_input_modifier[0]
+		tile[1] += unstable_input_modifier[1]
+		unstable_input_modifier = null
 	var input = {
 		"Step": game.step + 1,
 		"Action": {
@@ -186,6 +203,7 @@ func make_input(card):
 		game.actions[input.Step].append(input.Action)
 	else:
 		game.actions[input.Step] = [input.Action]
+	return true
 
 func find_out_whether_to_use_area_skill(knight, level, value_func, min_val):
 	var skill = stat.units[knight]["skill"]["wing"]
@@ -234,6 +252,8 @@ func find_out_whether_to_use_area_skill(knight, level, value_func, min_val):
 		var val = 0
 		var pos_arr = game.PosFromTile(tile.x, tile.y)
 		var cast_pos = Vector2(pos_arr[0], pos_arr[1])
+		if knight == "astra":
+			cast_pos.y += - range_y if team == "Blue" else range_y
 		for p in potentials:
 			var overlap = false
 			if skill_shape == "box":
@@ -354,3 +374,36 @@ func box_vs_circle_in_pixel(rect_center, rect_size, circle_center, circle_rad):
 	if d > circle_rad * circle_rad:
 		return false
 	return true
+
+func do_bad(behavior):
+	match behavior:
+		tutor_data.DECISION_DELAY:
+			decision_delay = tutor_data.DECISION_DELAY_STEP_COUNT
+		tutor_data.UNSTABLE_INPUT:
+			unstable_input_modifier = [
+				tutor_data.rand_unstable_input(),
+				tutor_data.rand_unstable_input(),
+			]
+		tutor_data.USE_CARD_IMMEDIATELY:
+			var cards = []
+			for card in hand:
+				if card.Name == "":
+					continue
+				cards.append(card)
+			var card = cards[randi() % len(cards)]
+			var input = {
+				"Step": game.step + 1,
+				"Action": {
+					"Id": id,
+					"Card": {
+						"Name": card.Name,
+						"Level": card.Level,
+					},
+					"TileX": randi() % map_tile_num_x,
+					"TileY": randi() % (map_tile_num_y / 2 - 1),
+				},
+			}
+			if game.actions.has(input.Step):
+				game.actions[input.Step].append(input.Action)
+			else:
+				game.actions[input.Step] = [input.Action]
