@@ -88,8 +88,6 @@ func setAsCircle(radius):
 	self.radius = radius
 
 func applyForce(gravity_x, gravity_y, dt):
-#	if mass == 0 or no_physics:
-#		return
 	var accel_x = scalar.Add(scalar.Mul(force_x, imass), gravity_x)
 	var accel_y = scalar.Add(scalar.Mul(force_y, imass), gravity_y)
 	vel_x = scalar.Add(vel_x, scalar.Mul(accel_x, dt))

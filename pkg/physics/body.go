@@ -117,9 +117,6 @@ func (b *body) setAsCircle(radius fixed.Scalar) {
 }
 
 func (b *body) applyForce(gravity fixed.Vector, dt fixed.Scalar) {
-	if b.mass == 0 || b.no_physics {
-		return
-	}
 	accel := b.force.Mul(b.imass).Add(gravity)
 	b.vel = b.vel.Add(accel.Mul(dt))
 	b.force.X = 0
