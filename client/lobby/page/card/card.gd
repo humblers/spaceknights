@@ -10,6 +10,7 @@ var filter = "Troop"
 
 var pressed
 var picked
+var tutor_mode
 var deck_label
 var deck_btns = {}
 var knights = {}
@@ -29,6 +30,7 @@ func _ready():
 	for k in troops:
 		var btn = troops[k]
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
+	tutor_mode.connect("button_up", self, "go_to_tutor_mode")
 
 func invalidate():
 	var cur_mode = current_mode()
@@ -131,6 +133,20 @@ func set_pressed_card(btn):
 func set_picked_card(btn):
 	picked_card = pressed_card
 	invalidate()
+
+func go_to_tutor_mode():
+	var params = config.GAME.duplicate(true)
+	var k = params.Players[0].Knights
+	k.clear()
+	for side in KNIGHT_SIDES:
+		var knight_btn = knights[side]
+		k.append({"Name":knight_btn.name_, "Level":0})
+	var d = params.Players[0].Deck
+	d.clear()
+	for i in troops:
+		var troop_btn = troops[i]
+		d.append({"Name":troop_btn.name_, "Level":0})
+	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
 
 func _set_node_to_variant(node, var_name):
 	self.set(var_name, node)
