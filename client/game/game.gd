@@ -54,6 +54,24 @@ var team_swapped = false
 
 onready var camera = $Camera2D
 
+# debug options
+var show_radius = false
+var show_range = false
+var show_sight = false
+signal debug_option_changed
+
+func _unhandled_key_input(ev):
+	if ev.pressed:
+		return
+	match ev.scancode:
+		KEY_F1:
+			show_radius = not show_radius
+		KEY_F2:
+			show_range = not show_range
+		KEY_F3:
+			show_sight = not show_sight
+	emit_signal("debug_option_changed")
+
 func _ready():
 	randomize()
 	if connected:
