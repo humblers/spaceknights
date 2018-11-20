@@ -144,7 +144,7 @@ func make_decision_for_use_card(card, level):
 					card,
 					level,
 					"value_of_freeze_skill",
-					tutor_data.FREEZE_MIN_TARGET_COUNT)
+					tutor_data.FREEZE_SKILL_VALUE_MIN)
 			return false
 		"astra", "lancer":
 			if opposite.total_cost <= cost:
