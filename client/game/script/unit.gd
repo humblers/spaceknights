@@ -87,7 +87,21 @@ func New(id, name, team, level, posX, posY, game):
 	init_rotation()
 	material = shader_material.duplicate()
 	material.set_shader_param("is_blue", true if team == "Blue" else false)
+	var debug = preload("res://game/debug/debug.tscn").instance()
+	debug.init(self, game)
+	add_child(debug)
 	return self
+
+# debug circle radius in pixels
+# TODO: use the function in logic routine
+func _radius():
+	return static_func.dict_get(stat.units[name_], "radius", 0)
+
+func _range():
+	return static_func.dict_get(stat.units[name_], "attackrange", 0)
+	
+func _sight():
+	return static_func.dict_get(stat.units[name_], "sight", 0)
 	
 func setLayer(l):
 	if l == "Casting":
