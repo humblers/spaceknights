@@ -645,7 +645,7 @@ var units = {
 		"layer":          "Normal",
 		"mass":           60,
 		"radius":         60,
-		"hp":             [3300],
+		"hp":             [2700],
 		"sight":          375,
 		"speed":          75,	#pixels per second
 		"targettypes":    ["Building", "Knight"],
@@ -773,7 +773,7 @@ var units = {
 				"name":           "deathcarpet",
 				"duration":       600,
 				"damagetype":     "NormalDamage",
-				"damage":         60,
+				"damage":         45,
 				"count":          2,
 				"posX":           [225, 775], # pos based on blue side
 				"posY":           [850, 850],

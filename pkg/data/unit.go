@@ -425,7 +425,7 @@ var Units = map[string]Unit{
 		"layer":          Normal,
 		"mass":           60,
 		"radius":         60,
-		"hp":             []int{3300},
+		"hp":             []int{2700},
 		"sight":          375,
 		"speed":          75,
 		"targettypes":    UnitTypes{Building, Knight},
@@ -553,7 +553,7 @@ var Units = map[string]Unit{
 				"name":       "deathcarpet",
 				"duration":   600,
 				"damagetype": NormalDamage,
-				"damage":     60,
+				"damage":     45,
 				"count":      2,
 				"posX":       []int{225, 775}, // pos based on blue side
 				"posY":       []int{850, 850},

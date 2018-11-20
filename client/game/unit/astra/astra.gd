@@ -168,7 +168,11 @@ func laserHeight():
 
 func inLaserArea(unit):
 	var centerX = game.World().FromPixel(castPosX)
-	var centerY = scalar.Sub(game.World().FromPixel(castPosY), laserHeight())
+	var centerY
+	if team == "Blue":
+		centerY = scalar.Sub(game.World().FromPixel(castPosY), laserHeight())
+	else:
+		centerY = scalar.Add(game.World().FromPixel(castPosY), laserHeight())
 	return game.boxVScircle(
 		centerX,
 		centerY,

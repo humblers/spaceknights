@@ -172,10 +172,13 @@ func (a *astra) laserHeight() fixed.Scalar {
 }
 
 func (a *astra) inLaserArea(u Unit) bool {
-	center := fixed.Vector{
-		a.game.World().FromPixel(a.castPosX),
-		a.game.World().FromPixel(a.castPosY).Sub(a.laserHeight()),
+	var y fixed.Scalar
+	if a.Team() == Blue {
+		y = a.game.World().FromPixel(a.castPosY).Sub(a.laserHeight())
+	} else {
+		y = a.game.World().FromPixel(a.castPosY).Add(a.laserHeight())
 	}
+	center := fixed.Vector{a.game.World().FromPixel(a.castPosX), y}
 	return boxVSCircle(center, u.Position(), a.laserWidth(), a.laserHeight(), u.Radius())
 }
 
