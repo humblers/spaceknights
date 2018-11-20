@@ -1,4 +1,4 @@
-extends Button
+extends "res://lobby/script/ready_emitter.gd"
 
 var name_
 

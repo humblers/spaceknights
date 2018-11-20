@@ -7,8 +7,9 @@ const MODE_NO_SCROLL = "NO_SCROLL"
 const MODE_SCROLL_HORIZONTAL = "SCROLL_HORIZONTAL"
 const MODE_SCROLL_VERTICAL = "SCROLL_VERTICAL"
 
+var scrollable_node
 var scroll_min_y
 var scroll_max_y
 
 func get_vertical_scrollable_control():
-	return null
+	return scrollable_node
