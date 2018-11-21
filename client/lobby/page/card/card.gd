@@ -1,69 +1,52 @@
 extends "res://lobby/page/page.gd"
 
+const KNIGHT_SIDES = ["Center", "Left", "Right"]
+
 var lobby
 var pressed_card
 var picked_card
 
 var filter = "Troop"
 
-onready var deck_label = $PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Current
-onready var deck_btns = [
-	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck0,
-	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck1,
-	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck2,
-	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck3,
-	$PageMain/MarginContainer/VBoxContainer/Decks/HBoxContainer/Deck4,
-]
-
-onready var knights = [
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Center/Item,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Left/Item,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Knights/Right/Item,
-]
-
-onready var troops = [
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer/Item,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer2/Item,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer2/Item2,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer3/Item,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer3/Item2,
-	$PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Troops/VBoxContainer4/Item,
-]
-
-onready var containers = {
-	"lists": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists,
-	"founds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds,
-	"notfounds": $PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds,
-}
-
-onready var pressed = $PageMain/MarginContainer/Control/Pressed
-onready var picked = $PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Picked
+var pressed
+var picked
+var tutor_mode
+var deck_label
+var deck_btns = {}
+var knights = {}
+var troops = {}
+var containers = {}
 
 func _ready():
 	scroll_max_y = get_vertical_scrollable_control().rect_position.y
 	var size_modifier = $PageMain/MarginContainer/VBoxContainer/BottomContainers
 	size_modifier.connect("resized", self, "calc_scroll_threshold", [self, size_modifier.rect_size.y])
-	for btn in deck_btns:
+	for k in deck_btns:
+		var btn = deck_btns[k]
 		btn.connect("button_up", self, "button_up_deck_num", [btn])
-	for btn in knights:
+	for k in knights:
+		var btn = knights[k]
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
-	for btn in troops:
+	for k in troops:
+		var btn = troops[k]
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
+	tutor_mode.connect("button_up", self, "go_to_tutor_mode")
 
 func invalidate():
 	var cur_mode = current_mode()
 	var selected = user.DeckSelected
 	deck_label.text = "%d" % (selected + 1)
-	deck_btns[selected].pressed = true
+	deck_btns[int(selected)].pressed = true
 
 	var not_found_cards = stat.cards.keys()
 	var found_cards = user.Cards.keys()
 	var deck = user.Decks[selected]
-	for i in range(deck.Knights.size()):
+	for i in range(KNIGHT_SIDES.size()):
 		var name = deck.Knights[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
-		knights[i].invalidate(name, self, cur_mode == MODE_EDIT_TROOP)
+		var btn = knights[KNIGHT_SIDES[i]]
+		btn.invalidate(name, self, cur_mode == MODE_EDIT_TROOP)
 	for i in range(deck.Troops.size()):
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
@@ -119,9 +102,11 @@ func button_up_deck_item(btn):
 		"num": user.DeckSelected,
 		"deck" : {"Knights": [], "Troops": []},
 	}
-	for knight_btn in knights:
+	for side in KNIGHT_SIDES:
+		var knight_btn = knights[side]
 		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
-	for troop_btn in troops:
+	for i in troops:
+		var troop_btn = troops[i]
 		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
 	var request = http.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
 	var response = yield(request, "response")
@@ -149,5 +134,22 @@ func set_picked_card(btn):
 	picked_card = pressed_card
 	invalidate()
 
-func get_vertical_scrollable_control():
-	return $PageMain/MarginContainer
+func go_to_tutor_mode():
+	var params = config.GAME.duplicate(true)
+	var k = params.Players[0].Knights
+	k.clear()
+	for side in KNIGHT_SIDES:
+		var knight_btn = knights[side]
+		k.append({"Name":knight_btn.name_, "Level":0})
+	var d = params.Players[0].Deck
+	d.clear()
+	for i in troops:
+		var troop_btn = troops[i]
+		d.append({"Name":troop_btn.name_, "Level":0})
+	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
+
+func _set_node_to_variant(node, var_name):
+	self.set(var_name, node)
+
+func _set_node_to_dictionary(node, var_name, key):
+	self.get(var_name)[key] = node
