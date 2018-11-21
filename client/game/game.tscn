@@ -79,11 +79,11 @@
 [ext_resource path="res://game/bgm/win_sound.ogg" type="AudioStream" id=77]
 [ext_resource path="res://game/bgm/lose_sound.ogg" type="AudioStream" id=78]
 [ext_resource path="res://game/bgm/draw_sound.ogg" type="AudioStream" id=79]
-[ext_resource path="res://game/ui/temp_ui_sprite_161.png" type="Texture" id=80]
-[ext_resource path="res://game/ui/temp_ui_sprite_086.png" type="Texture" id=81]
-[ext_resource path="res://game/ui/temp_ui_sprite_091.png" type="Texture" id=82]
-[ext_resource path="res://font/noto_serif_cjk_kr_black.otf" type="DynamicFontData" id=83]
-[ext_resource path="res://game/ui/temp_ui_sprite_timebox.png" type="Texture" id=84]
+[ext_resource path="res://lobby/headup/panel.png" type="Texture" id=80]
+[ext_resource path="res://game/ui/clan_icon_base.png" type="Texture" id=81]
+[ext_resource path="res://game/ui/temp_ui_sprite_086.png" type="Texture" id=82]
+[ext_resource path="res://game/ui/temp_ui_sprite_091.png" type="Texture" id=83]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=84]
 [ext_resource path="res://game/bg/karas/karas.tscn" type="PackedScene" id=85]
 [ext_resource path="res://game/bg/kinetica/kinetica_scroll.tscn" type="PackedScene" id=86]
 [ext_resource path="res://game/bg/mothership/mothership/motherships.tscn" type="PackedScene" id=87]
@@ -2996,30 +2996,30 @@ tracks/57/keys = {
 
 [sub_resource type="DynamicFont" id=26]
 
-size = 40
+size = 48
 outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 83 )
-
-[sub_resource type="DynamicFont" id=27]
-
-size = 25
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 83 )
-
-[sub_resource type="DynamicFont" id=28]
-
-size = 50
-outline_size = 3
-outline_color = Color( 1, 1, 1, 1 )
+outline_color = Color( 0.270588, 0.270588, 0.270588, 1 )
 use_mipmaps = true
 use_filter = false
 font_data = ExtResource( 68 )
+
+[sub_resource type="DynamicFont" id=27]
+
+size = 21
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 68 )
+
+[sub_resource type="DynamicFont" id=28]
+
+size = 36
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 84 )
 
 [sub_resource type="DynamicFont" id=29]
 
@@ -3028,7 +3028,7 @@ outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 83 )
+font_data = ExtResource( 84 )
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
@@ -3979,6 +3979,7 @@ texture = ExtResource( 40 )
 
 [node name="Energy" parent="CameraFollowingUI/Hand1/Card/Icon" instance=ExtResource( 41 )]
 position = Vector2( -60, -35 )
+frame = 11
 
 [node name="Cost" type="Label" parent="CameraFollowingUI/Hand1/Card/Icon/Energy"]
 anchor_left = 0.5
@@ -4167,7 +4168,7 @@ texture = ExtResource( 40 )
 
 [node name="Energy" parent="CameraFollowingUI/Hand2/Card/Icon" instance=ExtResource( 41 )]
 position = Vector2( -60, -35 )
-frame = 2
+frame = 8
 
 [node name="Cost" type="Label" parent="CameraFollowingUI/Hand2/Card/Icon/Energy"]
 anchor_left = 0.5
@@ -4356,7 +4357,7 @@ texture = ExtResource( 40 )
 
 [node name="Energy" parent="CameraFollowingUI/Hand3/Card/Icon" instance=ExtResource( 41 )]
 position = Vector2( -60, -35 )
-frame = 2
+frame = 8
 
 [node name="Cost" type="Label" parent="CameraFollowingUI/Hand3/Card/Icon/Energy"]
 anchor_left = 0.5
@@ -4545,7 +4546,7 @@ texture = ExtResource( 40 )
 
 [node name="Energy" parent="CameraFollowingUI/Hand4/Card/Icon" instance=ExtResource( 41 )]
 position = Vector2( -60, -35 )
-frame = 2
+frame = 8
 
 [node name="Cost" type="Label" parent="CameraFollowingUI/Hand4/Card/Icon/Energy"]
 anchor_left = 0.5
@@ -4784,7 +4785,6 @@ anims/visiblecontrol = SubResource( 19 )
 blend_times = [  ]
 
 [node name="NonCameraFollowingUI" type="CanvasLayer" parent="."]
-editor/display_folded = true
 layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -4796,6 +4796,7 @@ __meta__ = {
 }
 
 [node name="StartEnd" type="Control" parent="NonCameraFollowingUI"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -5347,115 +5348,13 @@ group = null
 flat = false
 align = 1
 
-[node name="GuildEmblemEmpty" type="TextureRect" parent="NonCameraFollowingUI"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 133.0
-margin_bottom = 158.0
-rect_scale = Vector2( 0.5, 0.5 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 80 )
-stretch_mode = 0
-
-[node name="GuildEmblem" type="TextureRect" parent="NonCameraFollowingUI/GuildEmblemEmpty"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 130.0
-margin_bottom = 154.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 81 )
-stretch_mode = 0
-
-[node name="GuildMark" type="TextureRect" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildEmblem"]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 28.0
-margin_top = 40.0
-margin_right = 101.0
-margin_bottom = 113.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 82 )
-stretch_mode = 0
-
-[node name="GuildNID" type="Node2D" parent="NonCameraFollowingUI/GuildEmblemEmpty"]
-use_parent_material = true
-position = Vector2( 140, -17 )
-scale = Vector2( 2, 2 )
-
-[node name="ID" type="Label" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildNID"]
-light_mask = 4096
-use_parent_material = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 300.0
-margin_bottom = 65.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 26 )
-custom_colors/font_color = Color( 0.913725, 0.0352941, 0.407843, 1 )
-text = "제이비 선생님"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="GuildName" type="Label" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildNID"]
-light_mask = 4096
-use_parent_material = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 55.0
-margin_right = 200.0
-margin_bottom = 92.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 27 )
-text = "험블러 착용중"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
 [node name="TimeBox" type="TextureRect" parent="NonCameraFollowingUI"]
 anchor_left = 1.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 0.0
-margin_left = -210.0
-margin_bottom = 146.0
+margin_left = -1519.0
+margin_bottom = 158.0
 rect_scale = Vector2( 1, 0.6 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -5463,12 +5362,13 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 84 )
+texture = ExtResource( 80 )
+expand = true
 stretch_mode = 0
 
 [node name="NameNode" type="Node2D" parent="NonCameraFollowingUI/TimeBox"]
 use_parent_material = true
-position = Vector2( 110, 120 )
+position = Vector2( 1390, 123.333 )
 scale = Vector2( 1, 1.66667 )
 
 [node name="Time" type="Label" parent="NonCameraFollowingUI/TimeBox/NameNode"]
@@ -5479,18 +5379,17 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -100.0
-margin_top = -40.0
+margin_top = -55.0
 margin_right = 100.0
-margin_bottom = 33.0
+margin_bottom = 6.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 28 )
+custom_fonts/font = SubResource( 26 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.360784, 0.360784, 0.360784, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/line_spacing = 1
@@ -5510,9 +5409,117 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -100.0
-margin_top = -72.0
+margin_top = -69.0
 margin_right = 100.0
-margin_bottom = -22.0
+margin_bottom = -43.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 27 )
+text = "TIME LEFT"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="GuildEmblemEmpty" type="TextureRect" parent="NonCameraFollowingUI"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 9.0
+margin_top = 3.0
+margin_right = 142.0
+margin_bottom = 161.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 81 )
+stretch_mode = 0
+
+[node name="GuildEmblem" type="TextureRect" parent="NonCameraFollowingUI/GuildEmblemEmpty"]
+editor/display_folded = true
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 130.0
+margin_bottom = 154.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 82 )
+stretch_mode = 0
+
+[node name="GuildMark" type="TextureRect" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildEmblem"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 28.0
+margin_top = 40.0
+margin_right = 101.0
+margin_bottom = 113.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 83 )
+stretch_mode = 0
+
+[node name="GuildNID" type="Node2D" parent="NonCameraFollowingUI/GuildEmblemEmpty"]
+use_parent_material = true
+position = Vector2( 152, -23 )
+scale = Vector2( 2, 2 )
+
+[node name="ID" type="Label" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildNID"]
+light_mask = 4096
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 5.0
+margin_right = 311.0
+margin_bottom = 59.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 28 )
+custom_colors/font_color = Color( 0.913725, 0.0352941, 0.407843, 1 )
+text = "제이비 선생님"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="GuildName" type="Label" parent="NonCameraFollowingUI/GuildEmblemEmpty/GuildNID"]
+light_mask = 4096
+use_parent_material = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 48.0
+margin_right = 200.0
+margin_bottom = 85.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -5520,8 +5527,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 29 )
-text = "남은 시간"
-align = 1
+text = "험블러 착용중"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
