@@ -42,21 +42,21 @@ func _process(delta):
 		card_level = level
 		clear_units()
 		add_units()
-		var cost = stat.cards[card_name].Cost
-		$Card.visible = true
-		$Card/Icon.visible = true
-		$Card/NotAvailable.visible = false
-		$Card/Icon.texture = icon_resource.get_resource(card_name)
-		$Card/Icon/Energy/Cost.text = str(cost/1000)
-		$Card/Energy.max_value = cost
+#		var cost = stat.cards[card_name].Cost
+#		$Card.visible = true
+#		$Card/Icon.visible = true
+#		$Card/NotAvailable.visible = false
+#		$Card/Icon.texture = icon_resource.get_resource(card_name)
+#		$Card/Icon/Energy/Cost.text = str(cost/1000)
+#		$Card/Energy.max_value = cost
 
 	# update energy
-	var cost = stat.cards[card_name].Cost
-	var ready = player.energy >= cost
-	$Card/Icon/NotReady.visible = not ready
-	$Card/Icon/Ready.visible = ready
-	$Card/Energy.value = player.energy
-	$Card/Icon/Energy.playing = ready
+#	var cost = stat.cards[card_name].Cost
+#	var ready = player.energy >= cost
+#	$Card/Icon/NotReady.visible = not ready
+#	$Card/Icon/Ready.visible = ready
+#	$Card/Energy.value = player.energy
+#	$Card/Icon/Energy.playing = ready
 
 func handle_input(ev):
 	if card_name == null:
