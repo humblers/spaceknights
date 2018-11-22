@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -21,9 +21,9 @@
 [ext_resource path="res://lobby/page/card/practice_icon.png" type="Texture" id=19]
 [ext_resource path="res://lobby/page/card/sort_icon.png" type="Texture" id=20]
 [ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=21]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=22]
-[ext_resource path="res://lobby/page/card/item_pressed.tscn" type="PackedScene" id=23]
-[ext_resource path="res://lobby/page/card/info.tscn" type="PackedScene" id=24]
+[ext_resource path="res://lobby/page/card/item_pressed.tscn" type="PackedScene" id=22]
+[ext_resource path="res://lobby/page/card/info.tscn" type="PackedScene" id=23]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=24]
 [ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=25]
 
 [sub_resource type="DynamicFont" id=9]
@@ -56,8 +56,17 @@ font_data = ExtResource( 9 )
 [sub_resource type="DynamicFont" id=5]
 
 size = 42
-outline_size = 3
-outline_color = Color( 0.396078, 0.396078, 0.396078, 1 )
+outline_size = 5
+outline_color = Color( 0.388235, 0.498039, 0.72549, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=11]
+
+size = 42
+outline_size = 0
+outline_color = Color( 0.388235, 0.498039, 0.72549, 1 )
 use_mipmaps = false
 use_filter = true
 font_data = ExtResource( 9 )
@@ -78,7 +87,7 @@ outline_size = 0
 outline_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 22 )
+font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -87,7 +96,7 @@ outline_size = 3
 outline_color = Color( 0.305882, 0.305882, 0.305882, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 22 )
+font_data = ExtResource( 24 )
 
 [sub_resource type="ButtonGroup" id=2]
 
@@ -257,7 +266,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 190.0
 margin_right = 1440.0
-margin_bottom = 2585.0
+margin_bottom = 2609.0
 rect_min_size = Vector2( 1080, 1800 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -265,7 +274,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 1080
+custom_constants/separation = 15
 alignment = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
@@ -274,7 +283,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1440.0
-margin_bottom = 155.0
+margin_bottom = 750.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -282,7 +291,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_constants/margin_right = 180
-custom_constants/margin_top = 55
+custom_constants/margin_top = 0
 custom_constants/margin_left = 180
 custom_constants/margin_bottom = 0
 
@@ -292,25 +301,26 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 180.0
-margin_top = 55.0
 margin_right = 1260.0
-margin_bottom = 155.0
+margin_bottom = 750.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 100
 alignment = 0
 
 [node name="KnightsDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1080.0
+margin_bottom = 465.0
+rect_min_size = Vector2( 0, 465 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -320,15 +330,15 @@ size_flags_vertical = 1
 
 [node name="CenterDeck" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
 modulate = Color( 0.47451, 0.47451, 0.47451, 1 )
-anchor_left = 0.0
+anchor_left = 0.5
 anchor_top = 0.0
-anchor_right = 0.0
+anchor_right = 0.5
 anchor_bottom = 0.0
-margin_left = 261.0
-margin_top = 44.0
-margin_right = 448.0
-margin_bottom = 224.0
-rect_scale = Vector2( 3, 3 )
+margin_left = -234.0
+margin_top = 102.0
+margin_right = -47.0
+margin_bottom = 264.0
+rect_scale = Vector2( 2.5, 2.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -344,12 +354,12 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1171.0
-margin_top = 470.0
-margin_right = 1358.0
-margin_bottom = 632.0
+margin_left = 505.0
+margin_top = 416.0
+margin_right = 692.0
+margin_bottom = 578.0
 rect_rotation = 180.0
-rect_scale = Vector2( 3, 3 )
+rect_scale = Vector2( 2.5, 2.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -365,12 +375,12 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 472.0
-margin_top = 471.0
-margin_right = 659.0
-margin_bottom = 633.0
-rect_rotation = 180.0
-rect_scale = Vector2( 3, 3 )
+margin_left = 1042.0
+margin_top = 416.0
+margin_right = 1229.0
+margin_bottom = 578.0
+rect_rotation = -180.0
+rect_scale = Vector2( 2.5, 2.5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -380,30 +390,16 @@ size_flags_vertical = 1
 texture = ExtResource( 6 )
 stretch_mode = 0
 
-[node name="Knight" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="KnightBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knight"]
+[node name="KnightBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
 editor/display_folded = true
 modulate = Color( 1, 0.772549, 0.447059, 0.784314 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -540.0
-margin_top = -65.0
-margin_right = 540.0
-margin_bottom = 400.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = -13.0
+margin_right = 1080.0
+margin_bottom = 452.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -417,7 +413,7 @@ patch_margin_top = 60
 patch_margin_right = 70
 patch_margin_bottom = 30
 
-[node name="TextureRect" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knight/KnightBG"]
+[node name="TextureRect" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/KnightBG"]
 modulate = Color( 1, 1, 1, 0.784314 )
 anchor_left = 0.5
 anchor_top = 0.0
@@ -437,15 +433,15 @@ texture = ExtResource( 8 )
 expand = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knight"]
+[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 55.0
-margin_top = -41.0
+margin_top = 9.0
 margin_right = 1025.0
-margin_bottom = -2.0
+margin_bottom = 48.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -466,9 +462,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = -5.0
+margin_top = 45.0
 margin_right = 1080.0
-margin_bottom = 359.0
+margin_bottom = 510.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -486,7 +482,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 85.0
 margin_right = 335.0
-margin_bottom = 364.0
+margin_bottom = 465.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -527,7 +523,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 415.0
 margin_right = 665.0
-margin_bottom = 364.0
+margin_bottom = 465.0
 rect_min_size = Vector2( 250, 299 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -570,7 +566,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 745.0
 margin_right = 995.0
-margin_bottom = 364.0
+margin_bottom = 465.0
 rect_min_size = Vector2( 250, 299 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -611,9 +607,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 100.0
 margin_right = 1080.0
-margin_bottom = 100.0
+margin_bottom = 750.0
+rect_min_size = Vector2( 0, 750 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -628,9 +624,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 564.0
-margin_top = 316.0
+margin_top = 9.0
 margin_right = 634.0
-margin_bottom = 688.0
+margin_bottom = 381.0
+rect_min_size = Vector2( 70, 372 )
 rect_scale = Vector2( 3, 2 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -649,9 +646,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 304.0
-margin_top = 316.0
+margin_top = 9.0
 margin_right = 374.0
-margin_bottom = 688.0
+margin_bottom = 381.0
+rect_min_size = Vector2( 70, 372 )
 rect_scale = Vector2( 3, 2 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -670,9 +668,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 54.0
-margin_top = 486.0
+margin_top = 179.0
 margin_right = 124.0
-margin_bottom = 774.0
+margin_bottom = 467.0
+rect_min_size = Vector2( 70, 288 )
 rect_scale = Vector2( 3, 2 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -691,9 +690,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 10.0
-margin_top = 816.0
+margin_top = 509.0
 margin_right = 110.0
-margin_bottom = 899.0
+margin_bottom = 592.0
+rect_min_size = Vector2( 100, 83 )
 rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -714,6 +714,7 @@ margin_left = 5.0
 margin_top = -53.0
 margin_right = 95.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 90, 81 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -730,9 +731,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 814.0
-margin_top = 486.0
+margin_top = 179.0
 margin_right = 884.0
-margin_bottom = 774.0
+margin_bottom = 467.0
+rect_min_size = Vector2( 70, 288 )
 rect_scale = Vector2( 3, 2 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -751,9 +753,10 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 770.0
-margin_top = 816.0
+margin_top = 509.0
 margin_right = 870.0
-margin_bottom = 899.0
+margin_bottom = 592.0
+rect_min_size = Vector2( 100, 83 )
 rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -774,6 +777,7 @@ margin_left = 5.0
 margin_top = -53.0
 margin_right = 95.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 90, 81 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -783,20 +787,7 @@ size_flags_vertical = 1
 texture = ExtResource( 13 )
 stretch_mode = 0
 
-[node name="Unit" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck"]
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="UnitBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck/Unit"]
+[node name="UnitBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck"]
 editor/display_folded = true
 modulate = Color( 0.392157, 0.701961, 1, 0.784314 )
 anchor_left = 0.0
@@ -804,9 +795,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -1.0
-margin_top = 289.0
+margin_top = -28.0
 margin_right = 1079.0
-margin_bottom = 1084.0
+margin_bottom = 767.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -820,7 +811,7 @@ patch_margin_top = 60
 patch_margin_right = 70
 patch_margin_bottom = 30
 
-[node name="TextureRect2" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck/Unit/UnitBG"]
+[node name="TextureRect2" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck/UnitBG"]
 modulate = Color( 1, 1, 1, 0.784314 )
 anchor_left = 0.5
 anchor_top = 0.0
@@ -830,6 +821,7 @@ margin_left = -540.0
 margin_top = 22.0
 margin_right = 540.0
 margin_bottom = 57.0
+rect_min_size = Vector2( 1080, 35 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -840,15 +832,15 @@ texture = ExtResource( 8 )
 expand = true
 stretch_mode = 0
 
-[node name="Label2" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck/Unit"]
+[node name="Label2" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TroopsDeck"]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 55.0
-margin_top = 311.0
+margin_top = -6.0
 margin_right = 1025.0
-margin_bottom = 350.0
+margin_bottom = 33.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -857,7 +849,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 0.054902, 0.054902, 0.054902, 1 )
-text = "UNITS DECK"
+text = "SQUIRE DECK"
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
@@ -869,9 +861,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 358.0
+margin_top = 41.0
 margin_right = 1080.0
-margin_bottom = 1043.0
+margin_bottom = 726.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -980,9 +972,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 1235.0
+margin_top = 765.0
 margin_right = 1440.0
-margin_bottom = 1315.0
+margin_bottom = 845.0
 rect_min_size = Vector2( 1440, 80 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -1014,7 +1006,6 @@ expand = true
 stretch_mode = 0
 
 [node name="KnightBT" type="TextureButton" parent="PageMain/MarginContainer/VBoxContainer/Tab"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1060,8 +1051,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="UnitBT" type="TextureButton" parent="PageMain/MarginContainer/VBoxContainer/Tab"]
-editor/display_folded = true
+[node name="SquireBT" type="TextureButton" parent="PageMain/MarginContainer/VBoxContainer/Tab"]
 modulate = Color( 1, 1, 1, 0.392157 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1084,7 +1074,7 @@ shortcut = null
 group = null
 texture_normal = ExtResource( 16 )
 
-[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/Tab/UnitBT"]
+[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/Tab/SquireBT"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1100,8 +1090,8 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 5 )
-text = "UNITS"
+custom_fonts/font = SubResource( 11 )
+text = "SQUIRE"
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -1115,9 +1105,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = -286.0
-margin_top = -45.0
+margin_top = -47.0
 margin_right = -196.0
-margin_bottom = 45.0
+margin_bottom = 43.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -1159,9 +1149,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = -387.0
-margin_top = -45.0
+margin_top = -47.0
 margin_right = -297.0
-margin_bottom = 45.0
+margin_bottom = 43.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -1201,25 +1191,26 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 2395.0
+margin_top = 860.0
 margin_right = 1440.0
-margin_bottom = 2395.0
+margin_bottom = 1950.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/margin_top = -1050
+custom_constants/margin_top = 10
 
 [node name="MarginCard" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = -1050.0
+margin_top = 10.0
 margin_right = 1440.0
+margin_bottom = 1090.0
+rect_min_size = Vector2( 1440, 1080 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -1239,7 +1230,7 @@ anchor_bottom = 0.0
 margin_left = 180.0
 margin_top = -35.0
 margin_right = 1260.0
-margin_bottom = 1050.0
+margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1259,8 +1250,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = -1050.0
+margin_top = 10.0
 margin_right = 1440.0
+margin_bottom = 1090.0
 rect_min_size = Vector2( 0, 700 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -1276,9 +1268,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 720.0
-margin_top = 525.0
+margin_top = 540.0
 margin_right = 720.0
-margin_bottom = 525.0
+margin_bottom = 540.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -1317,13 +1309,13 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="Lists" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = -1050.0
+margin_top = 10.0
 margin_right = 1440.0
+margin_bottom = 1090.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1335,7 +1327,6 @@ alignment = 0
 script = ExtResource( 5 )
 
 [node name="CenterContainer" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1351,7 +1342,6 @@ size_flags_vertical = 1
 use_top_left = false
 
 [node name="Founds" type="GridContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1416,7 +1406,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 745.0
 margin_right = 1440.0
-margin_bottom = 803.0
+margin_bottom = 792.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1433,13 +1423,14 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 823.0
+margin_top = 812.0
 margin_right = 1440.0
-margin_bottom = 823.0
+margin_bottom = 812.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -1471,7 +1462,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 190.0
 margin_right = 1440.0
-margin_bottom = 2585.0
+margin_bottom = 2609.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1479,7 +1470,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Pressed" parent="PageMain/MarginContainer/Control" instance=ExtResource( 23 )]
+[node name="Pressed" parent="PageMain/MarginContainer/Control" instance=ExtResource( 22 )]
 margin_left = 915.0
 margin_top = 78.0
 margin_right = 1227.0
@@ -1488,11 +1479,10 @@ margin_bottom = 542.0
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "item" ), [ ExtResource( 10 ) ] ]
 
-[node name="Info" parent="." instance=ExtResource( 24 )]
+[node name="Info" parent="." instance=ExtResource( 23 )]
 visible = false
 
 [node name="Decks" type="TextureRect" parent="."]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
