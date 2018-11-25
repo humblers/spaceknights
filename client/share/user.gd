@@ -2,6 +2,10 @@ extends Node
 
 const CONFIG_FILE = "user://settings.cfg"
 
+const DECK_COUNT = 5
+const KNIGHT_SIDES = ["center", "left", "right"]
+const SQUIRE_COUNT = 6
+
 var PlatformId
 
 var Id

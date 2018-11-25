@@ -33,8 +33,8 @@ func login():
 	var config = ConfigFile.new()
 	var err = config.load(user.CONFIG_FILE)
 	if err == OK:
-		if config.has_section_key("auth", "uid"):
-			params["pid"] = config.get_value("auth", "uid")
+		if config.has_section_key("auth", "pid"):
+			params["pid"] = config.get_value("auth", "pid")
 	var req = http.new_request(HTTPClient.METHOD_POST, "/auth/login",
 			params)
 	var response = yield(req, "response")
@@ -43,7 +43,7 @@ func login():
 		return
 	user.Id = response[1].UID
 	user.PlatformId = response[1].PID
-	config.set_value("auth", "uid", user.PlatformId)
+	config.set_value("auth", "pid", user.PlatformId)
 	config.save(user.CONFIG_FILE)
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
