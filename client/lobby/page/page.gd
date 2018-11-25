@@ -7,12 +7,15 @@ const MODE_NO_SCROLL = "NO_SCROLL"
 const MODE_SCROLL_HORIZONTAL = "SCROLL_HORIZONTAL"
 const MODE_SCROLL_VERTICAL = "SCROLL_VERTICAL"
 
+export(NodePath) var head_up_display
 export(NodePath) var scrollable
 
 var scroll_min_y
 var scroll_max_y
 
 func _ready():
+	if head_up_display != null:
+		head_up_display = get_node(head_up_display)
 	if scrollable != null:
 		scrollable = get_node(scrollable)
 
