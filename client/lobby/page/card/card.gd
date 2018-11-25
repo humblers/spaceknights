@@ -60,8 +60,7 @@ func _ready():
 func calc_scroll_threshold():
 	var page_height = self.rect_size.y
 	var scrollable_height = bottom_left.rect_global_position.y - scrollable.rect_global_position.y
-	var hud_bot_height = page_height - head_up_display.rect_position.y
-	scroll_min_y = page_height - scrollable_height - hud_bot_height
+	scroll_min_y = page_height - scrollable_height - lobby.hud.bot.rect_size.y
 
 func invalidate():
 	var cur_mode = current_mode()
@@ -166,7 +165,7 @@ func set_picked_card(btn):
 	invalidate()
 
 func change_filter(filter):
-	filter = filter
+	self.filter = filter
 	var pressed_color = Color(1, 1, 1, 1)
 	var non_pressed_color = Color(1, 1, 1, 0.392157)
 	filter_knight.modulate = pressed_color if filter == "Knight" else non_pressed_color

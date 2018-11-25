@@ -3,6 +3,8 @@ extends CanvasLayer
 var lobby
 var scroll
 
+export(NodePath) onready var bot = get_node(bot)
+
 onready var page_btns = [
 	$Bot/Card,
 	$Bot/Battle,

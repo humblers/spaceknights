@@ -1,5 +1,7 @@
 extends Control
 
+export(NodePath) onready var hud = get_node(hud)
+
 func _ready():
 	http.modal_dialog = $Headup/Modal
 	var err = http.connect_to_host(config.LOBBY_HOST, config.LOBBY_PORT)
@@ -7,8 +9,8 @@ func _ready():
 		print("connect to lobby fail: ", err)
 		http.handle_error("Connect to lobby fail!!")
 		return
-	$Headup.lobby = self
-	$Headup.scroll = $Scroll
+	hud.lobby = self
+	hud.scroll = $Scroll
 	$Pages/Card.lobby = self
 	$Pages/Battle.lobby = self
 	load_data()
@@ -45,9 +47,9 @@ func login():
 	config.save(user.CONFIG_FILE)
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
-	$Headup.invalidate()
 	invalidate()
 
 func invalidate():
+	hud.invalidate()
 	$Pages/Battle.invalidate()
 	$Pages/Card.invalidate()

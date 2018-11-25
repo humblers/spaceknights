@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/page/scroll.gd" type="Script" id=2]
@@ -10,11 +10,6 @@
 [ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=8]
 [ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=10]
-
-[sub_resource type="ButtonGroup" id=1]
-
-resource_local_to_scene = true
-resource_name = "PageGroup"
 
 [node name="lobby" type="Control"]
 anchor_left = 0.0
@@ -31,6 +26,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 95.996 ]
 }
+hud = NodePath("Headup")
 
 [node name="Scroll" type="Control" parent="."]
 anchor_left = 0.5
@@ -44,7 +40,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 script = ExtResource( 2 )
-head_up_display = null
 scrollable = null
 
 [node name="Camera2D" type="Camera2D" parent="Scroll"]
@@ -94,47 +89,27 @@ size_flags_vertical = 1
 [node name="Shop" parent="Pages" instance=ExtResource( 3 )]
 margin_left = -2882.0
 margin_right = -2882.0
-head_up_display = null
 scrollable = null
 
 [node name="Card" parent="Pages" instance=ExtResource( 4 )]
 margin_left = -1440.0
 margin_right = -1440.0
-head_up_display = NodePath("../../Headup/Bot")
 
 [node name="Battle" parent="Pages" instance=ExtResource( 5 )]
-head_up_display = null
 scrollable = null
 
 [node name="Explore" parent="Pages" instance=ExtResource( 6 )]
 margin_left = 1440.0
 margin_right = 1440.0
 script = ExtResource( 7 )
-head_up_display = null
 scrollable = null
 
 [node name="Social" parent="Pages" instance=ExtResource( 8 )]
 margin_left = 2699.0
 margin_right = 3059.0
-head_up_display = null
 scrollable = null
 
 [node name="Headup" parent="." instance=ExtResource( 9 )]
-
-[node name="Battle" parent="Headup/Bot" index="1"]
-group = SubResource( 1 )
-
-[node name="Card" parent="Headup/Bot" index="2"]
-group = SubResource( 1 )
-
-[node name="Explore" parent="Headup/Bot" index="3"]
-group = SubResource( 1 )
-
-[node name="Social" parent="Headup/Bot" index="4"]
-group = SubResource( 1 )
-
-[node name="Shop" parent="Headup/Bot" index="5"]
-group = SubResource( 1 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
@@ -145,5 +120,3 @@ stream_paused = false
 mix_target = 0
 bus = "Master"
 
-
-[editable path="Headup"]
