@@ -1,4 +1,4 @@
-extends "res://lobby/script/ready_emitter.gd"
+extends BaseButton
 
 var name_
 
@@ -13,7 +13,7 @@ func invalidate(name, page_card):
 		use.connect("button_up", page_card, "set_picked_card", [self])
 	if name != null:
 		$MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use.visible = not user.CardInDeck(name)
-		$MarginContainer.rect_size.y = 0 # resizing
+		$MarginContainer.rect_size.y = 0 # force downsizing
 		base.get_node("CardFrame/Icon").texture = base.get_node("Icon").get_resource(name_)
 		base.get_node("CardFrame/Frame").texture = base.get_node("Frame").get_resource(stat.cards[name_]["Rarity"])
 		base.get_node("CardFrame/Control/Energy/Label").text = "%d" % (stat.cards[name_]["Cost"] / 1000)

@@ -1,6 +1,5 @@
 extends "res://lobby/page/page.gd"
 
-const PAGE_SIZE_X = 1440
 const SCROLL_DECISION_PIXEL = 50
 
 var prev_position
