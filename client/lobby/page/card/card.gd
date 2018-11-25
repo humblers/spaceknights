@@ -1,9 +1,5 @@
 extends "res://lobby/page/page.gd"
 
-const DECK_COUNT = 5
-const KNIGHT_SIDES = ["center", "left", "right"]
-const SQUIRE_COUNT = 6
-
 export(NodePath) onready var bottom_left = get_node(bottom_left)
 
 export(NodePath) onready var pressed = get_node(pressed)
@@ -46,13 +42,13 @@ func _ready():
 	bottom_left.connect("item_rect_changed", self, "calc_scroll_threshold")
 	filter_knight.connect("button_up", self, "change_filter", ["Knight"])
 	filter_squire.connect("button_up", self, "change_filter", ["Troop"])
-	for i in range(DECK_COUNT):
+	for i in range(user.DECK_COUNT):
 		var btn = get("deck_btn_%d" % i)
 		btn.connect("button_up", self, "button_up_deck_num", [btn])
-	for k in KNIGHT_SIDES:
+	for k in user.KNIGHT_SIDES:
 		var btn = get("knight_%s" % k)
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
-	for i in range(SQUIRE_COUNT):
+	for i in range(user.SQUIRE_COUNT):
 		var btn = get("troops_%d" % i)
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
 	tutor_mode.connect("button_up", self, "go_to_tutor_mode")
@@ -71,13 +67,13 @@ func invalidate():
 	var not_found_cards = stat.cards.keys()
 	var found_cards = user.Cards.keys()
 	var deck = user.Decks[selected]
-	for i in range(KNIGHT_SIDES.size()):
+	for i in range(user.KNIGHT_SIDES.size()):
 		var name = deck.Knights[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
-		var btn = get("knight_%s" % KNIGHT_SIDES[i])
+		var btn = get("knight_%s" % user.KNIGHT_SIDES[i])
 		btn.invalidate(name, self, cur_mode == MODE_EDIT_TROOP)
-	for i in range(SQUIRE_COUNT):
+	for i in range(user.SQUIRE_COUNT):
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
@@ -132,10 +128,10 @@ func button_up_deck_item(btn):
 		"num": user.DeckSelected,
 		"deck" : {"Knights": [], "Troops": []},
 	}
-	for side in KNIGHT_SIDES:
+	for side in user.KNIGHT_SIDES:
 		var knight_btn = get("knight_%s" % side)
 		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
-	for i in range(SQUIRE_COUNT):
+	for i in range(user.SQUIRE_COUNT):
 		var troop_btn = get("troops_%d" % i)
 		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
 	var request = http.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
@@ -179,12 +175,12 @@ func go_to_tutor_mode():
 			continue
 		var k = player.Knights
 		k.clear()
-		for side in KNIGHT_SIDES:
+		for side in user.KNIGHT_SIDES:
 			var knight_btn = get("knight_%s" % side)
 			k.append({"Name":knight_btn.name_, "Level":0})
 		var d = player.Deck
 		d.clear()
-		for i in range(SQUIRE_COUNT):
+		for i in range(user.SQUIRE_COUNT):
 			var troop_btn = get("troop_%d" % i)
 			d.append({"Name":troop_btn.name_, "Level":0})
 	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
