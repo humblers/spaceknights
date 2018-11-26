@@ -1,8 +1,10 @@
 extends Node
 
-const REQUEST = preload("res://lobby/script/request.gd")
 const CONNECTION_TIMEOUT = 5000
 const CONNECTION_POLLING_DELAY = 500
+
+export(NodePath) onready var lobby = get_node(lobby)
+export(NodePath) onready var script_resources = get_node(script_resources)
 
 # HTTPClient
 # http://docs.godotengine.org/en/3.0/tutorials/networking/http_client_class.html
@@ -12,7 +14,7 @@ var cookie_str # storing cookie in memory(temporary)
 var response_body = PoolByteArray()
 var req_queue = []
 
-var modal_dialog
+var error_dialog
 
 func _process(delta):
 	# Keep polling until the request is going on
@@ -67,8 +69,8 @@ func handle_request():
 
 # simply all error back to login process
 func handle_error(message):
-	modal_dialog.pop(message)
-	yield(modal_dialog, "popup_hide")
+	error_dialog.pop(message)
+	yield(error_dialog, "popup_hide")
 	loading_screen.goto_scene("res://lobby/lobby.tscn")
 	return
 
@@ -89,6 +91,7 @@ func connect_to_host(host, port):
 	return OK
 
 func new_request(method, path, params={}, use_cookie=true):
-	var req = REQUEST.new(method, path, to_json(params), use_cookie)
+	var req = script_resources.get_resource("request")
+	req = req.new(method, path, to_json(params), use_cookie)
 	req_queue.push_back(req)
 	return req

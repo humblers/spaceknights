@@ -143,6 +143,8 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 1760.42 ]
 }
+lobby = null
+center_top = NodePath("CenterTop")
 scrollable = NodePath("PageMain/MarginContainer")
 bottom_left = NodePath("PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/BottomLeft")
 pressed = NodePath("PageMain/MarginContainer/Control/Pressed")
@@ -154,9 +156,11 @@ deck_btn_1 = NodePath("PageMain/Decks/HBoxContainer/Deck1")
 deck_btn_2 = NodePath("PageMain/Decks/HBoxContainer/Deck2")
 deck_btn_3 = NodePath("PageMain/Decks/HBoxContainer/Deck3")
 deck_btn_4 = NodePath("PageMain/Decks/HBoxContainer/Deck4")
+knights_control = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck")
 knight_left = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Left/Item")
 knight_center = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Center/Item")
 knight_right = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Right/Item")
+squires_control = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck")
 troops_0 = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer/Item")
 troops_1 = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2/Item")
 troops_2 = NodePath("PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2/Item2")
@@ -182,7 +186,6 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 
 [node name="PageMain" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
@@ -269,7 +272,6 @@ expand = true
 stretch_mode = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -992,6 +994,7 @@ margin_top = 177.0
 margin_bottom = 507.0
 
 [node name="Tab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1211,6 +1214,7 @@ texture = ExtResource( 19 )
 stretch_mode = 0
 
 [node name="BottomContainers" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1353,7 +1357,6 @@ custom_constants/separation = 20
 alignment = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1369,7 +1372,6 @@ size_flags_vertical = 1
 use_top_left = false
 
 [node name="Founds" type="GridContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1537,10 +1539,30 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 
 [node name="Pressed" parent="PageMain/MarginContainer/Control" instance=ExtResource( 21 )]
+editor/display_folded = true
 margin_left = 915.0
 margin_top = 78.0
 margin_right = 1227.0
 margin_bottom = 542.0
+
+[node name="CardFrame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase" index="0"]
+margin_right = 280.0
+
+[node name="Icon" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="0"]
+margin_left = 28.0
+margin_right = 252.0
+
+[node name="Frame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="1"]
+margin_left = 15.0
+margin_right = 265.0
+
+[node name="Control" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="2"]
+margin_left = 15.0
+margin_right = 265.0
+
+[node name="Energy" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame/Control" index="0"]
+frame = 3
+playing = true
 
 [node name="Decks" type="TextureRect" parent="PageMain"]
 editor/display_folded = true
@@ -1915,3 +1937,7 @@ playback_speed = 1.0
 anims/infopopup = SubResource( 11 )
 blend_times = [  ]
 
+
+[editable path="PageMain/MarginContainer/Control/Pressed"]
+
+[editable path="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase"]
