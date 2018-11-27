@@ -10,7 +10,7 @@ const maxEnergy = 10000
 const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
-const rollingIntervalStep = 30
+const drawInterval = 30
 const knightLeaderIndex = 0
 
 var knightInitialPositionX = []int{500, 200, 800}
@@ -33,14 +33,14 @@ type Player interface {
 }
 
 type player struct {
-	team           Team
-	energy         int
-	hand           []Card
-	pending        []Card
-	emptyIdx       []int
-	rollingCounter int
-	knightIds      []int
-	score          int
+	team        Team
+	energy      int
+	hand        []Card
+	pending     []Card
+	emptyIdx    []int
+	drawCounter int
+	knightIds   []int
+	score       int
 
 	statRatios map[string][]int
 
@@ -106,7 +106,7 @@ func (p *player) Update() {
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
-	p.rollingCard()
+	p.drawCard()
 }
 
 func (p *player) Do(a *Action) error {
@@ -125,11 +125,6 @@ func (p *player) Do(a *Action) error {
 			index = i
 			a.Card.Level = c.Level // to protect level cheat
 			break
-		}
-	}
-	if index < 0 {
-		if p.findKnight(a.Card.Name) == nil {
-			return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
 		}
 	}
 
@@ -200,9 +195,9 @@ func (p *player) useCard(c Card, tileX, tileY int) error {
 	return nil
 }
 
-func (p *player) rollingCard() {
-	if p.rollingCounter > 0 {
-		p.rollingCounter--
+func (p *player) drawCard() {
+	if p.drawCounter > 0 {
+		p.drawCounter--
 		return
 	}
 	if len(p.emptyIdx) == 0 {
@@ -213,7 +208,7 @@ func (p *player) rollingCard() {
 	next, p.pending = p.pending[0], p.pending[1:]
 	idx, p.emptyIdx = p.emptyIdx[0], p.emptyIdx[1:]
 	p.hand[idx] = next
-	p.rollingCounter = rollingIntervalStep
+	p.drawCounter = drawInterval
 }
 
 func (p *player) OnKnightDead(u Unit) {

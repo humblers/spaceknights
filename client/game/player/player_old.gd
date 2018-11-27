@@ -1,39 +1,53 @@
 extends Node
 
-class_name Player
-
 const MAX_ENERGY = 10000
 const START_ENERGY = 7000
 const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
-const DRAW_INTERVAL = 30
+const ROLLING_INTERVAL_STEP = 30
 const KNIGHT_LEADER_INDEX = 0
 const KNIGHT_INITIAL_POSX = [500, 200, 800]
 const KNIGHT_INITIAL_POSY = [1450, 1350, 1350]
 const INPUT_DELAY_STEP = 10
 
+var id
 var team
+var color
 var energy = 0
 var hand = []
 var pending = []
 var emptyIdx = []
-var drawCounter = 0
+var rollingCounter = 0
 var knightIds = []
 var score = 0
 var statRatios = {}
 var game
+var no_deck = false
+
+onready var tile = get_node("../../CameraFollowingUI/Tile")
 
 func Init(playerData, game):
+	id = playerData.Id
 	team = playerData.Team
+	color = team
+	if game.team_swapped:
+		color = "Blue" if team == "Red" else "Red"
 	energy = START_ENERGY
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
+	if playerData.has("Deck"):
+		for i in len(playerData.Deck):
+			var card = playerData.Deck[i]
+			if i < HAND_SIZE:
+				hand.append(card)
+			else:
+				pending.append(card)
+	else:
+		no_deck = true
 	self.game = game
-	for i in len(playerData.Deck):
-		var card = playerData.Deck[i]
-		if i < HAND_SIZE:
-			hand.append(card)
-		else:
-			pending.append(card)
+
+	# client only
+	if color == "Blue":
+		get_node("../../CameraFollowingUI/Energy").max_value = MAX_ENERGY
 
 func Score():
 	return score
@@ -62,13 +76,26 @@ func AddKnights(knights):
 		var knight = game.AddUnit(k.Name, k.Level, x, y, self)
 		if i == KNIGHT_LEADER_INDEX:
 			knight.SetAsLeader()
+			knight.side = "Center"
+		elif i == 1:
+			knight.side = "Left"
+		else:
+			knight.side = "Right"
 		knightIds.append(knight.Id())
+
+		# client_only
+		if not get_node("../../Motherships/%s" % team).show_anim_finished:
+			knight.visible = false
 
 func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
-	drawCard()
+	rollingCard()
+	
+	# client only
+	if color == "Blue":
+		get_node("../../CameraFollowingUI/Energy").value = energy
 
 func Do(action):
 	if action.Card.Name == "":
@@ -77,32 +104,43 @@ func Do(action):
 		else:
 			# TODO: display opponents message
 			return null
-
-	# find card in hand
-	var index = -1
-	for i in len(hand):
-		var card = hand[i]
-		if card.Name == action.Card.Name:
-			index = i
-			break
-
-	# check energy
-	var cost = stat.cards[action.Card.Name]["Cost"]
-	if energy < cost:
-		return "not enough energy: %s" % action.Card.Name
-
-	var err = useCard(action.Card, action.TileX, action.TileY)
-	if err != null:
-		return err
 	
-	# decrement energy
-	energy -= cost
-	
-	# put empty card
-	if index >= 0:
-		hand[index] = {"Name":"", "Level":0}
-		pending.append(action.Card)
-		emptyIdx.append(index)
+	# convert position to int
+	action.TileX = int(action.TileX)
+	action.TileY = int(action.TileY)
+	if no_deck:
+		var err = useCard(action.Card, action.TileX, action.TileY)
+		if err != null:
+			return err
+	else:
+		# find card in hand
+		var index = -1
+		for i in len(hand):
+			var card = hand[i]
+			if card.Name == action.Card.Name:
+				index = i
+				break
+		if index < 0:
+			if findKnight(action.Card.Name) == null:
+				return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
+
+		# check energy
+		var cost = stat.cards[action.Card.Name]["Cost"]
+		if energy < cost:
+			return "not enough energy: %s" % action.Card.Name
+
+		var err = useCard(action.Card, action.TileX, action.TileY)
+		if err != null:
+			return err
+		
+		# decrement energy
+		energy -= cost
+		
+		# put empty card
+		if index >= 0:
+			hand[index] = {"Name":"", "Level":0}
+			pending.append(action.Card)
+			emptyIdx.append(index)
 	return null
 
 func findKnight(name):
@@ -118,7 +156,6 @@ func useCard(c, tileX, tileY):
 		return pos[2]
 	var posX = pos[0]
 	var posY = pos[1]
-	
 	var d = stat.cards[c.Name]
 	var name = d.Unit
 	var u = stat.units[name]
@@ -135,20 +172,24 @@ func useCard(c, tileX, tileY):
 		if not k.CastSkill(posX, posY):
 			return "%s cannot cast skill now" % k.Name()
 	else:
+		if color == "Blue":
+			var sound = $UnitReadySound/ResourcePreloader.get_resource(c.Name)
+			$UnitReadySound/AudioStreamPlayer.stream = sound
+			$UnitReadySound/AudioStreamPlayer.play()
 		for i in range(d.Count):
 			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
 	return null
 
-func drawCard():
-	if drawCounter > 0:
-		drawCounter -= 1
+func rollingCard():
+	if rollingCounter > 0:
+		rollingCounter -= 1
 		return
 	if len(emptyIdx) == 0:
 		return
 	var next = pending.pop_front()
 	var idx = emptyIdx.pop_front()
 	hand[idx] = next
-	drawCounter = DRAW_INTERVAL
+	rollingCounter = ROLLING_INTERVAL_STEP
 
 func OnKnightDead(knight):
 	var isLeader = false
@@ -164,8 +205,23 @@ func OnKnightDead(knight):
 		score -= game.LEADER_SCORE
 	else:
 		score -= game.WING_SCORE
+	
+	# client only
+	get_node("../../Motherships/%s" % color).destroy(knight.side)
+	expand_spawnable_area(knight)
+
+func expand_spawnable_area(knight):
+	if knight.side == "Center":
+		return
+	var s = knight.side
+	tile.OnKnightDead(color, s)
+
+func OnKnightHalfDamaged(knight):
+	get_node("../../Motherships/%s" % color).partial_destroy(knight.side)
 
 func removeCard(name):
+	if no_deck:
+		return
 	for i in range(len(hand)):
 		var c = hand[i]
 		if c.Name == name:
