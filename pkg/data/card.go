@@ -187,6 +187,14 @@ var Cards = map[string]Card{
 		OffsetY: []int{0},
 		Rarity:  Rare,
 	},
+	"micromissile": Card{
+		Cost:    1000,
+		Unit:    "micromissile",
+		Count:   12,
+		OffsetX: []int{20, 60, -20, -60, 20, 60, -20, -60, 20, 60, -20, -60},
+		OffsetY: []int{-40, -40, -40, -40, 0, 0, 0, 0, 40, 40, 40, 40},
+		Rarity:  Common,
+	},
 	"nagmash": Card{
 		Cost:    4000,
 		Unit:    "nagmash",

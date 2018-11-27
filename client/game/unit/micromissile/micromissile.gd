@@ -5,7 +5,7 @@ var attack = 0
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "micromissile", player.Team(), level, posX, posY, game)
-
+	
 func Update():
 	.Update()
 	if freeze > 0:
@@ -52,17 +52,25 @@ func findTargetAndDoAction():
 		$AnimationPlayer.play("idle")
 
 func handleAttack():
-	if attack == 0:
-		$AnimationPlayer.play("attack")
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
-	if attack == preAttackDelay():
-		if t != null and withinRange(t):
-			t.TakeDamage(attackDamage(), self)
-		else:
-			attack = 0
-			return
-	attack += 1
-	if attack > attackInterval():
-		attack = 0
+	for id in game.UnitIds():
+		var u = game.FindUnit(id)
+		if u.Team() == Team():
+			continue
+		var x = scalar.Sub(PositionX(), u.PositionX())
+		var y = scalar.Sub(PositionY(), u.PositionY())
+		var d = vector.LengthSquared(x, y)
+		var r = scalar.Add(scalar.Add(Radius(), u.Radius()), destroyRadius())
+		if d < scalar.Mul(r, r):
+			u.TakeDamage(destroyDamage(), self)
+	hp = 0
+	
+
+func destroyDamage():
+	return stat.units[name_]["destroydamage"][level]
+
+func destroyRadius():
+	var r = stat.units[name_]["destroyradius"]
+	return game.World().FromPixel(r)
