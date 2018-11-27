@@ -133,7 +133,7 @@ func Do(action):
 		if err != null:
 			return err
 		
-		# decement energy
+		# decrement energy
 		energy -= cost
 		
 		# put empty card

@@ -1,4 +1,4 @@
-extends "res://game/player/player.gd"
+extends "res://game/player/player_old.gd"
 
 onready var opposite_player = get_node("../Blue")
 onready var resources = get_node("../../Resource")
