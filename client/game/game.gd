@@ -7,7 +7,6 @@ const PLAY_TIME = 180000		# milliseconds
 const OVER_TIME = 180000
 const STEP_INTERVAL = 100	# milliseconds
 const STEP_PER_SEC = 10
-const KNIGHT_INITIAL_STEP = STEP_PER_SEC * 5
 const LEADER_SCORE = 3
 const WING_SCORE = 1
 
@@ -212,9 +211,6 @@ func _physics_process(delta):
 	frame += 1
 
 func Update(state):
-	if step == KNIGHT_INITIAL_STEP:
-		for player in cfg.Players:
-			players[player.Id].AddKnights(player.Knights)
 	if state.Actions != null:
 		for action in state.Actions:
 			players[action.Id].Do(action)

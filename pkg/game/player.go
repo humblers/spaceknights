@@ -25,7 +25,6 @@ type Player interface {
 	StatRatios(name string) []int
 	AddStatRatio(name string, ratio int)
 
-	AddKnights(knights []KnightData)
 	Do(a *Action) error
 	OnKnightDead(u Unit)
 	Update()
@@ -59,6 +58,7 @@ func newPlayer(pd PlayerData, g Game) Player {
 	}
 	p.hand = append(p.hand, pd.Deck[:handSize]...)
 	p.pending = append(p.pending, pd.Deck[handSize:]...)
+	p.addKnights(pd.Knights)
 	return p
 }
 
@@ -85,7 +85,7 @@ func (p *player) AddStatRatio(name string, ratio int) {
 	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
-func (p *player) AddKnights(knights []KnightData) {
+func (p *player) addKnights(knights []KnightData) {
 	for i, k := range knights {
 		x := knightInitialPositionX[i]
 		y := knightInitialPositionY[i]

@@ -17,8 +17,8 @@ func Init(playerData, game):
 	if energy_ui:
 		energy_ui.max_value = MAX_ENERGY
 
-func AddKnights(knights):
-	.AddKnights(knights)
+func addKnights(knights):
+	.addKnights(knights)
 	for i in len(knightIds):
 		var id = knightIds[i]
 		var knight = game.FindUnit(id)
@@ -28,8 +28,9 @@ func AddKnights(knights):
 			knight.side = stat.Left
 		else:
 			knight.side = stat.Right
-		if not mothership.show_anim_finished:
-			knight.visible = false
+			
+		# make invisible to play show animation
+		knight.visible = false
 
 func Update():
 	.Update()

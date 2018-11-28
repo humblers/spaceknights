@@ -1,5 +1,8 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+import "github.com/humblers/spaceknights/pkg/fixed"
+
 type micromissile struct {
 	*unit
 	targetId int
@@ -61,7 +64,6 @@ func (m *micromissile) findTargetAndDoAction() {
 }
 
 func (m *micromissile) handleAttack() {
-	t := m.target()
 	for _, id := range m.game.UnitIds() {
 		u := m.game.FindUnit(id)
 		if u.Team() == m.Team() {

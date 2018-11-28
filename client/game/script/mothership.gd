@@ -2,7 +2,6 @@ extends Node2D
 
 var game
 var player
-var show_anim_finished = false
 
 func init(game, player, knights):
 	self.game = game
@@ -18,7 +17,6 @@ func init(game, player, knights):
 		node.get_node("AnimationPlayer").play("show")
 	$Ship.play("show")
 	yield($Ship, "animation_finished")
-	show_anim_finished = true
 	remove_dummy_and_show_knights()
 	if player.color == "Blue":
 		$AnimLeft.play("deck_on")
