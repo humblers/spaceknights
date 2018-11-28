@@ -20,7 +20,7 @@ const DOT_DAMAGE_SKILL_VALUE_MIN = 3
 static func value_of_dot_damage_skill(unit, skill, level):
 	if unit.Type() == stat.Knight:
 		return 0.5
-	elif unit.Type() == stat.Building
+	elif unit.Type() == stat.Building:
 		return 0.5
 	var shield = unit.get("shield")
 	if shield == null:
