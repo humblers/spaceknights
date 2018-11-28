@@ -1,19 +1,27 @@
 extends BaseButton
 
+export(NodePath) onready var page_card = get_node(page_card)
+export(NodePath) onready var container = get_node(container)
+export(NodePath) onready var base = get_node(base)
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var frame = get_node(frame)
+export(NodePath) onready var cost = get_node(cost)
+export(NodePath) onready var use = get_node(use)
+
 var name_
 
-onready var base = $MarginContainer/MarginContainer/VBoxContainer/ItemBase
-onready var use = $MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use
+func _ready():
+	self.connect("button_up", page_card, "set_pressed_card", [self])
+	use.connect("button_up", page_card, "set_picked_card", [self])
 
-func invalidate(name, page_card):
+func invalidate(name):
 	self.name_ = name
-	if not self.is_connected("button_up", page_card, "set_pressed_card"):
-		self.connect("button_up", page_card, "set_pressed_card", [self])
-	if not use.is_connected("button_up", page_card, "set_picked_card"):
-		use.connect("button_up", page_card, "set_picked_card", [self])
-	if name != null:
-		$MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use.visible = not user.CardInDeck(name)
-		$MarginContainer.rect_size.y = 0 # force downsizing
-		base.get_node("CardFrame/Icon").texture = base.get_node("Icon").get_resource(name_)
-		base.get_node("CardFrame/Frame").texture = base.get_node("Frame").get_resource(stat.cards[name_]["Rarity"])
-		base.get_node("CardFrame/Control/Energy/Label").text = "%d" % (stat.cards[name_]["Cost"] / 1000)
+	self.visible = name != null
+	if name == null:
+		return
+	use.visible = not user.CardInDeck(name)
+	container.rect_size.y = 0 # force downsizing
+	icon.texture = page_card.lobby.resource_manager.get_card_icon(name_)
+	var data = stat.cards[name_]
+	frame.texture = page_card.lobby.resource_manager.get_card_frame(data.Type, data.Rarity)
+	cost.text = "%d" % (data.Cost / 1000)

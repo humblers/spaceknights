@@ -9,12 +9,15 @@ export(NodePath) onready var knight_right = get_node(knight_right)
 
 export(NodePath) onready var match_btn = get_node(match_btn)
 
+export(NodePath) onready var pid = get_node(pid)
+export(NodePath) onready var star = get_node(star)
+
 func _ready():
 	match_btn.connect("button_up", self, "match_request")
 
 func invalidate():
-	$Profile/EmblemFrame/VBoxContainer/PID.text = user.PlatformId
-	$Profile/RankFrame/Star.text = "%d" % user.Solo.Star
+	pid.text = user.PlatformId
+	star.text = "%d" % user.Solo.Star
 	var knights = user.Decks[user.DeckSelected].Knights
 	for i in len(user.KNIGHT_SIDES):
 		var knight = knights[i]

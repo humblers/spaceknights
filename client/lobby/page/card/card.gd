@@ -36,6 +36,8 @@ export(NodePath) onready var container_lists = get_node(container_lists)
 export(NodePath) onready var container_founds = get_node(container_founds)
 export(NodePath) onready var container_notfounds = get_node(container_notfounds)
 
+export(NodePath) onready var resource_preloader = get_node(resource_preloader)
+
 var pressed_card
 var picked_card
 
@@ -76,13 +78,13 @@ func invalidate():
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("knight_%s" % user.KNIGHT_SIDES[i])
-		btn.invalidate(name, self, cur_mode == MODE_EDIT_SQUIRE)
+		btn.invalidate(name, cur_mode == MODE_EDIT_SQUIRE)
 	for i in range(user.SQUIRE_COUNT):
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("squire_%d" % i)
-		btn.invalidate(name, self, cur_mode == MODE_EDIT_KNIGHT)
+		btn.invalidate(name, cur_mode == MODE_EDIT_KNIGHT)
 	for child in container_founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
@@ -90,20 +92,22 @@ func invalidate():
 		not_found_cards.erase(name)
 		if filter != stat.cards[name].Type:
 			continue
-		var item = $ResourcePreloader.get_resource("item").instance()
+		var item = resource_preloader.get_resource("item").instance()
+		item.page_card = get_path()
 		container_founds.add_child(item)
-		item.invalidate(name, self)
+		item.invalidate(name)
 	for child in container_notfounds.get_children():
 		child.queue_free()
 	for i in range(not_found_cards.size()):
 		var name = not_found_cards[i]
 		if filter != stat.cards[name].Type:
 			continue
-		var item = $ResourcePreloader.get_resource("item").instance()
+		var item = resource_preloader.get_resource("item").instance()
+		item.page_card = get_path()
 		container_notfounds.add_child(item)
-		item.invalidate(name, self)
-	pressed.invalidate(pressed_card, self)
-	picked.invalidate(picked_card, self)
+		item.invalidate(name)
+	pressed.invalidate(pressed_card)
+	picked.invalidate(picked_card)
 
 	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]
 	if is_edit:

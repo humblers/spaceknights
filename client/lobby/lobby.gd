@@ -6,6 +6,7 @@ const PAGES = ["Battle", "Card", "Explore", "Shop", "Social"]
 export(NodePath) onready var hud = get_node(hud)
 export(NodePath) onready var input_manager = get_node(input_manager)
 export(NodePath) onready var http_manager = get_node(http_manager)
+export(NodePath) onready var resource_manager = get_node(resource_manager)
 export(NodePath) onready var page_battle = get_node(page_battle)
 export(NodePath) onready var page_card = get_node(page_card)
 export(NodePath) onready var page_explore = get_node(page_explore)

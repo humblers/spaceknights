@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -20,10 +20,18 @@
 [ext_resource path="res://lobby/page/card/practice_icon.png" type="Texture" id=18]
 [ext_resource path="res://lobby/page/card/sort_icon.png" type="Texture" id=19]
 [ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=20]
-[ext_resource path="res://lobby/page/card/item_pressed.tscn" type="PackedScene" id=21]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=22]
-[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=23]
-[ext_resource path="res://lobby/page/card/info.tscn" type="PackedScene" id=24]
+[ext_resource path="res://lobby/page/card/item_pressed.gd" type="Script" id=21]
+[ext_resource path="res://lobby/page/card/card_btn_expention_w.png" type="Texture" id=22]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=23]
+[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=24]
+[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=25]
+[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=26]
+[ext_resource path="res://lobby/page/card/upgrade_button.png" type="Texture" id=27]
+[ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=28]
+[ext_resource path="res://lobby/page/card/upgrade_button_hover.png" type="Texture" id=29]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=30]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=31]
+[ext_resource path="res://lobby/page/card/info.tscn" type="PackedScene" id=32]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -90,18 +98,27 @@ font_data = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=8]
 
+size = 30
+outline_size = 3
+outline_color = Color( 0.270588, 0.270588, 0.270588, 1 )
+use_mipmaps = false
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=9]
+
 size = 42
 outline_size = 3
 outline_color = Color( 0.305882, 0.305882, 0.305882, 1 )
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 22 )
+font_data = ExtResource( 30 )
 
-[sub_resource type="ButtonGroup" id=9]
+[sub_resource type="ButtonGroup" id=10]
 
 resource_local_to_scene = true
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=11]
 
 size = 42
 outline_size = 0
@@ -110,7 +127,7 @@ use_mipmaps = false
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 
 length = 20.0
 loop = true
@@ -172,6 +189,7 @@ filter_squire = NodePath("PageMain/MarginContainer/VBoxContainer/Tab/SquireBT")
 container_lists = NodePath("PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists")
 container_founds = NodePath("PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds")
 container_notfounds = NodePath("PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds")
+resource_preloader = NodePath("ResourcePreloader")
 
 [node name="CenterTop" type="Control" parent="."]
 anchor_left = 0.5
@@ -307,7 +325,6 @@ custom_constants/separation = 15
 alignment = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -541,9 +558,9 @@ max_lines_visible = -1
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Left" instance=ExtResource( 9 )]
 margin_top = 34.0
 margin_bottom = 364.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="Center" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -584,9 +601,9 @@ max_lines_visible = -1
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Center" instance=ExtResource( 9 )]
 margin_top = 34.0
 margin_bottom = 364.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="Right" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -627,9 +644,9 @@ max_lines_visible = -1
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Right" instance=ExtResource( 9 )]
 margin_top = 34.0
 margin_bottom = 364.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="SquiresDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -884,6 +901,7 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="Troops" type="HBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck"]
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -921,9 +939,9 @@ alignment = 1
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer" instance=ExtResource( 9 )]
 margin_top = 177.0
 margin_bottom = 507.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -942,13 +960,14 @@ alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2" instance=ExtResource( 9 )]
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2" instance=ExtResource( 9 )]
 margin_top = 355.0
 margin_bottom = 685.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -967,10 +986,12 @@ alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer3" instance=ExtResource( 9 )]
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer3" instance=ExtResource( 9 )]
 margin_top = 355.0
 margin_bottom = 685.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
 anchor_left = 0.0
@@ -992,6 +1013,7 @@ alignment = 1
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer4" instance=ExtResource( 9 )]
 margin_top = 177.0
 margin_bottom = 507.0
+page_card = NodePath("../../../../../../../../..")
 
 [node name="Tab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer"]
 editor/display_folded = true
@@ -1214,7 +1236,6 @@ texture = ExtResource( 19 )
 stretch_mode = 0
 
 [node name="BottomContainers" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1231,7 +1252,6 @@ size_flags_vertical = 1
 custom_constants/margin_top = 10
 
 [node name="MarginCard" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1275,7 +1295,6 @@ patch_margin_right = 41
 patch_margin_bottom = 40
 
 [node name="CenterContainer" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1293,7 +1312,6 @@ size_flags_vertical = 1
 use_top_left = false
 
 [node name="Control" type="Control" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1314,6 +1332,7 @@ margin_left = -125.0
 margin_top = -173.0
 margin_right = 125.0
 margin_bottom = 157.0
+page_card = NodePath("../../../../../../..")
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Control"]
 anchor_left = 0.0
@@ -1391,25 +1410,37 @@ columns = 4
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
+[node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
 margin_left = 262.0
 margin_right = 512.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
+[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
 margin_left = 524.0
 margin_right = 774.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
+[node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
 margin_left = 786.0
 margin_right = 1036.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
+[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
 margin_top = 355.0
 margin_bottom = 685.0
+page_card = NodePath("../../../../../../../..")
+
+[node name="Item6" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 9 )]
+margin_left = 262.0
+margin_top = 355.0
+margin_right = 512.0
+margin_bottom = 685.0
+page_card = NodePath("../../../../../../../..")
 
 [node name="SeperateBar" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
 anchor_left = 0.0
@@ -1452,7 +1483,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -1488,25 +1518,37 @@ columns = 4
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
+[node name="Item6" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
 margin_left = 262.0
 margin_right = 512.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
+[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
 margin_left = 524.0
 margin_right = 774.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
+[node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
 margin_left = 786.0
 margin_right = 1036.0
 margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
 
-[node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
+[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
 margin_top = 355.0
 margin_bottom = 685.0
+page_card = NodePath("../../../../../../../..")
+
+[node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 9 )]
+margin_left = 262.0
+margin_top = 355.0
+margin_right = 512.0
+margin_bottom = 685.0
+page_card = NodePath("../../../../../../../..")
 
 [node name="BottomLeft" type="Control" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
 anchor_left = 0.0
@@ -1538,31 +1580,276 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Pressed" parent="PageMain/MarginContainer/Control" instance=ExtResource( 21 )]
-editor/display_folded = true
+[node name="Pressed" type="Button" parent="PageMain/MarginContainer/Control"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 915.0
 margin_top = 78.0
 margin_right = 1227.0
 margin_bottom = 542.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame/Icon")
+flat = true
+align = 1
+script = ExtResource( 21 )
+page_card = NodePath("../../../..")
+container = NodePath("MarginContainer")
+base = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base")
+icon = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame/Icon")
+frame = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame/Frame")
+cost = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame/Control/Energy/Label")
+use = NodePath("MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use")
 
-[node name="CardFrame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/Control/Pressed"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_right = 290.0
+margin_bottom = 462.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Panel" type="NinePatchRect" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer"]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 310.0
+margin_bottom = 478.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 22 )
+region_rect = Rect2( -0.5, 0.0750008, 240.5, 239.925 )
+patch_margin_left = 30
+patch_margin_top = 31
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="Panel2" type="NinePatchRect" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 310.0
+margin_bottom = 478.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 22 )
+region_rect = Rect2( -0.5, 0.0750008, 240.5, 239.925 )
+patch_margin_left = 30
+patch_margin_top = 60
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 310.0
+margin_bottom = 478.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/margin_right = 15
+custom_constants/margin_top = 20
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 15.0
+margin_top = 20.0
+margin_right = 295.0
+margin_bottom = 448.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Base" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer" instance=ExtResource( 23 )]
+editor/display_folded = true
+margin_top = 0.0
+margin_right = 280.0
+margin_bottom = 300.0
+
+[node name="CardFrame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/Base" index="0"]
 margin_right = 280.0
 
-[node name="Icon" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="0"]
+[node name="Icon" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame" index="0"]
 margin_left = 28.0
 margin_right = 252.0
 
-[node name="Frame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="1"]
+[node name="Frame" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame" index="1"]
 margin_left = 15.0
 margin_right = 265.0
 
-[node name="Control" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame" index="2"]
+[node name="Control" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/Base/CardFrame" index="2"]
 margin_left = 15.0
 margin_right = 265.0
 
-[node name="Energy" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase/CardFrame/Control" index="0"]
-frame = 9
-playing = true
+[node name="CenterContainer" type="CenterContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 304.0
+margin_right = 280.0
+margin_bottom = 364.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+
+[node name="Info" type="TextureButton" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 25.0
+margin_right = 255.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 25 )
+texture_hover = ExtResource( 26 )
+
+[node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Info"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -44.0
+margin_top = -24.0
+margin_right = 45.0
+margin_bottom = 21.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 8 )
+text = "INFO"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 368.0
+margin_right = 280.0
+margin_bottom = 428.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+
+[node name="Use" type="TextureButton" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer2"]
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 25.0
+margin_right = 255.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 27 )
+texture_pressed = ExtResource( 28 )
+texture_hover = ExtResource( 29 )
+
+[node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -43.0
+margin_top = -24.0
+margin_right = 37.0
+margin_bottom = 21.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 8 )
+text = "USE"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Decks" type="TextureRect" parent="PageMain"]
 editor/display_folded = true
@@ -1602,7 +1889,6 @@ texture = ExtResource( 14 )
 stretch_mode = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PageMain/Decks"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1637,7 +1923,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "Battle"
 valign = 2
 percent_visible = 1.0
@@ -1660,7 +1946,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "X"
 align = 1
 valign = 2
@@ -1684,7 +1970,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "Slot"
 valign = 2
 percent_visible = 1.0
@@ -1709,8 +1995,8 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 0
 shortcut = null
-group = SubResource( 9 )
-texture_normal = ExtResource( 23 )
+group = SubResource( 10 )
+texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 17 )
 
@@ -1729,7 +2015,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "1"
 align = 1
 valign = 1
@@ -1756,8 +2042,8 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 0
 shortcut = null
-group = SubResource( 9 )
-texture_normal = ExtResource( 23 )
+group = SubResource( 10 )
+texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 17 )
 
@@ -1776,7 +2062,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "2"
 align = 1
 valign = 1
@@ -1802,8 +2088,8 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 0
 shortcut = null
-group = SubResource( 9 )
-texture_normal = ExtResource( 23 )
+group = SubResource( 10 )
+texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 17 )
 
@@ -1822,7 +2108,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "3"
 align = 1
 valign = 1
@@ -1848,8 +2134,8 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 0
 shortcut = null
-group = SubResource( 9 )
-texture_normal = ExtResource( 23 )
+group = SubResource( 10 )
+texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 17 )
 
@@ -1868,7 +2154,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "4"
 align = 1
 valign = 1
@@ -1894,8 +2180,8 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 0
 shortcut = null
-group = SubResource( 9 )
-texture_normal = ExtResource( 23 )
+group = SubResource( 10 )
+texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 17 )
 
@@ -1914,7 +2200,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "5"
 align = 1
 valign = 1
@@ -1925,7 +2211,7 @@ max_lines_visible = -1
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "item" ), [ ExtResource( 9 ) ] ]
 
-[node name="Info" parent="." instance=ExtResource( 24 )]
+[node name="Info" parent="." instance=ExtResource( 32 )]
 visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1934,10 +2220,8 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/infopopup = SubResource( 11 )
+anims/infopopup = SubResource( 12 )
 blend_times = [  ]
 
 
-[editable path="PageMain/MarginContainer/Control/Pressed"]
-
-[editable path="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/ItemBase"]
+[editable path="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/Base"]
