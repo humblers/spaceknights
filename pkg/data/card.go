@@ -208,6 +208,7 @@ var Cards = map[string]Card{
 		Rarity: Rare,
 	},
 	"micromissile": Card{
+		Type:    SquireCard,
 		Cost:    1000,
 		Unit:    "micromissile",
 		Count:   12,
