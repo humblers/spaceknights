@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
-[ext_resource path="res://lobby/page/scroll.gd" type="Script" id=2]
-[ext_resource path="res://lobby/page/shop/shop.tscn" type="PackedScene" id=3]
-[ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=4]
-[ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=5]
-[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=6]
-[ext_resource path="res://lobby/page/page.gd" type="Script" id=7]
+[ext_resource path="res://lobby/script/http.gd" type="Script" id=2]
+[ext_resource path="res://lobby/script/input.gd" type="Script" id=3]
+[ext_resource path="res://lobby/page/shop/shop.tscn" type="PackedScene" id=4]
+[ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=5]
+[ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=7]
 [ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=8]
-[ext_resource path="res://lobby/headup/headup.tscn" type="PackedScene" id=9]
+[ext_resource path="res://lobby/hud/hud.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=10]
+[ext_resource path="res://lobby/script/request.gd" type="Script" id=11]
 
 [node name="lobby" type="Control"]
 anchor_left = 0.0
@@ -27,22 +28,43 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 95.996 ]
 }
 hud = NodePath("HeadupDisplay")
+input_manager = NodePath("Managers/Input")
+http_manager = NodePath("Managers/Http")
+page_battle = NodePath("Pages/Battle")
+page_card = NodePath("Pages/Card")
+page_explore = NodePath("Pages/Explore")
+page_shop = NodePath("Pages/Shop")
+page_social = NodePath("Pages/Social")
 
-[node name="Scroll" type="Control" parent="."]
+[node name="Managers" type="Node" parent="."]
+
+[node name="Http" type="Node" parent="Managers"]
+script = ExtResource( 2 )
+lobby = NodePath("../..")
+script_resources = NodePath("../../Scripts")
+
+[node name="Input" type="Node" parent="Managers"]
+script = ExtResource( 3 )
+lobby = NodePath("../..")
+camera = NodePath("../../InitialCenter/Camera2D")
+tween = NodePath("../../InitialCenter/Tween")
+
+[node name="InitialCenter" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+margin_top = 5.0
+margin_bottom = 5.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 2 )
-scrollable = null
 
-[node name="Camera2D" type="Camera2D" parent="Scroll"]
+[node name="Camera2D" type="Camera2D" parent="InitialCenter"]
 anchor_mode = 1
 rotating = false
 current = true
@@ -66,7 +88,7 @@ editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
 
-[node name="Tween" type="Tween" parent="Scroll"]
+[node name="Tween" type="Tween" parent="InitialCenter"]
 repeat = false
 playback_process_mode = 1
 playback_speed = 1.0
@@ -86,30 +108,31 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="Shop" parent="Pages" instance=ExtResource( 3 )]
+[node name="Shop" parent="Pages" instance=ExtResource( 4 )]
 margin_left = -2882.0
 margin_right = -2882.0
-scrollable = null
+lobby = NodePath("../..")
 
-[node name="Card" parent="Pages" instance=ExtResource( 4 )]
+[node name="Card" parent="Pages" instance=ExtResource( 5 )]
 margin_left = -1440.0
 margin_right = -1440.0
+lobby = NodePath("../..")
 
-[node name="Battle" parent="Pages" instance=ExtResource( 5 )]
-scrollable = null
+[node name="Battle" parent="Pages" instance=ExtResource( 6 )]
+lobby = NodePath("../..")
 
-[node name="Explore" parent="Pages" instance=ExtResource( 6 )]
+[node name="Explore" parent="Pages" instance=ExtResource( 7 )]
 margin_left = 1440.0
 margin_right = 1440.0
-script = ExtResource( 7 )
-scrollable = null
+lobby = NodePath("../..")
 
 [node name="Social" parent="Pages" instance=ExtResource( 8 )]
 margin_left = 2699.0
 margin_right = 3059.0
-scrollable = null
+lobby = NodePath("../..")
 
 [node name="HeadupDisplay" parent="." instance=ExtResource( 9 )]
+lobby = NodePath("..")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
@@ -119,4 +142,7 @@ autoplay = false
 stream_paused = false
 mix_target = 0
 bus = "Master"
+
+[node name="Scripts" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "request" ), [ ExtResource( 11 ) ] ]
 

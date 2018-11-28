@@ -1,5 +1,8 @@
 extends "res://lobby/page/page.gd"
 
+const MODE_EDIT_KNIGHT = "EDIT_KNIGHT"
+const MODE_EDIT_TROOP = "EDIT_TROOP"
+
 export(NodePath) onready var bottom_left = get_node(bottom_left)
 
 export(NodePath) onready var pressed = get_node(pressed)
@@ -13,10 +16,12 @@ export(NodePath) onready var deck_btn_2 = get_node(deck_btn_2)
 export(NodePath) onready var deck_btn_3 = get_node(deck_btn_3)
 export(NodePath) onready var deck_btn_4 = get_node(deck_btn_4)
 
+export(NodePath) onready var knights_control = get_node(knights_control)
 export(NodePath) onready var knight_left = get_node(knight_left)
 export(NodePath) onready var knight_center = get_node(knight_center)
 export(NodePath) onready var knight_right = get_node(knight_right)
 
+export(NodePath) onready var squires_control = get_node(squires_control)
 export(NodePath) onready var troops_0 = get_node(troops_0)
 export(NodePath) onready var troops_1 = get_node(troops_1)
 export(NodePath) onready var troops_2 = get_node(troops_2)
@@ -31,7 +36,6 @@ export(NodePath) onready var container_lists = get_node(container_lists)
 export(NodePath) onready var container_founds = get_node(container_founds)
 export(NodePath) onready var container_notfounds = get_node(container_notfounds)
 
-var lobby
 var pressed_card
 var picked_card
 
@@ -100,6 +104,8 @@ func invalidate():
 	pressed.visible = pressed_card != null and not is_edit
 	picked.visible = is_edit
 	container_lists.visible = not is_edit
+	knights_control.visible = not cur_mode == MODE_EDIT_TROOP
+	squires_control.visible = not cur_mode == MODE_EDIT_KNIGHT
 
 func current_mode():
 	if not stat.cards.has(picked_card):
@@ -112,11 +118,15 @@ func current_mode():
 	return null
 
 func button_up_deck_num(btn):
+	if current_mode() != MODE_NORMAL:
+		yield(get_tree(), "idle_frame")
+		get("deck_btn_%d" % user.DeckSelected).pressed = true
+		return
 	var pressed_num = int(btn.name[-1])
-	var request = http.new_request(HTTPClient.METHOD_POST, "/edit/deck/select", {"num":pressed_num})
+	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/select", {"num":pressed_num})
 	var response = yield(request, "response")
 	if not response[0]:
-		http.handle_error(response[1].ErrMessage)
+		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
 	user.DeckSelected = pressed_num
 	lobby.invalidate()
@@ -134,10 +144,10 @@ func button_up_deck_item(btn):
 	for i in range(user.SQUIRE_COUNT):
 		var troop_btn = get("troops_%d" % i)
 		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
-	var request = http.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
+	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
 	var response = yield(request, "response")
 	if not response[0]:
-		http.handle_error(response[1].ErrMessage)
+		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
 	picked_card = null
 	pressed_card = null
@@ -161,11 +171,13 @@ func set_picked_card(btn):
 	invalidate()
 
 func change_filter(filter):
+	if self.filter == filter:
+		return
 	self.filter = filter
-	var pressed_color = Color(1, 1, 1, 1)
-	var non_pressed_color = Color(1, 1, 1, 0.392157)
-	filter_knight.modulate = pressed_color if filter == "Knight" else non_pressed_color
-	filter_squire.modulate = non_pressed_color if filter == "Knight" else pressed_color
+	# swap modulate color
+	var temp_color = filter_knight.modulate
+	filter_knight.modulate = filter_squire.modulate
+	filter_squire.modulate = temp_color
 	invalidate()
 
 func go_to_tutor_mode():
@@ -181,6 +193,6 @@ func go_to_tutor_mode():
 		var d = player.Deck
 		d.clear()
 		for i in range(user.SQUIRE_COUNT):
-			var troop_btn = get("troop_%d" % i)
+			var troop_btn = get("troops_%d" % i)
 			d.append({"Name":troop_btn.name_, "Level":0})
 	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
