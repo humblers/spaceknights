@@ -44,8 +44,8 @@ var filter = "Troop"
 func _ready():
 	scroll_max_y = get_vertical_scrollable_control().rect_position.y
 	bottom_left.connect("item_rect_changed", self, "calc_scroll_threshold")
-	filter_knight.connect("button_up", self, "change_filter", ["Knight"])
-	filter_squire.connect("button_up", self, "change_filter", ["Troop"])
+	filter_knight.connect("button_up", self, "change_filter", [stat.KnightCard])
+	filter_squire.connect("button_up", self, "change_filter", [stat.SquireCard])
 	for i in range(user.DECK_COUNT):
 		var btn = get("deck_btn_%d" % i)
 		btn.connect("button_up", self, "button_up_deck_num", [btn])
@@ -111,9 +111,9 @@ func current_mode():
 	if not stat.cards.has(picked_card):
 		return MODE_NORMAL
 	var type = stat.units[stat.cards[picked_card].Unit].type
-	if type == "Knight":
+	if type == stat.Knight:
 		return MODE_EDIT_KNIGHT
-	elif type == "Troop":
+	elif type == stat.Squire:
 		return MODE_EDIT_TROOP
 	return null
 

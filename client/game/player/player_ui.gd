@@ -23,11 +23,11 @@ func AddKnights(knights):
 		var id = knightIds[i]
 		var knight = game.FindUnit(id)
 		if i == 0:
-			knight.side = "Center"
+			knight.side = stat.Center
 		elif i == 1:
-			knight.side = "Left"
+			knight.side = stat.Left
 		else:
-			knight.side = "Right"
+			knight.side = stat.Right
 		if not mothership.show_anim_finished:
 			knight.visible = false
 
@@ -43,7 +43,7 @@ func useCard(c, tileX, tileY):
 		var name = d.Unit
 		var u = stat.units[name]
 		var k = findKnight(name)
-		var isKnight = u["type"] == "Knight"
+		var isKnight = u["type"] == stat.Knight
 		if not isKnight:
 			var sound = unit_ready_sound.get_resource(c.Name)
 			$AudioStreamPlayer.stream = sound

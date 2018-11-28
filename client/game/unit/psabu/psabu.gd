@@ -15,7 +15,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 
 func TakeDamage(amount, attacker):
-	if attacker.DamageType() != "AntiShield":
+	if attacker.DamageType() != stat.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -119,7 +119,7 @@ func absorb():
 	var damage = stat.units[name_]["absorbdamage"]
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
-		if u.Team() == Team() or u.Layer() != "Normal":
+		if u.Team() == Team() or u.Layer() != stat.Normal:
 			continue
 		var x = scalar.Sub(punchPosX, u.PositionX())
 		var y = scalar.Sub(punchPosY, u.PositionY())

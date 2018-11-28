@@ -16,4 +16,4 @@ func SetDecayOff():
 	off = true
 
 func DamageType():
-	return "Decay"
+	return stat.Decay

@@ -73,7 +73,7 @@ func handleAttack():
 		if attack >= powerAttackPreDelay():
 			for id in game.UnitIds():
 				var u = game.FindUnit(id)
-				if u.Team() == Team() or u.Layer() != "Normal":
+				if u.Team() == Team() or u.Layer() != stat.Normal:
 					continue
 				var x = scalar.Sub(u.PositionX(), punchPosX)
 				var y = scalar.Sub(u.PositionY(), punchPosY)

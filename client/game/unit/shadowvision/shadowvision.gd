@@ -13,9 +13,9 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 	
 func TakeDamage(amount, attacker):
-	if Layer() != "Normal":
+	if Layer() != stat.Normal:
 		return
-	if attacker.DamageType() != "AntiShield":
+	if attacker.DamageType() != stat.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -92,7 +92,7 @@ func findTargetAndDoAction():
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		setLayer("Normal")
+		setLayer(stat.Normal)
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())

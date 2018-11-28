@@ -104,7 +104,7 @@ func _sight():
 	return static_func.dict_get(stat.units[name_], "sight", 0)
 	
 func setLayer(l):
-	if l == "Casting":
+	if l == stat.Casting:
 		body.Simulate(false)
 	else:
 		body.Simulate(true)
@@ -161,14 +161,14 @@ func IsDead():
 	return hp <= 0
 
 func TakeDamage(amount, attacker):
-	if Layer() != "Normal":
+	if Layer() != stat.Normal:
 		return
 	hp -= amount
 	node_hp.value = hp
 	node_hp.visible = true
 
 	# client only
-	if attacker.DamageType() == "Decay":
+	if attacker.DamageType() == stat.Decay:
 		return
 	damages[game.step] = 0
 	$HitEffect.hit(attacker)
@@ -182,7 +182,7 @@ func MakeSlow(duration):
 	slowUntil = game.Step() + duration
 
 func Freeze(duration):
-	if Layer() == "Casting":
+	if Layer() == stat.Casting:
 		return
 	if freeze < duration:
 		freeze = duration
@@ -292,7 +292,7 @@ func preAttackDelay():
 func bulletLifeTime():
 	return stat.units[name_]["bulletlifetime"]
 func canSee(unit):
-	if unit.Type() == "Knight":
+	if unit.Type() == stat.Knight:
 		return true
 	var r = sight() + Radius() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
@@ -334,7 +334,7 @@ func moveToPos(posX, posY):
 func moveTo(unit, play_anim = true):
 	var x
 	var y
-	if Layer() == "Ether":
+	if Layer() == stat.Ether:
 		x = scalar.Sub(unit.PositionX(), PositionX())
 		y = scalar.Sub(unit.PositionY(), PositionY())
 	else:

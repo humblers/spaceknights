@@ -11,7 +11,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 
 func TakeDamage(amount, attacker):
-	if attacker.DamageType() != "AntiShield":
+	if attacker.DamageType() != stat.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield

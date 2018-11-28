@@ -207,7 +207,7 @@ func CastSkill(posX, posY):
 	castPosY = posY
 	adjustSkillAnim()
 	$AnimationPlayer.play("skill")
-	setLayer("Casting")
+	setLayer(stat.Casting)
 	return true
 
 func adjustSkillAnim():
