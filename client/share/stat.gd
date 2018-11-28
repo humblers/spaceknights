@@ -4,17 +4,25 @@ const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
 const SlowPercent = 50
 
+# CardType
+const KnightCard = "KnightCard"
+const SquireCard = "SquireCard"
+
+# KnightSide
+const Left = "Left"
+const Center = "Center"
+const Right = "Right"
+
 var cards = {
 # units
 	"archengineer": {
+		"Type":    KnightCard,
 		"Cost":    5000,
 		"Unit":    "archengineer",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Rare",
 	},
 	"archers": {
+		"Type":    SquireCard,
 		"Cost":    3000,
 		"Unit":    "archer",
 		"Count":   2,
@@ -23,22 +31,19 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"archsapper": {
+		"Type":    KnightCard,
 		"Cost":    3000,
 		"Unit":    "archsapper",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Common",
 	},
 	"astra": {
+		"Type":    KnightCard,
 		"Cost":    4000,
 		"Unit":    "astra",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Legendary",
 	},
 	"berserker": {
+		"Type":    SquireCard,
 		"Cost":    4000,
 		"Unit":    "berserker",
 		"Count":   1,
@@ -47,6 +52,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"blaster": {
+		"Type":    SquireCard,
 		"Cost": 3000,
 		"Unit": "blaster",
 		"Count": 1,
@@ -55,6 +61,7 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"champion": {
+		"Type":    SquireCard,
 		"Cost":    4000,
 		"Unit":    "champion",
 		"Count":   1,
@@ -63,6 +70,7 @@ var cards = {
 		"Rarity":  "Epic",
 	},
 	"drillram": {
+		"Type":    SquireCard,
 		"Cost": 4000,
 		"Unit": "drillram",
 		"Count": 1,
@@ -71,6 +79,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"enforcer": {
+		"Type":    SquireCard,
 		"Cost":    4000,
 		"Unit":    "enforcer",
 		"Count":   1,
@@ -79,6 +88,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"felhound": {
+		"Type":    SquireCard,
 		"Cost":    2000,
 		"Unit":    "felhound",
 		"Count":   5,
@@ -87,6 +97,7 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"footmans": {
+		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "footman",
 		"Count":   4,
@@ -95,14 +106,13 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"frost": {
+		"Type":    KnightCard,
 		"Cost":    4000,
 		"Unit":    "frost",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Epic",
 	},
 	"gargoyles": {
+		"Type":    SquireCard,
 		"Cost":    3000,
 		"Unit":    "gargoyle",
 		"Count":   3,
@@ -111,6 +121,7 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"gargoylehorde": {
+		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "gargoyle",
 		"Count":   6,
@@ -119,6 +130,7 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"gargoyleking": {
+		"Type":    SquireCard,
 		"Cost":    3000,
 		"Unit":    "gargoyleking",
 		"Count":   1,
@@ -127,6 +139,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"giant": {
+		"Type":    SquireCard,
 		"Cost": 5000,
 		"Unit": "giant",
 		"Count": 1,
@@ -135,14 +148,13 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"ironcoffin": {
+		"Type":    KnightCard,
 		"Cost":    5000,
 		"Unit":    "ironcoffin",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Rare",
 	},
 	"jouster": {
+		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "jouster",
 		"Count":   1,
@@ -151,30 +163,25 @@ var cards = {
 		"Rarity":  "Epic",
 	},
 	"judge": {
+		"Type":    KnightCard,
 		"Cost":   3000,
 		"Unit":    "judge",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Common",
 	},
 	"lancer": {
+		"Type":    KnightCard,
 		"Cost":    4000,
 		"Unit":    "lancer",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Epic",
 	},
 	"legion": {
+		"Type":    KnightCard,
 		"Cost":    4000,
 		"Unit":    "legion",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Rare",
 	},
 	"micromissile": {
+		"Type":    SquireCard,
 		"Cost":    1000,
 		"Unit":   "micromissile",
 		"Count":   12,
@@ -183,14 +190,13 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"nagmash": {
+		"Type":    KnightCard,
 		"Cost":    4000,
 		"Unit":   "nagmash",
-		"Count":   4,
-		"OffsetX": [-30, 30, -30, 30],
-		"OffsetY": [-30, -30, 30, 30],
 		"Rarity":  "Epic",
 	},
 	"ogre": {
+		"Type":    SquireCard,
 		"Cost":    7000,
 		"Unit":    "ogre",
 		"Count":   1,
@@ -199,6 +205,7 @@ var cards = {
 		"Rarity":  "Epic",
 	},
 	"panzerkunstler": {
+		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "panzerkunstler",
 		"Count":   1,
@@ -207,6 +214,7 @@ var cards = {
 		"Rarity":  "Epic",
 	},
 	"pixie": {
+		"Type":    SquireCard,
 		"Cost":    1000,
 		"Unit":    "pixie",
 		"Count":   3,
@@ -215,14 +223,13 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"pixieking": {
+		"Type":    KnightCard,
 		"Cost":    3000,
 		"Unit":    "pixieking",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Rare",
 	},
 	"psabu": {
+		"Type":    SquireCard,
 		"Cost":    7000,
 		"Unit":    "psabu",
 		"Count":   1,
@@ -231,6 +238,7 @@ var cards = {
 		"Rarity":  "Legendary",
 	},
 	"sentry": {
+		"Type":    SquireCard,
 		"Cost":    2000,
 		"Unit":    "sentry",
 		"Count":   3,
@@ -239,6 +247,7 @@ var cards = {
 		"Rarity":  "Common",
 	},
 	"shadowvision": {
+		"Type":    SquireCard,
 		"Cost":    4000,
 		"Unit":    "shadowvision",
 		"Count":   1,
@@ -247,6 +256,7 @@ var cards = {
 		"Rarity":  "Epic",
 	},
 	"starfire": {
+		"Type":    SquireCard,
 		"Cost":    4000,
 		"Unit":    "starfire",
 		"Count":   1,
@@ -255,6 +265,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"threestarfires": {
+		"Type":    SquireCard,
 		"Cost":    9000,
 		"Unit":    "starfire",
 		"Count":   3,
@@ -263,14 +274,13 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"tombstone": {
+		"Type":    KnightCard,
 		"Cost":    6000,
 		"Unit":    "tombstone",
-		"Count":   1,
-		"OffsetX": [0],
-		"OffsetY": [0],
 		"Rarity":  "Rare",
 	},
 	"trainee": {
+		"Type":    SquireCard,
 		"Cost":    2000,
 		"Unit":    "trainee",
 		"Count":   3,
@@ -279,6 +289,7 @@ var cards = {
 		"Rarity":  "Rare",
 	},
 	"wasp": {
+		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "wasp",
 		"Count":   1,
