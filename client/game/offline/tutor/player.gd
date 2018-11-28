@@ -50,18 +50,18 @@ func Update():
 	var card_candidates = []
 	for knightId in knightIds:
 		var k = game.FindUnit(knightId)
-		if k == null or k.side == "Center":
+		if k == null or k.side == stat.Center:
 			continue
 		if k.cast > 0:
 			continue
 		if make_decision_for_use_card(k.Name(), k.level):
-			card_candidates.append([k.Name(), k.level, "Knight"])
+			card_candidates.append([k.Name(), k.level, stat.KnightCard])
 	for card in hand:
 		# filtering empty hand
 		if card.Name == "":
 			continue
 		if make_decision_for_use_card(card.Name, card.Level):
-			card_candidates.append([card.Name, card.Level, "Squire"])
+			card_candidates.append([card.Name, card.Level, stat.SquireCard])
 	if len(card_candidates) == 0:
 		return
 	var card = elect_best_card(card_candidates)
@@ -167,7 +167,7 @@ func elect_best_card(card_candidates):
 		if energy_cap - cost < opposite_player.energy:
 			continue
 		if best != null:
-			if best[2] == "Knight" and card[2] == "Squire":
+			if best[2] == stat.KnightCard and card[2] == stat.SquireCard:
 				continue
 			var d = abs(opposite_spends - stat.cards[best[0]].Cost)
 			if d < abs(opposite_spends - cost):

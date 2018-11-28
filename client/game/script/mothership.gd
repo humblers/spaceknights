@@ -7,7 +7,7 @@ var show_anim_finished = false
 func init(game, player, knights):
 	self.game = game
 	self.player = player
-	var positions = ["Center", "Left", "Right"]
+	var positions = [stat.Center, stat.Left, stat.Right]
 	for i in range(len(positions)):
 		var name = knights[i].Name
 		var pos = positions[i]
@@ -28,7 +28,7 @@ func remove_dummy_and_show_knights():
 	for id in player.knightIds:
 		var knight = game.FindUnit(id)
 		knight.visible = true
-	var positions = ["Center", "Left", "Right"]
+	var positions = [stat.Center, stat.Left, stat.Right]
 	for i in range(len(positions)):
 		var pos = positions[i]
 		for child in get_node("Nodes/Deck/%s/Position/Unit" % pos).get_children():

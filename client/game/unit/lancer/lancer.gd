@@ -166,7 +166,7 @@ func CastSkill(posX, posY):
 	castPosY = posY
 	rotate_to_cast_pos()
 	$AnimationPlayer.play("skill")
-	setLayer("Casting")
+	setLayer(stat.Casting)
 	return true
 
 func rotate_to_cast_pos():

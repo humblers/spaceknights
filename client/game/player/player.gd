@@ -123,7 +123,7 @@ func useCard(c, tileX, tileY):
 	var name = d.Unit
 	var u = stat.units[name]
 	var k = findKnight(name)
-	var isKnight = u["type"] == "Knight"
+	var isKnight = u["type"] == stat.Knight
 	if not isKnight or k.Skill().has("unit"):
 		if team == "Red" and tileY > game.Map().MaxTileYOnTop():
 			return "can't place card on tileY: %d" % tileY

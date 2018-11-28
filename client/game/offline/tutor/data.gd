@@ -18,9 +18,9 @@ static func value_of_instant_damage_skill(unit, skill, level):
 
 const DOT_DAMAGE_SKILL_VALUE_MIN = 3
 static func value_of_dot_damage_skill(unit, skill, level):
-	if unit.Type() == "Knight":
+	if unit.Type() == stat.Knight:
 		return 0.5
-	elif unit.Type() == "Building":
+	elif unit.Type() == stat.Building
 		return 0.5
 	var shield = unit.get("shield")
 	if shield == null:
@@ -63,7 +63,7 @@ func _init():
 	units = {}
 	for card in stat.cards.keys():
 		var unit = stat.cards[card].Unit
-		if stat.units[unit]["type"] == "Knight":
+		if stat.units[unit]["type"] == stat.Knight:
 			units[unit] = { "Cost": 0 }
 			var wing_skill = stat.units[unit]["skill"]["wing"]
 			if wing_skill.has("unit"):
