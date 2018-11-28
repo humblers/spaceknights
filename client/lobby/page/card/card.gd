@@ -22,12 +22,12 @@ export(NodePath) onready var knight_center = get_node(knight_center)
 export(NodePath) onready var knight_right = get_node(knight_right)
 
 export(NodePath) onready var squires_control = get_node(squires_control)
-export(NodePath) onready var troops_0 = get_node(troops_0)
-export(NodePath) onready var troops_1 = get_node(troops_1)
-export(NodePath) onready var troops_2 = get_node(troops_2)
-export(NodePath) onready var troops_3 = get_node(troops_3)
-export(NodePath) onready var troops_4 = get_node(troops_4)
-export(NodePath) onready var troops_5 = get_node(troops_5)
+export(NodePath) onready var squire_0 = get_node(squire_0)
+export(NodePath) onready var squire_1 = get_node(squire_1)
+export(NodePath) onready var squire_2 = get_node(squire_2)
+export(NodePath) onready var squire_3 = get_node(squire_3)
+export(NodePath) onready var squire_4 = get_node(squire_4)
+export(NodePath) onready var squire_5 = get_node(squire_5)
 
 export(NodePath) onready var filter_knight = get_node(filter_knight)
 export(NodePath) onready var filter_squire = get_node(filter_squire)
@@ -39,7 +39,7 @@ export(NodePath) onready var container_notfounds = get_node(container_notfounds)
 var pressed_card
 var picked_card
 
-var filter = "Troop"
+var filter = stat.SquireCard
 
 func _ready():
 	scroll_max_y = get_vertical_scrollable_control().rect_position.y
@@ -53,7 +53,7 @@ func _ready():
 		var btn = get("knight_%s" % k)
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
 	for i in range(user.SQUIRE_COUNT):
-		var btn = get("troops_%d" % i)
+		var btn = get("squire_%d" % i)
 		btn.connect("button_up", self, "button_up_deck_item", [btn])
 	tutor_mode.connect("button_up", self, "go_to_tutor_mode")
 
@@ -81,14 +81,15 @@ func invalidate():
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
-		var btn = get("troops_%d" % i)
+		var btn = get("squire_%d" % i)
 		btn.invalidate(name, self, cur_mode == MODE_EDIT_KNIGHT)
 	for child in container_founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
 		var name = found_cards[i]
 		not_found_cards.erase(name)
-		if filter != stat.units[stat.cards[name].Unit]["type"]:
+		if filter != stat.cards[name].Type:
+			print(name, ", ", filter, ", ", stat.cards[name].Type)
 			continue
 		var item = $ResourcePreloader.get_resource("item").instance()
 		container_founds.add_child(item)
@@ -142,7 +143,7 @@ func button_up_deck_item(btn):
 		var knight_btn = get("knight_%s" % side)
 		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
 	for i in range(user.SQUIRE_COUNT):
-		var troop_btn = get("troops_%d" % i)
+		var troop_btn = get("squire_%d" % i)
 		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
 	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
 	var response = yield(request, "response")
@@ -163,7 +164,7 @@ func set_pressed_card(btn):
 	pressed_card = btn.name_
 	pressed.rect_global_position = btn.get_node("Position2D").global_position
 	if user.CardInDeck(pressed_card):
-		change_filter(stat.units[stat.cards[pressed_card].Unit]["type"])
+		change_filter(stat.cards[pressed_card].Type)
 	invalidate()
 
 func set_picked_card(btn):
@@ -193,6 +194,6 @@ func go_to_tutor_mode():
 		var d = player.Deck
 		d.clear()
 		for i in range(user.SQUIRE_COUNT):
-			var troop_btn = get("troops_%d" % i)
+			var troop_btn = get("squire_%d" % i)
 			d.append({"Name":troop_btn.name_, "Level":0})
 	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
