@@ -9,13 +9,36 @@ const (
 	Legendary CardRarity = "Legendary"
 )
 
+type CardType string
+
+const (
+	KnightCard CardType = "KnightCard"
+	SquireCard CardType = "SquireCard"
+)
+
+type KnightSide string
+
+const (
+	Left   KnightSide = "Left"
+	Center KnightSide = "Center"
+	Right  KnightSide = "Right"
+)
+
 type Card struct {
+	// invariant
+	Name    string
+	Type    CardType
 	Cost    int
 	Unit    string
 	Count   int
 	OffsetX []int
 	OffsetY []int
 	Rarity  CardRarity
+
+	// variant
+	Level   int
+	Holding int
+	Side    KnightSide
 }
 
 var Cards = map[string]Card{
