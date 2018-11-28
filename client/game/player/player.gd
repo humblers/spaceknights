@@ -34,6 +34,7 @@ func Init(playerData, game):
 			hand.append(card)
 		else:
 			pending.append(card)
+	addKnights(playerData.Knights)
 
 func Score():
 	return score
@@ -51,7 +52,7 @@ func AddStatRatio(name, ratio):
 		statRatios[name] = []
 	statRatios[name].append(ratio)
 
-func AddKnights(knights):
+func addKnights(knights):
 	for i in len(knights):
 		var k = knights[i]
 		var x = KNIGHT_INITIAL_POSX[i]

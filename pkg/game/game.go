@@ -16,7 +16,6 @@ const playTime = time.Second * 180
 const overTime = time.Second * 180
 const stepInterval = time.Millisecond * 100
 const stepPerSec = 10
-const knightInitialStep = stepPerSec * 5
 const wingScore = 1
 const leaderScore = 3
 
@@ -309,11 +308,6 @@ func (g *game) broadcast() {
 }
 
 func (g *game) Update() {
-	if g.step == knightInitialStep {
-		for _, pid := range g.playerIds {
-			g.players[pid].AddKnights(g.pInitKnightData[pid])
-		}
-	}
 	if g.actions[g.step] != nil {
 		actions := g.actions[g.step]
 		filtered := actions[:0]
