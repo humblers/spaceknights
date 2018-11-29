@@ -50,3 +50,9 @@ func match_request():
 	tcp.Send({"GameId": cfg.Id})
 	var param = {"connected": true, "cfg": cfg}
 	loading_screen.goto_scene("res://game/game.tscn", param)
+
+func _on_TempButton_button_down():
+	$TempPopup.show()
+
+func _on_TempButton_button_up():
+	$TempPopup.hide()

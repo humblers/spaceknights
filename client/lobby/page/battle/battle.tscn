@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=2]
+[gd_scene load_steps=104 format=2]
 
 [ext_resource path="res://lobby/page/battle/battle.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -64,6 +64,7 @@
 [ext_resource path="res://lobby/page/battle/medal_box_yellow.png" type="Texture" id=62]
 [ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=63]
 [ext_resource path="res://lobby/page/profile/profile.tscn" type="PackedScene" id=64]
+[ext_resource path="res://lobby/page/battle/temp_profile.png" type="Texture" id=65]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -2714,7 +2715,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1.1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -1960, 201 ), Vector2( -511, -669.3 ), Vector2( -350, -700 ) ]
+"values": [ Vector2( -1960, 201 ), Vector2( -511, -670 ), Vector2( -350, -820 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Nodes/Deck/Text/Leftwing:visible")
@@ -3079,6 +3080,17 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 1430 ), Vector2( 0, 1160 ) ]
 }
 
+[sub_resource type="StyleBoxFlat" id=37]
+
+bg_color = Color( 0, 0.164706, 0.596078, 1 )
+
+[sub_resource type="DynamicFont" id=38]
+
+size = 35
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 16 )
+
 [node name="Battle" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3101,7 +3113,7 @@ star = NodePath("Profile/RankFrame/Star")
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
-margin_top = 1119.0
+margin_top = 1169.0
 margin_right = 720.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 1440, 600 )
@@ -3163,9 +3175,10 @@ texture = ExtResource( 6 )
 stretch_mode = 2
 
 [node name="Mothership" type="Node2D" parent="CenterTop"]
+editor/display_folded = true
 modulate = Color( 0.439216, 0.439216, 0.439216, 1 )
 light_mask = 2
-position = Vector2( -350, -700 )
+position = Vector2( -350, -820 )
 rotation = -0.523598
 z_index = -1
 
@@ -3200,6 +3213,7 @@ position = Vector2( -30.5, -82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="BodyR" type="Node2D" parent="CenterTop/Mothership/Nodes/Body"]
@@ -3223,7 +3237,6 @@ position = Vector2( -30.5, 82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 2 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="Takeoffway" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3262,6 +3275,7 @@ position = Vector2( -193, -26.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="NoseR" type="Node2D" parent="CenterTop/Mothership/Nodes/Nose"]
@@ -3285,6 +3299,7 @@ position = Vector2( -193, 256.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="Deck" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3383,7 +3398,7 @@ rotation = 3.14159
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -5.34058e-05, -18.5 )
+position = Vector2( -5.34058e-005, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3537,7 +3552,7 @@ rotation = 3.14159
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -6.10352e-05, -18.5 )
+position = Vector2( -6.10352e-005, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3618,7 +3633,7 @@ region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="ReadySign2" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck/Right/ReadyR"]
 editor/display_folded = true
-position = Vector2( -3.05176e-05, 9.15527e-05 )
+position = Vector2( -3.05176e-005, 9.15527e-005 )
 
 [node name="Scroll1" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Deck/Right/ReadyR/ReadySign2"]
 visible = false
@@ -3671,13 +3686,13 @@ normal_map = ExtResource( 21 )
 
 [node name="DeckCover" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck/Center"]
 editor/display_folded = true
-position = Vector2( 3.05176e-05, 18.9999 )
+position = Vector2( 3.05176e-005, 18.9999 )
 
 [node name="SkillReadyC" type="Sprite" parent="CenterTop/Mothership/Nodes/Deck/Center/DeckCover"]
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -5.34058e-05, -18.5 )
+position = Vector2( -5.34058e-005, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3836,7 +3851,7 @@ color = Color( 1, 1, 1, 0.356863 )
 [node name="RBoosterLight1" type="Light2D" parent="CenterTop/Mothership/Nodes/Container/Rerverse/ReverseBoosterL"]
 light_mask = 2
 position = Vector2( -60, -0.000488281 )
-rotation = 1.83399e-07
+rotation = 1.83399e-007
 scale = Vector2( 3.9, 3 )
 enabled = false
 texture = ExtResource( 36 )
@@ -3897,6 +3912,7 @@ position = Vector2( 137, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="IndicatorRed2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3905,6 +3921,7 @@ position = Vector2( -199, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="IndicatorGreen1" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3913,7 +3930,6 @@ position = Vector2( 137, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="IndicatorGreen2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3922,7 +3938,6 @@ position = Vector2( -199, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="Engine" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3949,7 +3964,6 @@ position = Vector2( -6.99998, -133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="IndicatorRed2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Engine/EngineL/Sprite"]
@@ -3959,6 +3973,7 @@ rotation = -1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="EngineR" type="Node2D" parent="CenterTop/Mothership/Nodes/Engine"]
@@ -3983,6 +3998,7 @@ position = Vector2( -7, 133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="IndicatorGreen2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Engine/EngineR/Sprite"]
@@ -3992,6 +4008,7 @@ rotation = 1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="DeckAni" type="Node2D" parent="CenterTop/Mothership"]
@@ -4041,6 +4058,7 @@ margin_top = 100.0
 margin_right = 800.0
 margin_bottom = 340.0
 rect_min_size = Vector2( 800, 200 )
+rect_scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 42 )
 region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 29
@@ -4049,6 +4067,7 @@ patch_margin_right = 30
 patch_margin_bottom = 29
 
 [node name="EmblemFrame" type="TextureRect" parent="Profile"]
+editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 30.0
@@ -4093,6 +4112,7 @@ text = "클랜없슴"
 valign = 1
 
 [node name="RankFrame" type="TextureRect" parent="Profile"]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -4112,12 +4132,21 @@ custom_fonts/font = SubResource( 20 )
 text = "25"
 valign = 1
 
+[node name="TempButton" type="Button" parent="Profile"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 12.0
+margin_top = 14.0
+margin_right = 779.0
+margin_bottom = 222.0
+
 [node name="MedalBox" type="TextureButton" parent="."]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -240.0
 margin_top = 100.0
 margin_bottom = 340.0
+rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 46 )
 texture_pressed = ExtResource( 46 )
 texture_hover = ExtResource( 46 )
@@ -4160,15 +4189,14 @@ rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 47 )
 
 [node name="Mid" type="TextureRect" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -720.0
-margin_top = 6.0
+margin_top = -60.0
 margin_right = 720.0
-margin_bottom = 179.0
+margin_bottom = 113.0
 texture = ExtResource( 48 )
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Mid"]
@@ -4208,11 +4236,12 @@ align = 1
 valign = 1
 
 [node name="Boxes" type="NinePatchRect" parent="."]
+editor/display_folded = true
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -540.0
-margin_bottom = 120.0
+margin_top = -780.0
+margin_bottom = -120.0
 rect_min_size = Vector2( 1080, 600 )
 texture = ExtResource( 42 )
 region_rect = Rect2( 0, 0, 200, 200 )
@@ -4965,3 +4994,35 @@ anims/show_second = SubResource( 36 )
 [node name="Profile2" parent="." instance=ExtResource( 64 )]
 visible = false
 
+[node name="TempPopup" type="TextureRect" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -410.0
+margin_top = -560.0
+margin_right = 119.0
+margin_bottom = 262.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 65 )
+
+[node name="TempPanel2" type="Panel" parent="TempPopup"]
+margin_top = -48.0
+margin_right = 527.0
+margin_bottom = 52.0
+custom_styles/panel = SubResource( 37 )
+
+[node name="Label" type="Label" parent="TempPopup/TempPanel2"]
+margin_left = 7.0
+margin_top = -8.0
+margin_right = 524.0
+margin_bottom = 100.0
+custom_fonts/font = SubResource( 38 )
+custom_colors/font_color = Color( 0.686275, 0.831373, 0.941176, 1 )
+text = "Player Information
+Porfile / Inbox"
+align = 1
+
+[connection signal="button_down" from="Profile/TempButton" to="." method="_on_TempButton_button_down"]
+[connection signal="button_up" from="Profile/TempButton" to="." method="_on_TempButton_button_up"]
