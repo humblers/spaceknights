@@ -1,7 +1,7 @@
 extends "res://lobby/page/page.gd"
 
 const MODE_EDIT_KNIGHT = "EDIT_KNIGHT"
-const MODE_EDIT_TROOP = "EDIT_TROOP"
+const MODE_EDIT_SQUIRE = "EDIT_SQUIRE"
 
 export(NodePath) onready var bottom_left = get_node(bottom_left)
 
@@ -35,6 +35,8 @@ export(NodePath) onready var filter_squire = get_node(filter_squire)
 export(NodePath) onready var container_lists = get_node(container_lists)
 export(NodePath) onready var container_founds = get_node(container_founds)
 export(NodePath) onready var container_notfounds = get_node(container_notfounds)
+
+export(NodePath) onready var resource_preloader = get_node(resource_preloader)
 
 var pressed_card
 var picked_card
@@ -76,36 +78,44 @@ func invalidate():
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("knight_%s" % user.KNIGHT_SIDES[i])
-		btn.invalidate(name, self, cur_mode == MODE_EDIT_TROOP)
+		btn.invalidate(name, cur_mode == MODE_EDIT_SQUIRE)
 	for i in range(user.SQUIRE_COUNT):
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("squire_%d" % i)
-		btn.invalidate(name, self, cur_mode == MODE_EDIT_KNIGHT)
+		btn.invalidate(name, cur_mode == MODE_EDIT_KNIGHT)
 	for child in container_founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
 		var name = found_cards[i]
 		not_found_cards.erase(name)
 		if filter != stat.cards[name].Type:
-			print(name, ", ", filter, ", ", stat.cards[name].Type)
 			continue
-		var item = $ResourcePreloader.get_resource("item").instance()
+		var item = resource_preloader.get_resource("item").instance()
+		item.page_card = get_path()
 		container_founds.add_child(item)
-		item.invalidate(name, self)
+		item.invalidate(name)
 	for child in container_notfounds.get_children():
 		child.queue_free()
-	pressed.invalidate(pressed_card, self)
-	picked.invalidate(picked_card, self)
+	for i in range(not_found_cards.size()):
+		var name = not_found_cards[i]
+		if filter != stat.cards[name].Type:
+			continue
+		var item = resource_preloader.get_resource("item").instance()
+		item.page_card = get_path()
+		container_notfounds.add_child(item)
+		item.invalidate(name)
+	pressed.invalidate(pressed_card)
+	picked.invalidate(picked_card)
 
-	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_TROOP]
+	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]
 	if is_edit:
 		get_vertical_scrollable_control().rect_position.y = scroll_max_y
 	pressed.visible = pressed_card != null and not is_edit
 	picked.visible = is_edit
 	container_lists.visible = not is_edit
-	knights_control.visible = not cur_mode == MODE_EDIT_TROOP
+	knights_control.visible = not cur_mode == MODE_EDIT_SQUIRE
 	squires_control.visible = not cur_mode == MODE_EDIT_KNIGHT
 
 func current_mode():
@@ -115,7 +125,7 @@ func current_mode():
 	if type == stat.Knight:
 		return MODE_EDIT_KNIGHT
 	elif type == stat.Squire:
-		return MODE_EDIT_TROOP
+		return MODE_EDIT_SQUIRE
 	return null
 
 func button_up_deck_num(btn):
@@ -156,7 +166,7 @@ func button_up_deck_item(btn):
 	lobby.invalidate()
 
 func set_pressed_card(btn):
-	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_TROOP]:
+	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]:
 		return
 	if pressed_card == btn.name_:
 		pressed_card = null

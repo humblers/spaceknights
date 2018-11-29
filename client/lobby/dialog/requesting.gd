@@ -1,5 +1,7 @@
 extends Control
 
+export(NodePath) onready var elapsed_label = get_node(elapsed_label)
+
 var elapsed
 var time_out
 
@@ -8,7 +10,7 @@ func _ready():
 
 func _process(delta):
 	elapsed += delta
-	$Elapsed.text = "%d" % elapsed
+	elapsed_label.text = "%d" % elapsed
 	if time_out > 0 and elapsed >= time_out:
 		set_process(false)
 		visible =false

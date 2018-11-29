@@ -1,26 +1,33 @@
 extends BaseButton
 
-var name_
+export(NodePath) onready var page_card = get_node(page_card)
+export(NodePath) onready var base = get_node(base)
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var frame = get_node(frame)
+export(NodePath) onready var cost = get_node(cost)
+export(NodePath) onready var animation_player = get_node(animation_player)
 
-onready var base = $ItemBase
+var name_
 
 func _ready():
 	self.connect("button_down", self, "down")
 	self.connect("button_up", self, "up")
+	self.connect("button_up", page_card, "set_pressed_card", [self])
 
-func invalidate(name, page_card, disabled = false):
+func invalidate(name, disabled = false):
 	self.name_ = name
-	if not self.is_connected("button_up", page_card, "set_pressed_card"):
-		self.connect("button_up", page_card, "set_pressed_card", [self])
-	if name != null:
-		self.disabled = disabled
-		self.modulate = Color(0.62, 0.62, 0.62, 0.62) if disabled else Color(1, 1, 1, 1)
-		base.get_node("CardFrame/Icon").texture = base.get_node("Icon").get_resource(name_)
-		base.get_node("CardFrame/Frame").texture = base.get_node("Frame").get_resource(stat.cards[name_]["Rarity"])
-		base.get_node("CardFrame/Control/Energy/Label").text = "%d" % (stat.cards[name_]["Cost"] / 1000)
+	self.visible = name != null
+	if name == null:
+		return
+	self.disabled = disabled
+	self.modulate = Color(0.62, 0.62, 0.62, 0.62) if disabled else Color(1, 1, 1, 1)
+	icon.texture = page_card.lobby.resource_manager.get_card_icon(name_)
+	var data = stat.cards[name_]
+	frame.texture = page_card.lobby.resource_manager.get_card_frame(data.Type, data.Rarity)
+	cost.text = "%d" % (data.Cost / 1000)
 
 func down():
-	base.get_node("AnimationPlayer").play("down")
+	animation_player.play("down")
 
 func up():
-	base.get_node("AnimationPlayer").play_backwards("down")
+	animation_player.play_backwards("down")

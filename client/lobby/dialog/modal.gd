@@ -1,11 +1,14 @@
 extends Popup
 
-func _ready():
-	$TextureButton.connect("pressed", self, "pressed")
+export(NodePath) onready var btn = get_node(btn)
+export(NodePath) onready var message = get_node(message)
 
-func pressed():
+func _ready():
+	btn.connect("button_up", self, "close")
+
+func close():
 	visible = false
 
 func pop(message):
-	$Label.text = message
+	self.message.text = message
 	popup_centered()
