@@ -1,858 +1,209 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://game/ui/temp_effects_sprite_294.png" type="Texture" id=1]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=1]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/judge/skill_bulletrain.wav" type="AudioStream" id=5]
 [ext_resource path="res://game/unit/judge/bomingpoint.tscn" type="PackedScene" id=6]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="Curve" id=1]
 
-render_priority = 0
-blend_mode = 1
-light_mode = 0
+_data = [ Vector2( 0, 0.28 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Gradient" id=2]
 
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0.6496 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.8872 ), 0.0, 0.0, 0, 0 ]
+offsets = PoolRealArray( 0.5, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0.525909, 0.0664063, 1 )
 
 [sub_resource type="Curve" id=3]
 
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 0.5704 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9928 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.4208 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CanvasItemMaterial" id=4]
+[sub_resource type="Gradient" id=4]
 
-render_priority = 0
-blend_mode = 1
-light_mode = 0
+offsets = PoolRealArray( 0.330645, 0.782258, 0.991935 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0.585938, 0, 1, 1, 0, 0, 0 )
 
-[sub_resource type="CanvasItemMaterial" id=5]
-
-render_priority = 0
-blend_mode = 1
-light_mode = 0
-
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 
 resource_name = "bulletrain"
-length = 4.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("MetalRain/Smoke:emitting")
+length = 1.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 2.7, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("MetalRain/Explosion:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 2.7, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("MetalRain/Light:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 3.1, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("MetalRain/Light:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.5, 3.2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 0.0, 0.0, 360.0, 0.0 ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("MetalRain/Light:scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 3.1, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("MetalRain/Behind:emitting")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.1, 0.5, 3, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, false, true, false, false ]
-}
-tracks/6/type = "method"
-tracks/6/path = NodePath(".")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 4 ),
+"times": PoolRealArray( 2.3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "queue_free"
 } ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("MetalRain/Light/Light2D:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7, 1.1, 1.2, 2.1, 2.2, 2.5, 2.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("MetalRain/Light/Light2D2:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.8, 0.9, 1.1, 1.2, 1.8, 1.9, 2.9, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("MetalRain/Light/Light2D3:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.7, 0.8, 1.4, 1.5, 2, 2.1, 2.9, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("MetalRain/Light/Light2D4:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 1, 1.1, 1.3, 1.4, 2, 2.1, 2.5, 2.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/11/type = "value"
-tracks/11/path = NodePath("MetalRain/Light/Light2D5:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7, 1.1, 1.2, 1.6, 1.7, 2.7, 2.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/12/type = "value"
-tracks/12/path = NodePath("MetalRain/Light/Light2D6:visible")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.8, 0.9, 1.4, 1.5, 1.8, 1.9, 2.7, 2.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("MetalRain/Light/Light2D7:visible")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0, 0.8, 0.9, 1.4, 1.5, 2, 2.1, 2.5, 2.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("MetalRain/Light/Light2D8:visible")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7, 1.4, 1.5, 1.8, 1.9, 3, 3.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("MetalRain/Light/Light2D9:visible")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.7, 0.8, 1, 1.1, 2.1, 2.2, 2.5, 2.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("MetalRain/Light/Light2D10:visible")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7, 1.1, 1.2, 2.1, 2.2, 2.8, 2.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("MetalRain/Behind2:emitting")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.4, 0.7, 1.1, 1.4, 1.6, 2.1, 2.7, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/18/type = "value"
-tracks/18/path = NodePath("MetalRain/Behind3:emitting")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
-"times": PoolRealArray( 0, 0.5, 0.8, 1, 1.5, 1.7, 2.2, 2.5, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/19/type = "value"
-tracks/19/path = NodePath("MetalRain/Behind4:emitting")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/keys = {
-"times": PoolRealArray( 0, 0.4, 0.6, 0.9, 1.3, 1.6, 2.2, 2.6, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false, true, false, true, false, true, false ]
-}
-tracks/20/type = "value"
-tracks/20/path = NodePath("MetalRain:rotation_degrees")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/keys = {
-"times": PoolRealArray( 0, 4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 180.0 ]
-}
-tracks/21/type = "value"
-tracks/21/path = NodePath("Sound/BulletRain:playing")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sound/BulletRain:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
 }
-tracks/22/type = "value"
-tracks/22/path = NodePath("Light2D:enabled")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/keys = {
-"times": PoolRealArray( 0, 4 ),
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/23/type = "value"
-tracks/23/path = NodePath("Light2D:energy")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/keys = {
-"times": PoolRealArray( 0, 4 ),
+tracks/3/type = "value"
+tracks/3/path = NodePath("Light2D:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.5, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 2.0, 1.0 ]
 }
-tracks/24/type = "value"
-tracks/24/path = NodePath("MetalRain/Radius:modulate")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0 ) ]
+tracks/4/type = "value"
+tracks/4/path = NodePath("Effect/Circle:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
-tracks/25/type = "value"
-tracks/25/path = NodePath("MetalRain:modulate")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+tracks/5/type = "value"
+tracks/5/path = NodePath("Effect/Circle:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 0.25098, 0.168627, 0.0627451, 0 ), Color( 0, 0, 0, 1 ), Color( 0.25098, 0.168627, 0.0627451, 0 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Effect/Sprite2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Effect/CPUParticles2D:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Effect/Circle:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.5, 3.5 ), Vector2( 5, 5 ) ]
 }
 
 [node name="Arealshot" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ -200.0, 201.0 ],
+"_edit_vertical_guides_": [ 200.0, -200.0 ]
+}
 
-[node name="MetalRain" type="Node2D" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-rotation = 3.14159
-scale = Vector2( 2.2, 2.2 )
+[node name="Effect" type="Node2D" parent="."]
 
-[node name="Radius" type="Sprite" parent="MetalRain"]
-modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 0.87, 0.84 )
-texture = ExtResource( 1 )
-offset = Vector2( -13.5, -30 )
-
-[node name="Behind" type="CPUParticles2D" parent="MetalRain"]
-material = SubResource( 1 )
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Effect"]
+scale = 15.0
 emitting = false
-amount = 18
-lifetime = 1.0
-one_shot = false
-preprocess = 0.2
-speed_scale = 2.0
+amount = 16
+speed_scale = 3.0
 explosiveness = 0.8
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = ExtResource( 2 )
-normalmap = null
+texture = ExtResource( 1 )
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 180.0
-flatness = 0.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-angular_velocity_curve = null
-linear_accel = 30.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 30.0
-radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 2 )
-color = Color( 1, 0.458824, 0.164706, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-
-[node name="Behind2" type="CPUParticles2D" parent="MetalRain"]
-material = SubResource( 1 )
-position = Vector2( -36.6667, 24.1667 )
-emitting = false
-amount = 18
-lifetime = 1.0
-one_shot = false
-preprocess = 0.2
-speed_scale = 2.0
-explosiveness = 0.5
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = ExtResource( 2 )
-normalmap = null
-emission_shape = 1
-emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 180.0
-flatness = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-angular_velocity_curve = null
-linear_accel = 30.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 80.0
-radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 2 )
-color = Color( 1, 0.458824, 0.164706, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-
-[node name="Behind3" type="CPUParticles2D" parent="MetalRain"]
-material = SubResource( 1 )
-position = Vector2( -30, -35 )
-emitting = false
-amount = 18
-lifetime = 1.0
-one_shot = false
-preprocess = 0.2
-speed_scale = 2.0
-explosiveness = 0.5
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = ExtResource( 2 )
-normalmap = null
-emission_shape = 1
-emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 180.0
-flatness = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-angular_velocity_curve = null
-linear_accel = 30.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 80.0
-radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 2 )
-color = Color( 1, 0.458824, 0.164706, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-
-[node name="Behind4" type="CPUParticles2D" parent="MetalRain"]
-material = SubResource( 1 )
-position = Vector2( 28.3333, -4.16667 )
-emitting = false
-amount = 18
-lifetime = 1.0
-one_shot = false
-preprocess = 0.2
-speed_scale = 2.0
-explosiveness = 0.5
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = ExtResource( 2 )
-normalmap = null
-emission_shape = 1
-emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 180.0
-flatness = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 180.0
-angular_velocity_random = 0.5
-angular_velocity_curve = null
-linear_accel = 30.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 80.0
-radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 2 )
-color = Color( 1, 0.458824, 0.164706, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-
-[node name="Smoke" type="CPUParticles2D" parent="MetalRain"]
-emitting = false
-amount = 17
-lifetime = 1.0
-one_shot = false
-preprocess = 0.5
-speed_scale = 2.0
-explosiveness = 0.2
-randomness = 0.2
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = ExtResource( 2 )
-normalmap = null
-emission_shape = 1
-emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 180.0
-flatness = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
 angular_velocity = 180.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 160.0
-radial_accel_random = 0.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = SubResource( 3 )
-color = Color( 0.117647, 0.0784314, 0.0784314, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
+scale = 15.0
+scale_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
-[node name="Explosion" type="CPUParticles2D" parent="MetalRain"]
-modulate = Color( 1, 0.698039, 0.180392, 1 )
-material = SubResource( 4 )
+[node name="Circle" type="Sprite" parent="Effect"]
+modulate = Color( 0.25098, 0.168627, 0.0627451, 0 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 2 )
+
+[node name="Sprite2" type="CPUParticles2D" parent="Effect"]
+scale = 4.0
 emitting = false
-amount = 24
-lifetime = 1.0
-one_shot = false
-preprocess = 0.2
-speed_scale = 2.0
-explosiveness = 0.2
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
+amount = 2
+speed_scale = 8.0
 texture = ExtResource( 3 )
-normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 180.0
-flatness = 0.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
+initial_velocity = 180.0
+initial_velocity_random = 1.0
 angular_velocity = 180.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 80.0
-linear_accel_random = 0.5
-linear_accel_curve = null
-radial_accel = 90.0
+radial_accel = 20.0
 radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 180.0
-angle_random = 0.0
-angle_curve = null
-scale = 1.0
-scale_random = 0.0
-scale_curve = null
-color = Color( 1, 1, 1, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-
-[node name="Light" type="Node2D" parent="MetalRain"]
-editor/display_folded = true
-material = SubResource( 5 )
-
-[node name="Light2D" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-texture = ExtResource( 4 )
-
-[node name="Light2D2" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( 0, 47.781 )
-texture = ExtResource( 4 )
-
-[node name="Light2D3" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( 49.2512, -27.1985 )
-texture = ExtResource( 4 )
-
-[node name="Light2D4" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( -36.0196, -24.2581 )
-texture = ExtResource( 4 )
-
-[node name="Light2D5" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( -40.4301, 22.7879 )
-texture = ExtResource( 4 )
-
-[node name="Light2D6" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( 47.1681, 8.74996 )
-texture = ExtResource( 4 )
-
-[node name="Light2D7" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( -1.64893, -70.287 )
-texture = ExtResource( 4 )
-
-[node name="Light2D8" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( -28.6941, 48.7651 )
-texture = ExtResource( 4 )
-
-[node name="Light2D9" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( 47.9056, -37.4192 )
-texture = ExtResource( 4 )
-
-[node name="Light2D10" type="Sprite" parent="MetalRain/Light"]
-visible = false
-modulate = Color( 1, 0.803922, 0.341176, 1 )
-use_parent_material = true
-position = Vector2( -35.9412, -36.0155 )
-texture = ExtResource( 4 )
+scale = 4.0
+scale_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="Light2D" type="Light2D" parent="."]
 enabled = false
-editor_only = false
 texture = ExtResource( 4 )
-offset = Vector2( 0, 0 )
-texture_scale = 50.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
+texture_scale = 15.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("..")
+[node name="BulletRain" type="AnimationPlayer" parent="."]
 autoplay = "bulletrain"
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/bulletrain = SubResource( 6 )
-blend_times = [  ]
+anims/bulletrain = SubResource( 5 )
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="BulletRain" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 5 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
 
 [node name="BomingPoint" parent="." instance=ExtResource( 6 )]
 visible = false
