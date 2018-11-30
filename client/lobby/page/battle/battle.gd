@@ -52,7 +52,67 @@ func match_request():
 	loading_screen.goto_scene("res://game/game.tscn", param)
 
 func _on_TempButton_button_down():
-	$TempPopup.show()
+	$TempPopup1.show()
 
 func _on_TempButton_button_up():
-	$TempPopup.hide()
+	$TempPopup1.hide()
+
+func _on_Box0_button_down():
+	$TempPopup3.show()
+
+func _on_Box0_button_up():
+	$TempPopup3.hide()
+
+func _on_Box2_button_down():
+	$TempPopup3.show()
+
+func _on_Box2_button_up():
+	$TempPopup3.hide()
+
+func _on_Box5_button_down():
+	$TempPopup3.show()
+
+func _on_Box5_button_up():
+	$TempPopup3.hide()
+
+func _on_Box6_button_down():
+	$TempPopup3.show()
+
+func _on_Box6_button_up():
+	$TempPopup3.hide()
+
+func _on_Box7_button_down():
+	$TempPopup3.show()
+
+func _on_Box7_button_up():
+	$TempPopup3.hide()
+
+func _on_Box1_button_down():
+	$TempPopup2.show()
+
+func _on_Box1_button_up():
+	$TempPopup2.hide()
+
+func _on_Box3_button_down():
+	$TempPopup2.show()
+
+func _on_Box3_button_up():
+	$TempPopup2.hide()
+
+func _on_Box4_button_down():
+	$TempPopup2.show()
+
+func _on_Box4_button_up():
+	$TempPopup2.hide()
+
+func _on_MedalBox_button_down():
+	$TempPopup2.show()
+
+func _on_MedalBox_button_up():
+	$TempPopup2.hide()
+
+func _on_Option_button_down():
+	$TempPopup4.show()
+
+func _on_Option_button_up():
+	$TempPopup4.hide()
