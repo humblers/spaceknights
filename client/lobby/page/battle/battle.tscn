@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=2]
+[gd_scene load_steps=108 format=2]
 
 [ext_resource path="res://lobby/page/battle/battle.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -47,11 +47,11 @@
 [ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=45]
 [ext_resource path="res://lobby/page/card/card_btn_expention.png" type="Texture" id=46]
 [ext_resource path="res://lobby/page/battle/medal_box_blue.png" type="Texture" id=47]
-[ext_resource path="res://lobby/page/battle/mid_panel.png" type="Texture" id=48]
-[ext_resource path="res://lobby/resource/battle_button.png" type="Texture" id=49]
-[ext_resource path="res://lobby/resource/battle_button_pressed.png" type="Texture" id=50]
-[ext_resource path="res://lobby/resource/battle_button_hover.png" type="Texture" id=51]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=52]
+[ext_resource path="res://lobby/hud/option_btn_ov.png" type="Texture" id=48]
+[ext_resource path="res://lobby/page/battle/mid_panel.png" type="Texture" id=49]
+[ext_resource path="res://lobby/resource/battle_button.png" type="Texture" id=50]
+[ext_resource path="res://lobby/resource/battle_button_pressed.png" type="Texture" id=51]
+[ext_resource path="res://lobby/resource/battle_button_hover.png" type="Texture" id=52]
 [ext_resource path="res://lobby/page/battle/rewardbox_btn_bg.png" type="Texture" id=53]
 [ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_pressed.png" type="Texture" id=54]
 [ext_resource path="res://lobby/page/battle/rewardbox_btn_bg_hover.png" type="Texture" id=55]
@@ -65,6 +65,10 @@
 [ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=63]
 [ext_resource path="res://lobby/page/profile/profile.tscn" type="PackedScene" id=64]
 [ext_resource path="res://lobby/page/battle/temp_profile.png" type="Texture" id=65]
+[ext_resource path="res://lobby/page/battle/temp_box_1.jpg" type="Texture" id=66]
+[ext_resource path="res://lobby/page/battle/temp_box_2.jpg" type="Texture" id=67]
+[ext_resource path="res://lobby/page/battle/temp_boxpop.png" type="Texture" id=68]
+[ext_resource path="res://lobby/page/battle/temp_setting.png" type="Texture" id=69]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -2893,13 +2897,14 @@ outline_color = Color( 0.317647, 0.156863, 0, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=57]
 
-size = 32
-use_filter = true
-font_data = ExtResource( 45 )
+size = 30
+outline_size = 1
+outline_color = Color( 0, 0.392157, 1, 1 )
+font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=40]
 
 size = 58
 outline_size = 4
@@ -2908,21 +2913,29 @@ use_filter = true
 extra_spacing_char = 4
 font_data = ExtResource( 45 )
 
-[sub_resource type="DynamicFont" id=24]
-
-size = 36
-outline_size = 3
-outline_color = Color( 0.572549, 0.188235, 0, 1 )
-use_filter = true
-font_data = ExtResource( 45 )
-
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=44]
 
 size = 26
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="Animation" id=47]
+
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.00490365, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
+}
+
+[sub_resource type="DynamicFont" id=45]
 
 size = 21
 outline_size = 3
@@ -2930,13 +2943,16 @@ outline_color = Color( 0.2, 0.243137, 0.415686, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=27]
+[sub_resource type="DynamicFont" id=46]
 
-size = 32
+size = 40
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
+extra_spacing_char = 4
 font_data = ExtResource( 16 )
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=48]
 
 length = 0.2
 tracks/0/type = "value"
@@ -2952,7 +2968,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=49]
 
 length = 0.2
 tracks/0/type = "value"
@@ -2968,7 +2984,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=50]
 
 length = 0.2
 tracks/0/type = "value"
@@ -2984,7 +3000,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=51]
 
 length = 0.2
 tracks/0/type = "value"
@@ -3000,7 +3016,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=52]
 
 length = 0.2
 tracks/0/type = "value"
@@ -3016,7 +3032,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=53]
 
 length = 0.2
 tracks/0/type = "value"
@@ -3032,7 +3048,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=54]
 
 length = 0.2
 tracks/0/type = "value"
@@ -3048,23 +3064,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=35]
-
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.00490365, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
-}
-
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=55]
 
 length = 0.5
 tracks/0/type = "value"
@@ -3080,16 +3080,25 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 1430 ), Vector2( 0, 1160 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=37]
+[sub_resource type="StyleBoxFlat" id=56]
 
 bg_color = Color( 0, 0.164706, 0.596078, 1 )
 
-[sub_resource type="DynamicFont" id=38]
+[sub_resource type="DynamicFont" id=39]
 
 size = 35
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 16 )
+
+[sub_resource type="SpriteFrames" id=58]
+
+animations = [ {
+"frames": [ ExtResource( 66 ), ExtResource( 67 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
 
 [node name="Battle" type="Control"]
 anchor_right = 1.0
@@ -3213,7 +3222,6 @@ position = Vector2( -30.5, -82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="BodyR" type="Node2D" parent="CenterTop/Mothership/Nodes/Body"]
@@ -3237,6 +3245,7 @@ position = Vector2( -30.5, 82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 2 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="Takeoffway" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3275,7 +3284,6 @@ position = Vector2( -193, -26.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="NoseR" type="Node2D" parent="CenterTop/Mothership/Nodes/Nose"]
@@ -3299,7 +3307,6 @@ position = Vector2( -193, 256.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="Deck" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3912,7 +3919,6 @@ position = Vector2( 137, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="IndicatorRed2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3921,7 +3927,6 @@ position = Vector2( -199, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="IndicatorGreen1" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3930,6 +3935,7 @@ position = Vector2( 137, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="IndicatorGreen2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Container/Sprite"]
@@ -3938,6 +3944,7 @@ position = Vector2( -199, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="Engine" type="Node2D" parent="CenterTop/Mothership/Nodes"]
@@ -3964,6 +3971,7 @@ position = Vector2( -6.99998, -133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="IndicatorRed2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Engine/EngineL/Sprite"]
@@ -3973,7 +3981,6 @@ rotation = -1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="EngineR" type="Node2D" parent="CenterTop/Mothership/Nodes/Engine"]
@@ -3998,7 +4005,6 @@ position = Vector2( -7, 133 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="IndicatorGreen2" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Engine/EngineR/Sprite"]
@@ -4008,7 +4014,6 @@ rotation = 1.01229
 scale = Vector2( 4.5, 0.6 )
 frames = SubResource( 3 )
 animation = "indicatorG"
-frame = 1
 playing = true
 
 [node name="DeckAni" type="Node2D" parent="CenterTop/Mothership"]
@@ -4140,11 +4145,11 @@ margin_right = 779.0
 margin_bottom = 222.0
 
 [node name="MedalBox" type="TextureButton" parent="."]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -240.0
+margin_left = -220.0
 margin_top = 100.0
+margin_right = 20.0
 margin_bottom = 340.0
 rect_scale = Vector2( 0.8, 0.8 )
 texture_normal = ExtResource( 46 )
@@ -4160,7 +4165,7 @@ margin_right = -11.0
 margin_bottom = -172.0
 custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 0.835294, 0.27451, 1 )
-text = "Boîte à médailles"
+text = "무료 상자"
 align = 1
 valign = 1
 
@@ -4170,9 +4175,9 @@ anchor_bottom = 1.0
 margin_left = 11.0
 margin_top = 47.0
 margin_right = -11.0
-margin_bottom = -146.0
-custom_fonts/font = SubResource( 22 )
-text = "0 / 10"
+margin_bottom = -148.0
+custom_fonts/font = SubResource( 57 )
+text = "지금 열기"
 align = 1
 valign = 1
 
@@ -4188,7 +4193,44 @@ margin_bottom = 186.0
 rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 47 )
 
+[node name="Option" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -430.0
+margin_top = 100.0
+margin_right = -190.0
+margin_bottom = 340.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture_normal = ExtResource( 46 )
+texture_pressed = ExtResource( 46 )
+texture_hover = ExtResource( 46 )
+
+[node name="TextureRect" type="TextureRect" parent="Option"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.0
+margin_top = -44.0
+margin_right = 18.0
+margin_bottom = 34.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 48 )
+
+[node name="Count2" type="Label" parent="Option"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 30.0
+margin_right = -12.0
+margin_bottom = -165.0
+custom_fonts/font = SubResource( 57 )
+text = "옵션"
+align = 1
+valign = 1
+
 [node name="Mid" type="TextureRect" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4197,7 +4239,7 @@ margin_left = -720.0
 margin_top = -60.0
 margin_right = 720.0
 margin_bottom = 113.0
-texture = ExtResource( 48 )
+texture = ExtResource( 49 )
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Mid"]
 margin_left = 470.0
@@ -4217,9 +4259,9 @@ margin_left = 26.0
 margin_top = 5.0
 margin_right = -24.0
 margin_bottom = -5.0
-texture_normal = ExtResource( 49 )
-texture_pressed = ExtResource( 50 )
-texture_hover = ExtResource( 51 )
+texture_normal = ExtResource( 50 )
+texture_pressed = ExtResource( 51 )
+texture_hover = ExtResource( 52 )
 
 [node name="Label" type="Label" parent="Mid/NinePatchRect"]
 anchor_left = 0.5
@@ -4230,13 +4272,12 @@ margin_left = -186.0
 margin_top = -45.0
 margin_right = 188.0
 margin_bottom = 42.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 40 )
 text = "BATTLE"
 align = 1
 valign = 1
 
 [node name="Boxes" type="NinePatchRect" parent="."]
-editor/display_folded = true
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4250,61 +4291,20 @@ patch_margin_top = 30
 patch_margin_right = 30
 patch_margin_bottom = 30
 
-[node name="TextureRect" type="TextureRect" parent="Boxes"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -530.0
-margin_top = 26.0
-margin_right = 530.0
-margin_bottom = 76.0
-texture = ExtResource( 52 )
-expand = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Boxes/TextureRect"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -191.0
-margin_top = -6.0
-margin_right = 193.0
-margin_bottom = 57.0
-alignment = 1
-
-[node name="Label" type="Label" parent="Boxes/TextureRect/HBoxContainer"]
-margin_top = 9.0
-margin_right = 261.0
-margin_bottom = 53.0
-custom_fonts/font = SubResource( 24 )
-custom_colors/font_color = Color( 1, 0.529412, 0.027451, 1 )
-text = "MEDAL BOX"
-valign = 1
-
-[node name="Count2" type="Label" parent="Boxes/TextureRect/HBoxContainer"]
-margin_left = 265.0
-margin_top = 12.0
-margin_right = 415.0
-margin_bottom = 51.0
-rect_min_size = Vector2( 150, 0 )
-custom_fonts/font = SubResource( 22 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "2 / 8"
-align = 1
-valign = 1
-
 [node name="GridContainer" type="GridContainer" parent="Boxes"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -493.0
-margin_top = -252.0
+margin_top = -280.0
 margin_right = 493.0
-margin_bottom = 272.0
+margin_bottom = 244.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 4
 
 [node name="Box0" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_right = 239.0
 margin_bottom = 257.0
 rect_pivot_offset = Vector2( 120, 129 )
@@ -4326,69 +4326,71 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
 
-[node name="Icon" type="TextureRect" parent="Boxes/GridContainer/Box0"]
+[node name="BoxIcon" type="TextureRect" parent="Boxes/GridContainer/Box0"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 57 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box0"]
+anims/down = SubResource( 47 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box0"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box0/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box0"]
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box0/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box0"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "46"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box0/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box0"]
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box0/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box0"]
-anims/down = SubResource( 28 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box0/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box1" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 249.0
 margin_right = 488.0
 margin_bottom = 257.0
@@ -4398,6 +4400,7 @@ texture_pressed = ExtResource( 54 )
 texture_hover = ExtResource( 55 )
 
 [node name="Time" type="TextureRect" parent="Boxes/GridContainer/Box1"]
+visible = false
 margin_left = 30.0
 margin_top = 15.0
 margin_right = 61.0
@@ -4411,7 +4414,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4421,59 +4424,63 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 47 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box1"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box1"]
+anims/down = SubResource( 48 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box1"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box1/OpenNow"]
-margin_left = 26.0
-margin_right = 209.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box1"]
+visible = false
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "바로 열기"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box1/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box1"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "열기"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box1/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box1"]
+visible = false
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box1/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box1"]
-anims/down = SubResource( 29 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box1/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box2" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 498.0
 margin_right = 737.0
 margin_bottom = 257.0
@@ -4496,7 +4503,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4506,60 +4513,61 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 61 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box2"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box2"]
+anims/down = SubResource( 49 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box2"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box2/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-rect_rotation = -0.832936
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box2"]
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "すぐ開封"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box2/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box2"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "46"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box2/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box2"]
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box2/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box2"]
-anims/down = SubResource( 30 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box2/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 32.9999, 31 )
 
 [node name="Box3" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 747.0
 margin_right = 986.0
 margin_bottom = 257.0
@@ -4569,6 +4577,7 @@ texture_pressed = ExtResource( 54 )
 texture_hover = ExtResource( 55 )
 
 [node name="Time" type="TextureRect" parent="Boxes/GridContainer/Box3"]
+visible = false
 margin_left = 30.0
 margin_top = 15.0
 margin_right = 61.0
@@ -4582,7 +4591,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4592,59 +4601,63 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 61 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box3"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box3"]
+anims/down = SubResource( 50 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box3"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box3/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box3"]
+visible = false
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "ОТКРОЙ СЕЙЧАС"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box3/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box3"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "열기"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box3/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box3"]
+visible = false
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box3/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box3"]
-anims/down = SubResource( 31 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box3/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box4" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_top = 267.0
 margin_right = 239.0
 margin_bottom = 524.0
@@ -4654,6 +4667,7 @@ texture_pressed = ExtResource( 54 )
 texture_hover = ExtResource( 55 )
 
 [node name="Time" type="TextureRect" parent="Boxes/GridContainer/Box4"]
+visible = false
 margin_left = 30.0
 margin_top = 15.0
 margin_right = 61.0
@@ -4667,7 +4681,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4677,59 +4691,63 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 61 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box4"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box4"]
+anims/down = SubResource( 51 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box4"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box4/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box4"]
+visible = false
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "OUVERT"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box4/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box4"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "열기"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box4/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box4"]
+visible = false
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box4/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box4"]
-anims/down = SubResource( 32 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box4/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box5" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 249.0
 margin_top = 267.0
 margin_right = 488.0
@@ -4753,7 +4771,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4763,59 +4781,61 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 61 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box5"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box5"]
+anims/down = SubResource( 52 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box5"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box5/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box5"]
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "现在开放(간)"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box5/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box5"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "46"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box5/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box5"]
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box5/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box5"]
-anims/down = SubResource( 33 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box5/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box6" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 498.0
 margin_top = 267.0
 margin_right = 737.0
@@ -4839,7 +4859,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4849,59 +4869,61 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 62 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box6"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box6"]
+anims/down = SubResource( 53 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box6"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box6/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box6"]
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "現在開放(번)"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box6/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box6"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "46"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box6/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box6"]
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box6/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box6"]
-anims/down = SubResource( 34 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box6/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="Box7" type="TextureButton" parent="Boxes/GridContainer"]
-editor/display_folded = true
 margin_left = 747.0
 margin_top = 267.0
 margin_right = 986.0
@@ -4925,7 +4947,7 @@ margin_left = 39.0
 margin_top = -22.0
 margin_right = 192.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 44 )
 text = "23h 59min"
 align = 1
 valign = 1
@@ -4935,66 +4957,69 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
+margin_left = -80.0
 margin_top = -76.0
-margin_right = 201.0
+margin_right = 188.0
 margin_bottom = 142.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.6, 0.7 )
 mouse_filter = 2
 texture = ExtResource( 61 )
 
-[node name="OpenNow" type="TextureButton" parent="Boxes/GridContainer/Box7"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box7"]
+anims/down = SubResource( 54 )
+
+[node name="OpenNow" type="TextureRect" parent="Boxes/GridContainer/Box7"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -97.0
-margin_right = 112.0
-margin_bottom = -7.0
-texture_normal = ExtResource( 58 )
+margin_left = -112.0
+margin_top = -47.0
+margin_right = 108.0
+margin_bottom = 43.0
+rect_scale = Vector2( 0.99, 0.55 )
+texture = ExtResource( 58 )
 
-[node name="Label" type="Label" parent="Boxes/GridContainer/Box7/OpenNow"]
-margin_left = 26.0
-margin_right = 195.0
-margin_bottom = 34.0
-custom_fonts/font = SubResource( 26 )
+[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box7"]
+margin_left = 27.0
+margin_top = 179.0
+margin_right = 210.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 45 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "JETZT OFFEN"
+text = "지금 열기"
 align = 1
 
-[node name="Label2" type="Label" parent="Boxes/GridContainer/Box7/OpenNow"]
-margin_left = 32.0
-margin_top = 36.0
-margin_right = 146.0
-margin_bottom = 85.0
-custom_fonts/font = SubResource( 27 )
-text = "999999"
-align = 2
+[node name="OpenCost" type="Label" parent="Boxes/GridContainer/Box7"]
+margin_left = 7.0
+margin_top = 201.0
+margin_right = 232.0
+margin_bottom = 261.0
+custom_fonts/font = SubResource( 46 )
+text = "46"
+align = 1
 valign = 1
 
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box7/OpenNow"]
-margin_left = 144.0
-margin_top = 30.0
-margin_right = 210.0
-margin_bottom = 93.0
+[node name="CashIcon" type="TextureRect" parent="Boxes/GridContainer/Box7"]
+margin_left = 151.0
+margin_top = 210.0
+margin_right = 217.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.7, 0.8 )
 texture = ExtResource( 59 )
 
-[node name="Dimensium2" parent="Boxes/GridContainer/Box7/OpenNow" instance=ExtResource( 60 )]
-position = Vector2( 178, 62 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes/GridContainer/Box7"]
-anims/down = SubResource( 35 )
+[node name="Dimensium" parent="Boxes/GridContainer/Box7/CashIcon" instance=ExtResource( 60 )]
+position = Vector2( 33, 31 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Boxes"]
-anims/show_second = SubResource( 36 )
+anims/show_second = SubResource( 55 )
 
 [node name="Knights" parent="." instance=ExtResource( 63 )]
 
 [node name="Profile2" parent="." instance=ExtResource( 64 )]
 visible = false
 
-[node name="TempPopup" type="TextureRect" parent="."]
+[node name="TempPopup1" type="TextureRect" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5007,22 +5032,67 @@ margin_bottom = 262.0
 rect_scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 65 )
 
-[node name="TempPanel2" type="Panel" parent="TempPopup"]
+[node name="TempPanel2" type="Panel" parent="TempPopup1"]
 margin_top = -48.0
 margin_right = 527.0
 margin_bottom = 52.0
-custom_styles/panel = SubResource( 37 )
+custom_styles/panel = SubResource( 56 )
 
-[node name="Label" type="Label" parent="TempPopup/TempPanel2"]
+[node name="Label" type="Label" parent="TempPopup1/TempPanel2"]
 margin_left = 7.0
 margin_top = -8.0
 margin_right = 524.0
 margin_bottom = 100.0
-custom_fonts/font = SubResource( 38 )
+custom_fonts/font = SubResource( 39 )
 custom_colors/font_color = Color( 0.686275, 0.831373, 0.941176, 1 )
 text = "Player Information
 Porfile / Inbox"
 align = 1
 
+[node name="TempPopup2" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 540.904, 665.9 )
+frames = SubResource( 58 )
+frame = 1
+playing = true
+
+[node name="TempPopup3" type="TextureRect" parent="."]
+visible = false
+margin_left = 152.0
+margin_top = 438.0
+margin_right = 548.0
+margin_bottom = 814.0
+rect_scale = Vector2( 2, 2 )
+texture = ExtResource( 68 )
+
+[node name="TempPopup4" type="TextureRect" parent="."]
+visible = false
+margin_left = 159.0
+margin_top = 302.0
+margin_right = 555.0
+margin_bottom = 837.0
+rect_scale = Vector2( 2, 2 )
+texture = ExtResource( 69 )
+
 [connection signal="button_down" from="Profile/TempButton" to="." method="_on_TempButton_button_down"]
 [connection signal="button_up" from="Profile/TempButton" to="." method="_on_TempButton_button_up"]
+[connection signal="button_down" from="MedalBox" to="." method="_on_MedalBox_button_down"]
+[connection signal="button_up" from="MedalBox" to="." method="_on_MedalBox_button_up"]
+[connection signal="button_down" from="Option" to="." method="_on_Option_button_down"]
+[connection signal="button_up" from="Option" to="." method="_on_Option_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box0" to="." method="_on_Box0_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box0" to="." method="_on_Box0_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box1" to="." method="_on_Box1_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box1" to="." method="_on_Box1_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box2" to="." method="_on_Box2_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box2" to="." method="_on_Box2_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box3" to="." method="_on_Box3_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box3" to="." method="_on_Box3_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box4" to="." method="_on_Box4_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box4" to="." method="_on_Box4_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box5" to="." method="_on_Box5_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box5" to="." method="_on_Box5_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box6" to="." method="_on_Box6_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box6" to="." method="_on_Box6_button_up"]
+[connection signal="button_down" from="Boxes/GridContainer/Box7" to="." method="_on_Box7_button_down"]
+[connection signal="button_up" from="Boxes/GridContainer/Box7" to="." method="_on_Box7_button_up"]
