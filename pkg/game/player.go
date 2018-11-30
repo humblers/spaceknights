@@ -127,6 +127,9 @@ func (p *player) Do(a *Action) error {
 			break
 		}
 	}
+	if index < 0 {
+		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
+	}
 
 	// check energy
 	cost := data.Cards[a.Card.Name].Cost

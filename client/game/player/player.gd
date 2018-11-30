@@ -87,6 +87,9 @@ func Do(action):
 			index = i
 			break
 
+	if index < 0:
+ 		return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
+
 	# check energy
 	var cost = stat.cards[action.Card.Name]["Cost"]
 	if energy < cost:

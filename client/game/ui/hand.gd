@@ -1,110 +1,132 @@
 extends Control
 
-onready var game = get_node("../../")
-onready var player = get_node("../../Players/Blue")
-onready var tile = get_node("../Tile")
-onready var map = get_node("../Map")
-onready var map_bottom = map.rect_position.y + map.rect_size.y
-onready var unit_resource = get_node("../../Resource/Unit")
-onready var icon_resource = get_node("../../Resource/Icon")
+export(NodePath) onready var game = get_node(game)
+export(NodePath) onready var player = get_node(player)
+export(NodePath) onready var tile = get_node(tile)
+export(NodePath) onready var map = get_node(map)
+export(NodePath) onready var unit_resource = get_node(unit_resource)
+export(NodePath) onready var cursor_resource = get_node(cursor_resource)
+export(NodePath) onready var icon_resource = get_node(icon_resource)
+
+onready var card_init_pos = $Card.position
+onready var card_init_scale = $Card.scale
+onready var card_init_z_index = $Card.z_index
+onready var cursor_init_pos = $Cursor.position
 onready var dummy_init_pos = $Dummy.position
 
-export(int) var index
-var card_name
-var card_level
-var init_pos
-var init_scale
-var init_z_index
+var card
 var pressed = false
 
-func is_knight_card(name):
-	var card = stat.cards[name]
-	var unit = stat.units[card.Unit]
-	return unit.type == "Knight"
-	
-func _ready():
-	connect("gui_input", self, "handle_input")
+# TODO: insert name to card data
+func Set(card):
+	self.card = card
+	clear_cursor_and_dummy()
+	add_cursor_and_dummy(card)
+	$Card/Icon.texture = icon_resource.get_resource(card.Name)
+	$Card/Cost/Label.text = str(card.Cost/1000)
+	$Card/Energy.max_value = card.Cost
+	init()
 
-func _process(delta):
-	var name = player.hand[index].Name
-	var level = player.hand[index].Level
-	if name == null or name == "":
-		return
-	if is_knight_card(name):
-		$Card.visible = true
-		$Cursor.visible = false
-		$Card/Icon.visible = false
-		$Card/NotAvailable.visible = true
-		$Card/Energy.value = 0
-		return
-	if card_name == null or card_name != name:
-		card_name = name
-		card_level = level
-		clear_units()
-		add_units()
-#		var cost = stat.cards[card_name].Cost
-#		$Card.visible = true
-#		$Card/Icon.visible = true
-#		$Card/NotAvailable.visible = false
-#		$Card/Icon.texture = icon_resource.get_resource(card_name)
-#		$Card/Icon/Energy/Cost.text = str(cost/1000)
-#		$Card/Energy.max_value = cost
+func Update(energy):
+	var ready = energy >= $Card/Energy.max_value
+	$Card/Icon/NotReady.visible = not ready
+	$Card/Icon/Ready.visible = ready
+	$Card/Cost.playing = ready
+	$Card/Energy.value = energy
 
-	# update energy
-#	var cost = stat.cards[card_name].Cost
-#	var ready = player.energy >= cost
-#	$Card/Icon/NotReady.visible = not ready
-#	$Card/Icon/Ready.visible = ready
-#	$Card/Energy.value = player.energy
-#	$Card/Icon/Energy.playing = ready
+func init():
+	$Card.visible = true
+	$Card.position = card_init_pos
+	$Card.scale = card_init_scale
+	$Card.z_index = card_init_z_index
+	$Cursor.visible = false
+	$Cursor.position = cursor_init_pos
+	$Dummy.position = dummy_init_pos
+	$AnimationPlayer.stop()
+	if not is_connected("gui_input", self, "handle_input"):
+		connect("gui_input", self, "handle_input")
+
+func add_cursor_and_dummy(card):
+	if card.Type == stat.SquireCard:
+		for i in card.Count:
+			var node = unit_resource.get_resource(card.Unit).instance()
+			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+			$Dummy.add_child(node)
+			node = node.duplicate()
+			node.modulate = Color(1, 1, 1, 0.5)
+			$Cursor.add_child(node)
+		# TODO: change stat.Squire to stat.SquireCard
+		var node = cursor_resource.get_resource(stat.Squire.to_lower()).instance()
+		$Cursor.add_child(node)
+	else:
+		# TODO: change card.Unit to card.Name
+		var node = cursor_resource.get_resource(card.Unit).instance()
+		$Cursor.add_child(node)
+
+func clear_cursor_and_dummy():
+	for c in $Cursor.get_children():
+		c.queue_free()
+	for c in $Dummy.get_children():
+		c.queue_free()
 
 func handle_input(ev):
-	if card_name == null:
-		return
-	if is_knight_card(card_name):
-		return
-	if ev is InputEventMouseMotion and pressed:
-		on_dragged(ev)
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
 		if pressed:
 			on_pressed()
 		else:
 			on_released(ev)
+	if ev is InputEventMouseMotion and pressed:
+		on_dragged(ev)
 
 func on_pressed():
-	init_pos = $Card.position
-	init_scale = $Card.scale
-	init_z_index = $Card.z_index
+	tile.Show(true)
 	$Card.z_index += 1
-	tile.ShowArea(true)
+
+func on_dragged(ev):
+	$Card.position = ev.position
+	
+	# scale
+	var y = ev.position.y
+	var bottom = map.rect_position.y + map.rect_size.y
+	var dist = rect_position.y - bottom
+	if y < 0:
+		var ratio = abs(y) / dist
+		var s = lerp(1, 0, clamp(ratio, 0, 1))
+		$Card.scale = Vector2(s, s)
+	
+	# set cursor
+	if y < -dist:
+		var pos = map.get_local_mouse_position()
+		set_cursor_pos(int(pos.x), int(pos.y))
+		$Cursor.visible = true
+	else:
+		$Cursor.visible = false
 	
 func on_released(ev):
 	tile.Hide()
-	$Card.position = init_pos
-	$Card.scale = Vector2(1, 1)
-	$Card.z_index = init_z_index
-	$Cursor.visible = false
-
+	
 	# released on map?
 	var pos = map.get_local_mouse_position()
 	if pos.y > map.rect_size.y:
+		init()
 		return
 	
-	if player.energy < stat.cards[card_name]["Cost"]:
-		show_message("Not Enought Energy", pos.y)
+	# enough energy?
+	if $Card/Energy.value <= $Card/Energy.max_value:
+		show_message("Not Enough energy", pos.y)
+		init()
 		return
-
-	$Cursor.visible = true
+	
+	send_input($Cursor.global_position - map.rect_position)
 	$Card.visible = false
-	send_input(pos)
+	disconnect("gui_input", self, "handle_input")
 	$AnimationPlayer.play("launch")
 	yield($AnimationPlayer, "animation_finished")
 	$Dummy.position = $Cursor.position
+	$Cursor.visible = false
 	$AnimationPlayer.play("show")
 	yield($AnimationPlayer, "animation_finished")
-	$Dummy.position = dummy_init_pos
-	$Dummy.visible = false
 
 func send_input(pos):
 	var x = int(pos.x)
@@ -118,8 +140,8 @@ func send_input(pos):
 			"Action": {
 				"Id": player.id,
 				"Card": {
-					"Name": card_name,
-					"Level": card_level,
+					"Name": card.Name,
+					"Level": card.Level,
 				},
 				"TileX": tile[0],
 				"TileY": tile[1],
@@ -132,30 +154,17 @@ func send_input(pos):
 			game.actions[input.Step].append(input.Action)
 		else:
 			game.actions[input.Step] = [input.Action]
-	
-func on_dragged(ev):
-	$Card.position = ev.position
-	
-	# scale
-	var y = ev.position.y
-	var bottom = map.rect_position.y + map.rect_size.y
-	var dist = rect_position.y - bottom
-	if y < 0:
-		var ratio = abs(y) / dist
-		var s = lerp(1, 0, clamp(ratio, 0, 1))
-		$Card.scale = Vector2(s, s)
 
-	# set cursor
-	if y < -dist:
-		var pos = map.get_local_mouse_position()
-		set_cursor_pos(int(pos.x), int(pos.y))
-		$Cursor.visible = true
-	else:
-		$Cursor.visible = false
+func show_message(msg, pos_y):
+	var message_bar = map.get_node("Message")
+	var tween = message_bar.get_node("Tween")
+	var pos_x = message_bar.rect_position.x
+	message_bar.text = msg
+	tween.interpolate_property(message_bar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.interpolate_property(message_bar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.start()
 
 func set_cursor_pos(x, y):
-	var card = stat.cards[card_name]
-	var unit = stat.units[card.Unit]
 	var tile = game.TileFromPos(x, y)
 	var minTileY = game.Map().MinTileYOnBot()
 	var maxTileY = game.Map().TileNumY() - 1
@@ -202,34 +211,3 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 			return [tr, null]
 	counter += 1
 	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
-
-func add_units():
-	var card = stat.cards[card_name]
-	var unit = card["Unit"]
-	var count = card["Count"]
-	var offsetX = card["OffsetX"]
-	var offsetY = card["OffsetY"]
-	for i in count:
-		var node = unit_resource.get_resource(unit).instance()
-		node.position = Vector2(offsetX[i], offsetY[i])
-		$Dummy.add_child(node)
-		$Dummy.visible = true
-		node = node.duplicate()
-		node.modulate = Color(1.0, 1.0, 1.0, 0.5)
-		$Cursor.add_child(node)
-		$Cursor.visible = false
-
-func clear_units():
-	for c in $Dummy.get_children():
-		c.queue_free()
-	for c in $Cursor.get_children():
-		c.queue_free()
-
-func show_message(msg, pos_y):
-	var message_bar = map.get_node("Message")
-	var tween = message_bar.get_node("Tween")
-	var pos_x = message_bar.rect_position.x
-	message_bar.text = msg
-	tween.interpolate_property(message_bar, "rect_position", Vector2(pos_x, pos_y), Vector2(pos_x, pos_y - 40), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	tween.interpolate_property(message_bar, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	tween.start()

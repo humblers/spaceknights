@@ -5,6 +5,14 @@ export(NodePath) onready var tile = get_node(tile)
 export(NodePath) onready var energy_ui = get_node(energy_ui) if energy_ui else null
 export(NodePath) onready var unit_ready_sound = get_node(unit_ready_sound) if unit_ready_sound else null
 
+export(NodePath) onready var hand1 = get_node(hand1) if hand1 else null
+export(NodePath) onready var hand2 = get_node(hand2) if hand2 else null
+export(NodePath) onready var hand3 = get_node(hand3) if hand3 else null
+export(NodePath) onready var hand4 = get_node(hand4) if hand4 else null
+export(NodePath) onready var next = get_node(next) if next else null
+export(NodePath) onready var skill_left = get_node(skill_left) if skill_left else null
+export(NodePath) onready var skill_right = get_node(skill_right) if skill_right else null
+
 var id
 var color
 
@@ -16,6 +24,22 @@ func Init(playerData, game):
 		color = "Blue" if team == "Red" else "Red"
 	if energy_ui:
 		energy_ui.max_value = MAX_ENERGY
+	merge_card_info()
+	set_deck_ui()
+
+func merge_card_info():
+	for card in hand:
+		static_func.merge_dict(stat.cards[card.Name], card)
+	for card in pending:
+		static_func.merge_dict(stat.cards[card.Name], card)
+
+func set_deck_ui():
+	for i in len(hand):
+		var node = get("hand%d" % (i+1))
+		if node != null:
+			node.Set(hand[i])
+	if next != null:
+		next.Set(pending[0])
 
 func addKnights(knights):
 	.addKnights(knights)
@@ -36,6 +60,12 @@ func Update():
 	.Update()
 	if energy_ui:
 		energy_ui.value = energy
+	for i in HAND_SIZE:
+		var node = get("hand%d" % (i+1))
+		if node != null:
+			node.Update(energy)
+	if next != null:
+		next.Update(drawCounter <= 0)
 
 func useCard(c, tileX, tileY):
 	.useCard(c, tileX, tileY)
@@ -52,13 +82,7 @@ func useCard(c, tileX, tileY):
 
 func OnKnightDead(knight):
 	mothership.destroy(knight.side)
-	expand_spawnable_area(knight)
+	tile.Expand(color, knight.side)
 
 func OnKnightHalfDamaged(knight):
 	mothership.partial_destroy(knight.side)
-
-func expand_spawnable_area(knight):
-	if knight.side == "Center":
-		return
-	var s = knight.side
-	tile.OnKnightDead(color, s)
