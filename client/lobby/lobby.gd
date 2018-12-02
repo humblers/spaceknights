@@ -44,8 +44,7 @@ func login():
 	if err == OK:
 		if config.has_section_key("auth", "pid"):
 			params["pid"] = config.get_value("auth", "pid")
-	var req = http_manager.new_request(HTTPClient.METHOD_POST, "/auth/login",
-			params)
+	var req = http_manager.new_request(HTTPClient.METHOD_POST, "/auth/login", params)
 	var response = yield(req, "response")
 	if not response[0]:
 		http_manager.handle_error(response[1].ErrMessage)

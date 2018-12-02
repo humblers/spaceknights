@@ -36,6 +36,8 @@ export(NodePath) onready var container_lists = get_node(container_lists)
 export(NodePath) onready var container_founds = get_node(container_founds)
 export(NodePath) onready var container_notfounds = get_node(container_notfounds)
 
+export(NodePath) onready var tween = get_node(tween)
+
 export(NodePath) onready var resource_preloader = get_node(resource_preloader)
 
 var pressed_card
@@ -78,13 +80,13 @@ func invalidate():
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("knight_%s" % user.KNIGHT_SIDES[i])
-		btn.invalidate(name, cur_mode == MODE_EDIT_SQUIRE)
+		btn.invalidate(name)
 	for i in range(user.SQUIRE_COUNT):
 		var name = deck.Troops[i]
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		var btn = get("squire_%d" % i)
-		btn.invalidate(name, cur_mode == MODE_EDIT_KNIGHT)
+		btn.invalidate(name)
 	for child in container_founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
@@ -111,7 +113,7 @@ func invalidate():
 
 	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]
 	if is_edit:
-		get_vertical_scrollable_control().rect_position.y = scroll_max_y
+		scrollable.rect_position.y = scroll_max_y
 	pressed.visible = pressed_card != null and not is_edit
 	picked.visible = is_edit
 	container_lists.visible = not is_edit
@@ -129,10 +131,6 @@ func current_mode():
 	return null
 
 func button_up_deck_num(btn):
-	if current_mode() != MODE_NORMAL:
-		yield(get_tree(), "idle_frame")
-		get("deck_btn_%d" % user.DeckSelected).pressed = true
-		return
 	var pressed_num = int(btn.name[-1])
 	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/select", {"num":pressed_num})
 	var response = yield(request, "response")
@@ -145,6 +143,7 @@ func button_up_deck_num(btn):
 func button_up_deck_item(btn):
 	if current_mode() == MODE_NORMAL:
 		return
+
 	var params = {
 		"num": user.DeckSelected,
 		"deck" : {"Knights": [], "Troops": []},
@@ -153,42 +152,69 @@ func button_up_deck_item(btn):
 		var knight_btn = get("knight_%s" % side)
 		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
 	for i in range(user.SQUIRE_COUNT):
-		var troop_btn = get("squire_%d" % i)
-		params.deck.Troops.append(picked_card if troop_btn.name_ == btn.name_ else troop_btn.name_)
+		var squire_btn = get("squire_%d" % i)
+		params.deck.Troops.append(picked_card if squire_btn.name_ == btn.name_ else squire_btn.name_)
 	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
+
+	var origin = picked.rect_global_position
+	tween.interpolate_property(
+			picked,
+			"rect_global_position",
+			picked.rect_global_position,
+			btn.rect_global_position,
+			0.2, Tween.TRANS_LINEAR, Tween.EASE_IN
+	)
+	tween.interpolate_property(
+			picked,
+			"rect_scale",
+			picked.rect_scale,
+			Vector2(1.5, 1.5),
+			0.2, Tween.TRANS_LINEAR, Tween.EASE_IN
+	)
+	tween.start()
+
 	var response = yield(request, "response")
+	if tween.is_active():
+		yield(tween, "tween_completed")
+	picked.animation_player.play("changed")
+	yield(picked.animation_player, "animation_finished")
+
 	if not response[0]:
 		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
+	var picked_type = stat.cards[picked_card].Type
 	picked_card = null
 	pressed_card = null
 	user.Decks[params.num] = params.deck
+	picked.rect_global_position = origin
 	lobby.invalidate()
+	if picked_type == stat.SquireCard:
+		scrollable.rect_position.y = -knights_control.rect_size.y
 
 func set_pressed_card(btn):
 	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]:
 		return
 	if pressed_card == btn.name_:
 		pressed_card = null
+		invalidate()
 		return
 	pressed_card = btn.name_
-	pressed.rect_global_position = btn.get_node("Position2D").global_position
-	if user.CardInDeck(pressed_card):
-		change_filter(stat.cards[pressed_card].Type)
-	invalidate()
+	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
+	change_filter(stat.cards[pressed_card].Type)
 
 func set_picked_card(btn):
 	picked_card = pressed_card
 	invalidate()
 
 func change_filter(filter):
-	if self.filter == filter:
-		return
+	if self.filter != filter:
+		# swap modulate color
+		var temp_color = filter_knight.modulate
+		filter_knight.modulate = filter_squire.modulate
+		filter_squire.modulate = temp_color
 	self.filter = filter
-	# swap modulate color
-	var temp_color = filter_knight.modulate
-	filter_knight.modulate = filter_squire.modulate
-	filter_squire.modulate = temp_color
+	if not user.CardInDeck(pressed_card) and filter != stat.cards[pressed_card].Type:
+		pressed_card = null
 	invalidate()
 
 func go_to_tutor_mode():
@@ -204,6 +230,6 @@ func go_to_tutor_mode():
 		var d = player.Deck
 		d.clear()
 		for i in range(user.SQUIRE_COUNT):
-			var troop_btn = get("squire_%d" % i)
-			d.append({"Name":troop_btn.name_, "Level":0})
+			var squire_btn = get("squire_%d" % i)
+			d.append({"Name":squire_btn.name_, "Level":0})
 	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
