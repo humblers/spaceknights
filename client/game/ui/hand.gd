@@ -17,7 +17,6 @@ onready var dummy_init_pos = $Dummy.position
 var card
 var pressed = false
 
-# TODO: insert name to card data
 func Set(card):
 	self.card = card
 	clear_cursor_and_dummy()
@@ -59,8 +58,7 @@ func add_cursor_and_dummy(card):
 		var node = cursor_resource.get_resource(stat.Squire.to_lower()).instance()
 		$Cursor.add_child(node)
 	else:
-		# TODO: change card.Unit to card.Name
-		var node = cursor_resource.get_resource(card.Unit).instance()
+		var node = cursor_resource.get_resource(card.Name).instance()
 		$Cursor.add_child(node)
 
 func clear_cursor_and_dummy():
@@ -80,7 +78,15 @@ func handle_input(ev):
 		on_dragged(ev)
 
 func on_pressed():
-	tile.Show(true)
+	var is_unit = true
+	if card.Type == stat.KnightCard:
+		var skill = stat.units[card.Name].skill.wing
+		if not skill.has("unit"):
+			is_unit = false
+		else:
+			if stat.units[skill.unit].type != stat.Building:
+				is_unit = false
+	tile.Show(is_unit)
 	$Card.z_index += 1
 
 func on_dragged(ev):
@@ -113,7 +119,7 @@ func on_released(ev):
 		return
 	
 	# enough energy?
-	if $Card/Energy.value <= $Card/Energy.max_value:
+	if $Card/Energy.value < $Card/Energy.max_value:
 		show_message("Not Enough energy", pos.y)
 		init()
 		return

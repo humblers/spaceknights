@@ -133,7 +133,8 @@ func Do(action):
 	return null
 
 func findKnight(name):
-	for id in knightIds:
+	for side in knightIds:
+		var id = knightIds[side]
 		var u = game.FindUnit(id)
 		if u != null and u.Name() == name:
 			return u
