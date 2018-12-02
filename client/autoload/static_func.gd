@@ -14,10 +14,3 @@ static func draw_circle_arc(cavas_item, center, radius, angle_from, angle_to, co
 		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
 	for index_point in range(nb_points):
 		cavas_item.draw_line(points_arc[index_point], points_arc[index_point + 1], color)
-
-# add key-value of dict 'from' to dict 'to'
-# deep copy not supported
-static func merge_dict(from, to):
-	for k in from:
-		assert(not to.has(k))
-		to[k] = from[k]

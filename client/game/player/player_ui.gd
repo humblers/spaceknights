@@ -24,14 +24,8 @@ func Init(playerData, game):
 		color = "Blue" if team == "Red" else "Red"
 	if energy_ui:
 		energy_ui.max_value = MAX_ENERGY
-	merge_card_info()
 	set_deck_ui()
-
-func merge_card_info():
-	for card in hand:
-		static_func.merge_dict(stat.cards[card.Name], card)
-	for card in pending:
-		static_func.merge_dict(stat.cards[card.Name], card)
+	mothership.Init(self)
 
 func set_deck_ui():
 	for i in len(hand):
@@ -41,20 +35,11 @@ func set_deck_ui():
 	if next != null:
 		next.Set(pending[0])
 
-func addKnights(knights):
-	.addKnights(knights)
-	for i in len(knightIds):
-		var id = knightIds[i]
-		var knight = game.FindUnit(id)
-		if i == 0:
-			knight.side = stat.Center
-		elif i == 1:
-			knight.side = stat.Left
-		else:
-			knight.side = stat.Right
-			
-		# make invisible to play show animation
-		knight.visible = false
+func addKnight(name, level, side):
+	var knight = .addKnight(name, level, side)
+	knight.side = side
+	# make invisible to play show animation
+	knight.visible = false
 
 func Update():
 	.Update()
@@ -81,8 +66,9 @@ func useCard(c, tileX, tileY):
 			$AudioStreamPlayer.play()
 
 func OnKnightDead(knight):
-	mothership.destroy(knight.side)
+	.OnKnightDead(knight)
+	mothership.Destroy(knight.side)
 	tile.Expand(color, knight.side)
 
 func OnKnightHalfDamaged(knight):
-	mothership.partial_destroy(knight.side)
+	mothership.PartialDestroy(knight.side)

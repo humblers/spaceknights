@@ -160,6 +160,13 @@ func Layer():
 func IsDead():
 	return hp <= 0
 
+func Hp():
+	return hp
+
+func SetHp(hp):
+	self.hp = hp
+	set_hp()
+	
 func TakeDamage(amount, attacker):
 	if Layer() != stat.Normal:
 		return

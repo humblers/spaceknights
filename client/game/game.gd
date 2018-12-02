@@ -87,10 +87,9 @@ func _ready():
 		var team = p.Team
 		if team_swapped:
 			team = "Blue" if p.Team == "Red" else "Red"
-		var n = $Players.get_node(team)
-		n.Init(p, self)
-		players[p.Id] = n
-		get_node("Motherships/%s" % team).init(self, n, p.Knights)
+		var player = $Players.get_node(team)
+		player.Init(p, self)
+		players[p.Id] = player
 	CreateMapObstacles()
 
 func Over():

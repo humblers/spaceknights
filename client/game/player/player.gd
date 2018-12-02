@@ -7,9 +7,16 @@ const START_ENERGY = 7000
 const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
 const DRAW_INTERVAL = 30
-const KNIGHT_LEADER_INDEX = 0
-const KNIGHT_INITIAL_POSX = [500, 200, 800]
-const KNIGHT_INITIAL_POSY = [1450, 1350, 1350]
+const INITIAL_KNIGHT_POSITION_X = {
+	"Left": 200,
+	"Center": 500,
+	"Right": 800,
+}
+const INITIAL_KNIGHT_POSITION_Y = {
+	"Left": 1350,
+	"Center": 1450,
+	"Right": 1350,
+}
 const INPUT_DELAY_STEP = 10
 
 var team
@@ -18,7 +25,7 @@ var hand = []
 var pending = []
 var emptyIdx = []
 var drawCounter = 0
-var knightIds = []
+var knightIds = {}
 var score = 0
 var statRatios = {}
 var game
@@ -29,12 +36,16 @@ func Init(playerData, game):
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	self.game = game
 	for i in len(playerData.Deck):
-		var card = playerData.Deck[i]
+		var c = playerData.Deck[i]
+		var card = stat.NewCard(c)
 		if i < HAND_SIZE:
 			hand.append(card)
 		else:
 			pending.append(card)
-	addKnights(playerData.Knights)
+		if card.Type == stat.KnightCard:
+			addKnight(card.Name, card.Level, card.Side)
+	applyLeaderSkill()
+	return self
 
 func Score():
 	return score
@@ -52,19 +63,31 @@ func AddStatRatio(name, ratio):
 		statRatios[name] = []
 	statRatios[name].append(ratio)
 
-func addKnights(knights):
-	for i in len(knights):
-		var k = knights[i]
-		var x = KNIGHT_INITIAL_POSX[i]
-		var y = KNIGHT_INITIAL_POSY[i]
-		if team == "Red":
-			x = game.FlipX(x)
-			y = game.FlipY(y)
-		var knight = game.AddUnit(k.Name, k.Level, x, y, self)
-		if i == KNIGHT_LEADER_INDEX:
-			knight.SetAsLeader()
-		knightIds.append(knight.Id())
+func addKnight(name, level, side):
+	var x = INITIAL_KNIGHT_POSITION_X[side]
+	var y = INITIAL_KNIGHT_POSITION_Y[side]
+	if team == "Red":
+		x = game.FlipX(x)
+		y = game.FlipY(y)
+	var knight = game.AddUnit(name, level, x, y, self)
+	knightIds[side] = knight.Id()
+	return knight
 
+func applyLeaderSkill():
+	game.FindUnit(knightIds[stat.Center]).SetAsLeader()
+	
+	# apply hp buff
+	for side in knightIds:
+		var id = knightIds[side]
+		var knight = game.FindUnit(id)
+		var hp = knight.Hp()
+		var divider = 1
+		var ratios = StatRatios("hpratio")
+		for i in range(len(ratios)):
+			hp *= ratios[i]
+			divider *= 100
+		knight.SetHp(hp / divider)
+	
 func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
@@ -104,7 +127,7 @@ func Do(action):
 	
 	# put empty card
 	if index >= 0:
-		hand[index] = {"Name":"", "Level":0}
+		hand[index] = {}
 		pending.append(action.Card)
 		emptyIdx.append(index)
 	return null
@@ -155,19 +178,16 @@ func drawCard():
 	drawCounter = DRAW_INTERVAL
 
 func OnKnightDead(knight):
-	var isLeader = false
-	for i in range(len(knightIds)):
-		var id = knightIds[i]
+	for side in knightIds:
+		var id = knightIds[side]
 		if id == knight.Id():
-			knightIds[i] = 0
-			if i == 0:
-				isLeader = true
+			knightIds[side] = 0
+			if side == stat.Center:
+				score -= game.LEADER_SCORE
+			else:
+				score -= game.WING_SCORE
 			break
 	removeCard(knight.Name())
-	if isLeader:
-		score -= game.LEADER_SCORE
-	else:
-		score -= game.WING_SCORE
 
 func removeCard(name):
 	for i in range(len(hand)):
