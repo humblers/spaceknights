@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://game/unit/nukemissile/nuke_missile.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/nukemissile/nuke_missile_normal.png" type="Texture" id=2]
@@ -6,27 +6,27 @@
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
 [ext_resource path="res://game/unit/nukemissile/nuke_missile_dist.png" type="Texture" id=5]
 [ext_resource path="res://game/unit/nukemissile/nuke_missile_dist_2.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/unit_explosion_8.png" type="Texture" id=14]
-[ext_resource path="res://game/vfx/energy_shield_2.png" type="Texture" id=15]
-[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/vfx/unit_explosion_5.png" type="Texture" id=17]
-[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/energy_shield_1.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=12]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/unit_explosion_8.png" type="Texture" id=15]
+[ext_resource path="res://game/vfx/energy_shield_2.png" type="Texture" id=16]
+[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/vfx/unit_explosion_5.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=19]
 
 [sub_resource type="Curve" id=1]
 
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9224 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.7464 ), 0.0, 0.6141, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
 
-offsets = PoolRealArray( 0, 0.7, 1 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="Curve" id=3]
 
@@ -288,7 +288,7 @@ tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 1.5 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -300,10 +300,22 @@ tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 0, 1.5 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 3.0, 1.0 ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Explosion/Sprite:modulate")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0, 0.3, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.137255, 0.47451, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="CanvasItemMaterial" id=9]
@@ -752,6 +764,18 @@ tracks/13/keys = {
 "clips": PoolStringArray( "explosion" ),
 "times": PoolRealArray( 1.5 )
 }
+tracks/14/type = "value"
+tracks/14/path = NodePath("Rotatable/Main/Shake:speed_scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 2.0, 6.0 ]
+}
 
 [sub_resource type="Animation" id=13]
 
@@ -1128,19 +1152,21 @@ tracks/9/keys = {
 [node name="Rotatable" type="Node2D" parent="."]
 
 [node name="Main" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
+modulate = Color( 0, 0, 0, 0 )
 texture = ExtResource( 1 )
 normal_map = ExtResource( 2 )
 
 [node name="Shake" type="CPUParticles2D" parent="Rotatable/Main"]
+scale = 1.2
 emitting = false
-speed_scale = 2.0
+speed_scale = 6.0
 explosiveness = 0.5
 texture = ExtResource( 1 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
+scale = 1.2
 scale_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
@@ -1206,32 +1232,38 @@ scale = Vector2( 0.616667, 0.633388 )
 texture = ExtResource( 3 )
 
 [node name="Crack" type="Sprite" parent="Rotatable"]
+visible = false
 modulate = Color( 1, 0.945098, 0.145098, 0 )
 material = ExtResource( 4 )
 texture = ExtResource( 5 )
 
 [node name="light" type="Sprite" parent="Rotatable"]
-modulate = Color( 1, 1, 1, 0 )
+visible = false
+modulate = Color( 1, 0.780392, 0.12549, 0 )
 material = ExtResource( 4 )
 texture = ExtResource( 6 )
 
 [node name="Bomb_explosion" type="Node2D" parent="Rotatable"]
 
 [node name="Explosion" type="Node2D" parent="Rotatable/Bomb_explosion"]
-editor/display_folded = true
 scale = Vector2( 1.2, 1.2 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Bomb_explosion/Explosion"]
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 7 )
 
 [node name="Exp6" type="Sprite" parent="Rotatable/Bomb_explosion/Explosion"]
 modulate = Color( 0.309804, 0.133333, 0.133333, 0 )
 light_mask = 1025
 scale = Vector2( 2, 2 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="Exp4" type="CPUParticles2D" parent="Rotatable/Bomb_explosion/Explosion"]
 modulate = Color( 0.419608, 0.0196078, 1, 0 )
 light_mask = 1025
 scale = 2.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 60.0
@@ -1246,7 +1278,7 @@ scale_curve = SubResource( 5 )
 modulate = Color( 1, 0.592157, 0.196078, 0 )
 light_mask = 1025
 scale = 1.5
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 spread = 90.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -1259,7 +1291,7 @@ scale_curve = SubResource( 6 )
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 1024
 scale = Vector2( 10, 10 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Bomb_explosion/Explosion"]
 light_mask = 1025
@@ -1283,7 +1315,7 @@ color = Color( 1, 0.564706, 0.278431, 1 )
 modulate = Color( 0.227451, 0.494118, 1, 0 )
 light_mask = 1025
 scale = Vector2( 2, 2 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="ForScale" type="Node2D" parent="Rotatable/Bomb_explosion/Explosion"]
 light_mask = 1025
@@ -1295,7 +1327,7 @@ material = ExtResource( 4 )
 scale = 3.0
 amount = 13
 speed_scale = 1.5
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 30.0
@@ -1310,24 +1342,23 @@ scale_curve = SubResource( 7 )
 modulate = Color( 0, 0, 0, 0 )
 light_mask = 1025
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="Smoke2" type="Sprite" parent="Rotatable/Bomb_explosion/Explosion"]
 modulate = Color( 0, 0, 0, 0 )
 light_mask = 1025
 scale = Vector2( 3, 3 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="Circle" type="Sprite" parent="Rotatable/Bomb_explosion/Explosion"]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 1024
 scale = Vector2( 3, 3 )
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 
 [node name="Light2D" type="Light2D" parent="Rotatable/Bomb_explosion/Explosion"]
-visible = false
 enabled = false
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 texture_scale = 30.0
 
 [node name="ExpAni" type="AnimationPlayer" parent="Rotatable/Bomb_explosion"]
@@ -1337,7 +1368,7 @@ anims/explosion = SubResource( 8 )
 editor/display_folded = true
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="Rotatable/Bomb_explosion/Sound"]
-stream = ExtResource( 16 )
+stream = ExtResource( 17 )
 volume_db = 3.0
 
 [node name="Distroy" type="Node2D" parent="Rotatable"]
@@ -1351,56 +1382,56 @@ editor/display_folded = true
 visible = false
 modulate = Color( 1, 0.231373, 0.215686, 0 )
 scale = Vector2( 4, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Ex8" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 0, 0, 0, 1 )
 rotation = -1.5708
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="Ex7" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 0.154541, 0.166643, 0.1875, 1 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="Ex6" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.509804, 0.0352941, 0.160784 )
 material = SubResource( 9 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="Ex5" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.588235, 0.109804, 1 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 
 [node name="Ex4" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.266667, 0.662745, 1 )
 scale = Vector2( 1.3, 1.3 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 
 [node name="Ex3" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.72549, 0.407843, 1 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Ex2" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.352941, 0.0352941, 1 )
 rotation = 3.14159
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Ex1" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 rotation = 1.5708
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Ex1a" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Distroy/Main"]
 emitting = false
@@ -1420,11 +1451,11 @@ visible = false
 modulate = Color( 0.333333, 0.160784, 0.258824, 1 )
 material = SubResource( 10 )
 scale = Vector2( 5, 5 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Center2" type="Sprite" parent="Rotatable/Distroy/Main/Center"]
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="DisAni" type="AnimationPlayer" parent="Rotatable/Distroy"]
 anims/explosion = SubResource( 11 )

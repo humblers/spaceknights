@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/judge/judge.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/judge/body.png" type="Texture" id=2]
@@ -33,19 +33,21 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=31]
 [ext_resource path="res://game/unit/judge/explosion.tres" type="Animation" id=32]
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=33]
-[ext_resource path="res://game/unit/judge/attack.tres" type="Animation" id=34]
-[ext_resource path="res://game/unit/judge/destroy.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/judge/idle.tres" type="Animation" id=36]
-[ext_resource path="res://game/unit/judge/show.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/judge/skill.tres" type="Animation" id=38]
-[ext_resource path="res://game/unit/judge/judge_atk.wav" type="AudioStream" id=39]
-[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/unit/judge/judge_skill.wav" type="AudioStream" id=41]
-[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=42]
-[ext_resource path="res://game/unit/judge/bullet.tscn" type="PackedScene" id=43]
-[ext_resource path="res://game/unit/judge/bulletrain.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/vfx/hit_effect.gd" type="Script" id=34]
+[ext_resource path="res://game/unit/judge/attack.tres" type="Animation" id=35]
+[ext_resource path="res://game/unit/judge/destroy.tres" type="Animation" id=36]
+[ext_resource path="res://game/unit/judge/idle.tres" type="Animation" id=37]
+[ext_resource path="res://game/unit/judge/show.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/judge/skill.tres" type="Animation" id=39]
+[ext_resource path="res://game/unit/judge/judge_atk.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/sfx/explosion_knight.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/unit/judge/judge_skill.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=43]
+[ext_resource path="res://game/hpbar/no_light.tres" type="Material" id=44]
+[ext_resource path="res://game/unit/judge/bullet.tscn" type="PackedScene" id=45]
+[ext_resource path="res://game/unit/judge/bulletrain.tscn" type="PackedScene" id=46]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=8]
 
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
@@ -54,7 +56,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=9]
 
 animations = [ {
 "frames": [ null, ExtResource( 12 ), null ],
@@ -63,32 +65,35 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=10]
 
 _data = [ Vector2( 0.00432848, 0.655092 ), 0.0, 0.0, 0, 0, Vector2( 0.999401, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=11]
 
 _data = [ Vector2( 0, 0.769126 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.850567 ), 0.334248, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=12]
 
 _data = [ Vector2( 0.00283662, 0.988958 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0252662 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Judge" type="Node2D"]
+editor/display_folded = true
+position = Vector2( 0, 900 )
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 
 [node name="Body" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, -9 )
 
 [node name="Booster" type="Node2D" parent="Rotatable/Body"]
+editor/display_folded = true
 z_index = -1
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/Booster"]
@@ -101,7 +106,7 @@ modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
+frames = SubResource( 8 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
@@ -125,7 +130,7 @@ modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
+frames = SubResource( 8 )
 animation = "thrust"
 speed_scale = 3.0
 playing = true
@@ -148,7 +153,7 @@ modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 3.66519
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
+frames = SubResource( 8 )
 animation = "thrust"
 speed_scale = 3.0
 playing = true
@@ -171,7 +176,7 @@ modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 2.61799
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 1 )
+frames = SubResource( 8 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
@@ -186,6 +191,7 @@ scale = Vector2( 1.5, 1.9 )
 texture = ExtResource( 7 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 30, 0 )
@@ -203,7 +209,7 @@ offset = Vector2( 0, -18 )
 [node name="HatchOpenR" type="AnimatedSprite" parent="Rotatable/Body/ShoulderR/ArmR"]
 use_parent_material = true
 position = Vector2( -1.5, -35 )
-frames = SubResource( 2 )
+frames = SubResource( 9 )
 animation = "hatchopen"
 
 [node name="EffectOver" type="Node2D" parent="Rotatable/Body/ShoulderR/ArmR"]
@@ -227,7 +233,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight1" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot1"]
@@ -252,7 +258,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight2" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot2"]
@@ -277,7 +283,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight3" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot3"]
@@ -302,7 +308,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight4" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot4"]
@@ -327,7 +333,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight5" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot5"]
@@ -353,7 +359,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight6" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/EffectOver/ShotpointR/Shot6"]
@@ -383,18 +389,15 @@ flip_h = true
 [node name="HatchOpenL" type="AnimatedSprite" parent="Rotatable/Body/ShoulderL/ArmL"]
 use_parent_material = true
 position = Vector2( 1.5, -35 )
-frames = SubResource( 2 )
+frames = SubResource( 9 )
 animation = "hatchopen"
 
 [node name="EffectOver" type="Node2D" parent="Rotatable/Body/ShoulderL/ArmL"]
-editor/display_folded = true
 
 [node name="ShotpointL" type="Position2D" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver"]
-editor/display_folded = true
 position = Vector2( 1.5, -25 )
 
 [node name="Shot7" type="Node2D" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL"]
-editor/display_folded = true
 
 [node name="FireFlash7" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot7"]
 scale = 0.5
@@ -408,7 +411,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight7" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot7"]
@@ -433,7 +436,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight8" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot8"]
@@ -458,7 +461,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight9" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot9"]
@@ -483,7 +486,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight10" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot10"]
@@ -509,7 +512,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight11" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot11"]
@@ -535,7 +538,7 @@ gravity = Vector2( 0, -100 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 3 )
+scale_curve = SubResource( 10 )
 color = Color( 0.996078, 0.745098, 0.129412, 0.388235 )
 
 [node name="FireLight12" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver/ShotpointL/Shot12"]
@@ -594,7 +597,7 @@ angular_velocity = 360.0
 angular_velocity_random = 1.0
 linear_accel = 10.0
 radial_accel = 1.0
-scale_curve = SubResource( 4 )
+scale_curve = SubResource( 11 )
 color = Color( 1, 0.372549, 0.109804, 0.431373 )
 
 [node name="Flashing" type="Light2D" parent="Rotatable/Body/GunFrame"]
@@ -623,7 +626,7 @@ gravity = Vector2( 300, -30 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 5 )
+scale_curve = SubResource( 12 )
 color = Color( 1, 0.372549, 0.109804, 0.670588 )
 
 [node name="MuzzleFlash3" type="CPUParticles2D" parent="Rotatable/Body/GunFrame/MuzzleFlash"]
@@ -640,7 +643,7 @@ gravity = Vector2( 300, -30 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
 scale = 0.5
-scale_curve = SubResource( 5 )
+scale_curve = SubResource( 12 )
 color = Color( 1, 0.372549, 0.109804, 0.670588 )
 
 [node name="Barrel" type="Sprite" parent="Rotatable/Body/GunFrame"]
@@ -664,6 +667,7 @@ normal_map = ExtResource( 22 )
 offset = Vector2( 0, -2 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
+editor/display_folded = true
 scale = Vector2( 2, 2 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
@@ -757,32 +761,37 @@ texture = ExtResource( 7 )
 texture_scale = 30.0
 energy = 2.0
 
-[node name="HitEffect" parent="." instance=ExtResource( 33 )]
+[node name="HitEffect" type="Node2D" parent="." instance=ExtResource( 33 )]
 position = Vector2( 0, -5 )
+script = ExtResource( 34 )
+type = 1
+rect_area = null
 circle_radius = 30.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 34 )
-anims/destroy = ExtResource( 35 )
-anims/idle = ExtResource( 36 )
-anims/show = ExtResource( 37 )
-anims/skill = ExtResource( 38 )
+anims/attack = ExtResource( 35 )
+anims/destroy = ExtResource( 36 )
+anims/idle = ExtResource( 37 )
+anims/show = ExtResource( 38 )
+anims/skill = ExtResource( 39 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 39 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 40 )
 
-[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 41 )
 
-[node name="Hp" parent="." instance=ExtResource( 42 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 42 )
+
+[node name="Hp" type="Position2D" parent="." instance=ExtResource( 43 )]
+visible = false
+material = ExtResource( 44 )
 position = Vector2( 0, -145 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet", "bulletrain" ), [ ExtResource( 43 ), ExtResource( 44 ) ] ]
+resources = [ PoolStringArray( "bullet", "bulletrain" ), [ ExtResource( 45 ), ExtResource( 46 ) ] ]
 
