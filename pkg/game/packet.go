@@ -1,6 +1,7 @@
 package game
 
 import "encoding/json"
+import "github.com/humblers/spaceknights/pkg/data"
 
 type packet []byte
 
@@ -27,10 +28,9 @@ type Join struct {
 }
 
 type PlayerData struct {
-	Id      string
-	Team    Team
-	Deck    []Card
-	Knights []KnightData
+	Id   string
+	Team Team
+	Deck []data.Card
 }
 
 type Input struct {
@@ -40,20 +40,10 @@ type Input struct {
 
 type Action struct {
 	Id      string
-	Card    Card
+	Card    data.Card
 	TileX   int
 	TileY   int
 	Message string // for emoticon
-}
-
-type Card struct {
-	Name  string
-	Level int
-}
-
-type KnightData struct {
-	Name  string
-	Level int
 }
 
 type State struct {

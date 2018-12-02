@@ -77,11 +77,10 @@ type game struct {
 	deathToll     map[Team]int
 	lastDeadPosX  map[Team]fixed.Scalar
 
-	players         map[string]Player
-	pInitKnightData map[string][]KnightData
-	playerIds       []string
-	actions         map[int][]Action
-	sent            packet
+	players   map[string]Player
+	playerIds []string
+	actions   map[int][]Action
+	sent      packet
 
 	joinc   chan Client
 	leavec  chan Client
@@ -118,9 +117,8 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 		deathToll:     make(map[Team]int),
 		lastDeadPosX:  make(map[Team]fixed.Scalar),
 
-		players:         make(map[string]Player),
-		pInitKnightData: make(map[string][]KnightData),
-		actions:         actions,
+		players: make(map[string]Player),
+		actions: actions,
 
 		joinc:   make(chan Client),
 		leavec:  make(chan Client),
@@ -136,7 +134,6 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	}
 	for _, p := range cfg.Players {
 		g.players[p.Id] = newPlayer(p, g)
-		g.pInitKnightData[p.Id] = p.Knights
 		g.playerIds = append(g.playerIds, p.Id)
 	}
 	g.createMapObstacles()

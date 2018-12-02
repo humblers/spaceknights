@@ -22,6 +22,8 @@ type Unit interface {
 	Destroy()
 	Freeze(duration int)
 	MakeSlow(duration int)
+	Hp() int
+	SetHp(hp int)
 
 	// from physics.Body
 	Position() fixed.Vector
@@ -49,6 +51,14 @@ type unit struct {
 	freeze           int
 	prev_desired_pos fixed.Vector
 	moving           bool
+}
+
+func (u *unit) Hp() int {
+	return u.hp
+}
+
+func (u *unit) SetHp(hp int) {
+	u.hp = hp
 }
 
 func (u *unit) MakeSlow(duration int) {

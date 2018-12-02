@@ -185,14 +185,6 @@ func (a *astra) inLaserArea(u Unit) bool {
 func (a *astra) SetAsLeader() {
 	a.isLeader = true
 	a.player.AddStatRatio("hpratio", a.Skill()["hpratio"].([]int)[a.level])
-	hp := a.initialHp()
-	divider := 1
-	for _, ratio := range a.player.StatRatios("hpratio") {
-		hp *= ratio
-		divider *= 100
-	}
-	a.hp = hp / divider
-
 }
 
 func (a *astra) Skill() map[string]interface{} {

@@ -41,6 +41,23 @@ type Card struct {
 	Side    KnightSide
 }
 
+func NewCard(c Card) Card {
+	info := Cards[c.Name]
+	return Card{
+		Name:    c.Name,
+		Type:    info.Type,
+		Cost:    info.Cost,
+		Unit:    info.Unit,
+		Count:   info.Count,
+		OffsetX: info.OffsetX,
+		OffsetY: info.OffsetY,
+		Rarity:  info.Rarity,
+		Level:   c.Level,
+		Holding: c.Holding,
+		Side:    c.Side,
+	}
+}
+
 var Cards = map[string]Card{
 	"archengineer": Card{
 		Type:   KnightCard,
