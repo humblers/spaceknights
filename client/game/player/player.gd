@@ -35,13 +35,13 @@ func Init(playerData, game):
 	energy = START_ENERGY
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	self.game = game
-	for i in len(playerData.Deck):
-		var c = playerData.Deck[i]
+	for c in playerData.Deck:
 		var card = stat.NewCard(c)
-		if i < HAND_SIZE:
-			hand.append(card)
-		else:
-			pending.append(card)
+		if card.Side != stat.Center:
+			if len(hand) < HAND_SIZE:
+				hand.append(card)
+			else:
+				pending.append(card)
 		if card.Type == stat.KnightCard:
 			addKnight(card.Name, card.Level, card.Side)
 	applyLeaderSkill()
@@ -92,7 +92,12 @@ func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
-	drawCard()
+	if drawCounter > 0:
+		drawCounter -= 1
+		return -1
+	if len(emptyIdx) == 0:
+		return
+	drawCard(emptyIdx.pop_front())
 
 func Do(action):
 	if action.Card.Name == "":
@@ -104,33 +109,35 @@ func Do(action):
 
 	# find card in hand
 	var index = -1
+	var card
 	for i in len(hand):
-		var card = hand[i]
-		if card.Name == action.Card.Name:
+		var c = hand[i]
+		if c.Name == action.Card.Name:
 			index = i
+			card = c
 			break
 
 	if index < 0:
  		return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
 
 	# check energy
-	var cost = stat.cards[action.Card.Name]["Cost"]
-	if energy < cost:
-		return "not enough energy: %s" % action.Card.Name
+	if energy < card.Cost:
+		return "not enough energy: %s" % card.Name
 
-	var err = useCard(action.Card, action.TileX, action.TileY)
+	var err = useCard(card, action.TileX, action.TileY)
 	if err != null:
 		return err
 	
 	# decrement energy
-	energy -= cost
+	energy -= card.Cost
 	
-	# put empty card
-	if index >= 0:
-		hand[index] = {}
-		pending.append(action.Card)
-		emptyIdx.append(index)
+	removeCardInHand(card, index)
 	return null
+
+func removeCardInHand(card, index):
+	hand[index] = {}
+	pending.append(card)
+	emptyIdx.append(index)
 
 func findKnight(name):
 	for side in knightIds:
@@ -167,15 +174,9 @@ func useCard(c, tileX, tileY):
 			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
 	return null
 
-func drawCard():
-	if drawCounter > 0:
-		drawCounter -= 1
-		return
-	if len(emptyIdx) == 0:
-		return
+func drawCard(index):
 	var next = pending.pop_front()
-	var idx = emptyIdx.pop_front()
-	hand[idx] = next
+	hand[index] = next
 	drawCounter = DRAW_INTERVAL
 
 func OnKnightDead(knight):

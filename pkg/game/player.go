@@ -64,12 +64,14 @@ func newPlayer(pd PlayerData, g Game) Player {
 
 		game: g,
 	}
-	for i, card := range pd.Deck {
-		card = data.NewCard(card)
-		if i < handSize {
-			p.hand = append(p.hand, card)
-		} else {
-			p.pending = append(p.pending, card)
+	for _, c := range pd.Deck {
+		card := data.NewCard(c)
+		if card.Side != data.Center {
+			if len(p.hand) < handSize {
+				p.hand = append(p.hand, card)
+			} else {
+				p.pending = append(p.pending, card)
+			}
 		}
 		if card.Type == data.KnightCard {
 			p.addKnight(card.Name, card.Level, card.Side)
@@ -134,7 +136,16 @@ func (p *player) Update() {
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
-	p.drawCard()
+	if p.drawCounter > 0 {
+		p.drawCounter--
+		return
+	}
+	if len(p.emptyIdx) == 0 {
+		return
+	}
+	index := p.emptyIdx[0]
+	p.emptyIdx = p.emptyIdx[1:]
+	p.drawCard(index)
 }
 
 func (p *player) Do(a *Action) error {
@@ -148,9 +159,11 @@ func (p *player) Do(a *Action) error {
 
 	// find card in hand
 	index := -1
+	var card data.Card
 	for i, c := range p.hand {
 		if c.Name == a.Card.Name {
 			index = i
+			card = c
 			a.Card.Level = c.Level // to protect level cheat
 			break
 		}
@@ -160,25 +173,25 @@ func (p *player) Do(a *Action) error {
 	}
 
 	// check energy
-	cost := data.Cards[a.Card.Name].Cost
-	if p.energy < cost {
-		return fmt.Errorf("not enough energy: %v", a.Card.Name)
+	if p.energy < card.Cost {
+		return fmt.Errorf("not enough energy: %v", card.Name)
 	}
 
-	if err := p.useCard(a.Card, a.TileX, a.TileY); err != nil {
+	if err := p.useCard(card, a.TileX, a.TileY); err != nil {
 		return err
 	}
 
 	// decrement energy
-	p.energy -= cost
+	p.energy -= card.Cost
 
-	// put empty card
-	if index >= 0 {
-		p.hand[index] = data.Card{}
-		p.pending = append(p.pending, a.Card)
-		p.emptyIdx = append(p.emptyIdx, index)
-	}
+	p.removeCardInHand(card, index)
 	return nil
+}
+
+func (p *player) removeCardInHand(card data.Card, index int) {
+	p.hand[index] = data.Card{}
+	p.pending = append(p.pending, card)
+	p.emptyIdx = append(p.emptyIdx, index)
 }
 
 func (p *player) findKnight(name string) Unit {
@@ -226,19 +239,10 @@ func (p *player) useCard(c data.Card, tileX, tileY int) error {
 	return nil
 }
 
-func (p *player) drawCard() {
-	if p.drawCounter > 0 {
-		p.drawCounter--
-		return
-	}
-	if len(p.emptyIdx) == 0 {
-		return
-	}
+func (p *player) drawCard(index int) {
 	var next data.Card
-	var idx int
 	next, p.pending = p.pending[0], p.pending[1:]
-	idx, p.emptyIdx = p.emptyIdx[0], p.emptyIdx[1:]
-	p.hand[idx] = next
+	p.hand[index] = next
 	p.drawCounter = drawInterval
 }
 

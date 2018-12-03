@@ -18,6 +18,11 @@ var card
 var pressed = false
 
 func Set(card):
+	if card == null:
+		visible = false
+		return
+	else:
+		visible = true
 	self.card = card
 	clear_cursor_and_dummy()
 	add_cursor_and_dummy(card)
@@ -124,7 +129,7 @@ func on_released(ev):
 		init()
 		return
 	
-	send_input($Cursor.global_position - map.rect_position)
+	player.send_input(card, $Cursor.global_position - map.rect_position)
 	$Card.visible = false
 	disconnect("gui_input", self, "handle_input")
 	$AnimationPlayer.play("launch")
@@ -133,33 +138,6 @@ func on_released(ev):
 	$Cursor.visible = false
 	$AnimationPlayer.play("show")
 	yield($AnimationPlayer, "animation_finished")
-
-func send_input(pos):
-	var x = int(pos.x)
-	var y = int(pos.y)
-	if game.team_swapped:
-		x = game.FlipX(x)
-		y = game.FlipY(y)
-	var tile = game.TileFromPos(x, y)
-	var input = {
-			"Step": game.step + player.INPUT_DELAY_STEP,
-			"Action": {
-				"Id": player.id,
-				"Card": {
-					"Name": card.Name,
-					"Level": card.Level,
-				},
-				"TileX": tile[0],
-				"TileY": tile[1],
-			},
-	}
-	if game.connected:
-		tcp.Send(input)
-	else:
-		if game.actions.has(input.Step):
-			game.actions[input.Step].append(input.Action)
-		else:
-			game.actions[input.Step] = [input.Action]
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")
