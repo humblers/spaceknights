@@ -91,8 +91,18 @@ func on_pressed():
 		else:
 			if stat.units[skill.unit].type != stat.Building:
 				is_unit = false
-	tile.Show(is_unit)
+	tile.Show(can_use_anywhere())
 	$Card.z_index += 1
+
+func can_use_anywhere():
+	if card.Type == stat.KnightCard:
+		var skill = stat.units[card.Name].skill.wing
+		if not skill.has("unit"):
+			return true
+		else:
+			if stat.units[skill.unit].type != stat.Building:
+				return true
+	return false
 
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -149,49 +159,57 @@ func show_message(msg, pos_y):
 	tween.start()
 
 func set_cursor_pos(x, y):
+	if game.team_swapped:
+		x = game.FlipX(x)
+		y = game.FlipY(y)
 	var tile = game.TileFromPos(x, y)
-	var minTileY = game.Map().MinTileYOnBot()
-	var maxTileY = game.Map().TileNumY() - 1
-	tile[1] = int(clamp(tile[1], minTileY, maxTileY))
-	var res = avoid_occupied_tiles(tile[0], tile[1], 1, 1, minTileY, maxTileY)
-	if res[1] == null:
-		var tr = res[0]
-		tile[0] = (tr.l + tr.r) / 2
-		tile[1] = (tr.t + tr.b) / 2
-	else:
-		print(res[1])	# error
+	if not can_use_anywhere():
+		var minY = 0
+		var maxY = game.Map().TileNumY() - 1
+		if player.team == "Blue":
+			minY = game.Map().MinTileYOnBot()
+		else:
+			maxY = game.Map().MaxTileYOnTop()
+		tile[1] = int(clamp(tile[1], minY, maxY))
+		var nx = 1
+		var ny = 1
+		if card.Type == stat.KnightCard:
+			var skill = stat.units[card.Unit].skill.wing
+			if skill.has("unit"):
+				var unit = stat.units[skill.unit]
+				if unit.type == stat.Building:
+					nx = unit.tilenumx
+					ny = unit.tilenumy
+		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minY, maxY)
+		if res[1] == null:
+			var tr = res[0]
+			tile[0] = (tr.l + tr.r) / 2
+			tile[1] = (tr.t + tr.b) / 2
+		else:
+			print(res[1])	# error
+	if game.team_swapped:
+		tile[0] = game.FlipX(tile[0])
+		tile[1] = game.FlipY(tile[1])
 	var pos = game.PosFromTile(tile[0], tile[1])
 	$Cursor.global_position.x = pos[0] + map.rect_position.x
 	$Cursor.global_position.y = pos[1] + map.rect_position.y
 
-func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
-	var shifted = []
-	# left
-	if x-w/2-counter >= 0:
-		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter})
-	# right
-	if x+w/2+counter <= game.Map().TileNumX() - 1:
-		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter})
-	# bottom
-	if y+h/2+counter <= maxBot:
-		shifted.append({"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2})
-	# top
-	if y-h/2-counter >= minTop:
-		shifted.append({"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2})
-	var candidates = []
-	for tr in shifted:
-		if tr.t < minTop || tr.b > maxBot || tr.l < 0 || tr.r > game.Map().TileNumX() - 1:
-			continue
-		candidates.append(tr)
-	if len(candidates) == 0:
+func avoid_occupied_tiles(x, y, w, h, minY, maxY, counter=0):
+	if counter >= game.Map().TileNumY() - 1:
 		return [null, "can't placed"]
-	for tr in candidates:
-		var intersect = false
-		for occupied in game.OccupiedTiles().keys():
-			if game.intersect_tilerect(occupied, tr):
-				intersect = true
-				break
-		if not intersect:
-			return [tr, null]
-	counter += 1
-	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
+	var shifted = []
+	for i in range(x - counter, x + counter + 1):
+		for j in range(y - counter, y + counter + 1):
+			var tr = {"t":j-h/2, "b":j+h/2, "l":i-w/2, "r":i+w/2}
+			if tr.t < minY || tr.b > maxY:
+				continue
+			if tr.l < 0 || tr.r > game.Map().TileNumX() - 1:
+				continue
+			var intersect = false
+			for occupied in game.OccupiedTiles().keys():
+				if game.intersect_tilerect(occupied, tr):
+					intersect = true
+					break
+			if not intersect:
+				return [tr, null]
+	return avoid_occupied_tiles(x, y, w, h, minY, maxY, counter + 1)
