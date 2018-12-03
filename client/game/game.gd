@@ -25,7 +25,7 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
-onready var result_anim = $NonCameraFollowingUI/StartEnd/StartWin
+onready var result_anim = $NonCameraFollowingUI/End/StartWin
 onready var go_to_lobby = $NonCameraFollowingUI/GoToLobby
 
 var map
