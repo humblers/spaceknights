@@ -11,10 +11,17 @@ const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
 const drawInterval = 30
-const knightLeaderIndex = 0
 
-var knightInitialPositionX = []int{500, 200, 800}
-var knightInitialPositionY = []int{1450, 1350, 1350}
+var initialKnightPositionX = map[data.KnightSide]int{
+	"Left":   200,
+	"Center": 500,
+	"Right":  800,
+}
+var initialKnightPositionY = map[data.KnightSide]int{
+	"Left":   1350,
+	"Center": 1450,
+	"Right":  1350,
+}
 
 type Player interface {
 	Client() Client
@@ -34,11 +41,11 @@ type Player interface {
 type player struct {
 	team        Team
 	energy      int
-	hand        []Card
-	pending     []Card
+	hand        []data.Card
+	pending     []data.Card
 	emptyIdx    []int
 	drawCounter int
-	knightIds   []int
+	knightIds   map[data.KnightSide]int
 	score       int
 
 	statRatios map[string][]int
@@ -51,14 +58,26 @@ func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
 		team:       pd.Team,
 		energy:     startEnergy,
+		knightIds:  make(map[data.KnightSide]int),
 		score:      leaderScore + wingScore*2,
 		statRatios: make(map[string][]int),
 
 		game: g,
 	}
-	p.hand = append(p.hand, pd.Deck[:handSize]...)
-	p.pending = append(p.pending, pd.Deck[handSize:]...)
-	p.addKnights(pd.Knights)
+	for _, c := range pd.Deck {
+		card := data.NewCard(c)
+		if card.Side != data.Center {
+			if len(p.hand) < handSize {
+				p.hand = append(p.hand, card)
+			} else {
+				p.pending = append(p.pending, card)
+			}
+		}
+		if card.Type == data.KnightCard {
+			p.addKnight(card.Name, card.Level, card.Side)
+		}
+	}
+	p.applyLeaderSkill()
 	return p
 }
 
@@ -85,19 +104,30 @@ func (p *player) AddStatRatio(name string, ratio int) {
 	p.statRatios[name] = append(p.statRatios[name], ratio)
 }
 
-func (p *player) addKnights(knights []KnightData) {
-	for i, k := range knights {
-		x := knightInitialPositionX[i]
-		y := knightInitialPositionY[i]
-		if p.team == Red {
-			x = p.game.FlipX(x)
-			y = p.game.FlipY(y)
+func (p *player) addKnight(name string, level int, side data.KnightSide) {
+	x := initialKnightPositionX[side]
+	y := initialKnightPositionY[side]
+	if p.team == Red {
+		x = p.game.FlipX(x)
+		y = p.game.FlipY(y)
+	}
+	knight := p.game.AddUnit(name, level, x, y, p)
+	p.knightIds[side] = knight.Id()
+}
+
+func (p *player) applyLeaderSkill() {
+	p.game.FindUnit(p.knightIds[data.Center]).SetAsLeader()
+
+	// apply hp buff
+	for _, id := range p.knightIds {
+		knight := p.game.FindUnit(id)
+		hp := knight.Hp()
+		divider := 1
+		for _, ratio := range p.StatRatios("hpratio") {
+			hp *= ratio
+			divider *= 100
 		}
-		unit := p.game.AddUnit(k.Name, k.Level, x, y, p)
-		if i == knightLeaderIndex {
-			unit.SetAsLeader()
-		}
-		p.knightIds = append(p.knightIds, unit.Id())
+		knight.SetHp(hp / divider)
 	}
 }
 
@@ -106,7 +136,16 @@ func (p *player) Update() {
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
-	p.drawCard()
+	if p.drawCounter > 0 {
+		p.drawCounter--
+		return
+	}
+	if len(p.emptyIdx) == 0 {
+		return
+	}
+	index := p.emptyIdx[0]
+	p.emptyIdx = p.emptyIdx[1:]
+	p.drawCard(index)
 }
 
 func (p *player) Do(a *Action) error {
@@ -120,34 +159,39 @@ func (p *player) Do(a *Action) error {
 
 	// find card in hand
 	index := -1
+	var card data.Card
 	for i, c := range p.hand {
 		if c.Name == a.Card.Name {
 			index = i
+			card = c
 			a.Card.Level = c.Level // to protect level cheat
 			break
 		}
 	}
-
-	// check energy
-	cost := data.Cards[a.Card.Name].Cost
-	if p.energy < cost {
-		return fmt.Errorf("not enough energy: %v", a.Card.Name)
+	if index < 0 {
+		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
 	}
 
-	if err := p.useCard(a.Card, a.TileX, a.TileY); err != nil {
+	// check energy
+	if p.energy < card.Cost {
+		return fmt.Errorf("not enough energy: %v", card.Name)
+	}
+
+	if err := p.useCard(card, a.TileX, a.TileY); err != nil {
 		return err
 	}
 
 	// decrement energy
-	p.energy -= cost
+	p.energy -= card.Cost
 
-	// put empty card
-	if index >= 0 {
-		p.hand[index] = Card{}
-		p.pending = append(p.pending, a.Card)
-		p.emptyIdx = append(p.emptyIdx, index)
-	}
+	p.removeCardInHand(card, index)
 	return nil
+}
+
+func (p *player) removeCardInHand(card data.Card, index int) {
+	p.hand[index] = data.Card{}
+	p.pending = append(p.pending, card)
+	p.emptyIdx = append(p.emptyIdx, index)
 }
 
 func (p *player) findKnight(name string) Unit {
@@ -160,7 +204,7 @@ func (p *player) findKnight(name string) Unit {
 	return nil
 }
 
-func (p *player) useCard(c Card, tileX, tileY int) error {
+func (p *player) useCard(c data.Card, tileX, tileY int) error {
 	posX, posY, err := p.game.PosFromTile(tileX, tileY)
 	if err != nil {
 		return err
@@ -195,39 +239,26 @@ func (p *player) useCard(c Card, tileX, tileY int) error {
 	return nil
 }
 
-func (p *player) drawCard() {
-	if p.drawCounter > 0 {
-		p.drawCounter--
-		return
-	}
-	if len(p.emptyIdx) == 0 {
-		return
-	}
-	var next Card
-	var idx int
+func (p *player) drawCard(index int) {
+	var next data.Card
 	next, p.pending = p.pending[0], p.pending[1:]
-	idx, p.emptyIdx = p.emptyIdx[0], p.emptyIdx[1:]
-	p.hand[idx] = next
+	p.hand[index] = next
 	p.drawCounter = drawInterval
 }
 
 func (p *player) OnKnightDead(u Unit) {
-	isLeader := false
-	for i, id := range p.knightIds {
+	for side, id := range p.knightIds {
 		if id == u.Id() {
-			p.knightIds[i] = 0
-			if i == 0 {
-				isLeader = true
+			p.knightIds[side] = 0
+			if side == data.Center {
+				p.score -= leaderScore
+			} else {
+				p.score -= wingScore
 			}
 			break
 		}
 	}
 	p.removeCard(u.Name())
-	if isLeader {
-		p.score -= leaderScore
-	} else {
-		p.score -= wingScore
-	}
 }
 
 func (p *player) removeCard(name string) {

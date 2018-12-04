@@ -20,13 +20,6 @@ type archengineer struct {
 
 func newArchengineer(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archengineer", p.Team(), level, posX, posY, g)
-	hp := u.hp
-	divider := 1
-	for _, ratio := range p.StatRatios("hpratio") {
-		hp *= ratio
-		divider *= 100
-	}
-	u.hp = hp / divider
 	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
 	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}

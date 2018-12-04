@@ -1,12 +1,10 @@
 extends Node2D
 
-onready var player = get_node("../../Players/Blue")
-onready var icon_resource = get_node("../../Resource/Icon")
+export(NodePath) onready var icon = get_node(icon)
 
-func _process(delta):
-	pass
-#	var name = player.pending[0].Name
-#	var cost = stat.cards[name].Cost
-#	$Icon.texture = icon_resource.get_resource(name)
-#	$Icon/Energy/Cost.text = str(cost/1000)
-#	$Icon/NotReady.visible = player.rollingCounter > 0
+func Set(card):
+	$Icon.texture = icon.get_resource(card.Name)
+	$Energy/Cost.text = str(card.Cost/1000)
+
+func Update(ready):
+	$Icon/NotReady.visible = not ready

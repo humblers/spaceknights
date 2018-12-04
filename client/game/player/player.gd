@@ -7,9 +7,16 @@ const START_ENERGY = 7000
 const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
 const DRAW_INTERVAL = 30
-const KNIGHT_LEADER_INDEX = 0
-const KNIGHT_INITIAL_POSX = [500, 200, 800]
-const KNIGHT_INITIAL_POSY = [1450, 1350, 1350]
+const INITIAL_KNIGHT_POSITION_X = {
+	"Left": 200,
+	"Center": 500,
+	"Right": 800,
+}
+const INITIAL_KNIGHT_POSITION_Y = {
+	"Left": 1350,
+	"Center": 1450,
+	"Right": 1350,
+}
 const INPUT_DELAY_STEP = 10
 
 var team
@@ -18,7 +25,7 @@ var hand = []
 var pending = []
 var emptyIdx = []
 var drawCounter = 0
-var knightIds = []
+var knightIds = {}
 var score = 0
 var statRatios = {}
 var game
@@ -28,13 +35,17 @@ func Init(playerData, game):
 	energy = START_ENERGY
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	self.game = game
-	for i in len(playerData.Deck):
-		var card = playerData.Deck[i]
-		if i < HAND_SIZE:
-			hand.append(card)
-		else:
-			pending.append(card)
-	addKnights(playerData.Knights)
+	for c in playerData.Deck:
+		var card = stat.NewCard(c)
+		if card.Side != stat.Center:
+			if len(hand) < HAND_SIZE:
+				hand.append(card)
+			else:
+				pending.append(card)
+		if card.Type == stat.KnightCard:
+			addKnight(card.Name, card.Level, card.Side)
+	applyLeaderSkill()
+	return self
 
 func Score():
 	return score
@@ -52,24 +63,41 @@ func AddStatRatio(name, ratio):
 		statRatios[name] = []
 	statRatios[name].append(ratio)
 
-func addKnights(knights):
-	for i in len(knights):
-		var k = knights[i]
-		var x = KNIGHT_INITIAL_POSX[i]
-		var y = KNIGHT_INITIAL_POSY[i]
-		if team == "Red":
-			x = game.FlipX(x)
-			y = game.FlipY(y)
-		var knight = game.AddUnit(k.Name, k.Level, x, y, self)
-		if i == KNIGHT_LEADER_INDEX:
-			knight.SetAsLeader()
-		knightIds.append(knight.Id())
+func addKnight(name, level, side):
+	var x = INITIAL_KNIGHT_POSITION_X[side]
+	var y = INITIAL_KNIGHT_POSITION_Y[side]
+	if team == "Red":
+		x = game.FlipX(x)
+		y = game.FlipY(y)
+	var knight = game.AddUnit(name, level, x, y, self)
+	knightIds[side] = knight.Id()
+	return knight
 
+func applyLeaderSkill():
+	game.FindUnit(knightIds[stat.Center]).SetAsLeader()
+	
+	# apply hp buff
+	for side in knightIds:
+		var id = knightIds[side]
+		var knight = game.FindUnit(id)
+		var hp = knight.Hp()
+		var divider = 1
+		var ratios = StatRatios("hpratio")
+		for i in range(len(ratios)):
+			hp *= ratios[i]
+			divider *= 100
+		knight.SetHp(hp / divider)
+	
 func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
-	drawCard()
+	if drawCounter > 0:
+		drawCounter -= 1
+		return -1
+	if len(emptyIdx) == 0:
+		return
+	drawCard(emptyIdx.pop_front())
 
 func Do(action):
 	if action.Card.Name == "":
@@ -81,33 +109,39 @@ func Do(action):
 
 	# find card in hand
 	var index = -1
+	var card
 	for i in len(hand):
-		var card = hand[i]
-		if card.Name == action.Card.Name:
+		var c = hand[i]
+		if c.Name == action.Card.Name:
 			index = i
+			card = c
 			break
 
-	# check energy
-	var cost = stat.cards[action.Card.Name]["Cost"]
-	if energy < cost:
-		return "not enough energy: %s" % action.Card.Name
+	if index < 0:
+ 		return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
 
-	var err = useCard(action.Card, action.TileX, action.TileY)
+	# check energy
+	if energy < card.Cost:
+		return "not enough energy: %s" % card.Name
+
+	var err = useCard(card, action.TileX, action.TileY)
 	if err != null:
 		return err
 	
 	# decrement energy
-	energy -= cost
+	energy -= card.Cost
 	
-	# put empty card
-	if index >= 0:
-		hand[index] = {"Name":"", "Level":0}
-		pending.append(action.Card)
-		emptyIdx.append(index)
+	removeCardInHand(card, index)
 	return null
 
+func removeCardInHand(card, index):
+	hand[index] = {}
+	pending.append(card)
+	emptyIdx.append(index)
+
 func findKnight(name):
-	for id in knightIds:
+	for side in knightIds:
+		var id = knightIds[side]
 		var u = game.FindUnit(id)
 		if u != null and u.Name() == name:
 			return u
@@ -140,31 +174,22 @@ func useCard(c, tileX, tileY):
 			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
 	return null
 
-func drawCard():
-	if drawCounter > 0:
-		drawCounter -= 1
-		return
-	if len(emptyIdx) == 0:
-		return
+func drawCard(index):
 	var next = pending.pop_front()
-	var idx = emptyIdx.pop_front()
-	hand[idx] = next
+	hand[index] = next
 	drawCounter = DRAW_INTERVAL
 
 func OnKnightDead(knight):
-	var isLeader = false
-	for i in range(len(knightIds)):
-		var id = knightIds[i]
+	for side in knightIds:
+		var id = knightIds[side]
 		if id == knight.Id():
-			knightIds[i] = 0
-			if i == 0:
-				isLeader = true
+			knightIds[side] = 0
+			if side == stat.Center:
+				score -= game.LEADER_SCORE
+			else:
+				score -= game.WING_SCORE
 			break
 	removeCard(knight.Name())
-	if isLeader:
-		score -= game.LEADER_SCORE
-	else:
-		score -= game.WING_SCORE
 
 func removeCard(name):
 	for i in range(len(hand)):

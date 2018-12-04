@@ -19,14 +19,6 @@ func _ready():
 func Init(id, level, posX, posY, game, player):
 	New(id, "archengineer", player.Team(), level, posX, posY, game)
 	self.player = player
-	var hp = initialHp()
-	var divider = 1
-	var ratios = player.StatRatios("hpratio")
-	for i in range(len(ratios)):
-		hp *= ratios[i]
-		divider *= 100
-	self.hp = hp / divider
-	set_hp()
 	TileOccupier = TileOccupier.new(game)
 	var tile = game.TileFromPos(posX, posY)
 	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }

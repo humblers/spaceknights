@@ -40,6 +40,22 @@ const Bullet = "Bullet"
 const Missile = "Missile"
 const Laser = "Laser"
 
+func NewCard(card):
+	var info = cards[card.Name]
+	return {
+		"Name": card.Name,
+		"Type": info.Type,
+		"Cost": info.Cost,
+		"Unit": info.get("Unit", ""),
+		"Count": info.get("Count", 0),
+		"OffsetX": info.get("OffsetX"),
+		"OffsetY": info.get("OffsetY"),
+		"Rarity": info.Rarity,
+		"Level": card.Level,
+		"Holding": card.get("Holding", 0),
+		"Side": card.get("Side", ""),
+	}
+	
 var cards = {
 # units
 	"archengineer": {

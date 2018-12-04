@@ -1,16 +1,16 @@
 extends Node2D
 
-onready var players = get_node("../../Players")
-
-func ShowArea(is_unit):
+func Show(anywhere):
 	visible = true
-	$Unit.visible = is_unit
-	$Spell.visible = not is_unit
+	$Unit.visible = not anywhere
+	$Spell.visible = anywhere
 
 func Hide():
 	visible = false
 	
-func OnKnightDead(color, side):
+func Expand(color, side):
+	if side == "Center":
+		return
 	if color == "Blue":
 		$Unit.get_node("%s%s" % [color, side]).visible = true
 		$Unit/Deco.get_node("Knight%s" % side).visible = false

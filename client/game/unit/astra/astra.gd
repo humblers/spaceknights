@@ -185,14 +185,6 @@ func inLaserArea(unit):
 func SetAsLeader():
 	isLeader = true
 	player.AddStatRatio("hpratio", Skill()["hpratio"][level])
-	var hp = initialHp()
-	var divider = 1
-	var ratios = player.StatRatios("hpratio")
-	for i in range(len(ratios)):
-		hp *= ratios[i]
-		divider *= 100
-	self.hp = hp / divider
-	set_hp()
 
 func Skill():
 	var key = "leader" if isLeader else "wing"
