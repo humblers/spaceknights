@@ -36,6 +36,7 @@ type Unit interface {
 	SetAsLeader()
 	Skill() map[string]interface{}
 	CastSkill(posX, posY int) bool
+	CanCastSkill() bool
 }
 
 type unit struct {
@@ -51,6 +52,11 @@ type unit struct {
 	freeze           int
 	prev_desired_pos fixed.Vector
 	moving           bool
+}
+
+// TODO: move this func to all knights
+func (u *unit) CanCastSkill() bool {
+	return true
 }
 
 func (u *unit) Hp() int {

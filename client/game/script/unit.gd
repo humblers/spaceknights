@@ -59,6 +59,10 @@ func show_damage(elapsed):
 			max_value = value
 	material.set_shader_param("damage_ratio", max_value)
 
+# TODO: move this func to all knights
+func CanCastSkill():
+	return true
+	
 func New(id, name, team, level, posX, posY, game):
 	self.id = id
 	self.name_ = name

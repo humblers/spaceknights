@@ -41,9 +41,9 @@ type Card struct {
 	Side    KnightSide
 }
 
-func NewCard(c Card) Card {
+func NewCard(c Card) *Card {
 	info := Cards[c.Name]
-	return Card{
+	return &Card{
 		Name:    c.Name,
 		Type:    info.Type,
 		Cost:    info.Cost,

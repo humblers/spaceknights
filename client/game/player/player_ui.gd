@@ -15,7 +15,7 @@ export(NodePath) onready var skill_right = get_node(skill_right) if skill_right 
 
 var id
 var color
-var pending_cards = []		# input sent but yet not used cards
+var not_used_cards = []		# input sent but not used cards
 
 func Init(playerData, game):
 	.Init(playerData, game)
@@ -25,30 +25,21 @@ func Init(playerData, game):
 		color = "Blue" if team == "Red" else "Red"
 	if energy_bar:
 		energy_bar.max_value = MAX_ENERGY
-	set_deck_ui()
+	init_deck()
 	mothership.Init(self)
-	
-func update_energy():
-	var energy = get_energy()
-	if energy_bar:
-		energy_bar.value = energy
-	for i in HAND_SIZE:
-		var node = get("hand%d" % (i+1))
-		if node != null:
-			node.Update(energy)
 
-func get_energy():
-	var current = energy
-	for card in pending_cards:
-		current -= card.Cost
-	return current
+func Update():
+	.Update()
+	update_energy()
+	if next:
+		next.Update(drawTimer <= 0)
 
-func set_deck_ui():
-	for i in len(hand):
-		var node = get("hand%d" % (i+1))
-		if node != null:
-			node.Set(hand[i])
-	if next != null:
+func drawCard(index):
+	.drawCard(index)
+	var node = get("hand%d" % (index+1))
+	if node:
+		node.Set(hand[index])
+	if next:
 		next.Set(pending[0])
 
 func addKnight(name, level, side):
@@ -57,35 +48,53 @@ func addKnight(name, level, side):
 	# make invisible to play show animation
 	knight.visible = false
 
-func Update():
-	.Update()
-	update_energy()
-	if next != null:
-		next.Update(drawCounter <= 0)
-
 func useCard(card, tileX, tileY):
 	.useCard(card, tileX, tileY)
+	for c in not_used_cards:
+		if c.Name == card.Name:
+			not_used_cards.erase(c)
+			update_energy()
+			break
 	if unit_ready_sound:
-		if not card.Type == stat.KnightCard:
+		if card.Type == stat.SquireCard:
 			var sound = unit_ready_sound.get_resource(card.Name)
 			$AudioStreamPlayer.stream = sound
 			$AudioStreamPlayer.play()
 
-func removeCardInHand(card, index):
-	.removeCardInHand(card, index)
-	for i in len(pending_cards):
-		var c = pending_cards[i]
-		if c.Name == card.Name:
-			pending_cards.remove(i)
-			update_energy()
-			break
-	var node = get("hand%d" % (index+1))
-	node.Set(null)
+func init_deck():
+	for i in len(hand):
+		var node = get("hand%d" % (i+1))
+		if node:
+			node.Set(hand[i])
+	if next:
+		next.Set(pending[0])
 
-func drawCard(index):
-	.drawCard(index)
+func update_energy():
+	var energy = get_energy()
+	if energy_bar:
+		energy_bar.value = energy
+	for i in HAND_SIZE:
+		var node = get("hand%d" % (i+1))
+		if node:
+			node.Update(energy)
+
+func get_energy():
+	var current = energy
+	for card in not_used_cards:
+		current -= card.Cost
+	return current
+
+func removeCardFromHand(index):
+	.removeCardFromHand(index)
 	var node = get("hand%d" % (index+1))
-	node.Set(hand[index])
+	if node:
+		node.Set(null)
+
+func removeCardFromPending(index):
+	.removeCardFromPending(index)
+	if index == 0:
+		if next:
+			next.Set(pending[0])
 	
 func OnKnightDead(knight):
 	.OnKnightDead(knight)
@@ -121,5 +130,5 @@ func send_input(card, pos):
 			game.actions[input.Step].append(input.Action)
 		else:
 			game.actions[input.Step] = [input.Action]
-	pending_cards.append(card)
+	not_used_cards.append(card)
 	update_energy()

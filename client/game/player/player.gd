@@ -24,7 +24,7 @@ var energy = 0
 var hand = []
 var pending = []
 var emptyIdx = []
-var drawCounter = 0
+var drawTimer = 0
 var knightIds = {}
 var score = 0
 var statRatios = {}
@@ -45,7 +45,6 @@ func Init(playerData, game):
 		if card.Type == stat.KnightCard:
 			addKnight(card.Name, card.Level, card.Side)
 	applyLeaderSkill()
-	return self
 
 func Score():
 	return score
@@ -92,12 +91,23 @@ func Update():
 	energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
-	if drawCounter > 0:
-		drawCounter -= 1
-		return -1
-	if len(emptyIdx) == 0:
-		return
-	drawCard(emptyIdx.pop_front())
+	if canDrawCard():
+		drawCard(emptyIdx.pop_front())
+	else:
+		drawTimer -= 1
+
+func canDrawCard():
+	if drawTimer > 0:
+		return false
+	if len(emptyIdx) <= 0:
+		return false
+	return true
+
+
+func drawCard(index):
+	var next = pending.pop_front()
+	hand[index] = next
+	drawTimer = DRAW_INTERVAL
 
 func Do(action):
 	if action.Card.Name == "":
@@ -107,37 +117,61 @@ func Do(action):
 			# TODO: display opponents message
 			return null
 
-	# find card in hand
-	var index = -1
-	var card
-	for i in len(hand):
-		var c = hand[i]
-		if c.Name == action.Card.Name:
-			index = i
-			card = c
-			break
-
+	var index = findCard(hand, action.Card.Name)
 	if index < 0:
  		return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
-
-	# check energy
-	if energy < card.Cost:
-		return "not enough energy: %s" % card.Name
-
-	var err = useCard(card, action.TileX, action.TileY)
+	var card = hand[index]
+	
+	var err = canUseCard(card, action.TileX, action.TileY)
 	if err != null:
 		return err
+	useCard(card, action.TileX, action.TileY)
 	
-	# decrement energy
-	energy -= card.Cost
-	
-	removeCardInHand(card, index)
+	removeCardFromHand(index)
+	pending.append(card)
 	return null
 
-func removeCardInHand(card, index):
-	hand[index] = {}
-	pending.append(card)
+func canUseCard(card, tileX, tileY):
+	if energy < card.Cost:
+		return "not enough energy: %s" % card.Name
+	if not game.IsValidTile(tileX, tileY):
+		return "invalid tile index: (%d, %d)" % [tileX, tileY]
+	if not CanUseAnywhere(card):
+		if team == "Red" and tileY > game.Map().MaxTileYOnTop():
+			return "can't place card on tileY: %d" % tileY
+		if team == "Blue" and tileY < game.Map().MinTileYOnBot():
+			return "can't place card on tileY: %d" % tileY
+	if card.Type == stat.KnightCard:
+		var knight = findKnight(card.Name)
+		if knight == null:
+			return "%s already dead" % knight.Name()
+		if not knight.CanCastSkill():
+			return "%s cannot cast skill now" % knight.Name()
+	return null
+
+func CanUseAnywhere(card):
+	if card.Type == stat.KnightCard:
+		var skill = stat.units[card.Name].skill.wing
+		if not skill.has("unit"):
+			return true
+		else:
+			if stat.units[skill.unit].type != stat.Building:
+				return true
+	return false
+
+func findCard(from, name):
+	for i in len(from):
+		var card = from[i]
+		if card != null and card.Name == name:
+			return i
+	return -1
+
+func removeCardFromHand(index):
+	hand[index] = null
 	emptyIdx.append(index)
+
+func removeCardFromPending(index):
+	pending.remove(index)
 
 func findKnight(name):
 	for side in knightIds:
@@ -147,37 +181,16 @@ func findKnight(name):
 			return u
 	return null
 
-func useCard(c, tileX, tileY):
+func useCard(card, tileX, tileY):
 	var pos = game.PosFromTile(tileX, tileY)
-	if pos[2] != null:
-		return pos[2]
 	var posX = pos[0]
 	var posY = pos[1]
-	
-	var d = stat.cards[c.Name]
-	var name = d.Unit
-	var u = stat.units[name]
-	var k = findKnight(name)
-	var isKnight = u["type"] == stat.Knight
-	if not isKnight or k.Skill().has("unit"):
-		if team == "Red" and tileY > game.Map().MaxTileYOnTop():
-			return "can't place card on tileY: %d" % tileY
-		if team == "Blue" and tileY < game.Map().MinTileYOnBot():
-			return "can't place card on tileY: %d" % tileY
-	if isKnight:
-		if k == null:
-			return "should not be here"
-		if not k.CastSkill(posX, posY):
-			return "%s cannot cast skill now" % k.Name()
+	if card.Type == stat.KnightCard:
+		findKnight(card.Name).CastSkill(posX, posY)
 	else:
-		for i in range(d.Count):
-			game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], self)
-	return null
-
-func drawCard(index):
-	var next = pending.pop_front()
-	hand[index] = next
-	drawCounter = DRAW_INTERVAL
+		for i in range(card.Count):
+			game.AddUnit(card.Unit, card.Level, posX+card.OffsetX[i], posY+card.OffsetY[i], self)
+	energy -= card.Cost
 
 func OnKnightDead(knight):
 	for side in knightIds:
@@ -189,16 +202,9 @@ func OnKnightDead(knight):
 			else:
 				score -= game.WING_SCORE
 			break
-	removeCard(knight.Name())
-
-func removeCard(name):
-	for i in range(len(hand)):
-		var c = hand[i]
-		if c.Name == name:
-			hand[i] = pending.pop_front()
-			return
-	for i in range(len(pending)):
-		var c = pending[i]
-		if c.Name == name:
-			pending.remove(i)
-			return
+	var index = findCard(hand, knight.Name())
+	if index >= 0:
+		removeCardFromHand(index)
+	index = findCard(pending, knight.Name())
+	if index >= 0:
+		removeCardFromPending(index)
