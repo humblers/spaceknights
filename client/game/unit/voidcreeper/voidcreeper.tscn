@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://game/vfx/energy_shield_1.png" type="Texture" id=1]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
@@ -1913,10 +1913,10 @@ tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ -15.0, -30.0 ]
+"values": [ -15.0, 15.0, -30.0 ]
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("Rotatable/Main/ShoulderL/Upperarm:position")
@@ -1937,10 +1937,10 @@ tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, -30.0 ]
+"values": [ 0.0, 0.0, 0.0, -30.0 ]
 }
 tracks/17/type = "value"
 tracks/17/path = NodePath("Rotatable/Main/ShoulderL/Upperarm/Lowerarm:position")
@@ -1961,10 +1961,10 @@ tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0 ]
+"values": [ 0.0, -15.0 ]
 }
 tracks/19/type = "value"
 tracks/19/path = NodePath("Rotatable/Main/ShoulderL/Upperarm/Lowerarm:scale")
@@ -1973,10 +1973,10 @@ tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 0.35, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.35, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 0.8 ) ]
+"values": [ Vector2( 1, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/20/type = "value"
 tracks/20/path = NodePath("Rotatable/Lowerbody:position")
@@ -2415,11 +2415,29 @@ tracks/55/keys = {
 
 blend_mode = 1
 
-[sub_resource type="CanvasItemMaterial" id=18]
+[sub_resource type="Curve" id=18]
 
-blend_mode = 1
+_data = [ Vector2( 0, 0.4824 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.633, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Gradient" id=19]
+
+offsets = PoolRealArray( 0.0875, 1 )
+colors = PoolColorArray( 0.191406, 1, 0.981049, 1, 0, 0, 0, 1 )
+
+[sub_resource type="Curve" id=22]
+
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.368 ), -0.732947, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=23]
+
+offsets = PoolRealArray( 0.4875, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.28125, 0.713623, 1, 1 )
+
+[sub_resource type="Gradient" id=21]
+
+colors = PoolColorArray( 1, 1, 1, 0.235451, 1, 1, 1, 1 )
+
+[sub_resource type="Animation" id=20]
 
 tracks/0/type = "value"
 tracks/0/path = NodePath("Main/Circle1:rotation_degrees")
@@ -2620,10 +2638,10 @@ tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0, 0.6 ),
+"times": PoolRealArray( 0, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 3, 3 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 4, 4 ) ]
 }
 tracks/17/type = "value"
 tracks/17/path = NodePath("Main/Sprite:modulate")
@@ -2632,7 +2650,7 @@ tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"times": PoolRealArray( 0, 0.6, 0.9 ),
+"times": PoolRealArray( 0, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -2661,6 +2679,78 @@ tracks/19/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/20/type = "value"
+tracks/20/path = NodePath("Main/SmallExp:emitting")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Main/SmallExp2:emitting")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Main/SmallExp3:emitting")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Main/SmallExp4:emitting")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0, 0.2, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/24/type = "value"
+tracks/24/path = NodePath("Main/SmallExp5:emitting")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/25/type = "value"
+tracks/25/path = NodePath("Main/SmallExp6:emitting")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [node name="Voidcreeper" type="Node2D"]
 __meta__ = {
@@ -2669,6 +2759,7 @@ __meta__ = {
 }
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Trail" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
@@ -2695,7 +2786,6 @@ scale = 3.0
 color_ramp = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Trail"]
-visible = false
 modulate = Color( 0.529412, 0.0117647, 1, 0 )
 position = Vector2( 0, -11 )
 rotation = 2.09439
@@ -2891,6 +2981,7 @@ offset = Vector2( -2, -13 )
 flip_h = true
 
 [node name="Lowerbody" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 show_behind_parent = true
 texture = ExtResource( 18 )
 normal_map = ExtResource( 19 )
@@ -2899,6 +2990,7 @@ offset = Vector2( 0, -2 )
 [node name="Booster" type="Node2D" parent="Rotatable/Lowerbody"]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Lowerbody/Booster"]
+emitting = false
 lifetime = 1.2
 speed_scale = 2.0
 texture = ExtResource( 20 )
@@ -2916,6 +3008,7 @@ color_ramp = SubResource( 10 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Lowerbody/Booster/CPUParticles2D"]
 scale = 2.0
+emitting = false
 amount = 16
 lifetime = 1.5
 emission_shape = 1
@@ -2930,7 +3023,8 @@ scale_curve = SubResource( 11 )
 color_ramp = SubResource( 12 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Lowerbody/Booster/CPUParticles2D"]
-modulate = Color( 1, 0.654902, 0, 1 )
+visible = false
+modulate = Color( 1, 0.654902, 0, 0 )
 material = ExtResource( 2 )
 position = Vector2( 0, 33 )
 scale = Vector2( 1, 2 )
@@ -3008,10 +3102,10 @@ anims/idle = SubResource( 15 )
 anims/move = SubResource( 16 )
 
 [node name="Explosion" type="Node2D" parent="."]
+editor/display_folded = true
 scale = Vector2( 2.5, 2.5 )
 
 [node name="Main" type="Node2D" parent="Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -3027,25 +3121,148 @@ texture = ExtResource( 26 )
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 17 )
-scale = Vector2( 3, 3 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 17 )
 
-[node name="Circle1" type="Sprite" parent="Explosion/Main"]
+[node name="Circle1" type="CPUParticles2D" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.101961, 0.47451, 1, 0 )
-material = SubResource( 18 )
 rotation = 4.71239
-scale = Vector2( 2, 2 )
+scale = 1.5
+amount = 12
+speed_scale = 2.0
 texture = ExtResource( 27 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 60.0
+radial_accel_random = 1.0
+scale = 1.5
+scale_curve = SubResource( 18 )
+color_ramp = SubResource( 19 )
 
-[node name="Circle2" type="Sprite" parent="Explosion/Main"]
+[node name="SmallExp" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( -20, -32 )
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="SmallExp2" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( 24, -32 )
+scale = 1.5
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale = 1.5
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="SmallExp3" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( 44, 0.399998 )
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="SmallExp4" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( 32, 24 )
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="SmallExp5" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( -37.2, 16 )
+scale = 2.0
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale = 2.0
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="SmallExp6" type="CPUParticles2D" parent="Explosion/Main"]
+position = Vector2( 6.8, 28 )
+scale = 1.5
+emitting = false
+speed_scale = 3.0
+texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale = 1.5
+scale_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
+
+[node name="Circle2" type="CPUParticles2D" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
+material = ExtResource( 2 )
 rotation = -3.66519
-scale = Vector2( 1.5, 1.5 )
+scale = 2.0
 texture = ExtResource( 27 )
-flip_h = true
-flip_v = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+radial_accel = 50.0
+radial_accel_random = 1.0
+scale = 2.0
+color_ramp = SubResource( 21 )
 
 [node name="Particle" type="CPUParticles2D" parent="Explosion/Main"]
 emitting = false
@@ -3057,5 +3274,5 @@ radial_accel = 180.0
 color = Color( 0.509804, 0.482353, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Explosion"]
-anims/explosion = SubResource( 19 )
+anims/explosion = SubResource( 20 )
 
