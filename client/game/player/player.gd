@@ -144,7 +144,7 @@ func canUseCard(card, tileX, tileY):
 	if card.Type == stat.KnightCard:
 		var knight = findKnight(card.Name)
 		if knight == null:
-			return "%s already dead" % knight.Name()
+			return "%s already dead" % card.Name
 		if not knight.CanCastSkill():
 			return "%s cannot cast skill now" % knight.Name()
 	return null
