@@ -213,7 +213,9 @@ func change_filter(filter):
 		filter_knight.modulate = filter_squire.modulate
 		filter_squire.modulate = temp_color
 	self.filter = filter
-	if not user.CardInDeck(pressed_card) and filter != stat.cards[pressed_card].Type:
+	if pressed_card != null and \
+			not user.CardInDeck(pressed_card) and \
+			filter != stat.cards[pressed_card].Type:
 		pressed_card = null
 	invalidate()
 
@@ -222,13 +224,11 @@ func go_to_tutor_mode():
 	for player in params.Players:
 		if player.Team == "Red":
 			continue
-		var k = player.Knights
-		k.clear()
-		for side in user.KNIGHT_SIDES:
-			var knight_btn = get("knight_%s" % side)
-			k.append({"Name":knight_btn.name_, "Level":0})
 		var d = player.Deck
 		d.clear()
+		for side in user.KNIGHT_SIDES:
+			var knight_btn = get("knight_%s" % side)
+			d.append({"Name":knight_btn.name_, "Level":0, "Side": side.capitalize()})
 		for i in range(user.SQUIRE_COUNT):
 			var squire_btn = get("squire_%d" % i)
 			d.append({"Name":squire_btn.name_, "Level":0})
