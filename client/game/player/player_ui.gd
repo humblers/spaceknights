@@ -10,8 +10,6 @@ export(NodePath) onready var hand2 = get_node(hand2) if hand2 else null
 export(NodePath) onready var hand3 = get_node(hand3) if hand3 else null
 export(NodePath) onready var hand4 = get_node(hand4) if hand4 else null
 export(NodePath) onready var next = get_node(next) if next else null
-export(NodePath) onready var skill_left = get_node(skill_left) if skill_left else null
-export(NodePath) onready var skill_right = get_node(skill_right) if skill_right else null
 
 var id
 var color

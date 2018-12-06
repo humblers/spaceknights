@@ -7,6 +7,9 @@ export(NodePath) onready var map = get_node(map)
 export(NodePath) onready var unit_resource = get_node(unit_resource)
 export(NodePath) onready var cursor_resource = get_node(cursor_resource)
 export(NodePath) onready var icon_resource = get_node(icon_resource)
+export(NodePath) onready var knight_button_left = get_node(knight_button_left)
+export(NodePath) onready var knight_button_right = get_node(knight_button_right)
+export(NodePath) onready var mothership = get_node(mothership)
 
 onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
@@ -20,7 +23,14 @@ var input_sent = false
 
 func _ready():
 	connect("gui_input", self, "handle_input")
+	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
+	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
 
+func handle_knight_input(event, side):
+	if card and card.Side == side:
+		event.position = get_local_mouse_position()
+		handle_input(event)
+		
 func Set(card):
 	if card == null:
 		visible = false		# also cancels previous input
@@ -34,6 +44,8 @@ func Set(card):
 		init_card(card)
 		init_cursor(card)
 		init_dummy(card)
+		if card.Type == stat.KnightCard:
+			mothership.OpenDeck(card.Side)
 
 func Update(energy):
 	var ready = energy >= $Card/Energy.max_value
@@ -41,6 +53,9 @@ func Update(energy):
 	$Card/Icon/Ready.visible = ready
 	$Card/Cost.playing = ready
 	$Card/Energy.value = energy
+	if card.Type == stat.KnightCard:
+		var ratio = float(energy)/card.Cost
+		mothership.UpdateDeckReadyState(card.Side, ratio)
 
 func init_card(card = null):
 	$Card.position = card_init_pos
@@ -145,6 +160,9 @@ func on_released():
 		$Cursor.visible = false
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
+
+	if card.Type == stat.KnightCard:
+		mothership.CloseDeck(card.Side)
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")

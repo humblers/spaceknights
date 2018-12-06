@@ -92,6 +92,9 @@ map = NodePath("../Map")
 unit_resource = NodePath("../../Resource/Unit")
 cursor_resource = NodePath("../../Resource/Cursor")
 icon_resource = NodePath("../../Resource/Icon")
+knight_button_left = NodePath("../KnightButtonLeft")
+knight_button_right = NodePath("../KnightButtonRight")
+mothership = NodePath("../../Motherships/Blue")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/launch = SubResource( 1 )
@@ -134,7 +137,7 @@ texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 0.0
+angular_velocity = 8.92089e+15
 radial_accel = 2.0
 radial_accel_random = 1.0
 color = Color( 0.458824, 0.545098, 0.54902, 1 )
@@ -148,10 +151,12 @@ texture = ExtResource( 8 )
 use_parent_material = true
 texture = ExtResource( 9 )
 
-[node name="Cost" parent="Card" instance=ExtResource( 10 )]
+[node name="Cost" type="AnimatedSprite" parent="Card" instance=ExtResource( 10 )]
 position = Vector2( -66, -41 )
 frames = SubResource( 3 )
-frame = 1
+animation = "quantum"
+frame = 3
+playing = true
 
 [node name="Label" type="Label" parent="Card/Cost"]
 anchor_left = 0.5
