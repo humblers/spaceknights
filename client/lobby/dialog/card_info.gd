@@ -1,117 +1,23 @@
 extends Control
 
 const MAX_STAT_COUNT = 10
-const STATS_WITH_ORDER = [
-	{
-		"stat_key":   "attackdamage",
-		"label_text": "damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "damage",
-		"label_text": "damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "chargedattackdamage",
-		"label_text": "skill damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "powerattackdamage",
-		"label_text": "skill damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "absorbdamage",
-		"label_text": "skill damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "destroydamage",
-		"label_text": "death damage",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "damagepersecond",
-		"label_text": "damage per second",
-		"icon":       "damagepersecond"
-	},
-	{
-		"stat_key":   "hp",
-		"label_text": "hitponints",
-		"icon":       "hp"
-	},
-	{
-		"stat_key":   "shield",
-		"label_text": "shiedpoints",
-		"icon":       "hp"
-	},
-	{
-		"stat_key":   "attackinterval",
-		"label_text": "attack speed",
-		"icon":       "attackspeed"
-	},
-	{
-		"stat_key":   "damagetype",
-		"label_text": "attack type",
-		"icon":       "attacktype"
-	},
-	{
-		"stat_key":   "speed",
-		"label_text": "speed",
-		"icon":       "speed"
-	},
-	{
-		"stat_key":   "attackrange",
-		"label_text": "range",
-		"icon":       "attackrange"
-	},
-	{
-		"stat_key":   "radius",
-		"label_text": "radius",
-		"icon":       "radius"
-	},
-	{
-		"stat_key":   "width",
-		"label_text": "area",
-		"icon":       "radius"
-	},
-	{
-		"stat_key":   "leader",
-		"label_text": "leader skill",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "wing",
-		"label_text": "wing skill",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "freezeduration",
-		"label_text": "freeze duration",
-		"icon":       "damage"
-	},
-	{
-		"stat_key":   "count",
-		"label_text": "count",
-		"icon":       "count"
-	},
-	{
-		"stat_key":   "spawninterval",
-		"label_text": "spawn speed",
-		"icon":       "count"
-	},
-	{
-		"stat_key":   "decaydamage",
-		"label_text": "lifetime",
-		"icon":       "lifetime"
-	},
-	{
-		"stat_key":   "spawncount",
-		"label_text": "count",
-		"icon":       "count"
-	},
+const MAIN_STAT_ORDER = [
+	"attackdamage", "damage",
+	"chargedattackdamage", "powerattackdamage", "powerattackdamage", "absorbdamage",
+	"destroydamage",
+	"damagepersecond",
+	"hp", "shield",
+	"attackinterval",
+	"damagetype",
+	"speed",
+	"attackrange",
+	"radius", "area",
+	"leader", "wing",
+	"freezeduration",
+	"count",
+	"spawninterval",
+	"decaydamage",
+	"spawncount",
 ]
 
 export(Color) var rarity_panel_common
@@ -141,7 +47,7 @@ var unit
 func _ready():
 	main_popup.connect("popup_hide", self, "popup_hide")
 
-func Popup(card):
+func PopUp(card):
 	self.card = card
 	self.unit = stat.units[card.Unit]
 	invalidate()
@@ -151,7 +57,7 @@ func Popup(card):
 func popup_hide():
 	self.visible = false
 
-func PopupSub(pos_node):
+func PopUpSub(pos_node):
 	sub_popup.rect_global_position = pos_node.global_position
 	sub_popup.popup()
 
@@ -164,31 +70,84 @@ func invalidate():
 	cost.text = "%d" % (card.Cost / 1000)
 	var main_stats = main_stat_container.get_children()
 	var pointer = 0
-	for s in STATS_WITH_ORDER:
-		var key = s.stat_key
-		var value = valueText(key)
-		if value == null:
+	for key in MAIN_STAT_ORDER:
+		var value_text = valueText(key)
+		if value_text == null:
 			continue
-		var label_text = s.label_text.capitalize()
-		var icon_texture = icon_resource.get_resource(s.icon)
-		main_stats[pointer].invalidate(icon_texture, label_text, value, unit.get("skill", {}).get(key, null))
+		var label_text = keyText(key)
+		var icon_texture = iconTexture(key)
+		main_stats[pointer].invalidate(icon_texture, label_text, value_text, unit.get("skill", {}).get(key, null))
 		pointer += 1
 		if pointer >= MAX_STAT_COUNT:
 			break
 	for i in range(pointer, MAX_STAT_COUNT):
 		main_stats[i].visible = false
 
+func keyText(key):
+	var ret_text = key
+	match key:
+		"damage", "attackdamage", "damagepersecond":
+			ret_text = "damage"
+			if unit.has("damageradius"):
+				ret_text = "area %s" % ret_text
+		"chargedattackdamage", "powerattackdamage", "powerattackdamage", "absorbdamage":
+			ret_text = "skill damage"
+		"destroydamage":
+			ret_text = "death damage"
+		"hp":
+			ret_text = "hit points"
+		"shield":
+			ret_text = "barrier points"
+		"attackinterval":
+			ret_text = "attack speed"
+		"damagetype":
+			ret_text = "attack type"
+		"attackrange":
+			ret_text = "range"
+		"leader", "wing":
+			ret_text = "%s skill" % ret_text
+		"freezeduration":
+			ret_text = "freeze duration"
+		"spawninterval":
+			ret_text = "spawn speed"
+		"decaydamage":
+			ret_text = "lifetime"
+		"spawncount":
+			ret_text = "%s count" % ret_text
+	return ret_text.capitalize()
+
 func valueText(key):
 	match key:
+		"damage", "attackdamage":
+			if unit.has(key):
+				return unit[key][card.Level]
+		
 		"leader", "wing":
 			if card.Type == stat.KnightCard:
 				return unit.skill[key].name
 		"count":
 			if card.Count > 1:
 				return card.Count
+	return unit.get(key, null)
+
+func iconTexture(key):
+	var texture
+	match key:
+		"damage", "attackdamage":
+			texture = icon_resource.get_resource("damage")
+		"damagepersecond":
+			texture = icon_resource.get_resource("damagepersecond")
+		"attackinterval":
+			texture = icon_resource.get_resource("attackspeed")
+		"damagetype":
+			texture = icon_resource.get_resource("attacktype")
+		"decaydamage":
+			texture = icon_resource.get_resource("lifetime")
 		_:
-			return unit.get(key, null)
-	return null
+			texture = icon_resource.get_resource(key)
+	if texture == null:
+		texture = icon_resource.get_resource("damage")
+	return texture
 
 func formatSpeed(speed):
 	if speed > 150:

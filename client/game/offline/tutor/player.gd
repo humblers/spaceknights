@@ -68,6 +68,16 @@ func Update():
 	if card != null and make_input(card):
 		done_bad_decision = false
 
+# TODO: remove below functions when this script seperate from player_ui.gd
+func removeCardInHand(card, index):
+	hand[index] = {}
+	pending.append(card)
+	emptyIdx.append(index)
+func drawCard(index):
+	var next = pending.pop_front()
+	hand[index] = next
+	drawCounter = DRAW_INTERVAL
+
 func analyze_battlefield():
 	var d = tutor_data.new_dict_for_analyze()
 	for id in game.UnitIds():

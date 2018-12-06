@@ -13,7 +13,7 @@ func _ready():
 	if skill_popup_btn != null and skill_popup_pos != null:
 		skill_popup_btn = get_node(skill_popup_btn)
 		skill_popup_pos = get_node(skill_popup_pos)
-		skill_popup_btn.connect("button_up", card_info, "PopupSub", [skill_popup_pos])
+		skill_popup_btn.connect("button_up", card_info, "PopUpSub", [skill_popup_pos])
 
 func invalidate(icon_texture, label_text, value, sub_info):
 	icon.texture = icon_texture

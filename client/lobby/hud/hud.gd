@@ -60,4 +60,4 @@ func page_select(page):
 	lobby.input_manager.move_to_page(page)
 
 func pop_card_info(card):
-	$CardInfo.Popup(card)
+	$CardInfo.PopUp(card)
