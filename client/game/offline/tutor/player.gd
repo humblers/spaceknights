@@ -50,18 +50,18 @@ func Update():
 	var card_candidates = []
 	for knightId in knightIds:
 		var k = game.FindUnit(knightId)
-		if k == null or k.side == stat.Center:
+		if k == null or k.side == data.Center:
 			continue
 		if k.cast > 0:
 			continue
 		if make_decision_for_use_card(k.Name(), k.level):
-			card_candidates.append([k.Name(), k.level, stat.KnightCard])
+			card_candidates.append([k.Name(), k.level, data.KnightCard])
 	for card in hand:
 		# filtering empty hand
 		if card.Name == "":
 			continue
 		if make_decision_for_use_card(card.Name, card.Level):
-			card_candidates.append([card.Name, card.Level, stat.SquireCard])
+			card_candidates.append([card.Name, card.Level, data.SquireCard])
 	if len(card_candidates) == 0:
 		return
 	var card = elect_best_card(card_candidates)
@@ -102,7 +102,7 @@ func on_left(u):
 	return u.PositionX() < scalar.Sub(game.Map().centerX, u.Radius())
 
 func make_decision_for_use_card(card, level):
-	var cost = stat.cards[card].Cost
+	var cost = data.cards[card].Cost
 	if cost > energy:
 		return false
 	var opposite = cur_analyzed_data[opposite_player.Team()]
@@ -112,9 +112,9 @@ func make_decision_for_use_card(card, level):
 		"archengineer", "archsapper":
 			if opposite.total_cost < tutor_data.DEFENSE_TYPE_BUILDING_DECISON_COST:
 				return false
-			var building = stat.units[card]["skill"]["wing"]["unit"]
-			var tw = stat.units[building]["tilenumx"]
-			var th = stat.units[building]["tilenumy"]
+			var building = data.units[card]["skill"]["wing"]["unit"]
+			var tw = data.units[building]["tilenumx"]
+			var th = data.units[building]["tilenumy"]
 			var x = map_tile_num_x / 2
 			var lcost = opposite["top_left"].cost + opposite["bot_left"].cost
 			var rcost = opposite["top_right"].cost + opposite["bot_right"].cost
@@ -126,9 +126,9 @@ func make_decision_for_use_card(card, level):
 		"ironcoffin", "pixieking", "tombstone":
 			if opposite.top_left.cost + opposite.top_right.cost > tutor_data.SPAWN_TYPE_BUILDING_DECISION_COST:
 				return false
-			var building = stat.units[card]["skill"]["wing"]["unit"]
-			var tw = stat.units[building]["tilenumx"]
-			var th = stat.units[building]["tilenumy"]
+			var building = data.units[card]["skill"]["wing"]["unit"]
+			var tw = data.units[building]["tilenumx"]
+			var th = data.units[building]["tilenumy"]
 			var x = tw / 2
 			x = randi() % (map_tile_num_x / 2 - x)
 			x = x if randf() > 0.5 else map_tile_num_x - 1 - x
@@ -173,13 +173,13 @@ func elect_best_card(card_candidates):
 	var energy_cap = energy + tutor_data.DONOT_BE_LESS_THAN_OPPISITE_ENERGY
 	var opposite_spends = cur_analyzed_data[opposite_player.Team()].total_cost
 	for card in card_candidates:
-		var cost = stat.cards[card[0]].Cost
+		var cost = data.cards[card[0]].Cost
 		if energy_cap - cost < opposite_player.energy:
 			continue
 		if best != null:
-			if best[2] == stat.KnightCard and card[2] == stat.SquireCard:
+			if best[2] == data.KnightCard and card[2] == data.SquireCard:
 				continue
-			var d = abs(opposite_spends - stat.cards[best[0]].Cost)
+			var d = abs(opposite_spends - data.cards[best[0]].Cost)
 			if d < abs(opposite_spends - cost):
 				continue
 		best = card
@@ -216,7 +216,7 @@ func make_input(card):
 	return true
 
 func find_out_whether_to_use_area_skill(knight, level, value_func, min_val):
-	var skill = stat.units[knight]["skill"]["wing"]
+	var skill = data.units[knight]["skill"]["wing"]
 	var skill_shape
 	var range_x
 	var range_y
@@ -293,12 +293,12 @@ func find_out_where_to_use_squire(card):
 	var lr = "left" if lcost > rcost else "right"
 	var tb = "top" if opposite["top_%s" % [lr]].front_unit != null else "bot"
 	var front_unit = opposite["%s_%s" % [tb, lr]].front_unit
-	var ustat = stat.units[stat.cards[name].Unit]
+	var udata = data.units[data.cards[name].Unit]
 	var range_
-	if ustat.has("radius"):
-		range_ = ustat["radius"] + game.World().ToPixel(front_unit.Radius())
-	if ustat.has("attackrange"):
-		range_ += ustat["attackrange"]
+	if udata.has("radius"):
+		range_ = udata["radius"] + game.World().ToPixel(front_unit.Radius())
+	if udata.has("attackrange"):
+		range_ += udata["attackrange"]
 	if tb == "top":
 		var angle = rand_range(0, PI)
 		angle = angle + PI / 2 if lr == "left" else angle - PI / 2
@@ -307,7 +307,7 @@ func find_out_where_to_use_squire(card):
 		var tile = game.TileFromPos(int(x), int(y))
 		x = tile[0]
 		y = tile[1]
-	elif stat.units[front_unit.Name()].has("speed") and ustat.has("speed"):
+	elif data.units[front_unit.Name()].has("speed") and udata.has("speed"):
 		var dest = left_dest if lr == "left" else right_dest
 		var deploy_range = left_deploy_range if lr == "left" else right_deploy_range
 		var d = calc_distance(
@@ -315,7 +315,7 @@ func find_out_where_to_use_squire(card):
 			dest,
 			front_unit.Radius())
 		var t = scalar.ToInt(scalar.Div(d, front_unit.speed()))
-		var away = t * ustat["speed"] + range_
+		var away = t * udata["speed"] + range_
 		var angle = rand_range(deploy_range[0], deploy_range[1])
 		x = game.World().ToPixel(dest[0]) - away * cos(angle)
 		y = game.World().ToPixel(dest[1]) - away * sin(angle)

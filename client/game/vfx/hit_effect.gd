@@ -10,7 +10,7 @@ export(float) var circle_radius
 
 func hit(attacker):
 	var name = attacker.get("name_")
-	if name != null and stat.units[name]["attacktype"] == stat.Laser:
+	if name != null and data.units[name]["attacktype"] == data.Laser:
 		return
 	if attacker.name.find("Missile") >= 0:
 		return

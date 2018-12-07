@@ -73,7 +73,7 @@ func handleAttack():
 		if attack >= powerAttackPreDelay():
 			for id in game.UnitIds():
 				var u = game.FindUnit(id)
-				if u.Team() == Team() or u.Layer() != stat.Normal:
+				if u.Team() == Team() or u.Layer() != data.Normal:
 					continue
 				var x = scalar.Sub(u.PositionX(), punchPosX)
 				var y = scalar.Sub(u.PositionY(), punchPosY)
@@ -111,16 +111,16 @@ func canDoPowerAttack():
 	return attackCount % powerAttackFrequency() == 0
 
 func powerAttackInterval():
-	return stat.units[name_]["powerattackinterval"]
+	return data.units[name_]["powerattackinterval"]
 
 func powerAttackPreDelay():
-	return stat.units[name_]["powerattackpredelay"]
+	return data.units[name_]["powerattackpredelay"]
 
 func powerAttackFrequency():
-	return stat.units[name_]["powerattackfrequency"]
+	return data.units[name_]["powerattackfrequency"]
 
 func powerAttackDamage():
-	var v = stat.units[name_]["powerattackdamage"]
+	var v = data.units[name_]["powerattackdamage"]
 	var t = typeof(v)
 	if t == TYPE_INT:
 		return v
@@ -129,7 +129,7 @@ func powerAttackDamage():
 	print("invalid power attack damage type")
 
 func powerAttackRadius():
-	var r = stat.units[name_]["powerattackradius"]
+	var r = data.units[name_]["powerattackradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):
@@ -138,4 +138,4 @@ func powerAttackRadius():
 	return game.World().FromPixel(r / divider)
 
 func powerAttackForce():
-	return game.World().FromPixel(stat.units[name_]["powerattackforce"])
+	return game.World().FromPixel(data.units[name_]["powerattackforce"])

@@ -19,8 +19,8 @@ var init_z_index
 var pressed = false
 
 func is_knight_card(name):
-	var card = stat.cards[name]
-	var unit = stat.units[card.Unit]
+	var card = data.cards[name]
+	var unit = data.units[card.Unit]
 	return unit.type == "Knight"
 	
 func _ready():
@@ -43,7 +43,7 @@ func _process(delta):
 		card_level = level
 		clear_units()
 		add_units()
-		var cost = stat.cards[card_name].Cost
+		var cost = data.cards[card_name].Cost
 		$Card.visible = true
 		$Card/Icon.visible = true
 		$Card/NotAvailable.visible = false
@@ -52,7 +52,7 @@ func _process(delta):
 		$Card/Energy.max_value = cost
 
 	# update energy
-	var cost = stat.cards[card_name].Cost
+	var cost = data.cards[card_name].Cost
 	var ready = player.energy >= cost
 	$Card/Icon/NotReady.visible = not ready
 	$Card/Icon/Ready.visible = ready
@@ -91,7 +91,7 @@ func on_released(ev):
 	if pos.y > map.rect_size.y:
 		return
 	
-	if player.energy < stat.cards[card_name]["Cost"]:
+	if player.energy < data.cards[card_name]["Cost"]:
 		show_message("Not Enought Energy", pos.y)
 		return
 
@@ -147,8 +147,8 @@ func on_dragged(ev):
 		$Cursor.visible = false
 
 func set_cursor_pos(x, y):
-	var card = stat.cards[card_name]
-	var unit = stat.units[card.Unit]
+	var card = data.cards[card_name]
+	var unit = data.units[card.Unit]
 	var tile = game.TileFromPos(x, y)
 	var minTileY = game.Map().MinTileYOnBot()
 	var maxTileY = game.Map().TileNumY() - 1
@@ -197,7 +197,7 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
 
 func add_units():
-	var card = stat.cards[card_name]
+	var card = data.cards[card_name]
 	var unit = card["Unit"]
 	var count = card["Count"]
 	var offsetX = card["OffsetX"]

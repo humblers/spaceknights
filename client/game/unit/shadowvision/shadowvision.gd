@@ -13,9 +13,9 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 	
 func TakeDamage(amount, attacker):
-	if Layer() != stat.Normal:
+	if Layer() != data.Normal:
 		return
-	if attacker.DamageType() != stat.AntiShield:
+	if attacker.DamageType() != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -51,7 +51,7 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
-	shield += stat.ShieldRegenPerStep
+	shield += data.ShieldRegenPerStep
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/Shield.value = shield
@@ -92,7 +92,7 @@ func findTargetAndDoAction():
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		setLayer(stat.Normal)
+		setLayer(data.Normal)
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
@@ -109,7 +109,7 @@ func handleAttack():
 		setLayer(initialLayer())
 
 func damageRadius():
-	var r = stat.units[name_]["damageradius"]
+	var r = data.units[name_]["damageradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):

@@ -69,8 +69,8 @@ func handleAttack():
 	
 
 func destroyDamage():
-	return stat.units[name_]["destroydamage"][level]
+	return data.units[name_]["destroydamage"][level]
 
 func destroyRadius():
-	var r = stat.units[name_]["destroyradius"]
+	var r = data.units[name_]["destroyradius"]
 	return game.World().FromPixel(r)

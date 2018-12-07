@@ -86,7 +86,7 @@ func canAttack(unit):
 	return true
 
 func attackRadius():
-	var r = stat.units[name_]["attackradius"]
+	var r = data.units[name_]["attackradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):

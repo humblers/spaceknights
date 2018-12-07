@@ -49,7 +49,7 @@ func _ready():
 
 func PopUp(card):
 	self.card = card
-	self.unit = stat.units[card.Unit]
+	self.unit = data.units[card.Unit]
 	invalidate()
 	self.visible = true
 	main_popup.popup()
@@ -123,7 +123,7 @@ func valueText(key):
 				return unit[key][card.Level]
 		
 		"leader", "wing":
-			if card.Type == stat.KnightCard:
+			if card.Type == data.KnightCard:
 				return unit.skill[key].name
 		"count":
 			if card.Count > 1:

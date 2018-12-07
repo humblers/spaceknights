@@ -54,7 +54,7 @@ func useCard(card, tileX, tileY):
 			update_energy()
 			break
 	if unit_ready_sound:
-		if card.Type == stat.SquireCard:
+		if card.Type == data.SquireCard:
 			var sound = unit_ready_sound.get_resource(card.Name)
 			$AudioStreamPlayer.stream = sound
 			$AudioStreamPlayer.play()

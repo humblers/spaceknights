@@ -11,7 +11,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 
 func TakeDamage(amount, attacker):
-	if attacker.DamageType() != stat.AntiShield:
+	if attacker.DamageType() != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -49,7 +49,7 @@ func Update():
 				findTargetAndDoAction()
 	if targetId == 0:
 		$AnimationPlayer.play("idle")
-	shield += stat.ShieldRegenPerStep
+	shield += data.ShieldRegenPerStep
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/Shield.value = shield

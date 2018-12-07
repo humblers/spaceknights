@@ -139,7 +139,7 @@ func CreateMapObstacles():
 			world.FromPixel(x),
 			world.FromPixel(y)
 		)
-		b.SetLayer(stat.Normal)
+		b.SetLayer(data.Normal)
 
 func _process(delta):
 	elapsed += delta
@@ -258,7 +258,7 @@ func removeDeadUnits():
 		var u = units[id]
 		if u.IsDead():
 			units.erase(id)
-			if u.Type() != stat.Knight:
+			if u.Type() != data.Knight:
 				deathToll[u.Team()] += 1
 				lastDeadPosX[u.Team()] = u.PositionX()
 			u.Destroy()

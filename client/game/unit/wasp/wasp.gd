@@ -12,7 +12,7 @@ func Init(id, level, posX, posY, game, player):
 
 func TakeDamage(amount, attacker):
 	var dead = hp <= 0
-	if attacker.DamageType() != stat.AntiShield:
+	if attacker.DamageType() != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -103,8 +103,8 @@ func handleAttack():
 		attack = 0
 
 func destroyDamage():
-	return stat.units[name_]["destroydamage"][level]
+	return data.units[name_]["destroydamage"][level]
 
 func destroyRadius():
-	var r = stat.units[name_]["destroyradius"]
+	var r = data.units[name_]["destroyradius"]
 	return game.World().FromPixel(r)

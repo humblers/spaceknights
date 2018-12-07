@@ -15,7 +15,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 
 func TakeDamage(amount, attacker):
-	if attacker.DamageType() != stat.AntiShield:
+	if attacker.DamageType() != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -53,7 +53,7 @@ func Update():
 				findTargetAndDoAction()
 	if targetId == 0:
 		$AnimationPlayer.play("idle")
-	shield += stat.ShieldRegenPerStep
+	shield += data.ShieldRegenPerStep
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/Shield.value = shield
@@ -115,11 +115,11 @@ func handleAttack():
 
 func absorb():
 	var radius = absorbRadius()
-	var force = game.World().FromPixel(stat.units[name_]["absorbforce"])
-	var damage = stat.units[name_]["absorbdamage"]
+	var force = game.World().FromPixel(data.units[name_]["absorbforce"])
+	var damage = data.units[name_]["absorbdamage"]
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
-		if u.Team() == Team() or u.Layer() != stat.Normal:
+		if u.Team() == Team() or u.Layer() != data.Normal:
 			continue
 		var x = scalar.Sub(punchPosX, u.PositionX())
 		var y = scalar.Sub(punchPosY, u.PositionY())
@@ -134,10 +134,10 @@ func absorb():
 			
 
 func absorbRadius():
-	return game.World().FromPixel(stat.units[name_]["absorbradius"])
+	return game.World().FromPixel(data.units[name_]["absorbradius"])
 
 func attackRadius():
-	var r = stat.units[name_]["attackradius"]
+	var r = data.units[name_]["attackradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):

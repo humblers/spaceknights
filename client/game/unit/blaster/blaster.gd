@@ -77,7 +77,7 @@ func handleAttack():
 		attack = 0
 
 func damageRadius():
-	var r = stat.units[name_]["damageradius"]
+	var r = data.units[name_]["damageradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):

@@ -31,7 +31,7 @@ func Init(id, level, posX, posY, game, player):
 		return
 	initPosX = PositionX()
 	initPosY = PositionY()
-	var offsetX = scalar.Mul(game.Map().TileWidth(), scalar.FromInt(stat.HoverKnightTileOffsetX))
+	var offsetX = scalar.Mul(game.Map().TileWidth(), scalar.FromInt(data.HoverKnightTileOffsetX))
 	minPosX = scalar.Sub(initPosX, offsetX)
 	maxPosX = scalar.Add(initPosX, offsetX)
 
@@ -62,7 +62,7 @@ func attackDamage():
 	return damage / divider
 
 func attackRange():
-	var atkrange = stat.units[name_]["attackrange"]
+	var atkrange = data.units[name_]["attackrange"]
 	var divider = 1
 	var ratios = player.StatRatios("attackrangeratio")
 	for i in range(len(ratios)):
@@ -145,7 +145,7 @@ func SetAsLeader():
 
 func Skill():
 	var key = "leader" if isLeader else "wing"
-	return stat.units[name_]["skill"][key]
+	return data.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -156,7 +156,7 @@ func CastSkill(posX, posY):
 	castPosY = posY
 	adjustSkillAnim()
 	$AnimationPlayer.play("skill")
-	setLayer(stat.Casting)
+	setLayer(data.Casting)
 	return true
 
 func adjustSkillAnim():

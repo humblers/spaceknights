@@ -58,7 +58,7 @@ func attackDamage():
 	return damage / divider
 
 func attackRange():
-	var atkRange = stat.units[name_]["attackrange"]
+	var atkRange = data.units[name_]["attackrange"]
 	var divider = 1
 	var ratios = player.StatRatios("attackrangeratio")
 	for i in range(len(ratios)):
@@ -114,7 +114,7 @@ func SetAsLeader():
 
 func Skill():
 	var key = "leader" if isLeader else "wing"
-	return stat.units[name_]["skill"][key]
+	return data.units[name_]["skill"][key]
 
 func CastSkill(posX, posY):
 	if cast > 0:
@@ -126,7 +126,7 @@ func CastSkill(posX, posY):
 	init_rotation()
 	adjustSkillAnim()
 	$AnimationPlayer.play("skill")
-	setLayer(stat.Casting)
+	setLayer(data.Casting)
 	return true
 
 func adjustSkillAnim():

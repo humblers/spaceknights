@@ -22,7 +22,7 @@ func invalidate(name):
 	self.visible = name != null
 	if name == null:
 		return
-	var data = stat.cards[name_]
+	var data = data.cards[name_]
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(name_)
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(data.Type, data.Rarity)
 	cost.text = "%d" % (data.Cost / 1000)

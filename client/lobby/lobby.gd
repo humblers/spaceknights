@@ -29,12 +29,12 @@ func load_data():
 	if not response[0]:
 		http_manager.handle_error(response[1].ErrMessage)
 		return
-	stat.cards = converter.cast_float_to_int(parse_json(response[1]["Data"]))
+	data.cards = converter.cast_float_to_int(parse_json(response[1]["Data"]))
 	response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/units"), "response")
 	if not response[0]:
 		http_manager.handle_error(response[1].ErrMessage)
 		return
-	stat.units = converter.cast_float_to_int(parse_json(response[1]["Data"]))
+	data.units = converter.cast_float_to_int(parse_json(response[1]["Data"]))
 	login()
 
 func login():

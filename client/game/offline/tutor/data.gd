@@ -18,9 +18,9 @@ static func value_of_instant_damage_skill(unit, skill, level):
 
 const DOT_DAMAGE_SKILL_VALUE_MIN = 3
 static func value_of_dot_damage_skill(unit, skill, level):
-	if unit.Type() == stat.Knight:
+	if unit.Type() == data.Knight:
 		return 0.5
-	elif unit.Type() == stat.Building:
+	elif unit.Type() == data.Building:
 		return 0.5
 	var shield = unit.get("shield")
 	if shield == null:
@@ -61,15 +61,15 @@ var units
 
 func _init():
 	units = {}
-	for card in stat.cards.keys():
-		var unit = stat.cards[card].Unit
-		if stat.units[unit]["type"] == stat.Knight:
+	for card in data.cards.keys():
+		var unit = data.cards[card].Unit
+		if data.units[unit]["type"] == data.Knight:
 			units[unit] = { "Cost": 0 }
-			var wing_skill = stat.units[unit]["skill"]["wing"]
+			var wing_skill = data.units[unit]["skill"]["wing"]
 			if wing_skill.has("unit"):
-				units[wing_skill["unit"]] = { "Cost": stat.cards[card].Cost }
+				units[wing_skill["unit"]] = { "Cost": data.cards[card].Cost }
 			continue
-		var cost_per_unit = stat.cards[card].Cost / stat.cards[card].Count
+		var cost_per_unit = data.cards[card].Cost / data.cards[card].Count
 		if units.has(unit) and units[unit].Cost > cost_per_unit:
 			continue
 		units[unit] = { "Cost": cost_per_unit }

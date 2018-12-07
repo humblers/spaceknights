@@ -125,7 +125,7 @@ func Do(action):
 				return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
 
 		# check energy
-		var cost = stat.cards[action.Card.Name]["Cost"]
+		var cost = data.cards[action.Card.Name]["Cost"]
 		if energy < cost:
 			return "not enough energy: %s" % action.Card.Name
 
@@ -156,9 +156,9 @@ func useCard(c, tileX, tileY):
 		return pos[2]
 	var posX = pos[0]
 	var posY = pos[1]
-	var d = stat.cards[c.Name]
+	var d = data.cards[c.Name]
 	var name = d.Unit
-	var u = stat.units[name]
+	var u = data.units[name]
 	var k = findKnight(name)
 	var isKnight = u["type"] == "Knight"
 	if not isKnight or k.Skill().has("unit"):

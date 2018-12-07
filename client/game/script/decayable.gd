@@ -9,11 +9,11 @@ func Init(unit):
 func TakeDecayDamage():
 	if off:
 		return
-	var damage = stat.units[unit.Name()]["decaydamage"]
+	var damage = data.units[unit.Name()]["decaydamage"]
 	unit.TakeDamage(damage, self)
 
 func SetDecayOff():
 	off = true
 
 func DamageType():
-	return stat.Decay
+	return data.Decay

@@ -54,7 +54,7 @@ func findTargetAndDoAction():
 func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
-		setLayer(stat.Normal)
+		setLayer(data.Normal)
 		$AnimationPlayer.play("cloaking_end")
 	var t = target()
 	if t != null:

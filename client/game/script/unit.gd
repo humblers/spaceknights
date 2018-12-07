@@ -99,16 +99,16 @@ func New(id, name, team, level, posX, posY, game):
 # debug circle radius in pixels
 # TODO: use the function in logic routine
 func _radius():
-	return static_func.dict_get(stat.units[name_], "radius", 0)
+	return static_func.dict_get(data.units[name_], "radius", 0)
 
 func _range():
-	return static_func.dict_get(stat.units[name_], "attackrange", 0)
+	return static_func.dict_get(data.units[name_], "attackrange", 0)
 	
 func _sight():
-	return static_func.dict_get(stat.units[name_], "sight", 0)
+	return static_func.dict_get(data.units[name_], "sight", 0)
 	
 func setLayer(l):
-	if l == stat.Casting:
+	if l == data.Casting:
 		body.Simulate(false)
 	else:
 		body.Simulate(true)
@@ -156,7 +156,7 @@ func Team():
 	return team
 
 func Type():
-	return stat.units[name_]["type"]
+	return data.units[name_]["type"]
 
 func Layer():
 	return body.Layer()
@@ -172,14 +172,14 @@ func SetHp(hp):
 	set_hp()
 	
 func TakeDamage(amount, attacker):
-	if Layer() != stat.Normal:
+	if Layer() != data.Normal:
 		return
 	hp -= amount
 	node_hp.value = hp
 	node_hp.visible = true
 
 	# client only
-	if attacker.DamageType() == stat.Decay:
+	if attacker.DamageType() == data.Decay:
 		return
 	damages[game.step] = 0
 	$HitEffect.hit(attacker)
@@ -193,7 +193,7 @@ func MakeSlow(duration):
 	slowUntil = game.Step() + duration
 
 func Freeze(duration):
-	if Layer() == stat.Casting:
+	if Layer() == data.Casting:
 		return
 	if freeze < duration:
 		freeze = duration
@@ -230,21 +230,21 @@ func CastSkill(posX, posY):
 	print("not implemented")
 
 func DamageType():
-	return stat.units[name_]["damagetype"]
+	return data.units[name_]["damagetype"]
 
 func initialLayer():
-	return stat.units[name_]["layer"]
+	return data.units[name_]["layer"]
 
 func mass():
-	var m = stat.units[name_]["mass"]
+	var m = data.units[name_]["mass"]
 	return scalar.FromInt(m)
 
 func radius():
-	var r = stat.units[name_]["radius"]
+	var r = data.units[name_]["radius"]
 	return game.World().FromPixel(r)
 
 func initialHp():
-	var v = stat.units[name_]["hp"]
+	var v = data.units[name_]["hp"]
 	var t = typeof(v)
 	match t:
 		TYPE_INT:
@@ -255,7 +255,7 @@ func initialHp():
 			print("invalid hp type")
 
 func initialShield():
-	var v = stat.units[name_]["shield"]
+	var v = data.units[name_]["shield"]
 	var t = typeof(v)
 	if t == TYPE_INT:
 		return v
@@ -264,23 +264,23 @@ func initialShield():
 	print("invalid shield type")
 
 func sight():
-	var s = stat.units[name_]["sight"]
+	var s = data.units[name_]["sight"]
 	return game.World().FromPixel(s)
 
 func speed():
-	var s = stat.units[name_]["speed"]
+	var s = data.units[name_]["speed"]
 	if slowUntil >= game.Step():
-		s = s * stat.SlowPercent / 100
+		s = s * data.SlowPercent / 100
 	return game.World().FromPixel(s)
 
 func targetTypes():
-	return stat.units[name_]["targettypes"]
+	return data.units[name_]["targettypes"]
 
 func targetLayers():
-	return stat.units[name_]["targetlayers"]
+	return data.units[name_]["targetlayers"]
 
 func attackDamage():
-	var v = stat.units[name_]["attackdamage"]
+	var v = data.units[name_]["attackdamage"]
 	var t = typeof(v)
 	if t == TYPE_INT:
 		return v
@@ -289,21 +289,21 @@ func attackDamage():
 	print("invalid attack damage type")
 
 func attackRange():
-	var r = stat.units[name_]["attackrange"]
+	var r = data.units[name_]["attackrange"]
 	return game.World().FromPixel(r)
 
 func attackInterval():
-	var i = stat.units[name_]["attackinterval"]
+	var i = data.units[name_]["attackinterval"]
 	if slowUntil >= game.Step():
-		i = i * 100 / stat.SlowPercent
+		i = i * 100 / data.SlowPercent
 	return i
 
 func preAttackDelay():
-	return stat.units[name_]["preattackdelay"]
+	return data.units[name_]["preattackdelay"]
 func bulletLifeTime():
-	return stat.units[name_]["bulletlifetime"]
+	return data.units[name_]["bulletlifetime"]
 func canSee(unit):
-	if unit.Type() == stat.Knight:
+	if unit.Type() == data.Knight:
 		return true
 	var r = sight() + Radius() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
@@ -345,7 +345,7 @@ func moveToPos(posX, posY):
 func moveTo(unit, play_anim = true):
 	var x
 	var y
-	if Layer() == stat.Ether:
+	if Layer() == data.Ether:
 		x = scalar.Sub(unit.PositionX(), PositionX())
 		y = scalar.Sub(unit.PositionY(), PositionY())
 	else:

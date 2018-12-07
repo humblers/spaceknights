@@ -36,13 +36,13 @@ func Init(playerData, game):
 	score = game.LEADER_SCORE + game.WING_SCORE * 2
 	self.game = game
 	for c in playerData.Deck:
-		var card = stat.NewCard(c)
-		if card.Side != stat.Center:
+		var card = data.NewCard(c)
+		if card.Side != data.Center:
 			if len(hand) < HAND_SIZE:
 				hand.append(card)
 			else:
 				pending.append(card)
-		if card.Type == stat.KnightCard:
+		if card.Type == data.KnightCard:
 			addKnight(card.Name, card.Level, card.Side)
 	applyLeaderSkill()
 
@@ -73,7 +73,7 @@ func addKnight(name, level, side):
 	return knight
 
 func applyLeaderSkill():
-	game.FindUnit(knightIds[stat.Center]).SetAsLeader()
+	game.FindUnit(knightIds[data.Center]).SetAsLeader()
 	
 	# apply hp buff
 	for side in knightIds:
@@ -141,7 +141,7 @@ func canUseCard(card, tileX, tileY):
 			return "can't place card on tileY: %d" % tileY
 		if team == "Blue" and tileY < game.Map().MinTileYOnBot():
 			return "can't place card on tileY: %d" % tileY
-	if card.Type == stat.KnightCard:
+	if card.Type == data.KnightCard:
 		var knight = findKnight(card.Name)
 		if knight == null:
 			return "%s already dead" % card.Name
@@ -150,12 +150,12 @@ func canUseCard(card, tileX, tileY):
 	return null
 
 func CanUseAnywhere(card):
-	if card.Type == stat.KnightCard:
-		var skill = stat.units[card.Name].skill.wing
+	if card.Type == data.KnightCard:
+		var skill = data.units[card.Name].skill.wing
 		if not skill.has("unit"):
 			return true
 		else:
-			if stat.units[skill.unit].type != stat.Building:
+			if data.units[skill.unit].type != data.Building:
 				return true
 	return false
 
@@ -185,7 +185,7 @@ func useCard(card, tileX, tileY):
 	var pos = game.PosFromTile(tileX, tileY)
 	var posX = pos[0]
 	var posY = pos[1]
-	if card.Type == stat.KnightCard:
+	if card.Type == data.KnightCard:
 		findKnight(card.Name).CastSkill(posX, posY)
 	else:
 		for i in range(card.Count):
@@ -197,7 +197,7 @@ func OnKnightDead(knight):
 		var id = knightIds[side]
 		if id == knight.Id():
 			knightIds[side] = 0
-			if side == stat.Center:
+			if side == data.Center:
 				score -= game.LEADER_SCORE
 			else:
 				score -= game.WING_SCORE
