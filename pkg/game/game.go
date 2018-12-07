@@ -47,7 +47,8 @@ type Game interface {
 	FlipX(x int) int
 	FlipY(y int) int
 	TileFromPos(x, y int) (int, int)
-	PosFromTile(x, y int) (int, int, error)
+	PosFromTile(x, y int) (int, int)
+	IsValidTile(x, y int) bool
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) Unit
 	AddBullet(b Bullet)
@@ -535,15 +536,19 @@ func (g *game) TileFromPos(x, y int) (int, int) {
 	return tx, ty
 }
 
-func (g *game) PosFromTile(x, y int) (int, int, error) {
+func (g *game) IsValidTile(x, y int) bool {
 	if g.map_.TileNumX()-1 < x || x < 0 {
-		return 0, 0, fmt.Errorf("invaild tile x: %v", x)
+		return false
 	}
 	if g.map_.TileNumY()-1 < y || y < 0 {
-		return 0, 0, fmt.Errorf("invaild tile y: %v", y)
+		return false
 	}
+	return true
+}
+
+func (g *game) PosFromTile(x, y int) (int, int) {
 	tw, th := g.world.ToPixel(g.map_.TileWidth()), g.world.ToPixel(g.map_.TileHeight())
-	return x*tw + tw/2, y*th + th/2, nil
+	return x*tw + tw/2, y*th + th/2
 }
 
 func boxVSCircle(posA, posB fixed.Vector, width, height, radius fixed.Scalar) bool {

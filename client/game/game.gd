@@ -212,7 +212,9 @@ func _physics_process(delta):
 func Update(state):
 	if state.Actions != null:
 		for action in state.Actions:
-			players[action.Id].Do(action)
+			var err = players[action.Id].Do(action)
+			if err != null:
+				print(err)
 	for id in players:
 		players[id].Update()
 	for id in units.keys():
@@ -331,14 +333,17 @@ func TileFromPos(x, y):
 	var ty = int(clamp(y / world.ToPixel(map.TileHeight()), 0, map.TileNumY() - 1))
 	return [tx, ty]
 
-func PosFromTile(x, y):
+func IsValidTile(x, y):
 	if map.TileNumX() - 1 < x || x < 0:
-		return [null, null, "invalid tile x: %d" % x]
+		return false
 	if map.TileNumY() - 1 < y || y < 0:
-		return [null, null, "invalid tile y: %d" % y]
+		return false
+	return true
+	
+func PosFromTile(x, y):
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
-	return [x*tw + tw/2, y*th + th/2, null]
+	return [x*tw + tw/2, y*th + th/2]
 
 static func intersect_tilerect(a, b):
 	if a.t > b.b:

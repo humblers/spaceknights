@@ -7,6 +7,9 @@ export(NodePath) onready var map = get_node(map)
 export(NodePath) onready var unit_resource = get_node(unit_resource)
 export(NodePath) onready var cursor_resource = get_node(cursor_resource)
 export(NodePath) onready var icon_resource = get_node(icon_resource)
+export(NodePath) onready var knight_button_left = get_node(knight_button_left)
+export(NodePath) onready var knight_button_right = get_node(knight_button_right)
+export(NodePath) onready var mothership = get_node(mothership)
 
 onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
@@ -16,20 +19,33 @@ onready var dummy_init_pos = $Dummy.position
 
 var card
 var pressed = false
+var input_sent = false
 
+func _ready():
+	connect("gui_input", self, "handle_input")
+	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
+	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
+
+func handle_knight_input(event, side):
+	if card and card.Side == side:
+		event.position = get_local_mouse_position()
+		handle_input(event)
+		
 func Set(card):
 	if card == null:
-		visible = false
-		return
+		visible = false		# also cancels previous input
+		pressed = false
+		input_sent = false
 	else:
 		visible = true
-	self.card = card
-	clear_cursor_and_dummy()
-	add_cursor_and_dummy(card)
-	$Card/Icon.texture = icon_resource.get_resource(card.Name)
-	$Card/Cost/Label.text = str(card.Cost/1000)
-	$Card/Energy.max_value = card.Cost
-	init()
+		self.card = card
+		$AnimationPlayer.stop()
+		tile.Hide()
+		init_card(card)
+		init_cursor(card)
+		init_dummy(card)
+		if card.Type == stat.KnightCard:
+			mothership.OpenDeck(card.Side)
 
 func Update(energy):
 	var ready = energy >= $Card/Energy.max_value
@@ -37,72 +53,63 @@ func Update(energy):
 	$Card/Icon/Ready.visible = ready
 	$Card/Cost.playing = ready
 	$Card/Energy.value = energy
+	if card.Type == stat.KnightCard:
+		var ratio = float(energy)/card.Cost
+		mothership.UpdateDeckReadyState(card.Side, ratio)
 
-func init():
-	$Card.visible = true
+func init_card(card = null):
 	$Card.position = card_init_pos
 	$Card.scale = card_init_scale
 	$Card.z_index = card_init_z_index
+	if card != null:
+		$Card/Icon.texture = icon_resource.get_resource(card.Name)
+		$Card/Cost/Label.text = str(card.Cost/1000)
+		$Card/Energy.max_value = card.Cost
+	
+func init_cursor(card = null):
 	$Cursor.visible = false
 	$Cursor.position = cursor_init_pos
-	$Dummy.position = dummy_init_pos
-	$AnimationPlayer.stop()
-	if not is_connected("gui_input", self, "handle_input"):
-		connect("gui_input", self, "handle_input")
+	if card != null:
+		for c in $Cursor.get_children():
+			c.queue_free()
+		if card.Type == stat.SquireCard:
+			for i in card.Count:
+				var node = unit_resource.get_resource(card.Unit).instance()
+				node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+				node.modulate = Color(1, 1, 1, 0.5)
+				$Cursor.add_child(node)
+			# TODO: change stat.Squire to stat.SquireCard
+			var node = cursor_resource.get_resource(stat.Squire.to_lower()).instance()
+			$Cursor.add_child(node)
+		else:
+			var node = cursor_resource.get_resource(card.Name).instance()
+			$Cursor.add_child(node)
 
-func add_cursor_and_dummy(card):
+func init_dummy(card):
+	$Dummy.position = dummy_init_pos
+	for c in $Dummy.get_children():
+		c.queue_free()
 	if card.Type == stat.SquireCard:
 		for i in card.Count:
 			var node = unit_resource.get_resource(card.Unit).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Dummy.add_child(node)
-			node = node.duplicate()
-			node.modulate = Color(1, 1, 1, 0.5)
-			$Cursor.add_child(node)
-		# TODO: change stat.Squire to stat.SquireCard
-		var node = cursor_resource.get_resource(stat.Squire.to_lower()).instance()
-		$Cursor.add_child(node)
-	else:
-		var node = cursor_resource.get_resource(card.Name).instance()
-		$Cursor.add_child(node)
-
-func clear_cursor_and_dummy():
-	for c in $Cursor.get_children():
-		c.queue_free()
-	for c in $Dummy.get_children():
-		c.queue_free()
-
+	
 func handle_input(ev):
+	if input_sent:
+		return
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
 		if pressed:
 			on_pressed()
 		else:
-			on_released(ev)
+			on_released()
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)
 
 func on_pressed():
-	var is_unit = true
-	if card.Type == stat.KnightCard:
-		var skill = stat.units[card.Name].skill.wing
-		if not skill.has("unit"):
-			is_unit = false
-		else:
-			if stat.units[skill.unit].type != stat.Building:
-				is_unit = false
-	tile.Show(can_use_anywhere())
+	tile.Show(player.CanUseAnywhere(card))
 	$Card.z_index += 1
-
-func can_use_anywhere():
-	if card.Type == stat.KnightCard:
-		var skill = stat.units[card.Name].skill.wing
-		if not skill.has("unit"):
-			return true
-		else:
-			if stat.units[skill.unit].type != stat.Building:
-				return true
-	return false
 
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -124,30 +131,38 @@ func on_dragged(ev):
 	else:
 		$Cursor.visible = false
 	
-func on_released(ev):
+func on_released():
 	tile.Hide()
 	
 	# released on map?
 	var pos = map.get_local_mouse_position()
 	if pos.y > map.rect_size.y:
-		init()
+		init_card()
+		init_cursor()
 		return
 	
 	# enough energy?
 	if $Card/Energy.value < $Card/Energy.max_value:
 		show_message("Not Enough energy", pos.y)
-		init()
+		init_card()
+		init_cursor()
 		return
 	
+	# send input
 	player.send_input(card, $Cursor.global_position - map.rect_position)
-	$Card.visible = false
-	disconnect("gui_input", self, "handle_input")
-	$AnimationPlayer.play("launch")
-	yield($AnimationPlayer, "animation_finished")
-	$Dummy.position = $Cursor.position
-	$Cursor.visible = false
-	$AnimationPlayer.play("show")
-	yield($AnimationPlayer, "animation_finished")
+	input_sent = true
+
+	# play launch and show anim
+	if card.Type == stat.SquireCard:
+		$AnimationPlayer.play("launch")
+		yield($AnimationPlayer, "animation_finished")
+		$Dummy.position = $Cursor.position
+		$Cursor.visible = false
+		$AnimationPlayer.play("show")
+		yield($AnimationPlayer, "animation_finished")
+
+	if card.Type == stat.KnightCard:
+		mothership.CloseDeck(card.Side)
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")
@@ -163,7 +178,7 @@ func set_cursor_pos(x, y):
 		x = game.FlipX(x)
 		y = game.FlipY(y)
 	var tile = game.TileFromPos(x, y)
-	if not can_use_anywhere():
+	if not player.CanUseAnywhere(card):
 		var minY = 0
 		var maxY = game.Map().TileNumY() - 1
 		if player.team == "Blue":

@@ -39,14 +39,14 @@ type Player interface {
 }
 
 type player struct {
-	team        Team
-	energy      int
-	hand        []data.Card
-	pending     []data.Card
-	emptyIdx    []int
-	drawCounter int
-	knightIds   map[data.KnightSide]int
-	score       int
+	team      Team
+	energy    int
+	hand      []*data.Card
+	pending   []*data.Card
+	emptyIdx  []int
+	drawTimer int
+	knightIds map[data.KnightSide]int
+	score     int
 
 	statRatios map[string][]int
 
@@ -136,16 +136,30 @@ func (p *player) Update() {
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
-	if p.drawCounter > 0 {
-		p.drawCounter--
-		return
+	if p.canDrawCard() {
+		index := p.emptyIdx[0]
+		p.emptyIdx = p.emptyIdx[1:]
+		p.drawCard(index)
+	} else {
+		p.drawTimer--
+	}
+}
+
+func (p *player) canDrawCard() bool {
+	if p.drawTimer > 0 {
+		return false
 	}
 	if len(p.emptyIdx) == 0 {
-		return
+		return false
 	}
-	index := p.emptyIdx[0]
-	p.emptyIdx = p.emptyIdx[1:]
-	p.drawCard(index)
+	return true
+}
+
+func (p *player) drawCard(index int) {
+	var next *data.Card
+	next, p.pending = p.pending[0], p.pending[1:]
+	p.hand[index] = next
+	p.drawTimer = drawInterval
 }
 
 func (p *player) Do(a *Action) error {
@@ -157,41 +171,80 @@ func (p *player) Do(a *Action) error {
 		}
 	}
 
-	// find card in hand
-	index := -1
-	var card data.Card
-	for i, c := range p.hand {
-		if c.Name == a.Card.Name {
-			index = i
-			card = c
-			a.Card.Level = c.Level // to protect level cheat
-			break
-		}
-	}
+	index := p.findCard(p.hand, a.Card.Name)
 	if index < 0 {
 		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
 	}
+	card := p.hand[index]
+	a.Card.Level = card.Level // to protect level cheat
 
-	// check energy
-	if p.energy < card.Cost {
-		return fmt.Errorf("not enough energy: %v", card.Name)
-	}
-
-	if err := p.useCard(card, a.TileX, a.TileY); err != nil {
+	if err := p.canUseCard(card, a.TileX, a.TileY); err != nil {
 		return err
 	}
+	p.useCard(card, a.TileX, a.TileY)
 
-	// decrement energy
-	p.energy -= card.Cost
-
-	p.removeCardInHand(card, index)
+	p.removeCardFromHand(index)
+	p.pending = append(p.pending, card)
 	return nil
 }
 
-func (p *player) removeCardInHand(card data.Card, index int) {
-	p.hand[index] = data.Card{}
-	p.pending = append(p.pending, card)
+func (p *player) canUseCard(card *data.Card, tileX, tileY int) error {
+	if p.energy < card.Cost {
+		return fmt.Errorf("not enough energy: %v", card.Name)
+	}
+	if !p.game.IsValidTile(tileX, tileY) {
+		return fmt.Errorf("invalid tile index: (%v, %v)", tileX, tileY)
+	}
+	if !p.CanUseAnywhere(card) {
+		if p.team == Red && tileY > p.game.Map().MaxTileYOnTop() {
+			return fmt.Errorf("can't place card on tileY: %v", tileY)
+		}
+		if p.team == Blue && tileY < p.game.Map().MinTileYOnBot() {
+			return fmt.Errorf("can't place card on tileY: %v", tileY)
+		}
+	}
+	if card.Type == data.KnightCard {
+		knight := p.findKnight(card.Name)
+		if knight == nil {
+			return fmt.Errorf("%v already dead", card.Name)
+		}
+		if !knight.CanCastSkill() {
+			return fmt.Errorf("%v cannot cast skill now", knight.Name())
+		}
+	}
+	return nil
+}
+
+func (p *player) CanUseAnywhere(card *data.Card) bool {
+	if card.Type == data.KnightCard {
+		skill := data.Units[card.Name]["skill"].(map[string]interface{})["wing"].(map[string]interface{})
+		if _, ok := skill["unit"]; !ok {
+			return true
+		} else {
+			if data.Units[skill["unit"].(string)]["type"] != data.Building {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (p *player) findCard(from []*data.Card, name string) int {
+	for i, c := range from {
+		if c != nil && c.Name == name {
+			return i
+		}
+	}
+	return -1
+}
+
+func (p *player) removeCardFromHand(index int) {
+	p.hand[index] = nil
 	p.emptyIdx = append(p.emptyIdx, index)
+}
+
+func (p *player) removeCardFromPending(index int) {
+	p.pending = append(p.pending[:index], p.pending[index+1:]...)
 }
 
 func (p *player) findKnight(name string) Unit {
@@ -204,51 +257,21 @@ func (p *player) findKnight(name string) Unit {
 	return nil
 }
 
-func (p *player) useCard(c data.Card, tileX, tileY int) error {
-	posX, posY, err := p.game.PosFromTile(tileX, tileY)
-	if err != nil {
-		return err
-	}
-
-	d := data.Cards[c.Name]
-	name := d.Unit
-	u := data.Units[name]
-	k := p.findKnight(name)
-	isKnight := u["type"].(data.UnitType) == data.Knight
-	if !isKnight || k.Skill()["unit"] != nil {
-		if p.team == Red && tileY > p.game.Map().MaxTileYOnTop() {
-			return fmt.Errorf("can't place card on tileY: %v", tileY)
-		}
-		if p.team == Blue && tileY < p.game.Map().MinTileYOnBot() {
-			return fmt.Errorf("can't place card on tileY: %v", tileY)
-		}
-	}
-
-	if isKnight {
-		if k == nil {
-			panic("should not be here")
-		}
-		if !k.CastSkill(posX, posY) {
-			return fmt.Errorf("%v cannot cast skill now", k.Name())
-		}
+func (p *player) useCard(card *data.Card, tileX, tileY int) {
+	posX, posY := p.game.PosFromTile(tileX, tileY)
+	if card.Type == data.KnightCard {
+		p.findKnight(card.Name).CastSkill(posX, posY)
 	} else {
-		for i := 0; i < d.Count; i++ {
-			p.game.AddUnit(name, c.Level, posX+d.OffsetX[i], posY+d.OffsetY[i], p)
+		for i := 0; i < card.Count; i++ {
+			p.game.AddUnit(card.Unit, card.Level, posX+card.OffsetX[i], posY+card.OffsetY[i], p)
 		}
 	}
-	return nil
+	p.energy -= card.Cost
 }
 
-func (p *player) drawCard(index int) {
-	var next data.Card
-	next, p.pending = p.pending[0], p.pending[1:]
-	p.hand[index] = next
-	p.drawCounter = drawInterval
-}
-
-func (p *player) OnKnightDead(u Unit) {
+func (p *player) OnKnightDead(knight Unit) {
 	for side, id := range p.knightIds {
-		if id == u.Id() {
+		if id == knight.Id() {
 			p.knightIds[side] = 0
 			if side == data.Center {
 				p.score -= leaderScore
@@ -258,21 +281,12 @@ func (p *player) OnKnightDead(u Unit) {
 			break
 		}
 	}
-	p.removeCard(u.Name())
-}
-
-func (p *player) removeCard(name string) {
-	for i, c := range p.hand {
-		if c.Name == name {
-			p.hand[i] = p.pending[0]
-			p.pending = p.pending[1:]
-			return
-		}
+	index := p.findCard(p.hand, knight.Name())
+	if index >= 0 {
+		p.removeCardFromHand(index)
 	}
-	for i, c := range p.pending {
-		if c.Name == name {
-			p.pending = append(p.pending[:i], p.pending[i+1:]...)
-			return
-		}
+	index = p.findCard(p.pending, knight.Name())
+	if index >= 0 {
+		p.removeCardFromPending(index)
 	}
 }
