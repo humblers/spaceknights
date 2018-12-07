@@ -44,7 +44,7 @@ func Set(card):
 		init_card(card)
 		init_cursor(card)
 		init_dummy(card)
-		if card.Type == stat.KnightCard:
+		if card.Type == data.KnightCard:
 			mothership.OpenDeck(card.Side)
 
 func Update(energy):
@@ -53,7 +53,7 @@ func Update(energy):
 	$Card/Icon/Ready.visible = ready
 	$Card/Cost.playing = ready
 	$Card/Energy.value = energy
-	if card.Type == stat.KnightCard:
+	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
 		mothership.UpdateDeckReadyState(card.Side, ratio)
 
@@ -72,14 +72,14 @@ func init_cursor(card = null):
 	if card != null:
 		for c in $Cursor.get_children():
 			c.queue_free()
-		if card.Type == stat.SquireCard:
+		if card.Type == data.SquireCard:
 			for i in card.Count:
 				var node = unit_resource.get_resource(card.Unit).instance()
 				node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 				node.modulate = Color(1, 1, 1, 0.5)
 				$Cursor.add_child(node)
-			# TODO: change stat.Squire to stat.SquireCard
-			var node = cursor_resource.get_resource(stat.Squire.to_lower()).instance()
+			# TODO: change data.Squire to data.SquireCard
+			var node = cursor_resource.get_resource(data.Squire.to_lower()).instance()
 			$Cursor.add_child(node)
 		else:
 			var node = cursor_resource.get_resource(card.Name).instance()
@@ -89,7 +89,7 @@ func init_dummy(card):
 	$Dummy.position = dummy_init_pos
 	for c in $Dummy.get_children():
 		c.queue_free()
-	if card.Type == stat.SquireCard:
+	if card.Type == data.SquireCard:
 		for i in card.Count:
 			var node = unit_resource.get_resource(card.Unit).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
@@ -153,7 +153,7 @@ func on_released():
 	input_sent = true
 
 	# play launch and show anim
-	if card.Type == stat.SquireCard:
+	if card.Type == data.SquireCard:
 		$AnimationPlayer.play("launch")
 		yield($AnimationPlayer, "animation_finished")
 		$Dummy.position = $Cursor.position
@@ -161,7 +161,7 @@ func on_released():
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
 
-	if card.Type == stat.KnightCard:
+	if card.Type == data.KnightCard:
 		mothership.CloseDeck(card.Side)
 
 func show_message(msg, pos_y):
@@ -188,11 +188,11 @@ func set_cursor_pos(x, y):
 		tile[1] = int(clamp(tile[1], minY, maxY))
 		var nx = 1
 		var ny = 1
-		if card.Type == stat.KnightCard:
-			var skill = stat.units[card.Unit].skill.wing
+		if card.Type == data.KnightCard:
+			var skill = data.units[card.Unit].skill.wing
 			if skill.has("unit"):
-				var unit = stat.units[skill.unit]
-				if unit.type == stat.Building:
+				var unit = data.units[skill.unit]
+				if unit.type == data.Building:
 					nx = unit.tilenumx
 					ny = unit.tilenumy
 		var res = avoid_occupied_tiles(tile[0], tile[1], nx, ny, minY, maxY)

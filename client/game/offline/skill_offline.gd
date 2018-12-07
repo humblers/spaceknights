@@ -57,7 +57,7 @@ func _process(delta):
 
 	if hand_index < 0:
 		return
-	var cost = float(stat.cards[card_name].Cost)
+	var cost = float(data.cards[card_name].Cost)
 	var ratio = float(player.energy)/cost
 	var node = mothership.get_node("Nodes/Deck/%s/Ready%s/SkillReadyC" % [side, side.left(1)])
 	node.modulate.a = clamp(ratio, 0, 1)
@@ -84,8 +84,8 @@ func handle_input(ev):
 func on_pressed():
 	if side == "Right":
 		print("right pressed")
-	var card = stat.cards[card_name]
-	var unit = stat.units[card.Unit]
+	var card = data.cards[card_name]
+	var unit = data.units[card.Unit]
 	if unit.skill.wing.has("unit"):
 		tile.ShowArea(true)
 	else:
@@ -102,7 +102,7 @@ func on_released(ev):
 		return
 
 	# check energy
-	if player.energy < stat.cards[card_name]["Cost"]:
+	if player.energy < data.cards[card_name]["Cost"]:
 		show_message("Not Enought Energy", pos.y)
 		return
 
@@ -141,8 +141,8 @@ func on_dragged(ev):
 	set_cursor_pos(int(pos.x), int(pos.y))
 
 func set_cursor_pos(x, y):
-	var card = stat.cards[card_name]
-	var unit = stat.units[card.Unit]
+	var card = data.cards[card_name]
+	var unit = data.units[card.Unit]
 	var tile = game.TileFromPos(x, y)
 	if unit.skill.wing.has("unit"):
 		var nx = 1

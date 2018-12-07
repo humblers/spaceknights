@@ -8,6 +8,6 @@ func get_card_icon(card):
 
 func get_card_frame(type, rarity):
 	var t = "squire"
-	if type == stat.KnightCard:
+	if type == data.KnightCard:
 		t = "knight"
 	return card_frame.get_resource("%s_%s_frame" % [t, rarity.to_lower()])

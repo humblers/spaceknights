@@ -43,13 +43,13 @@ export(NodePath) onready var resource_preloader = get_node(resource_preloader)
 var pressed_card
 var picked_card
 
-var filter = stat.SquireCard
+var filter = data.SquireCard
 
 func _ready():
 	scroll_max_y = get_vertical_scrollable_control().rect_position.y
 	bottom_left.connect("item_rect_changed", self, "calc_scroll_threshold")
-	filter_knight.connect("button_up", self, "change_filter", [stat.KnightCard])
-	filter_squire.connect("button_up", self, "change_filter", [stat.SquireCard])
+	filter_knight.connect("button_up", self, "change_filter", [data.KnightCard])
+	filter_squire.connect("button_up", self, "change_filter", [data.SquireCard])
 	for i in range(user.DECK_COUNT):
 		var btn = get("deck_btn_%d" % i)
 		btn.connect("button_up", self, "button_up_deck_num", [btn])
@@ -72,7 +72,7 @@ func invalidate():
 	deck_label.text = "%d" % (selected + 1)
 	get("deck_btn_%d" % selected).pressed = true
 
-	var not_found_cards = stat.cards.keys()
+	var not_found_cards = data.cards.keys()
 	var found_cards = user.Cards.keys()
 	var deck = user.Decks[selected]
 	for i in range(user.KNIGHT_SIDES.size()):
@@ -92,7 +92,7 @@ func invalidate():
 	for i in range(found_cards.size()):
 		var name = found_cards[i]
 		not_found_cards.erase(name)
-		if filter != stat.cards[name].Type:
+		if filter != data.cards[name].Type:
 			continue
 		var item = resource_preloader.get_resource("item").instance()
 		item.page_card = get_path()
@@ -102,7 +102,7 @@ func invalidate():
 		child.queue_free()
 	for i in range(not_found_cards.size()):
 		var name = not_found_cards[i]
-		if filter != stat.cards[name].Type:
+		if filter != data.cards[name].Type:
 			continue
 		var item = resource_preloader.get_resource("item").instance()
 		item.page_card = get_path()
@@ -121,12 +121,12 @@ func invalidate():
 	squires_control.visible = not cur_mode == MODE_EDIT_KNIGHT
 
 func current_mode():
-	if not stat.cards.has(picked_card):
+	if not data.cards.has(picked_card):
 		return MODE_NORMAL
-	var type = stat.units[stat.cards[picked_card].Unit].type
-	if type == stat.Knight:
+	var type = data.units[data.cards[picked_card].Unit].type
+	if type == data.Knight:
 		return MODE_EDIT_KNIGHT
-	elif type == stat.Squire:
+	elif type == data.Squire:
 		return MODE_EDIT_SQUIRE
 	return null
 
@@ -182,13 +182,13 @@ func button_up_deck_item(btn):
 	if not response[0]:
 		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
-	var picked_type = stat.cards[picked_card].Type
+	var picked_type = data.cards[picked_card].Type
 	picked_card = null
 	pressed_card = null
 	user.Decks[params.num] = params.deck
 	picked.rect_global_position = origin
 	lobby.invalidate()
-	if picked_type == stat.SquireCard:
+	if picked_type == data.SquireCard:
 		scrollable.rect_position.y = -knights_control.rect_size.y
 
 func set_pressed_card(btn):
@@ -200,7 +200,7 @@ func set_pressed_card(btn):
 		return
 	pressed_card = btn.name_
 	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
-	change_filter(stat.cards[pressed_card].Type)
+	change_filter(data.cards[pressed_card].Type)
 
 func set_picked_card(btn):
 	picked_card = pressed_card
@@ -215,7 +215,7 @@ func change_filter(filter):
 	self.filter = filter
 	if pressed_card != null and \
 			not user.CardInDeck(pressed_card) and \
-			filter != stat.cards[pressed_card].Type:
+			filter != data.cards[pressed_card].Type:
 		pressed_card = null
 	invalidate()
 

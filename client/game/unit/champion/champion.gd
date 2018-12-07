@@ -14,7 +14,7 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 	
 func TakeDamage(amount, attacker):
-	if attacker.DamageType() != stat.AntiShield:
+	if attacker.DamageType() != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -51,7 +51,7 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
-	shield += stat.ShieldRegenPerStep
+	shield += data.ShieldRegenPerStep
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/Shield.value = shield
@@ -139,21 +139,21 @@ func splashAttack(target, damage):
 			u.TakeDamage(damage, self)
 	
 func chargeDelay():
-	return stat.units[name_]["chargedelay"]
+	return data.units[name_]["chargedelay"]
 
 func speed():
 	var s
 	if charged():
-		s = stat.units[name_]["chargedmovespeed"]
+		s = data.units[name_]["chargedmovespeed"]
 	else:
-		s = stat.units[name_]["speed"]
+		s = data.units[name_]["speed"]
 	
 	if slowUntil >= game.Step():
-		s = s * stat.SlowPercent / 100
+		s = s * data.SlowPercent / 100
 	return game.World().FromPixel(s)
 
 func chargedAttackDamage():
-	var v = stat.units[name_]["chargedattackdamage"]
+	var v = data.units[name_]["chargedattackdamage"]
 	var t = typeof(v)
 	if t == TYPE_INT:
 		return v
@@ -162,16 +162,16 @@ func chargedAttackDamage():
 	print("invalid charged attack damage type")
 
 func chargedAttackInterval():
-	return stat.units[name_]["chargedattackinterval"]
+	return data.units[name_]["chargedattackinterval"]
 
 func chargedAttackPreDelay():
-	return stat.units[name_]["chargedattackpredelay"]
+	return data.units[name_]["chargedattackpredelay"]
 
 func charged():
 	return charge >= chargeDelay()
 
 func damageRadius():
-	var r = stat.units[name_]["damageradius"]
+	var r = data.units[name_]["damageradius"]
 	var divider = 1
 	var ratios = player.StatRatios("arearatio")
 	for i in range(len(ratios)):

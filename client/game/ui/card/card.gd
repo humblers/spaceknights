@@ -43,8 +43,8 @@ func _handle_input(ev):
 			$Scalable.scale = Vector2(1, 1)
 
 func update_cursor(x, y):
-	var card = stat.cards[Name]
-	var unit = stat.units[card.Unit]
+	var card = data.cards[Name]
+	var unit = data.units[card.Unit]
 	var tile = game.TileFromPos(x, y)
 	var minTileY = game.Map().MinTileYOnBot()
 	var maxTileY = game.Map().TileNumY() - 1
@@ -92,7 +92,7 @@ func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
 	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
 
 func add_unit(node):
-	var card = stat.cards[Name]
+	var card = data.cards[Name]
 	var name = card["Unit"]
 	var count = card["Count"]
 	var offsetX = card["OffsetX"]
@@ -115,7 +115,7 @@ func Set(name, player_energy = 0):
 		$Cursor.visible = false
 		$Scalable/Icon.visible = true
 		$Scalable/NotAvailable.visible = false
-		var cost = stat.cards[Name].Cost
+		var cost = data.cards[Name].Cost
 		var ready = player_energy >= cost
 		$Scalable/Icon.texture = $Resource/Icon.get_resource(Name)
 		$Scalable/Icon/Cost.text = str(cost/1000)
