@@ -206,7 +206,7 @@ func aim(t):
 	var diff = angle_diff(angle, $Rotatable.global_rotation)
 	var diff_l = angle_diff(angle_l, arm_l.global_rotation)
 	var diff_r = angle_diff(angle_r, arm_r.global_rotation)
-	var max_rot = ROT_SPEED/game.STEP_PER_SEC
+	var max_rot = ROT_SPEED/data.StepPerSec
 	$Rotatable.global_rotation += clamp(diff, -max_rot, max_rot)
 	arm_l.global_rotation += clamp(diff_l, -max_rot, max_rot)
 	arm_r.global_rotation += clamp(diff_r, -max_rot, max_rot)
@@ -215,7 +215,7 @@ func cancel_aim():
 	var diff = angle_diff(init_rot, $Rotatable.global_rotation)
 	var diff_l = angle_diff(init_rot, arm_l.global_rotation)
 	var diff_r = angle_diff(init_rot, arm_r.global_rotation)
-	var max_rot = ROT_SPEED/game.STEP_PER_SEC
+	var max_rot = ROT_SPEED/data.StepPerSec
 	$Rotatable.global_rotation += clamp(diff, -max_rot, max_rot)
 	arm_l.global_rotation += clamp(diff_l, -max_rot, max_rot)
 	arm_r.global_rotation += clamp(diff_r, -max_rot, max_rot)

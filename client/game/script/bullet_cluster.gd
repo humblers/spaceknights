@@ -11,7 +11,7 @@ var lifetimesec
 
 func Init(targetId, lifetime, damage, damageType, game):
 	.Init(targetId, lifetime, damage, damageType, game)
-	lifetimesec = float(lifetime)/game.STEP_PER_SEC + BULLET_COUNT * SHOT_INTERVAL
+	lifetimesec = float(lifetime)/data.StepPerSec + BULLET_COUNT * SHOT_INTERVAL
 
 func Destroy():
 	while lifetimesec > 0:

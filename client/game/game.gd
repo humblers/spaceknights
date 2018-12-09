@@ -6,17 +6,17 @@ var cfg = config.GAME
 const PLAY_TIME = 180000		# milliseconds
 const OVER_TIME = 180000
 const STEP_INTERVAL = 100	# milliseconds
-const STEP_PER_SEC = 10
 const LEADER_SCORE = 3
 const WING_SCORE = 1
 
-const FRAME_PER_STEP = Engine.iterations_per_second / STEP_PER_SEC
 const PACKET_WINDOW = 5
+
+var frame_per_step = Engine.iterations_per_second / data.StepPerSec
 
 # parameters for physics world
 var params = {
 	"scale": scalar.Div(scalar.One, scalar.FromInt(10)),
-	"dt": scalar.Div(scalar.One, scalar.FromInt(STEP_PER_SEC)),
+	"dt": scalar.Div(scalar.One, scalar.FromInt(data.StepPerSec)),
 	"gravity_y": 0,
 	"restitution": 0,
 }
@@ -143,7 +143,7 @@ func CreateMapObstacles():
 
 func _process(delta):
 	elapsed += delta
-	var t = clamp(elapsed * STEP_PER_SEC, 0, 1)
+	var t = clamp(elapsed * data.StepPerSec, 0, 1)
 	for b in world.bodies:
 		if b.node != null and not b.no_physics:
 			var prev = Vector2(
@@ -173,7 +173,7 @@ func _process(delta):
 #		$NonCameraFollowingUI/TimeBox/NameNode/Time.text = String(minute) + ":" + String(sec)
 
 func _physics_process(delta):
-	if frame % FRAME_PER_STEP == 0:
+	if frame % frame_per_step == 0:
 		if Over():
 			set_physics_process(false)
 			var anim = "draw"

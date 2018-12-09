@@ -1,6 +1,7 @@
 package nav
 
 import (
+	"github.com/humblers/spaceknights/pkg/data"
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
@@ -71,7 +72,7 @@ func NewMap(name string, scale fixed.Scalar) Map {
 
 func newThanatos(scale fixed.Scalar) *thanatos {
 	t := &thanatos{}
-	t.tileWidth = fixed.FromInt(50).Mul(scale)
+	t.tileWidth = fixed.FromInt(data.TileSizeInPixel).Mul(scale)
 	t.tileHeight = t.tileWidth
 	t.tileNumX = fixed.FromInt(20)
 	t.tileNumY = fixed.FromInt(32)

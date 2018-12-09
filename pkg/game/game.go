@@ -14,8 +14,7 @@ import (
 
 const playTime = time.Second * 180
 const overTime = time.Second * 180
-const stepInterval = time.Millisecond * 100
-const stepPerSec = 10
+const stepInterval = time.Second / data.StepPerSec
 const wingScore = 1
 const leaderScore = 3
 
@@ -28,7 +27,7 @@ const (
 
 var params = map[string]fixed.Scalar{
 	"scale":       fixed.One.Div(fixed.FromInt(10)),
-	"dt":          fixed.One.Div(fixed.FromInt(stepPerSec)),
+	"dt":          fixed.One.Div(fixed.FromInt(data.StepPerSec)),
 	"gravity_y":   0,
 	"restitution": 0,
 }

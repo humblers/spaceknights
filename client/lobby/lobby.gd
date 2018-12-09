@@ -25,16 +25,12 @@ func _ready():
 	load_data()
 
 func load_data():
-	var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/cards"), "response")
-	if not response[0]:
-		http_manager.handle_error(response[1].ErrMessage)
-		return
-	data.cards = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
-	response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/units"), "response")
-	if not response[0]:
-		http_manager.handle_error(response[1].ErrMessage)
-		return
-	data.units = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
+	for path in ["cards", "units", "upgrade"]:
+		var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/%s" % path), "response")
+		if not response[0]:
+			http_manager.handle_error(response[1].ErrMessage)
+			return
+		data.set(path, static_func.cast_float_to_int(parse_json(response[1]["Data"])))
 	login()
 
 func login():

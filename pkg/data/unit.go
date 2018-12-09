@@ -149,7 +149,7 @@ var Units = map[string]Unit{
 		"attacktype":     Laser,
 		"damagetype":     NormalDamage,
 		"attackdamage":   []int{5},
-		"attackrange":    350,
+		"attackrange":    375,
 		"attackinterval": 1,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{

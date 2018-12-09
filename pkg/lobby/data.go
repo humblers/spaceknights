@@ -44,6 +44,7 @@ func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.L
 	}
 	d.Post("cards", d.cards)
 	d.Post("units", d.units)
+	d.Post("upgrade", d.upgrade)
 	return path, http.TimeoutHandler(d, TimeoutDefault, TimeoutMessage)
 }
 
@@ -53,4 +54,12 @@ func (d *dataRouter) cards(b *bases, w http.ResponseWriter, r *http.Request) {
 
 func (d *dataRouter) units(b *bases, w http.ResponseWriter, r *http.Request) {
 	b.response = &DataResponse{Data: units_raw}
+}
+
+func (d *dataRouter) upgrade(b *bases, w http.ResponseWriter, r *http.Request) {
+	bytes, err := json.Marshal(data.Upgrade)
+	if err != nil {
+		panic(fmt.Errorf("Data encode fail: %v", err))
+	}
+	b.response = &DataResponse{Data: string(bytes)}
 }
