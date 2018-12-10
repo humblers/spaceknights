@@ -48,6 +48,8 @@ func Set(card):
 			mothership.OpenDeck(card.Side)
 
 func Update(energy):
+	if input_sent:
+		return
 	var ready = energy >= $Card/Energy.max_value
 	$Card/Icon/NotReady.visible = not ready
 	$Card/Icon/Ready.visible = ready
