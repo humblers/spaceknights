@@ -199,7 +199,7 @@ func _physics_process(delta):
 					print("too many packets %s" % [n])
 					iterations = min(10, n)
 				for i in range(iterations):
-					var state = converter.cast_float_to_int(parse_json(tcp.received.pop_front()))
+					var state = static_func.cast_float_to_int(parse_json(tcp.received.pop_front()))
 					Update(state)
 			else:
 				var state = {"Actions": null}

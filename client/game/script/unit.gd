@@ -99,13 +99,13 @@ func New(id, name, team, level, posX, posY, game):
 # debug circle radius in pixels
 # TODO: use the function in logic routine
 func _radius():
-	return static_func.dict_get(data.units[name_], "radius", 0)
+	return data.units[name_].get("radius", 0)
 
 func _range():
-	return static_func.dict_get(data.units[name_], "attackrange", 0)
+	return data.units[name_].get("attackrange", 0)
 	
 func _sight():
-	return static_func.dict_get(data.units[name_], "sight", 0)
+	return data.units[name_].get("sight", 0)
 	
 func setLayer(l):
 	if l == data.Casting:
