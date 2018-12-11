@@ -109,11 +109,11 @@ func findTargetAndAttack():
 
 func SetAsLeader():
 	isLeader = true
-	var data = Skill()
-	var name = data["unit"]
-	var count = data["count"]
-	var xArr = data["posX"]
-	var yArr = data["posY"]
+	var d = Skill()
+	var name = d["unit"]
+	var count = d["count"]
+	var xArr = d["posX"]
+	var yArr = d["posY"]
 	var nx = data.units[name]["tilenumx"]
 	var ny = data.units[name]["tilenumy"]
 	for i in range(count):
@@ -130,7 +130,7 @@ func SetAsLeader():
 			print(err)
 			return
 		cannon.Decayable.SetDecayOff()
-		var hp = cannon.initialHp() * data["hpratio"][level] / 100
+		var hp = cannon.initialHp() * d["hpratio"][level] / 100
 		cannon.setHp(hp)
 
 func Skill():
