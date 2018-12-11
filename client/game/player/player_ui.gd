@@ -13,7 +13,7 @@ export(NodePath) onready var next = get_node(next) if next else null
 
 var id
 var color
-var not_used_cards = []		# input sent but not used cards
+var input_sent_cards = []		# input sent but not used cards
 
 func Init(playerData, game):
 	.Init(playerData, game)
@@ -48,11 +48,6 @@ func addKnight(name, level, side):
 
 func useCard(card, tileX, tileY):
 	.useCard(card, tileX, tileY)
-	for c in not_used_cards:
-		if c.Name == card.Name:
-			not_used_cards.erase(c)
-			update_energy()
-			break
 	if unit_ready_sound:
 		if card.Type == data.SquireCard:
 			var sound = unit_ready_sound.get_resource(card.Name)
@@ -78,7 +73,7 @@ func update_energy():
 
 func get_energy():
 	var current = energy
-	for card in not_used_cards:
+	for card in input_sent_cards:
 		current -= card.Cost
 	return current
 
@@ -86,6 +81,11 @@ func removeCardFromHand(index):
 	.removeCardFromHand(index)
 	var node = get("hand%d" % (index+1))
 	if node:
+		for c in input_sent_cards:
+			if c.Name == node.card.Name:
+				input_sent_cards.erase(c)
+				update_energy()
+				break
 		node.Set(null)
 
 func removeCardFromPending(index):
@@ -128,5 +128,5 @@ func send_input(card, pos):
 			game.actions[input.Step].append(input.Action)
 		else:
 			game.actions[input.Step] = [input.Action]
-	not_used_cards.append(card)
+	input_sent_cards.append(card)
 	update_energy()
