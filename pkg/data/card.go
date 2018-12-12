@@ -133,11 +133,11 @@ var Cards = map[string]Card{
 	},
 	"felhound": Card{
 		Type:    SquireCard,
-		Cost:    2000,
+		Cost:    5000,
 		Unit:    "felhound",
-		Count:   5,
-		OffsetX: []int{-60, 0, 60, -30, 30},
-		OffsetY: []int{-30, -30, -30, 30, 30},
+		Count:   2,
+		OffsetX: []int{-40, 40},
+		OffsetY: []int{0, 0},
 		Rarity:  Common,
 	},
 	"footmans": Card{

@@ -135,7 +135,7 @@ func SetAsLeader():
 	var posY = s["posY"]
 	var w = game.World().FromPixel(s["width"])
 	var h = game.World().FromPixel(s["height"])
-	var damage = s["damage"]
+	var damage = s["damage"][level]
 	var duration = s["duration"]
 	for i in count:
 		var x = game.World().FromPixel(posX[i])
@@ -171,7 +171,7 @@ func rotate_to_cast_pos():
 		$Rotatable.rotation += PI
 	
 func drop():
-	var dps = Skill()["damage"]
+	var dps = Skill()["damage"][level]
 	var w = game.World().FromPixel(Skill()["width"])
 	var h = game.World().FromPixel(Skill()["height"])
 	var remain = Skill()["damageduration"]
