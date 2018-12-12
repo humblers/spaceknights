@@ -29,7 +29,6 @@
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=27]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=28]
 
-
 [sub_resource type="Curve" id=1]
 
 _data = [ Vector2( 0, 0.2272 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5616 ), 0.0, 0.0, 0, 0 ]
@@ -200,6 +199,18 @@ tracks/12/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath(".:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.588235, 0.588235, 0.588235, 1 ) ]
 }
 
 [sub_resource type="Curve" id=4]
@@ -989,7 +1000,7 @@ tracks/42/keys = {
 "values": [ true ]
 }
 tracks/43/type = "value"
-tracks/43/path = NodePath("Rotatable/Float:modulate")
+tracks/43/path = NodePath("Rotatable/Chassis:position")
 tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/imported = false
@@ -998,10 +1009,10 @@ tracks/43/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Vector2( 0, 0 ) ]
 }
 tracks/44/type = "value"
-tracks/44/path = NodePath("Rotatable/Chassis:position")
+tracks/44/path = NodePath("Rotatable/Chassis:rotation_degrees")
 tracks/44/interp = 1
 tracks/44/loop_wrap = true
 tracks/44/imported = false
@@ -1010,10 +1021,10 @@ tracks/44/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ) ]
+"values": [ 0.0 ]
 }
 tracks/45/type = "value"
-tracks/45/path = NodePath("Rotatable/Chassis:rotation_degrees")
+tracks/45/path = NodePath("Rotatable/Chassis:visible")
 tracks/45/interp = 1
 tracks/45/loop_wrap = true
 tracks/45/imported = false
@@ -1021,28 +1032,16 @@ tracks/45/enabled = true
 tracks/45/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
+"update": 1,
+"values": [ true ]
 }
 tracks/46/type = "value"
-tracks/46/path = NodePath("Rotatable/Chassis:visible")
+tracks/46/path = NodePath("Rotatable/Chassis:modulate")
 tracks/46/interp = 1
 tracks/46/loop_wrap = true
 tracks/46/imported = false
 tracks/46/enabled = true
 tracks/46/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/47/type = "value"
-tracks/47/path = NodePath("Rotatable/Chassis:modulate")
-tracks/47/interp = 1
-tracks/47/loop_wrap = true
-tracks/47/imported = false
-tracks/47/enabled = true
-tracks/47/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -1719,7 +1718,7 @@ tracks/55/keys = {
 "times": PoolRealArray( 0, 0.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+"values": [ Color( 0.588235, 0.588235, 0.588235, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/56/type = "value"
 tracks/56/path = NodePath("Rotatable/Chassis/leg:position")
@@ -2488,6 +2487,7 @@ tracks/59/keys = {
 
 [node name="Float" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
+modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 use_parent_material = true
 
 [node name="Set1" type="Sprite" parent="Rotatable/Float"]
@@ -2517,7 +2517,6 @@ rotation = -0.785397
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 
 [node name="Set2" type="Sprite" parent="Rotatable/Float"]
@@ -2546,7 +2545,6 @@ rotation = 0.785398
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 
 [node name="Set3" type="Sprite" parent="Rotatable/Float"]
@@ -2577,7 +2575,6 @@ rotation = -2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 
 [node name="Set4" type="Sprite" parent="Rotatable/Float"]
@@ -2607,7 +2604,6 @@ rotation = 2.35619
 scale = Vector2( 3, 0.5 )
 frames = SubResource( 2 )
 animation = "blank"
-frame = 1
 playing = true
 
 [node name="FloatAni" type="AnimationPlayer" parent="Rotatable/Float"]
@@ -2632,6 +2628,8 @@ offset = Vector2( -10, -15 )
 flip_h = true
 
 [node name="AnchorTL" type="Sprite" parent="Rotatable/Chassis/leg/L1"]
+editor/display_folded = true
+modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -13, -35 )
@@ -2652,6 +2650,7 @@ texture = ExtResource( 8 )
 offset = Vector2( 10, -15 )
 
 [node name="AnchorTR" type="Sprite" parent="Rotatable/Chassis/leg/R1"]
+modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 13, -35 )
@@ -2673,6 +2672,8 @@ offset = Vector2( 10, 15 )
 flip_v = true
 
 [node name="AnchorBR" type="Sprite" parent="Rotatable/Chassis/leg/R3"]
+editor/display_folded = true
+modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 13, 35 )
@@ -2695,6 +2696,8 @@ flip_h = true
 flip_v = true
 
 [node name="AnchorBL" type="Sprite" parent="Rotatable/Chassis/leg/R4"]
+editor/display_folded = true
+modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -13, 35 )
@@ -2709,6 +2712,7 @@ texture = ExtResource( 10 )
 normal_map = ExtResource( 11 )
 
 [node name="Tower" type="Node2D" parent="Rotatable/Chassis"]
+editor/display_folded = true
 
 [node name="1" type="Sprite" parent="Rotatable/Chassis/Tower"]
 visible = false
