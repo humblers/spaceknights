@@ -12,12 +12,27 @@ type panzerkunstler struct {
 	attack      int // elapsed time since attack start
 	attackCount int
 	punchPos    fixed.Vector
+	shield   int
 }
 
 func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "panzerkunstler", p.Team(), level, posX, posY, g)
 	return &panzerkunstler{
-		unit:   newUnit(id, "panzerkunstler", p.Team(), level, posX, posY, g),
+		unit:   u,
 		player: p,
+		shield: u.initialShield(),
+	}
+}
+
+func (p *panzerkunstler) TakeDamage(amount int, a Attacker) {
+	if a.DamageType() != data.AntiShield {
+		p.shield -= amount
+		if p.shield < 0 {
+			p.hp += p.shield
+			p.shield = 0
+		}
+	} else {
+		p.hp -= amount
 	}
 }
 
@@ -42,6 +57,10 @@ func (p *panzerkunstler) Update() {
 				p.findTargetAndDoAction()
 			}
 		}
+	}
+	p.shield += ShieldRegenPerStep
+	if p.shield > p.initialShield() {
+		p.shield = p.initialShield()
 	}
 }
 

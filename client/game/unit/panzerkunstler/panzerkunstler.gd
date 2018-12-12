@@ -4,12 +4,36 @@ var player
 var targetId = 0
 var attack = 0
 var attackCount = 0
+var shield
 var punchPosX
 var punchPosY
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "panzerkunstler", player.Team(), level, posX, posY, game)
 	self.player = player
+	shield = initialShield()
+	$Hp/Shield.max_value = shield
+	$Hp/Shield.value = shield
+	
+func TakeDamage(amount, attacker):
+	if attacker.DamageType() != data.AntiShield:
+		shield -= amount
+		if shield < 0:
+			hp += shield
+			shield = 0
+			damages[game.step] = 0
+			$HitEffect.hit(attacker)
+		else:
+			$Energyshield.hit(attacker)
+	else:
+		hp -= amount
+		damages[game.step] = 0
+		$HitEffect.hit(attacker)
+	$Hp/Shield.value = shield
+	node_hp.value = hp
+	node_hp.visible = true
+	$Hp/Shield.visible = true
+	
 
 func Update():
 	.Update()
@@ -29,6 +53,10 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
+	shield += data.ShieldRegenPerStep
+	if shield > initialShield():
+		shield = initialShield()
+	$Hp/Shield.value = shield
 
 func Destroy():
 	.Destroy()

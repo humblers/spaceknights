@@ -58,7 +58,7 @@ func Update():
 			card_candidates.append([k.Name(), k.level, data.KnightCard])
 	for card in hand:
 		# filtering empty hand
-		if card.Name == "":
+		if card == null:
 			continue
 		if make_decision_for_use_card(card.Name, card.Level):
 			card_candidates.append([card.Name, card.Level, data.SquireCard])
@@ -397,7 +397,7 @@ func do_bad(behavior):
 		tutor_data.USE_CARD_IMMEDIATELY:
 			var cards = []
 			for card in hand:
-				if card.Name == "":
+				if card == null:
 					continue
 				cards.append(card)
 			var card = cards[randi() % len(cards)]
