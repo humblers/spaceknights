@@ -25,9 +25,6 @@ func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (p *panzerkunstler) TakeDamage(amount int, a Attacker) {
-	if p.Layer() != data.Normal {
-		return
-	}
 	if a.DamageType() != data.AntiShield {
 		p.shield -= amount
 		if p.shield < 0 {
