@@ -24,10 +24,10 @@ func invalidate(name):
 		return
 	use_btn.visible = not user.CardInDeck(name)
 	container.rect_size.y = 0 # force downsizing
-	var data = data.cards[name_]
+	var d = data.cards[name_]
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(name_)
-	frame.texture = page_card.lobby.resource_manager.get_card_frame(data.Type, data.Rarity)
-	cost.text = "%d" % (data.Cost / 1000)
+	frame.texture = page_card.lobby.resource_manager.get_card_frame(d.Type, d.Rarity)
+	cost.text = "%d" % (d.Cost / 1000)
 
 func pop_card_info():
 	var card = user.Cards[name_].duplicate(true)
