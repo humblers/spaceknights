@@ -11,8 +11,8 @@ const STAT_ORDER = [
 	"attackrange",
 	"radius", "area",
 	"freezeduration",
-	"spawninterval",
 	"decaydamage",
+	"spawninterval",
 	"count", "spawncount",
 ]
 
@@ -47,42 +47,44 @@ func Invalidate(card, pressed):
 	self.popup()
 
 func keyText(key, skill):
-#	match key:
-#		"attackdamage":
-#			var t = "Damage"
-#			if unit.has("Damageradius"):
-#				t = "Area %s" % t
-#			return t
-#		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-#			return "Skill Damage"
-#		"damagepersecond":
-#			var t = "Damage Per Second"
-#			if unit.has("damageradius"):
-#				t = "Area %s" % t
-#			return t
-#		"destroydamage":
-#			return "Death Damage"
-#		"hp":
-#			return "Hit Points"
-#		"shield":
-#			return "Barrier Points"
-#		"attackinterval":
-#			return "Attack Speed"
-#		"damagetype":
-#			return "Attack Type"
-#		"attackrange":
-#			return "Range"
-#		"leader", "wing":
-#			return "%s Skill" % key.capitalize()
-#		"freezeduration":
-#			return "Freeze Duration"
-#		"spawninterval":
-#			return "Spawn Speed"
-#		"decaydamage":
-#			return "Lifetime"
-#		"spawncount":
-#			return "%s Count" % "spawn unit name"
-	return key.capitalize()
+	match key:
+		"castduration":
+			return "Cast Duration"
+		"damageduration":
+			return "Damage Duration"
+		"damage":
+			return "Area Damage"
+		"attackdamage":
+			var t = "Damage"
+			if skill.get("unit", {}).get("damageradius", null) != null:
+				t = "Area %s" % t
+			return t
+		"damagepersecond":
+			var t = "Damage Per Second"
+			if skill.has("damage") or skill.get("unit", {}).get("damageradius", null) != null:
+				t = "Area %s" % t
+			return t
+		"destroydamage":
+			return "Death Damage"
+		"hp":
+			return "Hit Points"
+		"shield":
+			return "Barrier Points"
+		"attackinterval":
+			return "Attack Speed"
+		"damagetype":
+			return "Attack Type"
+		"attackrange":
+			return "Range"
+		"freezeduration":
+			return "Freeze Duration"
+		"spawninterval":
+			return "Spawn Speed"
+		"decaydamage":
+			return "Lifetime"
+		"spawncount":
+			return "%s Count" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
+	return key
 
 func valueText(key, card, skill):
 	match key:
@@ -104,7 +106,7 @@ func valueText(key, card, skill):
 					info_root.FormatPixelToTile(skill["height"]),
 				]
 		"count":
-			if skill.has(key):
+			if skill.has(key) and skill[key] > 1:
 				return String(skill[key]).capitalize()
 		# not spell
 		"attackdamage", "destroydamage", \
@@ -131,7 +133,9 @@ func valueText(key, card, skill):
 						return attack_type
 					return info_root.FormatPixelToTile(u[key])
 				"decaydamage":
-					return "%ds" % ceil(float(u["hp"] + u.get("shield", 0)) / u[key] / data.StepPerSec)
+					var hp = float(u["hp"][card.Level])
+					var shield = u["shield"][card.Level] if u.has("shield") else 0
+					return "%ds" % ceil((hp + shield) / u[key] / data.StepPerSec)
 				_:
 					return String(u[key]).capitalize()
 		# whatever
@@ -143,8 +147,9 @@ func valueText(key, card, skill):
 				"lancer":
 					dpstep = float(skill["damage"][card.Level]) / skill["damageduration"]
 				_:
-					var d = skill.get("unit", {}).get("attackdamage", null)
-					var pstep = skill.get("unit", {}).get("attackinterval", null)
+					var u = data.units.get(skill.get("unit", ""), {})
+					var d = u.get("attackdamage", null)
+					var pstep = u.get("attackinterval", null)
 					if d != null and pstep != null:
 						dpstep = float(d[card.Level]) / pstep 
 			if dpstep == null:
@@ -154,11 +159,12 @@ func valueText(key, card, skill):
 			var target_types = skill.get("targettypes", null)
 			var atk_type = skill.get("attacktype", null)
 			var dmg_type = skill.get("damagetype", null)
+			var u = data.units.get(skill.get("unit", ""), {})
 			if target_types == null:
-				target_types = skill.get("unit", {}).get("targettypes", {})
+				target_types = u.get("targettypes", {})
 			if atk_type == null:
-				atk_type = skill.get("unit", {}).get("attacktype", "")
+				atk_type = u.get("attacktype", "")
 			if dmg_type == null:
-				dmg_type = skill.get("unit", {}).get("damagetype", "")
+				dmg_type = u.get("damagetype", "")
 			return info_root.FormatAttackType(target_types, atk_type, dmg_type)
 	return null

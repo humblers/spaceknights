@@ -149,7 +149,7 @@ var Units = map[string]Unit{
 		"attacktype":     Laser,
 		"damagetype":     NormalDamage,
 		"attackdamage":   []int{5},
-		"attackrange":    375,
+		"attackrange":    350,
 		"attackinterval": 1,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
@@ -671,7 +671,7 @@ var Units = map[string]Unit{
 		"mass":                 30,
 		"radius":               30,
 		"hp":                   []int{1500},
-		"shield":        		[]int{1000},
+		"shield":               []int{1000},
 		"sight":                250,
 		"speed":                100,
 		"targettypes":          UnitTypes{Squire, Building, Knight},

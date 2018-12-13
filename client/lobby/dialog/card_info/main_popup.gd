@@ -45,7 +45,7 @@ func keyText(key, unit):
 	match key:
 		"attackdamage":
 			var t = "Damage"
-			if unit.has("Damageradius"):
+			if unit.has("damageradius"):
 				t = "Area %s" % t
 			return t
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
