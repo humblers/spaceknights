@@ -30,7 +30,7 @@ var world
 
 func _init(world):
 	self.world = world
-	tileWidth = scalar.Mul(scalar.FromInt(50), world.scale)
+	tileWidth = scalar.Mul(scalar.FromInt(data.TileSizeInPixel), world.scale)
 	tileHeight = tileWidth
 	tileNumX = scalar.FromInt(20)
 	tileNumY = scalar.FromInt(32)

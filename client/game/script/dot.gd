@@ -30,7 +30,7 @@ func Init(team, x, y, w, h, dps, remain, damageType, game):
 	position = Vector2(posX, posY)
 
 func Update():
-	if remainingStep % game.STEP_PER_SEC == 0:
+	if remainingStep % data.StepPerSec == 0:
 		for id in game.UnitIds():
 			var u = game.FindUnit(id)
 			if u.Team() == team:

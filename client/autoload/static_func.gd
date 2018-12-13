@@ -21,3 +21,14 @@ static func cast_float_to_int(parsed_json):
 			for i in range(parsed_json.size()):
 				parsed_json[i] = cast_float_to_int(parsed_json[i])
 	return parsed_json
+
+static func set_text(label, text, autowrap = false, min_size = 28):
+	var font = label.get_font("font")
+	assert(font != null)
+	while font.size > min_size:
+		var size = font.get_string_size(text)
+		if size.x <= label.rect_size.x and size.y <= label.rect_size.y:
+			break
+		font.size -= 1
+	label.autowrap = autowrap
+	label.text = text

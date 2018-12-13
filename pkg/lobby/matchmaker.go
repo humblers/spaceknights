@@ -14,6 +14,7 @@ import (
 
 	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
+	"github.com/humblers/spaceknights/pkg/data"
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
@@ -321,40 +322,42 @@ func (mm *matchMaker) request(b *bases, w http.ResponseWriter, r *http.Request) 
 }
 
 func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.PlayerData, error) {
-	data := game.PlayerData{
+	d := game.PlayerData{
 		Id:   uid,
 		Team: game.Team(team),
 	}
 	index, err := redis.Int(rc.Do("GET", fmt.Sprintf("%v:decknum", uid)))
 	if err != nil {
-		return data, err
+		return d, err
 	}
 	deck_raw, err := redis.Bytes(rc.Do("LINDEX", fmt.Sprintf("%v:decks", uid), index))
 	if err != nil {
-		return data, err
+		return d, err
 	}
 	var deck deck
 	if err := json.Unmarshal(deck_raw, &deck); err != nil {
-		return data, err
+		return d, err
 	}
 	args := redis.Args{fmt.Sprintf("%v:cards", uid)}.AddFlat(deck.Troops).AddFlat(deck.Knights)
 	reply, err := redis.Values(rc.Do("HMGET", args...))
 	if err != nil {
-		return data, err
+		return d, err
 	}
 	for i, troop := range deck.Troops {
-		var card userCard
+		var card data.Card
 		if err := json.Unmarshal(reply[i].([]byte), &card); err != nil {
-			return data, err
+			return d, err
 		}
-		data.Deck = append(data.Deck, game.Card{Name: troop, Level: card.Level})
+		card.Name = troop
+		d.Deck = append(d.Deck, *data.NewCard(card))
 	}
 	for i, knight := range deck.Knights {
-		var card userCard
+		var card data.Card
 		if err := json.Unmarshal(reply[len(deck.Troops)+i].([]byte), &card); err != nil {
-			return data, err
+			return d, err
 		}
-		data.Knights = append(data.Knights, game.KnightData{Name: knight, Level: card.Level})
+		card.Name = knight
+		d.Deck = append(d.Deck, *data.NewCard(card))
 	}
-	return data, nil
+	return d, nil
 }

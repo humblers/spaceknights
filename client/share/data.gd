@@ -1,5 +1,8 @@
 extends Node
 
+const StepPerSec = 10
+const TileSizeInPixel = 50
+
 const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
 const SlowPercent = 50
@@ -39,6 +42,7 @@ const Melee = "Melee"
 const Bullet = "Bullet"
 const Missile = "Missile"
 const Laser = "Laser"
+const Bombing = "Bombing"
 
 func NewCard(card):
 	var info = cards[card.Name]
@@ -1198,3 +1202,5 @@ var units = {
 		"destroyradius":  150,
 	},
 }
+
+var upgrade

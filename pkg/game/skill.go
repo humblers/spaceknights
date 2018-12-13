@@ -35,7 +35,7 @@ func newDOT(t Team, p fixed.Vector, w, h fixed.Scalar, dps, remain int, damageTy
 }
 
 func (dot *DOT) Update() {
-	if dot.remainingStep%stepPerSec == 0 {
+	if dot.remainingStep%data.StepPerSec == 0 {
 		for _, id := range dot.game.UnitIds() {
 			u := dot.game.FindUnit(id)
 			if u.Team() == dot.team {
