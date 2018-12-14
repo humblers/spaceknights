@@ -1,0 +1,1168 @@
+[gd_scene load_steps=32 format=2]
+
+[ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=1]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=3]
+[ext_resource path="res://lobby/resource/background_gradation.png" type="Texture" id=4]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=5]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://game/vfx/light.png" type="Texture" id=7]
+[ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=8]
+[ext_resource path="res://lobby/resource/popup_panel.png" type="Texture" id=9]
+[ext_resource path="res://lobby/page/card/card_bg.png" type="Texture" id=10]
+[ext_resource path="res://lobby/page/card/item.gd" type="Script" id=11]
+[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=12]
+[ext_resource path="res://lobby/resource/knight_rare_gold.png" type="Texture" id=13]
+[ext_resource path="res://lobby/page/card/item_holding.tscn" type="PackedScene" id=14]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=15]
+[ext_resource path="res://share/icon/lifetime.png" type="Texture" id=16]
+
+[sub_resource type="Curve" id=1]
+
+_data = [ Vector2( 0, 0.984 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5176 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+
+offsets = PoolRealArray( 0.00877193, 0.649123, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.40651 )
+
+[sub_resource type="DynamicFont" id=6]
+
+size = 72
+outline_size = 7
+outline_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="Curve" id=19]
+
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=20]
+
+offsets = PoolRealArray( 0, 0.89375 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.160235 )
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 32
+outline_size = 2
+outline_color = Color( 0.360784, 0.360784, 0.360784, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "cardshow"
+length = 0.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.45, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.01 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.45, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Light2D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.55, 0.65 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.39133, 1.86439 ), Vector2( 1.29925, 1.741 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 415, 1070 ), Vector2( 415, 418 ), Vector2( 415, 447 ), Vector2( 415, 447 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Item:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "default"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Light2D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 415, 1070 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Item:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="DynamicFont" id=16]
+
+size = 24
+outline_size = 3
+outline_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=17]
+
+size = 52
+outline_size = 3
+outline_color = Color( 0.164706, 0.164706, 0.164706, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="Animation" id=18]
+
+length = 0.2
+
+[sub_resource type="Animation" id=15]
+
+resource_name = "cardshow"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.15, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.01 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.245137 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Light2D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.39133, 1.86439 ), Vector2( 1.29925, 1.741 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("NinePatchRect2:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.15, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.262745 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("NinePatchRect2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("NinePatchRect2:rect_scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.1, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="DynamicFont" id=21]
+
+size = 60
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=22]
+
+size = 40
+outline_size = 4
+outline_color = Color( 0.12549, 0.313726, 0.607843, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="Animation" id=14]
+
+resource_name = "upgrade"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.478431, 0.341176, 0 ), Color( 0.392157, 0.341176, 1, 0 ), Color( 0.341176, 0.368627, 1, 0.996078 ), Color( 0.160784, 0.427451, 1, 0.996078 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 600, 1920 ), Vector2( 600, 1920 ), Vector2( 1080, 1920 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 240, 0 ), Vector2( 240, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "animation"
+tracks/3/path = NodePath("Control/Item/CardAni")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": PoolStringArray( "default", "changed" ),
+"times": PoolRealArray( 0, 0.5 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Title:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Title:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.2, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Title:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.2, 1.6, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CPUParticles2D:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Control/Cardglow:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.6, 1, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Control/Cardglow:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1.5, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.8, 0.8, 0.8 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("GridContainer/Stat1:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 1.2, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("GridContainer/Stat2:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 1.3, 1.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("GridContainer/Stat3:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 1.4, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("GridContainer/Stat4:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 1.5, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("GridContainer/Stat5:modulate")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Control/Item:rect_scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Control/Item:rect_position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 415, 473 ) ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Control/Cardglow:speed_scale")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 1.5, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.5 ]
+}
+
+[node name="Upgrade" type="Control"]
+margin_right = 1080.0
+margin_bottom = 1920.0
+
+[node name="Tile" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -720.0
+margin_right = 720.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1440, 600 )
+texture = ExtResource( 1 )
+stretch_mode = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 543, 1751 )
+scale = 10.0
+amount = 30
+lifetime = 2.5
+speed_scale = 0.5
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, -300 )
+radial_accel = 270.0
+radial_accel_random = 1.0
+scale = 10.0
+scale_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Light" type="TextureRect" parent="."]
+modulate = Color( 0.160784, 0.427451, 1, 0.996078 )
+material = ExtResource( 2 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -540.0
+margin_right = 540.0
+margin_bottom = 1920.0
+texture = ExtResource( 3 )
+expand = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -720.0
+margin_right = 720.0
+margin_bottom = 1920.0
+rect_min_size = Vector2( 1440, 600 )
+texture = ExtResource( 4 )
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -720.0
+margin_top = 900.0
+margin_right = 720.0
+margin_bottom = 1920.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Title" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="InputForm3" type="TextureRect" parent="Title"]
+modulate = Color( 0, 0, 0, 0.470588 )
+margin_left = 1080.0
+margin_top = 535.0
+margin_right = 2160.0
+margin_bottom = 1070.0
+rect_rotation = 180.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Label" type="Label" parent="Title"]
+margin_left = 143.0
+margin_top = 176.0
+margin_right = 942.0
+margin_bottom = 263.0
+custom_fonts/font = SubResource( 6 )
+text = "LANCER"
+align = 1
+
+[node name="Control" type="Control" parent="."]
+editor/display_folded = true
+margin_right = 1080.0
+margin_bottom = 1920.0
+
+[node name="Cardglow" type="CPUParticles2D" parent="Control"]
+material = ExtResource( 2 )
+position = Vector2( 550, 575 )
+scale = 0.8
+amount = 2
+speed_scale = 0.5
+texture = ExtResource( 7 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel_random = 1.0
+scale = 0.8
+scale_curve = SubResource( 19 )
+color_ramp = SubResource( 20 )
+
+[node name="Item" type="Button" parent="Control"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.318
+anchor_right = 0.5
+anchor_bottom = 0.318
+margin_left = -125.0
+margin_top = -138.0
+margin_right = 135.0
+margin_bottom = 162.0
+rect_min_size = Vector2( 250, 300 )
+rect_scale = Vector2( 1.5, 1.5 )
+rect_pivot_offset = Vector2( 125, 165 )
+flat = true
+
+[node name="Light2D" type="Light2D" parent="Control/Item"]
+position = Vector2( 129.663, 175.385 )
+scale = Vector2( 1.29925, 1.741 )
+enabled = false
+texture = ExtResource( 8 )
+energy = 0.01
+
+[node name="Cover" type="NinePatchRect" parent="Control/Item"]
+editor/display_folded = true
+margin_right = 260.0
+margin_bottom = 300.0
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="Cover2" type="NinePatchRect" parent="Control/Item/Cover"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 250.0
+margin_bottom = 290.0
+texture = ExtResource( 8 )
+draw_center = false
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 22
+patch_margin_bottom = 20
+
+[node name="Cover3" type="NinePatchRect" parent="Control/Item/Cover"]
+modulate = Color( 0.192157, 0.192157, 0.192157, 1 )
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 245.0
+margin_bottom = 285.0
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 22
+patch_margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="Control/Item/Cover"]
+margin_left = 25.0
+margin_top = 23.0
+margin_right = 235.0
+margin_bottom = 276.0
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Label" type="Label" parent="Control/Item/Cover"]
+margin_left = 26.0
+margin_top = 98.0
+margin_right = 234.0
+margin_bottom = 206.0
+custom_fonts/font = SubResource( 3 )
+text = "SPACE 
+KNIGHTS"
+align = 1
+valign = 1
+
+[node name="CardAni" type="AnimationPlayer" parent="Control/Item"]
+anims/changed = SubResource( 4 )
+anims/default = SubResource( 5 )
+
+[node name="Item" type="Button" parent="Control/Item"]
+editor/display_folded = true
+margin_left = 5.0
+margin_top = 6.0
+margin_right = 255.0
+margin_bottom = 306.0
+rect_min_size = Vector2( 250, 300 )
+rect_pivot_offset = Vector2( 125, 165 )
+icon = NodePath("../../../../Upgrade/Control/Item5/Item/Base/Control/Icon")
+flat = true
+script = ExtResource( 11 )
+page_card = NodePath("")
+base = NodePath("../../../../Upgrade/Control/Item5/Item/Base")
+icon = NodePath("../../../../Upgrade/Control/Item5/Item/Base/Control/Icon")
+frame = NodePath("../../../../Upgrade/Control/Item5/Item/Base/Control/Frame")
+cost = NodePath("../../../../Upgrade/Control/Item5/Item/Base/Control/Energy/Label")
+pressed_btn_guide = NodePath("../../../../Upgrade/Control/Item5/Item/Position2D")
+base_animation_player = NodePath("../../../../Upgrade/Control/Item5/Item/Base/AnimationPlayer")
+animation_player = NodePath("../../../../Upgrade/Control/Item5/Item/AnimationPlayer")
+
+[node name="Position2D" type="Position2D" parent="Control/Item/Item"]
+position = Vector2( -30, -4.53845 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/Item/Item"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -130.0
+margin_top = -156.0
+margin_right = 130.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 260, 300 )
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="Base" type="MarginContainer" parent="Control/Item/Item"]
+editor/display_folded = true
+margin_top = -6.0
+margin_right = 250.0
+margin_bottom = 294.0
+rect_min_size = Vector2( 250, 196 )
+mouse_filter = 1
+
+[node name="Control" type="Control" parent="Control/Item/Item/Base"]
+margin_right = 250.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 250, 300 )
+mouse_filter = 1
+
+[node name="Icon" type="TextureRect" parent="Control/Item/Item/Base/Control"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 238.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 224, 234 )
+texture = ExtResource( 12 )
+expand = true
+
+[node name="Frame" type="TextureRect" parent="Control/Item/Item/Base/Control"]
+margin_right = 250.0
+margin_bottom = 300.0
+texture = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="Control/Item/Item/Base/Control"]
+margin_left = 87.0
+margin_top = 244.0
+margin_right = 132.0
+margin_bottom = 283.0
+custom_fonts/font = SubResource( 16 )
+custom_colors/font_color = Color( 0.729412, 0.729412, 0.729412, 1 )
+text = "LV."
+align = 1
+valign = 2
+
+[node name="Lv" type="Label" parent="Control/Item/Item/Base/Control"]
+margin_left = 137.0
+margin_top = 222.0
+margin_right = 231.0
+margin_bottom = 294.0
+rect_min_size = Vector2( 60, 0 )
+custom_fonts/font = SubResource( 17 )
+text = "02"
+valign = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Item/Item/Base"]
+anims/down = SubResource( 18 )
+
+[node name="HoldingBar" parent="Control/Item/Item" instance=ExtResource( 14 )]
+margin_top = -93.0
+margin_bottom = -47.0
+
+[node name="Light2D" type="Light2D" parent="Control/Item/Item"]
+position = Vector2( 125.048, 144.258 )
+scale = Vector2( 1.29925, 1.741 )
+enabled = false
+texture = ExtResource( 8 )
+energy = 0.01
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="Control/Item/Item"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -130.0
+margin_top = -156.0
+margin_right = 130.0
+margin_bottom = 194.0
+rect_scale = Vector2( 1.5, 1.5 )
+rect_pivot_offset = Vector2( 125, 165 )
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Item/Item"]
+anims/changed = SubResource( 15 )
+
+[node name="GridContainer" type="GridContainer" parent="."]
+margin_left = 320.0
+margin_top = 880.0
+margin_right = 920.0
+margin_bottom = 1830.0
+custom_constants/vseparation = 40
+custom_constants/hseparation = 0
+
+[node name="Stat1" type="Control" parent="GridContainer"]
+margin_right = 600.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 600, 120 )
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/Stat1"]
+modulate = Color( 1, 1, 1, 0.32549 )
+margin_left = -320.0
+margin_right = 760.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 1080, 120 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="LifeTime" type="TextureRect" parent="GridContainer/Stat1"]
+margin_left = 20.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 84.0
+texture = ExtResource( 16 )
+
+[node name="Description" type="Label" parent="GridContainer/Stat1"]
+margin_left = 102.0
+margin_top = 46.0
+margin_right = 272.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "20"
+valign = 1
+
+[node name="Description2" type="Label" parent="GridContainer/Stat1"]
+margin_left = 272.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
+text = "+10"
+valign = 1
+
+[node name="Stat" type="Label" parent="GridContainer/Stat1"]
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 425.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 22 )
+custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
+text = "Life Time"
+
+[node name="Stat2" type="Control" parent="GridContainer"]
+margin_top = 160.0
+margin_right = 600.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 600, 120 )
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/Stat2"]
+modulate = Color( 1, 1, 1, 0.32549 )
+margin_left = -320.0
+margin_right = 760.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 1080, 120 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="LifeTime" type="TextureRect" parent="GridContainer/Stat2"]
+margin_left = 20.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 84.0
+texture = ExtResource( 16 )
+
+[node name="Description" type="Label" parent="GridContainer/Stat2"]
+margin_left = 102.0
+margin_top = 46.0
+margin_right = 272.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "20"
+valign = 1
+
+[node name="Description2" type="Label" parent="GridContainer/Stat2"]
+margin_left = 272.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
+text = "+10"
+valign = 1
+
+[node name="Stat" type="Label" parent="GridContainer/Stat2"]
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 425.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 22 )
+custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
+text = "Life Time"
+
+[node name="Stat3" type="Control" parent="GridContainer"]
+editor/display_folded = true
+margin_top = 320.0
+margin_right = 600.0
+margin_bottom = 440.0
+rect_min_size = Vector2( 600, 120 )
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/Stat3"]
+modulate = Color( 1, 1, 1, 0.32549 )
+margin_left = -320.0
+margin_right = 760.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 1080, 120 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="LifeTime" type="TextureRect" parent="GridContainer/Stat3"]
+margin_left = 20.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 84.0
+texture = ExtResource( 16 )
+
+[node name="Description" type="Label" parent="GridContainer/Stat3"]
+margin_left = 102.0
+margin_top = 46.0
+margin_right = 272.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "20"
+valign = 1
+
+[node name="Description2" type="Label" parent="GridContainer/Stat3"]
+margin_left = 272.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
+text = "+10"
+valign = 1
+
+[node name="Stat" type="Label" parent="GridContainer/Stat3"]
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 425.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 22 )
+custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
+text = "Life Time"
+
+[node name="Stat4" type="Control" parent="GridContainer"]
+editor/display_folded = true
+margin_top = 480.0
+margin_right = 600.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 600, 120 )
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/Stat4"]
+modulate = Color( 1, 1, 1, 0.32549 )
+margin_left = -320.0
+margin_right = 760.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 1080, 120 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="LifeTime" type="TextureRect" parent="GridContainer/Stat4"]
+margin_left = 20.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 84.0
+texture = ExtResource( 16 )
+
+[node name="Description" type="Label" parent="GridContainer/Stat4"]
+margin_left = 102.0
+margin_top = 46.0
+margin_right = 272.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "20"
+valign = 1
+
+[node name="Description2" type="Label" parent="GridContainer/Stat4"]
+margin_left = 272.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
+text = "+10"
+valign = 1
+
+[node name="Stat" type="Label" parent="GridContainer/Stat4"]
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 425.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 22 )
+custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
+text = "Life Time"
+
+[node name="Stat5" type="Control" parent="GridContainer"]
+editor/display_folded = true
+margin_top = 640.0
+margin_right = 600.0
+margin_bottom = 760.0
+rect_min_size = Vector2( 600, 120 )
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer/Stat5"]
+modulate = Color( 1, 1, 1, 0.32549 )
+margin_left = -320.0
+margin_right = 760.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 1080, 120 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="LifeTime" type="TextureRect" parent="GridContainer/Stat5"]
+margin_left = 20.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 84.0
+texture = ExtResource( 16 )
+
+[node name="Description" type="Label" parent="GridContainer/Stat5"]
+margin_left = 102.0
+margin_top = 46.0
+margin_right = 272.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "20"
+valign = 1
+
+[node name="Description2" type="Label" parent="GridContainer/Stat5"]
+margin_left = 272.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 119.0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
+text = "+10"
+valign = 1
+
+[node name="Stat" type="Label" parent="GridContainer/Stat5"]
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 425.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 22 )
+custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
+text = "Life Time"
+
+[node name="UpgradeAni" type="AnimationPlayer" parent="."]
+anims/upgrade = SubResource( 14 )
+
