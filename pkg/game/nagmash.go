@@ -7,7 +7,6 @@ import (
 
 type nagmash struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -22,20 +21,16 @@ type nagmash struct {
 
 func newNagmash(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "nagmash", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &nagmash{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -150,16 +145,16 @@ func (n *nagmash) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (n *nagmash) CastSkill(posX, posY int) bool {
-	if n.cast > 0 {
-		return false
-	}
+func (n *nagmash) CanCastSkill() bool {
+	return n.cast <= 0
+}
+
+func (n *nagmash) CastSkill(posX, posY int) {
 	n.attack = 0
 	n.cast++
 	n.castPosX = posX
 	n.castPosY = posY
 	n.setLayer(data.Casting)
-	return true
 }
 
 func (n *nagmash) spawn(data map[string]interface{}, posX, posY int) {

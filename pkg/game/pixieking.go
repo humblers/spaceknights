@@ -7,37 +7,31 @@ import (
 
 type pixieking struct {
 	*unit
-	TileOccupier
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	initPos  fixed.Vector
-	minPosX  fixed.Scalar
-	maxPosX  fixed.Scalar
-	castPosX int
-	castPosY int
-	castTile TileOccupier
+	player    Player
+	isLeader  bool
+	targetId  int
+	attack    int
+	cast      int
+	initPos   fixed.Vector
+	minPosX   fixed.Scalar
+	maxPosX   fixed.Scalar
+	castPosX  int
+	castPosY  int
+	castTiles *tileRect
 }
 
 func newPixieking(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "pixieking", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &pixieking{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
-		castTile:     newTileOccupier(g),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -50,8 +44,8 @@ func (p *pixieking) TakeDamage(amount int, a Attacker) {
 
 func (p *pixieking) Destroy() {
 	p.unit.Destroy()
-	p.TileOccupier.Release()
-	p.castTile.Release()
+	p.Release()
+	p.game.Release(p.castTiles, p.id)
 }
 
 func (p *pixieking) attackDamage() int {
@@ -143,40 +137,33 @@ func (p *pixieking) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (p *pixieking) CastSkill(posX, posY int) bool {
-	if p.cast > 0 {
-		return false
-	}
+func (p *pixieking) CanCastSkill() bool {
+	return p.cast <= 0
+}
 
+func (p *pixieking) CastSkill(posX, posY int) {
 	name := p.Skill()["unit"].(string)
 	nx := data.Units[name]["tilenumx"].(int)
 	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := p.game.TileFromPos(posX, posY)
-	tr := p.castTile.GetRect(tx, ty, nx, ny)
-	if err := p.castTile.Occupy(tr); err != nil {
-		p.game.Logger().Print(err)
-		return false
-	}
+	tr := &tileRect{tx, ty, nx, ny}
+	p.game.Occupy(tr, p.id)
+	p.castTiles = tr
 
 	p.attack = 0
 	p.cast++
 	p.castPosX = posX
 	p.castPosY = posY
 	p.setLayer(data.Casting)
-	return true
 }
 
 func (p *pixieking) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "pixiegeode" {
-		unit := p.game.AddUnit(name, p.level, p.castPosX, p.castPosY, p.player)
-		tr := p.castTile.Occupied()
-		p.castTile.Release()
-		if occupier, ok := unit.(TileOccupier); ok {
-			if err := occupier.Occupy(tr); err != nil {
-				panic(err)
-			}
-		}
+		u := p.game.AddUnit(name, p.level, p.castPosX, p.castPosY, p.player)
+		p.game.Release(p.castTiles, p.id)
+		u.Occupy(p.castTiles)
+		p.castTiles = nil
 	}
 	if name == "pixie" {
 		count := data["count"].(int)

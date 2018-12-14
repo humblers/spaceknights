@@ -7,7 +7,6 @@ import (
 
 type tombstone struct {
 	*unit
-	TileOccupier
 	player        Player
 	isLeader      bool
 	targetId      int
@@ -18,27 +17,22 @@ type tombstone struct {
 	maxPosX       fixed.Scalar
 	castPosX      int
 	castPosY      int
-	castTile      TileOccupier
+	castTiles     *tileRect
 	prevDeathToll int
 }
 
 func newTombstone(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "tombstone", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &tombstone{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
-		castTile:     newTileOccupier(g),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -51,8 +45,8 @@ func (ts *tombstone) TakeDamage(amount int, a Attacker) {
 
 func (ts *tombstone) Destroy() {
 	ts.unit.Destroy()
-	ts.TileOccupier.Release()
-	ts.castTile.Release()
+	ts.Release()
+	ts.game.Release(ts.castTiles, ts.id)
 }
 
 func (ts *tombstone) attackDamage() int {
@@ -154,40 +148,33 @@ func (ts *tombstone) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (ts *tombstone) CastSkill(posX, posY int) bool {
-	if ts.cast > 0 {
-		return false
-	}
+func (ts *tombstone) CanCastSkill() bool {
+	return ts.cast <= 0
+}
 
+func (ts *tombstone) CastSkill(posX, posY int) {
 	name := ts.Skill()["unit"].(string)
 	nx := data.Units[name]["tilenumx"].(int)
 	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := ts.game.TileFromPos(posX, posY)
-	tr := ts.castTile.GetRect(tx, ty, nx, ny)
-	if err := ts.castTile.Occupy(tr); err != nil {
-		ts.game.Logger().Print(err)
-		return false
-	}
+	tr := &tileRect{tx, ty, nx, ny}
+	ts.game.Occupy(tr, ts.id)
+	ts.castTiles = tr
 
 	ts.attack = 0
 	ts.cast++
 	ts.castPosX = posX
 	ts.castPosY = posY
 	ts.setLayer(data.Casting)
-	return true
 }
 
 func (ts *tombstone) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "barrack" {
-		unit := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
-		tr := ts.castTile.Occupied()
-		ts.castTile.Release()
-		if occupier, ok := unit.(TileOccupier); ok {
-			if err := occupier.Occupy(tr); err != nil {
-				panic(err)
-			}
-		}
+		u := ts.game.AddUnit(name, ts.level, ts.castPosX, ts.castPosY, ts.player)
+		ts.game.Release(ts.castTiles, ts.id)
+		u.Occupy(ts.castTiles)
+		ts.castTiles = nil
 	}
 	if name == "footman" {
 		deadPosX := ts.game.LastDeadPosX(ts.Team())

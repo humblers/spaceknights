@@ -5,7 +5,6 @@ import "github.com/humblers/spaceknights/pkg/data"
 type barrack struct {
 	*unit
 	Decayable
-	TileOccupier
 	spawn  int
 	player Player
 }
@@ -13,9 +12,8 @@ type barrack struct {
 func newBarrack(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "barrack", p.Team(), level, posX, posY, g)
 	b := &barrack{
-		unit:         u,
-		TileOccupier: newTileOccupier(g),
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 	b.Decayable = newDecayable(b)
 	return b

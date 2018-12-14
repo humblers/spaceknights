@@ -7,30 +7,24 @@ import (
 
 type archengineer struct {
 	*unit
-	TileOccupier
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	castPosX int
-	castPosY int
-	castTile TileOccupier
+	player    Player
+	isLeader  bool
+	targetId  int
+	attack    int
+	cast      int
+	castPosX  int
+	castPosY  int
+	castTiles *tileRect
 }
 
 func newArchengineer(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archengineer", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	return &archengineer{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		castTile:     newTileOccupier(g),
+		unit:   u,
+		player: p,
 	}
 }
 
@@ -43,8 +37,8 @@ func (a *archengineer) TakeDamage(amount int, atk Attacker) {
 
 func (a *archengineer) Destroy() {
 	a.unit.Destroy()
-	a.TileOccupier.Release()
-	a.castTile.Release()
+	a.Release()
+	a.game.Release(a.castTiles, a.id)
 }
 
 func (a *archengineer) attackDamage() int {
@@ -132,39 +126,32 @@ func (a *archengineer) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (a *archengineer) CastSkill(posX, posY int) bool {
-	if a.cast > 0 {
-		return false
-	}
+func (a *archengineer) CanCastSkill() bool {
+	return a.cast <= 0
+}
 
+func (a *archengineer) CastSkill(posX, posY int) {
 	name := a.Skill()["unit"].(string)
 	nx := data.Units[name]["tilenumx"].(int)
 	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := a.game.TileFromPos(posX, posY)
-	tr := a.castTile.GetRect(tx, ty, nx, ny)
-	if err := a.castTile.Occupy(tr); err != nil {
-		a.game.Logger().Print(err)
-		return false
-	}
+	tr := &tileRect{tx, ty, nx, ny}
+	a.game.Occupy(tr, a.id)
+	a.castTiles = tr
 
 	a.attack = 0
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
 	a.setLayer(data.Casting)
-	return true
 }
 
 func (a *archengineer) spawn() {
 	name := a.Skill()["unit"].(string)
 	u := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
-	tr := a.castTile.Occupied()
-	a.castTile.Release()
-	if occupier, ok := u.(TileOccupier); ok {
-		if err := occupier.Occupy(tr); err != nil {
-			panic(err)
-		}
-	}
+	a.game.Release(a.castTiles, a.id)
+	u.Occupy(a.castTiles)
+	a.castTiles = nil
 }
 
 func (a *archengineer) target() Unit {

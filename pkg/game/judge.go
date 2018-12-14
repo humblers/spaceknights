@@ -7,7 +7,6 @@ import (
 
 type judge struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -19,16 +18,12 @@ type judge struct {
 
 func newJudge(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "judge", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	return &judge{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 }
 
@@ -136,16 +131,16 @@ func (j *judge) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (j *judge) CastSkill(posX, posY int) bool {
-	if j.cast > 0 {
-		return false
-	}
+func (j *judge) CanCastSkill() bool {
+	return j.cast <= 0
+}
+
+func (j *judge) CastSkill(posX, posY int) {
 	j.attack = 0
 	j.cast++
 	j.castPosX = posX
 	j.castPosY = posY
 	j.setLayer(data.Casting)
-	return true
 }
 
 func (j *judge) bulletrain() {

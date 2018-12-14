@@ -7,7 +7,6 @@ import (
 
 type lancer struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -22,20 +21,16 @@ type lancer struct {
 
 func newLancer(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "lancer", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &lancer{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -164,16 +159,16 @@ func (l *lancer) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (l *lancer) CastSkill(posX, posY int) bool {
-	if l.cast > 0 {
-		return false
-	}
+func (l *lancer) CanCastSkill() bool {
+	return l.cast <= 0
+}
+
+func (l *lancer) CastSkill(posX, posY int) {
 	l.attack = 0
 	l.cast++
 	l.castPosX = posX
 	l.castPosY = posY
 	l.setLayer(data.Casting)
-	return true
 }
 
 func (l *lancer) drop() {

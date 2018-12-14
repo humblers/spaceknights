@@ -7,7 +7,6 @@ type blastturret struct {
 	*unit
 	player Player
 	Decayable
-	TileOccupier
 	targetId int
 	attack   int // elapsed time since attack start
 }
@@ -15,9 +14,8 @@ type blastturret struct {
 func newBlastturret(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "blastturret", p.Team(), level, posX, posY, g)
 	b := &blastturret{
-		unit:         u,
-		player:       p,
-		TileOccupier: newTileOccupier(g),
+		unit:   u,
+		player: p,
 	}
 	b.Decayable = newDecayable(b)
 	return b

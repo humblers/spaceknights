@@ -7,7 +7,6 @@ import (
 
 type frost struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -19,16 +18,12 @@ type frost struct {
 
 func newFrost(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "frost", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	return &frost{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 }
 
@@ -133,16 +128,16 @@ func (f *frost) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (f *frost) CastSkill(posX, posY int) bool {
-	if f.cast > 0 {
-		return false
-	}
+func (f *frost) CanCastSkill() bool {
+	return f.cast <= 0
+}
+
+func (f *frost) CastSkill(posX, posY int) {
 	f.attack = 0
 	f.cast++
 	f.castPosX = posX
 	f.castPosY = posY
 	f.setLayer(data.Casting)
-	return true
 }
 
 func (f *frost) doFreeze() {

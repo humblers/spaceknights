@@ -7,7 +7,6 @@ import (
 
 type astra struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -22,20 +21,16 @@ type astra struct {
 
 func newAstra(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "astra", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &astra{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -196,16 +191,16 @@ func (a *astra) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (a *astra) CastSkill(posX, posY int) bool {
-	if a.cast > 0 {
-		return false
-	}
+func (a *astra) CanCastSkill() bool {
+	return a.cast <= 0
+}
+
+func (a *astra) CastSkill(posX, posY int) {
 	a.attack = 0
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
 	a.setLayer(data.Casting)
-	return true
 }
 
 func (a *astra) target() Unit {
