@@ -15,7 +15,7 @@ var Exp
 var Galacticoin
 var Dimensium
 var Cards
-var Decks
+var DeckSlots
 var DeckSelected
 var Solo
 
@@ -26,11 +26,7 @@ func ShouldSwapTeam(cfg):
 	return false
 
 func CardInDeck(card):
-	var deck = Decks[DeckSelected]
-	for k in deck.Knights:
-		if k == card:
-			return true
-	for t in deck.Troops:
-		if t == card:
+	for c in  DeckSlots[DeckSelected]:
+		if c.Name == card:
 			return true
 	return false

@@ -127,7 +127,7 @@ func userFromPlatformInfo(rc redis.Conn, ptype string, pid *string, enableEmpty 
 
 func userFromUID(rc redis.Conn, uid string) (*user, error) {
 	user := &user{
-		Cards: make(map[string]userCard),
+		Cards: make(map[string]card),
 	}
 	if err := loadStructFromMultipleKeys(rc, user, uid); err != nil {
 		return nil, err

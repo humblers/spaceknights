@@ -15,23 +15,20 @@ import (
 )
 
 type user struct {
-	Name         string              `db:"string,name"`
-	Level        int                 `db:"string,lv"`
-	Exp          int                 `db:"string,exp"`
-	Galacticoin  int                 `db:"string,galacticoin"`
-	Dimensium    int                 `db:"string,dimensium"`
-	Cards        map[string]userCard `db:"hashes,cards"`
-	Decks        []deck              `db:"lists,decks"`
-	DeckSelected int                 `db:"string,decknum"`
-	Solo         rank                `db:"string,solo"`
+	Name         string          `db:"string,name"`
+	Level        int             `db:"string,lv"`
+	Exp          int             `db:"string,exp"`
+	Galacticoin  int             `db:"string,galacticoin"`
+	Dimensium    int             `db:"string,dimensium"`
+	Cards        map[string]card `db:"hashes,cards"`
+	DeckSlots    []deck          `db:"lists,decks"`
+	DeckSelected int             `db:"string,decknum"`
+	Solo         rank            `db:"string,solo"`
 }
 
-type userCard struct {
-	Level   int
-	Holding int
-}
+type card data.Card
 
-func (c userCard) String() string {
+func (c card) String() string {
 	b, err := json.Marshal(c)
 	if err != nil {
 		panic(err)
@@ -39,10 +36,7 @@ func (c userCard) String() string {
 	return string(b)
 }
 
-type deck struct {
-	Troops  []string
-	Knights []string
-}
+type deck []data.Card
 
 func (d deck) String() string {
 	b, err := json.Marshal(d)
@@ -65,20 +59,28 @@ func (r rank) String() string {
 	return string(b)
 }
 
+var initialCards map[string]card
+var initialDeckSlots = [data.DeckSlotSize]deck{
+	data.InitialDeck,
+	data.InitialDeck,
+	data.InitialDeck,
+	data.InitialDeck,
+	data.InitialDeck,
+}
+
 func newUser() *user {
-	defCards := make(map[string]userCard, len(data.Cards))
-	for k, _ := range data.Cards {
-		defCards[k] = userCard{Holding: 1}
+	if initialCards == nil {
+		initialCards = make(map[string]card, len(data.Cards))
+		for k, _ := range data.Cards {
+			initialCards[k] = card{Holding: data.CardCostToLevel(0, 4)}
+		}
 	}
-	defDeck := deck{
-		Troops:  []string{"archers", "gargoylehorde", "giant", "footmans", "enforcer", "jouster"},
-		Knights: []string{"archsapper", "legion", "judge"},
-	}
+
 	return &user{
 		Galacticoin: 1000,
 		Dimensium:   100,
-		Cards:       defCards,
-		Decks:       []deck{defDeck, defDeck, defDeck, defDeck, defDeck},
+		Cards:       initialCards,
+		DeckSlots:   initialDeckSlots[0:],
 		Solo:        rank{},
 	}
 }
@@ -115,7 +117,7 @@ func convertMap(v reflect.Value, src []interface{}, err error) error {
 			v.SetMapIndex(reflect.ValueOf(key), reflect.ValueOf(val))
 			return nil
 		}
-	case reflect.Struct:
+	case reflect.Struct, reflect.Slice:
 		setter = func() error {
 			vNested := reflect.New(v.Type().Elem())
 			if err := json.Unmarshal(val.([]byte), vNested.Interface()); err != nil {
@@ -124,6 +126,8 @@ func convertMap(v reflect.Value, src []interface{}, err error) error {
 			v.SetMapIndex(reflect.ValueOf(key), vNested.Elem())
 			return nil
 		}
+	default:
+		panic(fmt.Errorf("nested type(%v) not supported", v.Type().Elem().Kind()))
 	}
 	for i := 0; i < len(src); i += 2 {
 		key = string(src[i].([]byte))
@@ -163,7 +167,7 @@ func convertSlice(v reflect.Value, src []interface{}, err error) error {
 			v.Set(reflect.Append(v, reflect.ValueOf(val)))
 			return nil
 		}
-	case reflect.Struct:
+	case reflect.Struct, reflect.Slice:
 		setter = func() error {
 			vNested := reflect.New(v.Type().Elem())
 			if err := json.Unmarshal(val.([]byte), vNested.Interface()); err != nil {
@@ -172,6 +176,8 @@ func convertSlice(v reflect.Value, src []interface{}, err error) error {
 			v.Set(reflect.Append(v, vNested.Elem()))
 			return nil
 		}
+	default:
+		panic(fmt.Errorf("nested type(%v) not supported", v.Type().Elem().Kind()))
 	}
 	for i := 0; i < len(src); i++ {
 		val = src[i]
