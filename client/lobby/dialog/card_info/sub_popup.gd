@@ -56,12 +56,14 @@ func keyText(key, skill):
 			return "Area Damage"
 		"attackdamage":
 			var t = "Damage"
-			if skill.get("unit", {}).get("damageradius", null) != null:
+			var u = data.units.get(skill.get("unit", ""), {})
+			if u.get("damageradius", null) != null:
 				t = "Area %s" % t
 			return t
 		"damagepersecond":
 			var t = "Damage Per Second"
-			if skill.has("damage") or skill.get("unit", {}).get("damageradius", null) != null:
+			var u = data.units.get(skill.get("unit", ""), {})
+			if u.get("damageradius", null) != null:
 				t = "Area %s" % t
 			return t
 		"destroydamage":

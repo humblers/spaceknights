@@ -74,19 +74,18 @@ func invalidate():
 
 	var not_found_cards = data.cards.keys()
 	var found_cards = user.Cards.keys()
-	var deck = user.Decks[selected]
-	for i in range(user.KNIGHT_SIDES.size()):
-		var name = deck.Knights[i]
+	var i = 0
+	for card in user.DeckSlots[selected]:
+		card = data.NewCard(card)
+		var name = card.Name
 		not_found_cards.erase(name)
 		found_cards.erase(name)
-		var btn = get("knight_%s" % user.KNIGHT_SIDES[i])
-		btn.invalidate(name)
-	for i in range(user.SQUIRE_COUNT):
-		var name = deck.Troops[i]
-		not_found_cards.erase(name)
-		found_cards.erase(name)
-		var btn = get("squire_%d" % i)
-		btn.invalidate(name)
+		match card.Type:
+			data.KnightCard:
+				get("knight_%s" % card.Side.to_lower()).invalidate(name)
+			data.SquireCard:
+				get("squire_%d" % i).invalidate(name)
+				i += 1
 	for child in container_founds.get_children():
 		child.queue_free()
 	for i in range(found_cards.size()):
@@ -185,7 +184,7 @@ func button_up_deck_item(btn):
 	var picked_type = data.cards[picked_card].Type
 	picked_card = null
 	pressed_card = null
-	user.Decks[params.num] = params.deck
+	user.DeckSlots[params.num] = params.deck
 	picked.rect_global_position = origin
 	lobby.invalidate()
 	if picked_type == data.SquireCard:

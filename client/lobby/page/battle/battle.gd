@@ -18,13 +18,14 @@ func _ready():
 func invalidate():
 	pid.text = user.PlatformId
 	star.text = "%d" % user.Solo.Star
-	var knights = user.Decks[user.DeckSelected].Knights
-	for i in len(user.KNIGHT_SIDES):
-		var knight = knights[i]
-		var deck = get("knight_%s" % user.KNIGHT_SIDES[i])
+	for card in user.DeckSlots[user.DeckSelected]:
+		card = data.NewCard(card)
+		if card.Type == data.SquireCard:
+			continue
+		var deck = get("knight_%s" % card.Side.to_lower())
 		for child in deck.get_children():
 			child.queue_free()
-		var node = knight_resources.get_resource(knight).instance()
+		var node = knight_resources.get_resource(card.Name).instance()
 		recursive_light_masking(node, light.range_item_cull_mask)
 		deck.add_child(node)
 

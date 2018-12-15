@@ -334,30 +334,23 @@ func (m *matchMaker) getPlayerData(rc redis.Conn, uid, team string) (game.Player
 	if err != nil {
 		return d, err
 	}
-	var deck deck
-	if err := json.Unmarshal(deck_raw, &deck); err != nil {
+	if err := json.Unmarshal(deck_raw, &d.Deck); err != nil {
 		return d, err
 	}
-	args := redis.Args{fmt.Sprintf("%v:cards", uid)}.AddFlat(deck.Troops).AddFlat(deck.Knights)
+	args := []interface{}{fmt.Sprintf("%v:cards", uid)}
+	for _, c := range d.Deck {
+		args = append(args, c.Name)
+	}
 	reply, err := redis.Values(rc.Do("HMGET", args...))
 	if err != nil {
 		return d, err
 	}
-	for i, troop := range deck.Troops {
+	for i, c := range d.Deck {
 		var card data.Card
 		if err := json.Unmarshal(reply[i].([]byte), &card); err != nil {
 			return d, err
 		}
-		card.Name = troop
-		d.Deck = append(d.Deck, *data.NewCard(card))
-	}
-	for i, knight := range deck.Knights {
-		var card data.Card
-		if err := json.Unmarshal(reply[len(deck.Troops)+i].([]byte), &card); err != nil {
-			return d, err
-		}
-		card.Name = knight
-		d.Deck = append(d.Deck, *data.NewCard(card))
+		c.Level = card.Level
 	}
 	return d, nil
 }
