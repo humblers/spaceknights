@@ -201,7 +201,7 @@ func set_pressed_card(btn):
 	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
 	change_filter(data.cards[pressed_card].Type)
 
-func set_picked_card(btn):
+func set_picked_card(card_name):
 	picked_card = pressed_card
 	invalidate()
 

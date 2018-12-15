@@ -12,10 +12,13 @@ import (
 	"github.com/gomodule/redigo/redis"
 	gcontext "github.com/gorilla/context"
 	"github.com/gorilla/securecookie"
+	"github.com/humblers/spaceknights/pkg/data"
 	"github.com/humblers/spaceknights/pkg/lobby"
 )
 
 func main() {
+	data.Initialize()
+
 	// global logger
 	logger := log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
 

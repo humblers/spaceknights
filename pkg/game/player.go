@@ -78,7 +78,8 @@ func newPlayer(pd PlayerData, g Game) Player {
 			}
 		}
 		if card.Type == data.KnightCard {
-			p.addKnight(card.Name, card.Level, card.Side)
+			lv := card.Level + data.Upgrade.RelativeLvByRarity[card.Rarity]
+			p.addKnight(card.Name, lv, card.Side)
 		}
 	}
 	p.applyLeaderSkill()
@@ -340,7 +341,8 @@ func (p *player) useCard(card *data.Card, tileX, tileY int) {
 		p.findKnight(card.Name).CastSkill(posX, posY)
 	} else {
 		for i := 0; i < card.Count; i++ {
-			p.game.AddUnit(card.Unit, card.Level, posX+card.OffsetX[i], posY+card.OffsetY[i], p)
+			lv := card.Level + data.Upgrade.RelativeLvByRarity[card.Rarity]
+			p.game.AddUnit(card.Unit, lv, posX+card.OffsetX[i], posY+card.OffsetY[i], p)
 		}
 	}
 	p.energy -= card.Cost

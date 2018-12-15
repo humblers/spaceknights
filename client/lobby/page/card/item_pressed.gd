@@ -15,7 +15,7 @@ var name_
 func _ready():
 	main_btn.connect("button_up", page_card, "set_pressed_card", [self])
 	info_btn.connect("button_up", self, "pop_card_info")
-	use_btn.connect("button_up", page_card, "set_picked_card", [self])
+	use_btn.connect("button_up", page_card, "set_picked_card", [name_])
 
 func invalidate(name):
 	self.name_ = name
@@ -32,4 +32,4 @@ func invalidate(name):
 func pop_card_info():
 	var card = user.Cards[name_].duplicate(true)
 	card.Name = name_
-	page_card.lobby.hud.pop_card_info(data.NewCard(card))
+	page_card.lobby.hud.cardinfo_dialog.PopUp(data.NewCard(card), not user.CardInDeck(name_))

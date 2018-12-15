@@ -8,12 +8,14 @@ export(NodePath) onready var knight_center = get_node(knight_center)
 export(NodePath) onready var knight_right = get_node(knight_right)
 
 export(NodePath) onready var match_btn = get_node(match_btn)
+export(NodePath) onready var config_btn = get_node(config_btn)
 
 export(NodePath) onready var pid = get_node(pid)
 export(NodePath) onready var star = get_node(star)
 
 func _ready():
 	match_btn.connect("button_up", self, "match_request")
+	config_btn.connect("button_up", self, "show_config")
 
 func invalidate():
 	pid.text = user.PlatformId
@@ -51,6 +53,9 @@ func match_request():
 	tcp.Send({"GameId": cfg.Id})
 	var param = {"connected": true, "cfg": cfg}
 	loading_screen.goto_scene("res://game/game.tscn", param)
+
+func show_config():
+	lobby.hud.config_dialog.PopUp()
 
 func _on_TempButton_button_down():
 	$TempPopup1.show()
@@ -111,9 +116,3 @@ func _on_MedalBox_button_down():
 
 func _on_MedalBox_button_up():
 	$TempPopup2.hide()
-
-func _on_Option_button_down():
-	$TempPopup4.show()
-
-func _on_Option_button_up():
-	$TempPopup4.hide()

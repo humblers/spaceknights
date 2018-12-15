@@ -1,5 +1,6 @@
 extends Node
 
+export(NodePath) onready var scripts = get_node(scripts)
 export(NodePath) onready var card_icon = get_node(card_icon)
 export(NodePath) onready var card_frame = get_node(card_frame)
 

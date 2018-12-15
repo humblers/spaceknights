@@ -25,12 +25,19 @@ func _ready():
 	load_data()
 
 func load_data():
-	for path in ["cards", "units", "upgrade"]:
+	for path in ["cards", "units"]:
 		var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/%s" % path), "response")
 		if not response[0]:
 			http_manager.handle_error(response[1].ErrMessage)
 			return
 		data.set(path, static_func.cast_float_to_int(parse_json(response[1]["Data"])))
+	for path in ["upgrade"]:
+		var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/%s" % path), "response")
+		if not response[0]:
+			http_manager.handle_error(response[1].ErrMessage)
+			return
+		var d = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
+		data.set(path.capitalize(), resource_manager.scripts.get_resource(path).new(d))
 	login()
 
 func login():
@@ -52,9 +59,9 @@ func login():
 	config.save(CONFIG_FILE_NAME)
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
-	invalidate()
+	Invalidate()
 
-func invalidate():
+func Invalidate():
 	hud.invalidate()
 	page_battle.invalidate()
 	page_card.invalidate()

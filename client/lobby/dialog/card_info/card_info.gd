@@ -18,16 +18,70 @@ export(NodePath) onready var cost_label = get_node(cost_label)
 export(NodePath) onready var rarity_panel = get_node(rarity_panel)
 export(NodePath) onready var icon = get_node(icon)
 export(NodePath) onready var frame = get_node(frame)
+export(NodePath) onready var level_label = get_node(level_label)
+export(NodePath) onready var holding_label = get_node(holding_label)
+
+export(NodePath) onready var upgrade_label = get_node(upgrade_label)
+export(NodePath) onready var upgrade_cost = get_node(upgrade_cost)
+export(NodePath) onready var upgrade_btn = get_node(upgrade_btn)
+
+export(NodePath) onready var use_btn = get_node(use_btn)
 
 export(NodePath) onready var icon_resource = get_node(icon_resource)
 
 var card
 var unit
 
-func PopUp(card):
+func _ready():
+	use_btn.connect("button_up", self, "useButtonUp")
+	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
+
+func useButtonUp():
+	hud.lobby.page_card.set_picked_card(card.Name)
+	main_popup.hide()
+
+func isUpgradable():
+	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
+	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
+	return card.Holding >= card_cost and user.Galacticoin >= coin_cost
+
+func upgradeButtonUp():
+	if not isUpgradable():
+		main_popup.hide()
+		return
+	var params = {"Name": card.Name}
+	var req = hud.lobby.http_manager.new_request(
+			HTTPClient.METHOD_POST, "/edit/card/upgrade",
+			params)
+	var response = yield(req, "response")
+	if not response[0]:
+		hud.lobby.http_manager.handle_error(response[1].ErrMessage)
+		return
+	user.Cards[card.Name] = response[1].Card
+	user.Galacticoin = response[1].Galacticoin
+	hud.lobby.Invalidate()
+	main_popup.hide()
+
+func PopUp(card, enable_use = false):
 	self.card = card
 	self.unit = data.units[card.Unit]
-	invalidate()
+
+	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
+	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
+	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	static_func.set_text(card_name_label, card.Name)
+	static_func.set_text(rarity_label, card.Rarity)
+	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
+	static_func.set_text(level_label, "%d" % (card.Level + 1))
+	static_func.set_text(holding_label, "%d" % card.Holding)
+	use_btn.visible = enable_use
+	if isUpgradable():
+		upgrade_label.visible = true
+		upgrade_cost.text = "%d" % data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
+	else:
+		upgrade_label.visible = false
+		upgrade_cost.text = "OK"
+
 	main_popup.Invalidate(card, unit)
 	self.visible = true
 
@@ -36,14 +90,6 @@ func Hide():
 
 func PopUpSub(pressed):
 	sub_popup.Invalidate(card, pressed)
-
-func invalidate():
-	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
-	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	static_func.set_text(card_name_label, card.Name)
-	static_func.set_text(rarity_label, card.Rarity)
-	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
 
 func IconTexture(key):
 	var texture

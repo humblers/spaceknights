@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://lobby/hud/hud.gd" type="Script" id=1]
 [ext_resource path="res://lobby/dialog/card_info/card_info.tscn" type="PackedScene" id=2]
@@ -34,14 +34,14 @@
 [ext_resource path="res://lobby/hud/shop_pressed.png" type="Texture" id=32]
 [ext_resource path="res://lobby/hud/shop_hover.png" type="Texture" id=33]
 [ext_resource path="res://lobby/dialog/modal.tscn" type="PackedScene" id=34]
-[ext_resource path="res://lobby/page/card/card_btn_expention.png" type="Texture" id=35]
-[ext_resource path="res://lobby/dialog/close_btn_nor.png" type="Texture" id=36]
-[ext_resource path="res://lobby/dialog/close_btn_ov.png" type="Texture" id=37]
-[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=38]
-[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=39]
-[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=40]
-[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=41]
-
+[ext_resource path="res://lobby/dialog/config.gd" type="Script" id=35]
+[ext_resource path="res://lobby/page/card/card_btn_expention.png" type="Texture" id=36]
+[ext_resource path="res://lobby/dialog/close_btn_nor.png" type="Texture" id=37]
+[ext_resource path="res://lobby/dialog/close_btn_ov.png" type="Texture" id=38]
+[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=39]
+[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=40]
+[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=41]
+[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=42]
 
 [sub_resource type="ImageTexture" id=1]
 
@@ -144,18 +144,14 @@ page_card_btn = NodePath("Bot/Card")
 page_explore_btn = NodePath("Bot/Explore")
 page_shop_btn = NodePath("Bot/Shop")
 page_social_btn = NodePath("Bot/Social")
-config = NodePath("Config")
-config_btn = NodePath("")
-config_close_btn = NodePath("Config/MarginContainer/Close")
-config_auth_btn = NodePath("Config/MarginContainer/Account/Change")
-config_auth_label = NodePath("Config/MarginContainer/Account/PID")
-config_auth_lineedit = NodePath("Config/MarginContainer/Account/PIDEdit")
 level_label = NodePath("Top/Stat/Level")
 exp_label = NodePath("Top/Stat/Exp")
 galacticoin_label = NodePath("Top/Galacticoin/Label")
 dimensium_label = NodePath("Top/Dimensium/Label")
+cardinfo_dialog = NodePath("CardInfo")
 requesting_dialog = NodePath("Requesting")
 error_dialog = NodePath("Modal")
+config_dialog = NodePath("Config")
 
 [node name="CardInfo" parent="." instance=ExtResource( 2 )]
 hud = NodePath("..")
@@ -497,13 +493,19 @@ margin_top = -266.0
 margin_right = 509.0
 margin_bottom = 334.0
 rect_min_size = Vector2( 1000, 600 )
+script = ExtResource( 35 )
+hud = NodePath("..")
+close_btn = NodePath("MarginContainer/Close")
+auth_btn = NodePath("MarginContainer/Account/Change")
+auth_label = NodePath("MarginContainer/Account/PID")
+auth_line_edit = NodePath("MarginContainer/Account/PIDEdit")
 
 [node name="MarginContainer" type="NinePatchRect" parent="Config"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 1015.0
 margin_bottom = 596.0
-texture = ExtResource( 35 )
+texture = ExtResource( 36 )
 region_rect = Rect2( 0, 0, 240, 240 )
 patch_margin_left = 70
 patch_margin_top = 60
@@ -529,8 +531,8 @@ margin_left = 913.0
 margin_top = 36.0
 margin_right = 977.0
 margin_bottom = 100.0
-texture_normal = ExtResource( 36 )
-texture_pressed = ExtResource( 37 )
+texture_normal = ExtResource( 37 )
+texture_pressed = ExtResource( 38 )
 expand = true
 
 [node name="Account" type="Label" parent="Config/MarginContainer"]
@@ -569,9 +571,9 @@ margin_left = 598.0
 margin_top = 56.0
 margin_right = 924.0
 margin_bottom = 144.0
-texture_normal = ExtResource( 38 )
-texture_pressed = ExtResource( 39 )
-texture_hover = ExtResource( 40 )
+texture_normal = ExtResource( 39 )
+texture_pressed = ExtResource( 40 )
+texture_hover = ExtResource( 41 )
 expand = true
 
 [node name="Label" type="Label" parent="Config/MarginContainer/Account/Change"]
@@ -615,9 +617,9 @@ margin_left = 446.0
 margin_top = 59.0
 margin_right = 773.0
 margin_bottom = 146.0
-texture_normal = ExtResource( 38 )
-texture_pressed = ExtResource( 39 )
-texture_hover = ExtResource( 40 )
+texture_normal = ExtResource( 39 )
+texture_pressed = ExtResource( 40 )
+texture_hover = ExtResource( 41 )
 expand = true
 
 [node name="Label" type="Label" parent="Config/MarginContainer/Replay/Play"]
@@ -634,6 +636,6 @@ text = "PLAY"
 align = 1
 valign = 1
 
-[node name="Requesting" parent="." instance=ExtResource( 41 )]
+[node name="Requesting" parent="." instance=ExtResource( 42 )]
 visible = false
 

@@ -45,7 +45,8 @@ func Init(playerData, game):
 			else:
 				pending.append(card)
 		if card.Type == data.KnightCard:
-			addKnight(card.Name, card.Level, card.Side)
+			var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+			addKnight(card.Name, lv, card.Side)
 	applyLeaderSkill()
 
 func TileValid(tx, ty, isSpell):
@@ -248,7 +249,8 @@ func useCard(card, tileX, tileY):
 		findKnight(card.Name).CastSkill(posX, posY)
 	else:
 		for i in range(card.Count):
-			game.AddUnit(card.Unit, card.Level, posX+card.OffsetX[i], posY+card.OffsetY[i], self)
+			var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+			game.AddUnit(card.Unit, lv, posX+card.OffsetX[i], posY+card.OffsetY[i], self)
 	energy -= card.Cost
 
 func OnKnightDead(knight):

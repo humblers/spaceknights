@@ -97,7 +97,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Bullet,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{70, 60, 90},
+		"attackdamage":   []int{70},
 		"attackrange":    250,
 		"attackinterval": 12,
 		"preattackdelay": 0,
@@ -132,7 +132,7 @@ var Units = map[string]Unit{
 				"count":   2,
 				"posX":    []int{325, 675}, // pos based on blue side
 				"posY":    []int{1075, 1075},
-				"hpratio": []int{300, 310, 320},
+				"hpratio": []int{300},
 			},
 		},
 	},
@@ -158,13 +158,13 @@ var Units = map[string]Unit{
 				"start":      11,
 				"end":        31,
 				"damagetype": NormalDamage,
-				"damage":     []int{25, 150, 200},
+				"damage":     []int{25},
 				"width":      50,
 				"height":     250,
 			},
 			"leader": map[string]interface{}{
 				"name":    "reinforce",
-				"hpratio": []int{130, 130, 140},
+				"hpratio": []int{130},
 			},
 		},
 	},
@@ -195,7 +195,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     AntiShield,
-		"attackdamage":   []int{330, 70, 100},
+		"attackdamage":   []int{330},
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
@@ -212,7 +212,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Missile,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{150, 450, 600},
+		"attackdamage":   []int{150},
 		"attackrange":    250,
 		"damageradius":   75,
 		"attackinterval": 20,
@@ -273,14 +273,14 @@ var Units = map[string]Unit{
 		"targetlayers":          UnitLayers{Normal},
 		"attacktype":            Melee,
 		"damagetype":            AntiShield,
-		"attackdamage":          []int{90, 70, 100},
+		"attackdamage":          []int{90},
 		"attackrange":           40,
 		"damageradius":          50,
 		"attackinterval":        13,
 		"preattackdelay":        5,
 		"chargedelay":           20,
 		"chargedmovespeed":      300,
-		"chargedattackdamage":   []int{180, 450, 550},
+		"chargedattackdamage":   []int{180},
 		"chargedattackinterval": 7,
 		"chargedattackpredelay": 4,
 	},
@@ -296,7 +296,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{30, 60, 90},
+		"attackdamage":   []int{30},
 		"attackrange":    40,
 		"attackinterval": 2,
 		"preattackdelay": 0,
@@ -313,7 +313,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{130, 70, 100},
+		"attackdamage":   []int{130},
 		"attackrange":    40,
 		"attackradius":   80,
 		"attackinterval": 15,
@@ -332,7 +332,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     AntiShield,
-		"attackdamage":   []int{210, 60, 90},
+		"attackdamage":   []int{210},
 		"attackrange":    30,
 		"attackinterval": 30,
 		"preattackdelay": 10,
@@ -349,7 +349,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     AntiShield,
-		"attackdamage":   []int{75, 70, 100},
+		"attackdamage":   []int{75},
 		"attackrange":    40,
 		"attackinterval": 15,
 		"preattackdelay": 5,
@@ -397,7 +397,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{40, 60, 90},
+		"attackdamage":   []int{40},
 		"attackrange":    100,
 		"attackinterval": 10,
 		"preattackdelay": 5,
@@ -415,7 +415,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{200, 60, 90},
+		"attackdamage":   []int{200},
 		"attackrange":    100,
 		"attackinterval": 15,
 		"preattackdelay": 5,
@@ -432,7 +432,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{45, 60, 90},
+		"attackdamage":   []int{45},
 		"attackrange":    40,
 		"attackinterval": 2,
 		"preattackdelay": 0,
@@ -480,13 +480,13 @@ var Units = map[string]Unit{
 		"targetlayers":          UnitLayers{Normal},
 		"attacktype":            Melee,
 		"damagetype":            AntiShield,
-		"attackdamage":          []int{220, 70, 100},
+		"attackdamage":          []int{220},
 		"attackrange":           40,
 		"attackinterval":        14,
 		"preattackdelay":        5,
 		"chargedelay":           20,
 		"chargedmovespeed":      300,
-		"chargedattackdamage":   []int{450, 450, 550},
+		"chargedattackdamage":   []int{450},
 		"chargedattackinterval": 6,
 		"chargedattackpredelay": 3,
 	},
@@ -510,14 +510,14 @@ var Units = map[string]Unit{
 			"wing": map[string]interface{}{
 				"name":         "bulletrain",
 				"damagetype":   NormalDamage,
-				"damage":       []int{115, 400, 500},
+				"damage":       []int{115},
 				"radius":       200,
 				"castduration": 20,
 				"precastdelay": 10,
 			},
 			"leader": map[string]interface{}{
 				"name":             "morerange",
-				"attackrangeratio": []int{140, 150, 160},
+				"attackrangeratio": []int{140},
 			},
 		},
 	},
@@ -545,7 +545,7 @@ var Units = map[string]Unit{
 				"precastdelay":   15,
 				"damagetype":     NormalDamage,
 				"damageduration": 80,
-				"damage":         []int{60, 70, 80},
+				"damage":         []int{60},
 				"width":          200,
 				"height":         400,
 			},
@@ -553,7 +553,7 @@ var Units = map[string]Unit{
 				"name":       "deathcarpet",
 				"duration":   600,
 				"damagetype": NormalDamage,
-				"damage":     []int{45, 55, 65},
+				"damage":     []int{45},
 				"count":      2,
 				"posX":       []int{225, 775}, // pos based on blue side
 				"posY":       []int{850, 850},
@@ -582,14 +582,14 @@ var Units = map[string]Unit{
 			"wing": map[string]interface{}{
 				"name":         "fireball",
 				"damagetype":   NormalDamage,
-				"damage":       []int{325, 400, 500},
+				"damage":       []int{325},
 				"radius":       125,
 				"castduration": 30,
 				"precastdelay": 15,
 			},
 			"leader": map[string]interface{}{
 				"name":              "moredamage",
-				"attackdamageratio": []int{130, 130, 140},
+				"attackdamageratio": []int{130},
 			},
 		},
 	},
@@ -605,7 +605,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{1, 70, 100},
+		"attackdamage":   []int{1},
 		"attackrange":    35,
 		"attackinterval": 0,
 		"preattackdelay": 0,
@@ -660,7 +660,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     AntiShield,
-		"attackdamage":   []int{450, 70, 100},
+		"attackdamage":   []int{450},
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 6,
@@ -678,11 +678,11 @@ var Units = map[string]Unit{
 		"targetlayers":         UnitLayers{Normal},
 		"attacktype":           Melee,
 		"damagetype":           NormalDamage,
-		"attackdamage":         []int{250, 70, 100},
+		"attackdamage":         []int{250},
 		"attackrange":          70,
 		"attackinterval":       30,
 		"preattackdelay":       15,
-		"powerattackdamage":    []int{150, 200, 300},
+		"powerattackdamage":    []int{150},
 		"powerattackinterval":  50,
 		"powerattackpredelay":  33,
 		"powerattackfrequency": 3,
@@ -701,7 +701,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{60, 70, 100},
+		"attackdamage":   []int{60},
 		"attackrange":    40,
 		"attackinterval": 20,
 		"preattackdelay": 4,
@@ -767,7 +767,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{250, 60, 90},
+		"attackdamage":   []int{250},
 		"attackrange":    75,
 		"attackinterval": 50,
 		"attackradius":   120,
@@ -815,14 +815,14 @@ var Units = map[string]Unit{
 		"mass":           30,
 		"radius":         35,
 		"hp":             []int{300},
-		"shield":         600,
+		"shield":         []int{600},
 		"sight":          250,
 		"speed":          150,
 		"targettypes":    UnitTypes{Squire, Building, Knight},
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Missile,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{100, 450, 600},
+		"attackdamage":   []int{100},
 		"attackrange":    175,
 		"damageradius":   75,
 		"attackinterval": 20,
@@ -841,7 +841,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Bullet,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{180, 60, 90},
+		"attackdamage":   []int{180},
 		"attackrange":    300,
 		"attackinterval": 11,
 		"preattackdelay": 0,
@@ -893,7 +893,7 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{48, 70, 100},
+		"attackdamage":   []int{48},
 		"attackrange":    40,
 		"attackinterval": 12,
 		"preattackdelay": 5,
@@ -911,11 +911,54 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Melee,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{600, 60, 90},
+		"attackdamage":   []int{600},
 		"attackrange":    75,
 		"attackinterval": 30,
 		"preattackdelay": 7,
 		"destroydamage":  []int{300},
 		"destroyradius":  150,
 	},
+}
+
+func Initialize() {
+	for k, v := range Units {
+		fillStatByLevel(k, v)
+	}
+}
+
+func fillStatByLevel(key string, src interface{}) []int {
+	switch src.(type) {
+	case Unit:
+		dst := src.(Unit)
+		for k, v := range dst {
+			if statSlice := fillStatByLevel(k, v); statSlice != nil {
+				dst[k] = statSlice
+			}
+		}
+		return nil
+	case map[string]interface{}:
+		dst := src.(map[string]interface{})
+		for k, v := range dst {
+			if statSlice := fillStatByLevel(k, v); statSlice != nil {
+				dst[k] = statSlice
+			}
+		}
+		return nil
+	case []int:
+		switch key {
+		case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+			statSlice := src.([]int)[:1]
+			baseValue := statSlice[0]
+			multiplier := StatMultiplier
+			for i := 0; i < LevelMax; i++ {
+				statSlice = append(statSlice, baseValue*multiplier/100)
+				multiplier = multiplier * StatMultiplier / 100
+			}
+			return statSlice
+		default:
+			return nil
+		}
+	default:
+		return nil
+	}
 }
