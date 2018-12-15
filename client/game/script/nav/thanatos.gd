@@ -1,5 +1,8 @@
 extends Reference
 
+const TILE_NUM_X = 20
+const TILE_NUM_Y = 32
+
 var tileWidth
 var tileHeight
 var tileNumX
@@ -138,12 +141,6 @@ func TileNumX():
 
 func TileNumY():
 	return scalar.ToInt(tileNumY)
-
-func MaxTileYOnTop():
-	return scalar.ToInt(tileNumY) / 2 - 2
-
-func MinTileYOnBot():
-	return scalar.ToInt(tileNumY) / 2 + 1
 
 func GetObstacles():
 	return [leftshield, centershield, rightshield]

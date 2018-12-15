@@ -1,7 +1,6 @@
 extends "res://game/script/unit.gd"
 
 var Decayable = preload("res://game/script/decayable.gd")
-var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var targetId = 0
 var attack = 0
@@ -10,7 +9,6 @@ func Init(id, level, posX, posY, game, player):
 	New(id, "cannon", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
-	TileOccupier = TileOccupier.new(game)
 
 func _ready():
 	$Float/FloatAni.play("activate")
@@ -38,14 +36,10 @@ func Update():
 
 func Destroy():
 	.Destroy()
-	TileOccupier.Release()
+	.Release()
 	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
-
-func setHp(amount):
-	hp = amount
-	set_hp()
 
 func target():
 	return game.FindUnit(targetId)

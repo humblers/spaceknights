@@ -7,6 +7,8 @@ const START_ENERGY = 7000
 const ENERGY_PER_FRAME = 40
 const HAND_SIZE = 4
 const DRAW_INTERVAL = 30
+const KNIGHT_TILE_NUM_X = 4
+const KNIGHT_TILE_NUM_Y = 4
 const INITIAL_KNIGHT_POSITION_X = {
 	"Left": 200,
 	"Center": 500,
@@ -46,6 +48,44 @@ func Init(playerData, game):
 			addKnight(card.Name, card.Level, card.Side)
 	applyLeaderSkill()
 
+func TileValid(tx, ty, isSpell):
+	var nx = game.map.TILE_NUM_X
+	var ny = game.map.TILE_NUM_Y
+	if tx < 0 or tx >= nx:
+		return false
+	if ty < 0 or ty >= ny:
+		return false
+	if not isSpell:
+		if team == "Red":
+			tx = nx - tx
+			ty = ny - ty
+		if ty < ny/2-5:
+			return false
+		if ty <= ny/2 and ty >= ny/2-1:
+			return false
+		if ty < ny/2-1:
+			var opponentSide = data.Left
+			if tx < nx/2:
+				opponentSide = data.Right
+			if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
+				return false
+	return true
+
+func KnightDead(side):
+	return knightIds[side] == 0
+
+func TileRectValid(tr, isSpell):
+	for i in range(game.TileRectMinX(tr), game.TileRectMaxX(tr)):
+		for j in range(game.TileRectMinY(tr), game.TileRectMaxY(tr)):
+			if not TileValid(i, j, isSpell):
+				return false
+	return true
+
+func opponentTeam():
+	if team == "Blue":
+		return "Red"
+	return "Blue"
+		
 func Score():
 	return score
 
@@ -117,47 +157,57 @@ func Do(action):
 			# TODO: display opponents message
 			return null
 
+	# find card in hand
 	var index = findCard(hand, action.Card.Name)
 	if index < 0:
  		return "card not found: %s, step: %s" % [action.Card.Name, game.Step()]
 	var card = hand[index]
 	
-	var err = canUseCard(card, action.TileX, action.TileY)
-	if err != null:
-		return err
-	useCard(card, action.TileX, action.TileY)
+	# energy check
+	if energy < card.Cost:
+		return "not enough energy: %s" % card.Name
 	
+	# tile check
+	var num = data.CardTileNum(card)
+	var nx = num[0]
+	var ny = num[1]
+	var tr = game.NewTileRect(action.TileX, action.TileY, nx, ny)
+	var isSpell = data.CardIsSpell(card)
+	if not TileRectValid(tr, isSpell):
+		return "invalid tile: %s" % tr
+	if not isSpell:
+		tr = FindUnoccupiedTileRect(tr, 0)
+		if tr == null:
+			return "cannot find unoccupied tile"
+		else:
+			action.TileX = tr.x
+			action.TileY = tr.y
+	
+	# knight check
+	if card.Type == data.KnightCard:
+		var knight = findKnight(card.Name)
+		if knight == null:
+			return "knight not found: %s" % card.Name
+		if not knight.CanCastSkill():
+			return "%s cannot cast skill now" % knight.Name()
+
+	useCard(card, action.TileX, action.TileY)	
 	removeCardFromHand(index)
 	pending.append(card)
 	return null
 
-func canUseCard(card, tileX, tileY):
-	if energy < card.Cost:
-		return "not enough energy: %s" % card.Name
-	if not game.IsValidTile(tileX, tileY):
-		return "invalid tile index: (%d, %d)" % [tileX, tileY]
-	if not CanUseAnywhere(card):
-		if team == "Red" and tileY > game.Map().MaxTileYOnTop():
-			return "can't place card on tileY: %d" % tileY
-		if team == "Blue" and tileY < game.Map().MinTileYOnBot():
-			return "can't place card on tileY: %d" % tileY
-	if card.Type == data.KnightCard:
-		var knight = findKnight(card.Name)
-		if knight == null:
-			return "%s already dead" % card.Name
-		if not knight.CanCastSkill():
-			return "%s cannot cast skill now" % knight.Name()
-	return null
-
-func CanUseAnywhere(card):
-	if card.Type == data.KnightCard:
-		var skill = data.units[card.Name].skill.wing
-		if not skill.has("unit"):
-			return true
-		else:
-			if data.units[skill.unit].type != data.Building:
-				return true
-	return false
+func FindUnoccupiedTileRect(tr, offset):
+	if offset > 5:
+		return null
+	for i in range(tr.x - offset, tr.x + offset + 1):
+		for j in range(tr.y - offset, tr.y + offset + 1):
+			var candidate = game.NewTileRect(i, j, tr.numX, tr.numY)
+			if not TileRectValid(candidate, false):
+				continue
+			if game.Occupied(candidate):
+				continue
+			return candidate
+	return FindUnoccupiedTileRect(tr, offset + 1)
 
 func findCard(from, name):
 	for i in len(from):
