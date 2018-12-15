@@ -280,7 +280,7 @@ func (p *player) Do(a *Action) error {
 }
 
 func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
-	if offset > 5 {
+	if offset >= nav.TileNumY {
 		return nil
 	}
 	for i := tr.x - offset; i <= tr.x+offset; i++ {

@@ -98,7 +98,8 @@ func _ready():
 	CreateMapObstacles()
 
 func FindPlayer(team):
-	for player in players:
+	for id in players:
+		var player = players[id]
 		if team == player.Team():
 			return player
 	assert(false)

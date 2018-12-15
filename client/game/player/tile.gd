@@ -1,9 +1,9 @@
 extends Node2D
 
-func Show(anywhere):
+func Show(isSpell):
 	visible = true
-	$Unit.visible = not anywhere
-	$Spell.visible = anywhere
+	$Unit.visible = not isSpell
+	$Spell.visible = isSpell
 
 func Hide():
 	visible = false
