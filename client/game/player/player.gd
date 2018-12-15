@@ -199,14 +199,13 @@ func Do(action):
 func FindUnoccupiedTileRect(tr, offset):
 	if offset > game.map.TILE_NUM_Y:
 		return null
-	var min_x = tr.x - offset
-	var max_x = tr.x + offset
-	var min_y = tr.y - offset
-	var max_y = tr.y + offset
-	for i in range(min_x, max_x + 1):
-		for j in range(min_y, max_y + 1):
-			if i != min_x and i != max_x:
-				if j != min_y and j != max_y:
+	var minX = tr.x - offset
+	var maxX = tr.x + offset
+	var minY = tr.y - offset
+	var maxY = tr.y + offset
+	for i in range(minX, maxX + 1):
+		for j in range(minY, maxY + 1):
+			if i != minX and i != maxX and j != minY and j != maxY:
 					continue
 			var candidate = game.NewTileRect(i, j, tr.numX, tr.numY)
 			if not TileRectValid(candidate, false):

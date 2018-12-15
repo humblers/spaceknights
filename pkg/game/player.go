@@ -283,8 +283,12 @@ func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
 	if offset >= nav.TileNumY {
 		return nil
 	}
-	for i := tr.x - offset; i <= tr.x+offset; i++ {
-		for j := tr.y - offset; j <= tr.y-offset; j++ {
+	minX := tr.x - offset
+	maxX := tr.x + offset
+	minY := tr.y - offset
+	maxY := tr.y + offset
+	for i := minX; i <= maxX; i++ {
+		for j := minY; j <= maxY; j++ {
 			candidate := &tileRect{i, j, tr.numX, tr.numY}
 			if !p.TileRectValid(candidate, false) {
 				continue
