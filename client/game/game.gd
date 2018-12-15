@@ -117,6 +117,8 @@ func Occupy(tr, ownerId):
 			occupied[i][j] = ownerId
 
 func Release(tr, ownerId):
+	if tr == null:
+		return
 	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
 		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
 			assert(occupied[i][j] == ownerId)

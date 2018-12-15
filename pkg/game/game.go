@@ -127,6 +127,9 @@ func (g *game) Occupy(tr *tileRect, ownerId int) {
 }
 
 func (g *game) Release(tr *tileRect, ownerId int) {
+	if tr == nil {
+		return
+	}
 	for i := tr.minX(); i < tr.maxX(); i++ {
 		for j := tr.minY(); j < tr.maxY(); j++ {
 			if g.occupied[i][j] != ownerId {

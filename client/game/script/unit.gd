@@ -190,6 +190,7 @@ func Occupy(tr):
 
 func Release():
 	game.Release(tiles, id)
+	tiles = null
 	
 func Destroy():
 	game.World().RemoveBody(body)

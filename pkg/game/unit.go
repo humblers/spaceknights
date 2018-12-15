@@ -67,6 +67,7 @@ func (u *unit) Occupy(tr *tileRect) {
 
 func (u *unit) Release() {
 	u.game.Release(u.tiles, u.id)
+	u.tiles = nil
 }
 
 func (u *unit) CanCastSkill() bool {
