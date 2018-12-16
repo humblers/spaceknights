@@ -12,8 +12,6 @@ import (
 	"github.com/humblers/spaceknights/pkg/physics"
 )
 
-const playTime = time.Second * 180
-const overTime = time.Second * 180
 const stepInterval = time.Second / data.StepPerSec
 const wingScore = 1
 const leaderScore = 3
@@ -278,13 +276,13 @@ func (g *game) handleApply(i Input) error {
 
 func (g *game) Over() bool {
 	switch {
-	case g.step < g.toStep(playTime):
+	case g.step < data.PlayTime:
 		if g.score(Blue) < leaderScore || g.score(Red) < leaderScore {
 			return true
 		} else {
 			return false
 		}
-	case g.step < g.toStep(playTime+overTime):
+	case g.step < data.PlayTime+data.OverTime:
 		if g.score(Blue) != g.score(Red) {
 			return true
 		} else {
@@ -293,10 +291,6 @@ func (g *game) Over() bool {
 	default:
 		return true
 	}
-}
-
-func (g *game) toStep(duration time.Duration) int {
-	return int(duration / stepInterval)
 }
 
 func (g *game) score(t Team) int {

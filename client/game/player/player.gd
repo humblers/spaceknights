@@ -128,7 +128,10 @@ func applyLeaderSkill():
 		knight.SetHp(hp / divider)
 	
 func Update():
-	energy += ENERGY_PER_FRAME
+	if game.Step() > data.EnergyBoostAfter:
+		energy += ENERGY_PER_FRAME * 2
+	else:
+		energy += ENERGY_PER_FRAME
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	if canDrawCard():
