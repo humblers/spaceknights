@@ -7,37 +7,31 @@ import (
 
 type ironcoffin struct {
 	*unit
-	TileOccupier
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	initPos  fixed.Vector
-	minPosX  fixed.Scalar
-	maxPosX  fixed.Scalar
-	castPosX int
-	castPosY int
-	castTile TileOccupier
+	player    Player
+	isLeader  bool
+	targetId  int
+	attack    int
+	cast      int
+	initPos   fixed.Vector
+	minPosX   fixed.Scalar
+	maxPosX   fixed.Scalar
+	castPosX  int
+	castPosY  int
+	castTiles *tileRect
 }
 
 func newIroncoffin(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "ironcoffin", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &ironcoffin{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		initPos:      u.Position(),
-		minPosX:      u.Position().X.Sub(offsetX),
-		maxPosX:      u.Position().X.Add(offsetX),
-		castTile:     newTileOccupier(g),
+		unit:    u,
+		player:  p,
+		initPos: u.Position(),
+		minPosX: u.Position().X.Sub(offsetX),
+		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
@@ -50,8 +44,8 @@ func (i *ironcoffin) TakeDamage(amount int, a Attacker) {
 
 func (i *ironcoffin) Destroy() {
 	i.unit.Destroy()
-	i.TileOccupier.Release()
-	i.castTile.Release()
+	i.Release()
+	i.game.Release(i.castTiles, i.id)
 }
 
 func (i *ironcoffin) attackDamage() int {
@@ -154,40 +148,33 @@ func (i *ironcoffin) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (i *ironcoffin) CastSkill(posX, posY int) bool {
-	if i.cast > 0 {
-		return false
-	}
+func (i *ironcoffin) CanCastSkill() bool {
+	return i.cast <= 0
+}
 
+func (i *ironcoffin) CastSkill(posX, posY int) {
 	name := i.Skill()["unit"].(string)
 	nx := data.Units[name]["tilenumx"].(int)
 	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := i.game.TileFromPos(posX, posY)
-	tr := i.castTile.GetRect(tx, ty, nx, ny)
-	if err := i.castTile.Occupy(tr); err != nil {
-		i.game.Logger().Print(err)
-		return false
-	}
+	tr := &tileRect{tx, ty, nx, ny}
+	i.game.Occupy(tr, i.id)
+	i.castTiles = tr
 
 	i.attack = 0
 	i.cast++
 	i.castPosX = posX
 	i.castPosY = posY
 	i.setLayer(data.Casting)
-	return true
 }
 
 func (i *ironcoffin) spawn(data map[string]interface{}) {
 	name := data["unit"].(string)
 	if name == "sentryshelter" {
-		unit := i.game.AddUnit(name, i.level, i.castPosX, i.castPosY, i.player)
-		tr := i.castTile.Occupied()
-		i.castTile.Release()
-		if occupier, ok := unit.(TileOccupier); ok {
-			if err := occupier.Occupy(tr); err != nil {
-				panic(err)
-			}
-		}
+		u := i.game.AddUnit(name, i.level, i.castPosX, i.castPosY, i.player)
+		i.game.Release(i.castTiles, i.id)
+		u.Occupy(i.castTiles)
+		i.castTiles = nil
 	}
 	if name == "sentry" {
 		posX := i.game.World().ToPixel(i.initPos.X)

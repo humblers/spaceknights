@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/nav"
 )
 
 const maxEnergy = 10000
@@ -11,6 +12,8 @@ const startEnergy = 7000
 const energyPerFrame = 40
 const handSize = 4
 const drawInterval = 30
+const knightTileNumX = 4
+const knightTileNumY = 4
 
 var initialKnightPositionX = map[data.KnightSide]int{
 	"Left":   200,
@@ -34,6 +37,7 @@ type Player interface {
 
 	Do(a *Action) error
 	OnKnightDead(u Unit)
+	KnightDead(side data.KnightSide) bool
 	Update()
 	Score() int
 }
@@ -162,6 +166,62 @@ func (p *player) drawCard(index int) {
 	p.drawTimer = drawInterval
 }
 
+func (p *player) TileValid(tx, ty int, isSpell bool) bool {
+	nx := nav.TileNumX
+	ny := nav.TileNumY
+	if tx < 0 || tx >= nx {
+		return false
+	}
+	if ty < 0 || ty <= ny {
+		return false
+	}
+	if !isSpell {
+		if p.team == Red {
+			// flip
+			tx = nx - tx
+			ty = ny - ty
+		}
+		if ty < ny/2-5 { // red area
+			return false
+		}
+		if ty <= ny/2 && ty >= ny/2-1 { // obstacle area
+			return false
+		}
+		if ty < ny/2-1 { // conditional area
+			opponentSide := data.Left
+			if tx < nx/2 {
+				opponentSide = data.Right
+			}
+			if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func (p *player) KnightDead(side data.KnightSide) bool {
+	return p.knightIds[side] == 0
+}
+
+func (p *player) TileRectValid(tr *tileRect, isSpell bool) bool {
+	for i := tr.minX(); i < tr.maxX(); i++ {
+		for j := tr.minY(); j < tr.maxY(); j++ {
+			if !p.TileValid(i, j, isSpell) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func (p *player) opponentTeam() Team {
+	if p.team == Blue {
+		return Red
+	}
+	return Blue
+}
+
 func (p *player) Do(a *Action) error {
 	if a.Card.Name == "" {
 		if a.Message == "" {
@@ -171,6 +231,7 @@ func (p *player) Do(a *Action) error {
 		}
 	}
 
+	// find card in hand
 	index := p.findCard(p.hand, a.Card.Name)
 	if index < 0 {
 		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
@@ -178,55 +239,67 @@ func (p *player) Do(a *Action) error {
 	card := p.hand[index]
 	a.Card.Level = card.Level // to protect level cheat
 
-	if err := p.canUseCard(card, a.TileX, a.TileY); err != nil {
-		return err
-	}
-	p.useCard(card, a.TileX, a.TileY)
-
-	p.removeCardFromHand(index)
-	p.pending = append(p.pending, card)
-	return nil
-}
-
-func (p *player) canUseCard(card *data.Card, tileX, tileY int) error {
+	// energy check
 	if p.energy < card.Cost {
 		return fmt.Errorf("not enough energy: %v", card.Name)
 	}
-	if !p.game.IsValidTile(tileX, tileY) {
-		return fmt.Errorf("invalid tile index: (%v, %v)", tileX, tileY)
+
+	// tile check
+	nx, ny := card.TileNum()
+	tr := &tileRect{a.TileX, a.TileY, nx, ny}
+	isSpell := card.IsSpell()
+	if !p.TileRectValid(tr, isSpell) {
+		return fmt.Errorf("invalid tile: %v", tr)
 	}
-	if !p.CanUseAnywhere(card) {
-		if p.team == Red && tileY > p.game.Map().MaxTileYOnTop() {
-			return fmt.Errorf("can't place card on tileY: %v", tileY)
-		}
-		if p.team == Blue && tileY < p.game.Map().MinTileYOnBot() {
-			return fmt.Errorf("can't place card on tileY: %v", tileY)
+	if !isSpell {
+		tr := p.FindUnoccupiedTileRect(tr, 0)
+		if tr == nil {
+			return fmt.Errorf("cannot find unoccupied tile")
+		} else {
+			a.TileX = tr.x
+			a.TileY = tr.y
 		}
 	}
+
+	//  knight check
 	if card.Type == data.KnightCard {
 		knight := p.findKnight(card.Name)
 		if knight == nil {
-			return fmt.Errorf("%v already dead", card.Name)
+			// should not be here since we already check card in hand
+			return fmt.Errorf("knight not found: %v ", card.Name)
 		}
 		if !knight.CanCastSkill() {
 			return fmt.Errorf("%v cannot cast skill now", knight.Name())
 		}
 	}
+
+	p.useCard(card, a.TileX, a.TileY)
+	p.removeCardFromHand(index)
+	p.pending = append(p.pending, card)
 	return nil
 }
 
-func (p *player) CanUseAnywhere(card *data.Card) bool {
-	if card.Type == data.KnightCard {
-		skill := data.Units[card.Name]["skill"].(map[string]interface{})["wing"].(map[string]interface{})
-		if _, ok := skill["unit"]; !ok {
-			return true
-		} else {
-			if data.Units[skill["unit"].(string)]["type"] != data.Building {
-				return true
+func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
+	if offset >= nav.TileNumY {
+		return nil
+	}
+	minX := tr.x - offset
+	maxX := tr.x + offset
+	minY := tr.y - offset
+	maxY := tr.y + offset
+	for i := minX; i <= maxX; i++ {
+		for j := minY; j <= maxY; j++ {
+			candidate := &tileRect{i, j, tr.numX, tr.numY}
+			if !p.TileRectValid(candidate, false) {
+				continue
 			}
+			if p.game.Occupied(candidate) {
+				continue
+			}
+			return candidate
 		}
 	}
-	return false
+	return p.FindUnoccupiedTileRect(tr, offset+1)
 }
 
 func (p *player) findCard(from []*data.Card, name string) int {

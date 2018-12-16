@@ -31,7 +31,6 @@ onready var go_to_lobby = $NonCameraFollowingUI/GoToLobby
 var map
 
 var units = {}
-var occupiedTiles = {}
 var deathToll = {}
 var lastDeadPosX = {}
 var unitCounter = 0
@@ -39,6 +38,7 @@ var players = {}
 var bullets = []
 var skills = []
 var actions = {}
+var occupied = []
 
 # client physics frame
 var frame = 0
@@ -82,6 +82,11 @@ func _ready():
 	self.lastDeadPosX = {"Blue":0, "Red":0}
 
 	map = $Resource/Map.get_resource(cfg.MapName).new(world)
+	for i in map.TILE_NUM_X:
+		occupied.append([])
+		for j in map.TILE_NUM_Y:
+			occupied[i].append(0)
+			
 	team_swapped = user.ShouldSwapTeam(cfg)
 	for p in cfg.Players:
 		var team = p.Team
@@ -92,6 +97,34 @@ func _ready():
 		players[p.Id] = player
 	CreateMapObstacles()
 
+func FindPlayer(team):
+	for id in players:
+		var player = players[id]
+		if team == player.Team():
+			return player
+	assert(false)
+
+func Occupied(tr):
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+			if occupied[i][j] != 0:
+				return true
+	return false
+
+func Occupy(tr, ownerId):
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+			assert(occupied[i][j] == 0)
+			occupied[i][j] = ownerId
+
+func Release(tr, ownerId):
+	if tr == null:
+		return
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+			assert(occupied[i][j] == ownerId)
+			occupied[i][j] = 0
+	
 func Over():
 	if step < toStep(PLAY_TIME):
 		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
@@ -313,9 +346,6 @@ func Map():
 func UnitIds():
 	return units.keys()
 
-func OccupiedTiles():
-	return occupiedTiles
-
 func DeathToll(team):
 	return deathToll[team]
 
@@ -332,19 +362,32 @@ func TileFromPos(x, y):
 	var tx = int(clamp(x / world.ToPixel(map.TileWidth()), 0, map.TileNumX() - 1))
 	var ty = int(clamp(y / world.ToPixel(map.TileHeight()), 0, map.TileNumY() - 1))
 	return [tx, ty]
-
-func IsValidTile(x, y):
-	if map.TileNumX() - 1 < x || x < 0:
-		return false
-	if map.TileNumY() - 1 < y || y < 0:
-		return false
-	return true
 	
 func PosFromTile(x, y):
 	var tw = world.ToPixel(map.TileWidth())
 	var th = world.ToPixel(map.TileHeight())
 	return [x*tw + tw/2, y*th + th/2]
 
+func NewTileRect(x, y, numX, numY):
+	return {
+		"x": x,
+		"y": y,
+		"numX": numX,
+		"numY": numY,
+	}
+
+func TileRectMinX(tr):
+	return tr.x - tr.numX/2
+
+func TileRectMaxX(tr):
+	return tr.x + (tr.numX+1)/2
+
+func TileRectMinY(tr):
+	return tr.y - tr.numY/2
+
+func TileRectMaxY(tr):
+	return tr.y + (tr.numY+1)/2
+	
 static func intersect_tilerect(a, b):
 	if a.t > b.b:
 		return false

@@ -5,7 +5,6 @@ import "github.com/humblers/spaceknights/pkg/data"
 type pixiegeode struct {
 	*unit
 	Decayable
-	TileOccupier
 	spawn  int
 	player Player
 }
@@ -13,9 +12,8 @@ type pixiegeode struct {
 func newPixiegeode(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "pixiegeode", p.Team(), level, posX, posY, g)
 	pg := &pixiegeode{
-		unit:         u,
-		TileOccupier: newTileOccupier(g),
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 	pg.Decayable = newDecayable(pg)
 	return pg

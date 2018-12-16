@@ -58,6 +58,39 @@ func NewCard(c Card) *Card {
 	}
 }
 
+func (c *Card) TileNum() (int, int) {
+	nx, ny := 1, 1
+	if c.Type == KnightCard {
+		skill := Units[c.Name]["skill"].(map[string]interface{})["wing"].(map[string]interface{})
+		if name, ok := skill["unit"]; ok {
+			name := name.(string)
+			if Units[name]["type"] == Building {
+				nx = Units[name]["tilenumx"].(int)
+				ny = Units[name]["tilenumy"].(int)
+			}
+		}
+	}
+	return nx, ny
+}
+
+func (c *Card) IsSpell() bool {
+	if c.Type == KnightCard {
+		skill := Units[c.Name]["skill"].(map[string]interface{})["wing"].(map[string]interface{})
+		if name, ok := skill["unit"]; ok {
+			name := name.(string)
+			if Units[name]["type"] == Building {
+				return false
+			} else {
+				return true
+			}
+		} else {
+			return true
+		}
+	} else {
+		return false
+	}
+}
+
 var Cards = map[string]Card{
 	"archengineer": Card{
 		Type:   KnightCard,

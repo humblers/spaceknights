@@ -59,6 +59,34 @@ func NewCard(card):
 		"Holding": card.get("Holding", 0),
 		"Side": card.get("Side", ""),
 	}
+
+func CardTileNum(card):
+	var nx = 1
+	var ny = 1
+	if card.Type == KnightCard:
+		var skill = units[card.Name]["skill"]["wing"]
+		if skill.has("unit"):
+			var name = skill["unit"]
+			if units[name]["type"] == Building:
+				nx = units[name]["tilenumx"]
+				ny = units[name]["tilenumy"]
+	return [nx, ny]
+
+func CardIsSpell(card):
+	var nx = 1
+	var ny = 1
+	if card.Type == KnightCard:
+		var skill = units[card.Name]["skill"]["wing"]
+		if skill.has("unit"):
+			var name = skill["unit"]
+			if units[name]["type"] == Building:
+				return false
+			else:
+				return true
+		else:
+			return true
+	else:
+		return false
 	
 var cards = {
 # units

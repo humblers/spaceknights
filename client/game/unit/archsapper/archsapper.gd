@@ -1,7 +1,5 @@
 extends "res://game/script/unit.gd"
 
-var TileOccupier = preload("res://game/script/tileoccupier.gd")
-
 var player
 var isLeader = false
 var targetId = 0
@@ -9,7 +7,7 @@ var attack = 0
 var cast = 0
 var castPosX = 0
 var castPosY = 0
-var castTile = preload("res://game/script/tileoccupier.gd")
+var castTiles
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -19,17 +17,17 @@ func _ready():
 func Init(id, level, posX, posY, game, player):
 	New(id, "archsapper", player.Team(), level, posX, posY, game)
 	self.player = player
-	TileOccupier = TileOccupier.new(game)
 	var tile = game.TileFromPos(posX, posY)
-	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }
-	var err = TileOccupier.Occupy(tr)
-	if err != null:
-		print(err)
-		return
-	castTile = castTile.new(game)
+	var tr = game.NewTileRect(
+		tile[0],
+		tile[1],
+		player.KNIGHT_TILE_NUM_X,
+		player.KNIGHT_TILE_NUM_Y
+	)
+	.Occupy(tr)
 
 func TakeDamage(amount, attacker):
-	var initHp = initialHp()
+	var initHp = InitialHp()
 	var underHalf = initHp / 2 > hp
 	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
@@ -39,8 +37,9 @@ func TakeDamage(amount, attacker):
 
 func Destroy():
 	.Destroy()
-	TileOccupier.Release()
-	castTile.Release()
+	.Release()
+	game.Release(castTiles, id)
+	
 	$AnimationPlayer.play("destroy")
 	game.camera.Shake(1, 60, 20)
 	yield($AnimationPlayer, "animation_finished")
@@ -124,40 +123,37 @@ func SetAsLeader():
 			posY = game.FlipY(posY)
 		var cannon = game.AddUnit(name, level, posX, posY, player)
 		var tile = game.TileFromPos(posX, posY)
-		var tr = cannon.TileOccupier.GetRect(tile[0], tile[1], nx, ny)
-		var err = cannon.TileOccupier.Occupy(tr)
-		if err != null:
-			print(err)
-			return
+		var tr = game.NewTileRect(tile[0], tile[1], nx, ny)
+		cannon.Occupy(tr)
+		var hp = cannon.InitialHp() * d["hpratio"][level] / 100
+		cannon.SetHp(hp)
 		cannon.Decayable.SetDecayOff()
-		var hp = cannon.initialHp() * d["hpratio"][level] / 100
-		cannon.setHp(hp)
 
 func Skill():
 	var key = "leader" if isLeader else "wing"
 	return data.units[name_]["skill"][key]
 
+func CanCastSkill():
+	return cast <= 0
+	
 func CastSkill(posX, posY):
-	if cast > 0:
-		return false
 	var name = Skill()["unit"]
 	var nx = data.units[name]["tilenumx"]
 	var ny = data.units[name]["tilenumy"]
 	var tile = game.TileFromPos(posX, posY)
-	var tr = castTile.GetRect(tile[0], tile[1], nx, ny)
-	var err = castTile.Occupy(tr)
-	if err != null:
-		print(err)
-		return false
+	var tr = game.NewTileRect(tile[0], tile[1], nx, ny)
+	game.Occupy(tr, id)
+	castTiles = tr
+
 	attack = 0
 	cast += 1
 	castPosX = posX
 	castPosY = posY
+	setLayer(data.Casting)
+
 	init_rotation()
 	adjustSkillAnim()
 	$AnimationPlayer.play("skill")
-	setLayer(data.Casting)
-	return true
 
 func adjustSkillAnim():
 	var offset = $Rotatable/Body/Turret.position * $Rotatable.scale
@@ -182,13 +178,9 @@ func adjustSkillAnim():
 func spawn():
 	var name = Skill()["unit"]
 	var unit = game.AddUnit(name, level, castPosX, castPosY, player)
-	var tr = castTile.Occupied()
-	castTile.Release()
-	var occupier = unit.get("TileOccupier")
-	if occupier != null:
-		var err = occupier.Occupy(tr)
-		if err != null:
-			print(err)
+	game.Release(castTiles, id)
+	unit.Occupy(castTiles)
+	castTiles = null
 
 func target():
 	return game.FindUnit(targetId)

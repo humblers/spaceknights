@@ -7,30 +7,24 @@ import (
 
 type archsapper struct {
 	*unit
-	TileOccupier
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	castPosX int
-	castPosY int
-	castTile TileOccupier
+	player    Player
+	isLeader  bool
+	targetId  int
+	attack    int
+	cast      int
+	castPosX  int
+	castPosY  int
+	castTiles *tileRect
 }
 
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "archsapper", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	return &archsapper{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
-		castTile:     newTileOccupier(g),
+		unit:   u,
+		player: p,
 	}
 }
 
@@ -43,8 +37,8 @@ func (a *archsapper) TakeDamage(amount int, atk Attacker) {
 
 func (a *archsapper) Destroy() {
 	a.unit.Destroy()
-	a.TileOccupier.Release()
-	a.castTile.Release()
+	a.Release()
+	a.game.Release(a.castTiles, a.id)
 }
 
 func (a *archsapper) attackDamage() int {
@@ -134,16 +128,16 @@ func (a *archsapper) SetAsLeader() {
 		if a.player.Team() == Red {
 			posX, posY = a.game.FlipX(posX), a.game.FlipY(posY)
 		}
-		unit := a.game.AddUnit(name, a.level, posX, posY, a.player)
-		if cannon, ok := unit.(*cannon); ok {
-			tx, ty := a.game.TileFromPos(posX, posY)
-			tr := cannon.GetRect(tx, ty, nx, ny)
-			if err := cannon.Occupy(tr); err != nil {
-				panic(err)
-			}
-			cannon.SetDecayOff()
-			hp := cannon.initialHp() * d["hpratio"].([]int)[a.level] / 100
-			cannon.setHp(hp)
+		cannon := a.game.AddUnit(name, a.level, posX, posY, a.player)
+		tx, ty := a.game.TileFromPos(posX, posY)
+		tr := &tileRect{tx, ty, nx, ny}
+		cannon.Occupy(tr)
+		hp := cannon.InitialHp() * d["hpratio"].([]int)[a.level] / 100
+		cannon.SetHp(hp)
+		if decayable, ok := cannon.(Decayable); ok {
+			decayable.SetDecayOff()
+		} else {
+			panic("cannot turn off cannon's decay")
 		}
 	}
 }
@@ -157,39 +151,32 @@ func (a *archsapper) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (a *archsapper) CastSkill(posX, posY int) bool {
-	if a.cast > 0 {
-		return false
-	}
+func (a *archsapper) CanCastSkill() bool {
+	return a.cast <= 0
+}
 
+func (a *archsapper) CastSkill(posX, posY int) {
 	name := a.Skill()["unit"].(string)
 	nx := data.Units[name]["tilenumx"].(int)
 	ny := data.Units[name]["tilenumy"].(int)
 	tx, ty := a.game.TileFromPos(posX, posY)
-	tr := a.castTile.GetRect(tx, ty, nx, ny)
-	if err := a.castTile.Occupy(tr); err != nil {
-		a.game.Logger().Print(err)
-		return false
-	}
+	tr := &tileRect{tx, ty, nx, ny}
+	a.game.Occupy(tr, a.id)
+	a.castTiles = tr
 
 	a.attack = 0
 	a.cast++
 	a.castPosX = posX
 	a.castPosY = posY
 	a.setLayer(data.Casting)
-	return true
 }
 
 func (a *archsapper) spawn() {
 	name := a.Skill()["unit"].(string)
-	unit := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
-	tr := a.castTile.Occupied()
-	a.castTile.Release()
-	if occupier, ok := unit.(TileOccupier); ok {
-		if err := occupier.Occupy(tr); err != nil {
-			panic(err)
-		}
-	}
+	u := a.game.AddUnit(name, a.level, a.castPosX, a.castPosY, a.player)
+	a.game.Release(a.castTiles, a.id)
+	u.Occupy(a.castTiles)
+	a.castTiles = nil
 }
 
 func (a *archsapper) target() Unit {

@@ -24,6 +24,11 @@ type Unit interface {
 	MakeSlow(duration int)
 	Hp() int
 	SetHp(hp int)
+	Occupy(tr *tileRect)
+	Release()
+
+	// stat
+	InitialHp() int
 
 	// from physics.Body
 	Position() fixed.Vector
@@ -35,7 +40,7 @@ type Unit interface {
 	// for caster type
 	SetAsLeader()
 	Skill() map[string]interface{}
-	CastSkill(posX, posY int) bool
+	CastSkill(posX, posY int)
 	CanCastSkill() bool
 }
 
@@ -47,6 +52,7 @@ type unit struct {
 	hp    int
 	game  Game
 	physics.Body
+	tiles *tileRect
 
 	slowUntil        int
 	freeze           int
@@ -54,9 +60,18 @@ type unit struct {
 	moving           bool
 }
 
-// TODO: move this func to all knights
+func (u *unit) Occupy(tr *tileRect) {
+	u.game.Occupy(tr, u.id)
+	u.tiles = tr
+}
+
+func (u *unit) Release() {
+	u.game.Release(u.tiles, u.id)
+	u.tiles = nil
+}
+
 func (u *unit) CanCastSkill() bool {
-	return true
+	panic("not implemented")
 }
 
 func (u *unit) Hp() int {
@@ -92,7 +107,7 @@ func newUnit(id int, name string, t Team, level, posX, posY int, g Game) *unit {
 		game:  g,
 	}
 	w := g.World()
-	u.hp = u.initialHp()
+	u.hp = u.InitialHp()
 	u.Body = w.AddCircle(
 		u.mass(),
 		u.radius(),
@@ -141,7 +156,7 @@ func (u *unit) SetAsLeader() {
 func (u *unit) Skill() map[string]interface{} {
 	panic("not implemented")
 }
-func (u *unit) CastSkill(posX, posY int) bool {
+func (u *unit) CastSkill(posX, posY int) {
 	panic("not implemented")
 }
 func (u *unit) DamageType() data.DamageType {
@@ -166,7 +181,7 @@ func (u *unit) radius() fixed.Scalar {
 	r := data.Units[u.name]["radius"].(int)
 	return u.game.World().FromPixel(r)
 }
-func (u *unit) initialHp() int {
+func (u *unit) InitialHp() int {
 	switch v := data.Units[u.name]["hp"].(type) {
 	case int:
 		return v

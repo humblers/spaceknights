@@ -5,6 +5,10 @@ import (
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
+// TODO: remove TileNumX()/TileNumY() funcs
+const TileNumX = 20
+const TileNumY = 32
+
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar
@@ -12,8 +16,6 @@ type Map interface {
 	TileHeight() fixed.Scalar
 	TileNumX() int
 	TileNumY() int
-	MaxTileYOnTop() int
-	MinTileYOnBot() int
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
 }
@@ -165,14 +167,6 @@ func (t *thanatos) TileNumX() int {
 }
 func (t *thanatos) TileNumY() int {
 	return t.tileNumY.ToInt()
-}
-
-func (t *thanatos) MaxTileYOnTop() int {
-	return t.tileNumY.ToInt()/2 - 2
-}
-
-func (t *thanatos) MinTileYOnBot() int {
-	return t.tileNumY.ToInt()/2 + 1
 }
 
 func (t *thanatos) GetObstacles() []Area {

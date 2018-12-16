@@ -7,7 +7,6 @@ import (
 
 type legion struct {
 	*unit
-	TileOccupier
 	player   Player
 	isLeader bool
 	targetId int
@@ -19,16 +18,12 @@ type legion struct {
 
 func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "legion", p.Team(), level, posX, posY, g)
-	to := newTileOccupier(g)
 	tx, ty := g.TileFromPos(posX, posY)
-	tr := &tileRect{t: ty - 2, b: ty + 1, l: tx - 2, r: tx + 1}
-	if err := to.Occupy(tr); err != nil {
-		panic(err)
-	}
+	tr := &tileRect{tx, ty, knightTileNumX, knightTileNumY}
+	u.Occupy(tr)
 	return &legion{
-		unit:         u,
-		TileOccupier: to,
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 }
 
@@ -137,16 +132,16 @@ func (l *legion) Skill() map[string]interface{} {
 	return skill[key].(map[string]interface{})
 }
 
-func (l *legion) CastSkill(posX, posY int) bool {
-	if l.cast > 0 {
-		return false
-	}
+func (l *legion) CanCastSkill() bool {
+	return l.cast <= 0
+}
+
+func (l *legion) CastSkill(posX, posY int) {
 	l.attack = 0
 	l.cast++
 	l.castPosX = posX
 	l.castPosY = posY
 	l.setLayer(data.Casting)
-	return true
 }
 
 func (l *legion) fireball() {

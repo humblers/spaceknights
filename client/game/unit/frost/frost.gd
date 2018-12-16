@@ -1,7 +1,5 @@
 extends "res://game/script/unit.gd"
 
-var TileOccupier = preload("res://game/script/tileoccupier.gd")
-
 var player
 var isLeader = false
 var targetId = 0
@@ -18,13 +16,14 @@ onready var init_rot = $Rotatable.global_rotation
 func Init(id, level, posX, posY, game, player):
 	New(id, "frost", player.Team(), level, posX, posY, game)
 	self.player = player
-	TileOccupier = TileOccupier.new(game)
 	var tile = game.TileFromPos(posX, posY)
-	var tr = { "t":tile[1]-2, "b":tile[1]+1, "l":tile[0]-2, "r":tile[0]+1 }
-	var err = TileOccupier.Occupy(tr)
-	if err != null:
-		print(err)
-		return
+	var tr = game.NewTileRect(
+		tile[0],
+		tile[1],
+		player.KNIGHT_TILE_NUM_X,
+		player.KNIGHT_TILE_NUM_Y
+	)
+	.Occupy(tr)
 	
 	# client only
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -32,7 +31,7 @@ func Init(id, level, posX, posY, game, player):
 	$AnimationPlayer.add_animation("skill", dup)
 
 func TakeDamage(amount, attacker):
-	var initHp = initialHp()
+	var initHp = InitialHp()
 	var underHalf = initHp / 2 > hp
 	.TakeDamage(amount, attacker)
 	if not underHalf and initHp / 2 > hp:
@@ -42,7 +41,7 @@ func TakeDamage(amount, attacker):
 
 func Destroy():
 	.Destroy()
-	TileOccupier.Release()
+	.Release()
 	$AnimationPlayer.play("destroy")
 	game.camera.Shake(1, 60, 20)
 	yield($AnimationPlayer, "animation_finished")
@@ -120,9 +119,10 @@ func Skill():
 	var key = "leader" if isLeader else "wing"
 	return data.units[name_]["skill"][key]
 
+func CanCastSkill():
+	return cast <= 0
+	
 func CastSkill(posX, posY):
-	if cast > 0:
-		return false
 	attack = 0
 	cast += 1
 	castPosX = posX
@@ -131,7 +131,6 @@ func CastSkill(posX, posY):
 	adjustSkillAnim()
 	$AnimationPlayer.play("skill")
 	setLayer(data.Casting)
-	return true
 
 func adjustSkillAnim():
 	var ref_vec = Vector2(0, -800)

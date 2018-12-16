@@ -39,19 +39,22 @@ type Game interface {
 	Map() nav.Map
 	UnitIds() []int
 	Logger() *log.Logger
-	OccupiedTiles() map[*tileRect]bool
 	DeathToll(team Team) int
 	LastDeadPosX(team Team) fixed.Scalar
+	FindPlayer(team Team) Player
 
 	FlipX(x int) int
 	FlipY(y int) int
 	TileFromPos(x, y int) (int, int)
 	PosFromTile(x, y int) (int, int)
-	IsValidTile(x, y int) bool
 	FindUnit(id int) Unit
 	AddUnit(name string, level, posX, posY int, p Player) Unit
 	AddBullet(b Bullet)
 	AddSkill(s ISkill)
+
+	Occupied(tr *tileRect) bool
+	Occupy(tr *tileRect, ownerId int)
+	Release(tr *tileRect, ownerId int)
 
 	Apply(i Input) error
 	Join(c Client) error
@@ -64,18 +67,18 @@ type Game interface {
 }
 
 type game struct {
-	config        Config
-	step          int
-	world         physics.World
-	map_          nav.Map
-	units         map[int]Unit
-	unitIds       []int
-	unitCounter   int
-	bullets       []Bullet
-	skills        []ISkill
-	occupiedTiles map[*tileRect]bool
-	deathToll     map[Team]int
-	lastDeadPosX  map[Team]fixed.Scalar
+	config       Config
+	step         int
+	world        physics.World
+	map_         nav.Map
+	units        map[int]Unit
+	unitIds      []int
+	unitCounter  int
+	bullets      []Bullet
+	skills       []ISkill
+	deathToll    map[Team]int
+	lastDeadPosX map[Team]fixed.Scalar
+	occupied     [nav.TileNumX][nav.TileNumY]int
 
 	players   map[string]Player
 	playerIds []string
@@ -90,6 +93,51 @@ type game struct {
 	applied chan error
 	quit    chan struct{}
 	logger  *log.Logger
+}
+
+func (g *game) FindPlayer(team Team) Player {
+	for _, player := range g.players {
+		if team == player.Team() {
+			return player
+		}
+	}
+	panic("should not be here")
+}
+
+func (g *game) Occupied(tr *tileRect) bool {
+	for i := tr.minX(); i < tr.maxX(); i++ {
+		for j := tr.minY(); j < tr.maxY(); j++ {
+			if g.occupied[i][j] != 0 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (g *game) Occupy(tr *tileRect, ownerId int) {
+	for i := tr.minX(); i < tr.maxX(); i++ {
+		for j := tr.minY(); j < tr.maxY(); j++ {
+			if g.occupied[i][j] != 0 {
+				panic("already occupied")
+			}
+			g.occupied[i][j] = ownerId
+		}
+	}
+}
+
+func (g *game) Release(tr *tileRect, ownerId int) {
+	if tr == nil {
+		return
+	}
+	for i := tr.minX(); i < tr.maxX(); i++ {
+		for j := tr.minY(); j < tr.maxY(); j++ {
+			if g.occupied[i][j] != ownerId {
+				panic("owner not match")
+			}
+			g.occupied[i][j] = 0
+		}
+	}
 }
 
 func (g *game) Id() string {
@@ -109,13 +157,12 @@ func (g *game) Replay() *Replay {
 
 func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	g := &game{
-		config:        cfg,
-		world:         physics.NewWorld(params),
-		map_:          nav.NewMap(cfg.MapName, params["scale"]),
-		units:         make(map[int]Unit),
-		occupiedTiles: make(map[*tileRect]bool),
-		deathToll:     make(map[Team]int),
-		lastDeadPosX:  make(map[Team]fixed.Scalar),
+		config:       cfg,
+		world:        physics.NewWorld(params),
+		map_:         nav.NewMap(cfg.MapName, params["scale"]),
+		units:        make(map[int]Unit),
+		deathToll:    make(map[Team]int),
+		lastDeadPosX: make(map[Team]fixed.Scalar),
 
 		players: make(map[string]Player),
 		actions: actions,
@@ -499,10 +546,6 @@ func (g *game) Logger() *log.Logger {
 	return g.logger
 }
 
-func (g *game) OccupiedTiles() map[*tileRect]bool {
-	return g.occupiedTiles
-}
-
 func (g *game) DeathToll(team Team) int {
 	return g.deathToll[team]
 }
@@ -533,16 +576,6 @@ func (g *game) TileFromPos(x, y int) (int, int) {
 		ty = my
 	}
 	return tx, ty
-}
-
-func (g *game) IsValidTile(x, y int) bool {
-	if g.map_.TileNumX()-1 < x || x < 0 {
-		return false
-	}
-	if g.map_.TileNumY()-1 < y || y < 0 {
-		return false
-	}
-	return true
 }
 
 func (g *game) PosFromTile(x, y int) (int, int) {

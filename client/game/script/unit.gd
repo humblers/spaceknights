@@ -18,6 +18,7 @@ var level
 var hp
 var game
 var body
+var tiles
 var slowUntil = 0
 var freeze = 0
 var prev_desired_pos_x
@@ -59,9 +60,8 @@ func show_damage(elapsed):
 			max_value = value
 	material.set_shader_param("damage_ratio", max_value)
 
-# TODO: move this func to all knights
 func CanCastSkill():
-	return true
+	assert(false)
 	
 func New(id, name, team, level, posX, posY, game):
 	self.id = id
@@ -70,7 +70,7 @@ func New(id, name, team, level, posX, posY, game):
 	self.level = level
 	self.game = game
 	var w = game.World()
-	hp = initialHp()
+	hp = InitialHp()
 	body = w.AddCircle(
 		mass(),
 		radius(),
@@ -184,6 +184,14 @@ func TakeDamage(amount, attacker):
 	damages[game.step] = 0
 	$HitEffect.hit(attacker)
 
+func Occupy(tr):
+	game.Occupy(tr, id)
+	tiles = tr
+
+func Release():
+	game.Release(tiles, id)
+	tiles = null
+	
 func Destroy():
 	game.World().RemoveBody(body)
 
@@ -243,7 +251,7 @@ func radius():
 	var r = data.units[name_]["radius"]
 	return game.World().FromPixel(r)
 
-func initialHp():
+func InitialHp():
 	var v = data.units[name_]["hp"]
 	var t = typeof(v)
 	match t:

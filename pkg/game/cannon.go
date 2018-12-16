@@ -3,7 +3,6 @@ package game
 type cannon struct {
 	*unit
 	Decayable
-	TileOccupier
 	targetId int
 	attack   int // elapsed time since attack start
 }
@@ -11,8 +10,7 @@ type cannon struct {
 func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "cannon", p.Team(), level, posX, posY, g)
 	c := &cannon{
-		unit:         u,
-		TileOccupier: newTileOccupier(g),
+		unit: u,
 	}
 	c.Decayable = newDecayable(c)
 	return c
@@ -45,10 +43,6 @@ func (c *cannon) Update() {
 			}
 		}
 	}
-}
-
-func (c *cannon) setHp(hp int) {
-	c.hp = hp
 }
 
 func (c *cannon) target() Unit {

@@ -5,7 +5,6 @@ import "github.com/humblers/spaceknights/pkg/data"
 type sentryshelter struct {
 	*unit
 	Decayable
-	TileOccupier
 	spawn  int
 	player Player
 }
@@ -13,9 +12,8 @@ type sentryshelter struct {
 func newSentryshelter(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "sentryshelter", p.Team(), level, posX, posY, g)
 	s := &sentryshelter{
-		unit:         u,
-		TileOccupier: newTileOccupier(g),
-		player:       p,
+		unit:   u,
+		player: p,
 	}
 	s.Decayable = newDecayable(s)
 	return s

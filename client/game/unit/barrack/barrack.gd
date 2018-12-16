@@ -1,7 +1,6 @@
 extends "res://game/script/unit.gd"
 
 var Decayable = preload("res://game/script/decayable.gd")
-var TileOccupier = preload("res://game/script/tileoccupier.gd")
 
 var spawn = 0
 var player
@@ -10,7 +9,6 @@ func Init(id, level, posX, posY, game, player):
 	New(id, "barrack", player.Team(), level, posX, posY, game)
 	Decayable = Decayable.new()
 	Decayable.Init(self)
-	TileOccupier = TileOccupier.new(game)
 	self.player = player
 
 func _ready():
@@ -18,7 +16,7 @@ func _ready():
 
 func Destroy():
 	.Destroy()
-	TileOccupier.Release()
+	.Release()
 	$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
