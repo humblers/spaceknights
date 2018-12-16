@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://game/player/hand.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/no_light.tres" type="Material" id=2]
@@ -9,25 +9,24 @@
 [ext_resource path="res://game/player/card/bt_noise.png" type="Texture" id=7]
 [ext_resource path="res://game/player/card/scanline.png" type="Texture" id=8]
 [ext_resource path="res://game/player/card/bt_ready_bot_frame.png" type="Texture" id=9]
-[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=10]
-[ext_resource path="res://lobby/hud/quantum_icon_1.png" type="Texture" id=11]
-[ext_resource path="res://lobby/hud/quantum_icon_2.png" type="Texture" id=12]
-[ext_resource path="res://lobby/hud/quantum_icon_3.png" type="Texture" id=13]
-[ext_resource path="res://lobby/hud/quantum_icon_4.png" type="Texture" id=14]
-[ext_resource path="res://lobby/hud/quantum_icon_5.png" type="Texture" id=15]
-[ext_resource path="res://lobby/hud/quantum_icon_6.png" type="Texture" id=16]
-[ext_resource path="res://lobby/hud/quantum_icon_7.png" type="Texture" id=17]
-[ext_resource path="res://lobby/hud/quantum_icon_8.png" type="Texture" id=18]
-[ext_resource path="res://lobby/hud/quantum_icon_9.png" type="Texture" id=19]
-[ext_resource path="res://lobby/hud/quantum_icon_10.png" type="Texture" id=20]
-[ext_resource path="res://lobby/hud/quantum_icon_11.png" type="Texture" id=21]
-[ext_resource path="res://lobby/hud/quantum_icon_12.png" type="Texture" id=22]
-[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=23]
-[ext_resource path="res://game/player/card/unit_cost_gage_bot.png" type="Texture" id=24]
-[ext_resource path="res://game/player/card/unit_cost_gage_top.png" type="Texture" id=25]
-[ext_resource path="res://game/player/card/unit_cost_gage_inside.png" type="Texture" id=26]
-
-
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=10]
+[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=11]
+[ext_resource path="res://lobby/hud/quantum_icon_1.png" type="Texture" id=12]
+[ext_resource path="res://lobby/hud/quantum_icon_2.png" type="Texture" id=13]
+[ext_resource path="res://lobby/hud/quantum_icon_3.png" type="Texture" id=14]
+[ext_resource path="res://lobby/hud/quantum_icon_4.png" type="Texture" id=15]
+[ext_resource path="res://lobby/hud/quantum_icon_5.png" type="Texture" id=16]
+[ext_resource path="res://lobby/hud/quantum_icon_6.png" type="Texture" id=17]
+[ext_resource path="res://lobby/hud/quantum_icon_7.png" type="Texture" id=18]
+[ext_resource path="res://lobby/hud/quantum_icon_8.png" type="Texture" id=19]
+[ext_resource path="res://lobby/hud/quantum_icon_9.png" type="Texture" id=20]
+[ext_resource path="res://lobby/hud/quantum_icon_10.png" type="Texture" id=21]
+[ext_resource path="res://lobby/hud/quantum_icon_11.png" type="Texture" id=22]
+[ext_resource path="res://lobby/hud/quantum_icon_12.png" type="Texture" id=23]
+[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=24]
+[ext_resource path="res://game/player/card/unit_cost_gage_bot.png" type="Texture" id=25]
+[ext_resource path="res://game/player/card/unit_cost_gage_top.png" type="Texture" id=26]
+[ext_resource path="res://game/player/card/unit_cost_gage_inside.png" type="Texture" id=27]
 
 [sub_resource type="Animation" id=1]
 
@@ -66,7 +65,7 @@ tracks/0/keys = {
 [sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ) ],
 "loop": true,
 "name": "quantum",
 "speed": 10.0
@@ -78,10 +77,9 @@ size = 42
 outline_size = 2
 outline_color = Color( 0.0627451, 0.231373, 0.427451, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 24 )
 
 [node name="Hand1" type="Control"]
-editor/display_folded = true
 margin_left = 248.0
 margin_top = 1710.0
 margin_right = 438.0
@@ -113,11 +111,13 @@ material = ExtResource( 2 )
 position = Vector2( 95, 65 )
 
 [node name="Base" type="Sprite" parent="Card"]
+visible = false
 use_parent_material = true
 texture = ExtResource( 3 )
 
 [node name="Icon" type="Sprite" parent="Card"]
 editor/display_folded = true
+visible = false
 use_parent_material = true
 texture = ExtResource( 4 )
 
@@ -139,26 +139,34 @@ texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 8.92089e+15
+angular_velocity = 8.92089e+015
 radial_accel = 2.0
 radial_accel_random = 1.0
 color = Color( 0.458824, 0.545098, 0.54902, 1 )
 
 [node name="Scanline" type="Sprite" parent="Card"]
+visible = false
 modulate = Color( 1, 1, 1, 0.164706 )
 use_parent_material = true
 texture = ExtResource( 8 )
 
 [node name="Frame" type="Sprite" parent="Card"]
+visible = false
 use_parent_material = true
 texture = ExtResource( 9 )
 
-[node name="Cost" type="AnimatedSprite" parent="Card" instance=ExtResource( 10 )]
+[node name="ItemBase" parent="Card" instance=ExtResource( 10 )]
+margin_left = -88.0
+margin_top = -79.0
+margin_right = 162.0
+margin_bottom = 221.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Cost" parent="Card" instance=ExtResource( 11 )]
+visible = false
 position = Vector2( -66, -41 )
 frames = SubResource( 3 )
-animation = "quantum"
-frame = 3
-playing = true
+frame = 8
 
 [node name="Label" type="Label" parent="Card/Cost"]
 anchor_left = 0.5
@@ -187,7 +195,7 @@ margin_top = 66.0
 margin_right = 95.0
 margin_bottom = 86.0
 value = 30.0
-texture_under = ExtResource( 24 )
-texture_over = ExtResource( 25 )
-texture_progress = ExtResource( 26 )
+texture_under = ExtResource( 25 )
+texture_over = ExtResource( 26 )
+texture_progress = ExtResource( 27 )
 
