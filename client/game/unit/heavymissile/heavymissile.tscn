@@ -1,16 +1,20 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://game/unit/heavymissile/heavy_missile_body.png" type="Texture" id=1]
-[ext_resource path="res://game/unit/heavymissile/heavy_missile_body_normal.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/heavymissile/heavy_missile_wing.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/heavymissile/heavy_missile_wing_normal.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=10]
-[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=11]
+[ext_resource path="res://game/unit/heavymissile/heavymissile.gd" type="Script" id=1]
+[ext_resource path="res://game/unit/heavymissile/heavy_missile_body.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/heavymissile/heavy_missile_body_normal.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=5]
+[ext_resource path="res://game/unit/heavymissile/heavy_missile_wing.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/heavymissile/heavy_missile_wing_normal.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=11]
+[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=12]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=13]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=14]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=15]
 
 [sub_resource type="StreamTexture" id=1]
 
@@ -666,13 +670,15 @@ tracks/13/keys = {
 
 [node name="Heavymissile" type="Node2D"]
 scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Main" type="Sprite" parent="Rotatable"]
 scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 1 )
-normal_map = ExtResource( 2 )
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
 
 [node name="Position2D" type="Position2D" parent="Rotatable/Main"]
 editor/display_folded = true
@@ -685,20 +691,21 @@ amount = 12
 speed_scale = 2.0
 texture = SubResource( 1 )
 gravity = Vector2( 0, 50 )
+angular_velocity = 20.0
 scale_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Main/Position2D/CPUParticles2D3"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, 10 )
 scale = Vector2( 0.59375, 0.836364 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="WingL" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 rotation = 0.523599
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 7 )
 offset = Vector2( -13, 30 )
 
 [node name="Position2D" type="Position2D" parent="Rotatable/Main/WingL"]
@@ -708,22 +715,22 @@ rotation = -0.523599
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/WingL/Position2D"]
 position = Vector2( 7.62939e-006, 2.51922 )
 speed_scale = 2.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 gravity = Vector2( 0, 30 )
 angular_velocity = 1.45849e-019
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Main/WingL/Position2D/CPUParticles2D"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( -5.72205e-006, 4.92631 )
 scale = Vector2( 0.59375, 0.433684 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="WingR" type="Sprite" parent="Rotatable/Main"]
 rotation = -0.523599
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 7 )
 offset = Vector2( 13, 30 )
 flip_h = true
 
@@ -734,16 +741,17 @@ rotation = 0.523599
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Rotatable/Main/WingR/Position2D2"]
 position = Vector2( -7.62939e-006, 2.51922 )
 speed_scale = 2.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 gravity = Vector2( 0, 30 )
+angular_velocity = 180.0
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Main/WingR/Position2D2/CPUParticles2D2"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, 5.02836 )
 scale = Vector2( 0.59375, 0.437395 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="explosion" type="Node2D" parent="Rotatable"]
 
@@ -752,14 +760,14 @@ scale = Vector2( 2, 2 )
 
 [node name="Light2D" type="Light2D" parent="Rotatable/explosion/Explosion"]
 enabled = false
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 texture_scale = 8.0
 
 [node name="Particle2" type="CPUParticles2D" parent="Rotatable/explosion/Explosion"]
 emitting = false
 amount = 160
 preprocess = 1.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -777,7 +785,7 @@ scale = 1.2
 emitting = false
 speed_scale = 2.0
 explosiveness = 0.8
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
@@ -795,7 +803,7 @@ emitting = false
 amount = 12
 lifetime = 1.5
 speed_scale = 3.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
@@ -814,11 +822,25 @@ anims/explosion = SubResource( 12 )
 [node name="Sound" type="Node2D" parent="Rotatable/explosion"]
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="Rotatable/explosion/Sound"]
-stream = ExtResource( 11 )
+stream = ExtResource( 12 )
 volume_db = 3.0
 
-[node name="HeavyAni" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/destroy = SubResource( 13 )
 anims/idle = SubResource( 14 )
 anims/move = SubResource( 15 )
+
+[node name="Hp" parent="." instance=ExtResource( 13 )]
+position = Vector2( 0, -75 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 14 )]
+type = 0
+rect_area = Rect2( -15, -25, 30, 50 )
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 15 )
+
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 
