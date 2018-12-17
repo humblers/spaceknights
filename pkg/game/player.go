@@ -136,7 +136,11 @@ func (p *player) applyLeaderSkill() {
 }
 
 func (p *player) Update() {
-	p.energy += energyPerFrame
+	if p.game.Step() > data.EnergyBoostAfter {
+		p.energy += energyPerFrame * 2
+	} else {
+		p.energy += energyPerFrame
+	}
 	if p.energy > maxEnergy {
 		p.energy = maxEnergy
 	}
