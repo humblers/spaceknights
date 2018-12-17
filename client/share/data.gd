@@ -600,7 +600,7 @@ var units = {
 		"radius":         30,
 		"tilenumx":       3,
 		"tilenumy":       3,
-		"hp":             [800],
+		"hp":             [8000],
 		"sight":          275,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
@@ -1130,7 +1130,7 @@ var units = {
 		"layer":          Normal,
 		"mass":           1,
 		"radius":         30,
-		"hp":             [1000],
+		"hp":             [5000],
 		"sight":          275,
 		"speed":          400,	#pixels per second
 		"targettypes":    [Building, Knight],
@@ -1397,7 +1397,7 @@ var units = {
 		"layer":          Normal,
 		"mass":           6,
 		"radius":         25,
-		"hp":             [300],
+		"hp":             [3000],
 		"sight":          275,
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],

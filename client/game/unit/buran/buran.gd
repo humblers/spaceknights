@@ -119,7 +119,7 @@ func Update():
 
 func show_laser(enable):
 	for pos in ["L1", "R1", "L2", "R2"]:
-		var n = get_node("Rotatable/Main/Weapon/Laser%s" % pos)
+		var n = get_node("Rotatable/Body/Weapon/Laser%s" % pos)
 		n.visible = enable
 		if enable:
 			var from = n.global_position

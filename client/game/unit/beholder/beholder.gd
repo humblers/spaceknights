@@ -42,7 +42,7 @@ func Update():
 	show_laser(attack > 0)
 
 func show_laser(enable):
-	var n = get_node("Rotatable/Chassis/Tower/ShotPoint")
+	var n = get_node("Chassis/Tower/ShotPoint")
 	n.visible = enable
 	if enable:
 		var from = n.global_position
