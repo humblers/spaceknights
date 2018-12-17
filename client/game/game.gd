@@ -3,6 +3,9 @@ extends Node2D
 var connected = false
 var cfg = config.GAME
 
+const PLAY_TIME = 180000		# milliseconds
+const OVER_TIME = 180000
+const STEP_INTERVAL = 100	# milliseconds
 const LEADER_SCORE = 3
 const WING_SCORE = 1
 
@@ -123,17 +126,20 @@ func Release(tr, ownerId):
 			occupied[i][j] = 0
 	
 func Over():
-	if step < data.PlayTime:
+	if step < toStep(PLAY_TIME):
 		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
 			return true
 		else:
 			return false
-	elif step < data.PlayTime + data.OverTime:
+	elif step < toStep(PLAY_TIME + OVER_TIME):
 		if score("Blue") != score("Red"):
 			return true
 		else:
 			return false
 	return true
+
+func toStep(duration):
+	return int(duration/STEP_INTERVAL)
 
 func score(team):
 	var score = 0
@@ -189,6 +195,15 @@ func _process(delta):
 			b.node.position = prev.linear_interpolate(curr, t)
 	if has_node("Debug"):
 		get_node("Debug").update(self)
+#	if toStep(PLAY_TIME) - step > 0:
+#		var minute = int( (toStep(PLAY_TIME) - step) / 600)
+#		var sec = int((toStep(PLAY_TIME) - step) /10) % 60
+#		$NonCameraFollowingUI/TimeBox/NameNode/Time.text = String(minute) + ":" + String(sec)
+#	else:
+#		var minute = int( (toStep(PLAY_TIME + OVER_TIME) - step) / 600)
+#		var sec = int((toStep(PLAY_TIME + OVER_TIME) - step) /10) % 60
+#		$NonCameraFollowingUI/TimeBox/NameNode/Text.text ="Sudden Death"
+#		$NonCameraFollowingUI/TimeBox/NameNode/Time.text = String(minute) + ":" + String(sec)
 
 func _physics_process(delta):
 	if frame % frame_per_step == 0:
@@ -263,27 +278,6 @@ func Update(state):
 
 	step += 1
 	elapsed = 0
-	update_time()
-	update_energy_boost()
-
-func update_time():
-	var time_left
-	if step < data.PlayTime:
-		time_left = data.PlayTime - step
-		$NonCameraFollowingUI/Timenode/Text.text ="Time Left"
-	else:
-		time_left = data.PlayTime + data.OverTime - step
-		$NonCameraFollowingUI/Timenode/Text.text ="Sudden Death"
-	var sec = time_left / data.StepPerSec
-	$NonCameraFollowingUI/Timenode/Time.text = "%d:%02d" % [sec/60, sec%60]
-
-func update_energy_boost():
-	if step > data.EnergyBoostAfter:
-		$NonCameraFollowingUI/EnergyBoost.visible = true
-		$CameraFollowingUI/EnergyBoost.visible = true
-	else:
-		$NonCameraFollowingUI/EnergyBoost.visible = false
-		$CameraFollowingUI/EnergyBoost.visible = false
 
 func printGameState():
 	for id in units.keys():

@@ -1,16 +1,23 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=36 format=2]
 
-[ext_resource path="res://game/unit/azero/ball.png" type="Texture" id=1]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=6]
-[ext_resource path="res://game/unit/azero/wing.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
-[ext_resource path="res://game/unit/azero/body.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=11]
+[ext_resource path="res://game/unit/azero/azero.gd" type="Script" id=1]
+[ext_resource path="res://game/unit/azero/ball.png" type="Texture" id=2]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=7]
+[ext_resource path="res://game/unit/azero/wing.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=9]
+[ext_resource path="res://game/unit/azero/body.png" type="Texture" id=10]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=12]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=13]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=14]
+[ext_resource path="res://game/unit/starfire/starfire_atk.wav" type="AudioStream" id=15]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=16]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/unit/azero/ice_orb.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Curve" id=1]
 
@@ -305,7 +312,7 @@ tracks/19/keys = {
 [sub_resource type="Animation" id=13]
 
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rotatable/main:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -317,7 +324,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/main:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -329,7 +336,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/main:visible")
+tracks/2/path = NodePath("Rotatable/Body:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -341,7 +348,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Rotatable/main:modulate")
+tracks/3/path = NodePath("Rotatable/Body:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -353,7 +360,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL:emitting")
+tracks/4/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -365,7 +372,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL/Sprite:visible")
+tracks/5/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL/Sprite:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -377,7 +384,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR:emitting")
+tracks/6/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -389,7 +396,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR/Sprite:visible")
+tracks/7/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR/Sprite:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -401,7 +408,7 @@ tracks/7/keys = {
 "values": [ false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/main/Wing/WingL:position")
+tracks/8/path = NodePath("Rotatable/Body/Wing/WingL:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -413,7 +420,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/main/Wing/WingL:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Body/Wing/WingL:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -425,7 +432,7 @@ tracks/9/keys = {
 "values": [ 0.0, -30.0, 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/main/Wing/WingR:position")
+tracks/10/path = NodePath("Rotatable/Body/Wing/WingR:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -437,7 +444,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/main/Wing/WingR:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Wing/WingR:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -449,7 +456,7 @@ tracks/11/keys = {
 "values": [ 0.0, 30.0, 0.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/main/Body:position")
+tracks/12/path = NodePath("Rotatable/Body/Body:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -461,7 +468,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 10 ), Vector2( 0, 0 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/main/Body:scale")
+tracks/13/path = NodePath("Rotatable/Body/Body:scale")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -473,7 +480,7 @@ tracks/13/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 0.9 ), Vector2( 1, 1 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/main/ShotPoint/Aura:emitting")
+tracks/14/path = NodePath("Rotatable/Body/Shotpoint/Aura:emitting")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -485,7 +492,7 @@ tracks/14/keys = {
 "values": [ false, true, false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/main/ShotPoint/Light:visible")
+tracks/15/path = NodePath("Rotatable/Body/Shotpoint/Light:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -497,7 +504,7 @@ tracks/15/keys = {
 "values": [ false, true, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/main/ShotPoint/Flake:emitting")
+tracks/16/path = NodePath("Rotatable/Body/Shotpoint/Flake:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -509,7 +516,7 @@ tracks/16/keys = {
 "values": [ false, true, false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/main/ShotPoint:scale")
+tracks/17/path = NodePath("Rotatable/Body/Shotpoint:scale")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -521,7 +528,7 @@ tracks/17/keys = {
 "values": [ Vector2( 0.5, 0.5 ), Vector2( 1.5, 1.5 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/main/ShotPoint/Circle:emitting")
+tracks/18/path = NodePath("Rotatable/Body/Shotpoint/Circle:emitting")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -536,7 +543,7 @@ tracks/18/keys = {
 [sub_resource type="Animation" id=14]
 
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rotatable/main:visible")
+tracks/0/path = NodePath("Rotatable/Body:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -548,7 +555,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/main:modulate")
+tracks/1/path = NodePath("Rotatable/Body:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -560,7 +567,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL:emitting")
+tracks/2/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -572,7 +579,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL/Sprite:visible")
+tracks/3/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL/Sprite:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -584,7 +591,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR:emitting")
+tracks/4/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -596,7 +603,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR/Sprite:visible")
+tracks/5/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR/Sprite:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -622,7 +629,7 @@ tracks/6/keys = {
 
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rotatable/main:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -634,7 +641,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/main:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -646,7 +653,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/main:visible")
+tracks/2/path = NodePath("Rotatable/Body:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -658,7 +665,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Rotatable/main:modulate")
+tracks/3/path = NodePath("Rotatable/Body:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -670,7 +677,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL:emitting")
+tracks/4/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -682,7 +689,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL/Sprite:visible")
+tracks/5/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL/Sprite:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -694,7 +701,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR:emitting")
+tracks/6/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -706,7 +713,7 @@ tracks/6/keys = {
 "values": [ false ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR/Sprite:visible")
+tracks/7/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR/Sprite:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -718,7 +725,7 @@ tracks/7/keys = {
 "values": [ false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/main/Wing/WingL:position")
+tracks/8/path = NodePath("Rotatable/Body/Wing/WingL:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -730,7 +737,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/main/Wing/WingL:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Body/Wing/WingL:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -742,7 +749,7 @@ tracks/9/keys = {
 "values": [ 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/main/Wing/WingR:position")
+tracks/10/path = NodePath("Rotatable/Body/Wing/WingR:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -754,7 +761,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/main/Wing/WingR:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Wing/WingR:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -766,7 +773,7 @@ tracks/11/keys = {
 "values": [ 0.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/main/Body:position")
+tracks/12/path = NodePath("Rotatable/Body/Body:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -778,7 +785,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/main/Body:scale")
+tracks/13/path = NodePath("Rotatable/Body/Body:scale")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -790,7 +797,7 @@ tracks/13/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/main/ShotPoint/Aura:emitting")
+tracks/14/path = NodePath("Rotatable/Body/Shotpoint/Aura:emitting")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -802,7 +809,7 @@ tracks/14/keys = {
 "values": [ false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable/main/ShotPoint/Light:visible")
+tracks/15/path = NodePath("Rotatable/Body/Shotpoint/Light:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -814,7 +821,7 @@ tracks/15/keys = {
 "values": [ false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable/main/ShotPoint/Circle:emitting")
+tracks/16/path = NodePath("Rotatable/Body/Shotpoint/Circle:emitting")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -826,7 +833,7 @@ tracks/16/keys = {
 "values": [ false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/main/ShotPoint/Flake:emitting")
+tracks/17/path = NodePath("Rotatable/Body/Shotpoint/Flake:emitting")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -842,7 +849,7 @@ tracks/17/keys = {
 
 length = 0.3
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rotatable/main:position")
+tracks/0/path = NodePath("Rotatable/Body:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -854,7 +861,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Rotatable/main:rotation_degrees")
+tracks/1/path = NodePath("Rotatable/Body:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -866,7 +873,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rotatable/main:visible")
+tracks/2/path = NodePath("Rotatable/Body:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -878,7 +885,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Rotatable/main:modulate")
+tracks/3/path = NodePath("Rotatable/Body:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -890,7 +897,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL:emitting")
+tracks/4/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -902,7 +909,7 @@ tracks/4/keys = {
 "values": [ false, false, true ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Rotatable/main/Wing/WingL/BoosterL/BoostL/Sprite:visible")
+tracks/5/path = NodePath("Rotatable/Body/Wing/WingL/BoosterL/BoostL/Sprite:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -914,7 +921,7 @@ tracks/5/keys = {
 "values": [ false, false, true ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR:emitting")
+tracks/6/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -926,7 +933,7 @@ tracks/6/keys = {
 "values": [ false, false, true ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Rotatable/main/Wing/WingR/BoosterR/BoostR/Sprite:visible")
+tracks/7/path = NodePath("Rotatable/Body/Wing/WingR/BoosterR/BoostR/Sprite:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -938,7 +945,7 @@ tracks/7/keys = {
 "values": [ false, false, true ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Rotatable/main/Wing/WingL:position")
+tracks/8/path = NodePath("Rotatable/Body/Wing/WingL:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -950,7 +957,7 @@ tracks/8/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Rotatable/main/Wing/WingL:rotation_degrees")
+tracks/9/path = NodePath("Rotatable/Body/Wing/WingL:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -962,7 +969,7 @@ tracks/9/keys = {
 "values": [ 0.0, 15.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Rotatable/main/Wing/WingR:position")
+tracks/10/path = NodePath("Rotatable/Body/Wing/WingR:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -974,7 +981,7 @@ tracks/10/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("Rotatable/main/Wing/WingR:rotation_degrees")
+tracks/11/path = NodePath("Rotatable/Body/Wing/WingR:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -986,7 +993,7 @@ tracks/11/keys = {
 "values": [ 0.0, -15.0 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Rotatable/main/Body:position")
+tracks/12/path = NodePath("Rotatable/Body/Body:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -998,7 +1005,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/main/Body:scale")
+tracks/13/path = NodePath("Rotatable/Body/Body:scale")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1064,22 +1071,23 @@ tracks/3/keys = {
 }
 
 [node name="Azero" type="Node2D"]
+script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
 
-[node name="main" type="Sprite" parent="Rotatable"]
-texture = ExtResource( 1 )
+[node name="Body" type="Sprite" parent="Rotatable"]
+texture = ExtResource( 2 )
 
-[node name="ShotPoint" type="Position2D" parent="Rotatable/main"]
+[node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
 position = Vector2( 0, -25 )
-scale = Vector2( 1.5, 1.5 )
+scale = Vector2( 0.5, 0.5 )
 
-[node name="Aura" type="CPUParticles2D" parent="Rotatable/main/ShotPoint"]
+[node name="Aura" type="CPUParticles2D" parent="Rotatable/Body/Shotpoint"]
 emitting = false
 amount = 12
 speed_scale = 2.0
 explosiveness = 0.2
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, -40 )
@@ -1090,31 +1098,31 @@ radial_accel_random = 1.0
 scale_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
-[node name="Light" type="Sprite" parent="Rotatable/main/ShotPoint"]
+[node name="Light" type="Sprite" parent="Rotatable/Body/Shotpoint"]
 visible = false
 modulate = Color( 0.243137, 0.521569, 1, 0.505882 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, -4 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
-[node name="Circle" type="CPUParticles2D" parent="Rotatable/main/ShotPoint"]
-material = ExtResource( 3 )
+[node name="Circle" type="CPUParticles2D" parent="Rotatable/Body/Shotpoint"]
+material = ExtResource( 4 )
 position = Vector2( 0, 16.6667 )
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 gravity = Vector2( 0, -90 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
-[node name="Flake" type="CPUParticles2D" parent="Rotatable/main/ShotPoint"]
-material = ExtResource( 3 )
+[node name="Flake" type="CPUParticles2D" parent="Rotatable/Body/Shotpoint"]
+material = ExtResource( 4 )
 emitting = false
 preprocess = 0.5
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -1126,69 +1134,71 @@ radial_accel_random = 1.0
 scale_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
-[node name="Wing" type="Node2D" parent="Rotatable/main"]
+[node name="Wing" type="Node2D" parent="Rotatable/Body"]
 
-[node name="WingL" type="Sprite" parent="Rotatable/main/Wing"]
+[node name="WingL" type="Sprite" parent="Rotatable/Body/Wing"]
 editor/display_folded = true
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 offset = Vector2( -16.5, -3.5 )
 flip_h = true
 
-[node name="BoosterL" type="Position2D" parent="Rotatable/main/Wing/WingL"]
+[node name="BoosterL" type="Position2D" parent="Rotatable/Body/Wing/WingL"]
 position = Vector2( -22.1977, 21.477 )
 rotation = -0.261799
 
-[node name="BoostL" type="CPUParticles2D" parent="Rotatable/main/Wing/WingL/BoosterL"]
-material = ExtResource( 3 )
+[node name="BoostL" type="CPUParticles2D" parent="Rotatable/Body/Wing/WingL/BoosterL"]
+material = ExtResource( 4 )
 position = Vector2( 0, 6 )
 emitting = false
 speed_scale = 3.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 50 )
+angular_velocity = 180.0
 scale_curve = SubResource( 7 )
 color_ramp = SubResource( 8 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/main/Wing/WingL/BoosterL/BoostL"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Wing/WingL/BoosterL/BoostL"]
 visible = false
 modulate = Color( 0.0431373, 1, 0.729412, 0.529412 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, 6 )
 scale = Vector2( 0.4, 0.5 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
-[node name="WingR" type="Sprite" parent="Rotatable/main/Wing"]
+[node name="WingR" type="Sprite" parent="Rotatable/Body/Wing"]
 editor/display_folded = true
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 offset = Vector2( 16.5, -3.5 )
 
-[node name="BoosterR" type="Position2D" parent="Rotatable/main/Wing/WingR"]
+[node name="BoosterR" type="Position2D" parent="Rotatable/Body/Wing/WingR"]
 position = Vector2( 22.1977, 21.477 )
 rotation = 0.261799
 
-[node name="BoostR" type="CPUParticles2D" parent="Rotatable/main/Wing/WingR/BoosterR"]
-material = ExtResource( 3 )
+[node name="BoostR" type="CPUParticles2D" parent="Rotatable/Body/Wing/WingR/BoosterR"]
+material = ExtResource( 4 )
 position = Vector2( 0, 6 )
 emitting = false
 speed_scale = 3.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 50 )
+angular_velocity = 180.0
 scale_curve = SubResource( 7 )
 color_ramp = SubResource( 8 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/main/Wing/WingR/BoosterR/BoostR"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Wing/WingR/BoosterR/BoostR"]
 visible = false
 modulate = Color( 0.0431373, 1, 0.729412, 0.529412 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, 6 )
 scale = Vector2( 0.4, 0.5 )
-texture = ExtResource( 8 )
-
-[node name="Body" type="Sprite" parent="Rotatable/main"]
 texture = ExtResource( 9 )
+
+[node name="Body" type="Sprite" parent="Rotatable/Body"]
+texture = ExtResource( 10 )
 
 [node name="Explosion" type="Node2D" parent="."]
 editor/display_folded = true
@@ -1200,19 +1210,19 @@ scale = Vector2( 1.4, 1.4 )
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Exp2" type="Sprite" parent="Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 9 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -1220,14 +1230,14 @@ modulate = Color( 0.384314, 0.101961, 1, 0 )
 material = SubResource( 10 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Circle2" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 flip_h = true
 flip_v = true
 
@@ -1255,7 +1265,6 @@ anims/idle = SubResource( 15 )
 anims/move = SubResource( 16 )
 
 [node name="HitPoint" type="Position2D" parent="."]
-editor/display_folded = true
 position = Vector2( 0, -343 )
 scale = Vector2( 1.5, 1.5 )
 
@@ -1263,7 +1272,7 @@ scale = Vector2( 1.5, 1.5 )
 emitting = false
 speed_scale = 2.0
 explosiveness = 0.2
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, -20 )
@@ -1277,18 +1286,18 @@ color_ramp = SubResource( 2 )
 [node name="Light" type="Sprite" parent="HitPoint"]
 visible = false
 modulate = Color( 0.243137, 0.521569, 1, 0.505882 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, -4 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Circle" type="CPUParticles2D" parent="HitPoint"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 0, 0.66667 )
 scale = 0.8
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 gravity = Vector2( 0, -90 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -1297,11 +1306,11 @@ scale_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="Flake" type="CPUParticles2D" parent="HitPoint"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 emitting = false
 lifetime = 0.8
 preprocess = 0.5
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -1315,4 +1324,26 @@ color_ramp = SubResource( 6 )
 
 [node name="HitEffect" type="AnimationPlayer" parent="HitPoint"]
 anims/hit = SubResource( 17 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 13 )]
+type = 0
+rect_area = Rect2( -32, -30, 64, 60 )
+
+[node name="Hp" parent="." instance=ExtResource( 14 )]
+position = Vector2( 0, -65 )
+
+[node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 15 )
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 16 )
+
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 17 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "ice_orb" ), [ ExtResource( 18 ) ] ]
 
