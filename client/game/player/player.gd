@@ -49,20 +49,56 @@ func Init(playerData, game):
 			addKnight(card.Name, card.Level, card.Side)
 	applyLeaderSkill()
 
+func ClampToValidTile(tx, ty):
+	var nx = game.Map().TileNumX()
+	var ny = game.Map().TileNumY()
+	# flip
+	if team == "Red":
+		tx = nx - tx
+		ty = ny - ty
+	
+	# min x
+	if tx < 0:
+		tx = 0
+	
+	# max x
+	if tx > nx-1:
+		tx = nx-1
+	
+	# max y
+	if ty > ny-1:
+		ty = ny-1
+	
+	# min y
+	if ty < ny/2-5:
+		ty = ny/2-5
+	if ty < ny/2+1:
+		var opponentSide = data.Left
+		if tx < nx/2:
+			opponentSide = data.Right
+		if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
+			ty = ny/2+1
+	
+	# flip
+	if team == "Red":
+		tx = nx - tx
+		ty = ny - ty
+	return [tx, ty]
+
 func TileValid(tx, ty, isSpell):
 	var nx = game.Map().TileNumX()
 	var ny = game.Map().TileNumY()
+	if team == "Red":
+		tx = nx - tx
+		ty = ny - ty
 	if tx < 0 or tx >= nx:
 		return false
 	if ty < 0 or ty >= ny:
 		return false
 	if not isSpell:
-		if team == "Red":
-			tx = nx - tx
-			ty = ny - ty
 		if ty < ny/2-5:
 			return false
-		if ty <= ny/2:
+		if ty < ny/2+1:
 			var opponentSide = data.Left
 			if tx < nx/2:
 				opponentSide = data.Right

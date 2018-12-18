@@ -170,9 +170,60 @@ func (p *player) drawCard(index int) {
 	p.drawTimer = drawInterval
 }
 
+func (p *player) ClampToValidTile(tx, ty) (int, int) {
+	nx := p.game.Map().TileNumX()
+	ny := p.game.Map().TileNumY()
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
+
+	// min x
+	if tx < 0 {
+		tx = -tx
+	}
+
+	// max x
+	if tx > nx-1 {
+		tx = nx - 1
+	}
+
+	// max y
+	if ty > ny-1 {
+		ty = ny - 1
+	}
+
+	// min y
+	if ty < ny/2-5 {
+		ty = ny/2 - 5
+	}
+	if ty < ny/2+1 {
+		opponentSide := data.Left
+		if tx < nx/2 {
+			opponentSide = data.Right
+		}
+		if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
+			ty = ny/2 + 1
+		}
+	}
+
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
+	return tx, ty
+}
+
 func (p *player) TileValid(tx, ty int, isSpell bool) bool {
 	nx := p.game.Map().TileNumX()
 	ny := p.game.Map().TileNumY()
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
 	if tx < 0 || tx >= nx {
 		return false
 	}
@@ -180,15 +231,10 @@ func (p *player) TileValid(tx, ty int, isSpell bool) bool {
 		return false
 	}
 	if !isSpell {
-		if p.team == Red {
-			// flip
-			tx = nx - tx
-			ty = ny - ty
-		}
 		if ty < ny/2-5 {
 			return false
 		}
-		if ty <= ny/2 {
+		if ty < ny/2+1 {
 			opponentSide := data.Left
 			if tx < nx/2 {
 				opponentSide = data.Right
