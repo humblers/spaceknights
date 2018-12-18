@@ -97,7 +97,8 @@ func valueText(key, card, skill):
 			return null
 		"damage":
 			if skill.has(key):
-				return "%d" % skill[key][card.Level]
+				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+				return "%d" % skill[key][lv]
 		"radius":
 			if skill.has(key):
 				return info_root.FormatPixelToTile(skill[key])
@@ -124,7 +125,8 @@ func valueText(key, card, skill):
 			match key:
 				"attackdamage", "destroydamage", \
 				"hp", "shield":
-					return "%d" % u[key][card.Level]
+					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+					return "%d" % u[key][lv]
 				"attackinterval", "spawninterval":
 					return info_root.FormatStepToSecond(u[key])
 				"speed":
@@ -135,8 +137,9 @@ func valueText(key, card, skill):
 						return attack_type
 					return info_root.FormatPixelToTile(u[key])
 				"decaydamage":
-					var hp = float(u["hp"][card.Level])
-					var shield = u["shield"][card.Level] if u.has("shield") else 0
+					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+					var hp = float(u["hp"][lv])
+					var shield = u["shield"][lv] if u.has("shield") else 0
 					return "%ds" % ceil((hp + shield) / u[key] / data.StepPerSec)
 				_:
 					return String(u[key]).capitalize()

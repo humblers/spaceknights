@@ -83,7 +83,8 @@ func valueText(key, card, unit):
 		"chargedattackdamage", "powerattackdamage", \
 		"hp", "shield":
 			if unit.has(key):
-				return "%d" % unit[key][card.Level]
+				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+				return "%d" % unit[key][lv]
 		"absorbdamage":
 			if unit.has(key):
 				return "%d" % unit[key]
@@ -91,7 +92,8 @@ func valueText(key, card, unit):
 			return info_root.FormatStepToSecond(unit[key])
 		"damagepersecond":
 			if unit.has("attackdamage") and unit.has("attackinterval"):
-				return "%d" % [ceil(float(unit["attackdamage"][card.Level]) / unit["attackinterval"] * data.StepPerSec)]
+				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+				return "%d" % [ceil(float(unit["attackdamage"][lv]) / unit["attackinterval"] * data.StepPerSec)]
 		"damagetype":
 			var target_types = unit.get("targettypes", {})
 			var atk_type = unit.get("attacktype", "")

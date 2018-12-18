@@ -20,6 +20,7 @@ export(NodePath) onready var icon = get_node(icon)
 export(NodePath) onready var frame = get_node(frame)
 export(NodePath) onready var level_label = get_node(level_label)
 export(NodePath) onready var holding_label = get_node(holding_label)
+export(NodePath) onready var holding_progress = get_node(holding_progress)
 
 export(NodePath) onready var upgrade_label = get_node(upgrade_label)
 export(NodePath) onready var upgrade_cost = get_node(upgrade_cost)
@@ -73,14 +74,17 @@ func PopUp(card, enable_use = false):
 	static_func.set_text(rarity_label, card.Rarity)
 	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
 	static_func.set_text(level_label, "%d" % (card.Level + 1))
-	static_func.set_text(holding_label, "%d" % card.Holding)
+	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
+	holding_progress.max_value = card_cost
+	holding_progress.value = card.Holding
+	static_func.set_text(holding_label, "%d/%d" % [card.Holding, card_cost])
 	use_btn.visible = enable_use
 	if isUpgradable():
 		upgrade_label.visible = true
-		upgrade_cost.text = "%d" % data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
+		static_func.set_text(upgrade_cost, "%d" % data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level))
 	else:
 		upgrade_label.visible = false
-		upgrade_cost.text = "OK"
+		static_func.set_text(upgrade_cost, "OK")
 
 	main_popup.Invalidate(card, unit)
 	self.visible = true
