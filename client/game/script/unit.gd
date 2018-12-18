@@ -391,7 +391,7 @@ func moveTo(unit, play_anim = true):
 	# client only
 	set_rot(desired_vel_x, desired_vel_y)
 	if play_anim:
-		if $AnimationPlayer.current_animation != "move":
+		if $AnimationPlayer.assigned_animation != "move":
 			$AnimationPlayer.play("move")
 		if $Sound/Move.playing == false:
 			$Sound/Move.play()
