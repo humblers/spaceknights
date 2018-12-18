@@ -79,9 +79,9 @@ func _ready():
 	self.lastDeadPosX = {"Blue":0, "Red":0}
 
 	map = $Resource/Map.get_resource(cfg.MapName).new(world)
-	for i in map.TILE_NUM_X:
+	for i in map.TileNumX():
 		occupied.append([])
-		for j in map.TILE_NUM_Y:
+		for j in map.TileNumY():
 			occupied[i].append(0)
 			
 	team_swapped = user.ShouldSwapTeam(cfg)

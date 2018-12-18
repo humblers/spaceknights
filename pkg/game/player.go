@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/humblers/spaceknights/pkg/data"
-	"github.com/humblers/spaceknights/pkg/nav"
 )
 
 const maxEnergy = 10000
@@ -171,8 +170,8 @@ func (p *player) drawCard(index int) {
 }
 
 func (p *player) TileValid(tx, ty int, isSpell bool) bool {
-	nx := nav.TileNumX
-	ny := nav.TileNumY
+	nx := p.game.Map().TileNumX()
+	ny := p.game.Map().TileNumY()
 	if tx < 0 || tx >= nx {
 		return false
 	}
@@ -284,7 +283,7 @@ func (p *player) Do(a *Action) error {
 }
 
 func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
-	if offset >= nav.TileNumY {
+	if offset >= p.game.Map().TileNumY() {
 		return nil
 	}
 	minX := tr.x - offset

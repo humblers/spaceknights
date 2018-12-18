@@ -49,8 +49,8 @@ func Init(playerData, game):
 	applyLeaderSkill()
 
 func TileValid(tx, ty, isSpell):
-	var nx = game.map.TILE_NUM_X
-	var ny = game.map.TILE_NUM_Y
+	var nx = game.Map().TileNumX()
+	var ny = game.Map().TileNumY()
 	if tx < 0 or tx >= nx:
 		return false
 	if ty < 0 or ty >= ny:
@@ -200,7 +200,7 @@ func Do(action):
 	return null
 
 func FindUnoccupiedTileRect(tr, offset):
-	if offset > game.map.TILE_NUM_Y:
+	if offset > game.Map().TileNumY():
 		return null
 	var minX = tr.x - offset
 	var maxX = tr.x + offset

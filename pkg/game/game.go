@@ -76,7 +76,7 @@ type game struct {
 	skills       []ISkill
 	deathToll    map[Team]int
 	lastDeadPosX map[Team]fixed.Scalar
-	occupied     [nav.TileNumX][nav.TileNumY]int
+	occupied     [][]int
 
 	players   map[string]Player
 	playerIds []string
@@ -176,6 +176,12 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	}
 	if g.actions == nil {
 		g.actions = make(map[int][]Action)
+	}
+	for i := 0; i < g.map_.TileNumX(); i++ {
+		g.occupied = append(g.occupied, nil)
+		for j := 0; j < g.map_.TileNumY(); j++ {
+			g.occupied[i] = append(g.occupied[i], 0)
+		}
 	}
 	for _, p := range cfg.Players {
 		g.players[p.Id] = newPlayer(p, g)
