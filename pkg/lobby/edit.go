@@ -79,7 +79,7 @@ func (e *editRouter) cardUpgrade(b *bases, w http.ResponseWriter, r *http.Reques
 
 	var req CardUpgradeRequest
 	if err := parseJSON(r.Body, &req); err != nil {
-		resp.ErrMessage = "invalide data"
+		resp.ErrMessage = "invalid data"
 		return
 	}
 
