@@ -177,33 +177,43 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	if g.actions == nil {
 		g.actions = make(map[int][]Action)
 	}
+	g.initTiles()
+	g.createMapObstacles()
+	for _, p := range cfg.Players {
+		g.players[p.Id] = newPlayer(p, g)
+		g.playerIds = append(g.playerIds, p.Id)
+	}
+	return g
+}
+
+func (g *game) initTiles() {
 	for i := 0; i < g.map_.TileNumX(); i++ {
 		g.occupied = append(g.occupied, nil)
 		for j := 0; j < g.map_.TileNumY(); j++ {
 			g.occupied[i] = append(g.occupied[i], 0)
 		}
 	}
-	for _, p := range cfg.Players {
-		g.players[p.Id] = newPlayer(p, g)
-		g.playerIds = append(g.playerIds, p.Id)
-	}
-	g.createMapObstacles()
-	return g
 }
 
 func (g *game) createMapObstacles() {
 	for _, o := range g.map_.GetObstacles() {
-		width := g.world.ToPixel(o.Width())
-		height := g.world.ToPixel(o.Height())
-		x := g.world.ToPixel(o.PosX())
-		y := g.world.ToPixel(o.PosY())
-		b := g.world.AddBox(
-			0,
-			g.world.FromPixel(width),
-			g.world.FromPixel(height),
-			fixed.Vector{g.world.FromPixel(x), g.world.FromPixel(y)},
-		)
+		x := o.PosX()
+		y := o.PosY()
+		w := o.Width()
+		h := o.Height()
+		tw := g.map_.TileWidth()
+		th := g.map_.TileHeight()
+
+		b := g.world.AddBox(0, w, h, fixed.Vector{x, y})
 		b.SetLayer(string(data.Normal))
+
+		w = w.Mul(fixed.Two)
+		h = h.Mul(fixed.Two)
+		tx := x.Div(tw).ToInt()
+		ty := y.Div(th).ToInt()
+		nx := w.Div(tw).ToInt()
+		ny := h.Div(th).ToInt()
+		g.Occupy(&tileRect{tx, ty, nx, ny}, -1)
 	}
 }
 

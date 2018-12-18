@@ -77,13 +77,9 @@ func _ready():
 
 	self.deathToll = {"Blue":0, "Red":0}
 	self.lastDeadPosX = {"Blue":0, "Red":0}
-
 	map = $Resource/Map.get_resource(cfg.MapName).new(world)
-	for i in map.TileNumX():
-		occupied.append([])
-		for j in map.TileNumY():
-			occupied[i].append(0)
-			
+	initTiles()
+	createMapObstacles()
 	team_swapped = user.ShouldSwapTeam(cfg)
 	for p in cfg.Players:
 		var team = p.Team
@@ -92,7 +88,12 @@ func _ready():
 		var player = $Players.get_node(team)
 		player.Init(p, self)
 		players[p.Id] = player
-	CreateMapObstacles()
+
+func initTiles():
+	for i in map.TileNumX():
+		occupied.append([])
+		for j in map.TileNumY():
+			occupied[i].append(0)
 
 func FindPlayer(team):
 	for id in players:
@@ -153,20 +154,25 @@ func stop():
 func Step():
 	return step
 
-func CreateMapObstacles():
+func createMapObstacles():
 	for o in map.GetObstacles():
-		var width = world.ToPixel(map.AreaWidth(o))
-		var height = world.ToPixel(map.AreaHeight(o))
-		var x = world.ToPixel(map.AreaPosX(o))
-		var y = world.ToPixel(map.AreaPosY(o))
-		var b = world.AddBox(
-			scalar.FromInt(0),
-			world.FromPixel(width),
-			world.FromPixel(height),
-			world.FromPixel(x),
-			world.FromPixel(y)
-		)
+		var x = map.AreaPosX(o)
+		var y = map.AreaPosY(o)
+		var w = map.AreaWidth(o)
+		var h = map.AreaHeight(o)
+		var tw = map.TileWidth()
+		var th = map.TileHeight()
+
+		var b = world.AddBox(0, w, h, x, y)
 		b.SetLayer(data.Normal)
+
+		w = scalar.Mul(w, scalar.Two)
+		h = scalar.Mul(h, scalar.Two)
+		var tx = scalar.ToInt(scalar.Div(x, tw))
+		var ty = scalar.ToInt(scalar.Div(y, th))
+		var nx = scalar.ToInt(scalar.Div(w, tw))
+		var ny = scalar.ToInt(scalar.Div(h, th))
+		Occupy(NewTileRect(tx, ty, nx, ny), -1)
 
 func _process(delta):
 	elapsed += delta

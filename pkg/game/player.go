@@ -184,13 +184,10 @@ func (p *player) TileValid(tx, ty int, isSpell bool) bool {
 			tx = nx - tx
 			ty = ny - ty
 		}
-		if ty < ny/2-5 { // red area
+		if ty < ny/2-5 {
 			return false
 		}
-		if ty <= ny/2 && ty >= ny/2-1 { // obstacle area
-			return false
-		}
-		if ty < ny/2-1 { // conditional area
+		if ty <= ny/2 {
 			opponentSide := data.Left
 			if tx < nx/2 {
 				opponentSide = data.Right

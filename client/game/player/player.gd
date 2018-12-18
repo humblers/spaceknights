@@ -61,9 +61,7 @@ func TileValid(tx, ty, isSpell):
 			ty = ny - ty
 		if ty < ny/2-5:
 			return false
-		if ty <= ny/2 and ty >= ny/2-1:
-			return false
-		if ty < ny/2-1:
+		if ty <= ny/2:
 			var opponentSide = data.Left
 			if tx < nx/2:
 				opponentSide = data.Right
