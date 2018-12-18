@@ -9,6 +9,7 @@ const HAND_SIZE = 4
 const DRAW_INTERVAL = 30
 const KNIGHT_TILE_NUM_X = 4
 const KNIGHT_TILE_NUM_Y = 4
+const MAX_TILE_FIND_DISTANCE = 5
 const INITIAL_KNIGHT_POSITION_X = {
 	"Left": 200,
 	"Center": 500,
@@ -177,7 +178,7 @@ func Do(action):
 	if not TileRectValid(tr, isSpell):
 		return "invalid tile: %s" % tr
 	if not isSpell:
-		tr = FindUnoccupiedTileRect(tr, 0)
+		tr = FindUnoccupiedTileRect(tr, MAX_TILE_FIND_DISTANCE)
 		if tr == null:
 			return "cannot find unoccupied tile"
 		else:
@@ -197,24 +198,23 @@ func Do(action):
 	pending.append(card)
 	return null
 
-func FindUnoccupiedTileRect(tr, offset):
-	if offset > game.Map().TileNumY():
-		return null
-	var minX = tr.x - offset
-	var maxX = tr.x + offset
-	var minY = tr.y - offset
-	var maxY = tr.y + offset
-	for i in range(minX, maxX + 1):
-		for j in range(minY, maxY + 1):
-			if abs(i-tr.x) + abs(j-tr.y) != offset:
+func FindUnoccupiedTileRect(tr, maxDistance):
+	for d in maxDistance:
+		var minX = tr.x - d
+		var maxX = tr.x + d
+		var minY = tr.y - d
+		var maxY = tr.y + d
+		for i in range(minX, maxX + 1):
+			for j in range(minY, maxY + 1):
+				if abs(i-tr.x) + abs(j-tr.y) != d:
+						continue
+				var candidate = game.NewTileRect(i, j, tr.numX, tr.numY)
+				if not TileRectValid(candidate, false):
 					continue
-			var candidate = game.NewTileRect(i, j, tr.numX, tr.numY)
-			if not TileRectValid(candidate, false):
-				continue
-			if game.Occupied(candidate):
-				continue
-			return candidate
-	return FindUnoccupiedTileRect(tr, offset + 1)
+				if game.Occupied(candidate):
+					continue
+				return candidate
+	return null
 
 func findCard(from, name):
 	for i in len(from):

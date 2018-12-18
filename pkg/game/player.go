@@ -13,6 +13,7 @@ const handSize = 4
 const drawInterval = 30
 const knightTileNumX = 4
 const knightTileNumY = 4
+const maxTileFindDistance = 5
 
 var initialKnightPositionX = map[data.KnightSide]int{
 	"Left":   200,
@@ -252,7 +253,7 @@ func (p *player) Do(a *Action) error {
 		return fmt.Errorf("invalid tile: %v", tr)
 	}
 	if !isSpell {
-		tr := p.FindUnoccupiedTileRect(tr, 0)
+		tr := p.FindUnoccupiedTileRect(tr, maxTileFindDistance)
 		if tr == nil {
 			return fmt.Errorf("cannot find unoccupied tile")
 		} else {
@@ -279,38 +280,38 @@ func (p *player) Do(a *Action) error {
 	return nil
 }
 
-func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
-	if offset >= p.game.Map().TileNumY() {
-		return nil
-	}
-	minX := tr.x - offset
-	maxX := tr.x + offset
-	minY := tr.y - offset
-	maxY := tr.y + offset
-	for i := minX; i <= maxX; i++ {
-		for j := minY; j <= maxY; j++ {
-			ox := i - tr.x
-			oy := j - tr.y
-			if ox < 0 {
-				ox = -ox
+func (p *player) FindUnoccupiedTileRect(tr *tileRect, maxDistance int) *tileRect {
+	for d := 0; d < maxDistance; d++ {
+		minX := tr.x - d
+		maxX := tr.x + d
+		minY := tr.y - d
+		maxY := tr.y + d
+		for i := minX; i <= maxX; i++ {
+			for j := minY; j <= maxY; j++ {
+				dx := i - tr.x
+				dy := j - tr.y
+				// abs x and y
+				if dx < 0 {
+					dx = -dx
+				}
+				if dy < 0 {
+					dy = -dy
+				}
+				if dx+dy != d {
+					continue
+				}
+				candidate := &tileRect{i, j, tr.numX, tr.numY}
+				if !p.TileRectValid(candidate, false) {
+					continue
+				}
+				if p.game.Occupied(candidate) {
+					continue
+				}
+				return candidate
 			}
-			if oy < 0 {
-				oy = -oy
-			}
-			if ox+oy != offset {
-				continue
-			}
-			candidate := &tileRect{i, j, tr.numX, tr.numY}
-			if !p.TileRectValid(candidate, false) {
-				continue
-			}
-			if p.game.Occupied(candidate) {
-				continue
-			}
-			return candidate
 		}
 	}
-	return p.FindUnoccupiedTileRect(tr, offset+1)
+	return nil
 }
 
 func (p *player) findCard(from []*data.Card, name string) int {
