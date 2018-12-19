@@ -107,6 +107,15 @@ var Cards = map[string]Card{
 		OffsetY: []int{0, 0},
 		Rarity:  Common,
 	},
+	"archmage": Card{
+		Type:    SquireCard,
+		Cost:    5000,
+		Unit:    "archmage",
+		Count:   1,
+		OffsetX: []int{0},
+		OffsetY: []int{0},
+		Rarity:  Rare,
+	},
 	"archsapper": Card{
 		Type:   KnightCard,
 		Cost:   3000,
@@ -118,6 +127,15 @@ var Cards = map[string]Card{
 		Cost:   4000,
 		Unit:   "astra",
 		Rarity: Legendary,
+	},
+	"azero": Card{
+		Type:    SquireCard,
+		Cost:    3000,
+		Unit:    "azero",
+		Count:   1,
+		OffsetX: []int{0},
+		OffsetY: []int{0},
+		Rarity:  Legendary,
 	},
 	"berserker": Card{
 		Type:    SquireCard,
@@ -136,6 +154,12 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Common,
+	},
+	"buran": Card{
+		Type:   KnightCard,
+		Cost:   5000,
+		Unit:   "buran",
+		Rarity: Rare,
 	},
 	"champion": Card{
 		Type:    SquireCard,
@@ -224,6 +248,15 @@ var Cards = map[string]Card{
 		OffsetY: []int{0},
 		Rarity:  Rare,
 	},
+	"heavymissile": Card{
+		Type:    SquireCard,
+		Cost:    3000,
+		Unit:    "heavymissile",
+		Count:   3,
+		OffsetX: []int{-30, 30, 0},
+		OffsetY: []int{30, 30, 0},
+		Rarity:  Rare,
+	},
 	"ironcoffin": Card{
 		Type:   KnightCard,
 		Cost:   5000,
@@ -271,6 +304,15 @@ var Cards = map[string]Card{
 		Cost:   4000,
 		Unit:   "nagmash",
 		Rarity: Epic,
+	},
+	"nukemissile": Card{
+		Type:    SquireCard,
+		Cost:    5000,
+		Unit:    "nukemissile",
+		Count:   1,
+		OffsetX: []int{0},
+		OffsetY: []int{0},
+		Rarity:  Epic,
 	},
 	"ogre": Card{
 		Type:    SquireCard,
@@ -364,6 +406,15 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
+	},
+	"voidcreeper": Card{
+		Type:    SquireCard,
+		Cost:    5000,
+		Unit:    "voidcreeper",
+		Count:   1,
+		OffsetX: []int{0},
+		OffsetY: []int{0},
+		Rarity:  Epic,
 	},
 	"wasp": Card{
 		Type:    SquireCard,
