@@ -171,7 +171,7 @@ func (p *player) drawCard(index int) {
 	p.drawTimer = drawInterval
 }
 
-func (p *player) ClampToValidTile(tx, ty) (int, int) {
+func (p *player) ClampToValidTile(tx, ty int) (int, int) {
 	nx := p.game.Map().TileNumX()
 	ny := p.game.Map().TileNumY()
 	// flip
