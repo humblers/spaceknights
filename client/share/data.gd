@@ -7,7 +7,7 @@ const EnergyBoostAfter = 120 * StepPerSec
 
 const TileSizeInPixel = 50
 
-const LevelMax = 12
+const LevelMax = 13
 const StatMultiplier = 110
 
 const ShieldRegenPerStep = 2

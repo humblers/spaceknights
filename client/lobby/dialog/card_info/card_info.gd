@@ -42,6 +42,8 @@ func useButtonUp():
 	main_popup.hide()
 
 func isUpgradable():
+	if data.Upgrade.IsLevelMax(card.Rarity, card.Level):
+		return false
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
 	return card.Holding >= card_cost and user.Galacticoin >= coin_cost

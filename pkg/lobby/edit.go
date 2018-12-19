@@ -102,6 +102,10 @@ func (e *editRouter) cardUpgrade(b *bases, w http.ResponseWriter, r *http.Reques
 		resp.ErrMessage = "upgrade fail"
 		return
 	}
+	if data.Upgrade.IsLevelMax(card.Rarity, card.Level) {
+		resp.ErrMessage = "card level is max"
+		return
+	}
 	card.Holding -= data.Upgrade.CardCostNextLevel(card.Level)
 	if card.Holding < 0 {
 		resp.ErrMessage = "not enough card"

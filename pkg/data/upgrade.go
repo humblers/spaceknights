@@ -87,3 +87,10 @@ func (u upgrade) CoinCostToLevel(rarity CardRarity, from, to int) int {
 	}
 	return cost
 }
+
+func (u upgrade) IsLevelMax(rarity CardRarity, level int) bool {
+	if level+u.RelativeLvByRarity[rarity]+1 < LevelMax {
+		return false
+	}
+	return true
+}

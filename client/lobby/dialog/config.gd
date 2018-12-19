@@ -16,7 +16,7 @@ func PopUp():
 	self.popup()
 
 func hide_config():
-	config.visible = false
+	self.visible = false
 
 func modify_auth():
 	var to = auth_line_edit.text
