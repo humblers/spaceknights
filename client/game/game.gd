@@ -395,13 +395,13 @@ func TileRectMinX(tr):
 	return tr.x - tr.numX/2
 
 func TileRectMaxX(tr):
-	return tr.x + (tr.numX+1)/2
+	return tr.x + (tr.numX+1)/2 - 1
 
 func TileRectMinY(tr):
 	return tr.y - tr.numY/2
 
 func TileRectMaxY(tr):
-	return tr.y + (tr.numY+1)/2
+	return tr.y + (tr.numY+1)/2 - 1
 	
 static func intersect_tilerect(a, b):
 	if a.t > b.b:
