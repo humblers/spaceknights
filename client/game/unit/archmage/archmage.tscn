@@ -3,57 +3,59 @@
 [ext_resource path="res://game/unit/archmage/archmage.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/archmage/archmage.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/archmage/archmage_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=4]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=5]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=9]
-[ext_resource path="res://game/unit/archmage/attack.tres" type="Animation" id=10]
-[ext_resource path="res://game/unit/archmage/destroy.tres" type="Animation" id=11]
-[ext_resource path="res://game/unit/archmage/idle.tres" type="Animation" id=12]
-[ext_resource path="res://game/unit/archmage/move.tres" type="Animation" id=13]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=15]
-[ext_resource path="res://game/unit/starfire/starfire_atk.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=17]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=18]
-[ext_resource path="res://game/unit/archmage/orb.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=10]
+[ext_resource path="res://game/unit/archmage/attack.tres" type="Animation" id=11]
+[ext_resource path="res://game/unit/archmage/destroy.tres" type="Animation" id=12]
+[ext_resource path="res://game/unit/archmage/idle.tres" type="Animation" id=13]
+[ext_resource path="res://game/unit/archmage/move.tres" type="Animation" id=14]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/unit/starfire/starfire_atk.wav" type="AudioStream" id=17]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=18]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/unit/archmage/orb.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Curve" id=1]
 
-_data = [ Vector2( 0, 0.3504 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.5528 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
 
-colors = PoolColorArray( 0.00392157, 1, 0.439706, 1, 0.466667, 0.9125, 1, 0.582588 )
-
-[sub_resource type="Curve" id=3]
-
-_data = [ Vector2( 0, 0.5528 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=4]
-
 colors = PoolColorArray( 1, 1, 1, 1, 0.215686, 0, 1, 0.447529 )
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=3]
 
 offsets = PoolRealArray( 0.483696, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0.6875, 0, 1, 0 )
+
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=5]
+
+blend_mode = 1
 
 [sub_resource type="CanvasItemMaterial" id=6]
 
 blend_mode = 1
 
-[sub_resource type="CanvasItemMaterial" id=7]
-
-blend_mode = 1
-
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=7]
 
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 
 tracks/0/type = "value"
 tracks/0/path = NodePath("Main/Circle1:rotation_degrees")
@@ -305,49 +307,6 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
-[node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
-visible = false
-position = Vector2( 27, 18 )
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Body/BoosterR"]
-position = Vector2( 0, 13.0502 )
-emitting = false
-speed_scale = 2.0
-texture = ExtResource( 4 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector2( 0, 30 )
-scale_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterR/CPUParticles2D"]
-material = ExtResource( 5 )
-position = Vector2( 0, 3.4276 )
-scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 4 )
-
-[node name="BoosterL" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
-visible = false
-position = Vector2( -27, 18 )
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Body/BoosterL"]
-position = Vector2( 0, 13.0502 )
-emitting = false
-speed_scale = 2.0
-texture = ExtResource( 4 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector2( 0, 30 )
-scale_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL/CPUParticles2D"]
-material = ExtResource( 5 )
-position = Vector2( 0, 3.4276 )
-scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 4 )
-
 [node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
 editor/display_folded = true
 visible = false
@@ -360,7 +319,7 @@ modulate = Color( 1, 1, 1, 0 )
 scale = 1.2
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, -30 )
@@ -369,14 +328,14 @@ angular_velocity_random = 1.0
 radial_accel = 10.0
 radial_accel_random = 1.0
 scale = 1.2
-scale_curve = SubResource( 3 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Shotpoint"]
 modulate = Color( 0.478431, 0.352941, 1, 1 )
 material = ExtResource( 5 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Body/Shotpoint"]
 scale = 1.5
@@ -393,7 +352,47 @@ angular_velocity_random = 1.0
 radial_accel = 90.0
 radial_accel_random = 1.0
 scale = 1.5
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[node name="BoosterL" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
+visible = false
+position = Vector2( -27, 23 )
+scale = Vector2( 1.3, 1.2 )
+
+[node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/BoosterL"]
+modulate = Color( 0.160784, 1, 0.647059, 1 )
+material = ExtResource( 5 )
+scale = Vector2( 0.6, 0.8 )
+frames = SubResource( 4 )
+speed_scale = 2.0
+playing = true
+offset = Vector2( 0, 20 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL"]
+material = ExtResource( 5 )
+scale = Vector2( 0.3, 0.8 )
+texture = ExtResource( 6 )
+
+[node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
+visible = false
+position = Vector2( 27, 23 )
+scale = Vector2( 1.3, 1.2 )
+
+[node name="Thrust2" type="AnimatedSprite" parent="Rotatable/Body/BoosterR"]
+modulate = Color( 0.160784, 1, 0.647059, 1 )
+material = ExtResource( 5 )
+scale = Vector2( 0.6, 0.8 )
+frames = SubResource( 4 )
+speed_scale = 2.0
+playing = true
+offset = Vector2( 0, 20 )
+
+[node name="Sprite2" type="Sprite" parent="Rotatable/Body/BoosterR"]
+material = ExtResource( 5 )
+scale = Vector2( 0.3, 0.8 )
+texture = ExtResource( 6 )
 
 [node name="Explosion" type="Node2D" parent="."]
 editor/display_folded = true
@@ -405,34 +404,34 @@ scale = Vector2( 2, 2 )
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Exp2" type="Sprite" parent="Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 6 )
+material = SubResource( 5 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = SubResource( 7 )
+material = SubResource( 6 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Circle2" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 flip_h = true
 flip_v = true
 
@@ -447,36 +446,36 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale = 1.5
-scale_curve = SubResource( 8 )
+scale_curve = SubResource( 7 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Explosion"]
-anims/explosion = SubResource( 9 )
+anims/explosion = SubResource( 8 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 10 )
-anims/destroy = ExtResource( 11 )
-anims/idle = ExtResource( 12 )
-anims/move = ExtResource( 13 )
+anims/attack = ExtResource( 11 )
+anims/destroy = ExtResource( 12 )
+anims/idle = ExtResource( 13 )
+anims/move = ExtResource( 14 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 14 )]
+[node name="HitEffect" parent="." instance=ExtResource( 15 )]
 circle_radius = 42.0
 
-[node name="Hp" parent="." instance=ExtResource( 15 )]
+[node name="Hp" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0, -65 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 16 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 17 )
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 18 )
 
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 19 )
+
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "orb" ), [ ExtResource( 19 ) ] ]
+resources = [ PoolStringArray( "orb" ), [ ExtResource( 20 ) ] ]
 
