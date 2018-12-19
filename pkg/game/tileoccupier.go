@@ -10,7 +10,7 @@ func (tr *tileRect) minX() int {
 }
 
 func (tr *tileRect) maxX() int {
-	return tr.x + (tr.numX+1)/2
+	return tr.x + (tr.numX+1)/2 - 1
 }
 
 func (tr *tileRect) minY() int {
@@ -18,5 +18,5 @@ func (tr *tileRect) minY() int {
 }
 
 func (tr *tileRect) maxY() int {
-	return tr.y + (tr.numY+1)/2
+	return tr.y + (tr.numY+1)/2 - 1
 }

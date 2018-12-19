@@ -106,23 +106,23 @@ func FindPlayer(team):
 	assert(false)
 
 func Occupied(tr):
-	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
-		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr) + 1):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr) + 1):
 			if occupied[i][j] != 0:
 				return true
 	return false
 
 func Occupy(tr, ownerId):
-	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
-		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr) + 1):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr) + 1):
 			assert(occupied[i][j] == 0)
 			occupied[i][j] = ownerId
 
 func Release(tr, ownerId):
 	if tr == null:
 		return
-	for i in range(TileRectMinX(tr), TileRectMaxX(tr)):
-		for j in range(TileRectMinY(tr), TileRectMaxY(tr)):
+	for i in range(TileRectMinX(tr), TileRectMaxX(tr) + 1):
+		for j in range(TileRectMinY(tr), TileRectMaxY(tr) + 1):
 			assert(occupied[i][j] == ownerId)
 			occupied[i][j] = 0
 	

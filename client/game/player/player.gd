@@ -51,57 +51,57 @@ func Init(playerData, game):
 	applyLeaderSkill()
 
 func ClampToValidTile(tx, ty):
-	var nx = game.Map().TileNumX()
-	var ny = game.Map().TileNumY()
+	var maxX = game.Map().TileNumX() - 1
+	var maxY = game.Map().TileNumY() - 1
 	# flip
 	if team == "Red":
-		tx = nx - tx
-		ty = ny - ty
+		tx = maxX - tx
+		ty = maxY - ty
 	
 	# min x
 	if tx < 0:
 		tx = 0
 	
 	# max x
-	if tx > nx-1:
-		tx = nx-1
+	if tx > maxX:
+		tx = maxX
 	
 	# max y
-	if ty > ny-1:
-		ty = ny-1
+	if ty > maxY:
+		ty = maxY
 	
 	# min y
-	if ty < ny/2-5:
-		ty = ny/2-5
-	if ty < ny/2+1:
+	if ty < maxY/2 - 4:
+		ty = maxY/2 - 4
+	if ty < maxY/2 + 2:
 		var opponentSide = data.Left
-		if tx < nx/2:
+		if tx < maxX/2:
 			opponentSide = data.Right
 		if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
-			ty = ny/2+1
+			ty = maxY/2 + 2
 	
 	# flip
 	if team == "Red":
-		tx = nx - tx
-		ty = ny - ty
+		tx = maxX - tx
+		ty = maxY - ty
 	return [tx, ty]
 
 func TileValid(tx, ty, isSpell):
-	var nx = game.Map().TileNumX()
-	var ny = game.Map().TileNumY()
+	var maxX = game.Map().TileNumX() - 1
+	var maxY = game.Map().TileNumY() - 1
 	if team == "Red":
-		tx = nx - tx
-		ty = ny - ty
-	if tx < 0 or tx >= nx:
+		tx = maxX - tx
+		ty = maxY - ty
+	if tx < 0 or tx > maxX:
 		return false
-	if ty < 0 or ty >= ny:
+	if ty < 0 or ty > maxY:
 		return false
 	if not isSpell:
-		if ty < ny/2-5:
+		if ty < maxY/2-4:
 			return false
-		if ty < ny/2+1:
+		if ty < maxY/2+2:
 			var opponentSide = data.Left
-			if tx < nx/2:
+			if tx < maxX/2:
 				opponentSide = data.Right
 			if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
 				return false
@@ -111,8 +111,8 @@ func KnightDead(side):
 	return knightIds[side] == 0
 
 func TileRectValid(tr, isSpell):
-	for i in range(game.TileRectMinX(tr), game.TileRectMaxX(tr)):
-		for j in range(game.TileRectMinY(tr), game.TileRectMaxY(tr)):
+	for i in range(game.TileRectMinX(tr), game.TileRectMaxX(tr) + 1):
+		for j in range(game.TileRectMinY(tr), game.TileRectMaxY(tr) + 1):
 			if not TileValid(i, j, isSpell):
 				return false
 	return true

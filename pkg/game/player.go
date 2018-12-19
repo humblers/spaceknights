@@ -172,72 +172,72 @@ func (p *player) drawCard(index int) {
 }
 
 func (p *player) ClampToValidTile(tx, ty int) (int, int) {
-	nx := p.game.Map().TileNumX()
-	ny := p.game.Map().TileNumY()
+	maxX := p.game.Map().TileNumX() - 1
+	maxY := p.game.Map().TileNumY() - 1
 	// flip
 	if p.team == Red {
-		tx = nx - tx
-		ty = ny - ty
+		tx = maxX - tx
+		ty = maxY - ty
 	}
 
 	// min x
 	if tx < 0 {
-		tx = -tx
+		tx = 0
 	}
 
 	// max x
-	if tx > nx-1 {
-		tx = nx - 1
+	if tx > maxX {
+		tx = maxX
 	}
 
 	// max y
-	if ty > ny-1 {
-		ty = ny - 1
+	if ty > maxY {
+		ty = maxY
 	}
 
 	// min y
-	if ty < ny/2-5 {
-		ty = ny/2 - 5
+	if ty < maxY/2-4 {
+		ty = maxY/2 - 4
 	}
-	if ty < ny/2+1 {
+	if ty < maxY/2+2 {
 		opponentSide := data.Left
-		if tx < nx/2 {
+		if tx < maxX/2 {
 			opponentSide = data.Right
 		}
 		if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
-			ty = ny/2 + 1
+			ty = maxY/2 + 2
 		}
 	}
 
 	// flip
 	if p.team == Red {
-		tx = nx - tx
-		ty = ny - ty
+		tx = maxX - tx
+		ty = maxY - ty
 	}
 	return tx, ty
 }
 
 func (p *player) TileValid(tx, ty int, isSpell bool) bool {
-	nx := p.game.Map().TileNumX()
-	ny := p.game.Map().TileNumY()
+	maxX := p.game.Map().TileNumX() - 1
+	maxY := p.game.Map().TileNumY() - 1
 	// flip
 	if p.team == Red {
-		tx = nx - tx
-		ty = ny - ty
+		tx = maxX - tx
+		ty = maxY - ty
 	}
-	if tx < 0 || tx >= nx {
+	if tx < 0 || tx > maxX {
 		return false
 	}
-	if ty < 0 || ty <= ny {
+	if ty < 0 || ty > maxY {
 		return false
 	}
 	if !isSpell {
-		if ty < ny/2-5 {
+		if ty < maxY/2-4 {
 			return false
 		}
-		if ty < ny/2+1 {
+		if ty < maxY/2+2 {
 			opponentSide := data.Left
-			if tx < nx/2 {
+			if tx < maxX/2 {
 				opponentSide = data.Right
 			}
 			if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
@@ -253,8 +253,8 @@ func (p *player) KnightDead(side data.KnightSide) bool {
 }
 
 func (p *player) TileRectValid(tr *tileRect, isSpell bool) bool {
-	for i := tr.minX(); i < tr.maxX(); i++ {
-		for j := tr.minY(); j < tr.maxY(); j++ {
+	for i := tr.minX(); i <= tr.maxX(); i++ {
+		for j := tr.minY(); j <= tr.maxY(); j++ {
 			if !p.TileValid(i, j, isSpell) {
 				return false
 			}

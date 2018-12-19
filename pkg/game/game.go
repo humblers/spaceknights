@@ -103,8 +103,8 @@ func (g *game) FindPlayer(team Team) Player {
 }
 
 func (g *game) Occupied(tr *tileRect) bool {
-	for i := tr.minX(); i < tr.maxX(); i++ {
-		for j := tr.minY(); j < tr.maxY(); j++ {
+	for i := tr.minX(); i <= tr.maxX(); i++ {
+		for j := tr.minY(); j <= tr.maxY(); j++ {
 			if g.occupied[i][j] != 0 {
 				return true
 			}
@@ -114,8 +114,8 @@ func (g *game) Occupied(tr *tileRect) bool {
 }
 
 func (g *game) Occupy(tr *tileRect, ownerId int) {
-	for i := tr.minX(); i < tr.maxX(); i++ {
-		for j := tr.minY(); j < tr.maxY(); j++ {
+	for i := tr.minX(); i <= tr.maxX(); i++ {
+		for j := tr.minY(); j <= tr.maxY(); j++ {
 			if g.occupied[i][j] != 0 {
 				panic("already occupied")
 			}
@@ -128,8 +128,8 @@ func (g *game) Release(tr *tileRect, ownerId int) {
 	if tr == nil {
 		return
 	}
-	for i := tr.minX(); i < tr.maxX(); i++ {
-		for j := tr.minY(); j < tr.maxY(); j++ {
+	for i := tr.minX(); i <= tr.maxX(); i++ {
+		for j := tr.minY(); j <= tr.maxY(); j++ {
 			if g.occupied[i][j] != ownerId {
 				panic("owner not match")
 			}
