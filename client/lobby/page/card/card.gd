@@ -66,7 +66,7 @@ func calc_scroll_threshold():
 	var scrollable_height = bottom_left.rect_global_position.y - scrollable.rect_global_position.y
 	scroll_min_y = page_height - scrollable_height - lobby.hud.bot.rect_size.y
 
-func invalidate():
+func Invalidate():
 	var cur_mode = current_mode()
 	var selected = user.DeckSelected
 	deck_label.text = "%d" % (selected + 1)
@@ -141,7 +141,7 @@ func button_up_deck_num(btn):
 		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
 	user.DeckSelected = pressed_num
-	lobby.invalidate()
+	lobby.Invalidate()
 
 func button_up_deck_item(btn):
 	if current_mode() == MODE_NORMAL:
@@ -149,7 +149,7 @@ func button_up_deck_item(btn):
 
 	var params = {
 		"num": user.DeckSelected,
-		"deck" : {"Knights": [], "Troops": []},
+		"deck" : [],
 	}
 	for i in range(user.SQUIRE_COUNT):
 		var squire_btn = get("squire_%d" % i)
@@ -193,7 +193,7 @@ func button_up_deck_item(btn):
 	pressed_card = null
 	user.DeckSlots[params.num] = params.deck
 	picked.rect_global_position = origin
-	lobby.invalidate()
+	lobby.Invalidate()
 	if picked_type == data.SquireCard:
 		scrollable.rect_position.y = -knights_control.rect_size.y
 
@@ -202,15 +202,17 @@ func set_pressed_card(btn):
 		return
 	if pressed_card == btn.card:
 		pressed_card = null
-		invalidate()
+		Invalidate()
 		return
 	pressed_card = btn.card
 	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
 	change_filter(pressed_card.Type)
 
-func set_picked_card():
+func set_picked_card(card):
+	if card != null:
+		pressed_card = card
 	picked_card = pressed_card
-	invalidate()
+	Invalidate()
 
 func change_filter(filter):
 	if self.filter != filter:
@@ -223,7 +225,7 @@ func change_filter(filter):
 			not user.CardInDeck(pressed_card.Name) and \
 			filter != pressed_card.Type:
 		pressed_card = null
-	invalidate()
+	Invalidate()
 
 func go_to_tutor_mode():
 	var params = config.GAME.duplicate(true)

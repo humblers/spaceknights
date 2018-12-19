@@ -38,7 +38,7 @@ func _ready():
 	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
 
 func useButtonUp():
-	hud.lobby.page_card.set_picked_card(card.Name)
+	hud.lobby.page_card.set_picked_card(card)
 	main_popup.hide()
 
 func isUpgradable():

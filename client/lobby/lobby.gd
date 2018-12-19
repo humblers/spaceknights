@@ -64,4 +64,4 @@ func login():
 func Invalidate():
 	hud.invalidate()
 	page_battle.invalidate()
-	page_card.invalidate()
+	page_card.Invalidate()
