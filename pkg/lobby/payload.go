@@ -40,3 +40,13 @@ type DeckSetRequest struct {
 	Num  int
 	Deck deck
 }
+
+type CardUpgradeRequest struct {
+	Name string
+}
+
+type CardUpradeResponse struct {
+	ErrMessage  string
+	Card        card
+	Galacticoin int
+}

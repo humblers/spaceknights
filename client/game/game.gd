@@ -72,6 +72,9 @@ func _ready():
 	randomize()
 	if connected:
 		tcp.connect("disconnected", self, "request_stop")
+	else:
+		data.Upgrade = $Resource/Upgrade.get_resource("upgrade").new()
+		data.Initialize()
 	set_process(true)
 	set_physics_process(true)
 

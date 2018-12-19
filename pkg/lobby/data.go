@@ -57,9 +57,5 @@ func (d *dataRouter) units(b *bases, w http.ResponseWriter, r *http.Request) {
 }
 
 func (d *dataRouter) upgrade(b *bases, w http.ResponseWriter, r *http.Request) {
-	bytes, err := json.Marshal(data.Upgrade)
-	if err != nil {
-		panic(fmt.Errorf("Data encode fail: %v", err))
-	}
-	b.response = &DataResponse{Data: string(bytes)}
+	b.response = &DataResponse{Data: data.Upgrade.String()}
 }

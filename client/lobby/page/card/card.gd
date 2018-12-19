@@ -77,14 +77,16 @@ func invalidate():
 	var i = 0
 	for card in user.DeckSlots[selected]:
 		card = data.NewCard(card)
+		card.Level = user.Cards[card.Name].Level
+		card.Holding = user.Cards[card.Name].Holding
 		var name = card.Name
 		not_found_cards.erase(name)
 		found_cards.erase(name)
 		match card.Type:
 			data.KnightCard:
-				get("knight_%s" % card.Side.to_lower()).invalidate(name)
+				get("knight_%s" % card.Side.to_lower()).Invalidate(card)
 			data.SquireCard:
-				get("squire_%d" % i).invalidate(name)
+				get("squire_%d" % i).Invalidate(card)
 				i += 1
 	for child in container_founds.get_children():
 		child.queue_free()
@@ -96,7 +98,9 @@ func invalidate():
 		var item = resource_preloader.get_resource("item").instance()
 		item.page_card = get_path()
 		container_founds.add_child(item)
-		item.invalidate(name)
+		var c = user.Cards[name].duplicate(true)
+		c.Name = name
+		item.Invalidate(data.NewCard(c))
 	for child in container_notfounds.get_children():
 		child.queue_free()
 	for i in range(not_found_cards.size()):
@@ -106,9 +110,9 @@ func invalidate():
 		var item = resource_preloader.get_resource("item").instance()
 		item.page_card = get_path()
 		container_notfounds.add_child(item)
-		item.invalidate(name)
-	pressed.invalidate(pressed_card)
-	picked.invalidate(picked_card)
+		item.Invalidate(data.NewCard({"Name": name, "Level": -1}))
+	pressed.Invalidate(pressed_card)
+	picked.Invalidate(picked_card)
 
 	var is_edit = cur_mode in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]
 	if is_edit:
@@ -120,9 +124,9 @@ func invalidate():
 	squires_control.visible = not cur_mode == MODE_EDIT_KNIGHT
 
 func current_mode():
-	if not data.cards.has(picked_card):
+	if picked_card == null:
 		return MODE_NORMAL
-	var type = data.units[data.cards[picked_card].Unit].type
+	var type = data.units[picked_card.Unit].type
 	if type == data.Knight:
 		return MODE_EDIT_KNIGHT
 	elif type == data.Squire:
@@ -147,12 +151,15 @@ func button_up_deck_item(btn):
 		"num": user.DeckSelected,
 		"deck" : {"Knights": [], "Troops": []},
 	}
-	for side in user.KNIGHT_SIDES:
-		var knight_btn = get("knight_%s" % side)
-		params.deck.Knights.append(picked_card if knight_btn.name_ == btn.name_ else knight_btn.name_)
 	for i in range(user.SQUIRE_COUNT):
 		var squire_btn = get("squire_%d" % i)
-		params.deck.Troops.append(picked_card if squire_btn.name_ == btn.name_ else squire_btn.name_)
+		params.deck.append(picked_card if squire_btn == btn else squire_btn.card)
+	for side in [data.Center, data.Left, data.Right]:
+		var knight_btn = get("knight_%s" % side.to_lower())
+		var c = picked_card if btn == knight_btn else knight_btn.card
+		c = c.duplicate(true)
+		c.Side = side
+		params.deck.append(c)
 	var request = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/edit/deck/set", params)
 
 	var origin = picked.rect_global_position
@@ -181,7 +188,7 @@ func button_up_deck_item(btn):
 	if not response[0]:
 		lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
-	var picked_type = data.cards[picked_card].Type
+	var picked_type = picked_card.Type
 	picked_card = null
 	pressed_card = null
 	user.DeckSlots[params.num] = params.deck
@@ -193,15 +200,15 @@ func button_up_deck_item(btn):
 func set_pressed_card(btn):
 	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]:
 		return
-	if pressed_card == btn.name_:
+	if pressed_card == btn.card:
 		pressed_card = null
 		invalidate()
 		return
-	pressed_card = btn.name_
+	pressed_card = btn.card
 	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
-	change_filter(data.cards[pressed_card].Type)
+	change_filter(pressed_card.Type)
 
-func set_picked_card(btn):
+func set_picked_card():
 	picked_card = pressed_card
 	invalidate()
 
@@ -213,8 +220,8 @@ func change_filter(filter):
 		filter_squire.modulate = temp_color
 	self.filter = filter
 	if pressed_card != null and \
-			not user.CardInDeck(pressed_card) and \
-			filter != data.cards[pressed_card].Type:
+			not user.CardInDeck(pressed_card.Name) and \
+			filter != pressed_card.Type:
 		pressed_card = null
 	invalidate()
 

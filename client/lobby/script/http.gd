@@ -4,7 +4,6 @@ const CONNECTION_TIMEOUT = 5000
 const CONNECTION_POLLING_DELAY = 500
 
 export(NodePath) onready var lobby = get_node(lobby)
-export(NodePath) onready var script_resources = get_node(script_resources)
 
 # HTTPClient
 # http://docs.godotengine.org/en/3.0/tutorials/networking/http_client_class.html
@@ -91,7 +90,7 @@ func connect_to_host(host, port):
 	return OK
 
 func new_request(method, path, params={}, use_cookie=true):
-	var req = script_resources.get_resource("request")
+	var req = lobby.resource_manager.scripts.get_resource("request")
 	req = req.new(method, path, to_json(params), use_cookie)
 	req_queue.push_back(req)
 	return req

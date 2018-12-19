@@ -7,6 +7,9 @@ const EnergyBoostAfter = 120 * StepPerSec
 
 const TileSizeInPixel = 50
 
+const LevelMax = 12
+const StatMultiplier = 110
+
 const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
 const SlowPercent = 50
@@ -470,7 +473,7 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Bullet,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [70, 60, 90],
+		"attackdamage":   [70],
 		"attackrange":    250,
 		"attackinterval": 12,
 		"preattackdelay": 0,
@@ -1312,14 +1315,14 @@ var units = {
 		"mass":           30,
 		"radius":         35,
 		"hp":             [300],
-		"shield":         600,
+		"shield":         [600],
 		"sight":          250,
 		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"attacktype":    Missile,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [100, 450, 600],
+		"attackdamage":   [100],
 		"attackrange":    175,
 		"damageradius":   75,
 		"attackinterval": 20,
@@ -1338,7 +1341,7 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Bullet,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [180, 60, 90],
+		"attackdamage":   [180],
 		"attackrange":    300,
 		"attackinterval": 11,
 		"preattackdelay": 0,
@@ -1387,7 +1390,7 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Melee,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [48, 70, 100],
+		"attackdamage":   [48],
 		"attackrange":    40,
 		"attackinterval": 12,
 		"preattackdelay": 5,
@@ -1404,7 +1407,7 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Melee,
 		"damagetype":    AntiShield,
-		"attackdamage":   [75, 70, 100],
+		"attackdamage":   [75],
 		"attackrange":    40,
 		"attackinterval": 15,
 		"preattackdelay": 5,
@@ -1422,7 +1425,7 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Melee,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [600, 60, 90],
+		"attackdamage":   [600],
 		"attackrange":    75,
 		"attackinterval": 30,
 		"preattackdelay": 7,
@@ -1431,4 +1434,33 @@ var units = {
 	},
 }
 
-var upgrade
+var Upgrade
+
+func Initialize():
+	for k in units:
+		fillStatByLevel(k, units[k])
+
+const levelMultipier = 110
+
+func fillStatByLevel(key, value):
+	match typeof(value):
+		TYPE_DICTIONARY:
+			for k in value:
+				var arr = fillStatByLevel(k, value[k])
+				if arr != null:
+					value[k] = arr
+			return null
+		TYPE_ARRAY:
+			match key:
+				"hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+					value.resize(1)
+					var baseValue = value[0]
+					var multiplier = StatMultiplier
+					for i in range(LevelMax):
+						value.append(baseValue * multiplier / 100)
+						multiplier = multiplier * StatMultiplier / 100
+					return value
+				_:
+					return null
+		_:
+			return null

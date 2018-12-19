@@ -121,7 +121,8 @@ func make_decision_for_use_card(card, level):
 			if lcost > rcost:
 				x -= 1
 			var y = map_tile_num_y / 2 / 2
-			cur_analyzed_data[card] = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
+			var tr = game.NewTileRect(x, y, tw, th)
+			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, 0)
 			return true
 		"ironcoffin", "pixieking", "tombstone":
 			if opposite.top_left.cost + opposite.top_right.cost > tutor_data.SPAWN_TYPE_BUILDING_DECISION_COST:
@@ -133,7 +134,8 @@ func make_decision_for_use_card(card, level):
 			x = randi() % (map_tile_num_x / 2 - x)
 			x = x if randf() > 0.5 else map_tile_num_x - 1 - x
 			var y = th / 2
-			cur_analyzed_data[card] = avoid_occupied_tiles(x, y, tw, th, 0, map_tile_num_y / 2 - 1)
+			var tr = game.NewTileRect(x, y, tw, th)
+			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, 0)
 			return true
 		"judge", "legion":
 			if opposite.total_cost <= cost:
@@ -326,7 +328,8 @@ func find_out_where_to_use_squire(card):
 		y = tile[1]
 	if x == null or y == null:
 		return [null, null]
-	return avoid_occupied_tiles(x, y, 1, 1, 0, map_tile_num_y / 2 - 1)
+	var tr = game.NewTileRect(x, y, 1, 1)
+	return FindUnoccupiedTileRect(tr, 0)
 
 func calc_distance(from, dest, r, dist = 0):
 	var corner = game.Map().FindNextCornerInPath(
@@ -339,38 +342,6 @@ func calc_distance(from, dest, r, dist = 0):
 	if corner[0] == dest[0] and corner[1] == dest[1]:
 		return scalar.Sqrt(dist)
 	return calc_distance(corner, dest, r, dist)
-
-func avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter=0):
-	var shifted = []
-	# left
-	if x-w/2-counter >= 0:
-		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2-counter, "r":x+w/2-counter})
-	# right
-	if x+w/2+counter <= game.Map().TileNumX() - 1:
-		shifted.append({"t":y-h/2, "b":y+h/2, "l":x-w/2+counter, "r":x+w/2+counter})
-	# bottom
-	if y+h/2+counter <= maxBot:
-		shifted.append({"t":y-h/2+counter, "b":y+h/2+counter, "l":x-w/2, "r":x+w/2})
-	# top
-	if y-h/2-counter >= minTop:
-		shifted.append({"t":y-h/2-counter, "b":y+h/2-counter, "l":x-w/2, "r":x+w/2})
-	var candidates = []
-	for tr in shifted:
-		if tr.t < minTop || tr.b > maxBot || tr.l < 0 || tr.r > game.Map().TileNumX() - 1:
-			continue
-		candidates.append(tr)
-	if len(candidates) == 0:
-		return [null, null]
-	for tr in candidates:
-		var intersect = false
-		for occupied in game.OccupiedTiles().keys():
-			if game.intersect_tilerect(occupied, tr):
-				intersect = true
-				break
-		if not intersect:
-			return [(tr.l + tr.r) / 2, (tr.t + tr.b) / 2]
-	counter += 1
-	return avoid_occupied_tiles(x, y, w, h, minTop, maxBot, counter)
 
 func box_vs_circle_in_pixel(rect_center, rect_size, circle_center, circle_rad):
 	var relPos = circle_center - rect_center

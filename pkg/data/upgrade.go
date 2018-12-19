@@ -1,10 +1,17 @@
 package data
 
-var Upgrade = struct {
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type upgrade struct {
 	RelativeLvByRarity map[CardRarity]int
 	CardCost           []int
-	GoldCost           []int
-}{
+	CoinCost           []int
+}
+
+var Upgrade = upgrade{
 	RelativeLvByRarity: map[CardRarity]int{
 		Common:    0,
 		Rare:      2,
@@ -26,7 +33,7 @@ var Upgrade = struct {
 		2000,
 		5000,
 	},
-	GoldCost: []int{
+	CoinCost: []int{
 		5,
 		20,
 		50,
@@ -42,28 +49,41 @@ var Upgrade = struct {
 	},
 }
 
-func CardCostNextLevel(level int) int {
-	return Upgrade.CardCost[level]
+var upgrade_str string
+
+func (u upgrade) String() string {
+	if upgrade_str == "" {
+		b, err := json.Marshal(u)
+		if err != nil {
+			panic(fmt.Errorf("can't marshaling upgrade data: %v", err))
+		}
+		upgrade_str = string(b)
+	}
+	return upgrade_str
 }
 
-func CardCostToLevel(from, to int) int {
+func (u upgrade) CardCostNextLevel(level int) int {
+	return u.CardCost[level]
+}
+
+func (u upgrade) CardCostToLevel(from, to int) int {
 	cost := 0
 	for i := from; i < to; i++ {
-		cost += Upgrade.CardCost[i]
+		cost += u.CardCost[i]
 	}
 	return cost
 }
 
-func GoldCostNextLevel(name string, level int) int {
-	relLv := Upgrade.RelativeLvByRarity[Cards[name].Rarity]
-	return Upgrade.GoldCost[level+relLv]
+func (u upgrade) CoinCostNextLevel(rarity CardRarity, level int) int {
+	relLv := u.RelativeLvByRarity[rarity]
+	return u.CoinCost[level+relLv]
 }
 
-func GoldCostToLevel(name string, from, to int) int {
+func (u upgrade) CoinCostToLevel(rarity CardRarity, from, to int) int {
 	cost := 0
-	relLv := Upgrade.RelativeLvByRarity[Cards[name].Rarity]
+	relLv := u.RelativeLvByRarity[rarity]
 	for i := from + relLv; i < to+relLv; i++ {
-		cost += Upgrade.GoldCost[i]
+		cost += u.CoinCost[i]
 	}
 	return cost
 }

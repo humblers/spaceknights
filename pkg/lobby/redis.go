@@ -72,13 +72,15 @@ func newUser() *user {
 	if initialCards == nil {
 		initialCards = make(map[string]card, len(data.Cards))
 		for k, _ := range data.Cards {
-			initialCards[k] = card{Holding: data.CardCostToLevel(0, 4)}
+			initialCards[k] = card{Holding: data.Upgrade.CardCostToLevel(0, 4)}
 		}
 	}
+	coin := data.Upgrade.CoinCostToLevel(data.Legendary, 0, 4) * 9
 
 	return &user{
-		Galacticoin: 1000,
-		Dimensium:   100,
+		//		Galacticoin: data.InitialGalacticoin,
+		Galacticoin: coin,
+		Dimensium:   data.InitialDimensium,
 		Cards:       initialCards,
 		DeckSlots:   initialDeckSlots[0:],
 		Solo:        rank{},

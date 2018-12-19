@@ -12,6 +12,9 @@ const InitialGalacticoin = 100
 
 const DeckSlotSize = 5
 
+const LevelMax = 13
+const StatMultiplier = 110
+
 var InitialDeck = []Card{
 	Card{Name: "archers"},
 	Card{Name: "giant"},
