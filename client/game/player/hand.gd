@@ -183,11 +183,12 @@ func set_cursor_pos(x, y):
 	var tile = game.TileFromPos(x, y)
 	var isSpell = data.CardIsSpell(card)
 	if not isSpell:
+		tile = player.ClampToValidTile(tile[0], tile[1])
 		var num = data.CardTileNum(card)
 		var nx = num[0]
 		var ny = num[1]
 		var tr = game.NewTileRect(tile[0], tile[1], nx, ny)
-		tr = player.FindUnoccupiedTileRect(tr, 0)
+		tr = player.FindUnoccupiedTileRect(tr, 5)
 		if tr == null:
 			print("cannot find unoccupied tile")
 			return

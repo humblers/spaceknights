@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/humblers/spaceknights/pkg/data"
-	"github.com/humblers/spaceknights/pkg/nav"
 )
 
 const maxEnergy = 10000
@@ -14,6 +13,7 @@ const handSize = 4
 const drawInterval = 30
 const knightTileNumX = 4
 const knightTileNumY = 4
+const maxTileFindDistance = 5
 
 var initialKnightPositionX = map[data.KnightSide]int{
 	"Left":   200,
@@ -171,9 +171,60 @@ func (p *player) drawCard(index int) {
 	p.drawTimer = drawInterval
 }
 
+func (p *player) ClampToValidTile(tx, ty) (int, int) {
+	nx := p.game.Map().TileNumX()
+	ny := p.game.Map().TileNumY()
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
+
+	// min x
+	if tx < 0 {
+		tx = -tx
+	}
+
+	// max x
+	if tx > nx-1 {
+		tx = nx - 1
+	}
+
+	// max y
+	if ty > ny-1 {
+		ty = ny - 1
+	}
+
+	// min y
+	if ty < ny/2-5 {
+		ty = ny/2 - 5
+	}
+	if ty < ny/2+1 {
+		opponentSide := data.Left
+		if tx < nx/2 {
+			opponentSide = data.Right
+		}
+		if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
+			ty = ny/2 + 1
+		}
+	}
+
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
+	return tx, ty
+}
+
 func (p *player) TileValid(tx, ty int, isSpell bool) bool {
-	nx := nav.TileNumX
-	ny := nav.TileNumY
+	nx := p.game.Map().TileNumX()
+	ny := p.game.Map().TileNumY()
+	// flip
+	if p.team == Red {
+		tx = nx - tx
+		ty = ny - ty
+	}
 	if tx < 0 || tx >= nx {
 		return false
 	}
@@ -181,18 +232,10 @@ func (p *player) TileValid(tx, ty int, isSpell bool) bool {
 		return false
 	}
 	if !isSpell {
-		if p.team == Red {
-			// flip
-			tx = nx - tx
-			ty = ny - ty
-		}
-		if ty < ny/2-5 { // red area
+		if ty < ny/2-5 {
 			return false
 		}
-		if ty <= ny/2 && ty >= ny/2-1 { // obstacle area
-			return false
-		}
-		if ty < ny/2-1 { // conditional area
+		if ty < ny/2+1 {
 			opponentSide := data.Left
 			if tx < nx/2 {
 				opponentSide = data.Right
@@ -257,7 +300,7 @@ func (p *player) Do(a *Action) error {
 		return fmt.Errorf("invalid tile: %v", tr)
 	}
 	if !isSpell {
-		tr := p.FindUnoccupiedTileRect(tr, 0)
+		tr := p.FindUnoccupiedTileRect(tr, maxTileFindDistance)
 		if tr == nil {
 			return fmt.Errorf("cannot find unoccupied tile")
 		} else {
@@ -284,27 +327,38 @@ func (p *player) Do(a *Action) error {
 	return nil
 }
 
-func (p *player) FindUnoccupiedTileRect(tr *tileRect, offset int) *tileRect {
-	if offset >= nav.TileNumY {
-		return nil
-	}
-	minX := tr.x - offset
-	maxX := tr.x + offset
-	minY := tr.y - offset
-	maxY := tr.y + offset
-	for i := minX; i <= maxX; i++ {
-		for j := minY; j <= maxY; j++ {
-			candidate := &tileRect{i, j, tr.numX, tr.numY}
-			if !p.TileRectValid(candidate, false) {
-				continue
+func (p *player) FindUnoccupiedTileRect(tr *tileRect, maxDistance int) *tileRect {
+	for d := 0; d < maxDistance; d++ {
+		minX := tr.x - d
+		maxX := tr.x + d
+		minY := tr.y - d
+		maxY := tr.y + d
+		for i := minX; i <= maxX; i++ {
+			for j := minY; j <= maxY; j++ {
+				dx := i - tr.x
+				dy := j - tr.y
+				// abs x and y
+				if dx < 0 {
+					dx = -dx
+				}
+				if dy < 0 {
+					dy = -dy
+				}
+				if dx+dy != d {
+					continue
+				}
+				candidate := &tileRect{i, j, tr.numX, tr.numY}
+				if !p.TileRectValid(candidate, false) {
+					continue
+				}
+				if p.game.Occupied(candidate) {
+					continue
+				}
+				return candidate
 			}
-			if p.game.Occupied(candidate) {
-				continue
-			}
-			return candidate
 		}
 	}
-	return p.FindUnoccupiedTileRect(tr, offset+1)
+	return nil
 }
 
 func (p *player) findCard(from []*data.Card, name string) int {

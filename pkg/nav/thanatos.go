@@ -5,10 +5,6 @@ import (
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
-// TODO: remove TileNumX()/TileNumY() funcs
-const TileNumX = 20
-const TileNumY = 32
-
 type Map interface {
 	Width() fixed.Scalar
 	Height() fixed.Scalar

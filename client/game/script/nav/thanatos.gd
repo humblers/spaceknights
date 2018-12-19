@@ -1,8 +1,5 @@
 extends Reference
 
-const TILE_NUM_X = 20
-const TILE_NUM_Y = 32
-
 var tileWidth
 var tileHeight
 var tileNumX
