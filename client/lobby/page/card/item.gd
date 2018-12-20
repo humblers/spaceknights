@@ -18,7 +18,6 @@ var card
 func _ready():
 	self.connect("button_down", self, "down")
 	self.connect("button_up", self, "up")
-	self.connect("button_up", page_card, "set_pressed_card", [self])
 
 func Invalidate(card):
 	self.card = card
@@ -28,7 +27,7 @@ func Invalidate(card):
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%d" % (card.Level + 1))
+	static_func.set_text(level_label, "%02d" % (card.Level + 1))
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
@@ -39,9 +38,7 @@ func down():
 
 func up():
 	base_animation_player.play_backwards("down")
+	page_card.set_pressed_card(self.card, pressed_btn_guide.global_position)
 
 func changed():
 	animation_player.play("changed")
-
-func get_pressed_btn_guide():
-	return pressed_btn_guide

@@ -60,9 +60,13 @@ func upgradeButtonUp():
 	if not response[0]:
 		hud.lobby.http_manager.handle_error(response[1].ErrMessage)
 		return
-	user.Cards[card.Name] = response[1].Card
+	var c = response[1].Card
+	user.Cards[card.Name] = c
 	user.Galacticoin = response[1].Galacticoin
+	c.Name = card.Name
+	card = data.NewCard(c)
 	hud.lobby.Invalidate()
+	hud.cardupgrade_dialog.PopUp(card)
 	main_popup.hide()
 
 func PopUp(card, enable_use = false):
@@ -72,21 +76,18 @@ func PopUp(card, enable_use = false):
 	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
 	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	static_func.set_text(card_name_label, card.Name)
-	static_func.set_text(rarity_label, card.Rarity)
-	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%d" % (card.Level + 1))
+	use_btn.visible = enable_use
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
+	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
+	upgrade_btn.disabled = card_cost > card.Holding
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
+	static_func.set_text(card_name_label, card.Name.to_upper())
+	static_func.set_text(rarity_label, card.Rarity)
+	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
+	static_func.set_text(level_label, "%02d" % (card.Level + 1))
 	static_func.set_text(holding_label, "%d/%d" % [card.Holding, card_cost])
-	use_btn.visible = enable_use
-	if isUpgradable():
-		upgrade_label.visible = true
-		static_func.set_text(upgrade_cost, "%d" % data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level))
-	else:
-		upgrade_label.visible = false
-		static_func.set_text(upgrade_cost, "OK")
+	static_func.set_text(upgrade_cost, "%d" % coin_cost)
 
 	main_popup.Invalidate(card, unit)
 	self.visible = true
@@ -96,55 +97,3 @@ func Hide():
 
 func PopUpSub(pressed):
 	sub_popup.Invalidate(card, pressed)
-
-func IconTexture(key):
-	var texture
-	match key:
-		"damage", "attackdamage":
-			texture = icon_resource.get_resource("damage")
-		"damagepersecond":
-			texture = icon_resource.get_resource("damagepersecond")
-		"attackinterval":
-			texture = icon_resource.get_resource("attackspeed")
-		"damagetype":
-			texture = icon_resource.get_resource("attacktype")
-		"decaydamage":
-			texture = icon_resource.get_resource("lifetime")
-		_:
-			texture = icon_resource.get_resource(key)
-	if texture == null:
-		texture = icon_resource.get_resource("damage")
-	return texture
-
-func FormatStepToSecond(steps):
-	var in_secs = float(steps) / data.StepPerSec
-	return "%.*fs" % [1 if decimals(in_secs) > 0 else 0, in_secs]
-
-func FormatPixelToTile(pixels):
-	var in_tiles = float(pixels) / data.TileSizeInPixel
-	return "%.*f" % [ 1 if decimals(in_tiles) > 0 else 0, in_tiles]
-
-func FormatSpeed(speed):
-	if speed > 150:
-		return "Very Fast"
-	if speed > 100:
-		return "Fast"
-	if speed > 75:
-		return "Medium"
-	if speed > 0:
-		return "Slow"
-	return null
-
-func FormatAttackType(target_types, attack_type, damage_type):
-	var types = PoolStringArray()
-	if len(target_types) > 0 and not target_types.has(data.Squire):
-		types.append("Siege")
-	if attack_type == data.Bombing:
-		types.append(data.Bombing)
-	if damage_type == data.AntiShield:
-		types.append("AB Attack")
-	if len(types) == 0:
-		return null
-	if len(types) > 2:
-		types.resize(2)
-	return types.join(" & ")

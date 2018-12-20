@@ -28,7 +28,7 @@ func Invalidate(card, unit):
 		if value_text == null:
 			continue
 		var key_text = keyText(key, unit)
-		var icon_texture = info_root.IconTexture(key)
+		var icon_texture = info_root.hud.lobby.resource_manager.StatIcon(key)
 		var sub_info = unit.get("skill", {}).get(key, null)
 		if sub_info != null:
 			sub_info = sub_info.duplicate(true)
@@ -89,7 +89,7 @@ func valueText(key, card, unit):
 			if unit.has(key):
 				return "%d" % unit[key]
 		"attackinterval":
-			return info_root.FormatStepToSecond(unit[key])
+			return info_root.hud.FormatStepToSecond(unit[key])
 		"damagepersecond":
 			if unit.has("attackdamage") and unit.has("attackinterval"):
 				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
@@ -98,14 +98,14 @@ func valueText(key, card, unit):
 			var target_types = unit.get("targettypes", {})
 			var atk_type = unit.get("attacktype", "")
 			var dmg_type = unit.get("damagetype", "")
-			return info_root.FormatAttackType(target_types, atk_type, dmg_type)
+			return info_root.hud.FormatAttackType(target_types, atk_type, dmg_type)
 		"attackrange":
 			var attack_type = unit.get("attacktype", "")
 			if attack_type == data.Melee:
 				return attack_type
-			return info_root.FormatPixelToTile(unit[key])
+			return info_root.hud.FormatPixelToTile(unit[key])
 		"speed":
-			return info_root.FormatSpeed(unit.get(key, 0))
+			return info_root.hud.FormatSpeed(unit.get(key, 0))
 		"leader", "wing":
 			if card.Type == data.KnightCard:
 				 return unit.skill[key].name.capitalize()

@@ -14,8 +14,8 @@ export(NodePath) onready var use_btn = get_node(use_btn)
 var card
 
 func _ready():
-	main_btn.connect("button_up", page_card, "set_pressed_card", [self])
-	use_btn.connect("button_up", page_card, "set_picked_card")
+	main_btn.connect("button_up", self, "set_pressed_card", [null])
+	use_btn.connect("button_up", page_card, "set_picked_card", [self.card])
 	info_btn.connect("button_up", self, "pop_card_info")
 
 func Invalidate(card):
@@ -28,7 +28,9 @@ func Invalidate(card):
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%d" % (card.Level + 1))
+	static_func.set_text(level_label, "%02d" % (card.Level + 1))
 
 func pop_card_info():
 	page_card.lobby.hud.cardinfo_dialog.PopUp(card, not user.CardInDeck(card.Name))
+	self.card = null
+	page_card.set_pressed_card(null)
