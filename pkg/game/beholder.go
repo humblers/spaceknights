@@ -1,8 +1,5 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/data"
-import "github.com/humblers/spaceknights/pkg/fixed"
-
 type beholder struct {
 	*unit
 	player Player
