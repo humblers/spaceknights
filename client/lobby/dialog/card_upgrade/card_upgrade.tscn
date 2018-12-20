@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -265,6 +265,86 @@ outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 7 )
+
+[sub_resource type="StreamTexture" id=15]
+
+flags = 4
+load_path = "res://.import/slots_panel.png-c7f1824568c887c64e89eb8954c0face.stex"
+
+[sub_resource type="GDScript" id=16]
+
+script/source = "extends TextureRect
+
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var key_label = get_node(key_label)
+export(NodePath) onready var value_label = get_node(value_label)
+export(NodePath) onready var value_increase_label = get_node(value_increase_label)
+
+func Invalidate(icon_texture, key_text, value_text, value_increase_text):
+	icon.texture = icon_texture
+	static_func.set_text(key_label, key_text)
+	static_func.set_text(value_label, value_text)
+	static_func.set_text(value_increase_label, value_increase_text)"
+
+[sub_resource type="StreamTexture" id=17]
+
+flags = 4
+load_path = "res://.import/slots_panel.png-c7f1824568c887c64e89eb8954c0face.stex"
+
+[sub_resource type="GDScript" id=18]
+
+script/source = "extends TextureRect
+
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var key_label = get_node(key_label)
+export(NodePath) onready var value_label = get_node(value_label)
+export(NodePath) onready var value_increase_label = get_node(value_increase_label)
+
+func Invalidate(icon_texture, key_text, value_text, value_increase_text):
+	icon.texture = icon_texture
+	static_func.set_text(key_label, key_text)
+	static_func.set_text(value_label, value_text)
+	static_func.set_text(value_increase_label, value_increase_text)"
+
+[sub_resource type="StreamTexture" id=19]
+
+flags = 4
+load_path = "res://.import/slots_panel.png-c7f1824568c887c64e89eb8954c0face.stex"
+
+[sub_resource type="GDScript" id=20]
+
+script/source = "extends TextureRect
+
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var key_label = get_node(key_label)
+export(NodePath) onready var value_label = get_node(value_label)
+export(NodePath) onready var value_increase_label = get_node(value_increase_label)
+
+func Invalidate(icon_texture, key_text, value_text, value_increase_text):
+	icon.texture = icon_texture
+	static_func.set_text(key_label, key_text)
+	static_func.set_text(value_label, value_text)
+	static_func.set_text(value_increase_label, value_increase_text)"
+
+[sub_resource type="StreamTexture" id=21]
+
+flags = 4
+load_path = "res://.import/slots_panel.png-c7f1824568c887c64e89eb8954c0face.stex"
+
+[sub_resource type="GDScript" id=22]
+
+script/source = "extends TextureRect
+
+export(NodePath) onready var icon = get_node(icon)
+export(NodePath) onready var key_label = get_node(key_label)
+export(NodePath) onready var value_label = get_node(value_label)
+export(NodePath) onready var value_increase_label = get_node(value_increase_label)
+
+func Invalidate(icon_texture, key_text, value_text, value_increase_text):
+	icon.texture = icon_texture
+	static_func.set_text(key_label, key_text)
+	static_func.set_text(value_label, value_text)
+	static_func.set_text(value_increase_label, value_increase_text)"
 
 [sub_resource type="Animation" id=14]
 
@@ -591,7 +671,6 @@ anchor_bottom = 1.0
 margin_top = 880.0
 
 [node name="Stat1" type="TextureRect" parent="StatContainer"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_right = 1080.0
 margin_bottom = 120.0
@@ -619,6 +698,7 @@ margin_bottom = 53.0
 custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
 text = "Life Time"
+valign = 2
 
 [node name="Value" type="Label" parent="StatContainer/Stat1"]
 margin_left = 422.0
@@ -628,7 +708,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
-valign = 1
 
 [node name="ValueIncrease" type="Label" parent="StatContainer/Stat1"]
 margin_left = 592.0
@@ -638,18 +717,16 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
 text = "+10"
-valign = 1
 
 [node name="Stat2" type="TextureRect" parent="StatContainer"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_top = 124.0
 margin_right = 1080.0
 margin_bottom = 244.0
 rect_min_size = Vector2( 1080, 120 )
-texture = ExtResource( 15 )
+texture = SubResource( 15 )
 expand = true
-script = ExtResource( 16 )
+script = SubResource( 16 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -670,6 +747,7 @@ margin_bottom = 53.0
 custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
 text = "Life Time"
+valign = 2
 
 [node name="Value" type="Label" parent="StatContainer/Stat2"]
 margin_left = 422.0
@@ -679,7 +757,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
-valign = 1
 
 [node name="ValueIncrease" type="Label" parent="StatContainer/Stat2"]
 margin_left = 592.0
@@ -689,18 +766,16 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
 text = "+10"
-valign = 1
 
 [node name="Stat3" type="TextureRect" parent="StatContainer"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_top = 248.0
 margin_right = 1080.0
 margin_bottom = 368.0
 rect_min_size = Vector2( 1080, 120 )
-texture = ExtResource( 15 )
+texture = SubResource( 17 )
 expand = true
-script = ExtResource( 16 )
+script = SubResource( 18 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -721,6 +796,7 @@ margin_bottom = 53.0
 custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
 text = "Life Time"
+valign = 2
 
 [node name="Value" type="Label" parent="StatContainer/Stat3"]
 margin_left = 422.0
@@ -730,7 +806,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
-valign = 1
 
 [node name="ValueIncrease" type="Label" parent="StatContainer/Stat3"]
 margin_left = 592.0
@@ -740,18 +815,16 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
 text = "+10"
-valign = 1
 
 [node name="Stat4" type="TextureRect" parent="StatContainer"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_top = 372.0
 margin_right = 1080.0
 margin_bottom = 492.0
 rect_min_size = Vector2( 1080, 120 )
-texture = ExtResource( 15 )
+texture = SubResource( 19 )
 expand = true
-script = ExtResource( 16 )
+script = SubResource( 20 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -772,6 +845,7 @@ margin_bottom = 53.0
 custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
 text = "Life Time"
+valign = 2
 
 [node name="Value" type="Label" parent="StatContainer/Stat4"]
 margin_left = 422.0
@@ -781,7 +855,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
-valign = 1
 
 [node name="ValueIncrease" type="Label" parent="StatContainer/Stat4"]
 margin_left = 592.0
@@ -791,22 +864,20 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
 text = "+10"
-valign = 1
 
 [node name="Stat5" type="TextureRect" parent="StatContainer"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_top = 496.0
 margin_right = 1080.0
 margin_bottom = 616.0
 rect_min_size = Vector2( 1080, 120 )
-texture = ExtResource( 15 )
+texture = SubResource( 21 )
 expand = true
-script = ExtResource( 16 )
+script = SubResource( 22 )
 icon = NodePath("Icon")
-key_label = NodePath("Name")
-value_label = NodePath("Value")
-value_increase_label = NodePath("ValueIncrease")
+key_label = NodePath("../Stat4/Name")
+value_label = NodePath("../Stat4/Value")
+value_increase_label = NodePath("../Stat4/ValueIncrease")
 
 [node name="Icon" type="TextureRect" parent="StatContainer/Stat5"]
 margin_left = 340.0
@@ -823,6 +894,7 @@ margin_bottom = 53.0
 custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 0.909804, 0.909804, 0.909804, 1 )
 text = "Life Time"
+valign = 2
 
 [node name="Value" type="Label" parent="StatContainer/Stat5"]
 margin_left = 422.0
@@ -832,7 +904,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
-valign = 1
 
 [node name="ValueIncrease" type="Label" parent="StatContainer/Stat5"]
 margin_left = 592.0
@@ -842,7 +913,6 @@ margin_bottom = 119.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.0941176, 1, 0.552941, 1 )
 text = "+10"
-valign = 1
 
 [node name="UpgradeAni" type="AnimationPlayer" parent="."]
 anims/card_upgrade = ExtResource( 18 )

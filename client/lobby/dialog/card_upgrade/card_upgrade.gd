@@ -29,6 +29,7 @@ func PopUp(card):
 	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	static_func.set_text(card_name_label, card.Name.to_upper())
+	static_func.set_text(level_label, "%02d" % (card.Level + 1))
 	var unit = data.units[card.Unit]
 	var item_nodes = stat_container.get_children()
 	var idx = 0
@@ -78,7 +79,7 @@ func keyText(key, unit):
 		"shield":
 			return "Barrier Points"
 		"leader", "wing":
-			return "%s Skill" % key.capitalize()
+			return "%s Skill" % key
 	return key.capitalize()
 
 func valueTexts(key, card, unit):
@@ -99,5 +100,5 @@ func valueTexts(key, card, unit):
 				return ["%d" % cur, "+%d" % (cur - before)]
 		"leader", "wing":
 			if card.Type == data.KnightCard:
-				 return "%s Skill" % unit.skill[key].name.capitalize()
+				 return ["%s" % unit.skill[key].name.capitalize(), "+1"]
 	return null
