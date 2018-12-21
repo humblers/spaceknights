@@ -1,0 +1,141 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://game/unit/valkyrie/valkyrie.png" type="Texture" id=1]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/explosion_knight.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Curve" id=2]
+
+_data = [ Vector2( 0, 0.192 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+
+colors = PoolColorArray( 0.0625, 0.648438, 1, 1, 0.766357, 0.484375, 1, 0.325961 )
+
+[sub_resource type="Animation" id=1]
+
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Main:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Main:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Main:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Main:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[node name="Valkyrie" type="Node2D"]
+
+[node name="Rotatable" type="Node2D" parent="."]
+
+[node name="Main" type="Sprite" parent="Rotatable"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -24 )
+
+[node name="Boostset" type="Node2D" parent="Rotatable/Main"]
+
+[node name="BoosterL" type="Position2D" parent="Rotatable/Main/Boostset"]
+editor/display_folded = true
+position = Vector2( -33, 52 )
+
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Main/Boostset/BoosterL"]
+editor/display_folded = true
+material = ExtResource( 2 )
+position = Vector2( 0, 12 )
+amount = 12
+speed_scale = 1.2
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 20 )
+scale_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Main/Boostset/BoosterL/Boost"]
+modulate = Color( 0.427451, 0.168627, 1, 0.623529 )
+material = ExtResource( 2 )
+position = Vector2( 0, 10 )
+texture = ExtResource( 3 )
+
+[node name="BoosterL2" type="Position2D" parent="Rotatable/Main/Boostset"]
+editor/display_folded = true
+position = Vector2( 33, 52 )
+
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Main/Boostset/BoosterL2"]
+editor/display_folded = true
+material = ExtResource( 2 )
+position = Vector2( 0, 12 )
+amount = 12
+speed_scale = 1.2
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 20 )
+scale_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Main/Boostset/BoosterL2/Boost"]
+modulate = Color( 0.427451, 0.168627, 1, 0.623529 )
+material = ExtResource( 2 )
+position = Vector2( 0, 10 )
+texture = ExtResource( 3 )
+
+[node name="Explosion" parent="Rotatable" instance=ExtResource( 4 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rotatable"]
+anims/idle = SubResource( 1 )
+
