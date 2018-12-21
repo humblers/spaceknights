@@ -89,7 +89,8 @@ func valueText(key, card, unit):
 			if unit.has(key):
 				return "%d" % unit[key]
 		"attackinterval":
-			return info_root.hud.FormatStepToSecond(unit[key])
+			if unit.has(key):
+				return info_root.hud.FormatStepToSecond(unit[key])
 		"damagepersecond":
 			if unit.has("attackdamage") and unit.has("attackinterval"):
 				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]

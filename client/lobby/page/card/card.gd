@@ -234,8 +234,8 @@ func go_to_tutor_mode():
 		d.clear()
 		for side in user.KNIGHT_SIDES:
 			var knight_btn = get("knight_%s" % side)
-			d.append({"Name":knight_btn.name_, "Level":0, "Side": side.capitalize()})
+			d.append({"Name":knight_btn.card.Name, "Level":0, "Side": side.capitalize()})
 		for i in range(user.SQUIRE_COUNT):
 			var squire_btn = get("squire_%d" % i)
-			d.append({"Name":squire_btn.name_, "Level":0})
+			d.append({"Name":squire_btn.card.Name, "Level":0})
 	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})

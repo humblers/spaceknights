@@ -1086,8 +1086,6 @@ var units = {
 		"damagetype":    NormalDamage,
 		"attackdamage":   [1, 70, 100],
 		"attackrange":    35,
-		"attackinterval": 0,
-		"preattackdelay": 0,
 		"destroydamage":  [30],
 		"destroyradius":  50,
 	},
