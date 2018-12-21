@@ -37,7 +37,7 @@ func Invalidate(card, pressed):
 			if value_text == null:
 				continue
 			var key_text = keyText(key, pressed.sub_info)
-			var icon_texture = info_root.IconTexture(key)
+			var icon_texture = info_root.hud.lobby.resource_manager.StatIcon(key)
 			item_nodes[pointer].Invalidate(icon_texture, key_text, value_text, null)
 			pointer += 1
 			if pointer >= info_root.MAX_STAT_COUNT:
@@ -93,7 +93,7 @@ func valueText(key, card, skill):
 		# spell only
 		"castduration", "duration", "damageduration":
 			if skill.has(key):
-				return info_root.FormatStepToSecond(skill[key])
+				return info_root.hud.FormatStepToSecond(skill[key])
 			return null
 		"damage":
 			if skill.has(key):
@@ -101,12 +101,12 @@ func valueText(key, card, skill):
 				return "%d" % skill[key][lv]
 		"radius":
 			if skill.has(key):
-				return info_root.FormatPixelToTile(skill[key])
+				return info_root.hud.FormatPixelToTile(skill[key])
 		"area":
 			if skill.has("width") and skill.has("height"):
 				return "%s x %s" % [
-					info_root.FormatPixelToTile(skill["width"]),
-					info_root.FormatPixelToTile(skill["height"]),
+					info_root.hud.FormatPixelToTile(skill["width"]),
+					info_root.hud.FormatPixelToTile(skill["height"]),
 				]
 		"count":
 			if skill.has(key) and skill[key] > 1:
@@ -128,14 +128,14 @@ func valueText(key, card, skill):
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 					return "%d" % u[key][lv]
 				"attackinterval", "spawninterval":
-					return info_root.FormatStepToSecond(u[key])
+					return info_root.hud.FormatStepToSecond(u[key])
 				"speed":
-					return info_root.FormatSpeed(u.get(key, 0))
+					return info_root.hud.FormatSpeed(u.get(key, 0))
 				"attackrange":
 					var attack_type = u.get("attacktype", "")
 					if attack_type == data.Melee:
 						return attack_type
-					return info_root.FormatPixelToTile(u[key])
+					return info_root.hud.FormatPixelToTile(u[key])
 				"decaydamage":
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 					var hp = float(u["hp"][lv])
@@ -171,5 +171,5 @@ func valueText(key, card, skill):
 				atk_type = u.get("attacktype", "")
 			if dmg_type == null:
 				dmg_type = u.get("damagetype", "")
-			return info_root.FormatAttackType(target_types, atk_type, dmg_type)
+			return info_root.hud.FormatAttackType(target_types, atk_type, dmg_type)
 	return null

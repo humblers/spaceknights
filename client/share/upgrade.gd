@@ -37,3 +37,8 @@ func CoinCostToLevel(rarity, from, to):
 	for lv in range(from + relLv, to + relLv):
 		cost += dict.CoinCost[lv]
 	return cost
+
+func IsLevelMax(rarity, level):
+	if level + dict.RelativeLvByRarity[rarity] + 1 < data.LevelMax:
+		return false
+	return true

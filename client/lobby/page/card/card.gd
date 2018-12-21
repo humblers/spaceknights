@@ -197,21 +197,19 @@ func button_up_deck_item(btn):
 	if picked_type == data.SquireCard:
 		scrollable.rect_position.y = -knights_control.rect_size.y
 
-func set_pressed_card(btn):
+func set_pressed_card(card, position = Vector2(0, 0)):
 	if current_mode() in [MODE_EDIT_KNIGHT, MODE_EDIT_SQUIRE]:
 		return
-	if pressed_card == btn.card:
+	if card == null or card == pressed_card:
 		pressed_card = null
 		Invalidate()
 		return
-	pressed_card = btn.card
-	pressed.rect_global_position = btn.get_pressed_btn_guide().global_position
+	pressed_card = card
+	pressed.rect_global_position = position
 	change_filter(pressed_card.Type)
 
 func set_picked_card(card):
-	if card != null:
-		pressed_card = card
-	picked_card = pressed_card
+	picked_card = card
 	Invalidate()
 
 func change_filter(filter):
