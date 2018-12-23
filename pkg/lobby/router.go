@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -61,9 +60,8 @@ type Router struct {
 	path  string
 	route map[string]route
 
-	sessionStore *redistore.RediStore
-	redisPool    *redis.Pool
-	logger       *log.Logger
+	redisPool *redis.Pool
+	logger    *log.Logger
 }
 
 func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -88,15 +86,7 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		b.response = &CommonResponse{"405 method not allowed"}
 		return
 	}
-	session, err := rt.sessionStore.Get(r, AuthSession)
-	if err != nil {
-		status = http.StatusServiceUnavailable
-		b.response = &CommonResponse{"503 service unavailable"}
-		return
-	}
-	if uid, ok := session.Values["uid"]; ok {
-		b.uid = uid.(string)
-	}
+	b.uid = r.Header.Get("Cookie")
 	route.handler(b, w, r)
 }
 

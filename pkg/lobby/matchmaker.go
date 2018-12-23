@@ -12,7 +12,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
 	"github.com/humblers/spaceknights/pkg/data"
 	"github.com/humblers/spaceknights/pkg/game"
@@ -37,13 +36,12 @@ type matchMaker struct {
 	logger    *log.Logger
 }
 
-func NewMatchMaker(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, MatchMaker) {
+func NewMatchMaker(path string, p *redis.Pool, l *log.Logger) (string, MatchMaker) {
 	mm := &matchMaker{
 		Router: &Router{
-			path:         path,
-			sessionStore: ss,
-			redisPool:    p,
-			logger:       l,
+			path:      path,
+			redisPool: p,
+			logger:    l,
 		},
 		redisPool:     p,
 		matchWaitings: make(map[string]chan MatchResponse),

@@ -6,29 +6,24 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
 )
 
 type authRouter struct {
 	*Router
-	sessionStore *redistore.RediStore
-	logger       *log.Logger
+	logger *log.Logger
 }
 
-func NewAuthRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+func NewAuthRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Handler) {
 	a := &authRouter{
 		Router: &Router{
-			path:         path,
-			sessionStore: ss,
-			redisPool:    p,
-			logger:       l,
+			path:      path,
+			redisPool: p,
+			logger:    l,
 		},
-		sessionStore: ss,
-		logger:       l,
+		logger: l,
 	}
 	a.Post("login", a.login)
-	a.Post("logout", a.logout)
 	return path, http.TimeoutHandler(a, TimeoutDefault, TimeoutMessage)
 }
 
@@ -52,6 +47,8 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// TODO: Check PToken other than "dev" platform
+
 	resp.UID, resp.User, err = userFromPlatformInfo(b.redisConn, req.PType, &req.PID, enableEmpty)
 	if err != nil {
 		a.logger.Printf("query user fail(%v)", err)
@@ -60,32 +57,7 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 	}
 	resp.PID = req.PID
 	resp.Token = resp.UID
-	session, err := a.sessionStore.Get(r, AuthSession)
-	if err != nil {
-		resp.ErrMessage = "login fail"
-		return
-	}
-	session.Values["uid"] = resp.UID
-	if err = session.Save(r, w); err != nil {
-		resp.ErrMessage = "login fail"
-		return
-	}
-}
-
-func (a *authRouter) logout(b *bases, w http.ResponseWriter, r *http.Request) {
-	var resp CommonResponse
-	b.response = &resp
-	session, err := a.sessionStore.Get(r, AuthSession)
-	if err != nil {
-		resp.ErrMessage = "logout fail"
-		return
-	}
-	// delete session
-	session.Options.MaxAge = -1
-	if err := session.Save(r, w); err != nil {
-		resp.ErrMessage = "logout fail"
-		return
-	}
+	w.Header().Set("Set-Cookie", resp.UID)
 }
 
 func userFromPlatformInfo(rc redis.Conn, ptype string, pid *string, enableEmpty bool) (string, *user, error) {
