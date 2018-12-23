@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
 	"github.com/humblers/spaceknights/pkg/data"
 )
@@ -19,7 +18,7 @@ type dataRouter struct {
 	logger *log.Logger
 }
 
-func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+func NewDataRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Handler) {
 	var b []byte
 	var err error
 	b, err = json.Marshal(data.Cards)
@@ -35,10 +34,9 @@ func NewDataRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.L
 
 	d := &dataRouter{
 		Router: &Router{
-			path:         path,
-			sessionStore: ss,
-			redisPool:    p,
-			logger:       l,
+			path:      path,
+			redisPool: p,
+			logger:    l,
 		},
 		logger: l,
 	}

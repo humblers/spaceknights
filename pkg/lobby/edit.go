@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/boj/redistore"
 	"github.com/gomodule/redigo/redis"
 	"github.com/humblers/spaceknights/pkg/data"
 )
@@ -15,13 +14,12 @@ type editRouter struct {
 	*Router
 }
 
-func NewEditRouter(path string, ss *redistore.RediStore, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+func NewEditRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Handler) {
 	e := &editRouter{
 		Router: &Router{
-			path:         path,
-			sessionStore: ss,
-			redisPool:    p,
-			logger:       l,
+			path:      path,
+			redisPool: p,
+			logger:    l,
 		},
 	}
 	e.Post("deck/select", e.deckSelect)
