@@ -56,6 +56,24 @@ const (
 type Unit map[string]interface{}
 
 var Units = map[string]Unit{
+	"absorber": map[string]interface{}{
+		"type":           Squire,
+		"layer":          Normal,
+		"mass":           20,
+		"radius":         40,
+		"hp":             []int{1000},
+		"sight":          275,
+		"speed":          100,
+		"targettypes":    UnitTypes{Squire, Building, Knight},
+		"targetlayers":   UnitLayers{Normal},
+		"attacktype":     Melee,
+		"damagetype":     NormalDamage,
+		"attackdamage":   []int{250},
+		"attackrange":    40,
+		"attackradius":   80,
+		"attackinterval": 20,
+		"preattackdelay": 9,
+	},
 	"archengineer": map[string]interface{}{
 		"mass":           0,
 		"radius":         75,
@@ -1020,6 +1038,37 @@ var Units = map[string]Unit{
 		"attackrange":    40,
 		"attackinterval": 12,
 		"preattackdelay": 5,
+	},
+	"valkyrie": map[string]interface{}{
+		"mass":           0,
+		"radius":         85,
+		"type":           Knight,
+		"layer":          Normal,
+		"hp":             []int{3400},
+		"sight":          350,
+		"targettypes":    UnitTypes{Squire},
+		"targetlayers":   UnitLayers{Normal},
+		"attacktype":     Missile,
+		"damagetype":     NormalDamage,
+		"attackdamage":   []int{100},
+		"attackrange":    350,
+		"attackinterval": 22,
+		"preattackdelay": 0,
+		"bulletlifetime": 22,
+		"skill": map[string]interface{}{
+			"wing": map[string]interface{}{
+				"name":         "emp",
+				"damagetype":   NormalDamage,
+				"damage":       []int{200},
+				"radius":       200,
+				"castduration": 20,
+				"precastdelay": 10,
+			},
+			"leader": map[string]interface{}{
+				"name":             "morerange",
+				"attackrangeratio": []int{140},
+			},
+		},
 	},
 	"voidcreeper": map[string]interface{}{
 		"type":           Squire,

@@ -92,6 +92,15 @@ func (c *Card) IsSpell() bool {
 }
 
 var Cards = map[string]Card{
+	"absorber": Card{
+		Type:    SquireCard,
+		Cost:    5000,
+		Unit:    "absorber",
+		Count:   1,
+		OffsetX: []int{0},
+		OffsetY: []int{0},
+		Rarity:  Epic,
+	},
 	"archengineer": Card{
 		Type:   KnightCard,
 		Cost:   5000,
@@ -406,6 +415,12 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
+	},
+	"valkyrie": Card{
+		Type:   KnightCard,
+		Cost:   2000,
+		Unit:   "valkyrie",
+		Rarity: Common,
 	},
 	"voidcreeper": Card{
 		Type:    SquireCard,

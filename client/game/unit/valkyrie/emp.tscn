@@ -6,11 +6,11 @@
 [ext_resource path="res://game/vfx/emp_effect.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=5]
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=1]
 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.104 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=2]
 
 colors = PoolColorArray( 1, 1, 1, 0.745843, 0, 0.0964661, 0.425781, 1 )
 
@@ -23,30 +23,29 @@ _data = [ Vector2( 0, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 offsets = PoolRealArray( 0, 0.428571, 1 )
 colors = PoolColorArray( 0, 0.0322266, 0.375, 0.0025098, 1, 1, 1, 1, 0, 0.105316, 0.792969, 0.00321569 )
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=5]
 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.3416 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=6]
 
 colors = PoolColorArray( 1, 1, 1, 0, 0, 0.625, 1, 1 )
 
-[sub_resource type="Curve" id=1]
+[sub_resource type="Curve" id=7]
 
 _data = [ Vector2( 0, 0.4296 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9928 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=8]
 
 offsets = PoolRealArray( 0.335165, 0.626374, 1 )
 colors = PoolColorArray( 0.105882, 0.768627, 1, 0, 0.351563, 0.832825, 1, 1, 0.0664063, 0.518616, 1, 0.185529 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=9]
 
 _data = [ Vector2( 0.517085, 0.4208 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.530801, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=10]
 
-resource_name = "emp"
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Inner:emitting")
@@ -121,8 +120,8 @@ speed_scale = 3.0
 texture = ExtResource( 2 )
 gravity = Vector2( 0, 0 )
 scale = 4.0
-scale_curve = SubResource( 9 )
-color_ramp = SubResource( 10 )
+scale_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="Inner" type="CPUParticles2D" parent="."]
 scale = 3.0
@@ -150,8 +149,8 @@ angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale = 1.5
 scale_random = 1.0
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Outer" type="CPUParticles2D" parent="."]
 scale = 2.0
@@ -166,8 +165,8 @@ angular_velocity_random = 1.0
 radial_accel = 20.0
 radial_accel_random = 1.0
 scale = 2.0
-scale_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="Explo" type="CPUParticles2D" parent="."]
 material = ExtResource( 1 )
@@ -180,9 +179,10 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale = 3.0
-scale_curve = SubResource( 6 )
+scale_curve = SubResource( 9 )
 color = Color( 0, 0.227451, 1, 0.835294 )
 
 [node name="EMPAni" type="AnimationPlayer" parent="."]
-anims/emp = SubResource( 5 )
+autoplay = "emp"
+anims/emp = SubResource( 10 )
 
