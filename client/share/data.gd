@@ -97,6 +97,15 @@ func CardIsSpell(card):
 	
 var cards = {
 # units
+	"absorber": {
+		"Type":    SquireCard,
+		"Cost":    5000,
+		"Unit":    "absorber",
+		"Count":   1,
+		"OffsetX": [0],
+		"OffsetY": [0],
+		"Rarity":  Epic,
+	},
 	"archengineer": {
 		"Type":    KnightCard,
 		"Cost":    5000,
@@ -412,6 +421,12 @@ var cards = {
 		"OffsetY": [30, 30, 0],
 		"Rarity":  Rare,
 	},
+	"valkyrie": {
+		"Type":    KnightCard,
+		"Cost":    2000,
+		"Unit":    "valkyrie",
+		"Rarity":  Common,
+	},
 	"voidcreeper": {
 		"Type":    SquireCard,
 		"Cost":    5000,
@@ -433,6 +448,24 @@ var cards = {
 }
 
 var units = {
+	"absorber": {
+		"type":           Squire,
+		"layer":          Normal,
+		"mass":           20,
+		"radius":         40,
+		"hp":             [1000],
+		"sight":          275,
+		"speed":          100,	#pixels per second
+		"targettypes":    [Squire, Building, Knight],
+		"targetlayers":   [Normal],
+		"attacktype":    Melee,
+		"damagetype":    NormalDamage,
+		"attackdamage":   [250],
+		"attackrange":    40,
+		"attackradius":   80,
+		"attackinterval": 20,
+		"preattackdelay": 9,
+	},
 	"archengineer": {
 		"mass":           0,
 		"radius":         75,
@@ -1390,6 +1423,38 @@ var units = {
 		"attackrange":    40,
 		"attackinterval": 12,
 		"preattackdelay": 5,
+	},
+	"valkyrie": {
+		"mass":           0,
+		"radius":         85,
+		"type":           Knight,
+		"layer":          Normal,
+		"hp":             [3400],
+		"sight":          350,
+		"speed":          300,
+		"targettypes":    [Squire],
+		"targetlayers":   [Normal],
+		"attacktype":    Missile,
+		"damagetype":    NormalDamage,
+		"attackdamage":   [110],
+		"attackrange":    350,
+		"attackinterval": 22,
+		"preattackdelay": 0,
+		"bulletlifetime": 22,
+		"skill": {
+			"wing": {
+				"name":             "emp",
+				"damagetype":       NormalDamage,
+				"damage":           [200],
+				"radius":           200,
+				"castduration":     20,
+				"precastdelay":     10,
+			},
+			"leader": {
+				"name":             "morerange",
+				"attackrangeratio": [140, 150, 160],
+			},
+		},
 	},
 	"voidcreeper": {
 		"type":           Squire,
