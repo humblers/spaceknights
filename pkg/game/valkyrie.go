@@ -48,7 +48,7 @@ func (v *valkyrie) Destroy() {
 
 func (v *valkyrie) attackDamage() int {
 	damage := v.unit.attackDamage()
-	divider := v
+	divider := 1
 	for _, ratio := range v.player.StatRatios("attackdamageratio") {
 		damage *= ratio
 		divider *= 100
@@ -129,7 +129,7 @@ func (v *valkyrie) preCastDelay() int {
 }
 
 func (v *valkyrie) SetAsLeader() {
-	v.isLeader = true	
+	v.isLeader = true
 }
 
 func (v *valkyrie) Skill() map[string]interface{} {
