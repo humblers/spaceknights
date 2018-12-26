@@ -15,15 +15,20 @@ import (
 )
 
 type user struct {
-	Name         string          `db:"string,name"`
-	Level        int             `db:"string,lv"`
-	Exp          int             `db:"string,exp"`
-	Galacticoin  int             `db:"string,galacticoin"`
-	Dimensium    int             `db:"string,dimensium"`
-	Cards        map[string]card `db:"hashes,cards"`
-	DeckSlots    []deck          `db:"lists,decks"`
-	DeckSelected int             `db:"string,decknum"`
-	Solo         rank            `db:"string,solo"`
+	Name             string          `db:"string,name"`
+	Level            int             `db:"string,lv"`
+	Exp              int             `db:"string,exp"`
+	Galacticoin      int             `db:"string,galacticoin"`
+	Dimensium        int             `db:"string,dimensium"`
+	Cards            map[string]card `db:"hashes,cards"`
+	DeckSlots        []deck          `db:"lists,decks"`
+	DeckSelected     int             `db:"string,decknum"`
+	Rank             int             `db:"string,rank"`
+	Medal            int             `db:"string,medal"`
+	FreeChest        int             `db:"string,free-chest"`  // timestamp at acquired time
+	MedalChest       int             `db:"string,medal-chest"` // medals earned after last chest open
+	BattleChestSlots []*data.Chest   `db:"lists,battle-chest-slots"`
+	BattleChestOrder int             `db:"string,battle-chest-order"`
 }
 
 type card data.Card
@@ -40,19 +45,6 @@ type deck []data.Card
 
 func (d deck) String() string {
 	b, err := json.Marshal(d)
-	if err != nil {
-		panic(err)
-	}
-	return string(b)
-}
-
-type rank struct {
-	Star   int
-	Rating int
-}
-
-func (r rank) String() string {
-	b, err := json.Marshal(r)
 	if err != nil {
 		panic(err)
 	}
@@ -79,11 +71,12 @@ func newUser() *user {
 
 	return &user{
 		//		Galacticoin: data.InitialGalacticoin,
-		Galacticoin: coin,
-		Dimensium:   data.InitialDimensium,
-		Cards:       initialCards,
-		DeckSlots:   initialDeckSlots[0:],
-		Solo:        rank{},
+		Galacticoin:      coin,
+		Dimensium:        data.InitialDimensium,
+		Cards:            initialCards,
+		DeckSlots:        initialDeckSlots[0:],
+		Rank:             data.InitialRank,
+		BattleChestSlots: []*data.Chest{nil, nil, nil, nil, nil, nil, nil, nil},
 	}
 }
 
@@ -223,7 +216,7 @@ func storeStructToMultipleKeys(rc redis.Conn, src interface{}, prefix string) er
 		case "hashes":
 			rc.Send("HMSET", redis.Args{key}.AddFlat(f.Interface())...)
 		case "lists":
-			rc.Send("LPUSH", redis.Args{key}.AddFlat(f.Interface())...)
+			rc.Send("RPUSH", redis.Args{key}.AddFlat(f.Interface())...)
 		default:
 			return fmt.Errorf("unknown or unimplemented data type %v", dataType)
 		}

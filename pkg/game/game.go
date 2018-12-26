@@ -77,6 +77,7 @@ type game struct {
 	deathToll    map[Team]int
 	lastDeadPosX map[Team]fixed.Scalar
 	occupied     [][]int
+	winner       Team
 
 	players   map[string]Player
 	playerIds []string
@@ -150,6 +151,7 @@ func (g *game) Replay() *Replay {
 	return &Replay{
 		Config:  g.config,
 		Actions: g.actions,
+		Winner:  g.winner,
 	}
 }
 
@@ -309,6 +311,14 @@ func (g *game) Over() bool {
 	}
 }
 
+func (g *game) setWinner() {
+	if g.score(Blue) > g.score(Red) {
+		g.winner = Blue
+	} else if g.score(Red) > g.score(Blue) {
+		g.winner = Red
+	}
+}
+
 func (g *game) score(t Team) int {
 	score := 0
 	for _, id := range g.playerIds {
@@ -336,6 +346,7 @@ func (g *game) Run() {
 			g.applied <- g.handleApply(i)
 		}
 	}
+	g.setWinner()
 	for _, p := range g.players {
 		if p.Client() != nil {
 			p.Client().Stop()
