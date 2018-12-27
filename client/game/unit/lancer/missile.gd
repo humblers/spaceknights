@@ -12,7 +12,12 @@ func _ready():
 	$AnimationPlayer.add_animation("attack", dup)
 	$AnimationPlayer.play("attack")
 	anim = dup
-
+	var target = game.FindUnit(targetId)
+	if target == null:
+		return
+	if target.team == "Blue":
+		self.rotation = PI
+		
 func _process(delta):
 	var target = game.FindUnit(targetId)
 	if target == null:
@@ -26,40 +31,26 @@ func init_trajectory(hit_pos):
 	$HitPosition.global_position = hit_pos
 	for side in ["L", "R"]:
 		for i in range(1):
-			var path = "Missile%s%s:position" % [side, (i + 1)]
-			var degree_path = "Missile%s%s:rotation_degrees" % [side, (i + 1)]
+			var path = "HeavyMissile%s%s:position" % [side, (i + 1)]
 			var track_idx = anim.find_track(path)
+			var key_idx = anim.track_get_key_count(track_idx) - 1
+			anim.track_set_key_value(track_idx, key_idx, $HitPosition.position)
+			var offset = anim.track_get_key_value(track_idx, key_idx -1)
+			
+			var off_vec = $HitPosition.position - offset
+			
+			var ref_vec = Vector2(0, -1)
+			var degree_path = "HeavyMissile%s%s:rotation_degrees" % [side, (i + 1)]
 			var degree_track_idx = anim.find_track(degree_path)
-			var key_num = anim.track_get_key_count(track_idx)
-			var degree_key_num = anim.track_get_key_count(degree_track_idx)
-			var offset_x
+			var degree_key_idx = anim.track_get_key_count(degree_track_idx) -1
+			var degree = rad2deg(ref_vec.angle_to(off_vec))
+			anim.track_set_key_value(degree_track_idx, degree_key_idx, degree)
 			
-			if $HitPosition.position.x < 0:
-				offset_x = -5
-			else:
-				offset_x = 5
-				
-			for j in 4:
-				var newpos = Vector2(anim.track_get_key_value(track_idx, j).x+offset_x*j*j, anim.track_get_key_value(track_idx, j).y)
-				anim.track_set_key_value(track_idx, j, newpos)
-			
-			for j in key_num-4:
-				var r = $HitPosition.position - anim.track_get_key_value(track_idx, 3)
-				var step = r * (j+1)/4
-				var newpos = anim.track_get_key_value(track_idx, 3)+step
-				anim.track_set_key_value(track_idx, j+4, newpos)
-				
-			for j in degree_key_num-1:
-				var ref_vec = Vector2(0, -1)
-				var degree = rad2deg(ref_vec.angle_to(anim.track_get_key_value(track_idx, j+1)- anim.track_get_key_value(track_idx, j)))
-				anim.track_set_key_value(degree_track_idx, j, degree)
-
-
 func update_hit_position(gpos):
 	$HitPosition.global_position = gpos
 	for side in ["L", "R"]:
 		for i in range(1):
-			var path = "Missile%s%s:position" % [side, (i + 1)]
+			var path = "HeavyMissile%s%s:position" % [side, (i + 1)]
 			var track_idx = anim.find_track(path)
 			var key_idx = anim.track_get_key_count(track_idx) - 1
 			anim.track_set_key_value(track_idx, key_idx, $HitPosition.position)

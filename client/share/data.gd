@@ -961,11 +961,11 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Missile,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [75],
+		"attackdamage":   [100],
 		"attackrange":    350,
-		"attackinterval": 15,
-		"preattackdelay": 0,
-		"bulletlifetime": 15,
+		"attackinterval": 20,
+		"preattackdelay": 13,
+		"bulletlifetime": 20,
 		"skill": {
 			"wing": {
 				"name":         "sentryshelter",
@@ -1048,7 +1048,7 @@ var units = {
 		"attackdamage":   [110],
 		"attackrange":    350,
 		"attackinterval": 22,
-		"preattackdelay": 0,
+		"preattackdelay": 17,
 		"bulletlifetime": 22,
 		"skill": {
 			"wing": {
@@ -1436,11 +1436,11 @@ var units = {
 		"targetlayers":   [Normal],
 		"attacktype":    Missile,
 		"damagetype":    NormalDamage,
-		"attackdamage":   [110],
+		"attackdamage":   [100],
 		"attackrange":    350,
-		"attackinterval": 22,
-		"preattackdelay": 0,
-		"bulletlifetime": 22,
+		"attackinterval": 20,
+		"preattackdelay": 15,
+		"bulletlifetime": 20,
 		"skill": {
 			"wing": {
 				"name":             "emp",
