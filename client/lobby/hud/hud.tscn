@@ -2,8 +2,8 @@
 
 [ext_resource path="res://lobby/hud/hud.gd" type="Script" id=1]
 [ext_resource path="res://lobby/dialog/card_info/card_info.tscn" type="PackedScene" id=2]
-[ext_resource path="res://lobby/hud/panel.png" type="Texture" id=3]
-[ext_resource path="res://lobby/hud/level_bg.png" type="Texture" id=4]
+[ext_resource path="res://lobby/hud/top_bar_r.png" type="Texture" id=3]
+[ext_resource path="res://lobby/hud/top_bar.png" type="Texture" id=4]
 [ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://lobby/hud/exp_bar_bg.png" type="Texture" id=7]
@@ -54,7 +54,7 @@ size = Vector2( 16, 16 )
 
 size = 28
 outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
+outline_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 use_filter = true
 font_data = ExtResource( 5 )
 
@@ -96,6 +96,7 @@ font_data = ExtResource( 6 )
 [sub_resource type="DynamicFont" id=8]
 
 size = 28
+outline_color = Color( 0.623529, 0.623529, 0.623529, 1 )
 use_filter = true
 font_data = ExtResource( 5 )
 
@@ -145,10 +146,10 @@ page_card_btn = NodePath("Bot/Card")
 page_explore_btn = NodePath("Bot/Explore")
 page_shop_btn = NodePath("Bot/Shop")
 page_social_btn = NodePath("Bot/Social")
-level_label = NodePath("Top/Stat/Level")
-exp_label = NodePath("Top/Stat/Exp")
-galacticoin_label = NodePath("Top/Galacticoin/Label")
-dimensium_label = NodePath("Top/Dimensium/Label")
+level_label = NodePath("Stat/Level")
+exp_label = NodePath("Stat/Exp")
+galacticoin_label = NodePath("Control/Galacticoin/Label")
+dimensium_label = NodePath("Control/Dimensium/Label")
 cardinfo_dialog = NodePath("CardInfo")
 cardupgrade_dialog = NodePath("CardUpgrade")
 requesting_dialog = NodePath("Requesting")
@@ -159,72 +160,80 @@ config_dialog = NodePath("Config")
 hud = NodePath("..")
 
 [node name="Top" type="TextureRect" parent="."]
+anchor_left = 1.0
 anchor_right = 1.0
-margin_bottom = 119.0
+margin_left = -540.0
+margin_bottom = 120.0
 texture = ExtResource( 3 )
-expand = true
 __meta__ = {
 "_editor_icon": SubResource( 1 )
 }
 
-[node name="Stat" type="TextureRect" parent="Top"]
-editor/display_folded = true
-margin_right = 180.0
-margin_bottom = 100.0
+[node name="Stat" type="TextureRect" parent="."]
+margin_right = 1080.0
+margin_bottom = 120.0
 texture = ExtResource( 4 )
 
-[node name="Label" type="Label" parent="Top/Stat"]
-margin_left = 12.0
+[node name="Label" type="Label" parent="Stat"]
+margin_left = 6.0
 margin_top = 1.0
-margin_right = 122.0
-margin_bottom = 37.0
+margin_right = 129.0
+margin_bottom = 36.0
 custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0.0509804, 0.788235, 0.407843, 1 )
+custom_colors/font_color = Color( 0, 0.788235, 0.309804, 1 )
 text = "LEVEL"
 align = 1
 
-[node name="Level" type="Label" parent="Top/Stat"]
+[node name="Level" type="Label" parent="Stat"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 7.0
-margin_top = -21.0
-margin_right = 123.0
-margin_bottom = 57.0
+margin_left = 8.0
+margin_top = -34.0
+margin_right = 124.0
+margin_bottom = 44.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "00"
 align = 1
 valign = 1
 
-[node name="Exp" type="Label" parent="Top/Stat"]
-margin_left = 156.0
+[node name="Exp" type="Label" parent="Stat"]
+margin_left = 168.0
 margin_top = 25.0
-margin_right = 330.0
+margin_right = 342.0
 margin_bottom = 67.0
 custom_fonts/font = SubResource( 4 )
 text = "80000/168770"
 align = 2
 valign = 2
 
-[node name="ExpBar" type="TextureProgress" parent="Top/Stat"]
-margin_left = 154.0
+[node name="ExpBar" type="TextureProgress" parent="Stat"]
+margin_left = 166.0
 margin_top = 69.0
-margin_right = 332.0
+margin_right = 344.0
 margin_bottom = 85.0
 value = 69.0
 texture_under = ExtResource( 7 )
 texture_progress = ExtResource( 8 )
 
-[node name="Dimensium" type="TextureButton" parent="Top"]
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 40.0
+
+[node name="Dimensium" type="TextureButton" parent="Control"]
+editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 765.0
-margin_top = -22.0
-margin_right = 1065.0
-margin_bottom = 28.0
+margin_left = 211.0
+margin_top = 18.0
+margin_right = 511.0
+margin_bottom = 68.0
 texture_normal = ExtResource( 9 )
 
-[node name="TextureRect" type="TextureRect" parent="Top/Dimensium"]
+[node name="TextureRect" type="TextureRect" parent="Control/Dimensium"]
 visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -234,11 +243,11 @@ margin_right = 216.0
 margin_bottom = 22.0
 texture = ExtResource( 10 )
 
-[node name="Node2D" parent="Top/Dimensium" instance=ExtResource( 11 )]
+[node name="Node2D" parent="Control/Dimensium" instance=ExtResource( 11 )]
 position = Vector2( 205, 20 )
 scale = Vector2( 0.8, 0.8 )
 
-[node name="Label" type="Label" parent="Top/Dimensium"]
+[node name="Label" type="Label" parent="Control/Dimensium"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -252,17 +261,17 @@ text = "99999"
 align = 2
 valign = 2
 
-[node name="Galacticoin" type="TextureButton" parent="Top"]
+[node name="Galacticoin" type="TextureButton" parent="Control"]
 editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 426.0
-margin_top = -22.0
-margin_right = 746.0
-margin_bottom = 28.0
+margin_left = -128.0
+margin_top = 18.0
+margin_right = 192.0
+margin_bottom = 68.0
 texture_normal = ExtResource( 12 )
 
-[node name="TextureRect" type="TextureRect" parent="Top/Galacticoin"]
+[node name="TextureRect" type="TextureRect" parent="Control/Galacticoin"]
 visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -272,11 +281,11 @@ margin_right = 278.0
 margin_bottom = 30.0
 texture = ExtResource( 13 )
 
-[node name="Node2D" parent="Top/Galacticoin" instance=ExtResource( 14 )]
+[node name="Node2D" parent="Control/Galacticoin" instance=ExtResource( 14 )]
 position = Vector2( 231, 20 )
 scale = Vector2( 0.8, 0.8 )
 
-[node name="Label" type="Label" parent="Top/Galacticoin"]
+[node name="Label" type="Label" parent="Control/Galacticoin"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -325,9 +334,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -337.5
+margin_left = -336.0
 margin_top = -68.0
-margin_right = 337.5
+margin_right = 339.0
 margin_bottom = 68.0
 texture = ExtResource( 18 )
 
@@ -367,9 +376,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -819.0
+margin_left = -812.0
 margin_top = -62.0
-margin_right = -683.0
+margin_right = -676.0
 margin_bottom = 22.0
 toggle_mode = true
 group = SubResource( 7 )
@@ -397,9 +406,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -335.0
+margin_left = -337.0
 margin_top = -63.0
-margin_right = -231.0
+margin_right = -223.0
 margin_bottom = 22.0
 toggle_mode = true
 group = SubResource( 7 )
@@ -427,9 +436,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -141.0
+margin_left = -138.0
 margin_top = -63.0
-margin_right = -52.0
+margin_right = -49.0
 margin_bottom = 22.0
 toggle_mode = true
 group = SubResource( 7 )
@@ -455,9 +464,9 @@ valign = 1
 [node name="Shop" type="TextureButton" parent="Bot"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 50.0
+margin_left = 52.0
 margin_top = -63.0
-margin_right = 137.0
+margin_right = 144.0
 margin_bottom = 22.0
 toggle_mode = true
 group = SubResource( 7 )
