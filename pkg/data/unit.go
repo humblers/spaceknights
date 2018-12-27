@@ -573,11 +573,11 @@ var Units = map[string]Unit{
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Missile,
 		"damagetype":     NormalDamage,
-		"attackdamage":   []int{75},
+		"attackdamage":   []int{100},
 		"attackrange":    350,
-		"attackinterval": 15,
-		"preattackdelay": 0,
-		"bulletlifetime": 15,
+		"attackinterval": 20,
+		"preattackdelay": 13,
+		"bulletlifetime": 20,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "sentryshelter",
@@ -660,7 +660,7 @@ var Units = map[string]Unit{
 		"attackdamage":   []int{110},
 		"attackrange":    350,
 		"attackinterval": 22,
-		"preattackdelay": 0,
+		"preattackdelay": 17,
 		"bulletlifetime": 22,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
@@ -1052,9 +1052,9 @@ var Units = map[string]Unit{
 		"damagetype":     NormalDamage,
 		"attackdamage":   []int{100},
 		"attackrange":    350,
-		"attackinterval": 22,
-		"preattackdelay": 0,
-		"bulletlifetime": 22,
+		"attackinterval": 20,
+		"preattackdelay": 15,
+		"bulletlifetime": 20,
 		"skill": map[string]interface{}{
 			"wing": map[string]interface{}{
 				"name":         "emp",
