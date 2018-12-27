@@ -27,8 +27,11 @@ func newFrost(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (f *frost) TakeDamage(amount int, a Attacker) {
-	f.unit.TakeDamage(amount, a)
+func (f *frost) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	f.unit.TakeDamage(amount, damageType)
 	if f.IsDead() {
 		f.player.OnKnightDead(f)
 	}
@@ -189,7 +192,7 @@ func (f *frost) handleAttack() {
 }
 
 func (f *frost) fire() {
-	b := newBullet(f.targetId, f.bulletLifeTime(), f.attackDamage(), f.DamageType(), f.game)
+	b := newBullet(f.targetId, f.bulletLifeTime(), f.attackDamage(), f.damageType(), f.game)
 	duration := 0
 	for _, d := range f.player.StatRatios("slowduration") {
 		duration += d

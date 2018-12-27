@@ -13,8 +13,8 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 	
-func TakeDamage(amount, attacker):
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -100,7 +100,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == chargedAttackPreDelay():
 			if t != null and withinRange(t):
-				splashAttack(t, chargedAttackDamage())
+				splashAttack(t, chargedAttackDamage(), chargedAttackDamageType())
 			else:
 				attack = 0
 				charge = 0
@@ -118,7 +118,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
-				splashAttack(t, attackDamage())
+				splashAttack(t, attackDamage(), damageType())
 			else:
 				attack = 0
 				return
@@ -126,7 +126,7 @@ func handleAttack():
 		if attack > attackInterval():
 			attack = 0
 
-func splashAttack(target, damage):
+func splashAttack(target, damage, damageType):
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():
@@ -136,7 +136,7 @@ func splashAttack(target, damage):
 		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(u.Radius(), damageRadius())
 		if d < scalar.Mul(r, r):
-			u.TakeDamage(damage, self)
+			u.TakeDamage(damage, damageType, self)
 	
 func chargeDelay():
 	return data.units[name_]["chargedelay"]
@@ -151,6 +151,9 @@ func speed():
 	if slowUntil >= game.Step():
 		s = s * data.SlowPercent / 100
 	return game.World().FromPixel(s)
+
+func chargedAttackDamageType():
+	return data.units[name_]["chargedattackdamagetype"]
 
 func chargedAttackDamage():
 	var v = data.units[name_]["chargedattackdamage"]

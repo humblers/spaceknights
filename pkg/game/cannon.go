@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type cannon struct {
 	*unit
 	Decayable
@@ -14,6 +16,13 @@ func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 	c.Decayable = newDecayable(c)
 	return c
+}
+
+func (c *cannon) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	c.unit.TakeDamage(amount, damageType)
 }
 
 func (c *cannon) Destroy() {
@@ -58,7 +67,7 @@ func (c *cannon) setTarget(u Unit) {
 }
 
 func (c *cannon) fire() {
-	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage(), c.DamageType(), c.game)
+	b := newBullet(c.targetId, c.bulletLifeTime(), c.attackDamage(), c.damageType(), c.game)
 	c.game.AddBullet(b)
 }
 

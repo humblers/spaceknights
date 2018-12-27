@@ -23,13 +23,9 @@ func (d *decayable) TakeDecayDamage() {
 		return
 	}
 	damage := data.Units[d.Name()]["decaydamage"].(int)
-	d.TakeDamage(damage, d)
+	d.TakeDamage(damage, data.Decay)
 }
 
 func (d *decayable) SetDecayOff() {
 	d.off = true
-}
-
-func (d *decayable) DamageType() data.DamageType {
-	return data.Decay
 }

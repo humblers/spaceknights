@@ -21,6 +21,13 @@ func newBlastturret(id int, level, posX, posY int, g Game, p Player) Unit {
 	return b
 }
 
+func (b *blastturret) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	b.unit.TakeDamage(amount, damageType)
+}
+
 func (b *blastturret) Destroy() {
 	b.unit.Destroy()
 	b.Release()
@@ -63,7 +70,7 @@ func (b *blastturret) setTarget(u Unit) {
 }
 
 func (b *blastturret) fire() {
-	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.DamageType(), b.game)
+	bullet := newBullet(b.targetId, b.bulletLifeTime(), b.attackDamage(), b.damageType(), b.game)
 	bullet.MakeSplash(b.damageRadius())
 	b.game.AddBullet(bullet)
 }

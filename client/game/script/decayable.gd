@@ -10,10 +10,7 @@ func TakeDecayDamage():
 	if off:
 		return
 	var damage = data.units[unit.Name()]["decaydamage"]
-	unit.TakeDamage(damage, self)
+	unit.TakeDamage(damage, data.Decay, self)
 
 func SetDecayOff():
 	off = true
-
-func DamageType():
-	return data.Decay

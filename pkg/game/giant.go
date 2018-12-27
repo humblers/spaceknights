@@ -64,7 +64,7 @@ func (g *giant) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()
 		if t != nil && g.withinRange(t) {
-			t.TakeDamage(g.attackDamage(), g)
+			t.TakeDamage(g.attackDamage(), g.damageType())
 		} else {
 			g.attack = 0
 			return

@@ -27,8 +27,11 @@ func newLegion(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (l *legion) TakeDamage(amount int, a Attacker) {
-	l.unit.TakeDamage(amount, a)
+func (l *legion) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	l.unit.TakeDamage(amount, damageType)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
@@ -37,13 +40,6 @@ func (l *legion) TakeDamage(amount int, a Attacker) {
 func (l *legion) Destroy() {
 	l.unit.Destroy()
 	l.Release()
-}
-
-func (l *legion) DamageType() data.DamageType {
-	if l.cast > 0 {
-		return l.Skill()["damagetype"].(data.DamageType)
-	}
-	return l.unit.DamageType()
 }
 
 func (l *legion) attackDamage() int {
@@ -146,6 +142,7 @@ func (l *legion) CastSkill(posX, posY int) {
 
 func (l *legion) fireball() {
 	damage := l.Skill()["damage"].([]int)[l.level]
+	damageType := l.Skill()["damagetype"].(data.DamageType)
 	radius := l.game.World().FromPixel(l.Skill()["radius"].(int))
 	for _, id := range l.game.UnitIds() {
 		u := l.game.FindUnit(id)
@@ -159,7 +156,7 @@ func (l *legion) fireball() {
 		d := u.Position().Sub(castPos).LengthSquared()
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
-			u.TakeDamage(damage, l)
+			u.TakeDamage(damage, damageType)
 		}
 	}
 }
@@ -193,7 +190,7 @@ func (l *legion) handleAttack() {
 }
 
 func (l *legion) fire() {
-	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.DamageType(), l.game)
+	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.damageType(), l.game)
 	duration := 0
 	for _, d := range l.player.StatRatios("slowduration") {
 		duration += d

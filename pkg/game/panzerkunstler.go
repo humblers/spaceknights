@@ -12,7 +12,7 @@ type panzerkunstler struct {
 	attack      int // elapsed time since attack start
 	attackCount int
 	punchPos    fixed.Vector
-	shield   int
+	shield      int
 }
 
 func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -24,8 +24,8 @@ func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (p *panzerkunstler) TakeDamage(amount int, a Attacker) {
-	if a.DamageType() != data.AntiShield {
+func (p *panzerkunstler) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType != data.AntiShield {
 		p.shield -= amount
 		if p.shield < 0 {
 			p.hp += p.shield
@@ -108,7 +108,7 @@ func (p *panzerkunstler) handleAttack() {
 					n := d.Normalized()
 					u.AddForce(n.Mul(p.powerAttackForce()))
 					if p.attack == p.powerAttackPreDelay() {
-						u.TakeDamage(p.powerAttackDamage(), p)
+						u.TakeDamage(p.powerAttackDamage(), p.powerAttackDamageType())
 					}
 				}
 			}
@@ -122,7 +122,7 @@ func (p *panzerkunstler) handleAttack() {
 		if p.attack == p.preAttackDelay() {
 			t := p.target()
 			if t != nil && p.withinRange(t) {
-				t.TakeDamage(p.attackDamage(), p)
+				t.TakeDamage(p.attackDamage(), p.damageType())
 			} else {
 				p.attack = 0
 				return
@@ -150,6 +150,10 @@ func (p *panzerkunstler) powerAttackPreDelay() int {
 
 func (p *panzerkunstler) powerAttackFrequency() int {
 	return data.Units[p.name]["powerattackfrequency"].(int)
+}
+
+func (p *panzerkunstler) powerAttackDamageType() data.DamageType {
+	return data.Units[p.name]["powerattackdamagetype"].(data.DamageType)
 }
 
 func (p *panzerkunstler) powerAttackDamage() int {

@@ -71,7 +71,7 @@ func (p *pixie) handleAttack() {
 	if p.attack == p.preAttackDelay() {
 		t := p.target()
 		if t != nil && p.withinRange(t) {
-			t.TakeDamage(p.attackDamage(), p)
+			t.TakeDamage(p.attackDamage(), p.damageType())
 		} else {
 			p.attack = 0
 			p.setLayer(p.initialLayer())

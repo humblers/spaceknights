@@ -19,8 +19,8 @@ func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (f *felhound) TakeDamage(amount int, a Attacker) {
-	if a.DamageType() != data.AntiShield {
+func (f *felhound) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType != data.AntiShield {
 		f.shield -= amount
 		if f.shield < 0 {
 			f.hp += f.shield
@@ -87,7 +87,7 @@ func (f *felhound) handleAttack() {
 	if f.attack == f.preAttackDelay() {
 		t := f.target()
 		if t != nil && f.withinRange(t) {
-			t.TakeDamage(f.attackDamage(), f)
+			t.TakeDamage(f.attackDamage(), f.damageType())
 		} else {
 			f.attack = 0
 			return

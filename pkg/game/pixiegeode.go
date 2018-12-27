@@ -19,6 +19,13 @@ func newPixiegeode(id int, level, posX, posY int, g Game, p Player) Unit {
 	return pg
 }
 
+func (pg *pixiegeode) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	pg.unit.TakeDamage(amount, damageType)
+}
+
 func (pg *pixiegeode) Destroy() {
 	pg.unit.Destroy()
 	pg.Release()

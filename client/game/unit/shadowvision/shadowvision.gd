@@ -12,10 +12,10 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 	
-func TakeDamage(amount, attacker):
+func TakeDamage(amount, damageType, attacker):
 	if Layer() != data.Normal:
 		return
-	if attacker.DamageType() != data.AntiShield:
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -73,7 +73,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("missile").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
 	b.rotation = $Rotatable.rotation

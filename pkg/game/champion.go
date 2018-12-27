@@ -23,8 +23,8 @@ func newChampion(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (c *champion) TakeDamage(amount int, a Attacker) {
-	if a.DamageType() != data.AntiShield {
+func (c *champion) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType != data.AntiShield {
 		c.shield -= amount
 		if c.shield < 0 {
 			c.hp += c.shield
@@ -129,7 +129,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.chargedAttackPreDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				c.splashAttack(t, c.chargedAttackDamage())
+				c.splashAttack(t, c.chargedAttackDamage(), c.chargedAttackDamageType())
 			} else {
 				c.attack = 0
 				c.charge = 0
@@ -146,7 +146,7 @@ func (c *champion) handleAttack() {
 		if c.attack == c.preAttackDelay() {
 			t := c.target()
 			if t != nil && c.withinRange(t) {
-				c.splashAttack(t, c.attackDamage())
+				c.splashAttack(t, c.attackDamage(), c.damageType())
 			} else {
 				c.attack = 0
 				return
@@ -159,7 +159,7 @@ func (c *champion) handleAttack() {
 	}
 }
 
-func (c *champion) splashAttack(target Unit, damage int) {
+func (c *champion) splashAttack(target Unit, damage int, damageType data.DamageType) {
 	for _, id := range c.game.UnitIds() {
 		u := c.game.FindUnit(id)
 		if u.Team() == c.Team() {
@@ -168,7 +168,7 @@ func (c *champion) splashAttack(target Unit, damage int) {
 		d := target.Position().Sub(u.Position()).LengthSquared()
 		r := u.Radius().Add(c.damageRadius())
 		if d < r.Mul(r) {
-			u.TakeDamage(damage, c)
+			u.TakeDamage(damage, damageType)
 		}
 	}
 }
@@ -188,6 +188,10 @@ func (c *champion) speed() fixed.Scalar {
 		s = s * SlowPercent / 100
 	}
 	return c.game.World().FromPixel(s)
+}
+
+func (c *champion) chargedAttackDamageType() data.DamageType {
+	return data.Units[c.name]["chargedattackdamagetype"].(data.DamageType)
 }
 
 func (c *champion) chargedAttackDamage() int {

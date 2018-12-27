@@ -36,8 +36,11 @@ func newTombstone(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (ts *tombstone) TakeDamage(amount int, a Attacker) {
-	ts.unit.TakeDamage(amount, a)
+func (ts *tombstone) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	ts.unit.TakeDamage(amount, damageType)
 	if ts.IsDead() {
 		ts.player.OnKnightDead(ts)
 	}
@@ -109,7 +112,7 @@ func (ts *tombstone) Update() {
 			ts.moveToPos(fixed.Vector{posX, ts.Position().Y})
 			if ts.withinRange(t) {
 				if ts.attack%ts.attackInterval() == 0 {
-					t.TakeDamage(ts.attackDamage(), ts)
+					t.TakeDamage(ts.attackDamage(), ts.damageType())
 					duration := 0
 					for _, d := range ts.player.StatRatios("slowduration") {
 						duration += d

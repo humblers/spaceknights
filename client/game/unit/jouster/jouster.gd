@@ -71,7 +71,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == chargedAttackPreDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(chargedAttackDamage(), self)
+				t.TakeDamage(chargedAttackDamage(), chargedAttackDamageType(), self)
 			else:
 				attack = 0
 				charge = 0
@@ -89,7 +89,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(attackDamage(), self)
+				t.TakeDamage(attackDamage(), damageType(), self)
 			else:
 				attack = 0
 				return
@@ -110,6 +110,9 @@ func speed():
 	if slowUntil >= game.Step():
 		s = s * data.SlowPercent / 100
 	return game.World().FromPixel(s)
+
+func chargedAttackDamageType():
+	return data.units[name_]["chargedattackdamagetype"]
 
 func chargedAttackDamage():
 	var v = data.units[name_]["chargedattackdamage"]

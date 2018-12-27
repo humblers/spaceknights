@@ -79,7 +79,7 @@ func (e *enforcer) handleAttack() {
 				d := e.Position().Sub(u.Position()).LengthSquared()
 				r := e.Radius().Add(u.Radius()).Add(e.attackRadius())
 				if d < r.Mul(r) {
-					u.TakeDamage(e.attackDamage(), e)
+					u.TakeDamage(e.attackDamage(), e.damageType())
 				}
 			}
 		} else {

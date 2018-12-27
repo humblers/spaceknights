@@ -10,9 +10,9 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
-func TakeDamage(amount, attacker):
-	var dead = hp <= 0
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	var alreadyDead = IsDead()
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -25,7 +25,7 @@ func TakeDamage(amount, attacker):
 		hp -= amount
 		damages[game.step] = 0
 		$HitEffect.hit(attacker)
-	if not dead and hp <= 0:
+	if not alreadyDead and IsDead():
 		for id in game.UnitIds():
 			var u = game.FindUnit(id)
 			if u.Team() == Team():
@@ -33,9 +33,9 @@ func TakeDamage(amount, attacker):
 			var x = scalar.Sub(PositionX(), u.PositionX())
 			var y = scalar.Sub(PositionY(), u.PositionY())
 			var d = vector.LengthSquared(x, y)
-			var r = scalar.Add(scalar.Add(Radius(), u.Radius()), destroyRadius())
+			var r = scalar.Add(u.Radius(), destroyRadius())
 			if d < scalar.Mul(r, r):
-				u.TakeDamage(destroyDamage(), self)
+				u.TakeDamage(destroyDamage(), destroyDamageType(), self)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true
@@ -101,6 +101,9 @@ func handleAttack():
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
+
+func destroyDamageType():
+	return data.units[name_]["destroydamagetype"]
 
 func destroyDamage():
 	return data.units[name_]["destroydamage"][level]

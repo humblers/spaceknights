@@ -15,8 +15,8 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 	
-func TakeDamage(amount, attacker):
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -33,7 +33,6 @@ func TakeDamage(amount, attacker):
 	node_hp.value = hp
 	node_hp.visible = true
 	$Hp/Shield.visible = true
-	
 
 func Update():
 	.Update()
@@ -113,7 +112,7 @@ func handleAttack():
 					var fy = scalar.Mul(n[1], powerAttackForce())
 					u.AddForce(fx, fy)
 					if attack == powerAttackPreDelay():
-						u.TakeDamage(powerAttackDamage(), self)
+						u.TakeDamage(powerAttackDamage(), powerAttackDamageType(), self)
 		attack += 1
 		if attack > powerAttackInterval():
 			attack = 0
@@ -126,7 +125,7 @@ func handleAttack():
 			look_at_pos(t.PositionX(), t.PositionY())
 		if attack == preAttackDelay():
 			if t != null and withinRange(t):
-				t.TakeDamage(attackDamage(), self)
+				t.TakeDamage(attackDamage(), damageType(), self)
 			else:
 				attack = 0
 				return
@@ -146,6 +145,9 @@ func powerAttackPreDelay():
 
 func powerAttackFrequency():
 	return data.units[name_]["powerattackfrequency"]
+
+func powerAttackDamageType():
+	return data.units[name_]["powerattackdamagetype"]
 
 func powerAttackDamage():
 	var v = data.units[name_]["powerattackdamage"]

@@ -44,7 +44,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("ice_orb").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
 	b.global_position = $Rotatable/Body/Shotpoint.global_position

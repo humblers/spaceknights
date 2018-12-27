@@ -171,7 +171,7 @@ func SetHp(hp):
 	self.hp = hp
 	set_hp()
 	
-func TakeDamage(amount, attacker):
+func TakeDamage(amount, damageType, attacker):
 	if Layer() != data.Normal:
 		return
 	hp -= amount
@@ -179,7 +179,7 @@ func TakeDamage(amount, attacker):
 	node_hp.visible = true
 
 	# client only
-	if attacker.DamageType() == data.Decay:
+	if damageType == data.Decay:
 		return
 	damages[game.step] = 0
 	$HitEffect.hit(attacker)
@@ -237,9 +237,6 @@ func Skill():
 func CastSkill(posX, posY):
 	print("not implemented")
 
-func DamageType():
-	return data.units[name_]["damagetype"]
-
 func initialLayer():
 	return data.units[name_]["layer"]
 
@@ -286,6 +283,9 @@ func targetTypes():
 
 func targetLayers():
 	return data.units[name_]["targetlayers"]
+
+func damageType():
+	return data.units[name_]["damagetype"]
 
 func attackDamage():
 	var v = data.units[name_]["attackdamage"]

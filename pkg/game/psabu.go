@@ -23,8 +23,8 @@ func newPsabu(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (p *psabu) TakeDamage(amount int, a Attacker) {
-	if a.DamageType() != data.AntiShield {
+func (p *psabu) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType != data.AntiShield {
 		p.shield -= amount
 		if p.shield < 0 {
 			p.hp += p.shield
@@ -106,7 +106,7 @@ func (p *psabu) handleAttack() {
 			d := p.punchPos.Sub(u.Position()).LengthSquared()
 			r := u.Radius().Add(radius)
 			if d < r.Mul(r) {
-				u.TakeDamage(p.attackDamage(), p)
+				u.TakeDamage(p.attackDamage(), p.damageType())
 			}
 		}
 	}
@@ -130,6 +130,7 @@ func (p *psabu) absorb() {
 	radius := p.game.World().FromPixel(data.Units[p.name]["absorbradius"].(int))
 	force := p.game.World().FromPixel(data.Units[p.name]["absorbforce"].(int))
 	damage := data.Units[p.name]["absorbdamage"].(int)
+	damageType := data.Units[p.name]["absorbdamagetype"].(data.DamageType)
 	for _, id := range p.game.UnitIds() {
 		u := p.game.FindUnit(id)
 		if u.Team() == p.Team() || u.Layer() != data.Normal {
@@ -140,7 +141,7 @@ func (p *psabu) absorb() {
 		if d.LengthSquared() < r.Mul(r) {
 			n := d.Normalized()
 			u.AddForce(n.Mul(force))
-			u.TakeDamage(damage, p)
+			u.TakeDamage(damage, damageType)
 		}
 	}
 }

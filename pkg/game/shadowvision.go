@@ -22,11 +22,11 @@ func newShadowvision(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (s *shadowvision) TakeDamage(amount int, a Attacker) {
+func (s *shadowvision) TakeDamage(amount int, damageType data.DamageType) {
 	if s.Layer() != data.Normal {
 		return
 	}
-	if a.DamageType() != data.AntiShield {
+	if damageType != data.AntiShield {
 		s.shield -= amount
 		if s.shield < 0 {
 			s.hp += s.shield
@@ -78,7 +78,7 @@ func (s *shadowvision) setTarget(u Unit) {
 }
 
 func (s *shadowvision) fire() {
-	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.DamageType(), s.game)
+	b := newBullet(s.targetId, s.bulletLifeTime(), s.attackDamage(), s.damageType(), s.game)
 	b.MakeSplash(s.damageRadius())
 	s.game.AddBullet(b)
 }

@@ -14,8 +14,8 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
-func TakeDamage(amount, attacker):
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -108,7 +108,7 @@ func handleAttack():
 			var d = vector.LengthSquared(x, y)
 			var r = scalar.Add(u.Radius(), radius)
 			if d < scalar.Mul(r, r):
-				u.TakeDamage(attackDamage(), self)
+				u.TakeDamage(attackDamage(), damageType(), self)
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
@@ -117,6 +117,7 @@ func absorb():
 	var radius = absorbRadius()
 	var force = game.World().FromPixel(data.units[name_]["absorbforce"])
 	var damage = data.units[name_]["absorbdamage"]
+	var damageType = data.units[name_]["absorbdamagetype"]
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team() or u.Layer() != data.Normal:
@@ -130,7 +131,7 @@ func absorb():
 			var fx = scalar.Mul(n[0], force)
 			var fy = scalar.Mul(n[1], force)
 			u.AddForce(fx, fy)
-			u.TakeDamage(damage, self)
+			u.TakeDamage(damage, damageType, self)
 			
 
 func absorbRadius():

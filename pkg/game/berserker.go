@@ -64,7 +64,7 @@ func (b *berserker) handleAttack() {
 	if b.attack == b.preAttackDelay() {
 		t := b.target()
 		if t != nil && b.withinRange(t) {
-			t.TakeDamage(b.attackDamage(), b)
+			t.TakeDamage(b.attackDamage(), b.damageType())
 		} else {
 			b.attack = 0
 			return

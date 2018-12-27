@@ -1,5 +1,7 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type beholder struct {
 	*unit
 	player Player
@@ -16,6 +18,13 @@ func newBeholder(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 	b.Decayable = newDecayable(b)
 	return b
+}
+
+func (b *beholder) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	b.unit.TakeDamage(amount, damageType)
 }
 
 func (b *beholder) Destroy() {
@@ -39,7 +48,7 @@ func (b *beholder) Update() {
 	if t != nil {
 		if b.withinRange(t) {
 			if b.attack%b.attackInterval() == 0 {
-				t.TakeDamage(b.attackDamage(), b)
+				t.TakeDamage(b.attackDamage(), b.damageType())
 			}
 			b.attack++
 		} else {

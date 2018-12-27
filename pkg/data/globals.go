@@ -20,6 +20,8 @@ const StatMultiplier = 110
 const InitialRank = 25
 const MedalsPerRank = 5
 
+const ReducedDamgeRatioOnKnightBuilding = 35
+
 var InitialDeck = []Card{
 	Card{Name: "archers"},
 	Card{Name: "giant"},

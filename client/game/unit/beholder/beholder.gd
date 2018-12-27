@@ -13,6 +13,11 @@ func Init(id, level, posX, posY, game, player):
 func _ready():
 	$Float/FloatAni.play("activate")
 
+func TakeDamage(amount, damageType, attacker):
+	if damageType in [data.Skill, data.Death]:
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	.TakeDamage(amount, damageType, attacker)
+
 func Update():
 	Decayable.TakeDecayDamage()
 	if freeze > 0:
@@ -27,7 +32,7 @@ func Update():
 	if t != null:
 		if withinRange(t):
 			if attack % attackInterval() == 0:
-				t.TakeDamage(attackDamage(), self)
+				t.TakeDamage(attackDamage(), damageType(), self)
 			attack += 1
 		else:
 			attack = 0

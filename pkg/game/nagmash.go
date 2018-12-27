@@ -34,8 +34,11 @@ func newNagmash(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (n *nagmash) TakeDamage(amount int, a Attacker) {
-	n.unit.TakeDamage(amount, a)
+func (n *nagmash) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	n.unit.TakeDamage(amount, damageType)
 	if n.IsDead() {
 		n.player.OnKnightDead(n)
 	}
@@ -106,7 +109,7 @@ func (n *nagmash) Update() {
 			n.moveToPos(fixed.Vector{posX, n.Position().Y})
 			if n.withinRange(t) {
 				if n.attack%n.attackInterval() == 0 {
-					t.TakeDamage(n.attackDamage(), n)
+					t.TakeDamage(n.attackDamage(), n.damageType())
 					duration := 0
 					for _, d := range n.player.StatRatios("slowduration") {
 						duration += d

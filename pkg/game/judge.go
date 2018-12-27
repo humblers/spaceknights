@@ -27,8 +27,11 @@ func newJudge(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (j *judge) TakeDamage(amount int, a Attacker) {
-	j.unit.TakeDamage(amount, a)
+func (j *judge) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	j.unit.TakeDamage(amount, damageType)
 	if j.IsDead() {
 		j.player.OnKnightDead(j)
 	}
@@ -37,13 +40,6 @@ func (j *judge) TakeDamage(amount int, a Attacker) {
 func (j *judge) Destroy() {
 	j.unit.Destroy()
 	j.Release()
-}
-
-func (j *judge) DamageType() data.DamageType {
-	if j.cast > 0 {
-		return j.Skill()["damagetype"].(data.DamageType)
-	}
-	return j.unit.DamageType()
 }
 
 func (j *judge) attackDamage() int {
@@ -145,6 +141,7 @@ func (j *judge) CastSkill(posX, posY int) {
 
 func (j *judge) bulletrain() {
 	damage := j.Skill()["damage"].([]int)[j.level]
+	damageType := j.Skill()["damagetype"].(data.DamageType)
 	radius := j.game.World().FromPixel(j.Skill()["radius"].(int))
 	for _, id := range j.game.UnitIds() {
 		u := j.game.FindUnit(id)
@@ -158,7 +155,7 @@ func (j *judge) bulletrain() {
 		d := u.Position().Sub(castPos).LengthSquared()
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
-			u.TakeDamage(damage, j)
+			u.TakeDamage(damage, damageType)
 		}
 	}
 }
@@ -192,7 +189,7 @@ func (j *judge) handleAttack() {
 }
 
 func (j *judge) fire() {
-	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage(), j.DamageType(), j.game)
+	b := newBullet(j.targetId, j.bulletLifeTime(), j.attackDamage(), j.damageType(), j.game)
 	duration := 0
 	for _, d := range j.player.StatRatios("slowduration") {
 		duration += d

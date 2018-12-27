@@ -54,7 +54,7 @@ func (a *archmage) setTarget(u Unit) {
 }
 
 func (a *archmage) fire() {
-	bullet := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
+	bullet := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.damageType(), a.game)
 	bullet.MakeSplash(a.damageRadius())
 	a.game.AddBullet(bullet)
 }
