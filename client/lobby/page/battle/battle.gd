@@ -11,7 +11,16 @@ export(NodePath) onready var match_btn = get_node(match_btn)
 export(NodePath) onready var config_btn = get_node(config_btn)
 
 export(NodePath) onready var pid = get_node(pid)
-export(NodePath) onready var star = get_node(star)
+export(NodePath) onready var rank = get_node(rank)
+
+export(NodePath) onready var chest_0 = get_node(chest_0)
+export(NodePath) onready var chest_1 = get_node(chest_1)
+export(NodePath) onready var chest_2 = get_node(chest_2)
+export(NodePath) onready var chest_3 = get_node(chest_3)
+export(NodePath) onready var chest_4 = get_node(chest_4)
+export(NodePath) onready var chest_5 = get_node(chest_5)
+export(NodePath) onready var chest_6 = get_node(chest_6)
+export(NodePath) onready var chest_7 = get_node(chest_7)
 
 func _ready():
 	match_btn.connect("button_up", self, "match_request")
@@ -19,7 +28,7 @@ func _ready():
 
 func invalidate():
 	pid.text = user.PlatformId
-	star.text = "%d" % user.Solo.Star
+	rank.text = "%d" % user.Rank
 	for card in user.DeckSlots[user.DeckSelected]:
 		card = data.NewCard(card)
 		if card.Type == data.SquireCard:
@@ -30,7 +39,13 @@ func invalidate():
 		var node = knight_resources.get_resource(card.Name).instance()
 		recursive_light_masking(node, light.range_item_cull_mask)
 		deck.add_child(node)
-
+	
+	# set chest slots
+	for i in len(user.BattleChestSlots):
+		var chest = user.BattleChestSlots[i]
+		var node = get("chest_%d" % i)
+		node.Set(chest)
+	
 func recursive_light_masking(node, mask):
 	if node.get("light_mask") != null:
 		node.light_mask = mask
@@ -57,62 +72,4 @@ func match_request():
 func show_config():
 	lobby.hud.config_dialog.PopUp()
 
-func _on_TempButton_button_down():
-	$TempPopup1.show()
 
-func _on_TempButton_button_up():
-	$TempPopup1.hide()
-
-func _on_Box0_button_down():
-	$TempPopup3.show()
-
-func _on_Box0_button_up():
-	$TempPopup3.hide()
-
-func _on_Box2_button_down():
-	$TempPopup3.show()
-
-func _on_Box2_button_up():
-	$TempPopup3.hide()
-
-func _on_Box5_button_down():
-	$TempPopup3.show()
-
-func _on_Box5_button_up():
-	$TempPopup3.hide()
-
-func _on_Box6_button_down():
-	$TempPopup3.show()
-
-func _on_Box6_button_up():
-	$TempPopup3.hide()
-
-func _on_Box7_button_down():
-	$TempPopup3.show()
-
-func _on_Box7_button_up():
-	$TempPopup3.hide()
-
-func _on_Box1_button_down():
-	$TempPopup2.show()
-
-func _on_Box1_button_up():
-	$TempPopup2.hide()
-
-func _on_Box3_button_down():
-	$TempPopup2.show()
-
-func _on_Box3_button_up():
-	$TempPopup2.hide()
-
-func _on_Box4_button_down():
-	$TempPopup2.show()
-
-func _on_Box4_button_up():
-	$TempPopup2.hide()
-
-func _on_MedalBox_button_down():
-	$TempPopup2.show()
-
-func _on_MedalBox_button_up():
-	$TempPopup2.hide()

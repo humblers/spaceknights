@@ -17,7 +17,12 @@ var Dimensium
 var Cards
 var DeckSlots
 var DeckSelected
-var Solo
+var Rank
+var Medal
+var FreeChest
+var MedalChest
+var BattleChestSlots
+var BattleChestOrer
 
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:

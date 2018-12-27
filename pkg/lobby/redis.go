@@ -162,7 +162,7 @@ func convertSlice(v reflect.Value, src []interface{}, err error) error {
 			v.Set(reflect.Append(v, reflect.ValueOf(val)))
 			return nil
 		}
-	case reflect.Struct, reflect.Slice:
+	case reflect.Struct, reflect.Slice, reflect.Ptr:
 		setter = func() error {
 			vNested := reflect.New(v.Type().Elem())
 			if err := json.Unmarshal(val.([]byte), vNested.Interface()); err != nil {
