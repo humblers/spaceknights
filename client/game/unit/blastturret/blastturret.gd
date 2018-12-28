@@ -58,6 +58,7 @@ func fire():
 	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
 	# client only
+	b.rotation = $Rotatable.rotation
 	b.global_position = $Rotatable/TurretBody/Launcher/Shotpoint/Left.global_position
 
 func findTargetAndDoAction():

@@ -76,6 +76,7 @@ func fire():
 	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
 	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
+	b.rotation = $Rotatable.rotation
 	b.global_position = $Rotatable/Shotpoint.global_position
 
 func findTargetAndDoAction():

@@ -12,12 +12,7 @@ func _ready():
 	$AnimationPlayer.add_animation("attack", dup)
 	$AnimationPlayer.play("attack")
 	anim = dup
-	var target = game.FindUnit(targetId)
-	if target == null:
-		return
-	if target.team == "Blue":
-		self.rotation = PI
-		
+
 func _process(delta):
 	var target = game.FindUnit(targetId)
 	if target == null:

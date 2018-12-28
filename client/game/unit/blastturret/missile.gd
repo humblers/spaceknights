@@ -21,7 +21,6 @@ func _process(delta):
 		init_trajectory(target.global_position)
 		trajectory_initialized = true
 	update_hit_position(target.global_position)
-	rotation = PI/2 + (target.position - position).angle()
 
 func init_trajectory(hit_pos):
 	$HitPosition.global_position = hit_pos
