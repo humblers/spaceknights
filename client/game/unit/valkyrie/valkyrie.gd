@@ -188,4 +188,5 @@ func fire():
 	game.AddBullet(b)
 	
 	# client only
+	b.rotation = $Rotatable.rotation
 	b.global_position = $Rotatable/Body/Missile.global_position
