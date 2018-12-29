@@ -22,7 +22,7 @@ var Medal
 var FreeChest
 var MedalChest
 var BattleChestSlots
-var BattleChestOrer
+var BattleChestOrder
 
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:
