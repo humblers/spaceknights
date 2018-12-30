@@ -322,6 +322,7 @@ var Units = map[string]Unit{
 		"layer":          Normal,
 		"hp":             []int{3400},
 		"sight":          350,
+		"speed":          300,
 		"targettypes":    UnitTypes{Squire},
 		"targetlayers":   UnitLayers{Normal},
 		"attacktype":     Laser,
