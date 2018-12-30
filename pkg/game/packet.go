@@ -55,6 +55,7 @@ type State struct {
 type Replay struct {
 	Config  Config
 	Actions map[int][]Action
+	Winner  Team
 }
 
 type Config struct {

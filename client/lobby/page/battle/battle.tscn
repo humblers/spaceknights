@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://lobby/page/battle/battle.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -58,14 +58,10 @@
 [ext_resource path="res://lobby/resource/battle_button_hover.png" type="Texture" id=56]
 [ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=57]
 [ext_resource path="res://lobby/page/battle/medalbox_btn_dis.png" type="Texture" id=58]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=59]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=60]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=61]
-[ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=62]
-[ext_resource path="res://lobby/page/battle/setting.tscn" type="PackedScene" id=63]
-[ext_resource path="res://lobby/page/shop/buyitem.tscn" type="PackedScene" id=64]
-[ext_resource path="res://lobby/page/shop/itemopen.tscn" type="PackedScene" id=65]
-[ext_resource path="res://lobby/page/battle/boxopen.tscn" type="PackedScene" id=66]
+[ext_resource path="res://lobby/page/battle/chest.tscn" type="PackedScene" id=59]
+[ext_resource path="res://lobby/page/battle/knights.tscn" type="PackedScene" id=60]
+[ext_resource path="res://lobby/page/battle/setting.tscn" type="PackedScene" id=61]
+[ext_resource path="res://lobby/page/shop/buyitem.tscn" type="PackedScene" id=62]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -2919,57 +2915,6 @@ outline_color = Color( 0.607843, 0.607843, 0.607843, 1 )
 use_filter = true
 font_data = ExtResource( 46 )
 
-[sub_resource type="StyleBoxTexture" id=25]
-
-texture = ExtResource( 48 )
-region_rect = Rect2( 0, 0, 240, 240 )
-margin_left = 69.5
-margin_right = 71.0
-margin_top = 31.0
-margin_bottom = 100.0
-
-[sub_resource type="StyleBoxTexture" id=26]
-
-texture = ExtResource( 48 )
-region_rect = Rect2( 0, 0, 240, 240 )
-margin_left = 69.5
-margin_right = 70.5
-margin_top = 30.0
-margin_bottom = 99.0
-modulate_color = Color( 0.635294, 0.796078, 1, 0.592157 )
-
-[sub_resource type="StyleBoxTexture" id=27]
-
-texture = ExtResource( 48 )
-region_rect = Rect2( 0, 0, 240, 240 )
-margin_left = 69.5
-margin_right = 71.0
-margin_top = 30.5
-margin_bottom = 99.5
-
-[sub_resource type="DynamicFont" id=28]
-
-size = 46
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 4
-font_data = ExtResource( 46 )
-
-[sub_resource type="DynamicFont" id=29]
-
-size = 26
-use_filter = true
-font_data = ExtResource( 46 )
-
-[sub_resource type="DynamicFont" id=30]
-
-size = 21
-outline_size = 3
-outline_color = Color( 0.223529, 0.560784, 1, 1 )
-use_filter = true
-font_data = ExtResource( 46 )
-
 [node name="Battle" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2987,7 +2932,15 @@ knight_right = NodePath("CenterTop/Mothership/Nodes/Deck/Right/Position/Unit")
 match_btn = NodePath("Mid/NinePatchRect/Match")
 config_btn = NodePath("Config")
 pid = NodePath("ProfileBar/Control/EmblemFrame/VBoxContainer/PID")
-star = NodePath("ProfileBar/Control/RankFrame/Star")
+rank = NodePath("ProfileBar/Control/RankFrame/Rank")
+chest_0 = NodePath("Chests/Slots/Slot0/Chest")
+chest_1 = NodePath("Chests/Slots/Slot1/Chest")
+chest_2 = NodePath("Chests/Slots/Slot2/Chest")
+chest_3 = NodePath("Chests/Slots/Slot3/Chest")
+chest_4 = NodePath("Chests/Slots/Slot4/Chest")
+chest_5 = NodePath("Chests/Slots/Slot5/Chest")
+chest_6 = NodePath("Chests/Slots/Slot6/Chest")
+chest_7 = NodePath("Chests/Slots/Slot7/Chest")
 
 [node name="Tile" type="TextureRect" parent="."]
 anchor_left = 0.5
@@ -3277,7 +3230,7 @@ rotation = 3.14159
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -5.34058e-005, -18.5 )
+position = Vector2( -5.34058e-05, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3431,7 +3384,7 @@ rotation = 3.14159
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -6.10352e-005, -18.5 )
+position = Vector2( -6.10352e-05, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3512,7 +3465,7 @@ region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="ReadySign2" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck/Right/ReadyR"]
 editor/display_folded = true
-position = Vector2( -3.05176e-005, 9.15527e-005 )
+position = Vector2( -3.05176e-05, 9.15527e-05 )
 
 [node name="Scroll1" type="AnimatedSprite" parent="CenterTop/Mothership/Nodes/Deck/Right/ReadyR/ReadySign2"]
 visible = false
@@ -3565,13 +3518,13 @@ normal_map = ExtResource( 21 )
 
 [node name="DeckCover" type="Node2D" parent="CenterTop/Mothership/Nodes/Deck/Center"]
 editor/display_folded = true
-position = Vector2( 3.05176e-005, 18.9999 )
+position = Vector2( 3.05176e-05, 18.9999 )
 
 [node name="SkillReadyC" type="Sprite" parent="CenterTop/Mothership/Nodes/Deck/Center/DeckCover"]
 visible = false
 modulate = Color( 0, 0.670588, 1, 1 )
 light_mask = 2
-position = Vector2( -5.34058e-005, -18.5 )
+position = Vector2( -5.34058e-05, -18.5 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 22 )
 flip_v = true
@@ -3729,7 +3682,7 @@ color = Color( 1, 1, 1, 0.356863 )
 [node name="RBoosterLight1" type="Light2D" parent="CenterTop/Mothership/Nodes/Container/Rerverse/ReverseBoosterL"]
 light_mask = 2
 position = Vector2( -60, -0.000488281 )
-rotation = 1.83399e-007
+rotation = 1.83399e-07
 scale = Vector2( 3.9, 3 )
 enabled = false
 texture = ExtResource( 36 )
@@ -3931,7 +3884,6 @@ shadow_filter_smooth = 4.0
 shadow_item_cull_mask = 0
 
 [node name="ProfileBar" type="TextureRect" parent="."]
-editor/display_folded = true
 margin_left = -181.0
 margin_top = 110.0
 margin_right = 1620.0
@@ -3943,7 +3895,6 @@ expand = true
 stretch_mode = 2
 
 [node name="Control" type="Control" parent="ProfileBar"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -4012,7 +3963,7 @@ margin_bottom = 116.0
 texture = ExtResource( 47 )
 expand = true
 
-[node name="Star" type="Label" parent="ProfileBar/Control/RankFrame"]
+[node name="Rank" type="Label" parent="ProfileBar/Control/RankFrame"]
 margin_left = 76.0
 margin_top = 105.0
 margin_right = 134.0
@@ -4148,7 +4099,7 @@ text = "BATTLE"
 align = 1
 valign = 1
 
-[node name="Boxes" type="NinePatchRect" parent="."]
+[node name="Chests" type="NinePatchRect" parent="."]
 self_modulate = Color( 0.2, 0.290196, 0.372549, 0.588235 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -4166,7 +4117,7 @@ patch_margin_top = 30
 patch_margin_right = 30
 patch_margin_bottom = 30
 
-[node name="EmptySlot" type="GridContainer" parent="Boxes"]
+[node name="Slots" type="GridContainer" parent="Chests"]
 margin_left = 11.0
 margin_top = 24.0
 margin_right = 1071.0
@@ -4175,9 +4126,8 @@ custom_constants/vseparation = 0
 custom_constants/hseparation = 5
 columns = 4
 
-[node name="Slot0" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Slot0" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_right = 260.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 260, 360 )
@@ -4188,7 +4138,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot0"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot0"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4199,9 +4149,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot1" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot0" instance=ExtResource( 59 )]
+
+[node name="Slot1" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 265.0
 margin_right = 525.0
 margin_bottom = 360.0
@@ -4213,7 +4164,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot1"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot1"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4224,9 +4175,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot2" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot1" instance=ExtResource( 59 )]
+
+[node name="Slot2" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 530.0
 margin_right = 790.0
 margin_bottom = 360.0
@@ -4238,7 +4190,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot2"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot2"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4249,9 +4201,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot3" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot2" instance=ExtResource( 59 )]
+
+[node name="Slot3" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 795.0
 margin_right = 1055.0
 margin_bottom = 360.0
@@ -4263,7 +4216,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot3"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot3"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4274,9 +4227,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot4" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot3" instance=ExtResource( 59 )]
+
+[node name="Slot4" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_top = 360.0
 margin_right = 260.0
 margin_bottom = 720.0
@@ -4288,7 +4242,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot4"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot4"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4299,9 +4253,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot5" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot4" instance=ExtResource( 59 )]
+
+[node name="Slot5" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 265.0
 margin_top = 360.0
 margin_right = 525.0
@@ -4314,7 +4269,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot5"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot5"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4325,9 +4280,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot6" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot5" instance=ExtResource( 59 )]
+
+[node name="Slot6" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 530.0
 margin_top = 360.0
 margin_right = 790.0
@@ -4340,7 +4296,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot6"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot6"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4351,9 +4307,10 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="Slot7" type="NinePatchRect" parent="Boxes/EmptySlot"]
-editor/display_folded = true
-modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
+[node name="Chest" parent="Chests/Slots/Slot6" instance=ExtResource( 59 )]
+
+[node name="Slot7" type="NinePatchRect" parent="Chests/Slots"]
+self_modulate = Color( 0.54902, 0.54902, 0.54902, 0.482353 )
 margin_left = 795.0
 margin_top = 360.0
 margin_right = 1055.0
@@ -4366,7 +4323,7 @@ patch_margin_top = 40
 patch_margin_right = 40
 patch_margin_bottom = 40
 
-[node name="TextEdit" type="Label" parent="Boxes/EmptySlot/Slot7"]
+[node name="TextEdit" type="Label" parent="Chests/Slots/Slot7"]
 margin_left = 10.0
 margin_top = 160.0
 margin_right = 246.0
@@ -4377,7 +4334,9 @@ text = "ITEM SLOT"
 align = 1
 valign = 1
 
-[node name="GridContainer" type="GridContainer" parent="Boxes"]
+[node name="Chest" parent="Chests/Slots/Slot7" instance=ExtResource( 59 )]
+
+[node name="GridContainer" type="GridContainer" parent="Chests"]
 margin_left = 11.0
 margin_top = 24.0
 margin_right = 1070.0
@@ -4386,419 +4345,14 @@ custom_constants/vseparation = 0
 custom_constants/hseparation = 5
 columns = 4
 
-[node name="Box0" type="Button" parent="Boxes/GridContainer"]
-editor/display_folded = true
-self_modulate = Color( 0.443137, 0.596078, 1, 1 )
-margin_right = 260.0
-margin_bottom = 360.0
-rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
+[node name="Knights" parent="." instance=ExtResource( 60 )]
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Boxes/GridContainer/Box0"]
-editor/display_folded = true
-margin_left = 20.0
-margin_top = 28.0
-margin_right = 240.0
-margin_bottom = 287.0
-texture = ExtResource( 49 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 42
-patch_margin_top = 36
-patch_margin_right = 31
-patch_margin_bottom = 20
-
-[node name="OpenCost2" type="Label" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-margin_left = 10.0
-margin_top = 259.0
-margin_right = 143.0
-margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="CashIcon2" type="TextureRect" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-editor/display_folded = true
-margin_left = 151.0
-margin_top = 260.0
-margin_right = 217.0
-margin_bottom = 323.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 59 )
-
-[node name="Dimensium" parent="Boxes/GridContainer/Box0/NinePatchRect/CashIcon2" instance=ExtResource( 60 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-margin_left = 50.0
-margin_right = 215.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
-text = "23h 59m"
-valign = 1
-
-[node name="TimerIcon" type="TextureRect" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 61 )
-
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
-texture = ExtResource( 50 )
-expand = true
-
-[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box0/NinePatchRect"]
-margin_left = 4.0
-margin_top = 231.0
-margin_right = 215.0
-margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
-align = 1
-valign = 1
-
-[node name="Box1" type="Button" parent="Boxes/GridContainer"]
-editor/display_folded = true
-self_modulate = Color( 0.443137, 0.596078, 1, 1 )
-margin_left = 265.0
-margin_right = 525.0
-margin_bottom = 360.0
-rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Boxes/GridContainer/Box1"]
-editor/display_folded = true
-margin_left = 20.0
-margin_top = 28.0
-margin_right = 240.0
-margin_bottom = 287.0
-texture = ExtResource( 49 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 42
-patch_margin_top = 36
-patch_margin_right = 31
-patch_margin_bottom = 20
-
-[node name="OpenCost2" type="Label" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-margin_left = 10.0
-margin_top = 259.0
-margin_right = 143.0
-margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="CashIcon2" type="TextureRect" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-editor/display_folded = true
-margin_left = 151.0
-margin_top = 260.0
-margin_right = 217.0
-margin_bottom = 323.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 59 )
-
-[node name="Dimensium" parent="Boxes/GridContainer/Box1/NinePatchRect/CashIcon2" instance=ExtResource( 60 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-margin_left = 50.0
-margin_right = 215.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
-text = "23h 59m"
-valign = 1
-
-[node name="TimerIcon" type="TextureRect" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 61 )
-
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
-texture = ExtResource( 50 )
-expand = true
-
-[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box1/NinePatchRect"]
-margin_left = 4.0
-margin_top = 231.0
-margin_right = 215.0
-margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
-align = 1
-valign = 1
-
-[node name="Box2" type="Button" parent="Boxes/GridContainer"]
-editor/display_folded = true
-self_modulate = Color( 0.443137, 0.596078, 1, 1 )
-margin_left = 530.0
-margin_right = 790.0
-margin_bottom = 360.0
-rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Boxes/GridContainer/Box2"]
-editor/display_folded = true
-margin_left = 20.0
-margin_top = 28.0
-margin_right = 240.0
-margin_bottom = 287.0
-texture = ExtResource( 49 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 42
-patch_margin_top = 36
-patch_margin_right = 31
-patch_margin_bottom = 20
-
-[node name="OpenCost2" type="Label" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-margin_left = 10.0
-margin_top = 259.0
-margin_right = 143.0
-margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="CashIcon2" type="TextureRect" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-editor/display_folded = true
-margin_left = 151.0
-margin_top = 260.0
-margin_right = 217.0
-margin_bottom = 323.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 59 )
-
-[node name="Dimensium" parent="Boxes/GridContainer/Box2/NinePatchRect/CashIcon2" instance=ExtResource( 60 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-margin_left = 50.0
-margin_right = 215.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
-text = "23h 59m"
-valign = 1
-
-[node name="TimerIcon" type="TextureRect" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 61 )
-
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
-texture = ExtResource( 50 )
-expand = true
-
-[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box2/NinePatchRect"]
-margin_left = 4.0
-margin_top = 231.0
-margin_right = 215.0
-margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
-align = 1
-valign = 1
-
-[node name="Box3" type="Button" parent="Boxes/GridContainer"]
-editor/display_folded = true
-self_modulate = Color( 0.443137, 0.596078, 1, 1 )
-margin_left = 795.0
-margin_right = 1055.0
-margin_bottom = 360.0
-rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Boxes/GridContainer/Box3"]
-editor/display_folded = true
-margin_left = 20.0
-margin_top = 28.0
-margin_right = 240.0
-margin_bottom = 287.0
-texture = ExtResource( 49 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 42
-patch_margin_top = 36
-patch_margin_right = 31
-patch_margin_bottom = 20
-
-[node name="OpenCost2" type="Label" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-margin_left = 10.0
-margin_top = 259.0
-margin_right = 143.0
-margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="CashIcon2" type="TextureRect" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-editor/display_folded = true
-margin_left = 151.0
-margin_top = 260.0
-margin_right = 217.0
-margin_bottom = 323.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 59 )
-
-[node name="Dimensium" parent="Boxes/GridContainer/Box3/NinePatchRect/CashIcon2" instance=ExtResource( 60 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-margin_left = 50.0
-margin_right = 215.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
-text = "23h 59m"
-valign = 1
-
-[node name="TimerIcon" type="TextureRect" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 61 )
-
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
-texture = ExtResource( 50 )
-expand = true
-
-[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box3/NinePatchRect"]
-margin_left = 4.0
-margin_top = 231.0
-margin_right = 215.0
-margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
-align = 1
-valign = 1
-
-[node name="Box4" type="Button" parent="Boxes/GridContainer"]
-editor/display_folded = true
-self_modulate = Color( 0.443137, 0.596078, 1, 1 )
-margin_top = 360.0
-margin_right = 260.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Boxes/GridContainer/Box4"]
-editor/display_folded = true
-margin_left = 20.0
-margin_top = 28.0
-margin_right = 240.0
-margin_bottom = 287.0
-texture = ExtResource( 49 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 42
-patch_margin_top = 36
-patch_margin_right = 31
-patch_margin_bottom = 20
-
-[node name="OpenCost2" type="Label" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-margin_left = 10.0
-margin_top = 259.0
-margin_right = 143.0
-margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="CashIcon2" type="TextureRect" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-editor/display_folded = true
-margin_left = 151.0
-margin_top = 260.0
-margin_right = 217.0
-margin_bottom = 323.0
-rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 59 )
-
-[node name="Dimensium" parent="Boxes/GridContainer/Box4/NinePatchRect/CashIcon2" instance=ExtResource( 60 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-margin_left = 50.0
-margin_right = 215.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
-text = "23h 59m"
-valign = 1
-
-[node name="TimerIcon" type="TextureRect" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 61 )
-
-[node name="TextureRect" type="TextureRect" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
-texture = ExtResource( 50 )
-expand = true
-
-[node name="OpenNowText" type="Label" parent="Boxes/GridContainer/Box4/NinePatchRect"]
-margin_left = 4.0
-margin_top = 231.0
-margin_right = 215.0
-margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "INSTANT OPEN"
-align = 1
-valign = 1
-
-[node name="Knights" parent="." instance=ExtResource( 62 )]
-
-[node name="PopupSetting" parent="." instance=ExtResource( 63 )]
+[node name="PopupSetting" parent="." instance=ExtResource( 61 )]
 visible = false
 
-[node name="PopupBuyItem" parent="." instance=ExtResource( 64 )]
+[node name="PopupBuyItem" parent="." instance=ExtResource( 62 )]
 visible = false
 script = null
-
-[node name="PopupItemopen" parent="." instance=ExtResource( 65 )]
-visible = false
-
-[node name="Boxopen" parent="." instance=ExtResource( 66 )]
-visible = false
 
 [connection signal="button_down" from="ProfileBar/Control/TempButton" to="." method="_on_TempButton_button_down"]
 [connection signal="button_up" from="ProfileBar/Control/TempButton" to="." method="_on_TempButton_button_up"]

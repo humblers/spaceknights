@@ -12,6 +12,7 @@ import "runtime/pprof"
 import "encoding/json"
 
 import "github.com/gomodule/redigo/redis"
+import "github.com/humblers/spaceknights/pkg/data"
 
 type Server interface {
 	Run()
@@ -200,7 +201,7 @@ func (s *server) runGame(cfg Config) {
 	s.gwg.Add(1)
 	go func() {
 		defer s.gwg.Done()
-		defer s.saveReplay(g)
+		defer s.saveResult(g)
 		defer s.logger.Printf("%v stopped", g)
 		defer s.removeGame(g)
 		s.logger.Printf("%v starting", g)
@@ -211,16 +212,75 @@ func (s *server) runGame(cfg Config) {
 	s.Unlock()
 }
 
-func (s *server) saveReplay(g Game) {
+func (s *server) saveResult(g Game) {
 	conn := s.redisPool.Get()
 	defer conn.Close()
+
+	// save replay
+	replay := g.Replay()
 	key := fmt.Sprintf("game:%v", g.Id())
-	b, err := json.Marshal(g.Replay())
+	b, err := json.Marshal(replay)
 	if err != nil {
 		s.logger.Print(err)
 	}
 	if _, err := conn.Do("SET", key, string(b)); err != nil {
 		s.logger.Printf("cannot save replay: %v", g.Id())
+	}
+
+	// apply result
+	if replay.Winner == "" { // draw
+		return
+	}
+	for _, p := range replay.Config.Players {
+		key_rank := fmt.Sprintf("%v:rank", p.Id)
+		key_medal := fmt.Sprintf("%v:medal", p.Id)
+		conn.Send("GET", key_rank)
+		conn.Send("GET", key_medal)
+		conn.Flush()
+		rank, _ := redis.Int(conn.Receive())
+		medal, _ := redis.Int(conn.Receive())
+
+		if p.Team == replay.Winner {
+			if medal < data.MedalsPerRank {
+				medal++
+			} else {
+				rank--
+				medal = 1
+			}
+			// chest reward
+			key_slots := fmt.Sprintf("%v:battle-chest-slots", p.Id)
+			v, _ := conn.Do("LRANGE", key_slots, 0, -1)
+			slice := v.([]interface{})
+			for i, v := range slice {
+				var chest *data.Chest
+				json.Unmarshal(v.([]byte), &chest)
+				if chest == nil { // empty slot
+					key_order := fmt.Sprintf("%v:battle-chest-order", p.Id)
+					order, _ := redis.Int(conn.Do("GET", key_order))
+					order = order % len(data.ChestOrder)
+					name := data.ChestOrder[order]
+					time := time.Now().Unix()
+					chest := &data.Chest{
+						Name:         name,
+						AcquiredRank: rank,
+						AcquiredAt:   time,
+					}
+					json, _ := json.Marshal(chest)
+					conn.Do("LSET", key, i, json)
+					break
+				}
+			}
+		} else {
+			if medal <= 0 {
+				rank++
+				medal = data.MedalsPerRank - 1
+			} else {
+				medal--
+			}
+		}
+		conn.Send("SET", key_rank, rank)
+		conn.Send("SET", key_medal, medal)
+		conn.Do("")
 	}
 }
 
