@@ -69,7 +69,7 @@ func suicideAttack():
 		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(u.Radius(), attackRadius())
 		if d < scalar.Mul(r, r):
-			u.TakeDamage(attackDamage(), self)
+			u.TakeDamage(attackDamage(), damageType(), self)
 	if not IsDead():
 		hp = 0
 
