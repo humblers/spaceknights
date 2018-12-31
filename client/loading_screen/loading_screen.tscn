@@ -16,30 +16,42 @@ resource_name = "loading"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Indicator:rect_position")
+tracks/0/path = NodePath("Label:custom_colors/font_color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 773, 1852 ), Vector2( 1082, 1852 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.207843 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="DynamicFont" id=3]
 
 size = 24
-outline_size = 1
-outline_color = Color( 0.301961, 0.301961, 0.301961, 1 )
+outline_color = Color( 0.12549, 0.12549, 0.12549, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StreamTexture" id=5]
+[sub_resource type="Animation" id=4]
 
-flags = 4
-load_path = "res://.import/slots_panel_w.png-6981f39e64fadeb542f6e111c408fb5c.stex"
+resource_name = "scroll"
+length = 10.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 601, 960 ), Vector2( 481, 960 ), Vector2( 601, 960 ) ]
+}
 
 [node name="LoadingScreen" type="Control"]
 anchor_right = 1.0
@@ -58,8 +70,8 @@ margin_bottom = 960.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 540, 922 )
-scale = Vector2( 1.888, 1.888 )
+position = Vector2( 489.91, 960 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
@@ -68,10 +80,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -37.0
 custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.105882, 0.580392, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 value = 50.0
 
 [node name="Test" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -81,22 +94,18 @@ anims/loading = SubResource( 2 )
 
 [node name="Label" type="Label" parent="Test"]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 290.0
-margin_top = 886.0
-margin_right = 528.0
-margin_bottom = 916.0
+anchor_bottom = 1.0
+margin_left = -119.0
+margin_top = -72.0
+margin_right = 119.0
+margin_bottom = -42.0
 custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 0.608943 )
 text = "NOW LOADING..."
 
-[node name="Indicator" type="TextureRect" parent="Test"]
-modulate = Color( 0, 0, 0, 0.733333 )
-margin_left = 963.173
-margin_top = 1852.0
-margin_right = 1014.18
-margin_bottom = 1870.0
-texture = SubResource( 5 )
-expand = true
+[node name="BGscroll" type="AnimationPlayer" parent="."]
+autoplay = "scroll"
+anims/scroll = SubResource( 4 )
 

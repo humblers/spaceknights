@@ -5,12 +5,12 @@
 [ext_resource path="res://lobby/hud/top_bar_r.png" type="Texture" id=3]
 [ext_resource path="res://lobby/hud/top_bar.png" type="Texture" id=4]
 [ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://lobby/hud/exp_bar_bg.png" type="Texture" id=7]
-[ext_resource path="res://lobby/hud/exp_bar.png" type="Texture" id=8]
-[ext_resource path="res://lobby/hud/dimensium_shop.png" type="Texture" id=9]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=10]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=11]
+[ext_resource path="res://lobby/hud/exp_bar_bg.png" type="Texture" id=6]
+[ext_resource path="res://lobby/hud/exp_bar.png" type="Texture" id=7]
+[ext_resource path="res://lobby/hud/dimensium_shop.png" type="Texture" id=8]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=9]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=10]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=11]
 [ext_resource path="res://lobby/hud/galacticoin_shop.png" type="Texture" id=12]
 [ext_resource path="res://lobby/hud/galacticoin.png" type="Texture" id=13]
 [ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=14]
@@ -55,8 +55,8 @@ size = Vector2( 16, 16 )
 [sub_resource type="DynamicFont" id=2]
 
 size = 28
-outline_size = 2
-outline_color = Color( 0.145098, 0.145098, 0.145098, 1 )
+outline_size = 1
+outline_color = Color( 0.772549, 0.772549, 0.772549, 1 )
 use_filter = true
 font_data = ExtResource( 5 )
 
@@ -64,33 +64,33 @@ font_data = ExtResource( 5 )
 
 size = 64
 outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
+outline_color = Color( 0.105882, 0.47451, 0.172549, 1 )
 use_filter = true
 font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=4]
 
-size = 24
+size = 20
 outline_size = 1
 outline_color = Color( 0, 0.392157, 1, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=5]
 
-size = 50
-outline_size = 1
-outline_color = Color( 0, 0.392157, 1, 1 )
+size = 46
+outline_size = 2
+outline_color = Color( 0.482353, 0.482353, 0.482353, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=6]
 
-size = 50
-outline_size = 1
-outline_color = Color( 0, 0.392157, 1, 1 )
+size = 46
+outline_size = 2
+outline_color = Color( 0.482353, 0.482353, 0.482353, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="ButtonGroup" id=7]
 
@@ -117,7 +117,7 @@ font_data = ExtResource( 5 )
 [sub_resource type="DynamicFont" id=11]
 
 size = 32
-font_data = ExtResource( 6 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=12]
 
@@ -129,7 +129,7 @@ font_data = ExtResource( 5 )
 
 size = 32
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=14]
 
@@ -182,7 +182,7 @@ margin_top = 1.0
 margin_right = 129.0
 margin_bottom = 36.0
 custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0.788235, 0.309804, 1 )
+custom_colors/font_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 text = "LEVEL"
 align = 1
 
@@ -200,23 +200,24 @@ align = 1
 valign = 1
 
 [node name="Exp" type="Label" parent="Stat"]
-margin_left = 168.0
-margin_top = 25.0
-margin_right = 342.0
-margin_bottom = 67.0
+margin_left = 157.0
+margin_top = 39.0
+margin_right = 352.0
+margin_bottom = 64.0
 custom_fonts/font = SubResource( 4 )
 text = "80000/168770"
 align = 2
 valign = 2
 
 [node name="ExpBar" type="TextureProgress" parent="Stat"]
+self_modulate = Color( 0.0156863, 0.701961, 1, 1 )
 margin_left = 166.0
-margin_top = 69.0
+margin_top = 65.0
 margin_right = 344.0
-margin_bottom = 85.0
+margin_bottom = 81.0
 value = 69.0
-texture_under = ExtResource( 7 )
-texture_progress = ExtResource( 8 )
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
 
 [node name="Control" type="Control" parent="."]
 anchor_left = 0.5
@@ -226,14 +227,13 @@ margin_right = 20.0
 margin_bottom = 40.0
 
 [node name="Dimensium" type="TextureButton" parent="Control"]
-editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 211.0
-margin_top = 18.0
+margin_top = 14.0
 margin_right = 511.0
-margin_bottom = 68.0
-texture_normal = ExtResource( 9 )
+margin_bottom = 64.0
+texture_normal = ExtResource( 8 )
 
 [node name="TextureRect" type="TextureRect" parent="Control/Dimensium"]
 visible = false
@@ -243,10 +243,10 @@ margin_left = 150.0
 margin_top = -41.0
 margin_right = 216.0
 margin_bottom = 22.0
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )
 
-[node name="Node2D" parent="Control/Dimensium" instance=ExtResource( 11 )]
-position = Vector2( 205, 20 )
+[node name="Node2D" parent="Control/Dimensium" instance=ExtResource( 10 )]
+position = Vector2( 199, 25 )
 scale = Vector2( 0.8, 0.8 )
 
 [node name="Label" type="Label" parent="Control/Dimensium"]
@@ -254,23 +254,22 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -278.0
-margin_top = -45.0
-margin_right = -128.0
-margin_bottom = 29.0
+margin_left = -300.0
+margin_top = -37.0
+margin_right = -138.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 5 )
 text = "99999"
 align = 2
 valign = 2
 
 [node name="Galacticoin" type="TextureButton" parent="Control"]
-editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -128.0
-margin_top = 18.0
+margin_top = 14.0
 margin_right = 192.0
-margin_bottom = 68.0
+margin_bottom = 64.0
 texture_normal = ExtResource( 12 )
 
 [node name="TextureRect" type="TextureRect" parent="Control/Galacticoin"]
@@ -284,7 +283,7 @@ margin_bottom = 30.0
 texture = ExtResource( 13 )
 
 [node name="Node2D" parent="Control/Galacticoin" instance=ExtResource( 14 )]
-position = Vector2( 231, 20 )
+position = Vector2( 228, 25 )
 scale = Vector2( 0.8, 0.8 )
 
 [node name="Label" type="Label" parent="Control/Galacticoin"]
@@ -292,10 +291,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -322.0
-margin_top = -45.0
-margin_right = -112.0
-margin_bottom = 29.0
+margin_left = -320.0
+margin_top = -37.0
+margin_right = -115.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 6 )
 text = "9999999"
 align = 2
