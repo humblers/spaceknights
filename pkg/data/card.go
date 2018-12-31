@@ -99,11 +99,11 @@ var Cards = map[string]Card{
 		Count:   1,
 		OffsetX: []int{0},
 		OffsetY: []int{0},
-		Rarity:  Epic,
+		Rarity:  Legendary,
 	},
 	"archengineer": Card{
 		Type:   KnightCard,
-		Cost:   5000,
+		Cost:   4000,
 		Unit:   "archengineer",
 		Rarity: Rare,
 	},
@@ -127,13 +127,13 @@ var Cards = map[string]Card{
 	},
 	"archsapper": Card{
 		Type:   KnightCard,
-		Cost:   3000,
+		Cost:   2000,
 		Unit:   "archsapper",
 		Rarity: Common,
 	},
 	"astra": Card{
 		Type:   KnightCard,
-		Cost:   4000,
+		Cost:   3000,
 		Unit:   "astra",
 		Rarity: Legendary,
 	},
@@ -148,7 +148,7 @@ var Cards = map[string]Card{
 	},
 	"berserker": Card{
 		Type:    SquireCard,
-		Cost:    4000,
+		Cost:    3000,
 		Unit:    "berserker",
 		Count:   1,
 		OffsetX: []int{0},
@@ -166,7 +166,7 @@ var Cards = map[string]Card{
 	},
 	"buran": Card{
 		Type:   KnightCard,
-		Cost:   5000,
+		Cost:   4000,
 		Unit:   "buran",
 		Rarity: Rare,
 	},
@@ -217,7 +217,7 @@ var Cards = map[string]Card{
 	},
 	"frost": Card{
 		Type:   KnightCard,
-		Cost:   4000,
+		Cost:   2000,
 		Unit:   "frost",
 		Rarity: Epic,
 	},
@@ -259,7 +259,7 @@ var Cards = map[string]Card{
 	},
 	"heavymissile": Card{
 		Type:    SquireCard,
-		Cost:    3000,
+		Cost:    4000,
 		Unit:    "heavymissile",
 		Count:   3,
 		OffsetX: []int{-30, 30, 0},
@@ -268,7 +268,7 @@ var Cards = map[string]Card{
 	},
 	"ironcoffin": Card{
 		Type:   KnightCard,
-		Cost:   5000,
+		Cost:   4000,
 		Unit:   "ironcoffin",
 		Rarity: Rare,
 	},
@@ -283,25 +283,25 @@ var Cards = map[string]Card{
 	},
 	"judge": Card{
 		Type:   KnightCard,
-		Cost:   3000,
+		Cost:   2000,
 		Unit:   "judge",
 		Rarity: Common,
 	},
 	"lancer": Card{
 		Type:   KnightCard,
-		Cost:   4000,
+		Cost:   3000,
 		Unit:   "lancer",
 		Rarity: Epic,
 	},
 	"legion": Card{
 		Type:   KnightCard,
-		Cost:   4000,
+		Cost:   3000,
 		Unit:   "legion",
 		Rarity: Rare,
 	},
 	"micromissile": Card{
 		Type:    SquireCard,
-		Cost:    1000,
+		Cost:    3000,
 		Unit:    "micromissile",
 		Count:   12,
 		OffsetX: []int{20, 60, -20, -60, 20, 60, -20, -60, 20, 60, -20, -60},
@@ -310,7 +310,7 @@ var Cards = map[string]Card{
 	},
 	"nagmash": Card{
 		Type:   KnightCard,
-		Cost:   4000,
+		Cost:   3000,
 		Unit:   "nagmash",
 		Rarity: Epic,
 	},
@@ -352,7 +352,7 @@ var Cards = map[string]Card{
 	},
 	"pixieking": Card{
 		Type:   KnightCard,
-		Cost:   3000,
+		Cost:   2000,
 		Unit:   "pixieking",
 		Rarity: Rare,
 	},
@@ -403,7 +403,7 @@ var Cards = map[string]Card{
 	},
 	"tombstone": Card{
 		Type:   KnightCard,
-		Cost:   6000,
+		Cost:   5000,
 		Unit:   "tombstone",
 		Rarity: Rare,
 	},
@@ -418,7 +418,7 @@ var Cards = map[string]Card{
 	},
 	"valkyrie": Card{
 		Type:   KnightCard,
-		Cost:   2000,
+		Cost:   1000,
 		Unit:   "valkyrie",
 		Rarity: Common,
 	},
