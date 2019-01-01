@@ -28,6 +28,7 @@ func invalidate():
 	if chest == null:
 		visible = false
 		return
+	visible = true
 	var sec = time_left_sec()
 	if sec > 0:
 		can_open.visible = false
@@ -40,4 +41,4 @@ func invalidate():
 
 func time_left_sec():
 	assert(chest)
-	return OS.get_unix_time() - chest.AcquiredAt
+	return OS.get_unix_time() - int(chest.AcquiredAt)
