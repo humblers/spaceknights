@@ -208,6 +208,7 @@ func _physics_process(delta):
 				anim = "win" if $Players/Blue.team == "Blue" else "lose"
 			elif score("Red") > score("Blue"):
 				anim = "win" if $Players/Blue.team == "Red" else "lose"
+			result_anim.visible = true
 			result_anim.play(anim)
 			yield(result_anim, "animation_finished")
 			go_to_lobby.connect("button_up", self, "go_to_lobby")
