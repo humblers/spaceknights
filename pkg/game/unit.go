@@ -289,8 +289,12 @@ func (u *unit) squaredDistanceTo(v Unit) fixed.Scalar {
 }
 
 func (u *unit) moveToPos(pos fixed.Vector) {
+	// TODO: remove below code after implement collision avoid pattern
+	if u.mass() != 0 {
+		panic("not implemented")
+	}
 	v := pos.Sub(u.Position()).Truncated(u.speed())
-	u.SetVelocity(v)
+	u.SetPosition(u.Position().Add(v.Mul(u.game.World().Dt())))
 }
 
 func (u *unit) moveTo(target Unit) {

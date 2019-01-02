@@ -345,10 +345,13 @@ func squaredDistanceTo(unit):
 	return vector.LengthSquared(x, y)
 
 func moveToPos(posX, posY):
-	var x = scalar.Sub(posX, PositionX())
-	var y = scalar.Sub(posY, PositionY())
-	var v = vector.Truncated(x, y, speed())
-	SetVelocity(v[0], v[1])
+	assert(mass() == 0)
+	var dx = scalar.Sub(posX, PositionX())
+	var dy = scalar.Sub(posY, PositionY())
+	var v = vector.Truncated(dx, dy, speed())
+	var x = scalar.Add(PositionX(), scalar.Mul(v[0], game.world.dt))
+	var y = scalar.Add(PositionY(), scalar.Mul(v[1], game.world.dt))
+	SetPosition(x, y)
 
 func moveTo(unit, play_anim = true):
 	var x
