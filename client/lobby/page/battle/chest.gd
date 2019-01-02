@@ -1,23 +1,25 @@
 extends Button
 
-export(NodePath) onready var cost_text = get_node(cost_text)
-export(NodePath) onready var cash_icon = get_node(cash_icon)
-export(NodePath) onready var remain_time = get_node(remain_time)
-export(NodePath) onready var timer_icon = get_node(timer_icon)
+export(NodePath) onready var can_open = get_node(can_open)
+export(NodePath) onready var can_not_open = get_node(can_not_open)
+export(NodePath) onready var time_left = get_node(time_left)
 
 var chest
-var remain_sec
 
-func _ready():
-	connect("button_up", self, "open")
-	
 func Set(chest):
 	self.chest = chest
 	invalidate()
 
+func _ready():
+	connect("button_up", self, "open")
+
+func _process(delta):
+	invalidate()
+
 func open():
-	assert(chest)
-	if remain_sec <= 0:
+	if chest == null:
+		return
+	if time_left_sec() <= 0:
 		pass
 	else:
 		pass
@@ -26,17 +28,17 @@ func invalidate():
 	if chest == null:
 		visible = false
 		return
-	var remaining = remain_sec > 0
-	cost_text.visible = remaining
-	cash_icon.visible = remaining
-	remain_time.visible = remaining
-	timer_icon.visible = remaining
-	if remaining:
-		var remain_min = remain_sec / 60
-		remain_time.text = "%dh %dm" % [remain_min/60, remain_min%60]
-	
-func _process(delta):
-	if chest == null:
-		return
-	remain_sec = OS.get_unix_time() - chest.AcquiredAt
-	invalidate()
+	visible = true
+	var sec = time_left_sec()
+	if sec > 0:
+		can_open.visible = false
+		can_not_open.visible = true
+		var min_ = sec / 60
+		time_left.text = "%dh %dm" % [min_/60, min_%60]
+	else:
+		can_open.visible = true
+		can_not_open.visible = false
+
+func time_left_sec():
+	assert(chest)
+	return OS.get_unix_time() - int(chest.AcquiredAt)

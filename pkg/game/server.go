@@ -241,11 +241,13 @@ func (s *server) saveResult(g Game) {
 		medal, _ := redis.Int(conn.Receive())
 
 		if p.Team == replay.Winner {
-			if medal < data.MedalsPerRank {
-				medal++
-			} else {
-				rank--
-				medal = 1
+			if rank > 0 {
+				if medal < data.MedalsPerRank {
+					medal++
+				} else {
+					rank--
+					medal = 1
+				}
 			}
 			// chest reward
 			key_slots := fmt.Sprintf("%v:battle-chest-slots", p.Id)
@@ -266,14 +268,18 @@ func (s *server) saveResult(g Game) {
 						AcquiredAt:   time,
 					}
 					json, _ := json.Marshal(chest)
-					conn.Do("LSET", key, i, json)
+					if _, err := conn.Do("LSET", key_slots, i, json); err != nil {
+						panic(err)
+					}
 					break
 				}
 			}
 		} else {
 			if medal <= 0 {
-				rank++
-				medal = data.MedalsPerRank - 1
+				if rank < data.InitialRank {
+					rank++
+					medal = data.MedalsPerRank - 1
+				}
 			} else {
 				medal--
 			}

@@ -3,13 +3,13 @@
 [ext_resource path="res://lobby/page/card/card_btn_expention_w.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/chest.gd" type="Script" id=2]
 [ext_resource path="res://lobby/resource/popup_panel.png" type="Texture" id=3]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=5]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=6]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=7]
-[ext_resource path="res://lobby/page/battle/medal_box_blue.png" type="Texture" id=8]
+[ext_resource path="res://lobby/page/battle/medal_box_blue.png" type="Texture" id=4]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=6]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=7]
+[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=8]
 
-[sub_resource type="StyleBoxTexture" id=25]
+[sub_resource type="StyleBoxTexture" id=1]
 
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 240, 240 )
@@ -18,7 +18,7 @@ margin_right = 71.0
 margin_top = 31.0
 margin_bottom = 100.0
 
-[sub_resource type="StyleBoxTexture" id=26]
+[sub_resource type="StyleBoxTexture" id=2]
 
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 240, 240 )
@@ -28,7 +28,7 @@ margin_top = 30.0
 margin_bottom = 99.0
 modulate_color = Color( 0.635294, 0.796078, 1, 0.592157 )
 
-[sub_resource type="StyleBoxTexture" id=27]
+[sub_resource type="StyleBoxTexture" id=3]
 
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 240, 240 )
@@ -37,43 +37,41 @@ margin_right = 71.0
 margin_top = 30.5
 margin_bottom = 99.5
 
-[sub_resource type="DynamicFont" id=28]
+[sub_resource type="DynamicFont" id=4]
 
 size = 46
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 4
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=5]
 
 size = 26
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=6]
 
 size = 21
 outline_size = 3
 outline_color = Color( 0.223529, 0.560784, 1, 1 )
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [node name="Chest" type="Button"]
-editor/display_folded = true
 self_modulate = Color( 0.443137, 0.596078, 1, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 260, 360 )
-custom_styles/hover = SubResource( 25 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 script = ExtResource( 2 )
-cost_text = NodePath("NinePatchRect/OpenCost")
-cash_icon = NodePath("NinePatchRect/CashIcon")
-remain_time = NodePath("NinePatchRect/Remain")
-timer_icon = NodePath("NinePatchRect/TimerIcon")
+can_open = NodePath("NinePatchRect/CanOpen")
+can_not_open = NodePath("NinePatchRect/CannotOpen")
+time_left = NodePath("NinePatchRect/CannotOpen/Remain")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 margin_left = 20.0
@@ -87,57 +85,76 @@ patch_margin_top = 36
 patch_margin_right = 31
 patch_margin_bottom = 20
 
-[node name="OpenCost" type="Label" parent="NinePatchRect"]
+[node name="Icon" type="TextureRect" parent="NinePatchRect"]
+margin_left = 12.0
+margin_top = 63.0
+margin_right = 209.0
+margin_bottom = 223.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="CanOpen" type="Control" parent="NinePatchRect"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Open" type="Label" parent="NinePatchRect/CanOpen"]
+margin_left = 20.0
+margin_top = 252.0
+margin_right = 196.0
+margin_bottom = 308.0
+custom_fonts/font = SubResource( 4 )
+text = "Open"
+align = 2
+valign = 2
+
+[node name="CannotOpen" type="Control" parent="NinePatchRect"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="OpenCost" type="Label" parent="NinePatchRect/CannotOpen"]
 margin_left = 10.0
 margin_top = 259.0
 margin_right = 143.0
 margin_bottom = 315.0
-custom_fonts/font = SubResource( 28 )
+custom_fonts/font = SubResource( 4 )
 text = "46"
 align = 2
 valign = 2
 
-[node name="CashIcon" type="TextureRect" parent="NinePatchRect"]
+[node name="CashIcon" type="TextureRect" parent="NinePatchRect/CannotOpen"]
 editor/display_folded = true
 margin_left = 151.0
 margin_top = 260.0
 margin_right = 217.0
 margin_bottom = 323.0
 rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
-[node name="Dimensium" type="Node2D" parent="NinePatchRect/CashIcon" instance=ExtResource( 6 )]
+[node name="Dimensium" parent="NinePatchRect/CannotOpen/CashIcon" instance=ExtResource( 7 )]
 position = Vector2( 32.9999, 31 )
 
-[node name="Remain" type="Label" parent="NinePatchRect"]
+[node name="Remain" type="Label" parent="NinePatchRect/CannotOpen"]
 margin_left = 50.0
 margin_right = 215.0
 margin_bottom = 40.0
-custom_fonts/font = SubResource( 29 )
+custom_fonts/font = SubResource( 5 )
 text = "23h 59m"
 valign = 1
 
-[node name="TimerIcon" type="TextureRect" parent="NinePatchRect"]
+[node name="TimerIcon" type="TextureRect" parent="NinePatchRect/CannotOpen"]
 margin_left = 14.0
 margin_top = 5.0
 margin_right = 44.0
 margin_bottom = 35.0
-texture = ExtResource( 7 )
-
-[node name="TextureRect" type="TextureRect" parent="NinePatchRect"]
-margin_left = 12.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 223.0
 texture = ExtResource( 8 )
-expand = true
 
-[node name="OpenNowText" type="Label" parent="NinePatchRect"]
+[node name="OpenNowText" type="Label" parent="NinePatchRect/CannotOpen"]
 margin_left = 4.0
 margin_top = 231.0
 margin_right = 215.0
 margin_bottom = 257.0
-custom_fonts/font = SubResource( 30 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "INSTANT OPEN"
 align = 1
