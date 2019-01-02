@@ -313,11 +313,11 @@ func bulletLifeTime():
 func canSee(unit):
 	if unit.Type() == data.Knight:
 		return true
-	var r = sight() + Radius() + unit.Radius()
+	var r = sight() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
 
 func withinRange(unit):
-	var r = attackRange() + Radius() + unit.Radius()
+	var r = attackRange() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
 
 func findTarget():

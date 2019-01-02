@@ -90,8 +90,7 @@ func (p *psabu) findTargetAndDoAction() {
 func (p *psabu) handleAttack() {
 	t := p.target()
 	if p.attack == 0 {
-		r := p.Radius().Add(p.attackRange())
-		d := t.Position().Sub(p.Position()).Normalized().Mul(r)
+		d := t.Position().Sub(p.Position()).Normalized().Mul(p.attackRange())
 		p.punchPos = p.Position().Add(d)
 	}
 	if p.attack < p.preAttackDelay() {
@@ -118,16 +117,12 @@ func (p *psabu) handleAttack() {
 
 func (p *psabu) attackRadius() fixed.Scalar {
 	r := data.Units[p.name]["attackradius"].(int)
-	divider := 1
-	for _, ratio := range p.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return p.game.World().FromPixel(r / divider)
+	return p.game.World().FromPixel(r)
 }
 
 func (p *psabu) absorb() {
-	radius := p.game.World().FromPixel(data.Units[p.name]["absorbradius"].(int))
+	absorbRadius := p.game.World().FromPixel(data.Units[p.name]["absorbradius"].(int))
+	damageRadius := p.game.World().FromPixel(data.Units[p.name]["absorbdamageradius"].(int))
 	force := p.game.World().FromPixel(data.Units[p.name]["absorbforce"].(int))
 	damage := data.Units[p.name]["absorbdamage"].(int)
 	damageType := data.Units[p.name]["absorbdamagetype"].(data.DamageType)
@@ -137,10 +132,13 @@ func (p *psabu) absorb() {
 			continue
 		}
 		d := p.punchPos.Sub(u.Position())
-		r := u.Radius().Add(radius)
+		r := u.Radius().Add(absorbRadius)
 		if d.LengthSquared() < r.Mul(r) {
 			n := d.Normalized()
 			u.AddForce(n.Mul(force))
+		}
+		r = u.Radius().Add(damageRadius)
+		if d.LengthSquared() < r.Mul(r) {
 			u.TakeDamage(damage, damageType)
 		}
 	}

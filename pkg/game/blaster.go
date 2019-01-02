@@ -89,10 +89,5 @@ func (b *blaster) handleAttack() {
 
 func (b *blaster) damageRadius() fixed.Scalar {
 	r := data.Units[b.name]["damageradius"].(int)
-	divider := 1
-	for _, ratio := range b.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return b.game.World().FromPixel(r / divider)
+	return b.game.World().FromPixel(r)
 }

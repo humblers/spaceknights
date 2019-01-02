@@ -218,10 +218,5 @@ func (c *champion) charged() bool {
 
 func (c *champion) damageRadius() fixed.Scalar {
 	r := data.Units[c.name]["damageradius"].(int)
-	divider := 1
-	for _, ratio := range c.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return c.game.World().FromPixel(r / divider)
+	return c.game.World().FromPixel(r)
 }

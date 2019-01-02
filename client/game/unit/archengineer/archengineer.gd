@@ -110,7 +110,7 @@ func findTargetAndAttack():
 
 func SetAsLeader():
 	isLeader = true
-	player.AddStatRatio("arearatio", Skill()["arearatio"])
+	#player.AddStatRatio("arearatio", Skill()["arearatio"])
 
 func Skill():
 	var key = "leader" if isLeader else "wing"

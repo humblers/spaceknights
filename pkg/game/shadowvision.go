@@ -118,10 +118,5 @@ func (s *shadowvision) handleAttack() {
 
 func (s *shadowvision) damageRadius() fixed.Scalar {
 	r := data.Units[s.name]["damageradius"].(int)
-	divider := 1
-	for _, ratio := range s.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return s.game.World().FromPixel(r / divider)
+	return s.game.World().FromPixel(r)
 }

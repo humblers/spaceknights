@@ -87,12 +87,11 @@ func handleAttack():
 	if canDoPowerAttack():
 		if attack == 0:
 			var t = target()
-			var r = scalar.Add(Radius(), attackRange())
 			var dx = scalar.Sub(t.PositionX(), PositionX())
 			var dy = scalar.Sub(t.PositionY(), PositionY())
 			var norm = vector.Normalized(dx, dy)
-			dx = scalar.Mul(norm[0], r)
-			dy = scalar.Mul(norm[1], r)
+			dx = scalar.Mul(norm[0], attackRange())
+			dy = scalar.Mul(norm[1], attackRange())
 			punchPosX = scalar.Add(PositionX(), dx)
 			punchPosY = scalar.Add(PositionY(), dy)
 			$AnimationPlayer.play("attack_1")
@@ -106,12 +105,13 @@ func handleAttack():
 				var y = scalar.Sub(u.PositionY(), punchPosY)
 				var d = vector.LengthSquared(x, y)
 				var r = scalar.Add(u.Radius(), powerAttackRadius())
-				if d <= scalar.Mul(r, r):
+				if d < scalar.Mul(r, r):
 					var n = vector.Normalized(x, y)
 					var fx = scalar.Mul(n[0], powerAttackForce())
 					var fy = scalar.Mul(n[1], powerAttackForce())
 					u.AddForce(fx, fy)
-					if attack == powerAttackPreDelay():
+				r = scalar.Add(u.Radius(), powerAttackDamageRadius())
+				if d < scalar.Mul(r, r) and attack == powerAttackPreDelay():
 						u.TakeDamage(powerAttackDamage(), powerAttackDamageType(), self)
 		attack += 1
 		if attack > powerAttackInterval():
@@ -158,14 +158,13 @@ func powerAttackDamage():
 		return v[level]
 	print("invalid power attack damage type")
 
+func powerAttackDamageRadius():
+	var r = data.units[name_]["powerattackdamageradius"]
+	return game.World().FromPixel(r)
+
 func powerAttackRadius():
 	var r = data.units[name_]["powerattackradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
+	return game.World().FromPixel(r)
 
 func powerAttackForce():
 	return game.World().FromPixel(data.units[name_]["powerattackforce"])

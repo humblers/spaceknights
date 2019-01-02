@@ -68,7 +68,7 @@ func handleAttack():
 				var x = scalar.Sub(PositionX(), u.PositionX())
 				var y = scalar.Sub(PositionY(), u.PositionY())
 				var d = vector.LengthSquared(x, y)
-				var r = scalar.Add(scalar.Add(Radius(), u.Radius()), attackRadius())
+				var r = scalar.Add(u.Radius(), attackRadius())
 				if d < scalar.Mul(r, r):
 					u.TakeDamage(attackDamage(), damageType(), self)
 		else:
@@ -87,10 +87,5 @@ func canAttack(unit):
 
 func attackRadius():
 	var r = data.units[name_]["attackradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
+	return game.World().FromPixel(r)
 	

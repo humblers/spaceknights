@@ -68,7 +68,8 @@ func TestExport_Unit(t *testing.T) {
 			case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
 				idx := columns[k]
 				if _, ok := v.([]int); !ok {
-					fmt.Printf("wtf is this %v, %v\n", k, v)
+					fmt.Printf("value's type is not []int k:%v, v:%v\n", k, v)
+					continue
 				}
 				for i, val := range v.([]int) {
 					record[idx+i] = fmt.Sprintf("%v", val)

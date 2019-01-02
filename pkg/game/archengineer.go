@@ -117,7 +117,7 @@ func (a *archengineer) findTargetAndAttack() {
 
 func (a *archengineer) SetAsLeader() {
 	a.isLeader = true
-	a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
+	//a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
 }
 
 func (a *archengineer) Skill() map[string]interface{} {

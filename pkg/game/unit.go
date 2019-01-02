@@ -243,11 +243,11 @@ func (u *unit) canSee(v Unit) bool {
 	if v.Type() == data.Knight {
 		return true
 	}
-	r := u.sight() + u.Radius() + v.Radius()
+	r := u.sight() + v.Radius()
 	return u.squaredDistanceTo(v) < r.Mul(r)
 }
 func (u *unit) withinRange(v Unit) bool {
-	r := u.attackRange() + u.Radius() + v.Radius()
+	r := u.attackRange() + v.Radius()
 	return u.squaredDistanceTo(v) < r.Mul(r)
 }
 func (u *unit) findTarget() Unit {
