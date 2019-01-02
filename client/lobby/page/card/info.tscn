@@ -66,7 +66,7 @@
 [ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=64]
 [ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=65]
 [ext_resource path="res://lobby/page/card/button.png" type="Texture" id=66]
-[ext_resource path="res://lobby/page/card/card_btn_expention_w.png" type="Texture" id=67]
+[ext_resource path="res://lobby/page/battle/medalbox_btn_dis.png" type="Texture" id=67]
 [ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=68]
 [ext_resource path="res://lobby/hud/quantum_icon_1.png" type="Texture" id=69]
 [ext_resource path="res://lobby/hud/quantum_icon_2.png" type="Texture" id=70]
@@ -84,13 +84,6 @@
 [ext_resource path="res://lobby/resource/card_gauge.png" type="Texture" id=82]
 [ext_resource path="res://lobby/resource/arrow.tscn" type="PackedScene" id=83]
 [ext_resource path="res://lobby/dialog/subpopup.tscn" type="PackedScene" id=84]
-
-
-
-
-
-
-
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -262,7 +255,6 @@ use_filter = true
 font_data = ExtResource( 7 )
 
 [node name="Info" type="Control"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -340,7 +332,7 @@ patch_margin_right = 30
 patch_margin_bottom = 30
 
 [node name="NinePatchRect3" type="NinePatchRect" parent="CardInfo"]
-modulate = Color( 1, 1, 1, 0.588235 )
+self_modulate = Color( 0.705882, 0.705882, 0.705882, 1 )
 margin_left = 30.0
 margin_top = 399.0
 margin_right = 1050.0
@@ -798,16 +790,17 @@ flat = true
 position = Vector2( -10, -10 )
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CardInfo/Item"]
+self_modulate = Color( 0.482353, 0.482353, 0.482353, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -135.0
-margin_top = -176.0
+margin_left = -128.0
+margin_top = -172.0
 margin_right = 255.0
-margin_bottom = 264.0
+margin_bottom = 257.0
 texture = ExtResource( 67 )
-region_rect = Rect2( 0, 0, 240, 240 )
+region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 70
 patch_margin_top = 60
 patch_margin_right = 70
@@ -824,36 +817,36 @@ alignment = 1
 
 [node name="CardFrame" type="CenterContainer" parent="CardInfo/Item/ItemBase"]
 margin_right = 250.0
-margin_bottom = 280.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 250, 196 )
 rect_pivot_offset = Vector2( 125, 98 )
 mouse_filter = 1
 
 [node name="Icon" type="TextureRect" parent="CardInfo/Item/ItemBase/CardFrame"]
 margin_left = 13.0
-margin_top = 23.0
+margin_top = 33.0
 margin_right = 237.0
-margin_bottom = 257.0
+margin_bottom = 267.0
 rect_min_size = Vector2( 224, 234 )
 texture = ExtResource( 26 )
 expand = true
 
 [node name="Frame" type="TextureRect" parent="CardInfo/Item/ItemBase/CardFrame"]
 margin_right = 250.0
-margin_bottom = 280.0
+margin_bottom = 300.0
 texture = ExtResource( 23 )
 
 [node name="Control" type="Control" parent="CardInfo/Item/ItemBase/CardFrame"]
-margin_top = 42.0
+margin_top = 52.0
 margin_right = 250.0
-margin_bottom = 238.0
+margin_bottom = 248.0
 rect_min_size = Vector2( 250, 196 )
 mouse_filter = 2
 
 [node name="Energy" parent="CardInfo/Item/ItemBase/CardFrame/Control" instance=ExtResource( 68 )]
 position = Vector2( 30, -8.66666 )
 frames = SubResource( 16 )
-frame = 9
+frame = 10
 
 [node name="Label" type="Label" parent="CardInfo/Item/ItemBase/CardFrame/Control/Energy"]
 anchor_left = 0.5
