@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/ui/result.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/vfx/vertical_gradation.png" type="Texture" id=2]
@@ -13,18 +13,20 @@
 [ext_resource path="res://game/ui/line.png" type="Texture" id=11]
 [ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=12]
 [ext_resource path="res://game/ui/clan_icon_base.png" type="Texture" id=13]
-[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=14]
-[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=15]
-[ext_resource path="res://lobby/page/battle/line_seperator.png" type="Texture" id=16]
-[ext_resource path="res://lobby/hud/battle_pressed.png" type="Texture" id=17]
-[ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=18]
+[ext_resource path="res://share/icon/rank/rank_icon_17.png" type="Texture" id=14]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=15]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=16]
+[ext_resource path="res://lobby/page/battle/line_seperator.png" type="Texture" id=17]
+[ext_resource path="res://lobby/hud/battle_pressed.png" type="Texture" id=18]
+[ext_resource path="res://share/icon/rank/rank_icon_24.png" type="Texture" id=19]
+[ext_resource path="res://game/sfx/start.wav" type="AudioStream" id=20]
 
 [sub_resource type="DynamicFont" id=1]
 
 size = 24
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 
 size = 42
 outline_size = 5
@@ -32,7 +34,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=3]
 
 size = 32
 outline_size = 3
@@ -40,7 +42,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=4]
 
 size = 60
 outline_size = 5
@@ -48,21 +50,20 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=5]
 
 size = 48
 outline_color = Color( 0.34902, 0.541176, 1, 1 )
 use_filter = true
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=6]
 
 size = 120
 font_data = ExtResource( 10 )
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=7]
 
-resource_name = "start_siquence"
 length = 6.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Gradation:modulate")
@@ -545,7 +546,7 @@ tracks/39/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/40/type = "value"
-tracks/40/path = NodePath("Deckopen/Sprite:modulate")
+tracks/40/path = NodePath("Deckopen/Versus:modulate")
 tracks/40/interp = 1
 tracks/40/loop_wrap = true
 tracks/40/imported = false
@@ -557,7 +558,7 @@ tracks/40/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/41/type = "value"
-tracks/41/path = NodePath("Deckopen/Sprite:rect_scale")
+tracks/41/path = NodePath("Deckopen/Versus:rect_scale")
 tracks/41/interp = 1
 tracks/41/loop_wrap = true
 tracks/41/imported = false
@@ -569,16 +570,28 @@ tracks/41/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 3, 3 ) ]
 }
 tracks/42/type = "value"
-tracks/42/path = NodePath("Deckopen/Sprite:rect_position")
+tracks/42/path = NodePath("Deckopen/Versus:rect_position")
 tracks/42/interp = 1
 tracks/42/loop_wrap = true
 tracks/42/imported = false
 tracks/42/enabled = true
 tracks/42/keys = {
-"times": PoolRealArray( 2.5, 3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -105, -70 ), Vector2( -316, -209 ) ]
+"values": [ Vector2( -105, -70 ), Vector2( -105, -70 ), Vector2( -316, -209 ), Vector2( -105, -70 ) ]
+}
+tracks/43/type = "value"
+tracks/43/path = NodePath("Deckopen/Versus:visible")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/keys = {
+"times": PoolRealArray( 0, 1, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
 }
 
 [node name="Opening" type="Control"]
@@ -594,23 +607,19 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0 )
 
 [node name="Gradation" type="Sprite" parent="."]
-visible = false
-modulate = Color( 0, 0, 0, 0 )
+modulate = Color( 0, 0, 0, 0.784314 )
 scale = Vector2( 250, 3.75 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -128 )
 
 [node name="Gradation2" type="Sprite" parent="."]
-visible = false
-modulate = Color( 0, 0, 0, 0 )
+modulate = Color( 0, 0, 0, 0.784314 )
 scale = Vector2( 250, 3.75391 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, 128 )
 flip_v = true
 
 [node name="Start" type="Node2D" parent="."]
-editor/display_folded = true
-visible = false
 
 [node name="Ready" type="Sprite" parent="Start"]
 visible = false
@@ -671,29 +680,35 @@ scale = Vector2( 10, 1 )
 texture = ExtResource( 11 )
 
 [node name="Deckopen" type="Node2D" parent="."]
-visible = false
-modulate = Color( 0, 0, 0, 0 )
 
 [node name="Blue" type="Node2D" parent="Deckopen"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, 280 )
 
 [node name="IconB" type="Node2D" parent="Deckopen/Blue"]
-editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0.2 )
+position = Vector2( 0, -470 )
 
 [node name="Unitname" type="Label" parent="Deckopen/Blue/IconB"]
+visible = false
+modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -106.0
 margin_top = 386.0
 margin_right = 470.0
 margin_bottom = 437.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "ARCH SHAPPER"
 
 [node name="Descript" type="Label" parent="Deckopen/Blue/IconB"]
+visible = false
+modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -106.0
 margin_top = 446.0
 margin_right = 477.0
 margin_bottom = 583.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.866667, 0.866667, 0.866667, 1 )
 text = "캐논 두대를 설치하고 시작합니다."
 autowrap = true
@@ -706,74 +721,98 @@ scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 13 )
 
 [node name="IconBG2" type="Sprite" parent="Deckopen/Blue/IconB"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 2.98023e-007 )
 position = Vector2( -265.2, 472.6 )
-scale = Vector2( 2, 2 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 13 )
+
+[node name="Rankicon" type="TextureRect" parent="Deckopen/Blue/IconB/IconBG2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -122.0
+margin_top = -141.0
+margin_right = -6.0
+margin_bottom = -7.0
+texture = ExtResource( 14 )
 
 [node name="ColorLine" type="Sprite" parent="Deckopen/Blue"]
 modulate = Color( 0.0901961, 0.286275, 0.627451, 1 )
 position = Vector2( 0, 827 )
 scale = Vector2( 1, 2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="WhiteLine" type="Sprite" parent="Deckopen/Blue"]
 position = Vector2( 0, 700 )
 scale = Vector2( 1, 0.2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="Gradation" type="Sprite" parent="Deckopen/Blue"]
 position = Vector2( 0, 837 )
 scale = Vector2( 1.39, 0.347458 )
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 
 [node name="Sprite" type="Sprite" parent="Deckopen/Blue"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, 789 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 [node name="UserB" type="Node2D" parent="Deckopen/Blue"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0.166667 )
+position = Vector2( -1200, 0 )
 
 [node name="Username" type="Label" parent="Deckopen/Blue/UserB"]
 margin_left = -540.0
 margin_top = 718.0
 margin_right = 540.0
 margin_bottom = 791.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 4 )
 text = "ARCH SHAPPER"
 align = 1
 
 [node name="battle_pressed" type="Sprite" parent="Deckopen/Blue/UserB"]
 position = Vector2( -157, 849 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 
 [node name="Username2" type="Label" parent="Deckopen/Blue/UserB"]
 margin_left = -67.0
 margin_top = 815.0
 margin_right = 201.0
 margin_bottom = 874.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 5 )
 text = "999999"
 
 [node name="Red" type="Node2D" parent="Deckopen"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -280 )
 
 [node name="IconR" type="Node2D" parent="Deckopen/Red"]
+visible = false
+modulate = Color( 1, 1, 1, 0.2 )
+position = Vector2( 0, 470 )
 
 [node name="Unitname" type="Label" parent="Deckopen/Red/IconR"]
+visible = false
+modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -473.0
 margin_top = -557.0
 margin_right = 103.0
 margin_bottom = -506.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "ARCH SHAPPER"
 
 [node name="Descript" type="Label" parent="Deckopen/Red/IconR"]
+visible = false
+modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -473.0
 margin_top = -497.0
 margin_right = 110.0
 margin_bottom = -360.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.866667, 0.866667, 0.866667, 1 )
 text = "캐논 두대를 설치하고 시작합니다."
 autowrap = true
@@ -782,82 +821,95 @@ clip_text = true
 [node name="IconBG" type="Sprite" parent="Deckopen/Red/IconR"]
 modulate = Color( 0.368627, 0.368627, 0.368627, 1 )
 position = Vector2( 265.198, -472.601 )
-rotation = 3.14159
 scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 13 )
 
 [node name="IconBG2" type="Sprite" parent="Deckopen/Red/IconR"]
+modulate = Color( 1, 1, 1, 2.98023e-007 )
 position = Vector2( 265.198, -472.601 )
-rotation = 3.14159
-scale = Vector2( 2, 2 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 13 )
+
+[node name="TextureRect" type="TextureRect" parent="Deckopen/Red/IconR/IconBG2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -122.0
+margin_top = -141.0
+margin_right = -6.0
+margin_bottom = -7.0
+texture = ExtResource( 19 )
 
 [node name="ColorLine" type="Sprite" parent="Deckopen/Red"]
 modulate = Color( 0.627451, 0.102788, 0.0901961, 1 )
 position = Vector2( -0.00366211, -827 )
 rotation = 3.14159
 scale = Vector2( 1, 2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="WhiteLine" type="Sprite" parent="Deckopen/Red"]
 position = Vector2( -0.00311279, -700 )
 rotation = 3.14159
 scale = Vector2( 1, 0.2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="Gradation" type="Sprite" parent="Deckopen/Red"]
 position = Vector2( -0.00372314, -837 )
 rotation = 3.14159
 scale = Vector2( 1.39, 0.347458 )
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 
 [node name="Sprite" type="Sprite" parent="Deckopen/Red"]
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, -813 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 [node name="UserR" type="Node2D" parent="Deckopen/Red"]
 editor/display_folded = true
+modulate = Color( 1, 1, 1, 0.166667 )
+position = Vector2( 1200, 0 )
 
 [node name="Username" type="Label" parent="Deckopen/Red/UserR"]
 margin_left = -540.0
 margin_top = -884.0
 margin_right = 540.0
 margin_bottom = -811.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 4 )
 text = "ARCH SHAPPER"
 align = 1
 
 [node name="battle_pressed" type="Sprite" parent="Deckopen/Red/UserR"]
 position = Vector2( -157, -753 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 
 [node name="Username2" type="Label" parent="Deckopen/Red/UserR"]
 margin_left = -67.0
 margin_top = -787.0
 margin_right = 201.0
 margin_bottom = -728.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 5 )
 text = "999999"
 
-[node name="Sprite" type="Label" parent="Deckopen"]
-modulate = Color( 1, 1, 1, 0 )
+[node name="Versus" type="Label" parent="Deckopen"]
+visible = false
+modulate = Color( 1, 1, 1, 0.2 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -316.0
-margin_top = -209.0
-margin_right = -109.0
-margin_bottom = -64.0
-rect_scale = Vector2( 3, 3 )
-custom_fonts/font = SubResource( 8 )
+margin_left = -105.0
+margin_top = -70.0
+margin_right = 102.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 6 )
 text = "VS"
 
 [node name="StartAni" type="AnimationPlayer" parent="."]
-anims/start_siquence = SubResource( 2 )
+autoplay = "start_siquence"
+anims/start_siquence = SubResource( 7 )
 
 [node name="StartVoice" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 18 )
+stream = ExtResource( 20 )
 volume_db = 10.0
 
