@@ -48,14 +48,6 @@ func Update():
 		do_bad(tutor_data.pick_bad_behavior(tutor_difficulty))
 		return
 	var card_candidates = []
-	for knightId in knightIds:
-		var k = game.FindUnit(knightId)
-		if k == null or k.side == data.Center:
-			continue
-		if k.cast > 0:
-			continue
-		if make_decision_for_use_card(k.Name(), k.level):
-			card_candidates.append([k.Name(), k.level, data.KnightCard])
 	for card in hand:
 		# filtering empty hand
 		if card == null:
@@ -109,7 +101,7 @@ func make_decision_for_use_card(card, level):
 	if opposite.total_cost < 1:
 		return false
 	match card:
-		"archengineer", "archsapper":
+		"archengineer", "archsapper", "buran":
 			if opposite.total_cost < tutor_data.DEFENSE_TYPE_BUILDING_DECISON_COST:
 				return false
 			var building = data.units[card]["skill"]["wing"]["unit"]
@@ -122,7 +114,7 @@ func make_decision_for_use_card(card, level):
 				x -= 1
 			var y = map_tile_num_y / 2 / 2
 			var tr = game.NewTileRect(x, y, tw, th)
-			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, 0)
+			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, game.Map().TileNumY())
 			return true
 		"ironcoffin", "pixieking", "tombstone":
 			if opposite.top_left.cost + opposite.top_right.cost > tutor_data.SPAWN_TYPE_BUILDING_DECISION_COST:
@@ -135,9 +127,9 @@ func make_decision_for_use_card(card, level):
 			x = x if randf() > 0.5 else map_tile_num_x - 1 - x
 			var y = th / 2
 			var tr = game.NewTileRect(x, y, tw, th)
-			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, 0)
+			cur_analyzed_data[card] = FindUnoccupiedTileRect(tr, game.Map().TileNumY())
 			return true
-		"judge", "legion":
+		"judge", "legion", "valkyrie":
 			if opposite.total_cost <= cost:
 				return false
 			return find_out_whether_to_use_area_skill(
@@ -189,15 +181,15 @@ func elect_best_card(card_candidates):
 
 func make_input(card):
 	var name = card[0]
-	var tile = cur_analyzed_data[name] if cur_analyzed_data.has(name) else find_out_where_to_use_squire(card)
-	if tile == null or tile[0] == null or tile[1] == null:
+	var tr = cur_analyzed_data[name] if cur_analyzed_data.has(name) else find_out_where_to_use_squire(card)
+	if tr == null or tr.x == null or tr.y == null:
 		return false
 	if decision_delay > 0:
 		decision_delay -= 1
 		return false
 	if unstable_input_modifier != null:
-		tile[0] += unstable_input_modifier[0]
-		tile[1] += unstable_input_modifier[1]
+		tr.x += unstable_input_modifier[0]
+		tr.y += unstable_input_modifier[1]
 		unstable_input_modifier = null
 	var input = {
 		"Step": game.step + 1,
@@ -207,8 +199,8 @@ func make_input(card):
 				"Name": name,
 				"Level": card[1],
 			},
-			"TileX": tile[0],
-			"TileY": tile[1],
+			"TileX": tr.x,
+			"TileY": tr.y,
 		},
 	}
 	if game.actions.has(input.Step):
@@ -281,7 +273,7 @@ func find_out_whether_to_use_area_skill(knight, level, value_func, min_val):
 			continue
 		best = {"tile":tile, "val":val}
 	if best.val > min_val:
-		cur_analyzed_data[knight] = best.tile
+		cur_analyzed_data[knight] = game.NewTileRect(best.tile[0], best.tile[1], 1, 1)
 		return true
 	return false
 
@@ -322,14 +314,14 @@ func find_out_where_to_use_squire(card):
 		x = game.World().ToPixel(dest[0]) - away * cos(angle)
 		y = game.World().ToPixel(dest[1]) - away * sin(angle)
 		if x < 0 or y < 0:
-			return [null, null]
+			return null
 		var tile = game.TileFromPos(int(x), int(y))
 		x = tile[0]
 		y = tile[1]
 	if x == null or y == null:
-		return [null, null]
+		return null
 	var tr = game.NewTileRect(x, y, 1, 1)
-	return FindUnoccupiedTileRect(tr, 0)
+	return FindUnoccupiedTileRect(tr, game.Map().TileNumY())
 
 func calc_distance(from, dest, r, dist = 0):
 	var corner = game.Map().FindNextCornerInPath(
