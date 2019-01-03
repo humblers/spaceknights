@@ -54,7 +54,7 @@ func (a *azero) setTarget(u Unit) {
 }
 
 func (a *azero) fire() {
-	bullet := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
+	bullet := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.damageType(), a.game)
 	bullet.MakeSplash(a.damageRadius())
 	d := data.Units[a.name]["slowduration"].(int)
 	bullet.MakeFrozen(d)

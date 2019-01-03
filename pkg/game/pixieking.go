@@ -35,8 +35,11 @@ func newPixieking(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (p *pixieking) TakeDamage(amount int, a Attacker) {
-	p.unit.TakeDamage(amount, a)
+func (p *pixieking) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	p.unit.TakeDamage(amount, damageType)
 	if p.IsDead() {
 		p.player.OnKnightDead(p)
 	}
@@ -206,7 +209,7 @@ func (p *pixieking) handleAttack() {
 }
 
 func (p *pixieking) fire() {
-	b := newBullet(p.targetId, p.bulletLifeTime(), p.attackDamage(), p.DamageType(), p.game)
+	b := newBullet(p.targetId, p.bulletLifeTime(), p.attackDamage(), p.damageType(), p.game)
 	duration := 0
 	for _, d := range p.player.StatRatios("slowduration") {
 		duration += d

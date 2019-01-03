@@ -15,17 +15,25 @@ func newMicromissile(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
+func (m *micromissile) TakeDamage(amount int, damageType data.DamageType) {
+	alreadyDead := m.IsDead()
+	m.unit.TakeDamage(amount, damageType)
+	if !alreadyDead && m.IsDead() && m.attack > 0 && m.attack <= m.preAttackDelay() {
+		m.suicideAttack()
+		m.attack = m.preAttackDelay() + 1
+	}
+}
+
 func (m *micromissile) Update() {
 	m.unit.Update()
-	if m.freeze > 0 {
-		m.attack = 0
-		m.targetId = 0
-		m.freeze--
-		return
-	}
 	if m.attack > 0 {
 		m.handleAttack()
 	} else {
+		if m.freeze > 0 {
+			m.targetId = 0
+			m.freeze--
+			return
+		}
 		t := m.target()
 		if t == nil {
 			m.findTargetAndDoAction()
@@ -63,26 +71,31 @@ func (m *micromissile) findTargetAndDoAction() {
 	}
 }
 
-func (m *micromissile) handleAttack() {
+func (m *micromissile) suicideAttack() {
 	for _, id := range m.game.UnitIds() {
 		u := m.game.FindUnit(id)
 		if u.Team() == m.Team() {
 			continue
 		}
 		d := m.Position().Sub(u.Position()).LengthSquared()
-		r := m.Radius().Add(u.Radius()).Add(m.destroyRadius())
+		r := u.Radius().Add(m.attackRadius())
 		if d < r.Mul(r) {
-			u.TakeDamage(m.destroyDamage(), m)
+			u.TakeDamage(m.attackDamage(), m.damageType())
 		}
 	}
-	m.hp = 0
+	if !m.IsDead() {
+		m.hp = 0
+	}
 }
 
-func (m *micromissile) destroyDamage() int {
-	return data.Units[m.name]["destroydamage"].([]int)[m.level]
+func (m *micromissile) handleAttack() {
+	if m.attack == m.preAttackDelay() {
+		m.suicideAttack()
+	}
+	m.attack++
 }
 
-func (m *micromissile) destroyRadius() fixed.Scalar {
-	r := data.Units[m.name]["destroyradius"].(int)
+func (m *micromissile) attackRadius() fixed.Scalar {
+	r := data.Units[m.name]["attackradius"].(int)
 	return m.game.World().FromPixel(r)
 }

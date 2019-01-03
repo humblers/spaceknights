@@ -461,6 +461,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newArchengineer(id, level, posX, posY, g, p)
 	case "archer":
 		u = newArcher(id, level, posX, posY, g, p)
+	case "archmage":
+		u = newArchmage(id, level, posX, posY, g, p)
 	case "archsapper":
 		u = newArchsapper(id, level, posX, posY, g, p)
 	case "astra":
@@ -493,6 +495,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newGargoyleking(id, level, posX, posY, g, p)
 	case "giant":
 		u = newGiant(id, level, posX, posY, g, p)
+	case "heavymissile":
+		u = newHeavymissile(id, level, posX, posY, g, p)
 	case "ironcoffin":
 		u = newIroncoffin(id, level, posX, posY, g, p)
 	case "jouster":
@@ -503,8 +507,12 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newLancer(id, level, posX, posY, g, p)
 	case "legion":
 		u = newLegion(id, level, posX, posY, g, p)
+	case "micromissile":
+		u = newMicromissile(id, level, posX, posY, g, p)
 	case "nagmash":
 		u = newNagmash(id, level, posX, posY, g, p)
+	case "nukemissile":
+		u = newNukemissile(id, level, posX, posY, g, p)
 	case "ogre":
 		u = newOgre(id, level, posX, posY, g, p)
 	case "panzerkunstler":
@@ -529,6 +537,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newTombstone(id, level, posX, posY, g, p)
 	case "trainee":
 		u = newTrainee(id, level, posX, posY, g, p)
+	case "voidcreeper":
+		u = newVoidcreeper(id, level, posX, posY, g, p)
 	case "wasp":
 		u = newWasp(id, level, posX, posY, g, p)
 	default:

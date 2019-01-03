@@ -14,6 +14,11 @@ func Init(id, level, posX, posY, game, player):
 func _ready():
 	$Rotatable/Float/FloatAni.play("activate")
 
+func TakeDamage(amount, damageType, attacker):
+	if damageType in [data.Skill, data.Death]:
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	.TakeDamage(amount, damageType, attacker)
+
 func Destroy():
 	.Destroy()
 	.Release()

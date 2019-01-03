@@ -12,9 +12,9 @@ type buran struct {
 	targetId  int
 	attack    int
 	cast      int
-	initPos       fixed.Vector
-	minPosX       fixed.Scalar
-	maxPosX       fixed.Scalar
+	initPos   fixed.Vector
+	minPosX   fixed.Scalar
+	maxPosX   fixed.Scalar
 	castPosX  int
 	castPosY  int
 	castTiles *tileRect
@@ -27,16 +27,19 @@ func newBuran(id int, level, posX, posY int, g Game, p Player) Unit {
 	u.Occupy(tr)
 	offsetX := g.Map().TileWidth().Mul(fixed.FromInt(HoverKnightTileOffsetX))
 	return &buran{
-		unit:   u,
-		player: p,
+		unit:    u,
+		player:  p,
 		initPos: u.Position(),
 		minPosX: u.Position().X.Sub(offsetX),
 		maxPosX: u.Position().X.Add(offsetX),
 	}
 }
 
-func (b *buran) TakeDamage(amount int, atk Attacker) {
-	b.unit.TakeDamage(amount, atk)
+func (b *buran) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	b.unit.TakeDamage(amount, damageType)
 	if b.IsDead() {
 		b.player.OnKnightDead(b)
 	}
@@ -101,7 +104,7 @@ func (b *buran) Update() {
 			b.moveToPos(fixed.Vector{posX, b.Position().Y})
 			if b.withinRange(t) {
 				if b.attack%b.attackInterval() == 0 {
-					t.TakeDamage(b.attackDamage(), b)
+					t.TakeDamage(b.attackDamage(), b.damageType())
 					duration := 0
 					for _, d := range b.player.StatRatios("slowduration") {
 						duration += d

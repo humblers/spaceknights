@@ -20,9 +20,9 @@ func newWasp(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (w *wasp) TakeDamage(amount int, a Attacker) {
-	dead := w.hp <= 0
-	if a.DamageType() != data.AntiShield {
+func (w *wasp) TakeDamage(amount int, damageType data.DamageType) {
+	alreadyDead := w.IsDead()
+	if damageType != data.AntiShield {
 		w.shield -= amount
 		if w.shield < 0 {
 			w.hp += w.shield
@@ -31,16 +31,16 @@ func (w *wasp) TakeDamage(amount int, a Attacker) {
 	} else {
 		w.hp -= amount
 	}
-	if !dead && w.hp <= 0 {
+	if !alreadyDead && w.IsDead() {
 		for _, id := range w.game.UnitIds() {
 			u := w.game.FindUnit(id)
 			if u.Team() == w.Team() {
 				continue
 			}
 			d := w.Position().Sub(u.Position()).LengthSquared()
-			r := w.Radius().Add(u.Radius()).Add(w.destroyRadius())
+			r := u.Radius().Add(w.destroyRadius())
 			if d < r.Mul(r) {
-				u.TakeDamage(w.destroyDamage(), w)
+				u.TakeDamage(w.destroyDamage(), w.destroyDamageType())
 			}
 		}
 	}
@@ -98,7 +98,7 @@ func (w *wasp) handleAttack() {
 	if w.attack == w.preAttackDelay() {
 		t := w.target()
 		if t != nil && w.withinRange(t) {
-			t.TakeDamage(w.attackDamage(), w)
+			t.TakeDamage(w.attackDamage(), w.damageType())
 		} else {
 			w.attack = 0
 			return
@@ -108,6 +108,10 @@ func (w *wasp) handleAttack() {
 	if w.attack > w.attackInterval() {
 		w.attack = 0
 	}
+}
+
+func (w *wasp) destroyDamageType() data.DamageType {
+	return data.Units[w.name]["destroydamagetype"].(data.DamageType)
 }
 
 func (w *wasp) destroyDamage() int {

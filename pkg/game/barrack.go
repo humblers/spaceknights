@@ -19,6 +19,13 @@ func newBarrack(id int, level, posX, posY int, g Game, p Player) Unit {
 	return b
 }
 
+func (b *barrack) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	b.unit.TakeDamage(amount, damageType)
+}
+
 func (b *barrack) Destroy() {
 	b.unit.Destroy()
 	b.Release()

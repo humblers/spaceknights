@@ -109,7 +109,7 @@ func (j *jouster) handleAttack() {
 		if j.attack == j.chargedAttackPreDelay() {
 			t := j.target()
 			if t != nil && j.withinRange(t) {
-				t.TakeDamage(j.chargedAttackDamage(), j)
+				t.TakeDamage(j.chargedAttackDamage(), j.chargedAttackDamageType())
 			} else {
 				j.attack = 0
 				j.charge = 0
@@ -126,7 +126,7 @@ func (j *jouster) handleAttack() {
 		if j.attack == j.preAttackDelay() {
 			t := j.target()
 			if t != nil && j.withinRange(t) {
-				t.TakeDamage(j.attackDamage(), j)
+				t.TakeDamage(j.attackDamage(), j.damageType())
 			} else {
 				j.attack = 0
 				return
@@ -154,6 +154,10 @@ func (j *jouster) speed() fixed.Scalar {
 		s = s * SlowPercent / 100
 	}
 	return j.game.World().FromPixel(s)
+}
+
+func (j *jouster) chargedAttackDamageType() data.DamageType {
+	return data.Units[j.name]["chargedattackdamagetype"].(data.DamageType)
 }
 
 func (j *jouster) chargedAttackDamage() int {

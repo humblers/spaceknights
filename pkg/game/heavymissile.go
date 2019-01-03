@@ -1,7 +1,9 @@
 package game
 
-import "github.com/humblers/spaceknights/pkg/data"
-import "github.com/humblers/spaceknights/pkg/fixed"
+import (
+	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/fixed"
+)
 
 type heavymissile struct {
 	*unit
@@ -15,17 +17,25 @@ func newHeavymissile(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
+func (h *heavymissile) TakeDamge(amount int, damageType data.DamageType) {
+	alreadyDead := h.IsDead()
+	h.unit.TakeDamage(amount, damageType)
+	if !alreadyDead && h.IsDead() && h.attack > 0 && h.attack <= h.preAttackDelay() {
+		h.suicideAttack()
+		h.attack = h.preAttackDelay() + 1
+	}
+}
+
 func (h *heavymissile) Update() {
 	h.unit.Update()
-	if h.freeze > 0 {
-		h.attack = 0
-		h.targetId = 0
-		h.freeze--
-		return
-	}
 	if h.attack > 0 {
 		h.handleAttack()
 	} else {
+		if h.freeze > 0 {
+			h.targetId = 0
+			h.freeze--
+			return
+		}
 		t := h.target()
 		if t == nil {
 			h.findTargetAndDoAction()
@@ -63,26 +73,31 @@ func (h *heavymissile) findTargetAndDoAction() {
 	}
 }
 
-func (h *heavymissile) handleAttack() {
+func (h *heavymissile) suicideAttack() {
 	for _, id := range h.game.UnitIds() {
 		u := h.game.FindUnit(id)
 		if u.Team() == h.Team() {
 			continue
 		}
 		d := h.Position().Sub(u.Position()).LengthSquared()
-		r := h.Radius().Add(u.Radius()).Add(h.destroyRadius())
+		r := u.Radius().Add(h.attackRadius())
 		if d < r.Mul(r) {
-			u.TakeDamage(h.destroyDamage(), h)
+			u.TakeDamage(h.attackDamage(), h.damageType())
 		}
 	}
-	h.hp = 0
+	if !h.IsDead() {
+		h.hp = 0
+	}
 }
 
-func (h *heavymissile) destroyDamage() int {
-	return data.Units[h.name]["destroydamage"].([]int)[h.level]
+func (h *heavymissile) handleAttack() {
+	if h.attack == h.preAttackDelay() {
+		h.suicideAttack()
+	}
+	h.attack++
 }
 
-func (h *heavymissile) destroyRadius() fixed.Scalar {
-	r := data.Units[h.name]["destroyradius"].(int)
+func (h *heavymissile) attackRadius() fixed.Scalar {
+	r := data.Units[h.name]["attackradius"].(int)
 	return h.game.World().FromPixel(r)
 }

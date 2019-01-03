@@ -64,7 +64,7 @@ func (o *ogre) handleAttack() {
 	if o.attack == o.preAttackDelay() {
 		t := o.target()
 		if t != nil && o.withinRange(t) {
-			t.TakeDamage(o.attackDamage(), o)
+			t.TakeDamage(o.attackDamage(), o.damageType())
 		} else {
 			o.attack = 0
 			return

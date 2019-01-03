@@ -171,7 +171,7 @@ func SetHp(hp):
 	self.hp = hp
 	set_hp()
 	
-func TakeDamage(amount, attacker):
+func TakeDamage(amount, damageType, attacker):
 	if Layer() != data.Normal:
 		return
 	hp -= amount
@@ -179,7 +179,7 @@ func TakeDamage(amount, attacker):
 	node_hp.visible = true
 
 	# client only
-	if attacker.DamageType() == data.Decay:
+	if damageType == data.Decay:
 		return
 	damages[game.step] = 0
 	$HitEffect.hit(attacker)
@@ -237,9 +237,6 @@ func Skill():
 func CastSkill(posX, posY):
 	print("not implemented")
 
-func DamageType():
-	return data.units[name_]["damagetype"]
-
 func initialLayer():
 	return data.units[name_]["layer"]
 
@@ -287,6 +284,9 @@ func targetTypes():
 func targetLayers():
 	return data.units[name_]["targetlayers"]
 
+func damageType():
+	return data.units[name_]["damagetype"]
+
 func attackDamage():
 	var v = data.units[name_]["attackdamage"]
 	var t = typeof(v)
@@ -313,11 +313,11 @@ func bulletLifeTime():
 func canSee(unit):
 	if unit.Type() == data.Knight:
 		return true
-	var r = sight() + Radius() + unit.Radius()
+	var r = sight() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
 
 func withinRange(unit):
-	var r = attackRange() + Radius() + unit.Radius()
+	var r = attackRange() + unit.Radius()
 	return squaredDistanceTo(unit) < scalar.Mul(r, r)
 
 func findTarget():
@@ -345,10 +345,13 @@ func squaredDistanceTo(unit):
 	return vector.LengthSquared(x, y)
 
 func moveToPos(posX, posY):
-	var x = scalar.Sub(posX, PositionX())
-	var y = scalar.Sub(posY, PositionY())
-	var v = vector.Truncated(x, y, speed())
-	SetVelocity(v[0], v[1])
+	assert(mass() == 0)
+	var dx = scalar.Sub(posX, PositionX())
+	var dy = scalar.Sub(posY, PositionY())
+	var v = vector.Truncated(dx, dy, speed())
+	var x = scalar.Add(PositionX(), scalar.Mul(v[0], game.world.dt))
+	var y = scalar.Add(PositionY(), scalar.Mul(v[1], game.world.dt))
+	SetPosition(x, y)
 
 func moveTo(unit, play_anim = true):
 	var x

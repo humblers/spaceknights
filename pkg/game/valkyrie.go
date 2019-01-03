@@ -34,8 +34,11 @@ func newValkyrie(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (v *valkyrie) TakeDamage(amount int, a Attacker) {
-	v.unit.TakeDamage(amount, a)
+func (v *valkyrie) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	v.unit.TakeDamage(amount, damageType)
 	if v.IsDead() {
 		v.player.OnKnightDead(v)
 	}
@@ -155,6 +158,7 @@ func (v *valkyrie) CastSkill(posX, posY int) {
 
 func (v *valkyrie) emp() {
 	damage := v.Skill()["damage"].([]int)[v.level]
+	damageType := v.Skill()["damagetype"].(data.DamageType)
 	radius := v.game.World().FromPixel(v.Skill()["radius"].(int))
 	for _, id := range v.game.UnitIds() {
 		u := v.game.FindUnit(id)
@@ -168,7 +172,7 @@ func (v *valkyrie) emp() {
 		d := u.Position().Sub(castPos).LengthSquared()
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
-			u.TakeDamage(damage, v)
+			u.TakeDamage(damage, damageType)
 		}
 	}
 }
@@ -202,7 +206,7 @@ func (v *valkyrie) handleAttack() {
 }
 
 func (v *valkyrie) fire() {
-	b := newBullet(v.targetId, v.bulletLifeTime(), v.attackDamage(), v.DamageType(), v.game)
+	b := newBullet(v.targetId, v.bulletLifeTime(), v.attackDamage(), v.damageType(), v.game)
 	duration := 0
 	for _, d := range v.player.StatRatios("slowduration") {
 		duration += d

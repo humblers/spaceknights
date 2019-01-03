@@ -10,8 +10,8 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
-func TakeDamage(amount, attacker):
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -86,7 +86,7 @@ func handleAttack():
 		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
-			t.TakeDamage(attackDamage(), self)
+			t.TakeDamage(attackDamage(), damageType(), self)
 		else:
 			attack = 0
 			return

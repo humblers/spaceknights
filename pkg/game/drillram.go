@@ -64,7 +64,7 @@ func (d *drillram) handleAttack() {
 	if d.attack == d.preAttackDelay() {
 		t := d.target()
 		if t != nil && d.withinRange(t) {
-			t.TakeDamage(d.attackDamage(), d)
+			t.TakeDamage(d.attackDamage(), d.damageType())
 		} else {
 			d.attack = 0
 			return

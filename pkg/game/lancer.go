@@ -34,8 +34,11 @@ func newLancer(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (l *lancer) TakeDamage(amount int, a Attacker) {
-	l.unit.TakeDamage(amount, a)
+func (l *lancer) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	l.unit.TakeDamage(amount, damageType)
 	if l.IsDead() {
 		l.player.OnKnightDead(l)
 	}
@@ -138,13 +141,13 @@ func (l *lancer) SetAsLeader() {
 	w := l.game.World().FromPixel(s["width"].(int))
 	h := l.game.World().FromPixel(s["height"].(int))
 	damage := s["damage"].(int)
+	damageType := s["damagetype"].(data.DamageType)
 	duration := s["duration"].(int)
 	for i := 0; i < count; i++ {
 		pos := fixed.Vector{
 			l.game.World().FromPixel(posX[i]),
 			l.game.World().FromPixel(posY[i]),
 		}
-		damageType := s["damagetype"].(data.DamageType)
 		dot := newDOT(l.team, pos, w, h, damage, duration, damageType, l.game)
 		l.game.AddSkill(dot)
 	}
@@ -214,7 +217,7 @@ func (l *lancer) handleAttack() {
 }
 
 func (l *lancer) fire() {
-	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.DamageType(), l.game)
+	b := newBullet(l.targetId, l.bulletLifeTime(), l.attackDamage(), l.damageType(), l.game)
 	duration := 0
 	for _, d := range l.player.StatRatios("slowduration") {
 		duration += d

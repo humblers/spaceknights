@@ -19,8 +19,8 @@ func newGargoyle(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (g *gargoyle) TakeDamage(amount int, a Attacker) {
-	if a.DamageType() != data.AntiShield {
+func (g *gargoyle) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType != data.AntiShield {
 		g.shield -= amount
 		if g.shield < 0 {
 			g.hp += g.shield
@@ -87,7 +87,7 @@ func (g *gargoyle) handleAttack() {
 	if g.attack == g.preAttackDelay() {
 		t := g.target()
 		if t != nil && g.withinRange(t) {
-			t.TakeDamage(g.attackDamage(), g)
+			t.TakeDamage(g.attackDamage(), g.damageType())
 		} else {
 			g.attack = 0
 			return

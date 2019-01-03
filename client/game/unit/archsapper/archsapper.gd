@@ -26,10 +26,12 @@ func Init(id, level, posX, posY, game, player):
 	)
 	.Occupy(tr)
 
-func TakeDamage(amount, attacker):
+func TakeDamage(amount, damageType, attacker):
 	var initHp = InitialHp()
 	var underHalf = initHp / 2 > hp
-	.TakeDamage(amount, attacker)
+	if damageType in [data.Skill, data.Death]:
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	.TakeDamage(amount, damageType, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():
@@ -209,7 +211,7 @@ func handleAttack():
 
 func fire():
 	var b = $ResourcePreloader.get_resource("cannon_bullet").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	var duration = 0
 	for d in player.StatRatios("slowduration"):
 		duration += d

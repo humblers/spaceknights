@@ -13,6 +13,11 @@ func Init(id, level, posX, posY, game, player):
 func _ready():
 	$Float/FloatAni.play("activate")
 
+func TakeDamage(amount, damageType, attacker):
+	if damageType in [data.Skill, data.Death]:
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	.TakeDamage(amount, damageType, attacker)
+
 func Update():
 	Decayable.TakeDecayDamage()
 	if freeze > 0:
@@ -52,7 +57,7 @@ func setTarget(unit):
 
 func fire():
 	var b = $ResourcePreloader.get_resource("bullet").instance()
-	b.Init(targetId, bulletLifeTime(), attackDamage(), DamageType(), game)
+	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	game.AddBullet(b)
 	# client only
 	b.global_position = $Rotatable/CannonBody/Gun/Shotpoint.global_position

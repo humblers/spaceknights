@@ -42,7 +42,7 @@ func (b *bullet) Update() {
 	if b.lifetime <= 0 {
 		if b.damageRadius == 0 { // normal
 			if target != nil {
-				target.TakeDamage(b.damage, b)
+				target.TakeDamage(b.damage, b.damageType)
 				target.MakeSlow(b.slowDuration)
 			}
 		} else { // splash
@@ -54,7 +54,7 @@ func (b *bullet) Update() {
 				d := b.lastTargetPosition.Sub(u.Position()).LengthSquared()
 				r := u.Radius().Add(b.damageRadius)
 				if d < r.Mul(r) {
-					u.TakeDamage(b.damage, b)
+					u.TakeDamage(b.damage, b.damageType)
 					u.MakeSlow(b.slowDuration)
 				}
 			}
@@ -75,8 +75,4 @@ func (b *bullet) MakeSplash(radius fixed.Scalar) {
 	target := b.game.FindUnit(b.targetId)
 	b.targetTeam = target.Team()
 	b.damageRadius = radius
-}
-
-func (b *bullet) DamageType() data.DamageType {
-	return b.damageType
 }

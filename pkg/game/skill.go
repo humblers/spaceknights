@@ -42,7 +42,7 @@ func (dot *DOT) Update() {
 				continue
 			}
 			if dot.InArea(u) {
-				u.TakeDamage(dot.damagePerSec, dot)
+				u.TakeDamage(dot.damagePerSec, dot.damageType)
 			}
 		}
 	}
@@ -51,10 +51,6 @@ func (dot *DOT) Update() {
 
 func (dot *DOT) IsExpired() bool {
 	return dot.remainingStep <= 0
-}
-
-func (dot *DOT) DamageType() data.DamageType {
-	return dot.damageType
 }
 
 func (dot *DOT) InArea(u Unit) bool {

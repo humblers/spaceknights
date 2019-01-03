@@ -79,7 +79,7 @@ func (a *absorber) handleAttack() {
 				d := a.Position().Sub(u.Position()).LengthSquared()
 				r := a.Radius().Add(u.Radius()).Add(a.attackRadius())
 				if d < r.Mul(r) {
-					u.TakeDamage(a.attackDamage(), a)
+					u.TakeDamage(a.attackDamage(), a.damageType())
 				}
 			}
 		} else {

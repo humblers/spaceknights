@@ -6,10 +6,6 @@ import (
 	"github.com/humblers/spaceknights/pkg/physics"
 )
 
-type Attacker interface {
-	DamageType() data.DamageType
-}
-
 type Unit interface {
 	Id() int
 	Name() string
@@ -17,7 +13,7 @@ type Unit interface {
 	Type() data.UnitType
 	Layer() data.UnitLayer
 	IsDead() bool
-	TakeDamage(amount int, t Attacker)
+	TakeDamage(amount int, damageType data.DamageType)
 	Update()
 	Destroy()
 	Freeze(duration int)
@@ -140,7 +136,7 @@ func (u *unit) IsDead() bool {
 	return u.hp <= 0
 }
 
-func (u *unit) TakeDamage(amount int, a Attacker) {
+func (u *unit) TakeDamage(amount int, damageType data.DamageType) {
 	if u.Layer() != data.Normal {
 		return
 	}
@@ -159,9 +155,7 @@ func (u *unit) Skill() map[string]interface{} {
 func (u *unit) CastSkill(posX, posY int) {
 	panic("not implemented")
 }
-func (u *unit) DamageType() data.DamageType {
-	return data.Units[u.name]["damagetype"].(data.DamageType)
-}
+
 func (u *unit) initialLayer() data.UnitLayer {
 	return data.Units[u.name]["layer"].(data.UnitLayer)
 }
@@ -216,6 +210,9 @@ func (u *unit) targetTypes() data.UnitTypes {
 func (u *unit) targetLayers() data.UnitLayers {
 	return data.Units[u.name]["targetlayers"].(data.UnitLayers)
 }
+func (u *unit) damageType() data.DamageType {
+	return data.Units[u.name]["damagetype"].(data.DamageType)
+}
 func (u *unit) attackDamage() int {
 	switch v := data.Units[u.name]["attackdamage"].(type) {
 	case int:
@@ -246,11 +243,11 @@ func (u *unit) canSee(v Unit) bool {
 	if v.Type() == data.Knight {
 		return true
 	}
-	r := u.sight() + u.Radius() + v.Radius()
+	r := u.sight() + v.Radius()
 	return u.squaredDistanceTo(v) < r.Mul(r)
 }
 func (u *unit) withinRange(v Unit) bool {
-	r := u.attackRange() + u.Radius() + v.Radius()
+	r := u.attackRange() + v.Radius()
 	return u.squaredDistanceTo(v) < r.Mul(r)
 }
 func (u *unit) findTarget() Unit {
@@ -292,8 +289,12 @@ func (u *unit) squaredDistanceTo(v Unit) fixed.Scalar {
 }
 
 func (u *unit) moveToPos(pos fixed.Vector) {
+	// TODO: remove below code after implement collision avoid pattern
+	if u.mass() != 0 {
+		panic("not implemented")
+	}
 	v := pos.Sub(u.Position()).Truncated(u.speed())
-	u.SetVelocity(v)
+	u.SetPosition(u.Position().Add(v.Mul(u.game.World().Dt())))
 }
 
 func (u *unit) moveTo(target Unit) {

@@ -64,7 +64,7 @@ func (v *voidcreeper) handleAttack() {
 	if v.attack == v.preAttackDelay() {
 		t := v.target()
 		if t != nil && v.withinRange(t) {
-			t.TakeDamage(v.attackDamage(), v)
+			t.TakeDamage(v.attackDamage(), v.damageType())
 		} else {
 			v.attack = 0
 			return

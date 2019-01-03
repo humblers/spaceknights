@@ -14,8 +14,8 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.max_value = shield
 	$Hp/Shield.value = shield
 
-func TakeDamage(amount, attacker):
-	if attacker.DamageType() != data.AntiShield:
+func TakeDamage(amount, damageType, attacker):
+	if damageType != data.AntiShield:
 		shield -= amount
 		if shield < 0:
 			hp += shield
@@ -87,12 +87,11 @@ func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
 		look_at_pos(t.PositionX(), t.PositionY())
-		var r = scalar.Add(Radius(), attackRange())
 		var dx = scalar.Sub(t.PositionX(), PositionX())
 		var dy = scalar.Sub(t.PositionY(), PositionY())
 		var norm = vector.Normalized(dx, dy)
-		dx = scalar.Mul(norm[0], r)
-		dy = scalar.Mul(norm[1], r)
+		dx = scalar.Mul(norm[0], attackRange())
+		dy = scalar.Mul(norm[1], attackRange())
 		punchPosX = scalar.Add(PositionX(), dx)
 		punchPosY = scalar.Add(PositionY(), dy)
 	if attack < preAttackDelay():
@@ -108,15 +107,17 @@ func handleAttack():
 			var d = vector.LengthSquared(x, y)
 			var r = scalar.Add(u.Radius(), radius)
 			if d < scalar.Mul(r, r):
-				u.TakeDamage(attackDamage(), self)
+				u.TakeDamage(attackDamage(), damageType(), self)
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
 
 func absorb():
-	var radius = absorbRadius()
+	var absorbRadius = game.World().FromPixel(data.units[name_]["absorbradius"])
+	var damageRadius = game.World().FromPixel(data.units[name_]["absorbdamageradius"])
 	var force = game.World().FromPixel(data.units[name_]["absorbforce"])
 	var damage = data.units[name_]["absorbdamage"]
+	var damageType = data.units[name_]["absorbdamagetype"]
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team() or u.Layer() != data.Normal:
@@ -124,23 +125,16 @@ func absorb():
 		var x = scalar.Sub(punchPosX, u.PositionX())
 		var y = scalar.Sub(punchPosY, u.PositionY())
 		var d = vector.LengthSquared(x, y)
-		var r = scalar.Add(u.Radius(), radius)
-		if d <= scalar.Mul(r, r):
+		var r = scalar.Add(u.Radius(), absorbRadius)
+		if d < scalar.Mul(r, r):
 			var n = vector.Normalized(x, y)
 			var fx = scalar.Mul(n[0], force)
 			var fy = scalar.Mul(n[1], force)
 			u.AddForce(fx, fy)
-			u.TakeDamage(damage, self)
-			
-
-func absorbRadius():
-	return game.World().FromPixel(data.units[name_]["absorbradius"])
+		r = scalar.Add(u.Radius(), damageRadius)
+		if d < scalar.Mul(r, r):
+			u.TakeDamage(damage, damageType, self)
 
 func attackRadius():
 	var r = data.units[name_]["attackradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
+	return game.World().FromPixel(r)

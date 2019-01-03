@@ -36,14 +36,11 @@ func Update():
 			if u.Team() == team:
 				continue
 			if InArea(u):
-				u.TakeDamage(damagePerSec, self)
+				u.TakeDamage(damagePerSec, damageType, self)
 	remainingStep -= 1
 
 func IsExpired():
 	return remainingStep <= 0
-
-func DamageType():
-	return damageType
 
 func InArea(unit):
 	return game.boxVScircle(

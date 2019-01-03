@@ -28,8 +28,11 @@ func newArchengineer(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (a *archengineer) TakeDamage(amount int, atk Attacker) {
-	a.unit.TakeDamage(amount, atk)
+func (a *archengineer) TakeDamage(amount int, damageType data.DamageType) {
+	if damageType == data.Skill || damageType == data.Death {
+		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	}
+	a.unit.TakeDamage(amount, damageType)
 	if a.IsDead() {
 		a.player.OnKnightDead(a)
 	}
@@ -114,7 +117,7 @@ func (a *archengineer) findTargetAndAttack() {
 
 func (a *archengineer) SetAsLeader() {
 	a.isLeader = true
-	a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
+	//a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
 }
 
 func (a *archengineer) Skill() map[string]interface{} {
@@ -183,7 +186,7 @@ func (a *archengineer) handleAttack() {
 }
 
 func (a *archengineer) fire() {
-	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.DamageType(), a.game)
+	b := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.damageType(), a.game)
 	duration := 0
 	for _, d := range a.player.StatRatios("slowduration") {
 		duration += d

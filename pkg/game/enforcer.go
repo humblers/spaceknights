@@ -77,9 +77,9 @@ func (e *enforcer) handleAttack() {
 					continue
 				}
 				d := e.Position().Sub(u.Position()).LengthSquared()
-				r := e.Radius().Add(u.Radius()).Add(e.attackRadius())
+				r := u.Radius().Add(e.attackRadius())
 				if d < r.Mul(r) {
-					u.TakeDamage(e.attackDamage(), e)
+					u.TakeDamage(e.attackDamage(), e.damageType())
 				}
 			}
 		} else {
@@ -105,10 +105,5 @@ func (e *enforcer) canAttack(u Unit) bool {
 
 func (e *enforcer) attackRadius() fixed.Scalar {
 	r := data.Units[e.name]["attackradius"].(int)
-	divider := 1
-	for _, ratio := range e.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return e.game.World().FromPixel(r / divider)
+	return e.game.World().FromPixel(r)
 }
