@@ -75,6 +75,7 @@ var Units = map[string]Unit{
 		"attackradius":   80,
 		"attackinterval": 20,
 		"preattackdelay": 9,
+		"absorbratio":    50,
 	},
 	"archengineer": map[string]interface{}{
 		"mass":           0,
@@ -340,11 +341,9 @@ var Units = map[string]Unit{
 				"precastdelay": 20,
 			},
 			"leader": map[string]interface{}{
-				"name":      "lemming",
-				"unit":      "footman",
-				"count":     1,
-				"offsetX":   150,
-				"perdeaths": 4,
+				"name":                "amplify",
+				"amplifydamagepersec": []int{10},
+				"amplifycountlimit":   10,
 			},
 		},
 	},
@@ -1142,7 +1141,12 @@ func fillStatByLevel(key string, src interface{}) []int {
 		return nil
 	case []int:
 		switch key {
-		case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+		case "hp", "shield",
+			"attackdamage", "destroydamage",
+			"chargedattackdamage", "powerattackdamage",
+			"damage",
+			"hpratio", "attackdamageratio", "attackrangeratio",
+			"amplifydamagepersec", "slowduration":
 			statSlice := src.([]int)[:1]
 			baseValue := statSlice[0]
 			multiplier := StatMultiplier

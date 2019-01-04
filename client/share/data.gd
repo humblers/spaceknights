@@ -468,6 +468,7 @@ var units = {
 		"attackradius":   80,
 		"attackinterval": 20,
 		"preattackdelay": 9,
+		"absorbratio":    50,
 	},
 	"archengineer": {
 		"mass":           0,
@@ -730,11 +731,9 @@ var units = {
 				"precastdelay": 20,
 			},
 			"leader": {
-				"name":         "lemming",
-				"unit":         "footman",
-				"count":        1,
-				"offsetX":      150,
-				"perdeaths":    4,
+				"name":                "amplify",
+				"amplifydamagepersec": [10],
+				"amplifycountlimit":   10,
 			},
 		},
 	},
@@ -1519,7 +1518,12 @@ func fillStatByLevel(key, value):
 			return null
 		TYPE_ARRAY:
 			match key:
-				"hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+				"hp", "shield",\
+				"attackdamage", "destroydamage",\
+				"chargedattackdamage", "powerattackdamage",\
+				"damage",\
+				"hpratio", "attackdamageratio", "attackrangeratio",\
+				"amplifydamagepersec", "slowduration":
 					value.resize(1)
 					var baseValue = value[0]
 					var multiplier = StatMultiplier

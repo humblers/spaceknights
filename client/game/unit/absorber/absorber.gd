@@ -1,12 +1,31 @@
 extends "res://game/script/unit.gd"
 
+export(float) var absorb_max_scale = 2.3
+export(float) var absorb_min_scale = 0.8
+export(NodePath) onready var absorb_node = get_node(absorb_node)
+
+# invariant
+var absorb_max
+
 var player
 var targetId = 0
 var attack = 0
+var absorbed = 0
+
+func _process(delta):
+	if absorb_max == null:
+		return
+	var s = float(absorbed) / absorb_max * (absorb_max_scale - absorb_min_scale) + absorb_min_scale
+	absorb_node.scale = Vector2(s, s)
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "absorber", player.Team(), level, posX, posY, game)
 	self.player = player
+	absorb_max = hp * absorbRatio() / 100
+
+func TakeDamage(amount, damageType, attacker):
+	.TakeDamage(amount, damageType, attacker)
+	absorbed += amount * absorbRatio() / 100
 
 func Update():
 	.Update()
@@ -61,6 +80,8 @@ func handleAttack():
 		look_at_pos(t.PositionX(), t.PositionY())
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
+			var damage = attackDamage() + absorbed
+			absorbed = 0
 			for id in game.UnitIds():
 				var u = game.FindUnit(id)
 				if not canAttack(u):
@@ -68,9 +89,9 @@ func handleAttack():
 				var x = scalar.Sub(PositionX(), u.PositionX())
 				var y = scalar.Sub(PositionY(), u.PositionY())
 				var d = vector.LengthSquared(x, y)
-				var r = scalar.Add(scalar.Add(Radius(), u.Radius()), attackRadius())
+				var r = scalar.Add(u.Radius(), attackRadius())
 				if d < scalar.Mul(r, r):
-					u.TakeDamage(attackDamage(), self)
+					u.TakeDamage(damage, damageType(), self)
 		else:
 			attack = 0
 			return
@@ -87,10 +108,7 @@ func canAttack(unit):
 
 func attackRadius():
 	var r = data.units[name_]["attackradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
-	
+	return game.World().FromPixel(r)
+
+func absorbRatio():
+	return data.units[name_]["absorbratio"]
