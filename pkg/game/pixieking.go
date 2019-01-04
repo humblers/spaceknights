@@ -7,17 +7,18 @@ import (
 
 type pixieking struct {
 	*unit
-	player    Player
-	isLeader  bool
-	targetId  int
-	attack    int
-	cast      int
-	initPos   fixed.Vector
-	minPosX   fixed.Scalar
-	maxPosX   fixed.Scalar
-	castPosX  int
-	castPosY  int
-	castTiles *tileRect
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	initPos     fixed.Vector
+	minPosX     fixed.Scalar
+	maxPosX     fixed.Scalar
+	castPosX    int
+	castPosY    int
+	castTiles   *tileRect
+	retargeting bool
 }
 
 func newPixieking(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -58,7 +59,16 @@ func (p *pixieking) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := p.player.StatRatios("amplifycountlimit")
+	for i, amplify := range p.player.StatRatios("amplifydamagepersec") {
+		cnt := p.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * p.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (p *pixieking) attackRange() fixed.Scalar {
@@ -94,16 +104,18 @@ func (p *pixieking) Update() {
 			p.cast++
 		}
 	} else {
-		if p.attack > 0 {
+		if p.attack > 0 && !p.retargeting {
 			p.handleAttack()
 		} else {
 			t := p.target()
 			if t == nil {
+				p.attack = 0
 				p.findTargetAndAttack()
 			} else {
 				if p.withinRange(t) {
 					p.handleAttack()
 				} else {
+					p.attack = 0
 					p.findTargetAndAttack()
 				}
 			}
@@ -193,19 +205,19 @@ func (p *pixieking) setTarget(u Unit) {
 }
 
 func (p *pixieking) handleAttack() {
-	if p.attack == p.preAttackDelay() {
+	if p.attack%p.attackInterval() == p.preAttackDelay() {
 		t := p.target()
 		if t != nil && p.withinRange(t) {
 			p.fire()
 		} else {
-			p.attack = 0
+			p.retargeting = true
 			return
 		}
 	}
-	p.attack++
-	if p.attack > p.attackInterval() {
-		p.attack = 0
+	if p.attack > 0 && p.attack%p.attackInterval() == 0 {
+		p.retargeting = true
 	}
+	p.attack++
 }
 
 func (p *pixieking) fire() {

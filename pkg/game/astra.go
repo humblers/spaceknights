@@ -56,7 +56,16 @@ func (a *astra) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := a.player.StatRatios("amplifycountlimit")
+	for i, amplify := range a.player.StatRatios("amplifydamagepersec") {
+		cnt := a.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * a.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (a *astra) attackRange() fixed.Scalar {

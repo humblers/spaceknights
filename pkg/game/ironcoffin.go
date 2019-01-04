@@ -7,17 +7,18 @@ import (
 
 type ironcoffin struct {
 	*unit
-	player    Player
-	isLeader  bool
-	targetId  int
-	attack    int
-	cast      int
-	initPos   fixed.Vector
-	minPosX   fixed.Scalar
-	maxPosX   fixed.Scalar
-	castPosX  int
-	castPosY  int
-	castTiles *tileRect
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	initPos     fixed.Vector
+	minPosX     fixed.Scalar
+	maxPosX     fixed.Scalar
+	castPosX    int
+	castPosY    int
+	castTiles   *tileRect
+	retargeting bool
 }
 
 func newIroncoffin(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -58,7 +59,16 @@ func (i *ironcoffin) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := i.player.StatRatios("amplifycountlimit")
+	for idx, amplify := range i.player.StatRatios("amplifydamagepersec") {
+		cnt := i.attack / data.StepPerSec
+		if cnt > limits[idx] {
+			cnt = limits[idx]
+		}
+		damage += amplify * cnt * i.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (i *ironcoffin) attackRange() fixed.Scalar {
@@ -94,16 +104,18 @@ func (i *ironcoffin) Update() {
 			i.cast++
 		}
 	} else {
-		if i.attack > 0 {
+		if i.attack > 0 && !i.retargeting {
 			i.handleAttack()
 		} else {
 			t := i.target()
 			if t == nil {
+				i.attack = 0
 				i.findTargetAndDoAction()
 			} else {
 				if i.withinRange(t) {
 					i.handleAttack()
 				} else {
+					i.attack = 0
 					i.findTargetAndDoAction()
 				}
 			}
@@ -199,19 +211,19 @@ func (i *ironcoffin) setTarget(u Unit) {
 }
 
 func (i *ironcoffin) handleAttack() {
-	if i.attack == i.preAttackDelay() {
+	if i.attack%i.attackInterval() == i.preAttackDelay() {
 		t := i.target()
 		if t != nil && i.withinRange(t) {
 			i.fire()
 		} else {
-			i.attack = 0
+			i.retargeting = true
 			return
 		}
 	}
-	i.attack++
-	if i.attack > i.attackInterval() {
-		i.attack = 0
+	if i.attack > 0 && i.attack%i.attackInterval() == 0 {
+		i.retargeting = true
 	}
+	i.attack++
 }
 
 func (i *ironcoffin) fire() {

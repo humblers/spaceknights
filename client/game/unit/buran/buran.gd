@@ -63,7 +63,15 @@ func attackDamage():
 	for i in range(len(ratios)):
 		damage *= ratios[i]
 		divider *= 100
-	return damage / divider
+	damage /= divider
+	var amplifies = player.StatRatios("amplifydamagepersec")
+	var limits = player.StatRatios("amplifycountlimit")
+	for i in range(len(amplifies)):
+		var cnt = attack / data.StepPerSec
+		if cnt > limits[i]:
+			cnt = limits[i]
+		damage += amplifies[i] * cnt * attackInterval() / data.StepPerSec
+	return damage
 
 func attackRange():
 	var atkrange = data.units[name_]["attackrange"]
@@ -121,7 +129,7 @@ func Update():
 
 func show_laser(enable):
 	for pos in ["L1", "R1", "L2", "R2"]:
-		var n = get_node("Rotatable/Body/Weapon/Laser%s" % pos)
+		var n = get_node("Rotatable/Body/Main/Weapon/Laser%s" % pos)
 		n.visible = enable
 		if enable:
 			var from = n.global_position
@@ -143,6 +151,8 @@ func preCastDelay():
 		
 func SetAsLeader():
 	isLeader = true
+	player.AddStatRatio("amplifydamagepersec", Skill()["amplifydamagepersec"][level])
+	player.AddStatRatio("amplifycountlimit", Skill()["amplifycountlimit"])
 
 func Skill():
 	var key = "leader" if isLeader else "wing"
@@ -171,8 +181,8 @@ func CastSkill(posX, posY):
 	$AnimationPlayer.play("skill")
 
 func adjustSkillAnim():
-	var offset = $Rotatable/Body/Turret.position * $Rotatable.scale
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
+	var offset = $Rotatable/Body/Dummy.position * $Rotatable.scale
+	var ref_vec = Vector2(0, -600) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y).rotated($Rotatable.rotation) - offset
@@ -182,13 +192,11 @@ func adjustSkillAnim():
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
-	var tracks = ["Rotatable/Body:position"]
-	for track in tracks:
-		var track_idx = old_anim.find_track(track)
-		var key_count = old_anim.track_get_key_count(track_idx)
-		for i in range(key_count):
-			var v = old_anim.track_get_key_value(track_idx, i)
-			new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
+	var track_idx = old_anim.find_track("Rotatable/Body:position")
+	var key_count = old_anim.track_get_key_count(track_idx)
+	for i in range(key_count):
+		var v = old_anim.track_get_key_value(track_idx, i)
+		new_anim.track_set_key_value(track_idx, i, v.rotated(angle) * scale)
 
 func spawn():
 	var name = Skill()["unit"]

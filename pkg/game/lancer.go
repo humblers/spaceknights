@@ -7,16 +7,17 @@ import (
 
 type lancer struct {
 	*unit
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	initPos  fixed.Vector
-	minPosX  fixed.Scalar
-	maxPosX  fixed.Scalar
-	castPosX int
-	castPosY int
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	initPos     fixed.Vector
+	minPosX     fixed.Scalar
+	maxPosX     fixed.Scalar
+	castPosX    int
+	castPosY    int
+	retargeting bool
 }
 
 func newLancer(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -56,7 +57,16 @@ func (l *lancer) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := l.player.StatRatios("amplifycountlimit")
+	for i, amplify := range l.player.StatRatios("amplifydamagepersec") {
+		cnt := l.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * l.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (l *lancer) attackRange() fixed.Scalar {
@@ -87,16 +97,18 @@ func (l *lancer) Update() {
 			l.cast++
 		}
 	} else {
-		if l.attack > 0 {
+		if l.attack > 0 && l.retargeting {
 			l.handleAttack()
 		} else {
 			t := l.target()
 			if t == nil {
+				l.attack = 0
 				l.findTargetAndDoAction()
 			} else {
 				if l.withinRange(t) {
 					l.handleAttack()
 				} else {
+					l.attack = 0
 					l.findTargetAndDoAction()
 				}
 			}
@@ -201,19 +213,19 @@ func (l *lancer) setTarget(u Unit) {
 }
 
 func (l *lancer) handleAttack() {
-	if l.attack == l.preAttackDelay() {
+	if l.attack%l.attackInterval() == l.preAttackDelay() {
 		t := l.target()
 		if t != nil && l.withinRange(t) {
 			l.fire()
 		} else {
-			l.attack = 0
+			l.retargeting = true
 			return
 		}
 	}
-	l.attack++
-	if l.attack > l.attackInterval() {
-		l.attack = 0
+	if l.attack > 0 && l.attack%l.attackInterval() == 0 {
+		l.retargeting = true
 	}
+	l.attack++
 }
 
 func (l *lancer) fire() {

@@ -61,7 +61,15 @@ func attackDamage():
 	for i in range(len(ratios)):
 		damage *= ratios[i]
 		divider *= 100
-	return damage / divider
+	damage /= divider
+	var amplifies = player.StatRatios("amplifydamagepersec")
+	var limits = player.StatRatios("amplifycountlimit")
+	for i in range(len(amplifies)):
+		var cnt = attack / data.StepPerSec
+		if cnt > limits[i]:
+			cnt = limits[i]
+		damage += amplifies[i] * cnt * attackInterval() / data.StepPerSec
+	return damage
 
 func attackRange():
 	var atkrange = data.units[name_]["attackrange"]

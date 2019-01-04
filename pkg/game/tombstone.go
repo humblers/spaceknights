@@ -59,7 +59,16 @@ func (ts *tombstone) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := ts.player.StatRatios("amplifycountlimit")
+	for i, amplify := range ts.player.StatRatios("amplifydamagepersec") {
+		cnt := ts.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * ts.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (ts *tombstone) attackRange() fixed.Scalar {

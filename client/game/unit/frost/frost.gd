@@ -7,6 +7,7 @@ var attack = 0
 var cast = 0
 var castPosX = 0
 var castPosY = 0
+var retargeting = false
 
 const ROT_SPEED = PI/4
 onready var arm_l = $Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL
@@ -56,7 +57,15 @@ func attackDamage():
 	for i in range(len(ratios)):
 		damage *= ratios[i]
 		divider *= 100
-	return damage / divider
+	damage /= divider
+	var amplifies = player.StatRatios("amplifydamagepersec")
+	var limits = player.StatRatios("amplifycountlimit")
+	for i in range(len(amplifies)):
+		var cnt = attack / data.StepPerSec
+		if cnt > limits[i]:
+			cnt = limits[i]
+		damage += amplifies[i] * cnt * attackInterval() / data.StepPerSec
+	return damage
 
 func attackRange():
 	var atkrange = data.units[name_]["attackrange"]
@@ -84,16 +93,18 @@ func Update():
 		else:
 			cast += 1
 	else:
-		if attack > 0:
+		if attack > 0 and not retargeting:
 			handleAttack()
 		else:
 			var t = target()
 			if t == null:
+				attack = 0
 				findTargetAndAttack()
 			else:
 				if withinRange(t):
 					handleAttack()
 				else:
+					attack = 0
 					findTargetAndAttack()
 
 func findTargetAndAttack():
@@ -190,15 +201,15 @@ func handleAttack():
 	var t = target()
 	if t != null:
 		aim(t)
-	if attack == preAttackDelay():
+	if attack % attackInterval() == preAttackDelay():
 		if t != null and withinRange(t):
 			fire()
 		else:
-			attack = 0
+			retargeting = true
 			return
+	if attack > 0 and attack % attackInterval() == 0:
+		retargeting = true
 	attack += 1
-	if attack > attackInterval():
-		attack = 0
 
 func aim(t):
 	var angle = (t.global_position - $Rotatable.global_position).angle() + PI/2

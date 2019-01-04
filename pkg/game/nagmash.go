@@ -56,7 +56,16 @@ func (n *nagmash) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := n.player.StatRatios("amplifycountlimit")
+	for i, amplify := range n.player.StatRatios("amplifydamagepersec") {
+		cnt := n.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * n.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (n *nagmash) attackRange() fixed.Scalar {

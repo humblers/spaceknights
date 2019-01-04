@@ -7,14 +7,15 @@ import (
 
 type archsapper struct {
 	*unit
-	player    Player
-	isLeader  bool
-	targetId  int
-	attack    int
-	cast      int
-	castPosX  int
-	castPosY  int
-	castTiles *tileRect
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	castPosX    int
+	castPosY    int
+	castTiles   *tileRect
+	retargeting bool
 }
 
 func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -51,7 +52,16 @@ func (a *archsapper) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := a.player.StatRatios("amplifycountlimit")
+	for i, amplify := range a.player.StatRatios("amplifydamagepersec") {
+		cnt := a.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * a.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (a *archsapper) attackRange() fixed.Scalar {
@@ -82,16 +92,18 @@ func (a *archsapper) Update() {
 			a.cast++
 		}
 	} else {
-		if a.attack > 0 {
+		if a.attack > 0 && !a.retargeting {
 			a.handleAttack()
 		} else {
 			t := a.target()
 			if t == nil {
+				a.attack = 0
 				a.findTargetAndAttack()
 			} else {
 				if a.withinRange(t) {
 					a.handleAttack()
 				} else {
+					a.attack = 0
 					a.findTargetAndAttack()
 				}
 			}
@@ -195,19 +207,19 @@ func (a *archsapper) setTarget(u Unit) {
 }
 
 func (a *archsapper) handleAttack() {
-	if a.attack == a.preAttackDelay() {
+	if a.attack%a.attackInterval() == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {
 			a.fire()
 		} else {
-			a.attack = 0
+			a.retargeting = true
 			return
 		}
 	}
-	a.attack++
-	if a.attack > a.attackInterval() {
-		a.attack = 0
+	if a.attack > 0 && a.attack%a.attackInterval() == 0 {
+		a.retargeting = true
 	}
+	a.attack++
 }
 
 func (a *archsapper) fire() {
