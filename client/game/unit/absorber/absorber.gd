@@ -1,10 +1,9 @@
 extends "res://game/script/unit.gd"
 
+# invariants
 export(float) var absorb_max_scale = 2.3
 export(float) var absorb_min_scale = 0.8
 export(NodePath) onready var absorb_node = get_node(absorb_node)
-
-# invariant
 var absorb_max
 
 var player

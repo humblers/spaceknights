@@ -1,6 +1,12 @@
 extends "res://game/script/unit.gd"
 
+# invariants
+export(Color) var beam_color_min = Color(0.63, 0.84, 1, 1)
+export(Color) var beam_color_max = Color(0.63, 0.84, 1, 1)
+export(float) var beam_width_min = 1.0
+export(float) var beam_width_max = 4.0
 var Decayable = preload("res://game/script/decayable.gd")
+var damage_max
 
 var targetId = 0
 var attack = 0
@@ -12,11 +18,25 @@ func Init(id, level, posX, posY, game, player):
 
 func _ready():
 	$Float/FloatAni.play("activate")
+	damage_max = .attackDamage() * data.units[name_]["amplifycountlimit"]
 
 func TakeDamage(amount, damageType, attacker):
 	if damageType in [data.Skill, data.Death]:
 		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
 	.TakeDamage(amount, damageType, attacker)
+
+func Destroy():
+	.Destroy()
+	Release()
+	$AnimationPlayer.play("destroy")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
+
+func attackDamage():
+	var cnt = attack / attackInterval()
+	var limit = data.units[name_]["amplifycountlimit"]
+	cnt = int(clamp(cnt, 1, limit))
+	return .attackDamage() * cnt
 
 func Update():
 	Decayable.TakeDecayDamage()
@@ -25,10 +45,11 @@ func Update():
 		targetId = 0
 		freeze -= 1
 		return
-	if target() == null:
-		setTarget(findTarget())
-		attack = 0
 	var t = target()
+	if t == null || not withinRange(t):
+		attack = 0
+		setTarget(findTarget())
+		t = target()
 	if t != null:
 		if withinRange(t):
 			if attack % attackInterval() == 0:
@@ -58,15 +79,11 @@ func show_laser(enable):
 		var beam = n.get_node("LaserBeam")
 		beam.global_scale.y = (to - from).length() / beam.texture.get_height()
 		beam.global_rotation = (to - from).angle() + PI/2
+		var r = float(attackDamage()) / damage_max
+		beam.scale.x = r * (beam_width_max - beam_width_min) + beam_width_min
+		beam.modulate = beam_color_min.linear_interpolate(beam_color_max, r)
 		if $Sound/Attack.playing == false:
 			$Sound/Attack.play()
-				
-func Destroy():
-	.Destroy()
-	.Release()
-	$AnimationPlayer.play("destroy")
-	yield($AnimationPlayer, "animation_finished")
-	queue_free()
 
 func target():
 	return game.FindUnit(targetId)
