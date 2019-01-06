@@ -494,7 +494,8 @@ var units = {
 				"precastdelay": 38,
 			},
 			"leader": {
-				"arearatio":    200,
+				"name":               "louder",
+				"expanddamageradius": [30],
 			},
 		},
 	},
@@ -1524,7 +1525,9 @@ func fillStatByLevel(key, value):
 				"chargedattackdamage", "powerattackdamage",\
 				"damage",\
 				"hpratio", "attackdamageratio", "attackrangeratio",\
-				"amplifydamagepersec", "slowduration":
+				"amplifydamagepersec",\
+				"expanddamageradius",\
+				"slowduration":
 					value.resize(1)
 					var baseValue = value[0]
 					var multiplier = StatMultiplier

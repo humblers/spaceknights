@@ -227,5 +227,10 @@ func (p *pixieking) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range p.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(p.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	p.game.AddBullet(b)
 }

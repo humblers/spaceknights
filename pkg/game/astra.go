@@ -111,12 +111,31 @@ func (a *astra) Update() {
 			a.moveToPos(fixed.Vector{posX, a.Position().Y})
 			if a.withinRange(t) {
 				if a.attack%a.attackInterval() == 0 {
-					t.TakeDamage(a.attackDamage(), a.damageType())
 					duration := 0
 					for _, d := range a.player.StatRatios("slowduration") {
 						duration += d
 					}
-					t.MakeSlow(duration)
+					var damageRadius fixed.Scalar = 0
+					for _, r := range a.player.StatRatios("expanddamageradius") {
+						damageRadius = damageRadius.Add(a.game.World().FromPixel(r))
+					}
+					if damageRadius == 0 { // normal
+						t.TakeDamage(a.attackDamage(), a.damageType())
+						t.MakeSlow(duration)
+					} else { // splash
+						for _, id := range a.game.UnitIds() {
+							u := a.game.FindUnit(id)
+							if u.Team() == a.Team() {
+								continue
+							}
+							d := t.Position().Sub(u.Position()).LengthSquared()
+							r := u.Radius().Add(damageRadius)
+							if d < r.Mul(r) {
+								u.TakeDamage(a.attackDamage(), a.damageType())
+								u.MakeSlow(duration)
+							}
+						}
+					}
 				}
 				a.attack++
 			} else {

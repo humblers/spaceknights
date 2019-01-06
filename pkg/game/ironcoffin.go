@@ -233,5 +233,10 @@ func (i *ironcoffin) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range i.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(i.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	i.game.AddBullet(b)
 }

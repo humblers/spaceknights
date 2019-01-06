@@ -229,5 +229,10 @@ func (a *archsapper) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range a.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(a.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	a.game.AddBullet(b)
 }

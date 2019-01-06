@@ -121,12 +121,31 @@ func (ts *tombstone) Update() {
 			ts.moveToPos(fixed.Vector{posX, ts.Position().Y})
 			if ts.withinRange(t) {
 				if ts.attack%ts.attackInterval() == 0 {
-					t.TakeDamage(ts.attackDamage(), ts.damageType())
 					duration := 0
 					for _, d := range ts.player.StatRatios("slowduration") {
 						duration += d
 					}
-					t.MakeSlow(duration)
+					var damageRadius fixed.Scalar = 0
+					for _, r := range ts.player.StatRatios("expanddamageradius") {
+						damageRadius = damageRadius.Add(ts.game.World().FromPixel(r))
+					}
+					if damageRadius == 0 { // normal
+						t.TakeDamage(ts.attackDamage(), ts.damageType())
+						t.MakeSlow(duration)
+					} else { // splash
+						for _, id := range ts.game.UnitIds() {
+							u := ts.game.FindUnit(id)
+							if u.Team() == ts.Team() {
+								continue
+							}
+							d := t.Position().Sub(u.Position()).LengthSquared()
+							r := u.Radius().Add(damageRadius)
+							if d < r.Mul(r) {
+								u.TakeDamage(ts.attackDamage(), ts.damageType())
+								u.MakeSlow(duration)
+							}
+						}
+					}
 				}
 				ts.attack++
 			} else {

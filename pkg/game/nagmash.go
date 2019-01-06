@@ -118,12 +118,31 @@ func (n *nagmash) Update() {
 			n.moveToPos(fixed.Vector{posX, n.Position().Y})
 			if n.withinRange(t) {
 				if n.attack%n.attackInterval() == 0 {
-					t.TakeDamage(n.attackDamage(), n.damageType())
 					duration := 0
 					for _, d := range n.player.StatRatios("slowduration") {
 						duration += d
 					}
-					t.MakeSlow(duration)
+					var damageRadius fixed.Scalar = 0
+					for _, r := range n.player.StatRatios("expanddamageradius") {
+						damageRadius = damageRadius.Add(n.game.World().FromPixel(r))
+					}
+					if damageRadius == 0 { // normal
+						t.TakeDamage(n.attackDamage(), n.damageType())
+						t.MakeSlow(duration)
+					} else { // splash
+						for _, id := range n.game.UnitIds() {
+							u := n.game.FindUnit(id)
+							if u.Team() == n.Team() {
+								continue
+							}
+							d := t.Position().Sub(u.Position()).LengthSquared()
+							r := u.Radius().Add(damageRadius)
+							if d < r.Mul(r) {
+								u.TakeDamage(n.attackDamage(), n.damageType())
+								u.MakeSlow(duration)
+							}
+						}
+					}
 				}
 				n.attack++
 			} else {

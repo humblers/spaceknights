@@ -235,5 +235,10 @@ func (l *lancer) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range l.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(l.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	l.game.AddBullet(b)
 }

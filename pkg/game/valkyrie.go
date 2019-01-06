@@ -224,5 +224,10 @@ func (v *valkyrie) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range v.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(v.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	v.game.AddBullet(b)
 }

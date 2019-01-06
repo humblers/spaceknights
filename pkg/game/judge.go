@@ -207,5 +207,10 @@ func (j *judge) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range j.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(j.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	j.game.AddBullet(b)
 }

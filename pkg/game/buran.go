@@ -113,12 +113,31 @@ func (b *buran) Update() {
 			b.moveToPos(fixed.Vector{posX, b.Position().Y})
 			if b.withinRange(t) {
 				if b.attack%b.attackInterval() == 0 {
-					t.TakeDamage(b.attackDamage(), b.damageType())
 					duration := 0
 					for _, d := range b.player.StatRatios("slowduration") {
 						duration += d
 					}
-					t.MakeSlow(duration)
+					var damageRadius fixed.Scalar = 0
+					for _, r := range b.player.StatRatios("expanddamageradius") {
+						damageRadius = damageRadius.Add(b.game.World().FromPixel(r))
+					}
+					if damageRadius == 0 { // normal
+						t.TakeDamage(b.attackDamage(), b.damageType())
+						t.MakeSlow(duration)
+					} else { // splash
+						for _, id := range b.game.UnitIds() {
+							u := b.game.FindUnit(id)
+							if u.Team() == b.Team() {
+								continue
+							}
+							d := t.Position().Sub(u.Position()).LengthSquared()
+							r := u.Radius().Add(damageRadius)
+							if d < r.Mul(r) {
+								u.TakeDamage(b.attackDamage(), b.damageType())
+								u.MakeSlow(duration)
+							}
+						}
+					}
 				}
 				b.attack++
 			} else {

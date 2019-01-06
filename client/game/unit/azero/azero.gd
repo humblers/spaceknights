@@ -46,10 +46,10 @@ func fire():
 	var b = $ResourcePreloader.get_resource("ice_orb").instance()
 	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	b.MakeSplash(damageRadius())
+	b.MakeFrozen(slowDuration())
 	game.AddBullet(b)
+
 	b.global_position = $Rotatable/Body/Shotpoint.global_position
-	var duration = slowDuration()
-	b.MakeFrozen(duration)
 
 func findTargetAndDoAction():
 	var t = findTarget()
@@ -80,12 +80,7 @@ func handleAttack():
 
 func damageRadius():
 	var r = data.units[name_]["damageradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
+	return game.World().FromPixel(r)
 	
 func slowDuration():
 	return data.units[name_]["slowduration"]

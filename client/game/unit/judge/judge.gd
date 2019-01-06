@@ -210,6 +210,10 @@ func fire():
 	for d in player.StatRatios("slowduration"):
 		duration += d
 	b.MakeFrozen(duration)
+	var damageRadius = 0
+	for r in player.StatRatios("expanddamageradius"):
+		damageRadius += scalar.Add(damageRadius, game.World().FromPixel(r))
+	b.MakeSplash(damageRadius)
 	game.AddBullet(b)
 	
 	# client only

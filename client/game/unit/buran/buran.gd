@@ -108,11 +108,27 @@ func Update():
 			moveToPos(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), damageType(), self)
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d
-					t.MakeSlow(duration)
+					var damageRadius = 0
+					for r in player.StatRatios("expanddamageradius"):
+						damageRadius += scalar.Add(damageRadius, game.World().FromPixel(r))
+					if damageRadius == 0:
+						t.TakeDamage(attackDamage(), damageType(), self)
+						t.MakeSlow(duration)
+					else:
+						for id in game.UnitIds():
+							var u = game.FindUnit(id)
+							if u.Team() == Team():
+								continue
+							var x = scalar.Sub(t.PositionX(), u.PositionX())
+							var y = scalar.Sub(t.PositionY(), u.PositionY())
+							var d = vector.LengthSquared(x, y)
+							var r = scalar.Add(u.Radius(), damageRadius)
+							if d < scalar.Mul(r, r):
+								u.TakeDamage(attackDamage(), damageType(), self)
+								u.MakeSlow(duration)
 				attack += 1
 			else:
 				attack = 0

@@ -101,8 +101,8 @@ var Units = map[string]Unit{
 				"precastdelay": 38,
 			},
 			"leader": map[string]interface{}{
-				"name":      "louder",
-				"arearatio": 200,
+				"name":               "louder",
+				"expanddamageradius": []int{30},
 			},
 		},
 	},
@@ -1147,7 +1147,9 @@ func fillStatByLevel(key string, src interface{}) []int {
 			"chargedattackdamage", "powerattackdamage",
 			"damage",
 			"hpratio", "attackdamageratio", "attackrangeratio",
-			"amplifydamagepersec", "slowduration":
+			"amplifydamagepersec",
+			"expanddamageradius",
+			"slowduration":
 			statSlice := src.([]int)[:1]
 			baseValue := statSlice[0]
 			multiplier := StatMultiplier

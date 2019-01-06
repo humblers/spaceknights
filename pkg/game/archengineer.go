@@ -129,7 +129,7 @@ func (a *archengineer) findTargetAndAttack() {
 
 func (a *archengineer) SetAsLeader() {
 	a.isLeader = true
-	//a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
+	a.player.AddStatRatio("expanddamageradius", a.Skill()["expanddamageradius"].([]int)[a.level])
 }
 
 func (a *archengineer) Skill() map[string]interface{} {
@@ -204,5 +204,10 @@ func (a *archengineer) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range a.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(a.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	a.game.AddBullet(b)
 }

@@ -210,5 +210,10 @@ func (f *frost) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range f.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(f.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	f.game.AddBullet(b)
 }

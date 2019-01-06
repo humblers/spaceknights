@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	"testing"
 )
 
 func addNewColumn(name string, idx int, c *map[string]int) bool {
@@ -15,7 +14,7 @@ func addNewColumn(name string, idx int, c *map[string]int) bool {
 	m[name] = idx
 	return true
 }
-func TestExport_Unit(t *testing.T) {
+func main() {
 	Initialize()
 
 	columns := make(map[string]int)
@@ -35,7 +34,7 @@ func TestExport_Unit(t *testing.T) {
 				if added := addNewColumn(k, len(records[0]), &columns); added {
 					records[0] = append(records[0], []string{"targetlayer1", "targetlayer2", "targettlayer3"}...)
 				}
-			case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+			case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration", "expanddamageradius":
 				if added := addNewColumn(k, len(records[0]), &columns); added {
 					for i := 0; i < LevelMax; i++ {
 						records[0] = append(records[0], fmt.Sprintf("%v%d", k, i+1))
@@ -65,7 +64,7 @@ func TestExport_Unit(t *testing.T) {
 				for i, val := range v.(UnitLayers) {
 					record[idx+i] = fmt.Sprintf("%v", val)
 				}
-			case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+			case "hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration", "expanddamageradius":
 				idx := columns[k]
 				if _, ok := v.([]int); !ok {
 					fmt.Printf("value's type is not []int k:%v, v:%v\n", k, v)
