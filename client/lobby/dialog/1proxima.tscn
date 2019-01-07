@@ -1,0 +1,621 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=1]
+[ext_resource path="res://lobby/dialog/requesting.gd" type="Script" id=2]
+[ext_resource path="res://game/bg/proxima/bg_proxima_screen.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
+[ext_resource path="res://game/bg/proxima/bg_proxima_highlight.png" type="Texture" id=5]
+[ext_resource path="res://game/bg/proxima/bg_proxima_planet.png" type="Texture" id=6]
+[ext_resource path="res://game/ui/knightready.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=8]
+[ext_resource path="res://game/bg/proxima/bg_proxima_debris.png" type="Texture" id=9]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=10]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=12]
+[ext_resource path="res://lobby/dialog/circle.png" type="Texture" id=13]
+[ext_resource path="res://lobby/dialog/circle_edge.png" type="Texture" id=14]
+[ext_resource path="res://lobby/page/battle/line_seperator.png" type="Texture" id=15]
+[ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=16]
+[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=17]
+[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=18]
+[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=19]
+[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=20]
+[ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=21]
+
+[sub_resource type="Curve" id=1]
+
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+
+offsets = PoolRealArray( 0, 0.7 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1 )
+
+[sub_resource type="CanvasItemMaterial" id=3]
+
+blend_mode = 2
+
+[sub_resource type="StreamTexture" id=4]
+
+flags = 4
+load_path = "res://.import/ui_tile.png-bfa411042fc9f3ffbe0e587f960b71ac.stex"
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 64
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="Gradient" id=6]
+
+offsets = PoolRealArray( 0, 0.193939, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.143647, 0.258824, 0.737255, 1, 0.569059, 1, 1, 1, 0 )
+
+[sub_resource type="DynamicFont" id=7]
+
+size = 48
+outline_size = 2
+outline_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+
+texture = ExtResource( 17 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 59.5
+margin_right = 61.0
+margin_top = 30.0
+margin_bottom = 30.5
+
+[sub_resource type="StyleBoxTexture" id=9]
+
+texture = ExtResource( 17 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 59.5
+margin_right = 60.5
+margin_top = 30.0
+margin_bottom = 29.5
+
+[sub_resource type="StyleBoxTexture" id=10]
+
+texture = ExtResource( 18 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 60.0
+margin_right = 60.0
+margin_top = 30.0
+margin_bottom = 30.0
+
+[sub_resource type="StyleBoxTexture" id=11]
+
+texture = ExtResource( 19 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 60.0
+margin_right = 60.0
+margin_top = 30.5
+margin_bottom = 29.5
+
+[sub_resource type="DynamicFont" id=12]
+
+size = 48
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=13]
+
+size = 48
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=14]
+
+size = 32
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=15]
+
+size = 72
+use_filter = true
+font_data = ExtResource( 11 )
+
+[sub_resource type="Animation" id=16]
+
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Secglow:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=17]
+
+length = 30.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("30secglow:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Opponent/Searching:percent_visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 4, 4.1, 4.5, 5, 5.5, 6, 8.5, 8.6, 9, 9.5, 10, 10.5, 13, 13.1, 13.5, 14, 14.5, 15, 17.5, 17.6, 18, 18.5, 19, 19.5, 22, 22.1, 22.5, 23, 23.5, 24, 26.5, 26.6, 27, 27.5, 28, 28.5, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Opponent/Searching:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.9, 2.4, 2.9, 3, 4.9, 5.4, 5.9, 6, 7.9, 8.4, 8.9, 9, 10.9, 11.4, 11.9, 12, 13.9, 14.4, 14.9, 15, 16.9, 17.4, 17.9, 18, 19.9, 20.4, 20.9, 21, 22.9, 23.4, 23.9, 24, 25.9, 26.4, 26.9, 27, 28.9, 29.4, 29.9, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ArenaTitle:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.4, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -570, 1186 ), Vector2( 160, 1186 ), Vector2( 160, 1186 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ArenaTitle:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+
+length = 30.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ArenaData/Planet:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 320, -60 ), Vector2( -120, 740 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ArenaData/Effect:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 390, 370 ), Vector2( -165, -420 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ArenaData/Effect:rect_rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ArenaData/Background:rect_position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -190 ), Vector2( -140, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ArenaData/Planet/Targeting:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 8, 10.2, 18.1, 20.1, 23.0805, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 806, 280 ), Vector2( 536, 524.667 ), Vector2( 197.7, 404.067 ), Vector2( 476, 380 ), Vector2( 94.3, 674.6 ), Vector2( 383, 845 ), Vector2( 156, 180 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ArenaData/Planet/Targeting:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ArenaData/TextureRect:rect_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 284 ), Vector2( 290, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ArenaData/TextureRect:rect_rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0 ]
+}
+
+[node name="1Proxima" type="TextureRect"]
+self_modulate = Color( 0, 0, 0, 0.784314 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -720.0
+margin_top = -960.0
+margin_right = 720.0
+margin_bottom = 960.0
+texture = ExtResource( 1 )
+expand = true
+script = ExtResource( 2 )
+elapsed_label = NodePath("../Arena1Req/Elapsed")
+
+[node name="ArenaData" type="Node2D" parent="."]
+
+[node name="Background" type="TextureRect" parent="ArenaData"]
+margin_top = -190.0
+margin_right = 1440.0
+margin_bottom = 1730.0
+rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 3 )
+expand = true
+
+[node name="TextureRect" type="TextureRect" parent="ArenaData"]
+self_modulate = Color( 0.333333, 0.654902, 1, 0.898823 )
+material = ExtResource( 4 )
+margin_left = 40.0
+margin_top = 284.0
+margin_right = 1550.0
+margin_bottom = 1794.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Planet" type="TextureRect" parent="ArenaData"]
+margin_left = 320.0
+margin_top = -60.0
+margin_right = 1521.0
+margin_bottom = 1140.0
+texture = ExtResource( 6 )
+expand = true
+
+[node name="Targeting" type="TextureRect" parent="ArenaData/Planet"]
+material = ExtResource( 4 )
+margin_left = 806.0
+margin_top = 280.0
+margin_right = 1019.02
+margin_bottom = 424.008
+texture = ExtResource( 7 )
+
+[node name="Crosshair" type="CPUParticles2D" parent="ArenaData/Planet/Targeting"]
+position = Vector2( 110, 80 )
+amount = 1
+lifetime = 2.0
+texture = ExtResource( 8 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 0.01
+scale_amount = 2.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Effect" type="TextureRect" parent="ArenaData"]
+self_modulate = Color( 0.772549, 0.772549, 0.772549, 1 )
+margin_left = 390.0
+margin_top = 370.0
+margin_right = 1820.0
+margin_bottom = 1800.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Grid" type="TextureRect" parent="ArenaData"]
+self_modulate = Color( 1, 1, 1, 0.0901961 )
+material = SubResource( 3 )
+margin_right = 1440.0
+margin_bottom = 1920.0
+texture = SubResource( 4 )
+expand = true
+stretch_mode = 2
+
+[node name="Gradation" type="TextureRect" parent="ArenaData"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = -1639.0
+margin_right = 1440.0
+margin_bottom = -1218.0
+rect_rotation = -180.0
+rect_pivot_offset = Vector2( 720, 1030 )
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Gradation2" type="TextureRect" parent="ArenaData"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 890.0
+margin_right = 1440.0
+margin_bottom = 1920.0
+rect_rotation = -359.999
+rect_pivot_offset = Vector2( 720, 1030 )
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Elapsed" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -104.0
+margin_top = -832.0
+margin_right = 103.0
+margin_bottom = -608.0
+custom_fonts/font = SubResource( 5 )
+text = "30"
+align = 1
+valign = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.145098 )
+margin_left = 180.0
+margin_top = 238.0
+margin_right = 1260.0
+margin_bottom = 242.0
+texture = ExtResource( 12 )
+expand = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 720, 240 )
+amount = 1
+speed_scale = 0.2
+texture = ExtResource( 13 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity = 90.0
+scale_amount = 0.9
+color_ramp = SubResource( 6 )
+
+[node name="TimerBg" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.239216 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -920.0
+margin_right = 200.0
+margin_bottom = -520.0
+rect_pivot_offset = Vector2( 200, 200 )
+texture = ExtResource( 13 )
+
+[node name="TimerBg2" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.168627 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -1010.0
+margin_bottom = -610.0
+rect_scale = Vector2( 2, 2 )
+texture = ExtResource( 13 )
+
+[node name="Secglow" type="TextureRect" parent="."]
+modulate = Color( 0.356863, 0.607843, 1, 1 )
+material = ExtResource( 4 )
+margin_left = 519.0
+margin_top = 40.0
+margin_right = 919.0
+margin_bottom = 440.0
+rect_rotation = 360.0
+rect_scale = Vector2( 0.72, 0.72 )
+rect_pivot_offset = Vector2( 200, 200 )
+texture = ExtResource( 14 )
+
+[node name="30secglow" type="TextureRect" parent="."]
+modulate = Color( 0.356863, 0.607843, 1, 1 )
+material = ExtResource( 4 )
+margin_left = 519.0
+margin_top = 40.0
+margin_right = 919.0
+margin_bottom = 440.0
+rect_rotation = 360.0
+rect_pivot_offset = Vector2( 200, 200 )
+texture = ExtResource( 14 )
+
+[node name="Opponent" type="TextureRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 0.356863, 0.356863, 1 )
+margin_left = 180.0
+margin_top = 170.0
+margin_right = 1260.0
+margin_bottom = 224.0
+texture = ExtResource( 15 )
+
+[node name="Searching" type="Label" parent="Opponent"]
+margin_left = 74.0
+margin_top = -30.0
+margin_right = 1080.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 7 )
+text = "SEARCHING FOR OPPONENT..."
+align = 1
+valign = 1
+
+[node name="Cancel" type="TextureRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 0, 0, 0.501961 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -755.0
+margin_top = -570.0
+margin_right = 755.0
+margin_bottom = -420.0
+texture = ExtResource( 12 )
+expand = true
+
+[node name="TextureRect2" type="TextureRect" parent="Cancel"]
+self_modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
+margin_left = 565.0
+margin_top = 9.0
+margin_right = 945.0
+margin_bottom = 140.0
+texture = ExtResource( 16 )
+expand = true
+
+[node name="Button" type="Button" parent="Cancel"]
+self_modulate = Color( 1, 0.631373, 0.631373, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -60.0
+margin_right = 170.0
+margin_bottom = 60.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/disabled = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
+
+[node name="Label" type="Label" parent="Cancel/Button"]
+margin_left = 30.0
+margin_top = 30.0
+margin_right = 310.0
+margin_bottom = 95.0
+custom_fonts/font = SubResource( 12 )
+text = "CANCEL"
+align = 1
+valign = 1
+
+[node name="Tip" type="NinePatchRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0.141176 )
+margin_left = 195.0
+margin_top = 1540.0
+margin_right = 1245.0
+margin_bottom = 1880.0
+texture = ExtResource( 20 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 21
+patch_margin_bottom = 20
+
+[node name="Label2" type="Label" parent="Tip"]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 115.0
+margin_bottom = 69.0
+custom_fonts/font = SubResource( 13 )
+text = "TIP"
+
+[node name="Label" type="Label" parent="Tip"]
+margin_left = 20.0
+margin_top = 89.0
+margin_right = 1030.0
+margin_bottom = 259.0
+custom_fonts/font = SubResource( 14 )
+text = "2V2 Battle allows you to collect chests wuth a friend.
+Clanmate or another player * without the risk of losing trophies!"
+autowrap = true
+
+[node name="ArenaTitle" type="TextureRect" parent="."]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 160.0
+margin_top = 226.0
+margin_right = 820.0
+margin_bottom = 366.0
+texture = ExtResource( 21 )
+expand = true
+
+[node name="Name" type="Label" parent="ArenaTitle"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 40.0
+margin_top = -69.0
+margin_right = 457.0
+margin_bottom = 18.0
+custom_fonts/font = SubResource( 15 )
+text = "PROXIMA"
+
+[node name="Sec" type="AnimationPlayer" parent="."]
+autoplay = "timer"
+anims/timer = SubResource( 16 )
+
+[node name="30sec" type="AnimationPlayer" parent="."]
+autoplay = "timer2"
+anims/timer2 = SubResource( 17 )
+
+[node name="BGAni" type="AnimationPlayer" parent="."]
+autoplay = "bg"
+anims/bg = SubResource( 18 )
+
