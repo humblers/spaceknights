@@ -1,20 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://lobby/dialog/modal.gd" type="Script" id=1]
-[ext_resource path="res://lobby/page/card/card_btn_expansion.png" type="Texture" id=2]
-[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=3]
-[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=4]
-[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=5]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=6]
-
+[ext_resource path="res://lobby/hud/panel.png" type="Texture" id=2]
+[ext_resource path="res://lobby/page/card/card_btn_expansion.png" type="Texture" id=3]
+[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=4]
+[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=5]
+[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=6]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 
 size = 64
 outline_size = 4
 outline_color = Color( 0.305882, 0.305882, 0.305882, 1 )
+use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -22,7 +23,7 @@ size = 32
 outline_size = 4
 outline_color = Color( 0.0156863, 0.0156863, 0.0156863, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 
 [node name="Modal" type="Popup"]
 visible = true
@@ -33,12 +34,23 @@ script = ExtResource( 1 )
 btn = NodePath("TextureButton")
 message = NodePath("Label")
 
+[node name="TextureRect2" type="TextureRect" parent="."]
+self_modulate = Color( 1, 1, 1, 0.588235 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -720.0
+margin_top = -755.0
+margin_right = 720.0
+margin_bottom = 2565.0
+texture = ExtResource( 2 )
+expand = true
+
 [node name="TextureRect" type="NinePatchRect" parent="."]
 margin_left = 25.0
 margin_top = 250.0
 margin_right = 1053.0
 margin_bottom = 948.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 240, 240 )
 patch_margin_left = 70
 patch_margin_top = 55
@@ -54,9 +66,9 @@ margin_left = -183.0
 margin_top = -223.0
 margin_right = 160.0
 margin_bottom = -120.0
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 4 )
-texture_hover = ExtResource( 5 )
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
 expand = true
 
 [node name="Label" type="Label" parent="TextureButton"]
