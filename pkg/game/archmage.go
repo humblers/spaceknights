@@ -89,10 +89,5 @@ func (a *archmage) handleAttack() {
 
 func (a *archmage) damageRadius() fixed.Scalar {
 	r := data.Units[a.name]["damageradius"].(int)
-	divider := 1
-	for _, ratio := range a.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return a.game.World().FromPixel(r / divider)
+	return a.game.World().FromPixel(r)
 }

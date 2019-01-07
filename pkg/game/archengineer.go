@@ -7,14 +7,15 @@ import (
 
 type archengineer struct {
 	*unit
-	player    Player
-	isLeader  bool
-	targetId  int
-	attack    int
-	cast      int
-	castPosX  int
-	castPosY  int
-	castTiles *tileRect
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	castPosX    int
+	castPosY    int
+	castTiles   *tileRect
+	retargeting bool
 }
 
 func newArchengineer(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -51,7 +52,16 @@ func (a *archengineer) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := a.player.StatRatios("amplifycountlimit")
+	for i, amplify := range a.player.StatRatios("amplifydamagepersec") {
+		cnt := a.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * a.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (a *archengineer) attackRange() fixed.Scalar {
@@ -82,16 +92,18 @@ func (a *archengineer) Update() {
 			a.cast++
 		}
 	} else {
-		if a.attack > 0 {
+		if a.attack > 0 && !a.retargeting {
 			a.handleAttack()
 		} else {
 			t := a.target()
 			if t == nil {
+				a.attack = 0
 				a.findTargetAndAttack()
 			} else {
 				if a.withinRange(t) {
 					a.handleAttack()
 				} else {
+					a.attack = 0
 					a.findTargetAndAttack()
 				}
 			}
@@ -117,7 +129,7 @@ func (a *archengineer) findTargetAndAttack() {
 
 func (a *archengineer) SetAsLeader() {
 	a.isLeader = true
-	//a.player.AddStatRatio("arearatio", a.Skill()["arearatio"].(int))
+	a.player.AddStatRatio("expanddamageradius", a.Skill()["expanddamageradius"].([]int)[a.level])
 }
 
 func (a *archengineer) Skill() map[string]interface{} {
@@ -170,19 +182,18 @@ func (a *archengineer) setTarget(u Unit) {
 }
 
 func (a *archengineer) handleAttack() {
-	if a.attack == a.preAttackDelay() {
+	modulo := a.attack % a.attackInterval()
+	if modulo == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {
 			a.fire()
 		} else {
-			a.attack = 0
+			a.retargeting = true
 			return
 		}
 	}
+	a.retargeting = a.attack > 0 && modulo == 0
 	a.attack++
-	if a.attack > a.attackInterval() {
-		a.attack = 0
-	}
 }
 
 func (a *archengineer) fire() {
@@ -192,5 +203,10 @@ func (a *archengineer) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range a.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(a.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	a.game.AddBullet(b)
 }

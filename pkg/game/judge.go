@@ -7,13 +7,14 @@ import (
 
 type judge struct {
 	*unit
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	castPosX int
-	castPosY int
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	castPosX    int
+	castPosY    int
+	retargeting bool
 }
 
 func newJudge(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -49,7 +50,16 @@ func (j *judge) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := j.player.StatRatios("amplifycountlimit")
+	for i, amplify := range j.player.StatRatios("amplifydamagepersec") {
+		cnt := j.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * j.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (j *judge) attackRange() fixed.Scalar {
@@ -80,16 +90,18 @@ func (j *judge) Update() {
 			j.cast++
 		}
 	} else {
-		if j.attack > 0 {
+		if j.attack > 0 && !j.retargeting {
 			j.handleAttack()
 		} else {
 			t := j.target()
 			if t == nil {
+				j.attack = 0
 				j.findTargetAndAttack()
 			} else {
 				if j.withinRange(t) {
 					j.handleAttack()
 				} else {
+					j.attack = 0
 					j.findTargetAndAttack()
 				}
 			}
@@ -173,19 +185,18 @@ func (j *judge) setTarget(u Unit) {
 }
 
 func (j *judge) handleAttack() {
-	if j.attack == j.preAttackDelay() {
+	modulo := j.attack % j.attackInterval()
+	if modulo == j.preAttackDelay() {
 		t := j.target()
 		if t != nil && j.withinRange(t) {
 			j.fire()
 		} else {
-			j.attack = 0
+			j.retargeting = true
 			return
 		}
 	}
+	j.retargeting = j.attack > 0 && modulo == 0
 	j.attack++
-	if j.attack > j.attackInterval() {
-		j.attack = 0
-	}
 }
 
 func (j *judge) fire() {
@@ -195,5 +206,10 @@ func (j *judge) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range j.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(j.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	j.game.AddBullet(b)
 }

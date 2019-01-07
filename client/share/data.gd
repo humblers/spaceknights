@@ -468,6 +468,7 @@ var units = {
 		"attackradius":   80,
 		"attackinterval": 20,
 		"preattackdelay": 9,
+		"absorbratio":    50,
 	},
 	"archengineer": {
 		"mass":           0,
@@ -493,7 +494,8 @@ var units = {
 				"precastdelay": 38,
 			},
 			"leader": {
-				"arearatio":    200,
+				"name":               "louder",
+				"expanddamageradius": [30],
 			},
 		},
 	},
@@ -633,22 +635,23 @@ var units = {
 		"decaydamage":    3,
 	},
 	"beholder": {
-		"type":           Building,
-		"layer":          Normal,
-		"mass":           0,
-		"radius":         30,
-		"tilenumx":       3,
-		"tilenumy":       3,
-		"hp":             [1500],
-		"sight":          275,
-		"targettypes":    [Squire, Building, Knight],
-		"targetlayers":   [Normal],
-		"attacktype":    Laser,
-		"damagetype":    NormalDamage,
-		"attackdamage":   [5],
-		"attackrange":    275,
-		"attackinterval": 1,
-		"decaydamage":    2,
+		"type":              Building,
+		"layer":             Normal,
+		"mass":              0,
+		"radius":            30,
+		"tilenumx":          3,
+		"tilenumy":          3,
+		"hp":                [1500],
+		"sight":             275,
+		"targettypes":       [Squire, Building, Knight],
+		"targetlayers":      [Normal],
+		"attacktype":        Laser,
+		"damagetype":        NormalDamage,
+		"attackdamage":      [20],
+		"attackrange":       275,
+		"attackinterval":    4,
+		"decaydamage":       2,
+		"amplifycountlimit": 10,
 	},
 	"berserker": {
 		"type":           Squire,
@@ -730,11 +733,9 @@ var units = {
 				"precastdelay": 20,
 			},
 			"leader": {
-				"name":         "lemming",
-				"unit":         "footman",
-				"count":        1,
-				"offsetX":      150,
-				"perdeaths":    4,
+				"name":                "amplify",
+				"amplifydamagepersec": [10],
+				"amplifycountlimit":   10,
 			},
 		},
 	},
@@ -1462,21 +1463,25 @@ var units = {
 		},
 	},
 	"voidcreeper": {
-		"type":           Squire,
-		"layer":          Normal,
-		"mass":           45,
-		"radius":         45,
-		"hp":             [1750],
-		"sight":          275,
-		"speed":          100,	#pixels per second
-		"targettypes":    [Squire, Building, Knight],
-		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
-		"attackdamage":   [250],
-		"attackrange":    75,
-		"attackinterval": 15,
-		"preattackdelay": 5,
+		"type":              Squire,
+		"layer":             Normal,
+		"mass":              45,
+		"radius":            45,
+		"hp":                [1750],
+		"sight":             275,
+		"speed":             100,	#pixels per second
+		"targettypes":       [Squire, Building, Knight],
+		"targetlayers":      [Normal],
+		"attacktype":        Melee,
+		"damagetype":        AntiShield,
+		"attackdamage":      [250],
+		"damageradius":      50,
+		"attackrange":       75,
+		"attackinterval":    15,
+		"preattackdelay":    5,
+		"destroydamagetype": Death,
+		"destroydamage":     [400],
+		"destroyradius":     175,
 	},
 	"wasp": {
 		"type":              Squire,
@@ -1519,7 +1524,14 @@ func fillStatByLevel(key, value):
 			return null
 		TYPE_ARRAY:
 			match key:
-				"hp", "shield", "attackdamage", "destroydamage", "chargedattackdamage", "powerattackdamage", "damage", "hpratio", "attackdamageratio", "attackrangeratio", "slowduration":
+				"hp", "shield",\
+				"attackdamage", "destroydamage",\
+				"chargedattackdamage", "powerattackdamage",\
+				"damage",\
+				"hpratio", "attackdamageratio", "attackrangeratio",\
+				"amplifydamagepersec",\
+				"expanddamageradius",\
+				"slowduration":
 					value.resize(1)
 					var baseValue = value[0]
 					var multiplier = StatMultiplier

@@ -61,7 +61,15 @@ func attackDamage():
 	for i in range(len(ratios)):
 		damage *= ratios[i]
 		divider *= 100
-	return damage / divider
+	damage /= divider
+	var amplifies = player.StatRatios("amplifydamagepersec")
+	var limits = player.StatRatios("amplifycountlimit")
+	for i in range(len(amplifies)):
+		var cnt = attack / data.StepPerSec
+		if cnt > limits[i]:
+			cnt = limits[i]
+		damage += amplifies[i] * cnt * attackInterval() / data.StepPerSec
+	return damage
 
 func attackRange():
 	var atkrange = data.units[name_]["attackrange"]
@@ -98,11 +106,27 @@ func Update():
 			moveToPos(posX, PositionY())
 			if withinRange(t):
 				if attack % attackInterval() == 0:
-					t.TakeDamage(attackDamage(), damageType(), self)
 					var duration = 0
 					for d in player.StatRatios("slowduration"):
 						duration += d
-					t.MakeSlow(duration)
+					var damageRadius = 0
+					for r in player.StatRatios("expanddamageradius"):
+						damageRadius += scalar.Add(damageRadius, game.World().FromPixel(r))
+					if damageRadius == 0:
+						t.TakeDamage(attackDamage(), damageType(), self)
+						t.MakeSlow(duration)
+					else:
+						for id in game.UnitIds():
+							var u = game.FindUnit(id)
+							if u.Team() == Team():
+								continue
+							var x = scalar.Sub(t.PositionX(), u.PositionX())
+							var y = scalar.Sub(t.PositionY(), u.PositionY())
+							var d = vector.LengthSquared(x, y)
+							var r = scalar.Add(u.Radius(), damageRadius)
+							if d < scalar.Mul(r, r):
+								u.TakeDamage(attackDamage(), damageType(), self)
+								u.MakeSlow(duration)
 				attack += 1
 			else:
 				attack = 0

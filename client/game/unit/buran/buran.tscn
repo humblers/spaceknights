@@ -82,84 +82,89 @@ blend_mode = 1
 
 [node name="Buran" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -479.668 ]
+}
 
 [node name="Rotatable" type="Node2D" parent="."]
 scale = Vector2( 0.8, 0.8 )
 
-[node name="Body" type="Sprite" parent="Rotatable"]
+[node name="Body" type="Node2D" parent="Rotatable"]
+
+[node name="Main" type="Sprite" parent="Rotatable/Body"]
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
-[node name="BoosterL2" type="Position2D" parent="Rotatable/Body"]
+[node name="BoosterL2" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 position = Vector2( -60, 95 )
 
-[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/BoosterL2"]
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/Main/BoosterL2"]
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 emitting = false
 texture = ExtResource( 5 )
 gravity = Vector2( 0, 40 )
-angular_velocity = 1.22734e-011
+angular_velocity = 1.22734e-11
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL2/Boost"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/BoosterL2/Boost"]
 visible = false
 modulate = Color( 0.223529, 0.690196, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 texture = ExtResource( 5 )
 
-[node name="BoosterL1" type="Position2D" parent="Rotatable/Body"]
+[node name="BoosterL1" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 position = Vector2( -27, 92 )
 
-[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/BoosterL1"]
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/Main/BoosterL1"]
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 emitting = false
 texture = ExtResource( 5 )
 gravity = Vector2( 0, 40 )
-angular_velocity = 1.22734e-011
+angular_velocity = 1.22734e-11
 scale_amount = 1.2
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL1/Boost"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/BoosterL1/Boost"]
 visible = false
 modulate = Color( 0.223529, 0.690196, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 texture = ExtResource( 5 )
 
-[node name="BoosterR1" type="Position2D" parent="Rotatable/Body"]
+[node name="BoosterR1" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 position = Vector2( 27, 92 )
 
-[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/BoosterR1"]
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/Main/BoosterR1"]
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 emitting = false
 texture = ExtResource( 5 )
 gravity = Vector2( 0, 40 )
-angular_velocity = -6.37838e-016
+angular_velocity = -6.37838e-16
 scale_amount = 1.2
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterR1/Boost"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/BoosterR1/Boost"]
 visible = false
 modulate = Color( 0.223529, 0.690196, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 texture = ExtResource( 5 )
 
-[node name="BoosterR2" type="Position2D" parent="Rotatable/Body"]
+[node name="BoosterR2" type="Position2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 position = Vector2( 60, 95 )
 
-[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/BoosterR2"]
+[node name="Boost" type="CPUParticles2D" parent="Rotatable/Body/Main/BoosterR2"]
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 emitting = false
@@ -169,84 +174,84 @@ angular_velocity = 180.0
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterR2/Boost"]
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/BoosterR2/Boost"]
 visible = false
 modulate = Color( 0.223529, 0.690196, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 11 )
 texture = ExtResource( 5 )
 
-[node name="BiconRed" type="AnimatedSprite" parent="Rotatable/Body"]
+[node name="BiconRed" type="AnimatedSprite" parent="Rotatable/Body/Main"]
 position = Vector2( -105, 40 )
 scale = Vector2( 1, 2 )
 frames = SubResource( 3 )
 frame = 1
 playing = true
 
-[node name="BiconGreen" type="AnimatedSprite" parent="Rotatable/Body"]
+[node name="BiconGreen" type="AnimatedSprite" parent="Rotatable/Body/Main"]
 position = Vector2( 105, 40 )
 scale = Vector2( 1, 2 )
 frames = SubResource( 4 )
 playing = true
 
-[node name="Arm" type="Node2D" parent="Rotatable/Body"]
+[node name="Arm" type="Node2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 
-[node name="LowerL" type="Sprite" parent="Rotatable/Body/Arm"]
+[node name="LowerL" type="Sprite" parent="Rotatable/Body/Main/Arm"]
 position = Vector2( -25, 20 )
 texture = ExtResource( 9 )
 normal_map = ExtResource( 10 )
 offset = Vector2( 0, -32 )
 
-[node name="UpperL" type="Sprite" parent="Rotatable/Body/Arm/LowerL"]
+[node name="UpperL" type="Sprite" parent="Rotatable/Body/Main/Arm/LowerL"]
 position = Vector2( 0, -59 )
 texture = ExtResource( 9 )
 normal_map = ExtResource( 10 )
 offset = Vector2( 0, 33 )
 flip_v = true
 
-[node name="LowerR" type="Sprite" parent="Rotatable/Body/Arm"]
+[node name="LowerR" type="Sprite" parent="Rotatable/Body/Main/Arm"]
 editor/display_folded = true
 position = Vector2( 25, 20 )
 texture = ExtResource( 9 )
 normal_map = ExtResource( 10 )
 offset = Vector2( 0, -32 )
 
-[node name="UpperR" type="Sprite" parent="Rotatable/Body/Arm/LowerR"]
+[node name="UpperR" type="Sprite" parent="Rotatable/Body/Main/Arm/LowerR"]
 position = Vector2( 0, -59 )
 texture = ExtResource( 9 )
 normal_map = ExtResource( 10 )
 offset = Vector2( 0, 33 )
 flip_v = true
 
-[node name="GateR" type="Sprite" parent="Rotatable/Body"]
+[node name="GateR" type="Sprite" parent="Rotatable/Body/Main"]
 position = Vector2( 36, 0 )
 texture = ExtResource( 11 )
 normal_map = ExtResource( 12 )
 offset = Vector2( -18, -7 )
 
-[node name="GateR2" type="Sprite" parent="Rotatable/Body"]
+[node name="GateR2" type="Sprite" parent="Rotatable/Body/Main"]
 position = Vector2( -36, 0 )
 texture = ExtResource( 11 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 18, -7 )
 flip_h = true
 
-[node name="Weapon" type="Node2D" parent="Rotatable/Body"]
+[node name="Weapon" type="Node2D" parent="Rotatable/Body/Main"]
 editor/display_folded = true
 
-[node name="LaserL1" type="Position2D" parent="Rotatable/Body/Weapon"]
+[node name="LaserL1" type="Position2D" parent="Rotatable/Body/Main/Weapon"]
 editor/display_folded = true
 visible = false
 position = Vector2( -17, -66 )
 
-[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Weapon/LaserL1"]
+[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Main/Weapon/LaserL1"]
 editor/display_folded = true
 position = Vector2( 0, -200 )
 
-[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserL1/HitPoint"]
+[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserL1/HitPoint"]
 material = ExtResource( 4 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 speed_scale = 3.0
 texture = ExtResource( 13 )
 gravity = Vector2( 0, 0 )
@@ -257,13 +262,13 @@ angle_random = 1.0
 scale_amount_curve = SubResource( 5 )
 color = Color( 1, 1, 1, 0.666667 )
 
-[node name="HitLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL1/HitPoint"]
+[node name="HitLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL1/HitPoint"]
 modulate = Color( 0, 0.435294, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 14 )
 
-[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Weapon/LaserL1"]
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL1"]
 editor/display_folded = true
 modulate = Color( 0.628906, 0.834747, 1, 1 )
 material = ExtResource( 4 )
@@ -271,13 +276,13 @@ scale = Vector2( 0.6, 10 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL1/LaserBeam"]
+[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL1/LaserBeam"]
 modulate = Color( 0.545098, 0.764706, 1, 1 )
 material = ExtResource( 4 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserL1"]
+[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserL1"]
 editor/display_folded = true
 material = ExtResource( 4 )
 speed_scale = 2.0
@@ -293,24 +298,24 @@ scale_amount = 1.5
 scale_amount_curve = SubResource( 6 )
 color = Color( 0.839216, 0.898039, 0.984314, 0.6 )
 
-[node name="StartLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL1/LaserStart"]
+[node name="StartLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL1/LaserStart"]
 modulate = Color( 0.141176, 0.615686, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 14 )
 
-[node name="LaserR1" type="Position2D" parent="Rotatable/Body/Weapon"]
+[node name="LaserR1" type="Position2D" parent="Rotatable/Body/Main/Weapon"]
 editor/display_folded = true
 visible = false
 position = Vector2( 17, -66 )
 
-[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Weapon/LaserR1"]
+[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Main/Weapon/LaserR1"]
 editor/display_folded = true
 position = Vector2( 0, -200 )
 
-[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserR1/HitPoint"]
+[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserR1/HitPoint"]
 material = ExtResource( 4 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 speed_scale = 3.0
 texture = ExtResource( 13 )
 gravity = Vector2( 0, 0 )
@@ -321,13 +326,13 @@ angle_random = 1.0
 scale_amount_curve = SubResource( 5 )
 color = Color( 1, 1, 1, 0.666667 )
 
-[node name="HitLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR1/HitPoint"]
+[node name="HitLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR1/HitPoint"]
 modulate = Color( 0, 0.435294, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 14 )
 
-[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Weapon/LaserR1"]
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR1"]
 editor/display_folded = true
 modulate = Color( 0.628906, 0.834747, 1, 1 )
 material = ExtResource( 4 )
@@ -335,13 +340,13 @@ scale = Vector2( 0.6, 10 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR1/LaserBeam"]
+[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR1/LaserBeam"]
 modulate = Color( 0.545098, 0.764706, 1, 1 )
 material = ExtResource( 4 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserR1"]
+[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserR1"]
 editor/display_folded = true
 material = ExtResource( 4 )
 speed_scale = 2.0
@@ -357,24 +362,24 @@ scale_amount = 1.5
 scale_amount_curve = SubResource( 6 )
 color = Color( 0.839216, 0.898039, 0.984314, 0.6 )
 
-[node name="StartLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR1/LaserStart"]
+[node name="StartLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR1/LaserStart"]
 modulate = Color( 0.141176, 0.615686, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 14 )
 
-[node name="LaserL2" type="Position2D" parent="Rotatable/Body/Weapon"]
+[node name="LaserL2" type="Position2D" parent="Rotatable/Body/Main/Weapon"]
 editor/display_folded = true
 visible = false
 position = Vector2( -7, 56 )
 
-[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Weapon/LaserL2"]
+[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Main/Weapon/LaserL2"]
 editor/display_folded = true
 position = Vector2( 0, -200 )
 
-[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserL2/HitPoint"]
+[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserL2/HitPoint"]
 material = ExtResource( 4 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 speed_scale = 3.0
 texture = ExtResource( 13 )
 gravity = Vector2( 0, 0 )
@@ -385,13 +390,13 @@ angle_random = 1.0
 scale_amount_curve = SubResource( 5 )
 color = Color( 1, 1, 1, 0.666667 )
 
-[node name="HitLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL2/HitPoint"]
+[node name="HitLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL2/HitPoint"]
 modulate = Color( 0, 0.435294, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 14 )
 
-[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Weapon/LaserL2"]
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL2"]
 editor/display_folded = true
 modulate = Color( 0.628906, 0.834747, 1, 1 )
 material = ExtResource( 4 )
@@ -399,13 +404,13 @@ scale = Vector2( 0.6, 10 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL2/LaserBeam"]
+[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL2/LaserBeam"]
 modulate = Color( 0.545098, 0.764706, 1, 1 )
 material = ExtResource( 4 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserL2"]
+[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserL2"]
 editor/display_folded = true
 material = ExtResource( 4 )
 speed_scale = 2.0
@@ -421,24 +426,24 @@ scale_amount = 1.5
 scale_amount_curve = SubResource( 6 )
 color = Color( 0.839216, 0.898039, 0.984314, 0.6 )
 
-[node name="StartLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserL2/LaserStart"]
+[node name="StartLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserL2/LaserStart"]
 modulate = Color( 0.141176, 0.615686, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 14 )
 
-[node name="LaserR2" type="Position2D" parent="Rotatable/Body/Weapon"]
+[node name="LaserR2" type="Position2D" parent="Rotatable/Body/Main/Weapon"]
 editor/display_folded = true
 visible = false
 position = Vector2( 7, 56 )
 
-[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Weapon/LaserR2"]
+[node name="HitPoint" type="Position2D" parent="Rotatable/Body/Main/Weapon/LaserR2"]
 editor/display_folded = true
 position = Vector2( 0, -200 )
 
-[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserR2/HitPoint"]
+[node name="HitEffect" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserR2/HitPoint"]
 material = ExtResource( 4 )
-rotation = -9.31322e-010
+rotation = -9.31322e-10
 speed_scale = 3.0
 texture = ExtResource( 13 )
 gravity = Vector2( 0, 0 )
@@ -449,13 +454,13 @@ angle_random = 1.0
 scale_amount_curve = SubResource( 5 )
 color = Color( 1, 1, 1, 0.666667 )
 
-[node name="HitLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR2/HitPoint"]
+[node name="HitLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR2/HitPoint"]
 modulate = Color( 0, 0.435294, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 14 )
 
-[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Weapon/LaserR2"]
+[node name="LaserBeam" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR2"]
 editor/display_folded = true
 modulate = Color( 0.628906, 0.834747, 1, 1 )
 material = ExtResource( 4 )
@@ -463,13 +468,13 @@ scale = Vector2( 0.6, 10 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR2/LaserBeam"]
+[node name="LaserLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR2/LaserBeam"]
 modulate = Color( 0.545098, 0.764706, 1, 1 )
 material = ExtResource( 4 )
 texture = ExtResource( 15 )
 offset = Vector2( 0, -10 )
 
-[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Weapon/LaserR2"]
+[node name="LaserStart" type="CPUParticles2D" parent="Rotatable/Body/Main/Weapon/LaserR2"]
 editor/display_folded = true
 material = ExtResource( 4 )
 speed_scale = 2.0
@@ -485,16 +490,16 @@ scale_amount = 1.5
 scale_amount_curve = SubResource( 6 )
 color = Color( 0.839216, 0.898039, 0.984314, 0.6 )
 
-[node name="StartLight" type="Sprite" parent="Rotatable/Body/Weapon/LaserR2/LaserStart"]
+[node name="StartLight" type="Sprite" parent="Rotatable/Body/Main/Weapon/LaserR2/LaserStart"]
 modulate = Color( 0.141176, 0.615686, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 14 )
 
-[node name="Dummy" type="Sprite" parent="Rotatable"]
+[node name="Dummy" type="Sprite" parent="Rotatable/Body"]
 visible = false
 modulate = Color( 0.933333, 0.933333, 0.933333, 0.00392157 )
-position = Vector2( 0, -644 )
+position = Vector2( 0, -44 )
 z_index = 1
 texture = ExtResource( 17 )
 

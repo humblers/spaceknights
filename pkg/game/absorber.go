@@ -9,7 +9,8 @@ type absorber struct {
 	*unit
 	player   Player
 	targetId int
-	attack   int // elapsed time since attack start
+	attack   int
+	absorbed int
 }
 
 func newAbsorber(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -17,6 +18,11 @@ func newAbsorber(id int, level, posX, posY int, g Game, p Player) Unit {
 		unit:   newUnit(id, "absorber", p.Team(), level, posX, posY, g),
 		player: p,
 	}
+}
+
+func (a *absorber) TakeDamage(amount int, damageType data.DamageType) {
+	a.unit.TakeDamage(amount, damageType)
+	a.absorbed += amount * a.absorbRatio() / 100
 }
 
 func (a *absorber) Update() {
@@ -71,15 +77,17 @@ func (a *absorber) handleAttack() {
 	if a.attack == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {
+			damage := a.attackDamage() + a.absorbed
+			a.absorbed = 0
 			for _, id := range a.game.UnitIds() {
 				u := a.game.FindUnit(id)
 				if !a.canAttack(u) {
 					continue
 				}
 				d := a.Position().Sub(u.Position()).LengthSquared()
-				r := a.Radius().Add(u.Radius()).Add(a.attackRadius())
+				r := u.Radius().Add(a.attackRadius())
 				if d < r.Mul(r) {
-					u.TakeDamage(a.attackDamage(), a.damageType())
+					u.TakeDamage(damage, a.damageType())
 				}
 			}
 		} else {
@@ -105,10 +113,9 @@ func (a *absorber) canAttack(u Unit) bool {
 
 func (a *absorber) attackRadius() fixed.Scalar {
 	r := data.Units[a.name]["attackradius"].(int)
-	divider := 1
-	for _, ratio := range a.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return a.game.World().FromPixel(r / divider)
+	return a.game.World().FromPixel(r)
+}
+
+func (a *absorber) absorbRatio() int {
+	return data.Units[a.name]["absorbratio"].(int)
 }

@@ -7,13 +7,14 @@ import (
 
 type frost struct {
 	*unit
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	castPosX int
-	castPosY int
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	castPosX    int
+	castPosY    int
+	retargeting bool
 }
 
 func newFrost(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -49,7 +50,16 @@ func (f *frost) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := f.player.StatRatios("amplifycountlimit")
+	for i, amplify := range f.player.StatRatios("amplifydamagepersec") {
+		cnt := f.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * f.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (f *frost) attackRange() fixed.Scalar {
@@ -80,16 +90,18 @@ func (f *frost) Update() {
 			f.cast++
 		}
 	} else {
-		if f.attack > 0 {
+		if f.attack > 0 && !f.retargeting {
 			f.handleAttack()
 		} else {
 			t := f.target()
 			if t == nil {
+				f.attack = 0
 				f.findTargetAndAttack()
 			} else {
 				if f.withinRange(t) {
 					f.handleAttack()
 				} else {
+					f.attack = 0
 					f.findTargetAndAttack()
 				}
 			}
@@ -176,19 +188,18 @@ func (f *frost) setTarget(u Unit) {
 }
 
 func (f *frost) handleAttack() {
-	if f.attack == f.preAttackDelay() {
+	modulo := f.attack % f.attackInterval()
+	if modulo == f.preAttackDelay() {
 		t := f.target()
 		if t != nil && f.withinRange(t) {
 			f.fire()
 		} else {
-			f.attack = 0
+			f.retargeting = true
 			return
 		}
 	}
+	f.retargeting = f.attack > 0 && modulo == 0
 	f.attack++
-	if f.attack > f.attackInterval() {
-		f.attack = 0
-	}
 }
 
 func (f *frost) fire() {
@@ -198,5 +209,10 @@ func (f *frost) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range f.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(f.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	f.game.AddBullet(b)
 }

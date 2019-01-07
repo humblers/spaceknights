@@ -7,16 +7,17 @@ import (
 
 type valkyrie struct {
 	*unit
-	player   Player
-	isLeader bool
-	targetId int
-	attack   int
-	cast     int
-	initPos  fixed.Vector
-	minPosX  fixed.Scalar
-	maxPosX  fixed.Scalar
-	castPosX int
-	castPosY int
+	player      Player
+	isLeader    bool
+	targetId    int
+	attack      int
+	cast        int
+	initPos     fixed.Vector
+	minPosX     fixed.Scalar
+	maxPosX     fixed.Scalar
+	castPosX    int
+	castPosY    int
+	retargeting bool
 }
 
 func newValkyrie(id int, level, posX, posY int, g Game, p Player) Unit {
@@ -56,7 +57,16 @@ func (v *valkyrie) attackDamage() int {
 		damage *= ratio
 		divider *= 100
 	}
-	return damage / divider
+	damage /= divider
+	limits := v.player.StatRatios("amplifycountlimit")
+	for i, amplify := range v.player.StatRatios("amplifydamagepersec") {
+		cnt := v.attack / data.StepPerSec
+		if cnt > limits[i] {
+			cnt = limits[i]
+		}
+		damage += amplify * cnt * v.attackInterval() / data.StepPerSec
+	}
+	return damage
 }
 
 func (v *valkyrie) attackRange() fixed.Scalar {
@@ -87,16 +97,18 @@ func (v *valkyrie) Update() {
 			v.cast++
 		}
 	} else {
-		if v.attack > 0 {
+		if v.attack > 0 && !v.retargeting {
 			v.handleAttack()
 		} else {
 			t := v.target()
 			if t == nil {
+				v.attack = 0
 				v.findTargetAndDoAction()
 			} else {
 				if v.withinRange(t) {
 					v.handleAttack()
 				} else {
+					v.attack = 0
 					v.findTargetAndDoAction()
 				}
 			}
@@ -190,19 +202,18 @@ func (v *valkyrie) setTarget(u Unit) {
 }
 
 func (v *valkyrie) handleAttack() {
-	if v.attack == v.preAttackDelay() {
+	modulo = v.attack % v.attackInterval()
+	if modulo == v.preAttackDelay() {
 		t := v.target()
 		if t != nil && v.withinRange(t) {
 			v.fire()
 		} else {
-			v.attack = 0
+			v.retargeting = true
 			return
 		}
 	}
+	v.retargeting = v.attack > 0 && modulo == 0
 	v.attack++
-	if v.attack > v.attackInterval() {
-		v.attack = 0
-	}
 }
 
 func (v *valkyrie) fire() {
@@ -212,5 +223,10 @@ func (v *valkyrie) fire() {
 		duration += d
 	}
 	b.MakeFrozen(duration)
+	var damageRadius fixed.Scalar = 0
+	for _, r := range v.player.StatRatios("expanddamageradius") {
+		damageRadius = damageRadius.Add(v.game.World().FromPixel(r))
+	}
+	b.MakeSplash(damageRadius)
 	v.game.AddBullet(b)
 }

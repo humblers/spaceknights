@@ -32,6 +32,17 @@ func (b *beholder) Destroy() {
 	b.Release()
 }
 
+func (b *beholder) attackDamage() int {
+	cnt := b.attack / b.attackInterval()
+	limit := data.Units[b.name]["amplifycountlimit"].(int)
+	if cnt < 1 {
+		cnt = 1
+	} else if cnt > limit {
+		cnt = limit
+	}
+	return b.unit.attackDamage() * cnt
+}
+
 func (b *beholder) Update() {
 	b.TakeDecayDamage()
 	if b.freeze > 0 {
@@ -40,11 +51,12 @@ func (b *beholder) Update() {
 		b.freeze--
 		return
 	}
-	if b.target() == nil {
-		b.setTarget(b.findTarget())
-		b.attack = 0
-	}
 	t := b.target()
+	if t == nil || !b.withinRange(t) {
+		b.attack = 0
+		b.setTarget(b.findTarget())
+		t = b.target()
+	}
 	if t != nil {
 		if b.withinRange(t) {
 			if b.attack%b.attackInterval() == 0 {

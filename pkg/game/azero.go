@@ -56,8 +56,7 @@ func (a *azero) setTarget(u Unit) {
 func (a *azero) fire() {
 	bullet := newBullet(a.targetId, a.bulletLifeTime(), a.attackDamage(), a.damageType(), a.game)
 	bullet.MakeSplash(a.damageRadius())
-	d := data.Units[a.name]["slowduration"].(int)
-	bullet.MakeFrozen(d)
+	bullet.MakeFrozen(a.slowDuration())
 	a.game.AddBullet(bullet)
 }
 
@@ -91,10 +90,9 @@ func (a *azero) handleAttack() {
 
 func (a *azero) damageRadius() fixed.Scalar {
 	r := data.Units[a.name]["damageradius"].(int)
-	divider := 1
-	for _, ratio := range a.player.StatRatios("arearatio") {
-		r *= ratio
-		divider *= 100
-	}
-	return a.game.World().FromPixel(r / divider)
+	return a.game.World().FromPixel(r)
+}
+
+func (a *azero) slowDuration() int {
+	return data.Units[a.name]["slowduration"].(int)
 }

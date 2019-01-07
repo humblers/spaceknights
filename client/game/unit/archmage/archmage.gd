@@ -47,6 +47,7 @@ func fire():
 	b.Init(targetId, bulletLifeTime(), attackDamage(), damageType(), game)
 	b.MakeSplash(damageRadius())
 	game.AddBullet(b)
+
 	b.global_position = $Rotatable/Body/Shotpoint.global_position
 
 func findTargetAndDoAction():
@@ -78,9 +79,4 @@ func handleAttack():
 
 func damageRadius():
 	var r = data.units[name_]["damageradius"]
-	var divider = 1
-	var ratios = player.StatRatios("arearatio")
-	for i in range(len(ratios)):
-		r *= ratios[i]
-		divider *= 100
-	return game.World().FromPixel(r / divider)
+	return game.World().FromPixel(r)
