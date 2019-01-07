@@ -457,6 +457,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 	id := g.unitCounter
 	var u Unit
 	switch name {
+	case "absorber":
+		u = newAbsorber(id, level, posX, posY, g, p)
 	case "archengineer":
 		u = newArchengineer(id, level, posX, posY, g, p)
 	case "archer":
