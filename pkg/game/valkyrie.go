@@ -202,7 +202,8 @@ func (v *valkyrie) setTarget(u Unit) {
 }
 
 func (v *valkyrie) handleAttack() {
-	if v.attack%v.attackInterval() == v.preAttackDelay() {
+	modulo = v.attack % v.attackInterval()
+	if modulo == v.preAttackDelay() {
 		t := v.target()
 		if t != nil && v.withinRange(t) {
 			v.fire()
@@ -211,9 +212,7 @@ func (v *valkyrie) handleAttack() {
 			return
 		}
 	}
-	if v.attack > 0 && v.attack%v.attackInterval() == 0 {
-		v.retargeting = true
-	}
+	v.retargeting = v.attack > 0 && modulo == 0
 	v.attack++
 }
 

@@ -188,7 +188,8 @@ func (f *frost) setTarget(u Unit) {
 }
 
 func (f *frost) handleAttack() {
-	if f.attack%f.attackInterval() == f.preAttackDelay() {
+	modulo := f.attack % f.attackInterval()
+	if modulo == f.preAttackDelay() {
 		t := f.target()
 		if t != nil && f.withinRange(t) {
 			f.fire()
@@ -197,9 +198,7 @@ func (f *frost) handleAttack() {
 			return
 		}
 	}
-	if f.attack > 0 && f.attack%f.attackInterval() == 0 {
-		f.retargeting = true
-	}
+	f.retargeting = f.attack > 0 && modulo == 0
 	f.attack++
 }
 

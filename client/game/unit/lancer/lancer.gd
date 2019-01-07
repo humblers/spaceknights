@@ -108,17 +108,17 @@ func Update():
 					findTargetAndDoAction()
 	
 func handleAttack():
-	if attack == 0:
+	var modulo = attack % attackInterval()
+	if modulo == 0:
 		$AnimationPlayer.play("attack")
-	if attack % attackInterval() == preAttackDelay():
+	if modulo == preAttackDelay():
 		var t = target()
 		if t != null and withinRange(t):
 			fire()
 		else:
 			retargeting = true
 			return
-	if attack > 0 and attack % attackInterval() == 0:
-		retargeting = true
+	retargeting = attack > 0 and modulo == 0
 	attack += 1
 
 func findTargetAndDoAction():

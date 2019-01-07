@@ -207,7 +207,8 @@ func (a *archsapper) setTarget(u Unit) {
 }
 
 func (a *archsapper) handleAttack() {
-	if a.attack%a.attackInterval() == a.preAttackDelay() {
+	modulo := a.attack % a.attackInterval()
+	if modulo == a.preAttackDelay() {
 		t := a.target()
 		if t != nil && a.withinRange(t) {
 			a.fire()
@@ -216,9 +217,7 @@ func (a *archsapper) handleAttack() {
 			return
 		}
 	}
-	if a.attack > 0 && a.attack%a.attackInterval() == 0 {
-		a.retargeting = true
-	}
+	a.retargeting = a.attack > 0 && modulo == 0
 	a.attack++
 }
 

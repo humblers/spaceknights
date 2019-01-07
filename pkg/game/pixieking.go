@@ -205,7 +205,8 @@ func (p *pixieking) setTarget(u Unit) {
 }
 
 func (p *pixieking) handleAttack() {
-	if p.attack%p.attackInterval() == p.preAttackDelay() {
+	modulo := p.attack % p.attackInterval()
+	if modulo == p.preAttackDelay() {
 		t := p.target()
 		if t != nil && p.withinRange(t) {
 			p.fire()
@@ -214,9 +215,7 @@ func (p *pixieking) handleAttack() {
 			return
 		}
 	}
-	if p.attack > 0 && p.attack%p.attackInterval() == 0 {
-		p.retargeting = true
-	}
+	p.retargeting = p.attack > 0 && modulo == 0
 	p.attack++
 }
 

@@ -213,7 +213,8 @@ func (l *lancer) setTarget(u Unit) {
 }
 
 func (l *lancer) handleAttack() {
-	if l.attack%l.attackInterval() == l.preAttackDelay() {
+	modulo := l.attack % l.attackInterval()
+	if modulo == l.preAttackDelay() {
 		t := l.target()
 		if t != nil && l.withinRange(t) {
 			l.fire()
@@ -222,9 +223,7 @@ func (l *lancer) handleAttack() {
 			return
 		}
 	}
-	if l.attack > 0 && l.attack%l.attackInterval() == 0 {
-		l.retargeting = true
-	}
+	l.retargeting = l.attack > 0 && modulo == 0
 	l.attack++
 }
 

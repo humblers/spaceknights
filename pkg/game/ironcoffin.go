@@ -211,7 +211,8 @@ func (i *ironcoffin) setTarget(u Unit) {
 }
 
 func (i *ironcoffin) handleAttack() {
-	if i.attack%i.attackInterval() == i.preAttackDelay() {
+	modulo := i.attack % i.attackInterval()
+	if modulo == i.preAttackDelay() {
 		t := i.target()
 		if t != nil && i.withinRange(t) {
 			i.fire()
@@ -220,9 +221,7 @@ func (i *ironcoffin) handleAttack() {
 			return
 		}
 	}
-	if i.attack > 0 && i.attack%i.attackInterval() == 0 {
-		i.retargeting = true
-	}
+	i.retargeting = i.attack > 0 && modulo == 0
 	i.attack++
 }
 

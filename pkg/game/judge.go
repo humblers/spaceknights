@@ -185,7 +185,8 @@ func (j *judge) setTarget(u Unit) {
 }
 
 func (j *judge) handleAttack() {
-	if j.attack%j.attackInterval() == j.preAttackDelay() {
+	modulo := j.attack % j.attackInterval()
+	if modulo == j.preAttackDelay() {
 		t := j.target()
 		if t != nil && j.withinRange(t) {
 			j.fire()
@@ -194,9 +195,7 @@ func (j *judge) handleAttack() {
 			return
 		}
 	}
-	if j.attack > 0 && j.attack%j.attackInterval() == 0 {
-		j.retargeting = true
-	}
+	j.retargeting = j.attack > 0 && modulo == 0
 	j.attack++
 }
 
