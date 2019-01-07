@@ -467,14 +467,20 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newArchsapper(id, level, posX, posY, g, p)
 	case "astra":
 		u = newAstra(id, level, posX, posY, g, p)
+	case "azero":
+		u = newAzero(id, level, posX, posY, g, p)
 	case "barrack":
 		u = newBarrack(id, level, posX, posY, g, p)
+	case "beholder":
+		u = newBeholder(id, level, posX, posY, g, p)
 	case "berserker":
 		u = newBerserker(id, level, posX, posY, g, p)
 	case "blaster":
 		u = newBlaster(id, level, posX, posY, g, p)
 	case "blastturret":
 		u = newBlastturret(id, level, posX, posY, g, p)
+	case "buran":
+		u = newBuran(id, level, posX, posY, g, p)
 	case "cannon":
 		u = newCannon(id, level, posX, posY, g, p)
 	case "champion":
