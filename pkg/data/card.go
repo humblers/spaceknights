@@ -34,6 +34,7 @@ type Card struct {
 	OffsetX []int
 	OffsetY []int
 	Rarity  CardRarity
+	Arena   Arena
 
 	// variant
 	Level   int
@@ -52,6 +53,7 @@ func NewCard(c Card) *Card {
 		OffsetX: info.OffsetX,
 		OffsetY: info.OffsetY,
 		Rarity:  info.Rarity,
+		Arena:   info.Arena,
 		Level:   c.Level,
 		Holding: c.Holding,
 		Side:    c.Side,
@@ -100,12 +102,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
+		Arena:   Kinetica,
 	},
 	"archengineer": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "archengineer",
 		Rarity: Rare,
+		Arena:  Karas,
 	},
 	"archers": Card{
 		Type:    SquireCard,
@@ -115,6 +119,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 40},
 		OffsetY: []int{0, 0},
 		Rarity:  Common,
+		Arena:   Thanatos,
 	},
 	"archmage": Card{
 		Type:    SquireCard,
@@ -124,18 +129,21 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Eoparu,
 	},
 	"archsapper": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "archsapper",
 		Rarity: Common,
+		Arena:  Kinetica,
 	},
 	"astra": Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "astra",
 		Rarity: Legendary,
+		Arena:  Solamante,
 	},
 	"azero": Card{
 		Type:    SquireCard,
@@ -145,6 +153,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
+		Arena:   Karas,
 	},
 	"berserker": Card{
 		Type:    SquireCard,
@@ -154,6 +163,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Thanatos,
 	},
 	"blaster": Card{
 		Type:    SquireCard,
@@ -163,12 +173,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Common,
+		Arena:   Lunatos,
 	},
 	"buran": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "buran",
 		Rarity: Rare,
+		Arena:  Karas,
 	},
 	"champion": Card{
 		Type:    SquireCard,
@@ -178,6 +190,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Lunatos,
 	},
 	"drillram": Card{
 		Type:    SquireCard,
@@ -187,6 +200,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Solamante,
 	},
 	"enforcer": Card{
 		Type:    SquireCard,
@@ -196,6 +210,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Lunatos,
 	},
 	"felhound": Card{
 		Type:    SquireCard,
@@ -205,6 +220,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 40},
 		OffsetY: []int{0, 0},
 		Rarity:  Common,
+		Arena:   Kinetica,
 	},
 	"footmans": Card{
 		Type:    SquireCard,
@@ -214,12 +230,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, -30, 30},
 		OffsetY: []int{-30, -30, 30, 30},
 		Rarity:  Common,
+		Arena:   Solamante,
 	},
 	"frost": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "frost",
 		Rarity: Epic,
+		Arena:  Thanatos,
 	},
 	"gargoyles": Card{
 		Type:    SquireCard,
@@ -229,6 +247,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-20, 20, 0},
 		OffsetY: []int{20, 20, 0},
 		Rarity:  Common,
+		Arena:   Thanatos,
 	},
 	"gargoylehorde": Card{
 		Type:    SquireCard,
@@ -238,6 +257,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 0, 40, -40, 0, 40},
 		OffsetY: []int{-20, -20, -20, 20, 20, 20},
 		Rarity:  Common,
+		Arena:   Karas,
 	},
 	"gargoyleking": Card{
 		Type:    SquireCard,
@@ -247,6 +267,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Karas,
 	},
 	"giant": Card{
 		Type:    SquireCard,
@@ -256,6 +277,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Thanatos,
 	},
 	"heavymissile": Card{
 		Type:    SquireCard,
@@ -265,12 +287,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
+		Arena:   Kinetica,
 	},
 	"ironcoffin": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "ironcoffin",
 		Rarity: Rare,
+		Arena:  Solamante,
 	},
 	"jouster": Card{
 		Type:    SquireCard,
@@ -280,24 +304,28 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Thanatos,
 	},
 	"judge": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "judge",
 		Rarity: Common,
+		Arena:  Thanatos,
 	},
 	"lancer": Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "lancer",
 		Rarity: Epic,
+		Arena:  Eoparu,
 	},
 	"legion": Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "legion",
 		Rarity: Rare,
+		Arena:  Thanatos,
 	},
 	"micromissile": Card{
 		Type:    SquireCard,
@@ -307,12 +335,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{20, 60, -20, -60, 20, 60, -20, -60, 20, 60, -20, -60},
 		OffsetY: []int{-40, -40, -40, -40, 0, 0, 0, 0, 40, 40, 40, 40},
 		Rarity:  Common,
+		Arena:   Thanatos,
 	},
 	"nagmash": Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "nagmash",
 		Rarity: Epic,
+		Arena:  Solamante,
 	},
 	"nukemissile": Card{
 		Type:    SquireCard,
@@ -322,6 +352,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Lunatos,
 	},
 	"ogre": Card{
 		Type:    SquireCard,
@@ -331,6 +362,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Karas,
 	},
 	"panzerkunstler": Card{
 		Type:    SquireCard,
@@ -340,6 +372,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Karas,
 	},
 	"pixie": Card{
 		Type:    SquireCard,
@@ -349,12 +382,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
+		Arena:   Lunatos,
 	},
 	"pixieking": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "pixieking",
 		Rarity: Rare,
+		Arena:  Lunatos,
 	},
 	"psabu": Card{
 		Type:    SquireCard,
@@ -364,6 +399,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
+		Arena:   Eoparu,
 	},
 	"sentry": Card{
 		Type:    SquireCard,
@@ -373,6 +409,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Common,
+		Arena:   Solamante,
 	},
 	"shadowvision": Card{
 		Type:    SquireCard,
@@ -382,6 +419,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Thanatos,
 	},
 	"starfire": Card{
 		Type:    SquireCard,
@@ -391,6 +429,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
+		Arena:   Thanatos,
 	},
 	"threestarfires": Card{
 		Type:    SquireCard,
@@ -400,12 +439,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-60, 60, 0},
 		OffsetY: []int{60, 60, 0},
 		Rarity:  Rare,
+		Arena:   Eoparu,
 	},
 	"tombstone": Card{
 		Type:   KnightCard,
 		Cost:   5000,
 		Unit:   "tombstone",
 		Rarity: Rare,
+		Arena:  Kinetica,
 	},
 	"trainee": Card{
 		Type:    SquireCard,
@@ -415,12 +456,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
+		Arena:   Solamante,
 	},
 	"valkyrie": Card{
 		Type:   KnightCard,
 		Cost:   1000,
 		Unit:   "valkyrie",
 		Rarity: Common,
+		Arena:  Lunatos,
 	},
 	"voidcreeper": Card{
 		Type:    SquireCard,
@@ -430,6 +473,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Kinetica,
 	},
 	"wasp": Card{
 		Type:    SquireCard,
@@ -439,5 +483,6 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
+		Arena:   Kinetica,
 	},
 }

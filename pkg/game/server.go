@@ -234,11 +234,14 @@ func (s *server) saveResult(g Game) {
 	for _, p := range replay.Config.Players {
 		key_rank := fmt.Sprintf("%v:rank", p.Id)
 		key_medal := fmt.Sprintf("%v:medal", p.Id)
+		key_medal_chest := fmt.Sprintf("%v:medal-chest", p.Id)
 		conn.Send("GET", key_rank)
 		conn.Send("GET", key_medal)
+		conn.Send("GET", key_medal_chest)
 		conn.Flush()
 		rank, _ := redis.Int(conn.Receive())
 		medal, _ := redis.Int(conn.Receive())
+		medalChest, _ := redis.Int(conn.Receive())
 
 		if p.Team == replay.Winner {
 			if rank > 0 {
@@ -249,6 +252,7 @@ func (s *server) saveResult(g Game) {
 					medal = 1
 				}
 			}
+			medalChest++
 			// chest reward
 			key_slots := fmt.Sprintf("%v:battle-chest-slots", p.Id)
 			v, _ := conn.Do("LRANGE", key_slots, 0, -1)
@@ -286,6 +290,7 @@ func (s *server) saveResult(g Game) {
 		}
 		conn.Send("SET", key_rank, rank)
 		conn.Send("SET", key_medal, medal)
+		conn.Send("SET", key_medal_chest, medalChest)
 		conn.Do("")
 	}
 }

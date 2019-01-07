@@ -50,3 +50,15 @@ type CardUpradeResponse struct {
 	Card        card
 	Galacticoin int
 }
+
+type ChestOpenRequest struct {
+	Name string
+	Slot int
+}
+
+type ChestOpenResponse struct {
+	ErrMessage string
+	Gold       int
+	Cash       int
+	Cards      map[string]int
+}
