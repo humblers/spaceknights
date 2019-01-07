@@ -1,0 +1,467 @@
+[gd_scene load_steps=34 format=2]
+
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=1]
+[ext_resource path="res://game/bg/kepler/bg_kepler.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
+[ext_resource path="res://game/bg/cloud_1.png" type="Texture" id=4]
+[ext_resource path="res://game/bg/kepler/kepler.png" type="Texture" id=5]
+[ext_resource path="res://game/ui/knightready.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=7]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=8]
+[ext_resource path="res://lobby/page/battle/line_seperator.png" type="Texture" id=9]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=11]
+[ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=12]
+[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=13]
+[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=14]
+[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=15]
+[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=16]
+[ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=17]
+
+[sub_resource type="Curve" id=1]
+
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+
+offsets = PoolRealArray( 0, 0.7 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1 )
+
+[sub_resource type="CanvasItemMaterial" id=3]
+
+blend_mode = 2
+
+[sub_resource type="StreamTexture" id=4]
+
+flags = 4
+load_path = "res://.import/ui_tile.png-bfa411042fc9f3ffbe0e587f960b71ac.stex"
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 48
+outline_size = 2
+outline_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+
+texture = ExtResource( 13 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 59.5
+margin_right = 61.0
+margin_top = 30.0
+margin_bottom = 30.5
+
+[sub_resource type="StyleBoxTexture" id=7]
+
+texture = ExtResource( 13 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 59.5
+margin_right = 60.5
+margin_top = 30.0
+margin_bottom = 29.5
+
+[sub_resource type="StyleBoxTexture" id=8]
+
+texture = ExtResource( 14 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 60.0
+margin_right = 60.0
+margin_top = 30.0
+margin_bottom = 30.0
+
+[sub_resource type="StyleBoxTexture" id=9]
+
+texture = ExtResource( 15 )
+region_rect = Rect2( 0, 0, 230, 120 )
+margin_left = 60.0
+margin_right = 60.0
+margin_top = 30.5
+margin_bottom = 29.5
+
+[sub_resource type="DynamicFont" id=10]
+
+size = 48
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=11]
+
+size = 48
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=12]
+
+size = 32
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=13]
+
+size = 72
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="Animation" id=14]
+
+loop = true
+
+[sub_resource type="Animation" id=15]
+
+length = 30.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Opponent/Searching:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 4, 4.1, 4.5, 5, 5.5, 6, 8.5, 8.6, 9, 9.5, 10, 10.5, 13, 13.1, 13.5, 14, 14.5, 15, 17.5, 17.6, 18, 18.5, 19, 19.5, 22, 22.1, 22.5, 23, 23.5, 24, 26.5, 26.6, 27, 27.5, 28, 28.5, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0, 0.9, 0.9, 0.932, 0.974, 1.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Opponent/Searching:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.9, 2.4, 2.9, 3, 4.9, 5.4, 5.9, 6, 7.9, 8.4, 8.9, 9, 10.9, 11.4, 11.9, 12, 13.9, 14.4, 14.9, 15, 16.9, 17.4, 17.9, 18, 19.9, 20.4, 20.9, 21, 22.9, 23.4, 23.9, 24, 25.9, 26.4, 26.9, 27, 28.9, 29.4, 29.9, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ArenaTitle:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.4, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -570, 1186 ), Vector2( 160, 1186 ), Vector2( 160, 1186 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ArenaTitle:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1, 30 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+
+length = 30.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ArenaData/Planet:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 310, 10 ), Vector2( 100, 400 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ArenaData/Effect:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 390, 370 ), Vector2( -165, -420 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ArenaData/Effect:rect_rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ArenaData/Background:rect_position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 30 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -100, 0 ), Vector2( -100, -190 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ArenaData/Planet/Targeting:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 8, 10.2, 18.1, 20.1, 23.0805, 30 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 806, 280 ), Vector2( 536, 524.667 ), Vector2( 197.7, 404.067 ), Vector2( 476, 380 ), Vector2( 94.3, 674.6 ), Vector2( 383, 845 ), Vector2( 156, 180 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ArenaData/Planet/Targeting:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+
+[node name="5Kepler" type="TextureRect"]
+self_modulate = Color( 0, 0, 0, 0.784314 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -720.0
+margin_top = -960.0
+margin_right = 720.0
+margin_bottom = 960.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="ArenaData" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Background" type="TextureRect" parent="ArenaData"]
+margin_left = -100.0
+margin_top = -190.0
+margin_right = 1340.0
+margin_bottom = 1730.0
+rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Effect" type="TextureRect" parent="ArenaData"]
+self_modulate = Color( 0.164706, 0.529412, 1, 0.360784 )
+material = ExtResource( 3 )
+margin_left = -165.0
+margin_top = -420.0
+margin_right = 1265.0
+margin_bottom = 1010.0
+rect_rotation = 30.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="Planet" type="TextureRect" parent="ArenaData"]
+margin_left = 100.0
+margin_top = 400.0
+margin_right = 1301.0
+margin_bottom = 1600.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Targeting" type="TextureRect" parent="ArenaData/Planet"]
+material = ExtResource( 3 )
+margin_left = 156.0
+margin_top = 180.0
+margin_right = 369.016
+margin_bottom = 324.005
+texture = ExtResource( 6 )
+
+[node name="Crosshair" type="CPUParticles2D" parent="ArenaData/Planet/Targeting"]
+position = Vector2( 110, 80 )
+amount = 1
+lifetime = 2.0
+texture = ExtResource( 7 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 0.01
+scale_amount = 2.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Grid" type="TextureRect" parent="ArenaData"]
+self_modulate = Color( 1, 1, 1, 0.0901961 )
+material = SubResource( 3 )
+margin_right = 1440.0
+margin_bottom = 1920.0
+texture = SubResource( 4 )
+expand = true
+stretch_mode = 2
+
+[node name="Gradation" type="TextureRect" parent="ArenaData"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = -1639.0
+margin_right = 1440.0
+margin_bottom = -1218.0
+rect_rotation = -180.0
+rect_pivot_offset = Vector2( 720, 1030 )
+texture = ExtResource( 8 )
+expand = true
+
+[node name="Gradation2" type="TextureRect" parent="ArenaData"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 890.0
+margin_right = 1440.0
+margin_bottom = 1920.0
+rect_rotation = -359.999
+rect_pivot_offset = Vector2( 720, 1030 )
+texture = ExtResource( 8 )
+expand = true
+
+[node name="Opponent" type="TextureRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 0.356863, 0.356863, 1 )
+margin_left = 180.0
+margin_top = 110.0
+margin_right = 1260.0
+margin_bottom = 164.0
+texture = ExtResource( 9 )
+
+[node name="Searching" type="Label" parent="Opponent"]
+margin_left = 74.0
+margin_top = -30.0
+margin_right = 1080.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 5 )
+text = "SEARCHING FOR OPPONENT..."
+align = 1
+valign = 1
+
+[node name="Cancel" type="TextureRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 0, 0, 0.501961 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -755.0
+margin_top = -570.0
+margin_right = 755.0
+margin_bottom = -420.0
+texture = ExtResource( 11 )
+expand = true
+
+[node name="TextureRect2" type="TextureRect" parent="Cancel"]
+self_modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
+margin_left = 565.0
+margin_top = 9.0
+margin_right = 945.0
+margin_bottom = 140.0
+texture = ExtResource( 12 )
+expand = true
+
+[node name="Button" type="Button" parent="Cancel"]
+self_modulate = Color( 1, 0.631373, 0.631373, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -60.0
+margin_right = 170.0
+margin_bottom = 60.0
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+
+[node name="Label" type="Label" parent="Cancel/Button"]
+margin_left = 30.0
+margin_top = 30.0
+margin_right = 310.0
+margin_bottom = 95.0
+custom_fonts/font = SubResource( 10 )
+text = "CANCEL"
+align = 1
+valign = 1
+
+[node name="Tip" type="NinePatchRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0.141176 )
+margin_left = 195.0
+margin_top = 1540.0
+margin_right = 1245.0
+margin_bottom = 1880.0
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 21
+patch_margin_bottom = 20
+
+[node name="Label2" type="Label" parent="Tip"]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 115.0
+margin_bottom = 69.0
+custom_fonts/font = SubResource( 11 )
+text = "TIP"
+
+[node name="Label" type="Label" parent="Tip"]
+margin_left = 20.0
+margin_top = 89.0
+margin_right = 1030.0
+margin_bottom = 259.0
+custom_fonts/font = SubResource( 12 )
+text = "2V2 Battle allows you to collect chests wuth a friend.
+Clanmate or another player * without the risk of losing trophies!"
+autowrap = true
+
+[node name="ArenaTitle" type="TextureRect" parent="."]
+editor/display_folded = true
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 160.0
+margin_top = 226.0
+margin_right = 820.0
+margin_bottom = 366.0
+texture = ExtResource( 17 )
+expand = true
+
+[node name="Name" type="Label" parent="ArenaTitle"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 40.0
+margin_top = -69.0
+margin_right = 457.0
+margin_bottom = 18.0
+custom_fonts/font = SubResource( 13 )
+text = "KEPLER"
+
+[node name="Sec" type="AnimationPlayer" parent="."]
+autoplay = "timer"
+anims/timer = SubResource( 14 )
+
+[node name="30sec" type="AnimationPlayer" parent="."]
+autoplay = "timer2"
+anims/timer2 = SubResource( 15 )
+
+[node name="BGAni" type="AnimationPlayer" parent="."]
+autoplay = "bg"
+anims/bg = SubResource( 16 )
+
