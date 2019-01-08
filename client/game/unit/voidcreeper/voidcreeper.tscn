@@ -1,8 +1,8 @@
 [gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://game/unit/voidcreeper/voidcreeper.gd" type="Script" id=1]
-[ext_resource path="res://game/vfx/energy_shield_1.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://game/vfx/energy_shield_1.png" type="Texture" id=3]
 [ext_resource path="res://game/vfx/bladetrail_3.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=5]
 [ext_resource path="res://game/unit/voidcreeper/body.png" type="Texture" id=6]
@@ -42,7 +42,7 @@
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0.23125, 0.5875, 1 )
-colors = PoolColorArray( 0, 0.882813, 1, 1, 0.875122, 0.871094, 1, 1, 1, 0, 0, 0 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0 )
 
 [sub_resource type="Curve" id=2]
 
@@ -51,7 +51,7 @@ _data = [ Vector2( 0, 0.808 ), 0.0, 0.352316, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0
 [sub_resource type="Gradient" id=3]
 
 offsets = PoolRealArray( 0.1375, 0.64375, 1 )
-colors = PoolColorArray( 0.101563, 0, 1, 1, 0, 0.929688, 1, 1, 0, 0.34375, 1, 0 )
+colors = PoolColorArray( 1, 0.164063, 0, 1, 1, 0.304688, 0, 1, 0, 0.34375, 1, 0 )
 
 [sub_resource type="StreamTexture" id=4]
 
@@ -127,10 +127,8 @@ __meta__ = {
 }
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Trail" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 position = Vector2( 0, 1 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Trail"]
@@ -153,17 +151,18 @@ scale_amount = 3.0
 color_ramp = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Trail"]
-visible = false
 modulate = Color( 0.529412, 0.0117647, 1, 0 )
+self_modulate = Color( 0.584314, 0.0862745, 1, 1 )
+material = ExtResource( 2 )
 position = Vector2( 0, -11 )
 rotation = 2.09439
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Scratch" type="Sprite" parent="Rotatable/Trail"]
 visible = false
 modulate = Color( 1, 0.415686, 0.188235, 1 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( 70, -31 )
 rotation = 0.261799
 scale = Vector2( 6, 4 )
@@ -172,7 +171,7 @@ flip_h = true
 
 [node name="Blood" type="CPUParticles2D" parent="Rotatable/Trail"]
 modulate = Color( 1, 0.984314, 0.964706, 1 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( 20, -120 )
 emitting = false
 amount = 12
@@ -196,8 +195,9 @@ normal_map = ExtResource( 7 )
 offset = Vector2( 0, 5 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Main"]
+editor/display_folded = true
 position = Vector2( 17, 0 )
-rotation = 0.261799
+rotation = -0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( 6, 0 )
@@ -205,7 +205,7 @@ offset = Vector2( 6, 0 )
 [node name="Upperarm" type="Sprite" parent="Rotatable/Main/ShoulderR"]
 show_behind_parent = true
 position = Vector2( 8, 0 )
-rotation = 0.261799
+rotation = -0.261799
 texture = ExtResource( 10 )
 normal_map = ExtResource( 11 )
 offset = Vector2( 6, 0 )
@@ -213,7 +213,7 @@ offset = Vector2( 6, 0 )
 [node name="Lowerarm" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm"]
 show_behind_parent = true
 position = Vector2( 12, -1 )
-rotation = -0.523599
+rotation = 0.523599
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
 offset = Vector2( 2, -13 )
@@ -221,6 +221,7 @@ offset = Vector2( 2, -13 )
 [node name="Node2D" type="Node2D" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm"]
 show_behind_parent = true
 position = Vector2( 0, -32 )
+rotation = 1.309
 
 [node name="Scythe" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D"]
 rotation = -1.57079
@@ -230,7 +231,6 @@ offset = Vector2( 38, -38 )
 
 [node name="Grip" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe"]
 show_behind_parent = true
-position = Vector2( 55, 0 )
 texture = ExtResource( 16 )
 normal_map = ExtResource( 17 )
 offset = Vector2( -81, 0 )
@@ -240,7 +240,7 @@ editor/display_folded = true
 position = Vector2( 52, 9 )
 
 [node name="T1" type="CPUParticles2D" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 emitting = false
 speed_scale = 3.0
 texture = SubResource( 4 )
@@ -256,7 +256,7 @@ color_ramp = SubResource( 6 )
 [node name="T1Light" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust"]
 visible = false
 modulate = Color( 0.909804, 0.654902, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( -0.34256, 17.6424 )
 rotation = 3.14159
 scale = Vector2( 1, 2 )
@@ -268,7 +268,7 @@ position = Vector2( -144, -5 )
 rotation = 3.14159
 
 [node name="T2" type="CPUParticles2D" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust2"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 emitting = false
 speed_scale = 3.0
 texture = ExtResource( 5 )
@@ -284,7 +284,7 @@ color_ramp = SubResource( 8 )
 [node name="T2Light" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust2"]
 visible = false
 modulate = Color( 0.909804, 0.654902, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( 0.0798492, 18.9164 )
 scale = Vector2( 0.5, 1.5 )
 texture = ExtResource( 18 )
@@ -295,7 +295,7 @@ position = Vector2( -144, 5 )
 rotation = 6.28318
 
 [node name="T3" type="CPUParticles2D" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust3"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 emitting = false
 speed_scale = 3.0
 texture = ExtResource( 5 )
@@ -312,7 +312,7 @@ color_ramp = SubResource( 8 )
 [node name="T3Light" type="Sprite" parent="Rotatable/Main/ShoulderR/Upperarm/Lowerarm/Node2D/Scythe/Thrust3"]
 visible = false
 modulate = Color( 0.909804, 0.654902, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 position = Vector2( -0.072876, 8.04646 )
 rotation = -3.14159
 scale = Vector2( 0.4, 0.7 )
@@ -320,7 +320,7 @@ texture = ExtResource( 18 )
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Main"]
 position = Vector2( -17, 0 )
-rotation = -0.261799
+rotation = -0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( -6, 0 )
@@ -329,6 +329,7 @@ flip_h = true
 [node name="Upperarm" type="Sprite" parent="Rotatable/Main/ShoulderL"]
 show_behind_parent = true
 position = Vector2( -8, 0 )
+rotation = -0.523599
 texture = ExtResource( 10 )
 normal_map = ExtResource( 11 )
 offset = Vector2( -6, 0 )
@@ -337,7 +338,7 @@ flip_h = true
 [node name="Lowerarm" type="Sprite" parent="Rotatable/Main/ShoulderL/Upperarm"]
 show_behind_parent = true
 position = Vector2( -12, -1 )
-scale = Vector2( 1, 0.6 )
+scale = Vector2( 1, 0.8 )
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
 offset = Vector2( -2, -13 )
@@ -386,8 +387,8 @@ color_ramp = SubResource( 12 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Lowerbody/Booster/CPUParticles2D"]
 visible = false
-modulate = Color( 1, 0.654902, 0, 1 )
-material = ExtResource( 3 )
+modulate = Color( 1, 0.654902, 0, 0 )
+material = ExtResource( 2 )
 position = Vector2( 0, 33 )
 scale = Vector2( 1, 2 )
 texture = ExtResource( 18 )
@@ -397,26 +398,28 @@ editor/display_folded = true
 
 [node name="CapeR1" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( 15, -7.47372 )
-rotation = -0.261799
+rotation = -1.0472
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( 2, 22 )
 
 [node name="CapeR2" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( 16, 4.52628 )
+rotation = -0.523599
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( 2, 22 )
 
 [node name="CapeR3" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( 8, 14.5263 )
+rotation = -0.174533
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( 2, 22 )
 
 [node name="CapeL1" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( -15, -7.47372 )
-rotation = 0.261799
+rotation = 1.0472
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( -2, 22 )
@@ -424,6 +427,7 @@ flip_h = true
 
 [node name="CapeL2" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( -16, 4.52628 )
+rotation = 0.523599
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( -2, 22 )
@@ -431,6 +435,7 @@ flip_h = true
 
 [node name="CapeL3" type="Sprite" parent="Rotatable/Lowerbody/Cape"]
 position = Vector2( -8, 14.5263 )
+rotation = 0.174533
 texture = ExtResource( 22 )
 normal_map = ExtResource( 23 )
 offset = Vector2( -2, 22 )
@@ -463,6 +468,7 @@ anims/move = ExtResource( 29 )
 scale = Vector2( 2.5, 2.5 )
 
 [node name="Main" type="Node2D" parent="Explosion"]
+editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -603,7 +609,7 @@ color_ramp = SubResource( 17 )
 [node name="Circle2" type="CPUParticles2D" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 32 )
