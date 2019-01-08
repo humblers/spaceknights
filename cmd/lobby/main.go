@@ -32,6 +32,7 @@ func main() {
 	m.Handle(lobby.NewAuthRouter("/auth/", p, logger))
 	m.Handle(lobby.NewDataRouter("/data/", p, logger))
 	m.Handle(lobby.NewEditRouter("/edit/", p, logger))
+	m.Handle(lobby.NewChestRouter("/chest/", p, logger))
 	path, mm := lobby.NewMatchMaker("/match/", p, logger)
 	m.Handle(path, mm)
 
