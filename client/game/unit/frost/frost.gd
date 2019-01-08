@@ -34,8 +34,8 @@ func Init(id, level, posX, posY, game, player):
 func TakeDamage(amount, damageType, attacker):
 	var initHp = InitialHp()
 	var underHalf = initHp / 2 > hp
-	if damageType in [data.Skill, data.Death]:
-		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):
+		amount = amount * data.DecreasedDamageRatioOnKnightBuilding / 100
 	.TakeDamage(amount, damageType, attacker)
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)

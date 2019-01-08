@@ -16,19 +16,19 @@ func Init(id, level, posX, posY, game, player):
 	$Hp/Shield.value = shield
 	
 func TakeDamage(amount, damageType, attacker):
-	if damageType != data.AntiShield:
+	if data.DamageTypeIs(damageType, data.AntiShield):
 		shield -= amount
 		if shield < 0:
 			hp += shield
 			shield = 0
 			damages[game.step] = 0
-			$HitEffect.hit(attacker)
+			$HitEffect.hit(damageType)
 		else:
 			$Energyshield.hit(attacker)
 	else:
 		hp -= amount
 		damages[game.step] = 0
-		$HitEffect.hit(attacker)
+		$HitEffect.hit(damageType)
 	$Hp/Shield.value = shield
 	node_hp.value = hp
 	node_hp.visible = true

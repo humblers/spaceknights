@@ -20,7 +20,7 @@ func newGargoyleking(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (g *gargoyleking) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType != data.AntiShield {
+	if damageType.Is(data.AntiShield) {
 		g.shield -= amount
 		if g.shield < 0 {
 			g.hp += g.shield

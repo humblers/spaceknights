@@ -8,11 +8,10 @@ export(Rect2) var rect_area
 
 export(float) var circle_radius
 
-func hit(attacker):
-	var name = attacker.get("name_")
-	if name != null and data.units[name]["attacktype"] == data.Laser:
+func hit(damageType):
+	if data.DamageTypeIs(damageType, data.Laser):
 		return
-	if attacker.name.find("Missile") >= 0:
+	if data.DamageTypeIs(damageType, data.Missile):
 		return
 	var pos = Vector2(0, 0)
 	match type:

@@ -182,7 +182,7 @@ func TakeDamage(amount, damageType, attacker):
 	if damageType == data.Decay:
 		return
 	damages[game.step] = 0
-	$HitEffect.hit(attacker)
+	$HitEffect.hit(damageType)
 
 func Occupy(tr):
 	game.Occupy(tr, id)

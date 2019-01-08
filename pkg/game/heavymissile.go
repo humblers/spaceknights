@@ -17,7 +17,7 @@ func newHeavymissile(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (h *heavymissile) TakeDamge(amount int, damageType data.DamageType) {
+func (h *heavymissile) TakeDamage(amount int, damageType data.DamageType) {
 	alreadyDead := h.IsDead()
 	h.unit.TakeDamage(amount, damageType)
 	if !alreadyDead && h.IsDead() && h.attack > 0 && h.attack <= h.preAttackDelay() {
