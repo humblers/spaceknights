@@ -148,9 +148,10 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	}
 
 	// remove chest
+	now := time.Now().Unix()
 	switch req.Name {
 	case "Free":
-		rc.Do("SET", fmt.Sprintf("%v:free-chest", b.uid), time.Now().Unix())
+		rc.Do("SET", fmt.Sprintf("%v:free-chest", b.uid), now)
 	case "Medal":
 		rc.Do("SET", fmt.Sprintf("%v:medal-chest", b.uid), 0)
 	default:
@@ -161,6 +162,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	resp.Gold = gold
 	resp.Cash = cash
 	resp.Cards = cards
+	resp.OpenedAt = now
 }
 
 func OpenChest(r *rand.Rand, name string, arena data.Arena) (int, int, map[string]int) {

@@ -13,6 +13,8 @@ export(NodePath) onready var config_btn = get_node(config_btn)
 export(NodePath) onready var pid = get_node(pid)
 export(NodePath) onready var rank = get_node(rank)
 
+export(NodePath) onready var free_chest = get_node(free_chest)
+export(NodePath) onready var medal_chest = get_node(medal_chest)
 export(NodePath) onready var chest_0 = get_node(chest_0)
 export(NodePath) onready var chest_1 = get_node(chest_1)
 export(NodePath) onready var chest_2 = get_node(chest_2)
@@ -40,7 +42,9 @@ func invalidate():
 		recursive_light_masking(node, light.range_item_cull_mask)
 		deck.add_child(node)
 	
-	# set chest slots
+	# set chests
+	free_chest.Set(user.FreeChest)
+	medal_chest.Set(user.MedalChest)
 	for i in len(user.BattleChestSlots):
 		var chest = user.BattleChestSlots[i]
 		var node = get("chest_%d" % i)
