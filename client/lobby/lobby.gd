@@ -25,8 +25,8 @@ func _ready():
 	load_data()
 
 func load_data():
-	for path in ["cards", "units"]:
-		var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/%s" % path), "response")
+	for path in ["cards", "units", "Chests", "ChestOrder"]:
+		var response = yield(http_manager.new_request(HTTPClient.METHOD_POST, "/data/%s" % path.to_lower()), "response")
 		if not response[0]:
 			http_manager.handle_error(response[1].ErrMessage)
 			return

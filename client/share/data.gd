@@ -1545,7 +1545,7 @@ func fillStatByLevel(key, value):
 			return null
 
 
-var ChestMap = {
+var Chests = {
 	"Silver": {
 		"Duration":       3600 * 3,
 	},
@@ -1569,3 +1569,4 @@ var ChestMap = {
 	},
 }
 
+var ChestOrder = []

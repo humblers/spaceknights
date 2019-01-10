@@ -48,7 +48,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			resp.ErrMessage = err.Error()
 			return
 		}
-		if time.Now().Unix() < lastAcquiredTime+data.ChestMap[req.Name].Duration {
+		if time.Now().Unix() < lastAcquiredTime+data.Chests[req.Name].Duration {
 			resp.ErrMessage = "free chest not available now"
 			return
 		}
@@ -87,7 +87,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			resp.ErrMessage = "chest name does not match"
 			return
 		}
-		if time.Now().Unix() < chest.AcquiredAt+data.ChestMap[chest.Name].Duration {
+		if time.Now().Unix() < chest.AcquiredAt+data.Chests[chest.Name].Duration {
 			resp.ErrMessage = "cannot open battle chest yet"
 			return
 		}
@@ -166,7 +166,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 }
 
 func OpenChest(r *rand.Rand, name string, arena data.Arena) (int, int, map[string]int) {
-	chestInfo := data.ChestMap[name]
+	chestInfo := data.Chests[name]
 	numCard := chestInfo.NumCards[arena]
 
 	// gold
