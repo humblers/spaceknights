@@ -23,6 +23,8 @@ static func cast_float_to_int(parsed_json):
 	return parsed_json
 
 static func set_text(label, text, autowrap = false, min_size = 28):
+	if label.text == text:
+		return
 	var font = label.get_font("font")
 	assert(font != null)
 	while font.size > min_size:
