@@ -238,7 +238,7 @@ var cards = {
 		"OffsetY": [20, 20, 0],
 		"Rarity":  Common,
 	},
-	"gargoylehorde": {
+	"gargoylesquad": {
 		"Type":    SquireCard,
 		"Cost":    5000,
 		"Unit":    "gargoyle",

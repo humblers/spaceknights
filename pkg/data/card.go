@@ -249,7 +249,7 @@ var Cards = map[string]Card{
 		Rarity:  Common,
 		Arena:   Thanatos,
 	},
-	"gargoylehorde": Card{
+	"gargoylesquad": Card{
 		Type:    SquireCard,
 		Cost:    5000,
 		Unit:    "gargoyle",
