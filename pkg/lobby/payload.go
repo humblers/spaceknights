@@ -61,4 +61,5 @@ type ChestOpenResponse struct {
 	Gold       int
 	Cash       int
 	Cards      map[string]int
+	OpenedAt   int64
 }

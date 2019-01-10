@@ -39,6 +39,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	}
 
 	// validate
+	var chest data.Chest
 	switch req.Name {
 	case "Free":
 		lastAcquiredTime, err := redis.Int64(rc.Do("GET", fmt.Sprintf("%v:free-chest", b.uid)))
@@ -63,7 +64,6 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			return
 		}
 	default:
-		var chest data.Chest
 		if bytes, err := redis.Bytes(rc.Do("LINDEX", fmt.Sprintf("%v:battle-chest-slots", b.uid), req.Slot)); err != nil {
 			if err == redis.ErrNil {
 				resp.ErrMessage = "invalid slot index"
@@ -87,15 +87,28 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			resp.ErrMessage = "chest name does not match"
 			return
 		}
+		if time.Now().Unix() < chest.AcquiredAt+data.ChestMap[chest.Name].Duration {
+			resp.ErrMessage = "cannot open battle chest yet"
+			return
+		}
+	}
+
+	// get rank
+	var rank int
+	switch req.Name {
+	case "Free", "Medal":
+		if rank_, err := redis.Int(rc.Do("GET", fmt.Sprintf("%v:rank", b.uid))); err != nil {
+			c.logger.Print(err)
+			resp.ErrMessage = err.Error()
+			return
+		} else {
+			rank = rank_
+		}
+	default:
+		rank = chest.AcquiredRank
 	}
 
 	// open chest and apply reward
-	rank, err := redis.Int(rc.Do("GET", fmt.Sprintf("%v:rank", b.uid)))
-	if err != nil {
-		c.logger.Print(err)
-		resp.ErrMessage = err.Error()
-		return
-	}
 	arena := data.ArenaFromRank(rank)
 	rand := rand.New(rand.NewSource(time.Now().UnixNano()))
 	gold, cash, cards := OpenChest(rand, req.Name, arena)
@@ -135,9 +148,10 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	}
 
 	// remove chest
+	now := time.Now().Unix()
 	switch req.Name {
 	case "Free":
-		rc.Do("SET", fmt.Sprintf("%v:free-chest", b.uid), time.Now().Unix())
+		rc.Do("SET", fmt.Sprintf("%v:free-chest", b.uid), now)
 	case "Medal":
 		rc.Do("SET", fmt.Sprintf("%v:medal-chest", b.uid), 0)
 	default:
@@ -148,6 +162,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	resp.Gold = gold
 	resp.Cash = cash
 	resp.Cards = cards
+	resp.OpenedAt = now
 }
 
 func OpenChest(r *rand.Rand, name string, arena data.Arena) (int, int, map[string]int) {

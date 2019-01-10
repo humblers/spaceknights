@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/script/http.gd" type="Script" id=2]
@@ -76,6 +76,9 @@
 [ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=74]
 [ext_resource path="res://lobby/hud/hud.tscn" type="PackedScene" id=75]
 [ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=76]
+
+[sub_resource type="ButtonGroup" id=1]
+
 
 [node name="lobby" type="Control"]
 anchor_right = 1.0
@@ -158,8 +161,18 @@ margin_right = -1440.0
 lobby = NodePath("../..")
 
 [node name="Battle" parent="Pages" instance=ExtResource( 72 )]
-editor/display_folded = true
 lobby = NodePath("../..")
+
+[node name="FreeChest" parent="Pages/Battle/Chests" index="0"]
+editor/display_folded = true
+lobby = NodePath("../../../..")
+
+[node name="MedalChest" parent="Pages/Battle/Chests" index="1"]
+editor/display_folded = true
+lobby = NodePath("../../../..")
+
+[node name="BattleChests" parent="Pages/Battle" index="9"]
+editor/display_folded = true
 
 [node name="Explore" parent="Pages" instance=ExtResource( 73 )]
 editor/display_folded = true
@@ -175,7 +188,49 @@ lobby = NodePath("../..")
 [node name="HeadupDisplay" parent="." instance=ExtResource( 75 )]
 lobby = NodePath("..")
 
+[node name="Battle" parent="HeadupDisplay/Bot" index="1"]
+group = SubResource( 1 )
+
+[node name="Card" parent="HeadupDisplay/Bot" index="2"]
+group = SubResource( 1 )
+
+[node name="Explore" parent="HeadupDisplay/Bot" index="3"]
+group = SubResource( 1 )
+
+[node name="Social" parent="HeadupDisplay/Bot" index="4"]
+group = SubResource( 1 )
+
+[node name="Shop" parent="HeadupDisplay/Bot" index="5"]
+group = SubResource( 1 )
+
+[node name="Item" parent="HeadupDisplay/ChestOpen/Control/Card1" index="4"]
+page_card = NodePath("../../../../../Pages/Card")
+
+[node name="Item" parent="HeadupDisplay/ChestOpen/Control/Card2" index="4"]
+page_card = NodePath("../../../../../Pages/Card")
+
+[node name="Item" parent="HeadupDisplay/ChestOpen/Control/Card3" index="4"]
+page_card = NodePath("../../../../../Pages/Card")
+
+[node name="Cardemission4" parent="HeadupDisplay/ChestOpen/Control/Card4" index="0"]
+angular_velocity = 8.22191e-21
+
+[node name="Item" parent="HeadupDisplay/ChestOpen/Control/Card4" index="4"]
+page_card = NodePath("../../../../../Pages/Card")
+
+[node name="Item" parent="HeadupDisplay/ChestOpen/Control/Card5" index="4"]
+page_card = NodePath("../../../../../Pages/Card")
+
+[node name="Coin" parent="HeadupDisplay/ChestOpen/Coin/Slot/Galacticoin" index="0"]
+frame = 14
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 76 )
 volume_db = -10.0
 
+
+[editable path="Pages/Battle"]
+
+[editable path="HeadupDisplay"]
+
+[editable path="HeadupDisplay/ChestOpen"]

@@ -1543,3 +1543,29 @@ func fillStatByLevel(key, value):
 					return null
 		_:
 			return null
+
+
+var ChestMap = {
+	"Silver": {
+		"Duration":       3600 * 3,
+	},
+	"Gold": {
+		"Duration":       3600 * 8,
+	},
+	"Diamond": {
+		"Duration":       3600 * 12,
+	},
+	"D-Matter": {
+		"Duration":       3600 * 12,
+	},
+	"E-Matter": {
+		"Duration":       3600 * 12,
+	},
+	"Free": {
+		"Duration":       3600 * 4,
+	},
+	"Medal": {
+		"Duration": 0,
+	},
+}
+

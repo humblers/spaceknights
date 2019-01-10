@@ -50,7 +50,7 @@ func (c *Chest) String() string {
 var ChestMap = map[string]ChestInfo{
 	"Silver": ChestInfo{
 		Name:           "Silver",
-		Duration:       3600,
+		Duration:       3600 * 3,
 		MinGoldPerCard: 7,
 		MaxGoldPerCard: 8,
 		NumCards:       [ArenaCount]int{7, 8, 9, 10, 12, 13},

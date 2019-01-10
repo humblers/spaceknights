@@ -2,7 +2,8 @@ extends Button
 
 export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)
-export(NodePath) onready var time_left = get_node(time_left)
+export(NodePath) onready var cost_label = get_node(cost_label)
+export(NodePath) onready var time_left_label = get_node(time_left_label)
 
 var chest
 
@@ -16,29 +17,23 @@ func _ready():
 func _process(delta):
 	invalidate()
 
-func open():
-	if chest == null:
-		return
-	if time_left_sec() <= 0:
-		pass
-	else:
-		pass
-
 func invalidate():
 	if chest == null:
 		visible = false
 		return
 	visible = true
-	var sec = time_left_sec()
-	if sec > 0:
-		can_open.visible = false
-		can_not_open.visible = true
-		var min_ = sec / 60
-		time_left.text = "%dh %dm" % [min_/60, min_%60]
-	else:
-		can_open.visible = true
-		can_not_open.visible = false
+	var time_left = time_left()
+	can_open.visible = time_left <= 0
+	can_not_open.visible = time_left > 0
+	cost_label.text = str(ceil(time_left / float(10 * 60)))
+	time_left_label.text = static_func.get_time_left_string(time_left)
 
-func time_left_sec():
+func time_left():
 	assert(chest)
-	return OS.get_unix_time() - int(chest.AcquiredAt)
+	return int(chest.AcquiredAt) + data.ChestMap[chest.Name].Duration - OS.get_unix_time()
+
+func open():
+	if chest == null:
+		return
+	
+	# open chest info popup

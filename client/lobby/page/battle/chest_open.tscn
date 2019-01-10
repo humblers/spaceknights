@@ -1,24 +1,26 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=58 format=2]
 
-[ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=1]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
-[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=3]
-[ext_resource path="res://lobby/resource/background_gradation.png" type="Texture" id=4]
-[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=5]
-[ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=6]
-[ext_resource path="res://lobby/page/card/item.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=8]
-[ext_resource path="res://lobby/page/battle/test_2.png" type="Texture" id=9]
-[ext_resource path="res://game/bg/cloud_2.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/light.png" type="Texture" id=11]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://lobby/hud/galacticoin_1.png" type="Texture" id=13]
-[ext_resource path="res://lobby/hud/galacticoin_2.png" type="Texture" id=14]
-[ext_resource path="res://lobby/hud/galacticoin_3.png" type="Texture" id=15]
-[ext_resource path="res://lobby/hud/galacticoin_4.png" type="Texture" id=16]
-[ext_resource path="res://lobby/hud/galacticoin_5.png" type="Texture" id=17]
-[ext_resource path="res://lobby/hud/galacticoin_7.png" type="Texture" id=18]
-[ext_resource path="res://lobby/hud/galacticoin.png" type="Texture" id=19]
+[ext_resource path="res://lobby/page/battle/chest_open.gd" type="Script" id=1]
+[ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=4]
+[ext_resource path="res://lobby/resource/background_gradation.png" type="Texture" id=5]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=6]
+[ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=7]
+[ext_resource path="res://lobby/page/card/item.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
+[ext_resource path="res://lobby/page/battle/test_2.png" type="Texture" id=10]
+[ext_resource path="res://game/bg/cloud_2.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/light.png" type="Texture" id=12]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://lobby/hud/galacticoin_1.png" type="Texture" id=14]
+[ext_resource path="res://lobby/hud/galacticoin_2.png" type="Texture" id=15]
+[ext_resource path="res://lobby/hud/galacticoin_3.png" type="Texture" id=16]
+[ext_resource path="res://lobby/hud/galacticoin_4.png" type="Texture" id=17]
+[ext_resource path="res://lobby/hud/galacticoin_5.png" type="Texture" id=18]
+[ext_resource path="res://lobby/hud/galacticoin_7.png" type="Texture" id=19]
+[ext_resource path="res://lobby/hud/galacticoin.png" type="Texture" id=20]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=21]
 
 [sub_resource type="Curve" id=1]
 
@@ -29,26 +31,26 @@ _data = [ Vector2( 0, 0.984 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5176 ), 0.0, 0.0, 0
 offsets = PoolRealArray( 0.00877193, 0.649123, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.40651 )
 
-[sub_resource type="CanvasItemMaterial" id=31]
+[sub_resource type="CanvasItemMaterial" id=3]
 
 blend_mode = 1
 
-[sub_resource type="StreamTexture" id=32]
+[sub_resource type="StreamTexture" id=4]
 
 flags = 4
 load_path = "res://.import/card_back.png-59db4f7083e0f477f7a017f26d2b5a98.stex"
 
-[sub_resource type="Curve" id=33]
+[sub_resource type="Curve" id=5]
 
 _data = [ Vector2( 0, 0.6408 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=34]
+[sub_resource type="Gradient" id=6]
 
 colors = PoolColorArray( 1, 1, 1, 1, 0, 0.0625, 1, 0.132588 )
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=7]
 
-resource_name = "changed1"
+resource_name = "changed"
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -147,10 +149,21 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=8]
 
-resource_name = "default"
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -238,9 +251,9 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=9]
 
-resource_name = "open1"
+resource_name = "show"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -340,9 +353,9 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=10]
 
-resource_name = "changed2"
+resource_name = "changed"
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -441,10 +454,21 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=11]
 
-resource_name = "default"
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -532,9 +556,9 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=12]
 
-resource_name = "open2"
+resource_name = "show"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -634,9 +658,9 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=13]
 
-resource_name = "changed3"
+resource_name = "changed"
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -735,10 +759,21 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=14]
 
-resource_name = "default"
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -826,9 +861,9 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=15]
 
-resource_name = "open3"
+resource_name = "show"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -928,9 +963,9 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=16]
 
-resource_name = "changed4"
+resource_name = "changed"
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -1029,10 +1064,21 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=17]
 
-resource_name = "default"
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -1120,9 +1166,9 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=18]
 
-resource_name = "open4"
+resource_name = "show"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -1222,9 +1268,9 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=19]
 
-resource_name = "changed5"
+resource_name = "changed"
 length = 0.7
 step = 0.05
 tracks/0/type = "value"
@@ -1323,10 +1369,21 @@ tracks/7/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=20]
 
-resource_name = "default"
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -1414,9 +1471,9 @@ tracks/6/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=21]
 
-resource_name = "open5"
+resource_name = "show"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -1516,60 +1573,59 @@ tracks/7/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Curve" id=15]
+[sub_resource type="Curve" id=22]
 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5088 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=16]
+[sub_resource type="Gradient" id=23]
 
 offsets = PoolRealArray( 0.407895, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.174471 )
 
-[sub_resource type="DynamicFont" id=36]
+[sub_resource type="DynamicFont" id=24]
 
 size = 24
 use_filter = true
-font_data = ExtResource( 12 )
+font_data = ExtResource( 13 )
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=25]
 
 size = 55
 outline_size = 4
 outline_color = Color( 0.329412, 0.231373, 0, 1 )
 use_filter = true
-font_data = ExtResource( 12 )
+font_data = ExtResource( 13 )
 
-[sub_resource type="SpriteFrames" id=18]
+[sub_resource type="SpriteFrames" id=26]
 
 animations = [ {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ) ],
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "galacticoin",
 "speed": 10.0
 } ]
 
-[sub_resource type="Curve" id=19]
+[sub_resource type="Curve" id=27]
 
 _data = [ Vector2( 0, 0.8256 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6496 ), 0.198045, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=20]
+[sub_resource type="Gradient" id=28]
 
 offsets = PoolRealArray( 0, 0.00438596, 0.785088, 1 )
 colors = PoolColorArray( 0, 0, 0, 0, 0.0833333, 0.0833333, 0.0833333, 0.0833333, 1, 1, 1, 1, 0.0514184, 0.0514184, 0.0514184, 0.0514184 )
 
-[sub_resource type="Curve" id=21]
+[sub_resource type="Curve" id=29]
 
 _data = [ Vector2( 0, 0.984 ), 0.0, -3.14096, 0, 0, Vector2( 1, 0.0951999 ), -4.75795, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=22]
+[sub_resource type="Gradient" id=30]
 
 colors = PoolColorArray( 1, 0.662781, 0.136719, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=31]
 
-resource_name = "coin"
 tracks/0/type = "value"
-tracks/0/path = NodePath("GalacticCoinSlot2/Galacticoin/CPUParticles2D:emitting")
+tracks/0/path = NodePath("Slot/Galacticoin/CPUParticles2D:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1581,7 +1637,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("GalacticCoinSlot2/Galacticoin/Sprite:emitting")
+tracks/1/path = NodePath("Slot/Galacticoin/Sprite:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1593,12 +1649,11 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=32]
 
-resource_name = "default"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("GalacticCoinSlot2/Galacticoin:position")
+tracks/0/path = NodePath("Slot/Galacticoin:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1610,7 +1665,7 @@ tracks/0/keys = {
 "values": [ Vector2( 112, 678 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("GalacticCoinSlot2/Galacticoin:rotation_degrees")
+tracks/1/path = NodePath("Slot/Galacticoin:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1622,7 +1677,7 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("GalacticCoinSlot2/Galacticoin:scale")
+tracks/2/path = NodePath("Slot/Galacticoin:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1634,7 +1689,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("GalacticCoinSlot2/Galacticoin:visible")
+tracks/3/path = NodePath("Slot/Galacticoin:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1646,7 +1701,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("GalacticCoinSlot2/Galacticoin:modulate")
+tracks/4/path = NodePath("Slot/Galacticoin:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1658,9 +1713,9 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=33]
 
-resource_name = "boxopen"
+resource_name = "open2"
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -1723,53 +1778,660 @@ tracks/4/keys = {
 "values": [ true ]
 }
 tracks/5/type = "animation"
-tracks/5/path = NodePath("Control/Item1/Ani1")
+tracks/5/path = NodePath("Control/Card1/AnimationPlayer")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"clips": PoolStringArray( "changed1" ),
+"clips": PoolStringArray( "changed" ),
 "times": PoolRealArray( 1.9 )
 }
 tracks/6/type = "animation"
-tracks/6/path = NodePath("Control/Item2/Ani2")
+tracks/6/path = NodePath("Control/Card2/AnimationPlayer")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"clips": PoolStringArray( "changed2" ),
+"clips": PoolStringArray( "changed" ),
 "times": PoolRealArray( 2 )
 }
-tracks/7/type = "animation"
-tracks/7/path = NodePath("Control/Item3/Ani3")
+tracks/7/type = "value"
+tracks/7/path = NodePath("Coin:rect_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"clips": PoolStringArray( "changed3" ),
-"times": PoolRealArray( 2.1 )
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
-tracks/8/type = "animation"
-tracks/8/path = NodePath("Control/Item4/Ani4")
+tracks/8/type = "value"
+tracks/8/path = NodePath("Coin:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"clips": PoolStringArray( "changed4" ),
-"times": PoolRealArray( 2.2 )
+"times": PoolRealArray( 0, 1.6, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
 }
-tracks/9/type = "animation"
-tracks/9/path = NodePath("Control/Item5/Ani5")
+tracks/9/type = "value"
+tracks/9/path = NodePath("Coin:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"clips": PoolStringArray( "changed5" ),
+"times": PoolRealArray( 1.6, 2.2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("CPUParticles2D:emitting")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Control/Card1:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Control/Card2:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Control/Card3:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Control/Card4:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Control/Card5:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=34]
+
+resource_name = "open3"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0.996078 ), Color( 1, 0.478431, 0.341176, 0.996078 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 600, 1920 ), Vector2( 600, 1920 ), Vector2( 1080, 1920 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 240, 0 ), Vector2( 240, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Box/Green/Box:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Box/Green/Box:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/5/type = "animation"
+tracks/5/path = NodePath("Control/Card1/AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 1.9 )
+}
+tracks/6/type = "animation"
+tracks/6/path = NodePath("Control/Card2/AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2 )
+}
+tracks/7/type = "animation"
+tracks/7/path = NodePath("Control/Card3/AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2.1 )
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Coin:rect_position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Coin:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1.6, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Coin:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 1.6, 2.2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("CPUParticles2D:emitting")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Control/Card1:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Control/Card2:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Control/Card3:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Control/Card4:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Control/Card5:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=35]
+
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0.996078 ), Color( 1, 0.478431, 0.341176, 0.996078 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 600, 1920 ), Vector2( 600, 1920 ), Vector2( 1080, 1920 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 240, 0 ), Vector2( 240, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Box/Green/Box:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Box/Green/Box:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/5/type = "animation"
+tracks/5/path = NodePath("Control/Card1/AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 1.9 )
+}
+tracks/6/type = "animation"
+tracks/6/path = NodePath("Control/Card2/AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2 )
+}
+tracks/7/type = "animation"
+tracks/7/path = NodePath("Control/Card3/AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2.1 )
+}
+tracks/8/type = "animation"
+tracks/8/path = NodePath("Control/Card4/AnimationPlayer")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2.2 )
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Coin:rect_position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Coin:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 1.6, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Coin:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 1.6, 2.2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("CPUParticles2D:emitting")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Control/Card1:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Control/Card2:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Control/Card3:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Control/Card4:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Control/Card5:visible")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=36]
+
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0 ), Color( 1, 0.478431, 0.341176, 0.996078 ), Color( 1, 0.478431, 0.341176, 0.996078 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 600, 1920 ), Vector2( 600, 1920 ), Vector2( 1080, 1920 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Light:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 240, 0 ), Vector2( 240, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Box/Green/Box:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Box/Green/Box:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/5/type = "animation"
+tracks/5/path = NodePath("Control/Card1/AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 1.9 )
+}
+tracks/6/type = "animation"
+tracks/6/path = NodePath("Control/Card2/AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2 )
+}
+tracks/7/type = "animation"
+tracks/7/path = NodePath("Control/Card3/AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2.1 )
+}
+tracks/8/type = "animation"
+tracks/8/path = NodePath("Control/Card4/AnimationPlayer")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"clips": PoolStringArray( "changed" ),
+"times": PoolRealArray( 2.2 )
+}
+tracks/9/type = "animation"
+tracks/9/path = NodePath("Control/Card5/AnimationPlayer")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"clips": PoolStringArray( "changed" ),
 "times": PoolRealArray( 2.3 )
 }
 tracks/10/type = "value"
@@ -1809,62 +2471,76 @@ tracks/12/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Coin/GalacticCoinSlot2/Galacticoin:position")
+tracks/13/path = NodePath("CPUParticles2D:emitting")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 112, 678 ) ]
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Coin/GalacticCoinSlot2/Galacticoin:scale")
+tracks/14/path = NodePath("Control/Card1:visible")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 3 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Coin/GalacticCoinSlot2/Galacticoin:modulate")
+tracks/15/path = NodePath("Control/Card2:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 3 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
-tracks/16/type = "animation"
-tracks/16/path = NodePath("Coin/CoinAni")
+tracks/16/type = "value"
+tracks/16/path = NodePath("Control/Card3:visible")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"clips": PoolStringArray( "default", "coin" ),
-"times": PoolRealArray( 0, 1.3 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("CPUParticles2D:emitting")
+tracks/17/path = NodePath("Control/Card4:visible")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Control/Card5:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [node name="ChestOpen" type="Control"]
@@ -1876,6 +2552,15 @@ margin_left = -540.0
 margin_top = -960.0
 margin_right = 540.0
 margin_bottom = 960.0
+script = ExtResource( 1 )
+gold_label = NodePath("Coin/Slot/Amount")
+cash_label = NodePath("Cash/Slot/Amount")
+card1 = NodePath("Control/Card1")
+card2 = NodePath("Control/Card2")
+card3 = NodePath("Control/Card3")
+card4 = NodePath("Control/Card4")
+card5 = NodePath("Control/Card5")
+open_anim = NodePath("BoxopenAni")
 
 [node name="Tile" type="TextureRect" parent="."]
 anchor_left = 0.5
@@ -1884,11 +2569,12 @@ margin_left = -720.0
 margin_right = 720.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 1440, 600 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 stretch_mode = 2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2( 543, 1751 )
+emitting = false
 amount = 30
 lifetime = 2.5
 speed_scale = 0.5
@@ -1896,6 +2582,7 @@ emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, -300 )
+angular_velocity = 4.58491e-41
 radial_accel = 270.0
 radial_accel_random = 1.0
 scale_amount = 10.0
@@ -1903,14 +2590,14 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
 [node name="Light" type="TextureRect" parent="."]
-modulate = Color( 1, 0.478431, 0.341176, 0.996078 )
-material = ExtResource( 2 )
+modulate = Color( 1, 0.478431, 0.341176, 0 )
+material = ExtResource( 3 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -540.0
-margin_right = 540.0
+margin_left = -300.0
+margin_right = 300.0
 margin_bottom = 1920.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -1920,7 +2607,7 @@ margin_left = -720.0
 margin_right = 720.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 1440, 600 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 2
 
 [node name="TextureRect2" type="TextureRect" parent="."]
@@ -1930,16 +2617,15 @@ margin_left = -720.0
 margin_top = 1578.0
 margin_right = 720.0
 margin_bottom = 1920.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 expand = true
 
 [node name="Control" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1920.0
 
-[node name="Item1" type="Button" parent="Control"]
-editor/display_folded = true
+[node name="Card1" type="Button" parent="Control"]
+visible = false
 margin_left = 88.0
 margin_top = 130.0
 margin_right = 338.0
@@ -1949,55 +2635,45 @@ rect_scale = Vector2( 1.3, 1.3 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
-[node name="Cardemission1" type="CPUParticles2D" parent="Control/Item1"]
-material = SubResource( 31 )
+[node name="Cardemission1" type="CPUParticles2D" parent="Control/Card1"]
+material = SubResource( 3 )
 position = Vector2( 124.333, 146.333 )
 emitting = false
 amount = 4
 lifetime = 2.0
-texture = SubResource( 32 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )
+angular_velocity = -1.46996e+12
 scale_amount = 1.3
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
-[node name="Light2D" type="Light2D" parent="Control/Item1"]
+[node name="Light2D" type="Light2D" parent="Control/Card1"]
 position = Vector2( 125.377, 149.671 )
 scale = Vector2( 1.3, 1.3 )
 enabled = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 energy = 0.01
 
-[node name="Cover" type="TextureRect" parent="Control/Item1"]
+[node name="Cover" type="TextureRect" parent="Control/Card1"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
-[node name="Ani1" type="AnimationPlayer" parent="Control/Item1"]
-anims/changed1 = SubResource( 35 )
-anims/default = SubResource( 4 )
-anims/open1 = SubResource( 26 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Card1"]
+anims/changed = SubResource( 7 )
+anims/default = SubResource( 8 )
+anims/show = SubResource( 9 )
 
-[node name="Item" parent="Control/Item1" instance=ExtResource( 7 )]
+[node name="Item" parent="Control/Card1" instance=ExtResource( 8 )]
 visible = false
 margin_left = 0.384617
 margin_top = -0.923088
 margin_right = 250.385
 margin_bottom = 329.077
-icon = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/Control/Icon")
-base = NodePath("../../../../ChestOpen/Control/Item1/Item/Base")
-icon = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/Control/Icon")
-frame = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/Control/Frame")
-cost_label = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/Control/Energy/Label")
-level_label = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/Control/Lv")
-holding_progress = NodePath("../../../../ChestOpen/Control/Item1/Item/HoldingBar/TextureProgress")
-holding_label = NodePath("../../../../ChestOpen/Control/Item1/Item/HoldingBar/Label")
-pressed_btn_guide = NodePath("../../../../ChestOpen/Control/Item1/Item/Position2D")
-base_animation_player = NodePath("../../../../ChestOpen/Control/Item1/Item/Base/AnimationPlayer")
-animation_player = NodePath("../../../../ChestOpen/Control/Item1/Item/AnimationPlayer")
 
-[node name="Item2" type="Button" parent="Control"]
-editor/display_folded = true
+[node name="Card2" type="Button" parent="Control"]
+visible = false
 margin_left = 729.0
 margin_top = 130.0
 margin_right = 979.0
@@ -2007,55 +2683,45 @@ rect_scale = Vector2( 1.3, 1.3 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
-[node name="Cardemission2" type="CPUParticles2D" parent="Control/Item2"]
-material = SubResource( 31 )
+[node name="Cardemission2" type="CPUParticles2D" parent="Control/Card2"]
+material = SubResource( 3 )
 position = Vector2( 124.333, 146.333 )
 emitting = false
 amount = 4
 lifetime = 2.0
-texture = SubResource( 32 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )
+angular_velocity = 1.55544e-43
 scale_amount = 1.3
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
-[node name="Light2D" type="Light2D" parent="Control/Item2"]
+[node name="Light2D" type="Light2D" parent="Control/Card2"]
 position = Vector2( 125.377, 149.671 )
 scale = Vector2( 1.3, 1.3 )
 enabled = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 energy = 0.01
 
-[node name="Cover" type="TextureRect" parent="Control/Item2"]
+[node name="Cover" type="TextureRect" parent="Control/Card2"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
-[node name="Ani2" type="AnimationPlayer" parent="Control/Item2"]
-anims/changed2 = SubResource( 6 )
-anims/default = SubResource( 7 )
-anims/open2 = SubResource( 27 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Card2"]
+anims/changed = SubResource( 10 )
+anims/default = SubResource( 11 )
+anims/show = SubResource( 12 )
 
-[node name="Item" parent="Control/Item2" instance=ExtResource( 7 )]
+[node name="Item" parent="Control/Card2" instance=ExtResource( 8 )]
 visible = false
 margin_left = -0.384766
 margin_top = -0.923088
 margin_right = 249.615
 margin_bottom = 329.077
-icon = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/Control/Icon")
-base = NodePath("../../../../ChestOpen/Control/Item2/Item/Base")
-icon = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/Control/Icon")
-frame = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/Control/Frame")
-cost_label = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/Control/Energy/Label")
-level_label = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/Control/Lv")
-holding_progress = NodePath("../../../../ChestOpen/Control/Item2/Item/HoldingBar/TextureProgress")
-holding_label = NodePath("../../../../ChestOpen/Control/Item2/Item/HoldingBar/Label")
-pressed_btn_guide = NodePath("../../../../ChestOpen/Control/Item2/Item/Position2D")
-base_animation_player = NodePath("../../../../ChestOpen/Control/Item2/Item/Base/AnimationPlayer")
-animation_player = NodePath("../../../../ChestOpen/Control/Item2/Item/AnimationPlayer")
 
-[node name="Item3" type="Button" parent="Control"]
-editor/display_folded = true
+[node name="Card3" type="Button" parent="Control"]
+visible = false
 margin_left = 88.0
 margin_top = 750.0
 margin_right = 338.0
@@ -2065,56 +2731,45 @@ rect_scale = Vector2( 1.3, 1.3 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
-[node name="Cardemission3" type="CPUParticles2D" parent="Control/Item3"]
-material = SubResource( 31 )
+[node name="Cardemission3" type="CPUParticles2D" parent="Control/Card3"]
+material = SubResource( 3 )
 position = Vector2( 124.333, 146.333 )
 emitting = false
 amount = 4
 lifetime = 2.0
-texture = SubResource( 32 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 0.01
 scale_amount = 1.3
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
-[node name="Light2D" type="Light2D" parent="Control/Item3"]
+[node name="Light2D" type="Light2D" parent="Control/Card3"]
 position = Vector2( 125.377, 149.671 )
 scale = Vector2( 1.3, 1.3 )
 enabled = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 energy = 0.01
 
-[node name="Cover" type="TextureRect" parent="Control/Item3"]
+[node name="Cover" type="TextureRect" parent="Control/Card3"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
-[node name="Ani3" type="AnimationPlayer" parent="Control/Item3"]
-anims/changed3 = SubResource( 8 )
-anims/default = SubResource( 9 )
-anims/open3 = SubResource( 28 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Card3"]
+anims/changed = SubResource( 13 )
+anims/default = SubResource( 14 )
+anims/show = SubResource( 15 )
 
-[node name="Item" parent="Control/Item3" instance=ExtResource( 7 )]
+[node name="Item" parent="Control/Card3" instance=ExtResource( 8 )]
 visible = false
 margin_left = -0.384617
 margin_top = -0.923157
 margin_right = 249.615
 margin_bottom = 329.077
-icon = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/Control/Icon")
-base = NodePath("../../../../ChestOpen/Control/Item3/Item/Base")
-icon = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/Control/Icon")
-frame = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/Control/Frame")
-cost_label = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/Control/Energy/Label")
-level_label = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/Control/Lv")
-holding_progress = NodePath("../../../../ChestOpen/Control/Item3/Item/HoldingBar/TextureProgress")
-holding_label = NodePath("../../../../ChestOpen/Control/Item3/Item/HoldingBar/Label")
-pressed_btn_guide = NodePath("../../../../ChestOpen/Control/Item3/Item/Position2D")
-base_animation_player = NodePath("../../../../ChestOpen/Control/Item3/Item/Base/AnimationPlayer")
-animation_player = NodePath("../../../../ChestOpen/Control/Item3/Item/AnimationPlayer")
 
-[node name="Item4" type="Button" parent="Control"]
-editor/display_folded = true
+[node name="Card4" type="Button" parent="Control"]
+visible = false
 margin_left = 729.0
 margin_top = 750.0
 margin_right = 979.0
@@ -2124,55 +2779,45 @@ rect_scale = Vector2( 1.3, 1.3 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
-[node name="Cardemission4" type="CPUParticles2D" parent="Control/Item4"]
-material = SubResource( 31 )
+[node name="Cardemission4" type="CPUParticles2D" parent="Control/Card4"]
+material = SubResource( 3 )
 position = Vector2( 124.333, 146.333 )
 emitting = false
 amount = 4
 lifetime = 2.0
-texture = SubResource( 32 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )
+angular_velocity = 0.0
 scale_amount = 1.3
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
-[node name="Light2D" type="Light2D" parent="Control/Item4"]
+[node name="Light2D" type="Light2D" parent="Control/Card4"]
 position = Vector2( 125.377, 149.671 )
 scale = Vector2( 1.3, 1.3 )
 enabled = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 energy = 0.01
 
-[node name="Cover" type="TextureRect" parent="Control/Item4"]
+[node name="Cover" type="TextureRect" parent="Control/Card4"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
-[node name="Ani4" type="AnimationPlayer" parent="Control/Item4"]
-anims/changed4 = SubResource( 10 )
-anims/default = SubResource( 11 )
-anims/open4 = SubResource( 29 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Card4"]
+anims/changed = SubResource( 16 )
+anims/default = SubResource( 17 )
+anims/show = SubResource( 18 )
 
-[node name="Item" parent="Control/Item4" instance=ExtResource( 7 )]
+[node name="Item" parent="Control/Card4" instance=ExtResource( 8 )]
 visible = false
 margin_left = -0.384766
 margin_top = -0.923157
 margin_right = 249.615
 margin_bottom = 329.077
-icon = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/Control/Icon")
-base = NodePath("../../../../ChestOpen/Control/Item4/Item/Base")
-icon = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/Control/Icon")
-frame = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/Control/Frame")
-cost_label = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/Control/Energy/Label")
-level_label = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/Control/Lv")
-holding_progress = NodePath("../../../../ChestOpen/Control/Item4/Item/HoldingBar/TextureProgress")
-holding_label = NodePath("../../../../ChestOpen/Control/Item4/Item/HoldingBar/Label")
-pressed_btn_guide = NodePath("../../../../ChestOpen/Control/Item4/Item/Position2D")
-base_animation_player = NodePath("../../../../ChestOpen/Control/Item4/Item/Base/AnimationPlayer")
-animation_player = NodePath("../../../../ChestOpen/Control/Item4/Item/AnimationPlayer")
 
-[node name="Item5" type="Button" parent="Control"]
-editor/display_folded = true
+[node name="Card5" type="Button" parent="Control"]
+visible = false
 margin_left = 409.0
 margin_top = 447.0
 margin_right = 659.0
@@ -2182,54 +2827,46 @@ rect_scale = Vector2( 1.3, 1.3 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
-[node name="Cardemission5" type="CPUParticles2D" parent="Control/Item5"]
-material = SubResource( 31 )
+[node name="Cardemission5" type="CPUParticles2D" parent="Control/Card5"]
+material = SubResource( 3 )
 position = Vector2( 124.333, 146.333 )
 emitting = false
 amount = 4
 lifetime = 2.0
-texture = SubResource( 32 )
+texture = SubResource( 4 )
 gravity = Vector2( 0, 0 )
+angular_velocity = 0.0
 scale_amount = 1.3
-scale_amount_curve = SubResource( 33 )
-color_ramp = SubResource( 34 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
-[node name="Light2D" type="Light2D" parent="Control/Item5"]
+[node name="Light2D" type="Light2D" parent="Control/Card5"]
 position = Vector2( 125.377, 149.671 )
 scale = Vector2( 1.3, 1.3 )
 enabled = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 energy = 0.01
 
-[node name="Cover" type="TextureRect" parent="Control/Item5"]
+[node name="Cover" type="TextureRect" parent="Control/Card5"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
-[node name="Ani5" type="AnimationPlayer" parent="Control/Item5"]
-anims/changed5 = SubResource( 12 )
-anims/default = SubResource( 13 )
-anims/open5 = SubResource( 30 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Card5"]
+anims/changed = SubResource( 19 )
+anims/default = SubResource( 20 )
+anims/show = SubResource( 21 )
 
-[node name="Item" parent="Control/Item5" instance=ExtResource( 7 )]
+[node name="Item" parent="Control/Card5" instance=ExtResource( 8 )]
 visible = false
 margin_left = 0.384644
 margin_top = -0.923035
 margin_right = 250.385
 margin_bottom = 329.077
-icon = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/Control/Icon")
-base = NodePath("../../../../ChestOpen/Control/Item5/Item/Base")
-icon = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/Control/Icon")
-frame = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/Control/Frame")
-cost_label = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/Control/Energy/Label")
-level_label = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/Control/Lv")
-holding_progress = NodePath("../../../../ChestOpen/Control/Item5/Item/HoldingBar/TextureProgress")
-holding_label = NodePath("../../../../ChestOpen/Control/Item5/Item/HoldingBar/Label")
-pressed_btn_guide = NodePath("../../../../ChestOpen/Control/Item5/Item/Position2D")
-base_animation_player = NodePath("../../../../ChestOpen/Control/Item5/Item/Base/AnimationPlayer")
-animation_player = NodePath("../../../../ChestOpen/Control/Item5/Item/AnimationPlayer")
+page_card = null
 
 [node name="Box" type="Control" parent="."]
+editor/display_folded = true
 margin_left = 240.0
 margin_top = 1391.0
 margin_right = 829.0
@@ -2245,19 +2882,20 @@ __meta__ = {
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 255, 365 )
 scale = Vector2( 28.375, 8.875 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Box" type="TextureRect" parent="Box/Green"]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = 1.0
 margin_top = 35.0
 margin_right = 269.0
 margin_bottom = 235.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Light2D" type="Light2D" parent="Box/Green/Box"]
 position = Vector2( 129, -400 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 texture_scale = 20.0
 color = Color( 0, 0, 0, 1 )
 energy = 3.0
@@ -2266,7 +2904,7 @@ energy = 3.0
 position = Vector2( 187, 74.5 )
 emitting = false
 amount = 12
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 60.0
@@ -2277,102 +2915,150 @@ linear_accel = 20.0
 linear_accel_random = 1.0
 radial_accel = 180.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 15 )
-color_ramp = SubResource( 16 )
+scale_amount_curve = SubResource( 22 )
+color_ramp = SubResource( 23 )
 
 [node name="Sprite" type="Sprite" parent="Box/Green/Box"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 153, 51.5 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Coin" type="Control" parent="."]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0.5 )
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="GalacticCoinSlot2" type="Control" parent="Coin"]
+[node name="Slot" type="Control" parent="Coin"]
+editor/display_folded = true
 margin_left = 251.0
 margin_top = 564.0
 margin_right = 291.0
 margin_bottom = 604.0
 
-[node name="InputForm3" type="TextureRect" parent="Coin/GalacticCoinSlot2"]
+[node name="Form" type="TextureRect" parent="Coin/Slot"]
 self_modulate = Color( 0.980392, 0.431373, 0.0666667, 0.580392 )
 margin_left = -251.0
 margin_top = 617.0
 margin_right = 829.0
 margin_bottom = 711.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 
-[node name="Galacticoin2" type="Label" parent="Coin/GalacticCoinSlot2"]
+[node name="Name" type="Label" parent="Coin/Slot"]
 margin_left = 190.0
 margin_top = 622.0
 margin_right = 386.0
 margin_bottom = 652.0
-custom_fonts/font = SubResource( 36 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 0.235294, 0.235294, 0.235294, 1 )
 text = "GALACTICOIN"
 
-[node name="Label" type="Label" parent="Coin/GalacticCoinSlot2"]
+[node name="Amount" type="Label" parent="Coin/Slot"]
 margin_left = 157.0
 margin_top = 645.0
 margin_right = 558.0
 margin_bottom = 712.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 25 )
 text = "+9999"
 
-[node name="Galacticoin" type="Node2D" parent="Coin/GalacticCoinSlot2"]
+[node name="Galacticoin" type="Node2D" parent="Coin/Slot"]
+editor/display_folded = true
 position = Vector2( 112, 678 )
 
-[node name="Coin" type="AnimatedSprite" parent="Coin/GalacticCoinSlot2/Galacticoin"]
+[node name="Coin" type="AnimatedSprite" parent="Coin/Slot/Galacticoin"]
 position = Vector2( 2, -5 )
-frames = SubResource( 18 )
+frames = SubResource( 26 )
 animation = "galacticoin"
-frame = 9
 playing = true
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/GalacticCoinSlot2/Galacticoin"]
-material = ExtResource( 2 )
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
+material = ExtResource( 3 )
 position = Vector2( 184, 92 )
 emitting = false
 amount = 6
 preprocess = 1.0
 speed_scale = 2.0
 randomness = 1.0
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( -100, -300 )
-angular_velocity = 2.83772e+020
+angular_velocity = 2.83772e+20
 radial_accel = 90.0
 tangential_accel = -10.0
 angle = 20.0
 angle_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 19 )
-color_ramp = SubResource( 20 )
+scale_amount_curve = SubResource( 27 )
+color_ramp = SubResource( 28 )
 
-[node name="Sprite" type="CPUParticles2D" parent="Coin/GalacticCoinSlot2/Galacticoin"]
-material = ExtResource( 2 )
+[node name="Sprite" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
+material = ExtResource( 3 )
 emitting = false
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
-angular_velocity = -2.91649e-040
+angular_velocity = -2.91649e-40
 radial_accel = 20.0
 radial_accel_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 21 )
-color_ramp = SubResource( 22 )
+scale_amount_curve = SubResource( 29 )
+color_ramp = SubResource( 30 )
 
 [node name="CoinAni" type="AnimationPlayer" parent="Coin"]
-anims/coin = SubResource( 23 )
-anims/default = SubResource( 24 )
+anims/coin = SubResource( 31 )
+anims/default = SubResource( 32 )
+
+[node name="Cash" type="Control" parent="."]
+margin_top = 100.0
+margin_right = 40.0
+margin_bottom = 140.0
+
+[node name="Slot" type="Control" parent="Cash"]
+editor/display_folded = true
+margin_left = 251.0
+margin_top = 564.0
+margin_right = 291.0
+margin_bottom = 604.0
+
+[node name="Form" type="TextureRect" parent="Cash/Slot"]
+self_modulate = Color( 0.980392, 0.431373, 0.0666667, 0.580392 )
+margin_left = -251.0
+margin_top = 617.0
+margin_right = 829.0
+margin_bottom = 711.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="Name" type="Label" parent="Cash/Slot"]
+margin_left = 190.0
+margin_top = 622.0
+margin_right = 386.0
+margin_bottom = 652.0
+custom_fonts/font = SubResource( 24 )
+custom_colors/font_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+text = "DIMENSIUM"
+
+[node name="Amount" type="Label" parent="Cash/Slot"]
+margin_left = 157.0
+margin_top = 645.0
+margin_right = 558.0
+margin_bottom = 712.0
+custom_fonts/font = SubResource( 25 )
+text = "+9999"
+
+[node name="Dimensium" parent="Cash/Slot" instance=ExtResource( 21 )]
+position = Vector2( 112, 678 )
 
 [node name="BoxopenAni" type="AnimationPlayer" parent="."]
-anims/boxopen = SubResource( 25 )
+anims/open2 = SubResource( 33 )
+anims/open3 = SubResource( 34 )
+anims/open4 = SubResource( 35 )
+anims/open5 = SubResource( 36 )
 
