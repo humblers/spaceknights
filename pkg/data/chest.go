@@ -26,17 +26,17 @@ type Chest struct {
 }
 
 type ChestInfo struct {
-	Name           string
+	Name           string `json:"-"`
 	Duration       int64
 	Price          int
-	MinCash        int
-	MaxCash        int
-	MinGoldPerCard int
-	MaxGoldPerCard int
-	NumCards       [ArenaCount]int
-	Guaranteed     map[CardRarity][ArenaCount]int
-	ExtraCards     map[CardRarity][ArenaCount]float64
-	BundleMin      int
+	MinCash        int                                `json:"-"`
+	MaxCash        int                                `json:"-"`
+	MinGoldPerCard int                                `json:"-"`
+	MaxGoldPerCard int                                `json:"-"`
+	NumCards       [ArenaCount]int                    `json:"-"`
+	Guaranteed     map[CardRarity][ArenaCount]int     `json:"-"`
+	ExtraCards     map[CardRarity][ArenaCount]float64 `json:"-"`
+	BundleMin      int                                `json:"-"`
 }
 
 func (c *Chest) String() string {
@@ -47,7 +47,7 @@ func (c *Chest) String() string {
 	return string(b)
 }
 
-var ChestMap = map[string]ChestInfo{
+var Chests = map[string]ChestInfo{
 	"Silver": ChestInfo{
 		Name:           "Silver",
 		Duration:       3600 * 3,
@@ -81,7 +81,7 @@ var ChestMap = map[string]ChestInfo{
 		BundleMin: 3,
 	},
 	"Diamond": ChestInfo{
-		Name:           "Diamon",
+		Name:           "Diamond",
 		Duration:       3600 * 12,
 		Price:          250,
 		MinGoldPerCard: 5,

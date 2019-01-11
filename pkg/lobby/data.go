@@ -12,6 +12,8 @@ import (
 
 var cards_raw string
 var units_raw string
+var chests_raw string
+var chestorder_raw string
 
 type dataRouter struct {
 	*Router
@@ -31,6 +33,16 @@ func NewDataRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Hand
 		panic(fmt.Errorf("Data initialize fail: %v", err))
 	}
 	units_raw = string(b)
+	b, err = json.Marshal(data.Chests)
+	if err != nil {
+		panic(fmt.Errorf("Data initialize fail: %v", err))
+	}
+	chests_raw = string(b)
+	b, err = json.Marshal(data.ChestOrder)
+	if err != nil {
+		panic(fmt.Errorf("Data initialize fail: %v", err))
+	}
+	chestorder_raw = string(b)
 
 	d := &dataRouter{
 		Router: &Router{
@@ -43,6 +55,8 @@ func NewDataRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Hand
 	d.Post("cards", d.cards)
 	d.Post("units", d.units)
 	d.Post("upgrade", d.upgrade)
+	d.Post("chests", d.chests)
+	d.Post("chestorder", d.chestorder)
 	return path, http.TimeoutHandler(d, TimeoutDefault, TimeoutMessage)
 }
 
@@ -56,4 +70,11 @@ func (d *dataRouter) units(b *bases, w http.ResponseWriter, r *http.Request) {
 
 func (d *dataRouter) upgrade(b *bases, w http.ResponseWriter, r *http.Request) {
 	b.response = &DataResponse{Data: data.Upgrade.String()}
+}
+
+func (d *dataRouter) chests(b *bases, w http.ResponseWriter, r *http.Request) {
+	b.response = &DataResponse{Data: chests_raw}
+}
+func (d *dataRouter) chestorder(b *bases, w http.ResponseWriter, r *http.Request) {
+	b.response = &DataResponse{Data: chestorder_raw}
 }

@@ -30,7 +30,7 @@ func invalidate():
 
 func time_left():
 	assert(chest)
-	return int(chest.AcquiredAt) + data.ChestMap[chest.Name].Duration - OS.get_unix_time()
+	return int(chest.AcquiredAt) + data.Chests[chest.Name].Duration - OS.get_unix_time()
 
 func open():
 	if chest == null:
