@@ -234,8 +234,9 @@ func OpenChest(r *rand.Rand, name string, arena data.Arena) (int, int, map[strin
 
 // temporary api. must remove before production level
 type ChestNewRequest struct {
-	Name string
-	Rank int
+	Name  string
+	Rank  int
+	Chest string
 }
 
 func (c *chestRouter) newChest(b *bases, w http.ResponseWriter, r *http.Request) {
@@ -259,10 +260,16 @@ func (c *chestRouter) newChest(b *bases, w http.ResponseWriter, r *http.Request)
 			var chest *data.Chest
 			json.Unmarshal(v.([]byte), &chest)
 			if chest == nil { // empty slot
-				key_order := fmt.Sprintf("%v:battle-chest-order", b.uid)
-				order, _ := redis.Int(rc.Do("GET", key_order))
-				order = order % len(data.ChestOrder)
-				name := data.ChestOrder[order]
+				name := req.Chest
+				if name != "Silver" && name != "Gold" && name != "D-Matter" && name != "Diamond" {
+					key_order := fmt.Sprintf("%v:battle-chest-order", b.uid)
+					order, _ := redis.Int(rc.Do("GET", key_order))
+					order = order % len(data.ChestOrder)
+					name = data.ChestOrder[order]
+					if _, err := rc.Do("INCR", key_order); err != nil {
+						c.logger.Print(err)
+					}
+				}
 				time := time.Now().Unix()
 				chest := &data.Chest{
 					Name:         name,
