@@ -4,6 +4,8 @@ const DECK_COUNT = 5
 const KNIGHT_SIDES = ["center", "left", "right"]
 const SQUIRE_COUNT = 6
 
+var request_new_chest = false
+
 var http_cookie_str
 
 var PlatformId

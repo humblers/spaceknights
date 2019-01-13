@@ -22,6 +22,7 @@ func _ready():
 		print("connect to lobby fail: ", err)
 		http_manager.handle_error("Connect to lobby fail!!")
 		return
+	requestNewChest()
 	load_data()
 
 func load_data():
@@ -65,3 +66,16 @@ func Invalidate():
 	hud.invalidate()
 	page_battle.invalidate()
 	page_card.Invalidate()
+
+func requestNewChest():
+	if not user.request_new_chest:
+		return
+	user.request_new_chest = false
+	var req = http_manager.new_request(
+			HTTPClient.METHOD_POST, 
+			"/chest/new",
+			{ "Name": "Battle", "Rank": user.Rank })
+	var response = yield(req, "response")
+	if not response[0]:
+		http_manager.handle_error(response[1].ErrMessage)
+		return
