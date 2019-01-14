@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://lobby/hud/hud.gd" type="Script" id=1]
 [ext_resource path="res://lobby/dialog/card_info/card_info.tscn" type="PackedScene" id=2]
@@ -35,16 +35,17 @@
 [ext_resource path="res://lobby/hud/shop_hover.png" type="Texture" id=33]
 [ext_resource path="res://lobby/dialog/modal.tscn" type="PackedScene" id=34]
 [ext_resource path="res://lobby/dialog/config.gd" type="Script" id=35]
-[ext_resource path="res://lobby/page/card/card_btn_expansion.png" type="Texture" id=36]
-[ext_resource path="res://lobby/dialog/close_btn_nor.png" type="Texture" id=37]
-[ext_resource path="res://lobby/dialog/close_btn_ov.png" type="Texture" id=38]
-[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=39]
-[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=40]
-[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=41]
-[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=42]
-[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tscn" type="PackedScene" id=43]
-[ext_resource path="res://lobby/page/shop/chest_info.tscn" type="PackedScene" id=44]
-[ext_resource path="res://lobby/page/battle/chest_open.tscn" type="PackedScene" id=45]
+[ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=36]
+[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=37]
+[ext_resource path="res://lobby/dialog/close_btn_nor.png" type="Texture" id=38]
+[ext_resource path="res://lobby/dialog/close_btn_ov.png" type="Texture" id=39]
+[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=40]
+[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=41]
+[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=42]
+[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=43]
+[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tscn" type="PackedScene" id=44]
+[ext_resource path="res://lobby/page/shop/chest_info.tscn" type="PackedScene" id=45]
+[ext_resource path="res://lobby/page/battle/chest_open.tscn" type="PackedScene" id=46]
 
 [sub_resource type="ImageTexture" id=1]
 
@@ -509,13 +510,14 @@ margin_right = 509.0
 margin_bottom = 334.0
 rect_min_size = Vector2( 1000, 600 )
 script = ExtResource( 35 )
-hud = NodePath("..")
-close_btn = NodePath("MarginContainer/Close")
-auth_btn = NodePath("MarginContainer/Account/Change")
-auth_label = NodePath("MarginContainer/Account/PID")
-auth_line_edit = NodePath("MarginContainer/Account/PIDEdit")
+hud = NodePath("")
+close_btn = NodePath("PopupBG/Close")
+auth_btn = NodePath("PopupBG/Account/Change")
+auth_label = NodePath("PopupBG/Account/PID")
+auth_line_edit = NodePath("PopupBG/Account/PIDEdit")
 
-[node name="MarginContainer" type="NinePatchRect" parent="Config"]
+[node name="PopupBG" type="NinePatchRect" parent="Config"]
+self_modulate = Color( 0.2, 0.290196, 0.372549, 1 )
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 1015.0
@@ -527,30 +529,42 @@ patch_margin_top = 60
 patch_margin_right = 71
 patch_margin_bottom = 30
 
-[node name="Label" type="Label" parent="Config/MarginContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Config/PopupBG"]
+self_modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
+margin_left = 21.0
+margin_top = 26.0
+margin_right = 991.0
+margin_bottom = 566.0
+texture = ExtResource( 37 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 29
+patch_margin_top = 27
+patch_margin_right = 32
+patch_margin_bottom = 27
+
+[node name="Label" type="Label" parent="Config/PopupBG"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -473.0
+margin_left = -472.5
 margin_top = -262.0
-margin_right = 20.0
+margin_right = 382.5
 margin_bottom = -203.0
 custom_fonts/font = SubResource( 9 )
 text = "MASTER CONFIG"
-align = 1
 valign = 1
 
-[node name="Close" type="TextureButton" parent="Config/MarginContainer"]
+[node name="Close" type="TextureButton" parent="Config/PopupBG"]
 margin_left = 913.0
 margin_top = 36.0
 margin_right = 977.0
 margin_bottom = 100.0
-texture_normal = ExtResource( 37 )
-texture_pressed = ExtResource( 38 )
+texture_normal = ExtResource( 38 )
+texture_pressed = ExtResource( 39 )
 expand = true
 
-[node name="Account" type="Label" parent="Config/MarginContainer"]
+[node name="Account" type="Label" parent="Config/PopupBG"]
 margin_left = 39.0
 margin_top = 145.0
 margin_right = 203.0
@@ -561,7 +575,7 @@ text = "Cur PID:"
 align = 1
 valign = 1
 
-[node name="PID" type="Label" parent="Config/MarginContainer/Account"]
+[node name="PID" type="Label" parent="Config/PopupBG/Account"]
 margin_left = 174.0
 margin_right = 314.0
 margin_bottom = 39.0
@@ -571,7 +585,7 @@ text = "xxxxx"
 align = 1
 valign = 1
 
-[node name="PIDEdit" type="LineEdit" parent="Config/MarginContainer/Account"]
+[node name="PIDEdit" type="LineEdit" parent="Config/PopupBG/Account"]
 margin_left = -7.0
 margin_top = 68.0
 margin_right = 593.0
@@ -581,31 +595,31 @@ custom_fonts/font = SubResource( 11 )
 align = 1
 placeholder_text = "Place PID to change account"
 
-[node name="Change" type="TextureButton" parent="Config/MarginContainer/Account"]
+[node name="Change" type="TextureButton" parent="Config/PopupBG/Account"]
 margin_left = 598.0
 margin_top = 56.0
 margin_right = 924.0
 margin_bottom = 144.0
-texture_normal = ExtResource( 39 )
-texture_pressed = ExtResource( 40 )
-texture_hover = ExtResource( 41 )
+texture_normal = ExtResource( 40 )
+texture_pressed = ExtResource( 41 )
+texture_hover = ExtResource( 42 )
 expand = true
 
-[node name="Label" type="Label" parent="Config/MarginContainer/Account/Change"]
+[node name="Label" type="Label" parent="Config/PopupBG/Account/Change"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -124.0
-margin_top = -32.0
+margin_top = -30.0
 margin_right = 126.0
-margin_bottom = 27.0
+margin_bottom = 29.0
 custom_fonts/font = SubResource( 12 )
 text = "CHANGE"
 align = 1
 valign = 1
 
-[node name="Replay" type="Label" parent="Config/MarginContainer"]
+[node name="Replay" type="Label" parent="Config/PopupBG"]
 margin_left = 192.0
 margin_top = 379.0
 margin_right = 353.0
@@ -616,7 +630,7 @@ text = "Replay:"
 align = 1
 valign = 1
 
-[node name="ReplayEdit" type="LineEdit" parent="Config/MarginContainer/Replay"]
+[node name="ReplayEdit" type="LineEdit" parent="Config/PopupBG/Replay"]
 margin_left = -160.0
 margin_top = 71.0
 margin_right = 440.0
@@ -626,41 +640,40 @@ custom_fonts/font = SubResource( 13 )
 align = 1
 placeholder_text = "Place replay ID to change account"
 
-[node name="Play" type="TextureButton" parent="Config/MarginContainer/Replay"]
-editor/display_folded = true
+[node name="Play" type="TextureButton" parent="Config/PopupBG/Replay"]
 margin_left = 446.0
 margin_top = 59.0
 margin_right = 773.0
 margin_bottom = 146.0
-texture_normal = ExtResource( 39 )
-texture_pressed = ExtResource( 40 )
-texture_hover = ExtResource( 41 )
+texture_normal = ExtResource( 40 )
+texture_pressed = ExtResource( 41 )
+texture_hover = ExtResource( 42 )
 expand = true
 
-[node name="Label" type="Label" parent="Config/MarginContainer/Replay/Play"]
+[node name="Label" type="Label" parent="Config/PopupBG/Replay/Play"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -79.0
-margin_top = -32.0
+margin_top = -30.0
 margin_right = 76.0
-margin_bottom = 27.0
+margin_bottom = 29.0
 custom_fonts/font = SubResource( 14 )
 text = "PLAY"
 align = 1
 valign = 1
 
-[node name="Requesting" parent="." instance=ExtResource( 42 )]
+[node name="Requesting" parent="." instance=ExtResource( 43 )]
 visible = false
 
-[node name="CardUpgrade" parent="." instance=ExtResource( 43 )]
+[node name="CardUpgrade" parent="." instance=ExtResource( 44 )]
 visible = false
 hud = NodePath("..")
 
-[node name="ChestInfo" parent="." instance=ExtResource( 44 )]
+[node name="ChestInfo" parent="." instance=ExtResource( 45 )]
 visible = false
 
-[node name="ChestOpen" parent="." instance=ExtResource( 45 )]
+[node name="ChestOpen" parent="." instance=ExtResource( 46 )]
 visible = false
 

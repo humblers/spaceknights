@@ -29,7 +29,7 @@
 [ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=27]
 [ext_resource path="res://game/unit/blaster/missile.tscn" type="PackedScene" id=28]
 
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ null, ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), null ],
@@ -38,7 +38,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
@@ -47,7 +47,7 @@ animations = [ {
 "speed": 1.0
 } ]
 
-[sub_resource type="SpriteFrames" id=11]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 9 ) ],
@@ -56,7 +56,7 @@ animations = [ {
 "speed": 1.0
 } ]
 
-[sub_resource type="SpriteFrames" id=12]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
@@ -65,20 +65,20 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=5]
 
 _data = [ Vector2( 0, 0.588 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=6]
 
 offsets = PoolRealArray( 0, 0.4, 0.983333 )
 colors = PoolColorArray( 1, 0.435425, 0.0234375, 1, 0, 0, 0, 1, 0, 0, 0, 0.363961 )
 
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=7]
 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2976 ), -1.78851, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Gradient" id=8]
 
 offsets = PoolRealArray( 0, 0.25, 0.533333, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.613281, 0.129364, 0, 1, 1, 0.599792, 0.382813, 1, 0, 0, 0, 0.0607843 )
@@ -98,25 +98,23 @@ normal_map = ExtResource( 3 )
 [node name="HatchL" type="AnimatedSprite" parent="Rotatable/Main"]
 use_parent_material = true
 position = Vector2( -32, 7 )
-frames = SubResource( 9 )
+frames = SubResource( 1 )
 animation = "hatchopen"
 
 [node name="HatchR" type="AnimatedSprite" parent="Rotatable/Main"]
 use_parent_material = true
 position = Vector2( 31, 7 )
-frames = SubResource( 9 )
+frames = SubResource( 1 )
 animation = "hatchopen"
 
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Main"]
 position = Vector2( -43.5, 36 )
-frames = SubResource( 10 )
-frame = 1
+frames = SubResource( 2 )
 playing = true
 
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Main"]
 position = Vector2( 43.5, 36 )
-frames = SubResource( 11 )
-frame = 1
+frames = SubResource( 3 )
 playing = true
 
 [node name="Boosterpoint" type="Position2D" parent="Rotatable/Main"]
@@ -127,8 +125,9 @@ position = Vector2( 0, 36 )
 modulate = Color( 0.156863, 0.682353, 1, 1 )
 material = ExtResource( 10 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 12 )
+frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 2.0
 playing = true
 offset = Vector2( 0, 25 )
@@ -158,8 +157,8 @@ gravity = Vector2( 0, -30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame1" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeL1/Smoke1"]
 material = ExtResource( 10 )
@@ -176,8 +175,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeL2" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( -35, 5 )
@@ -195,8 +194,8 @@ gravity = Vector2( 0, -30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame2" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeL2/Smoke2"]
 material = ExtResource( 10 )
@@ -213,8 +212,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeL3" type="Position2D" parent="Rotatable/Shotpoint"]
 editor/display_folded = true
@@ -233,8 +232,8 @@ gravity = Vector2( 0, 30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame3" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeL3/Smoke3"]
 material = ExtResource( 10 )
@@ -250,8 +249,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeL4" type="Position2D" parent="Rotatable/Shotpoint"]
 editor/display_folded = true
@@ -270,8 +269,8 @@ gravity = Vector2( 0, 30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame4" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeL4/Smoke4"]
 material = ExtResource( 10 )
@@ -287,8 +286,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeR1" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 35, -10 )
@@ -305,8 +304,8 @@ gravity = Vector2( 0, -30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame5" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeR1/Smoke5"]
 material = ExtResource( 10 )
@@ -323,8 +322,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeR2" type="Position2D" parent="Rotatable/Shotpoint"]
 position = Vector2( 35, 5 )
@@ -342,8 +341,8 @@ gravity = Vector2( 0, -30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame6" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeR2/Smoke6"]
 material = ExtResource( 10 )
@@ -360,8 +359,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeR3" type="Position2D" parent="Rotatable/Shotpoint"]
 editor/display_folded = true
@@ -380,8 +379,8 @@ gravity = Vector2( 0, 30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame7" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeR3/Smoke7"]
 material = ExtResource( 10 )
@@ -397,8 +396,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="MissileSmokeR4" type="Position2D" parent="Rotatable/Shotpoint"]
 editor/display_folded = true
@@ -417,8 +416,8 @@ gravity = Vector2( 0, 30 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 0.5
-scale_amount_curve = SubResource( 7 )
-color_ramp = SubResource( 8 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Flame8" type="CPUParticles2D" parent="Rotatable/Shotpoint/MissileSmokeR4/Smoke8"]
 material = ExtResource( 10 )
@@ -434,8 +433,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 0.3
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 scale = Vector2( 2, 2 )
