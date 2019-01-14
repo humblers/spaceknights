@@ -1,4 +1,4 @@
-[gd_scene load_steps=150 format=2]
+[gd_scene load_steps=155 format=2]
 
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=1]
 [ext_resource path="res://lobby/resource/background_gradation.png" type="Texture" id=2]
@@ -1108,6 +1108,86 @@ _data = [ Vector2( 0, 0.6672 ), 0.0, -1.66314, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 
 
 colors = PoolColorArray( 1, 0.450348, 0.152344, 1, 1, 1, 1, 0 )
 
+[sub_resource type="Animation" id=88]
+
+resource_name = "stardecrease1"
+tracks/0/type = "value"
+tracks/0/path = NodePath("IconRact/Star/Stars/Star1:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=89]
+
+resource_name = "stardecrease2"
+tracks/0/type = "value"
+tracks/0/path = NodePath("IconRact/Star/Stars/Star2:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=90]
+
+resource_name = "stardecrease3"
+tracks/0/type = "value"
+tracks/0/path = NodePath("IconRact/Star/Stars/Star3:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=91]
+
+resource_name = "stardecrease4"
+tracks/0/type = "value"
+tracks/0/path = NodePath("IconRact/Star/Stars/Star4:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=92]
+
+resource_name = "stardecrease5"
+tracks/0/type = "value"
+tracks/0/path = NodePath("IconRact/Star/Stars/Star5:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
 [sub_resource type="DynamicFont" id=84]
 
 size = 80
@@ -1854,7 +1934,6 @@ scale = Vector2( 30, 30 )
 texture = ExtResource( 12 )
 
 [node name="Result" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2049,6 +2128,7 @@ scale_amount = 3.0
 color_ramp = SubResource( 77 )
 
 [node name="RankUp" type="Sprite" parent="Result/IconRact/RankBase"]
+editor/display_folded = true
 self_modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
 scale = Vector2( 2.5, 2.5 )
 texture = ExtResource( 32 )
@@ -2096,8 +2176,6 @@ scale_amount_curve = SubResource( 80 )
 color_ramp = SubResource( 81 )
 
 [node name="Rankicon" type="TextureRect" parent="Result/IconRact/RankBase/RankUp"]
-visible = false
-self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2110,6 +2188,8 @@ rect_pivot_offset = Vector2( 860, 219.8 )
 texture = ExtResource( 35 )
 
 [node name="RankNewUp" type="TextureRect" parent="Result/IconRact/RankBase/RankUp"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.00639677 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2118,6 +2198,7 @@ margin_left = -122.0
 margin_top = -141.0
 margin_right = -6.0
 margin_bottom = -7.0
+rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 58, 67 )
 texture = ExtResource( 36 )
 
@@ -2159,7 +2240,6 @@ scale = Vector2( 0.748611, 1 )
 texture = ExtResource( 40 )
 
 [node name="Star" type="Node2D" parent="Result/IconRact"]
-editor/display_folded = true
 position = Vector2( 540, 301 )
 
 [node name="Base" type="Node2D" parent="Result/IconRact/Star"]
@@ -2289,11 +2369,10 @@ color_ramp = SubResource( 83 )
 
 [node name="Starlight" type="Light2D" parent="Result/IconRact/Star"]
 visible = false
-position = Vector2( -272.618, 41.1055 )
+position = Vector2( -281.145, 44.7058 )
 texture = ExtResource( 12 )
 texture_scale = 3.0
 color = Color( 1, 0.52549, 0.180392, 1 )
-energy = 1.17424
 range_layer_max = 1
 range_item_cull_mask = 2
 
@@ -2315,8 +2394,14 @@ anims/notchange = ExtResource( 52 )
 anims/rankdown = ExtResource( 53 )
 anims/rankup = ExtResource( 54 )
 
+[node name="StarDecreaseAni" type="AnimationPlayer" parent="Result"]
+anims/stardecrease1 = SubResource( 88 )
+anims/stardecrease2 = SubResource( 89 )
+anims/stardecrease3 = SubResource( 90 )
+anims/stardecrease4 = SubResource( 91 )
+anims/stardecrease5 = SubResource( 92 )
+
 [node name="Texts" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2389,6 +2474,7 @@ valign = 1
 
 [node name="NameNewDown" type="Label" parent="Texts"]
 visible = false
+self_modulate = Color( 1, 1, 1, 0.945768 )
 margin_left = 1.0
 margin_top = 672.0
 margin_right = 1081.0
