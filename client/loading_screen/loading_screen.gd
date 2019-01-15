@@ -1,6 +1,6 @@
 extends Control
 
-var use_thread = false
+var use_thread = true
 var path = null
 var param = null
 var thread = null
