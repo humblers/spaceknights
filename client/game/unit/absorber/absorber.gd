@@ -24,7 +24,8 @@ func Init(id, level, posX, posY, game, player):
 
 func TakeDamage(amount, damageType, attacker):
 	.TakeDamage(amount, damageType, attacker)
-	absorbed += amount * absorbRatio() / 100
+	if not data.DamageTypeIs(damageType, data.Melee):
+		absorbed += amount * absorbRatio() / 100
 
 func Update():
 	.Update()

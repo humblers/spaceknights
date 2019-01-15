@@ -22,7 +22,9 @@ func newAbsorber(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (a *absorber) TakeDamage(amount int, damageType data.DamageType) {
 	a.unit.TakeDamage(amount, damageType)
-	a.absorbed += amount * a.absorbRatio() / 100
+	if !damageType.Is(data.Melee) {
+		a.absorbed += amount * a.absorbRatio() / 100
+	}
 }
 
 func (a *absorber) Update() {
