@@ -15,7 +15,7 @@ func newNukemissile(id int, level, posX, posY int, g Game, p Player) Unit {
 	}
 }
 
-func (n *nukemissile) TakeDamge(amount int, damageType data.DamageType) {
+func (n *nukemissile) TakeDamage(amount int, damageType data.DamageType) {
 	alreadyDead := n.IsDead()
 	n.unit.TakeDamage(amount, damageType)
 	if !alreadyDead && n.IsDead() && n.attack > 0 && n.attack <= n.preAttackDelay() {

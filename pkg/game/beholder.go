@@ -21,8 +21,8 @@ func newBeholder(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (b *beholder) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType == data.Skill || damageType == data.Death {
-		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	if damageType.Is(data.DecreaseOnKnight) {
+		amount = amount * data.DecreasedDamageRatioOnKnightBuilding / 100
 	}
 	b.unit.TakeDamage(amount, damageType)
 }

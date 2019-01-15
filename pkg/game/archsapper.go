@@ -30,8 +30,8 @@ func newArchsapper(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (a *archsapper) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType == data.Skill || damageType == data.Death {
-		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	if damageType.Is(data.DecreaseOnKnight) {
+		amount = amount * data.DecreasedDamageRatioOnKnightBuilding / 100
 	}
 	a.unit.TakeDamage(amount, damageType)
 	if a.IsDead() {

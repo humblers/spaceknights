@@ -19,8 +19,8 @@ func newCannon(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (c *cannon) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType == data.Skill || damageType == data.Death {
-		amount = amount * data.ReducedDamgeRatioOnKnightBuilding / 100
+	if damageType.Is(data.DecreaseOnKnight) {
+		amount = amount * data.DecreasedDamageRatioOnKnightBuilding / 100
 	}
 	c.unit.TakeDamage(amount, damageType)
 }

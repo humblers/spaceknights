@@ -10,7 +10,7 @@ const TileSizeInPixel = 50
 const LevelMax = 13
 const StatMultiplier = 110
 
-const ReducedDamgeRatioOnKnightBuilding = 35
+const DecreasedDamageRatioOnKnightBuilding = 35
 const ShieldRegenPerStep = 2
 const HoverKnightTileOffsetX = 2
 const SlowPercent = 50
@@ -41,18 +41,19 @@ const Ether = "Ether"
 const Casting = "Casting"
 
 # DamageType
-const NormalDamage = "NormalDamage"
-const AntiShield = "AntiShield"
-const Death = "Death"
-const Decay = "Decay"
-const Skill = "Skill"
+const AntiShield = 1 << 0
+const DecreaseOnKnight = 1 << 1
+const Melee = 1 << 2
+const Siege = 1 << 3
+const Death = 1 << 4
+const Decay = 1 << 5
+const Skill = 1 << 6
+const Bullet = 1 << 7
+const Missile = 1 << 8
+const Laser = 1 << 9
 
-# AttackType
-const Melee = "Melee"
-const Bullet = "Bullet"
-const Missile = "Missile"
-const Laser = "Laser"
-const Bombing = "Bombing"
+func DamageTypeIs(damageType, bits):
+	return damageType & bits != 0
 
 func NewCard(card):
 	var info = cards[card.Name]
@@ -461,8 +462,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [250],
 		"attackrange":    80,
 		"attackradius":   100,
@@ -479,8 +479,7 @@ var units = {
 		"sight":          350,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [140],
 		"attackrange":    350,
 		"attackinterval": 20,
@@ -509,8 +508,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    NormalDamage,
+		"damagetype":     Bullet,
 		"attackdamage":   [70],
 		"attackrange":    250,
 		"attackinterval": 12,
@@ -527,8 +525,7 @@ var units = {
 		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    NormalDamage,
+		"damagetype":     Bullet,
 		"attackdamage":   [280],
 		"attackrange":    250,
 		"damageradius":   75,
@@ -545,8 +542,7 @@ var units = {
 		"sight":          350,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [105],
 		"attackrange":    350,
 		"attackinterval": 15,
@@ -579,14 +575,14 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Laser,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Laser,
 		"attackdamage":   [28],
 		"attackrange":    350,
 		"attackinterval": 4,
 		"skill": {
 			"wing": {
-				"damagetype": Skill,
+				"name":       "megalaser",
+				"damagetype": DecreaseOnKnight | Skill,
 				"damage":     [50],
 				"duration":   40,
 				"start":      11,
@@ -595,7 +591,8 @@ var units = {
 				"height":     520,
 			},
 			"leader": {
-				"hpratio":  [110],
+				"name":    "reinforce",
+				"hpratio": [110],
 			},
 		},
 	},
@@ -609,8 +606,7 @@ var units = {
 		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    NormalDamage,
+		"damagetype":     Bullet,
 		"attackdamage":   [150],
 		"attackrange":    250,
 		"damageradius":   75,
@@ -645,8 +641,7 @@ var units = {
 		"sight":             300,
 		"targettypes":       [Squire, Building, Knight],
 		"targetlayers":      [Normal],
-		"attacktype":        Laser,
-		"damagetype":        NormalDamage,
+		"damagetype":        Laser,
 		"attackdamage":      [20],
 		"attackrange":       300,
 		"attackinterval":    4,
@@ -663,8 +658,7 @@ var units = {
 		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [350],
 		"attackrange":    50,
 		"attackinterval": 20,
@@ -680,8 +674,7 @@ var units = {
 		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    NormalDamage,
+		"damagetype":     Missile,
 		"attackdamage":   [240],
 		"attackrange":    250,
 		"damageradius":   75,
@@ -700,8 +693,7 @@ var units = {
 		"sight":          300,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    NormalDamage,
+		"damagetype":     Missile,
 		"attackdamage":   [300],
 		"attackrange":    300,
 		"damageradius":   100,
@@ -720,8 +712,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Laser,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Laser,
 		"attackdamage":   [28],
 		"attackrange":    350,
 		"attackinterval": 4,
@@ -750,8 +741,7 @@ var units = {
 		"sight":          275,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [135],
 		"attackrange":    275,
 		"attackinterval": 8,
@@ -770,8 +760,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [120],
 		"attackrange":    55,
 		"damageradius":   50,
@@ -779,7 +768,7 @@ var units = {
 		"preattackdelay": 5,
 		"chargedelay":           20,
 		"chargedmovespeed":      300,
-		"chargedattackdamagetype": AntiShield,
+		"chargedattackdamagetype": AntiShield | Melee,
 		"chargedattackdamage":   [240],
 		"chargedattackinterval": 7,
 		"chargedattackpredelay": 4,
@@ -794,8 +783,7 @@ var units = {
 		"speed":          200,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee | Siege,
 		"attackdamage":   [40],
 		"attackrange":    70,
 		"attackinterval": 2,
@@ -811,8 +799,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [190],
 		"attackrange":    60,
 		"attackradius":   80,
@@ -830,8 +817,7 @@ var units = {
 		"speed":          200,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [330],
 		"attackrange":    60,
 		"attackinterval": 30,
@@ -847,8 +833,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [75],
 		"attackrange":    45,
 		"attackinterval": 15,
@@ -863,8 +848,7 @@ var units = {
 		"sight":          350,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [140],
 		"attackrange":    350,
 		"attackinterval": 20,
@@ -872,12 +856,14 @@ var units = {
 		"bulletlifetime": 2,
 		"skill": {
 			"wing": {
-				"radius":       200,
-				"castduration": 30,
+				"name":           "freeze",
+				"radius":         200,
+				"castduration":   30,
 				"freezeduration": 50,
-				"precastdelay": 20,
+				"precastdelay":   20,
 			},
 			"leader": {
+				"name":         "frozenbullet",
 				"slowduration": [30],
 			},
 		},
@@ -893,8 +879,7 @@ var units = {
 		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [40],
 		"attackrange":    100,
 		"attackinterval": 10,
@@ -911,8 +896,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [200],
 		"attackrange":    100,
 		"attackinterval": 15,
@@ -928,8 +912,7 @@ var units = {
 		"speed":          75,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee | Siege,
 		"attackdamage":   [50],
 		"attackrange":    70,
 		"attackinterval": 2,
@@ -945,8 +928,7 @@ var units = {
 		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":     Melee,
-		"damagetype":     Death,
+		"damagetype":     DecreaseOnKnight | Melee | Death,
 		"attackdamage":   [300],
 		"attackrange":    32,
 		"preattackdelay": 3,
@@ -962,8 +944,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Missile,
 		"attackdamage":   [140],
 		"attackrange":    350,
 		"attackinterval": 20,
@@ -993,15 +974,14 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":     Melee,
-		"damagetype":     AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [270],
 		"attackrange":    55,
 		"attackinterval": 14,
 		"preattackdelay": 5,
 		"chargedelay":            20,
 		"chargedmovespeed":       300,
-		"chargedattackdamagetype": AntiShield,
+		"chargedattackdamagetype": AntiShield | Melee,
 		"chargedattackdamage":    [520],
 		"chargedattackinterval":  6,
 		"chargedattackpredelay":  3,
@@ -1015,8 +995,7 @@ var units = {
 		"sight":          400,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":     Bullet,
-		"damagetype":     AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [140],
 		"attackrange":    400,
 		"attackinterval": 20,
@@ -1025,7 +1004,7 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":             "bulletrain",
-				"damagetype":       Skill,
+				"damagetype":       DecreaseOnKnight | Skill,
 				"damage":           [350],
 				"radius":           200,
 				"castduration":     20,
@@ -1047,8 +1026,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Missile,
 		"attackdamage":   [154],
 		"attackrange":    350,
 		"attackinterval": 22,
@@ -1059,7 +1037,7 @@ var units = {
 				"name":           "napalm",
 				"castduration":   30,
 				"precastdelay":   15,
-				"damagetype":     Skill,
+				"damagetype":     DecreaseOnKnight | Skill,
 				"damageduration": 80,
 				"damage":         [105],
 				"width":          200,
@@ -1068,7 +1046,7 @@ var units = {
 			"leader": {
 				"name":           "deathcarpet",
 				"duration":       600,
-				"damagetype":     Skill,
+				"damagetype":     DecreaseOnKnight | Skill,
 				"damage":         [150],
 				"count":          2,
 				"posX":           [225, 775], # pos based on blue side
@@ -1087,8 +1065,7 @@ var units = {
 		"sight":          350,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":     Bullet,
-		"damagetype":     AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [14],
 		"attackrange":    350,
 		"attackinterval": 2,
@@ -1097,7 +1074,7 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":         "fireball",
-				"damagetype":   Skill,
+				"damagetype":   DecreaseOnKnight | Skill,
 				"damage":       [720],
 				"radius":       125,
 				"castduration": 30,
@@ -1119,8 +1096,7 @@ var units = {
 		"speed":          300,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":     Melee,
-		"damagetype":     Death,
+		"damagetype":     DecreaseOnKnight | Melee | Death,
 		"attackdamage":   [95],
 		"attackrange":    22,
 		"attackradius":   80,
@@ -1136,8 +1112,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Laser,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Laser,
 		"attackdamage":   [28],
 		"attackrange":    350,
 		"attackinterval": 4,
@@ -1171,8 +1146,7 @@ var units = {
 		"speed":          75,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    Death,
+		"damagetype":     DecreaseOnKnight | Melee | Death,
 		"attackdamage":   [1000],
 		"attackrange":    60,
 		"attackradius":   150,
@@ -1188,8 +1162,7 @@ var units = {
 		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Melee,
 		"attackdamage":   [550],
 		"attackrange":    60,
 		"attackinterval": 20,
@@ -1206,13 +1179,12 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":     Melee,
-		"damagetype":     NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [250],
 		"attackrange":    55,
 		"attackinterval": 30,
 		"preattackdelay": 15,
-		"powerattackdamagetype":   NormalDamage,
+		"powerattackdamagetype":   DecreaseOnKnight | Melee,
 		"powerattackdamage":       [350],
 		"powerattackdamageradius": 120,
 		"powerattackinterval":     50,
@@ -1231,8 +1203,7 @@ var units = {
 		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [60],
 		"attackrange":    35,
 		"attackinterval": 20,
@@ -1247,7 +1218,6 @@ var units = {
 		"tilenumy":      3,
 		"hp":            [430],
 		"spawn":         "pixie",
-		"damagetype":    NormalDamage,
 		"spawninterval": 30,
 		"spawncount":    1,
 		"spawnoffsetX":  [0],
@@ -1263,8 +1233,7 @@ var units = {
 		"sight":          350,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Bullet,
 		"attackdamage":   [70],
 		"attackrange":    350,
 		"attackinterval": 10,
@@ -1298,15 +1267,14 @@ var units = {
 		"speed":          100,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":     Melee,
-		"damagetype":     NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [190],
 		"attackrange":    65,
 		"attackinterval": 50,
 		"attackradius":   120,
 		"preattackdelay": 28,
 		"absorbforce":        10000,
-		"absorbdamagetype":   NormalDamage,
+		"absorbdamagetype":   DecreaseOnKnight | Melee,
 		"absorbdamage":       6,
 		"absorbdamageradius": 100,
 		"absorbradius":       350,
@@ -1321,8 +1289,7 @@ var units = {
 		"speed":          200,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    NormalDamage,
+		"damagetype":     Bullet,
 		"attackdamage":   [35],
 		"attackrange":    250,
 		"attackinterval": 13,
@@ -1355,8 +1322,7 @@ var units = {
 		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    NormalDamage,
+		"damagetype":     Missile,
 		"attackdamage":   [150],
 		"attackrange":    175,
 		"damageradius":   75,
@@ -1374,8 +1340,7 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Bullet,
-		"damagetype":    NormalDamage,
+		"damagetype":     Bullet,
 		"attackdamage":   [155],
 		"attackrange":    300,
 		"attackinterval": 11,
@@ -1392,8 +1357,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Laser,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Laser,
 		"attackdamage":   [28],
 		"attackrange":    350,
 		"attackinterval": 4,
@@ -1423,8 +1387,7 @@ var units = {
 		"speed":          200,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"attacktype":    Melee,
-		"damagetype":    NormalDamage,
+		"damagetype":     Melee,
 		"attackdamage":   [48],
 		"attackrange":    44,
 		"attackinterval": 12,
@@ -1440,8 +1403,7 @@ var units = {
 		"speed":          300,
 		"targettypes":    [Squire],
 		"targetlayers":   [Normal],
-		"attacktype":    Missile,
-		"damagetype":    AntiShield,
+		"damagetype":     AntiShield | Missile,
 		"attackdamage":   [140],
 		"attackrange":    350,
 		"attackinterval": 20,
@@ -1450,7 +1412,7 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":             "emp",
-				"damagetype":       Skill,
+				"damagetype":       DecreaseOnKnight | Skill,
 				"damage":           [140],
 				"radius":           200,
 				"castduration":     10,
@@ -1472,14 +1434,13 @@ var units = {
 		"speed":             100,	#pixels per second
 		"targettypes":       [Squire, Building, Knight],
 		"targetlayers":      [Normal],
-		"attacktype":        Melee,
-		"damagetype":        AntiShield,
+		"damagetype":        AntiShield | Melee,
 		"attackdamage":      [270],
 		"damageradius":      50,
 		"attackrange":       75,
 		"attackinterval":    15,
 		"preattackdelay":    5,
-		"destroydamagetype": Death,
+		"destroydamagetype": DecreaseOnKnight | Melee | Death,
 		"destroydamage":     [400],
 		"destroyradius":     175,
 	},
@@ -1494,13 +1455,12 @@ var units = {
 		"speed":             100,	#pixels per second
 		"targettypes":       [Building, Knight],
 		"targetlayers":      [Normal],
-		"attacktype":        Melee,
-		"damagetype":        NormalDamage,
+		"damagetype":        Melee,
 		"attackdamage":      [600],
 		"attackrange":       75,
 		"attackinterval":    30,
 		"preattackdelay":    7,
-		"destroydamagetype": Death,
+		"destroydamagetype": DecreaseOnKnight | Melee | Death,
 		"destroydamage":     [400],
 		"destroyradius":     175,
 	},
