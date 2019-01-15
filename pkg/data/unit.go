@@ -36,7 +36,7 @@ func (layers UnitLayers) Contains(layer UnitLayer) bool {
 	return false
 }
 
-type DamageType uint64
+type DamageType int
 
 const (
 	AntiShield DamageType = 1 << iota
