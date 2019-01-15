@@ -1,25 +1,16 @@
 extends Control
 
-var use_thread = true
-var path = null
 var param = null
 var thread = null
 onready var progress = $ProgressBar
 
-func _ready():
-	visible = false
-	
 func goto_scene(path, param = null):
-	self.visible = true
-	get_tree().current_scene.queue_free()
-	get_tree().current_scene = self
+	visible = true
 	progress.value = 0
 	self.param = param
-	if use_thread:
-		thread = Thread.new()
-		thread.start(self, "_load_scene", path)
-	else:
-		_load_scene_no_thread(path)
+	raise()
+	thread = Thread.new()
+	thread.start(self, "_load_scene", path)
 	
 func _load_scene(path):
 	var loader = ResourceLoader.load_interactive(path)
@@ -42,36 +33,22 @@ func _load_scene(path):
 
 func _load_done(res):
 	assert(res)
-	progress.value = progress.max_value
 	thread.wait_to_finish()
+	
+	progress.value = progress.max_value
+	
+	# pause a while to show completed status(100%)
+	yield(get_tree().create_timer(0.5), "timeout")
+	
 	var new_scene = res.instance()
+	
+	# set parameters
 	if param != null:
 		for k in param:
 			new_scene.set(k, param[k])
+
+	get_tree().current_scene.free()
+	get_tree().current_scene = null
 	get_tree().root.add_child(new_scene)
 	get_tree().current_scene = new_scene
-
-func _load_scene_no_thread(path):
-	var loader = ResourceLoader.load_interactive(path)
-	assert(loader != null)
-	progress.max_value = loader.get_stage_count()
-	
-	while(true):
-		progress.value = loader.get_stage()
-		yield(get_tree(), "idle_frame")			# show progress
-		var err = loader.poll()
-		if err == ERR_FILE_EOF:
-			var res = loader.get_resource()
-			assert(res)
-			progress.value = progress.max_value
-			var new_scene = res.instance()
-			if param != null:
-				for k in param:
-					new_scene.set(k, param[k])
-			get_tree().root.add_child(new_scene)
-			get_tree().current_scene = new_scene
-			break
-		elif err != OK:
-			print("error loading %s" % path)
-			break
-	self.visible = false
+	visible = false
