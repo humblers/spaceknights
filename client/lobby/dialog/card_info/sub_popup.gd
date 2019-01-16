@@ -29,7 +29,9 @@ func Invalidate(card, pressed):
 	right_point.visible = not pressed.is_left
 	description_label.visible = pressed.sub_info.type == "leader"
 	stat_container.visible = pressed.sub_info.type == "wing"
-	if pressed.sub_info.type == "wing":
+	if pressed.sub_info.type == "leader":
+		static_func.set_text(description_label, tr("leader_%s" % card.Name))
+	else:
 		var item_nodes = stat_container.get_children()
 		var pointer = 0
 		for key in STAT_ORDER:
@@ -132,9 +134,8 @@ func valueText(key, card, skill):
 				"speed":
 					return info_root.hud.FormatSpeed(u.get(key, 0))
 				"attackrange":
-					var attack_type = u.get("attacktype", "")
-					if attack_type == data.Melee:
-						return attack_type
+					if data.DamageTypeIs(u.get("damagetype", 0), data.Melee):
+						return "Melee"
 					return info_root.hud.FormatPixelToTile(u[key])
 				"decaydamage":
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]

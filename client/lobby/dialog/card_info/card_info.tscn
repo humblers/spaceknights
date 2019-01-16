@@ -76,7 +76,8 @@ font_data = ExtResource( 7 )
 [sub_resource type="DynamicFont" id=7]
 
 size = 32
-font_data = ExtResource( 16 )
+font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 16 )
 
 [sub_resource type="StyleBoxTexture" id=8]
 
@@ -169,7 +170,8 @@ font_data = ExtResource( 7 )
 
 size = 32
 use_filter = true
-font_data = ExtResource( 16 )
+font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 16 )
 
 [node name="CardInfo" type="Control"]
 visible = false
@@ -183,6 +185,7 @@ rarity_panel_legendary = Color( 0.831373, 0.278431, 0.223529, 0.784314 )
 main_popup = NodePath("MainPopup")
 sub_popup = NodePath("SubPopup")
 card_name_label = NodePath("MainPopup/MainPanel/Title/Label")
+info_label = NodePath("MainPopup/MainPanel/SubPanel/Info/Label")
 rarity_label = NodePath("MainPopup/MainPanel/SubPanel/RarityControl/Rarity")
 cost_label = NodePath("MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase/Control/Energy/Label")
 rarity_panel = NodePath("MainPopup/MainPanel/SubPanel/RarityControl/Panel")
@@ -226,6 +229,7 @@ expand = true
 
 [node name="MainPopup" type="PopupPanel" parent="."]
 editor/display_folded = true
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -303,6 +307,7 @@ patch_margin_right = 20
 patch_margin_bottom = 20
 
 [node name="RarityControl" type="Control" parent="MainPopup/MainPanel/SubPanel"]
+editor/display_folded = true
 margin_left = 22.0
 margin_top = -1371.0
 margin_right = 62.0
@@ -340,6 +345,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "COMMON"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
+editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -375,6 +381,7 @@ margin_right = 319.0
 margin_bottom = 411.0
 
 [node name="Spec" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
+editor/display_folded = true
 self_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 margin_left = 20.0
 margin_top = 458.0
@@ -965,8 +972,7 @@ patch_margin_top = 20
 patch_margin_right = 20
 patch_margin_bottom = 20
 
-[node name="Descript" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
-editor/display_folded = true
+[node name="Info" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
 margin_left = 421.0
 margin_top = 16.0
 margin_right = 1001.0
@@ -978,7 +984,7 @@ patch_margin_top = 20
 patch_margin_right = 21
 patch_margin_bottom = 19
 
-[node name="Label" type="Label" parent="MainPopup/MainPanel/SubPanel/Descript"]
+[node name="Label" type="Label" parent="MainPopup/MainPanel/SubPanel/Info"]
 margin_left = 13.0
 margin_top = 15.0
 margin_right = 565.0
@@ -1046,6 +1052,7 @@ valign = 1
 
 [node name="SubPopup" type="PopupPanel" parent="."]
 editor/display_folded = true
+visible = true
 margin_top = 360.0
 margin_right = 860.0
 margin_bottom = 780.0
@@ -1484,6 +1491,7 @@ margin_right = -10.0
 margin_bottom = -10.0
 custom_fonts/font = SubResource( 19 )
 text = "YOLO!"
+autowrap = true
 
 [node name="LeftPoint" type="TextureRect" parent="SubPopup/Panel"]
 margin_left = 450.0

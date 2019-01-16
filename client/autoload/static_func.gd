@@ -22,7 +22,7 @@ static func cast_float_to_int(parsed_json):
 				parsed_json[i] = cast_float_to_int(parsed_json[i])
 	return parsed_json
 
-static func set_text(label, text, autowrap = false, min_size = 28):
+static func set_text(label, text, min_size = 28):
 	if label.text == text:
 		return
 	var font = label.get_font("font")
@@ -32,7 +32,6 @@ static func set_text(label, text, autowrap = false, min_size = 28):
 		if size.x <= label.rect_size.x and size.y <= label.rect_size.y:
 			break
 		font.size -= 1
-	label.autowrap = autowrap
 	label.text = text
 
 static func get_time_left_string(total_sec):

@@ -101,9 +101,8 @@ func valueText(key, card, unit):
 			var dmg_type = unit.get("damagetype", "")
 			return info_root.hud.FormatAttackType(target_types, atk_type, dmg_type)
 		"attackrange":
-			var attack_type = unit.get("attacktype", "")
-			if attack_type == data.Melee:
-				return attack_type
+			if data.DamageTypeIs(unit.get("damagetype", 0), data.Melee):
+				return "Melee"
 			return info_root.hud.FormatPixelToTile(unit[key])
 		"speed":
 			return info_root.hud.FormatSpeed(unit.get(key, 0))

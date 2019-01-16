@@ -59,14 +59,16 @@ func FormatSpeed(speed):
 
 func FormatAttackType(target_types, attack_type, damage_type):
 	var types = PoolStringArray()
-	if len(target_types) > 0 and not target_types.has(data.Squire):
-		types.append("Siege")
-	if attack_type == data.Bombing:
-		types.append(data.Bombing)
-	if damage_type == data.AntiShield:
-		types.append("AB Attack")
+	var VISIBLE_DAMAGE_TYPES = {
+		"Siege": data.Siege,
+		"AB attack": data.AntiShield,
+		"Bombing": data.Death,
+	}
+	for k in VISIBLE_DAMAGE_TYPES:
+		if data.DamageTypeIs(damage_type, VISIBLE_DAMAGE_TYPES[k]):
+			types.append(k)
+		if len(types) >= 2:
+			break
 	if len(types) == 0:
 		return null
-	if len(types) > 2:
-		types.resize(2)
 	return types.join(" & ")
