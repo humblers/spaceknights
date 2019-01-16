@@ -19,12 +19,12 @@ var Dimensium
 var Cards
 var DeckSlots
 var DeckSelected
-var Rank
-var Medal
+var Rank = 25
+var Medal = 0
 var FreeChest
 var MedalChest
 var BattleChestSlots
-var BattleChestOrder
+var BattleChestOrder = 0
 
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:
