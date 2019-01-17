@@ -82,7 +82,6 @@ func attackRange():
 	return game.World().FromPixel(atkrange)
 
 func Update():
-	TakeDamage(200, 0, self)
 	if freeze > 0:
 		attack = 0
 		targetId = 0
