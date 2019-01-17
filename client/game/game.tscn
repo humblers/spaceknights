@@ -179,28 +179,28 @@
 resource_name = "fade-out"
 length = 2.0
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:playing")
+tracks/0/path = NodePath(".:volume_db")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 1.5 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -10.0, -40.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:volume_db")
+tracks/1/path = NodePath(".:playing")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -10.0, -80.0 ]
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="DynamicFont" id=2]
@@ -341,9 +341,8 @@ script = ExtResource( 3 )
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-volume_db = -10.0
+volume_db = -40.0
 autoplay = true
-stream_paused = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BGM"]
 anims/fade-out = SubResource( 1 )
