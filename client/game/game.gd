@@ -22,8 +22,8 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
-onready var result_anim = $NonCameraFollowingUI/End/StartWin
-onready var go_to_lobby = $NonCameraFollowingUI/GoToLobby
+onready var closing_scene = $NonCameraFollowingUI/Closing
+onready var bgm_anim = $BGM/AnimationPlayer
 
 var map
 
@@ -203,15 +203,18 @@ func _physics_process(delta):
 	if frame % frame_per_step == 0:
 		if Over():
 			set_physics_process(false)
-			var anim = "draw"
-			if score("Blue") > score("Red"):
-				anim = "win" if $Players/Blue.team == "Blue" else "lose"
-			elif score("Red") > score("Blue"):
-				anim = "win" if $Players/Blue.team == "Red" else "lose"
-			result_anim.play(anim)
-			yield(result_anim, "animation_finished")
-			go_to_lobby.connect("button_up", self, "go_to_lobby")
-			go_to_lobby.visible = true
+			bgm_anim.play("fade-out")
+			closing_scene.Init(user.Rank, user.Medal, user.BattleChestOrder + 1)
+			var my_team = $Players/Blue.team
+			var enemy_team = "Blue" if my_team == "Red" else "Red"
+			var my_score = score(my_team)
+			var enemy_score = score(enemy_team)
+			if my_score > enemy_score:
+				closing_scene.PlayWinAnim()
+			elif my_score < enemy_score:
+				closing_scene.PlayLoseAnim()
+			else:
+				closing_scene.PlayDrawAnim()
 		else:
 			if connected:
 				var iterations = 1
@@ -431,9 +434,6 @@ static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	if d > scalar.Mul(radius, radius):
 		return false
 	return true
-
-func go_to_lobby():
-	loading_screen.goto_scene("res://lobby/lobby.tscn")
 
 func restart_game():
 	loading_screen.goto_scene("res://game/offline/offline.tscn")
