@@ -4,11 +4,15 @@ var param = null
 var thread = null
 onready var progress = $ProgressBar
 
+func _ready():
+	visible = false
+
 func goto_scene(path, param = null):
 	visible = true
+	get_tree().current_scene.queue_free()
+	get_tree().current_scene = self
 	progress.value = 0
 	self.param = param
-	raise()
 	thread = Thread.new()
 	thread.start(self, "_load_scene", path)
 	
@@ -47,8 +51,6 @@ func _load_done(res):
 		for k in param:
 			new_scene.set(k, param[k])
 
-	get_tree().current_scene.free()
-	get_tree().current_scene = null
 	get_tree().root.add_child(new_scene)
 	get_tree().current_scene = new_scene
 	visible = false
