@@ -28,20 +28,20 @@
 [ext_resource path="res://game/bg/mothership/knight_deck/knight_energy_effect_2.png" type="Texture" id=26]
 [ext_resource path="res://game/bg/mothership/knight_deck/knight_energy_effect_3.png" type="Texture" id=27]
 [ext_resource path="res://game/bg/mothership/knight_deck/deck_blue_destroy.png" type="Texture" id=28]
-[ext_resource path="res://game/ui/knightupeffect.png" type="Texture" id=29]
-[ext_resource path="res://game/bg/mothership/mothership/container.png" type="Texture" id=30]
-[ext_resource path="res://game/bg/mothership/mothership/container_normal.png" type="Texture" id=31]
-[ext_resource path="res://game/bg/mothership/mothership/container_damage.png" type="Texture" id=32]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_hole.png" type="Texture" id=33]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_middle.png" type="Texture" id=34]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_middle_normal.png" type="Texture" id=35]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_front.png" type="Texture" id=36]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_front_normal.png" type="Texture" id=37]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_rear.png" type="Texture" id=38]
-[ext_resource path="res://game/bg/mothership/gui_deck/container_rear_normal.png" type="Texture" id=39]
-[ext_resource path="res://game/bg/mothership/mothership/engine.png" type="Texture" id=40]
-[ext_resource path="res://game/bg/mothership/mothership/engine_normal.png" type="Texture" id=41]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=42]
+[ext_resource path="res://game/bg/mothership/mothership/container.png" type="Texture" id=29]
+[ext_resource path="res://game/bg/mothership/mothership/container_normal.png" type="Texture" id=30]
+[ext_resource path="res://game/bg/mothership/mothership/container_damage.png" type="Texture" id=31]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_hole.png" type="Texture" id=32]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_middle.png" type="Texture" id=33]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_middle_normal.png" type="Texture" id=34]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_front.png" type="Texture" id=35]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_front_normal.png" type="Texture" id=36]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_rear.png" type="Texture" id=37]
+[ext_resource path="res://game/bg/mothership/gui_deck/container_rear_normal.png" type="Texture" id=38]
+[ext_resource path="res://game/bg/mothership/mothership/engine.png" type="Texture" id=39]
+[ext_resource path="res://game/bg/mothership/mothership/engine_normal.png" type="Texture" id=40]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=41]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=42]
 
 [sub_resource type="Curve" id=1]
 
@@ -51,7 +51,7 @@ _data = [ Vector2( 0, 0.324 ), 0.0, 1.13962, 0, 0, Vector2( 1, 1 ), 0.0786534, 0
 
 colors = PoolColorArray( 1, 1, 1, 0.320431, 1, 1, 1, 0.502 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
@@ -60,7 +60,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
@@ -69,13 +69,13 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=5]
 
 size = 30
 use_filter = true
-font_data = ExtResource( 42 )
+font_data = ExtResource( 41 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 
 length = 2.0
 loop = true
@@ -92,14 +92,14 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.207843 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=7]
 
 size = 24
 outline_color = Color( 0.12549, 0.12549, 0.12549, 1 )
 use_filter = true
-font_data = ExtResource( 42 )
+font_data = ExtResource( 41 )
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=8]
 
 length = 10.0
 loop = true
@@ -151,6 +151,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( 180, 0 ), Vector2( 190, 10 ), Vector2( 180, 0 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("LightSimulation/Light2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 305, 895 ), Vector2( 406, 1022.45 ), Vector2( 305, 895 ) ]
+}
 
 [node name="LoadingScreen" type="Control"]
 anchor_right = 1.0
@@ -168,30 +180,35 @@ margin_right = 720.0
 margin_bottom = 960.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="BG" type="TextureRect" parent="."]
+[node name="BG3" type="Control" parent="."]
+modulate = Color( 0.435294, 0.435294, 0.435294, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="BG" type="TextureRect" parent="BG3"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -720.0
-margin_right = 720.0
+margin_left = -200.0
+margin_right = 1240.0
 margin_bottom = 1882.0
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 2
 
-[node name="BG2" type="TextureRect" parent="."]
+[node name="BG2" type="TextureRect" parent="BG3"]
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -540.0
-margin_top = -970.0
-margin_right = 540.0
-margin_bottom = 970.0
+margin_left = -20.0
+margin_top = -30.0
+margin_right = 1060.0
+margin_bottom = 1862.0
 texture = ExtResource( 3 )
 expand = true
 
-[node name="TextureRect3" type="TextureRect" parent="."]
+[node name="TextureRect3" type="TextureRect" parent="BG3"]
 self_modulate = Color( 0.815686, 0.815686, 0.815686, 1 )
 margin_left = 602.0
 margin_top = 1215.0
@@ -202,7 +219,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 expand = true
 
-[node name="TextureRect6" type="TextureRect" parent="."]
+[node name="TextureRect6" type="TextureRect" parent="BG3"]
 self_modulate = Color( 0.396078, 0.396078, 0.396078, 1 )
 margin_left = 1145.0
 margin_top = 1265.0
@@ -213,7 +230,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 expand = true
 
-[node name="TextureRect14" type="TextureRect" parent="."]
+[node name="TextureRect14" type="TextureRect" parent="BG3"]
 self_modulate = Color( 0.2, 0.2, 0.2, 1 )
 margin_left = 326.0
 margin_top = 880.0
@@ -224,7 +241,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 expand = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="BG3"]
 margin_left = -188.0
 margin_top = 1057.0
 margin_right = 446.0
@@ -233,7 +250,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 expand = true
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="BG3"]
 margin_left = -199.0
 margin_top = 180.0
 margin_right = 200.0
@@ -243,7 +260,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 expand = true
 
-[node name="TextureRect5" type="TextureRect" parent="."]
+[node name="TextureRect5" type="TextureRect" parent="BG3"]
 margin_left = 611.0
 margin_top = 877.0
 margin_right = 1010.0
@@ -253,7 +270,7 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 expand = true
 
-[node name="TextureRect13" type="TextureRect" parent="."]
+[node name="TextureRect13" type="TextureRect" parent="BG3"]
 margin_left = 618.0
 margin_top = 528.0
 margin_right = 1017.0
@@ -363,6 +380,19 @@ rect_pivot_offset = Vector2( 68, 372 )
 texture = ExtResource( 8 )
 expand = true
 
+[node name="L6" type="TextureRect" parent="."]
+self_modulate = Color( 1, 0.866667, 0.698039, 1 )
+material = ExtResource( 6 )
+margin_left = 1005.0
+margin_top = 1127.0
+margin_right = 1141.0
+margin_bottom = 1499.0
+rect_rotation = -120.0
+rect_scale = Vector2( 1.00609, 1 )
+rect_pivot_offset = Vector2( 70.1938, 369 )
+texture = ExtResource( 8 )
+expand = true
+
 [node name="Control" type="Control" parent="."]
 editor/display_folded = true
 anchor_left = 0.5
@@ -406,6 +436,7 @@ normal_map = ExtResource( 12 )
 flip_v = true
 
 [node name="Takeoffway" type="Node2D" parent="Control/Blue/Nodes"]
+editor/display_folded = true
 position = Vector2( 473, 0 )
 
 [node name="Normal" type="Sprite" parent="Control/Blue/Nodes/Takeoffway"]
@@ -536,11 +567,11 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Right" type="Node2D" parent="Control/Blue/Nodes/DeckR"]
-editor/display_folded = true
 light_mask = 4097
 position = Vector2( 133.333, -225 )
 
 [node name="Link2" type="Sprite" parent="Control/Blue/Nodes/DeckR/Right"]
+editor/display_folded = true
 position = Vector2( -67, 83 )
 texture = ExtResource( 19 )
 normal_map = ExtResource( 20 )
@@ -549,7 +580,7 @@ flip_v = true
 [node name="Effect" type="AnimatedSprite" parent="Control/Blue/Nodes/DeckR/Right/Link2"]
 visible = false
 modulate = Color( 0.501961, 0.729412, 1, 1 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 animation = "effect3"
 flip_v = true
 
@@ -563,10 +594,25 @@ flip_h = true
 [node name="Effect" type="AnimatedSprite" parent="Control/Blue/Nodes/DeckR/Right/Link"]
 visible = false
 modulate = Color( 0.294118, 0.619608, 1, 1 )
-frames = SubResource( 5 )
+frames = SubResource( 4 )
 animation = "effect4"
 speed_scale = 2.0
 flip_h = true
+
+[node name="CenterR" type="CPUParticles2D" parent="Control/Blue/Nodes/DeckR/Right"]
+self_modulate = Color( 1, 1, 1, 0.321569 )
+material = ExtResource( 6 )
+position = Vector2( -50.8328, 92.5002 )
+rotation = 2.87979
+scale = Vector2( 0.416667, 0.416667 )
+texture = ExtResource( 7 )
+gravity = Vector2( 0, 300 )
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 60.0
+radial_accel_random = 1.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="NormalR" type="Sprite" parent="Control/Blue/Nodes/DeckR/Right"]
 rotation = -0.261799
@@ -663,20 +709,10 @@ texture = ExtResource( 21 )
 normal_map = ExtResource( 22 )
 
 [node name="ReadyC" type="Node2D" parent="Control/Blue/Nodes/DeckR/Center"]
-editor/display_folded = true
 position = Vector2( 0, 19 )
 rotation = -6.28318
 
-[node name="SkillReadyC" type="Sprite" parent="Control/Blue/Nodes/DeckR/Center/ReadyC"]
-visible = false
-modulate = Color( 1, 1, 1, 0.6 )
-position = Vector2( -4.57764e-005, -17 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 29 )
-flip_v = true
-
 [node name="Set1" type="Node2D" parent="Control/Blue/Nodes/DeckR/Center/ReadyC"]
-editor/display_folded = true
 
 [node name="Cover1" type="Sprite" parent="Control/Blue/Nodes/DeckR/Center/ReadyC/Set1"]
 position = Vector2( -33.9999, 56.4999 )
@@ -743,48 +779,33 @@ vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
-[node name="CenterR" type="CPUParticles2D" parent="Control/Blue/Nodes"]
-self_modulate = Color( 1, 1, 1, 0.321569 )
-material = ExtResource( 6 )
-position = Vector2( -65.8337, 99.1664 )
-rotation = -0.261799
-scale = Vector2( 0.416667, 0.416667 )
-texture = ExtResource( 7 )
-gravity = Vector2( 0, 300 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-radial_accel_random = 1.0
-scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
-
 [node name="Container" type="Node2D" parent="Control/Blue/Nodes"]
-editor/display_folded = true
 light_mask = 0
 
 [node name="Sprite" type="Node2D" parent="Control/Blue/Nodes/Container"]
+editor/display_folded = true
 
 [node name="Normal" type="Sprite" parent="Control/Blue/Nodes/Container/Sprite"]
 visible = false
-texture = ExtResource( 30 )
-normal_map = ExtResource( 31 )
+texture = ExtResource( 29 )
+normal_map = ExtResource( 30 )
 offset = Vector2( -80, 0 )
 
 [node name="Damage" type="Sprite" parent="Control/Blue/Nodes/Container/Sprite"]
-texture = ExtResource( 32 )
-normal_map = ExtResource( 31 )
+texture = ExtResource( 31 )
+normal_map = ExtResource( 30 )
 offset = Vector2( -80, 0 )
 
 [node name="Destroy" type="Sprite" parent="Control/Blue/Nodes/Container/Sprite"]
 visible = false
-texture = ExtResource( 32 )
-normal_map = ExtResource( 31 )
+texture = ExtResource( 31 )
+normal_map = ExtResource( 30 )
 offset = Vector2( -80, 0 )
 
 [node name="Hole" type="Sprite" parent="Control/Blue/Nodes"]
 modulate = Color( 0.541176, 0.541176, 0.541176, 1 )
 position = Vector2( -48, 0 )
-texture = ExtResource( 33 )
+texture = ExtResource( 32 )
 
 [node name="Cover" type="Node2D" parent="Control/Blue/Nodes"]
 
@@ -794,43 +815,43 @@ position = Vector2( -48, 0.00012207 )
 
 [node name="CoverM" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( 150, -16.6666 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM2" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( 100, -8.33334 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM3" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( 50, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM4" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM5" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( -50, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM6" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( -100, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverM7" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL"]
 position = Vector2( -150, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, -31 )
 
 [node name="CoverL2" type="Node2D" parent="Control/Blue/Nodes/Cover"]
@@ -839,63 +860,64 @@ position = Vector2( -48, 0.00012207 )
 
 [node name="CoverM" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( 150, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM2" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( 99.9999, 16.6667 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM3" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( 50, 0 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM4" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM5" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( -50.0001, 33.3333 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM6" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( -100, 25 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverM7" type="Sprite" parent="Control/Blue/Nodes/Cover/CoverL2"]
 position = Vector2( -150, 8.33334 )
-texture = ExtResource( 34 )
-normal_map = ExtResource( 35 )
+texture = ExtResource( 33 )
+normal_map = ExtResource( 34 )
 offset = Vector2( 0, 31 )
 flip_v = true
 
 [node name="CoverF" type="Sprite" parent="Control/Blue/Nodes/Cover"]
 position = Vector2( 135, 0 )
-texture = ExtResource( 36 )
-normal_map = ExtResource( 37 )
+texture = ExtResource( 35 )
+normal_map = ExtResource( 36 )
 
 [node name="CoverR" type="Sprite" parent="Control/Blue/Nodes/Cover"]
 position = Vector2( -231, 0.00012207 )
-texture = ExtResource( 38 )
-normal_map = ExtResource( 39 )
+texture = ExtResource( 37 )
+normal_map = ExtResource( 38 )
 
 [node name="Engine" type="Node2D" parent="Control/Blue/Nodes"]
+editor/display_folded = true
 position = Vector2( 20, 0 )
 
 [node name="EngineL" type="Node2D" parent="Control/Blue/Nodes/Engine"]
@@ -904,15 +926,8 @@ position = Vector2( -452, -188 )
 [node name="Sprite" type="Node2D" parent="Control/Blue/Nodes/Engine/EngineL"]
 
 [node name="Normal" type="Sprite" parent="Control/Blue/Nodes/Engine/EngineL/Sprite"]
-editor/display_folded = true
-texture = ExtResource( 40 )
-normal_map = ExtResource( 41 )
-
-[node name="IndicatorRed" type="AnimatedSprite" parent="Control/Blue/Nodes/Engine/EngineL/Sprite/Normal"]
-position = Vector2( -6.99998, -133 )
-scale = Vector2( 3, 0.3 )
-animation = "indicator"
-playing = true
+texture = ExtResource( 39 )
+normal_map = ExtResource( 40 )
 
 [node name="EngineR" type="Node2D" parent="Control/Blue/Nodes/Engine"]
 position = Vector2( -452, 188 )
@@ -921,24 +936,10 @@ position = Vector2( -452, 188 )
 position = Vector2( 452, -188 )
 
 [node name="Normal" type="Sprite" parent="Control/Blue/Nodes/Engine/EngineR/Sprite"]
-editor/display_folded = true
 position = Vector2( -452, 188 )
-texture = ExtResource( 40 )
-normal_map = ExtResource( 41 )
+texture = ExtResource( 39 )
+normal_map = ExtResource( 40 )
 flip_v = true
-
-[node name="IndicatorGreen" type="AnimatedSprite" parent="Control/Blue/Nodes/Engine/EngineR/Sprite/Normal"]
-position = Vector2( -7, 133 )
-scale = Vector2( 3, 0.3 )
-animation = "indicatorG"
-playing = true
-
-[node name="IndicatorGreen2" type="AnimatedSprite" parent="Control/Blue/Nodes/Engine/EngineR/Sprite"]
-position = Vector2( -667, 294 )
-rotation = 1.01229
-scale = Vector2( 4.5, 0.6 )
-animation = "indicatorG"
-playing = true
 
 [node name="CenterL" type="CPUParticles2D" parent="Control/Blue"]
 self_modulate = Color( 1, 1, 1, 0.321569 )
@@ -997,25 +998,12 @@ rect_pivot_offset = Vector2( 68.0001, 372 )
 texture = ExtResource( 8 )
 expand = true
 
-[node name="L6" type="TextureRect" parent="."]
-self_modulate = Color( 1, 0.866667, 0.698039, 1 )
-material = ExtResource( 6 )
-margin_left = 885.0
-margin_top = 1005.0
-margin_right = 1021.0
-margin_bottom = 1377.0
-rect_rotation = -120.0
-rect_scale = Vector2( 1.00609, 1 )
-rect_pivot_offset = Vector2( 70.1938, 369 )
-texture = ExtResource( 8 )
-expand = true
-
 [node name="ProgressBar" type="ProgressBar" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -37.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 value = 50.0
 
@@ -1031,7 +1019,7 @@ margin_bottom = 960.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Test"]
 autoplay = "loading"
-anims/loading = SubResource( 9 )
+anims/loading = SubResource( 6 )
 
 [node name="Label" type="Label" parent="Test"]
 anchor_left = 0.5
@@ -1042,11 +1030,29 @@ margin_left = -122.0
 margin_top = -73.0
 margin_right = 116.0
 margin_bottom = -43.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 0.693713 )
 text = "NOW LOADING..."
 
 [node name="BGscroll" type="AnimationPlayer" parent="."]
 autoplay = "scroll"
-anims/scroll = SubResource( 11 )
+anims/scroll = SubResource( 8 )
+
+[node name="LightSimulation" type="Node" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="LightSimulation"]
+visible = false
+color = Color( 0.596078, 0.596078, 0.596078, 1 )
+
+[node name="Light2D" type="Light2D" parent="LightSimulation"]
+visible = false
+position = Vector2( 305, 867 )
+scale = Vector2( 4.875, 5.085 )
+texture = ExtResource( 42 )
+texture_scale = 50.0
+range_height = 20.0
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 0.00392157 )
+shadow_filter = 2
+shadow_filter_smooth = 4.0
 
