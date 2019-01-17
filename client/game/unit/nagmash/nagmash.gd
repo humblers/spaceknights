@@ -86,11 +86,10 @@ func Update():
 		targetId = 0
 		freeze -= 1
 		return
-	if isLeader:
-		if game.Step() % Skill()["perstep"] == 0:
-			var posX = game.World().ToPixel(initPosX)
-			var posY = game.World().ToPixel(initPosY)
-			spawn(Skill(), posX, posY)
+	if isLeader and game.Step() % Skill()["perstep"] == 0:
+		var posX = game.World().ToPixel(initPosX)
+		var posY = game.World().ToPixel(initPosY)
+		spawn(Skill(), posX, posY)
 	if cast > 0:
 		if cast == preCastDelay() + 1:
 			spawn(Skill(), castPosX, castPosY)

@@ -82,16 +82,14 @@ func (i *ironcoffin) attackRange() fixed.Scalar {
 }
 
 func (i *ironcoffin) Update() {
-	if i.isLeader {
-		if i.game.Step()%i.Skill()["perstep"].(int) == 0 {
-			i.spawn(i.Skill())
-		}
-	}
 	if i.freeze > 0 {
 		i.attack = 0
 		i.targetId = 0
 		i.freeze--
 		return
+	}
+	if i.isLeader && i.game.Step()%i.Skill()["perstep"].(int) == 0 {
+		i.spawn(i.Skill())
 	}
 	if i.cast > 0 {
 		if i.cast == i.preCastDelay()+1 {

@@ -86,6 +86,9 @@ func (v *valkyrie) Update() {
 		v.freeze--
 		return
 	}
+	if v.isLeader && v.game.Step()%v.Skill()["perstep"].(int) == 0 {
+		v.threatMissile()
+	}
 	if v.cast > 0 {
 		if v.cast == v.preCastDelay()+1 {
 			v.emp()
@@ -186,6 +189,19 @@ func (v *valkyrie) emp() {
 		if d < r.Mul(r) {
 			u.TakeDamage(damage, damageType)
 		}
+	}
+}
+
+func (v *valkyrie) threatMissile() {
+	skill := v.Skill()
+	unit := skill["unit"].(string)
+	count := skill["count"].(int)
+	offsetX := skill["offsetX"].([]int)
+	offsetY := skill["offsetY"].([]int)
+	posX := v.game.World().ToPixel(v.initPos.X)
+	posY := v.game.World().ToPixel(v.initPos.Y)
+	for i := 0; i < count; i++ {
+		v.game.AddUnit(unit, v.level, posX+offsetX[i], posY+offsetY[i], v.player)
 	}
 }
 

@@ -85,14 +85,13 @@ func attackRange():
 	return game.World().FromPixel(atkrange)
 
 func Update():
-	if isLeader:
-		if game.Step() % Skill()["perstep"] == 0:
-			spawn(Skill())
 	if freeze > 0:
 		attack = 0
 		targetId = 0
 		freeze -= 1
 		return
+	if isLeader and game.Step() % Skill()["perstep"] == 0:
+		spawn(Skill())
 	if cast > 0:
 		if cast == preCastDelay() + 1:
 			spawn(Skill())
