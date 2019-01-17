@@ -24,7 +24,7 @@ func newChampion(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (c *champion) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType.Is(data.AntiShield) {
+	if !damageType.Is(data.AntiShield) {
 		c.shield -= amount
 		if c.shield < 0 {
 			c.hp += c.shield

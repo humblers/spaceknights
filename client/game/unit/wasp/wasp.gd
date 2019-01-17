@@ -12,7 +12,7 @@ func Init(id, level, posX, posY, game, player):
 
 func TakeDamage(amount, damageType, attacker):
 	var alreadyDead = IsDead()
-	if data.DamageTypeIs(damageType, data.AntiShield):
+	if not data.DamageTypeIs(damageType, data.AntiShield):
 		shield -= amount
 		if shield < 0:
 			hp += shield

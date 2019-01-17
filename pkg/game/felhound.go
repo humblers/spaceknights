@@ -20,7 +20,7 @@ func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (f *felhound) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType.Is(data.AntiShield) {
+	if !damageType.Is(data.AntiShield) {
 		f.shield -= amount
 		if f.shield < 0 {
 			f.hp += f.shield

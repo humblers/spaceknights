@@ -24,7 +24,7 @@ func newPsabu(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (p *psabu) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType.Is(data.AntiShield) {
+	if !damageType.Is(data.AntiShield) {
 		p.shield -= amount
 		if p.shield < 0 {
 			p.hp += p.shield

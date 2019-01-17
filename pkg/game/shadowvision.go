@@ -26,7 +26,7 @@ func (s *shadowvision) TakeDamage(amount int, damageType data.DamageType) {
 	if s.Layer() != data.Normal {
 		return
 	}
-	if damageType.Is(data.AntiShield) {
+	if !damageType.Is(data.AntiShield) {
 		s.shield -= amount
 		if s.shield < 0 {
 			s.hp += s.shield

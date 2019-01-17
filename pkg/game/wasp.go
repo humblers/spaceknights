@@ -22,7 +22,7 @@ func newWasp(id int, level, posX, posY int, g Game, p Player) Unit {
 
 func (w *wasp) TakeDamage(amount int, damageType data.DamageType) {
 	alreadyDead := w.IsDead()
-	if damageType.Is(data.AntiShield) {
+	if !damageType.Is(data.AntiShield) {
 		w.shield -= amount
 		if w.shield < 0 {
 			w.hp += w.shield
