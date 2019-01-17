@@ -30,7 +30,7 @@ func Invalidate(card, pressed):
 	description_label.visible = pressed.sub_info.type == "leader"
 	stat_container.visible = pressed.sub_info.type == "wing"
 	if pressed.sub_info.type == "leader":
-		description_label.text = tr("leader_%s" % card.Name)
+		static_func.set_text(description_label, tr("leader_%s" % card.Name))
 	else:
 		var item_nodes = stat_container.get_children()
 		var pointer = 0

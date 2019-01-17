@@ -27,12 +27,15 @@ static func set_text(label, text, min_size = 28):
 		return
 	var font = label.get_font("font")
 	assert(font != null)
+	label.text = text
 	while font.size > min_size:
+		if label.autowrap and label.get_visible_line_count() >= label.get_line_count():
+			break
 		var size = font.get_string_size(text)
 		if size.x <= label.rect_size.x and size.y <= label.rect_size.y:
 			break
 		font.size -= 1
-	label.text = text
+		font.update_changes()
 
 static func get_time_left_string(total_sec):
 	assert(typeof(total_sec) == TYPE_INT)
