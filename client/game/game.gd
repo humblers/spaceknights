@@ -23,6 +23,7 @@ var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
 onready var closing_scene = $NonCameraFollowingUI/Closing
+onready var bgm_anim = $BGM/AnimationPlayer
 
 var map
 
@@ -202,6 +203,7 @@ func _physics_process(delta):
 	if frame % frame_per_step == 0:
 		if Over():
 			set_physics_process(false)
+			bgm_anim.play("fade-out")
 			closing_scene.Init(user.Rank, user.Medal, user.BattleChestOrder + 1)
 			var my_team = $Players/Blue.team
 			var enemy_team = "Blue" if my_team == "Red" else "Red"
