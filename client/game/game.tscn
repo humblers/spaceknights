@@ -316,13 +316,13 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 mothership = NodePath("../../Motherships/Blue")
 tile = NodePath("../../CameraFollowingUI/Tile")
-energy_bar = NodePath("../../CameraFollowingUI/Energy")
+energy_bar = NodePath("../../CameraFollowingUI/RenderOverPivot/Energy")
 unit_ready_sound = NodePath("../../Resource/UnitReadySound")
 hand1 = NodePath("../../CameraFollowingUI/Hand1")
 hand2 = NodePath("../../CameraFollowingUI/Hand2")
 hand3 = NodePath("../../CameraFollowingUI/Hand3")
 hand4 = NodePath("../../CameraFollowingUI/Hand4")
-next = NodePath("../../CameraFollowingUI/Next")
+next = NodePath("../../CameraFollowingUI/RenderOverPivot/Next")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Players/Blue"]
 autoplay = true
@@ -801,48 +801,51 @@ margin_right = 842.0
 margin_left = 854.0
 margin_right = 1044.0
 
-[node name="Next" type="Node2D" parent="CameraFollowingUI"]
+[node name="RenderOverPivot" type="Node2D" parent="CameraFollowingUI"]
+z_index = 2
+
+[node name="Next" type="Node2D" parent="CameraFollowingUI/RenderOverPivot"]
 editor/display_folded = true
 material = ExtResource( 11 )
 position = Vector2( 136, 1784 )
 scale = Vector2( 0.9, 0.98 )
 script = ExtResource( 14 )
-icon = NodePath("../../Resource/Icon")
+icon = NodePath("../../../Resource/Icon")
 
-[node name="Base" type="Sprite" parent="CameraFollowingUI/Next"]
+[node name="Base" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
 texture = ExtResource( 15 )
 
-[node name="Icon" type="Sprite" parent="CameraFollowingUI/Next"]
+[node name="Icon" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
 texture = ExtResource( 16 )
 
-[node name="NotReady" type="Sprite" parent="CameraFollowingUI/Next/Icon"]
+[node name="NotReady" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next/Icon"]
 use_parent_material = true
 texture = ExtResource( 17 )
 
-[node name="Next" type="Sprite" parent="CameraFollowingUI/Next"]
+[node name="Next" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 modulate = Color( 0.235294, 0.603922, 1, 1 )
 use_parent_material = true
 texture = ExtResource( 18 )
 
-[node name="Scanline" type="Sprite" parent="CameraFollowingUI/Next"]
+[node name="Scanline" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 modulate = Color( 1, 1, 1, 0.164706 )
 use_parent_material = true
 texture = ExtResource( 19 )
 
-[node name="Frame" type="Sprite" parent="CameraFollowingUI/Next"]
+[node name="Frame" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
 texture = ExtResource( 20 )
 
-[node name="Energy" parent="CameraFollowingUI/Next" instance=ExtResource( 21 )]
+[node name="Energy" parent="CameraFollowingUI/RenderOverPivot/Next" instance=ExtResource( 21 )]
 editor/display_folded = true
 position = Vector2( -63.3333, -40.8164 )
 scale = Vector2( 0.9, 0.9 )
 frame = 4
 playing = false
 
-[node name="Cost" type="Label" parent="CameraFollowingUI/Next/Energy"]
+[node name="Cost" type="Label" parent="CameraFollowingUI/RenderOverPivot/Next/Energy"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -862,7 +865,7 @@ text = "5"
 align = 1
 valign = 1
 
-[node name="Energy" type="TextureProgress" parent="CameraFollowingUI"]
+[node name="Energy" type="TextureProgress" parent="CameraFollowingUI/RenderOverPivot"]
 material = ExtResource( 11 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -877,13 +880,13 @@ texture_under = ExtResource( 22 )
 texture_over = ExtResource( 23 )
 texture_progress = ExtResource( 24 )
 
-[node name="EnergyBoost" type="Node2D" parent="CameraFollowingUI"]
+[node name="EnergyBoost" type="Node2D" parent="CameraFollowingUI/RenderOverPivot"]
 editor/display_folded = true
 visible = false
 position = Vector2( 85, 1881 )
 scale = Vector2( 1.2, 1.2 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="CameraFollowingUI/EnergyBoost"]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="CameraFollowingUI/RenderOverPivot/EnergyBoost"]
 light_mask = 2
 position = Vector2( 8.83331, 17 )
 amount = 16
@@ -899,7 +902,7 @@ scale_amount = 1.4
 scale_amount_curve = SubResource( 11 )
 color = Color( 0.235294, 1, 0.603922, 0.588235 )
 
-[node name="CPUParticles2D3" type="CPUParticles2D" parent="CameraFollowingUI/EnergyBoost"]
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="CameraFollowingUI/RenderOverPivot/EnergyBoost"]
 light_mask = 2
 position = Vector2( 8.83331, 18 )
 amount = 16
@@ -914,7 +917,7 @@ scale_amount = 2.0
 scale_amount_curve = SubResource( 12 )
 color = Color( 0.388235, 1, 0.670588, 1 )
 
-[node name="Light2D" type="Light2D" parent="CameraFollowingUI/EnergyBoost"]
+[node name="Light2D" type="Light2D" parent="CameraFollowingUI/RenderOverPivot/EnergyBoost"]
 position = Vector2( 66.6666, 18 )
 scale = Vector2( 6.92708, 1.4 )
 texture = ExtResource( 26 )
@@ -926,7 +929,6 @@ autoplay = "hand_show"
 anims/hand_show = ExtResource( 27 )
 
 [node name="NonCameraFollowingUI" type="CanvasLayer" parent="."]
-editor/display_folded = true
 __meta__ = {
 "_edit_horizontal_guides_": [  ],
 "_edit_vertical_guides_": [  ]

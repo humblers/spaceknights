@@ -24,6 +24,8 @@ var step = 0
 onready var world = $Resource/Physics.get_resource("world").new(params)
 onready var closing_scene = $NonCameraFollowingUI/Closing
 onready var bgm_anim = $BGM/AnimationPlayer
+onready var boost_ui = $NonCameraFollowingUI/EnergyBoost
+onready var boost_fx = $CameraFollowingUI/RenderOverPivot/EnergyBoost
 
 var map
 
@@ -291,11 +293,11 @@ func update_time():
 
 func update_energy_boost():
 	if step > data.EnergyBoostAfter:
-		$NonCameraFollowingUI/EnergyBoost.visible = true
-		$CameraFollowingUI/EnergyBoost.visible = true
+		boost_ui.visible = true
+		boost_fx.visible = true
 	else:
-		$NonCameraFollowingUI/EnergyBoost.visible = false
-		$CameraFollowingUI/EnergyBoost.visible = false
+		boost_ui.visible = false
+		boost_fx.visible = false
 
 func printGameState():
 	for id in units.keys():
