@@ -1,17 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=1]
-[ext_resource path="res://lobby/resource/squire_common_frame.png" type="Texture" id=2]
-[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/ui/no_light.tres" type="Material" id=1]
+[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=2]
+[ext_resource path="res://lobby/resource/squire_common_frame.png" type="Texture" id=3]
 [ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=4]
-
-[sub_resource type="DynamicFont" id=1]
-
-size = 42
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 4 )
+[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -29,11 +22,21 @@ outline_color = Color( 0.164706, 0.164706, 0.164706, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=1]
+
+size = 40
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
 [sub_resource type="Animation" id=4]
 
 length = 0.2
 
 [node name="ItemBase" type="MarginContainer"]
+material = ExtResource( 1 )
+use_parent_material = true
 margin_top = 1.0
 margin_right = 250.0
 margin_bottom = 281.0
@@ -41,45 +44,30 @@ rect_min_size = Vector2( 250, 196 )
 mouse_filter = 1
 
 [node name="Control" type="Control" parent="."]
+use_parent_material = true
 margin_right = 250.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 250, 300 )
 mouse_filter = 1
 
 [node name="Icon" type="TextureRect" parent="Control"]
+use_parent_material = true
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 238.0
 margin_bottom = 248.0
 rect_min_size = Vector2( 224, 234 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 expand = true
 
 [node name="Frame" type="TextureRect" parent="Control"]
+use_parent_material = true
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 2 )
-
-[node name="Energy" parent="Control" instance=ExtResource( 3 )]
-position = Vector2( 37.8801, 55.268 )
-frame = 0
-playing = false
-
-[node name="Label" type="Label" parent="Control/Energy"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = -61.0
-margin_right = -10.0
-margin_bottom = 6.0
-custom_fonts/font = SubResource( 1 )
-text = "3"
-align = 1
-valign = 1
+texture = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="Control"]
+use_parent_material = true
 margin_left = 55.0
 margin_top = 244.0
 margin_right = 100.0
@@ -91,6 +79,7 @@ align = 1
 valign = 2
 
 [node name="Lv" type="Label" parent="Control"]
+use_parent_material = true
 margin_left = 105.0
 margin_top = 223.0
 margin_right = 201.0
@@ -100,6 +89,26 @@ custom_fonts/font = SubResource( 3 )
 text = "02"
 align = 1
 valign = 2
+
+[node name="Cost" parent="Control" instance=ExtResource( 5 )]
+position = Vector2( 42.1184, 50.7236 )
+scale = Vector2( 1.2, 1.2 )
+frame = 9
+
+[node name="Label" type="Label" parent="Control/Cost"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -53.0
+margin_top = -57.3333
+margin_right = -9.0
+margin_bottom = 9.66667
+custom_fonts/font = SubResource( 1 )
+text = "3"
+align = 1
+valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/down = SubResource( 4 )
