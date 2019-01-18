@@ -11,6 +11,11 @@ export(NodePath) onready var knight_button_left = get_node(knight_button_left)
 export(NodePath) onready var knight_button_right = get_node(knight_button_right)
 export(NodePath) onready var mothership = get_node(mothership)
 
+onready var icon = $Card/ItemBase/Control/Icon
+onready var cost_label = $Card/ItemBase/Control/Energy/Label
+onready var cost_icon = $Card/ItemBase/Control/Energy
+onready var energy_bar = $Card/Energy
+
 onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
 onready var card_init_z_index = $Card.z_index
@@ -22,6 +27,10 @@ var pressed = false
 var input_sent = false
 
 func _ready():
+	# don't show lv info
+	$Card/ItemBase/Control/Label.visible = false
+	$Card/ItemBase/Control/Lv.visible = false
+	
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
@@ -50,11 +59,9 @@ func Set(card):
 func Update(energy):
 	if input_sent:
 		return
-	var ready = energy >= $Card/Energy.max_value
-	$Card/Icon/NotReady.visible = not ready
-	$Card/Icon/Ready.visible = ready
-	$Card/Cost.playing = ready
-	$Card/Energy.value = energy
+	var ready = energy >= energy_bar.max_value
+	cost_icon.playing = ready
+	energy_bar.value = energy
 	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
 		mothership.UpdateDeckReadyState(card.Side, ratio)
@@ -64,9 +71,9 @@ func init_card(card = null):
 	$Card.scale = card_init_scale
 	$Card.z_index = card_init_z_index
 	if card != null:
-		$Card/Icon.texture = icon_resource.get_resource(card.Name)
-		$Card/Cost/Label.text = str(card.Cost/1000)
-		$Card/Energy.max_value = card.Cost
+		icon.texture = icon_resource.get_resource(card.Name)
+		cost_label.text = str(card.Cost/1000)
+		energy_bar.max_value = card.Cost
 	
 func init_cursor(card = null):
 	$Cursor.visible = false

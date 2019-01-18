@@ -1,32 +1,11 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/player/hand.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/no_light.tres" type="Material" id=2]
-[ext_resource path="res://game/player/card/bt_bot.png" type="Texture" id=3]
-[ext_resource path="res://share/icon/ingame/card/felhound.png" type="Texture" id=4]
-[ext_resource path="res://game/player/card/bt_wait_top.png" type="Texture" id=5]
-[ext_resource path="res://game/player/card/bt_ready_top.png" type="Texture" id=6]
-[ext_resource path="res://game/player/card/bt_noise.png" type="Texture" id=7]
-[ext_resource path="res://game/player/card/scanline.png" type="Texture" id=8]
-[ext_resource path="res://game/player/card/bt_ready_bot_frame.png" type="Texture" id=9]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=10]
-[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=11]
-[ext_resource path="res://lobby/hud/quantum_icon_1.png" type="Texture" id=12]
-[ext_resource path="res://lobby/hud/quantum_icon_2.png" type="Texture" id=13]
-[ext_resource path="res://lobby/hud/quantum_icon_3.png" type="Texture" id=14]
-[ext_resource path="res://lobby/hud/quantum_icon_4.png" type="Texture" id=15]
-[ext_resource path="res://lobby/hud/quantum_icon_5.png" type="Texture" id=16]
-[ext_resource path="res://lobby/hud/quantum_icon_6.png" type="Texture" id=17]
-[ext_resource path="res://lobby/hud/quantum_icon_7.png" type="Texture" id=18]
-[ext_resource path="res://lobby/hud/quantum_icon_8.png" type="Texture" id=19]
-[ext_resource path="res://lobby/hud/quantum_icon_9.png" type="Texture" id=20]
-[ext_resource path="res://lobby/hud/quantum_icon_10.png" type="Texture" id=21]
-[ext_resource path="res://lobby/hud/quantum_icon_11.png" type="Texture" id=22]
-[ext_resource path="res://lobby/hud/quantum_icon_12.png" type="Texture" id=23]
-[ext_resource path="res://font/noto_sans_display_black.ttf" type="DynamicFontData" id=24]
-[ext_resource path="res://game/player/card/unit_cost_gage_bot.png" type="Texture" id=25]
-[ext_resource path="res://game/player/card/unit_cost_gage_top.png" type="Texture" id=26]
-[ext_resource path="res://game/player/card/unit_cost_gage_inside.png" type="Texture" id=27]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/player/card/unit_cost_gage_bot.png" type="Texture" id=4]
+[ext_resource path="res://game/player/card/unit_cost_gage_top.png" type="Texture" id=5]
+[ext_resource path="res://game/player/card/unit_cost_gage_inside.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 
@@ -62,23 +41,6 @@ tracks/0/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="SpriteFrames" id=3]
-
-animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "quantum",
-"speed": 10.0
-} ]
-
-[sub_resource type="DynamicFont" id=4]
-
-size = 42
-outline_size = 2
-outline_color = Color( 0.0627451, 0.231373, 0.427451, 1 )
-use_filter = true
-font_data = ExtResource( 24 )
-
 [node name="Hand1" type="Control"]
 margin_left = 248.0
 margin_top = 1710.0
@@ -110,83 +72,12 @@ position = Vector2( 95, 65 )
 material = ExtResource( 2 )
 position = Vector2( 95, 65 )
 
-[node name="Base" type="Sprite" parent="Card"]
-visible = false
-use_parent_material = true
-texture = ExtResource( 3 )
-
-[node name="Icon" type="Sprite" parent="Card"]
-editor/display_folded = true
-visible = false
-use_parent_material = true
-texture = ExtResource( 4 )
-
-[node name="NotReady" type="Sprite" parent="Card/Icon"]
-use_parent_material = true
-texture = ExtResource( 5 )
-
-[node name="Ready" type="Sprite" parent="Card/Icon"]
-visible = false
-use_parent_material = true
-texture = ExtResource( 6 )
-
-[node name="NotAvailable" type="CPUParticles2D" parent="Card"]
-visible = false
-light_mask = 32768
-use_parent_material = true
-speed_scale = 10.0
-texture = ExtResource( 7 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 8.92089e+015
-radial_accel = 2.0
-radial_accel_random = 1.0
-color = Color( 0.458824, 0.545098, 0.54902, 1 )
-
-[node name="Scanline" type="Sprite" parent="Card"]
-visible = false
-modulate = Color( 1, 1, 1, 0.164706 )
-use_parent_material = true
-texture = ExtResource( 8 )
-
-[node name="Frame" type="Sprite" parent="Card"]
-visible = false
-use_parent_material = true
-texture = ExtResource( 9 )
-
-[node name="ItemBase" parent="Card" instance=ExtResource( 10 )]
+[node name="ItemBase" parent="Card" instance=ExtResource( 3 )]
 margin_left = -88.0
 margin_top = -79.0
 margin_right = 162.0
 margin_bottom = 221.0
 rect_scale = Vector2( 0.7, 0.7 )
-
-[node name="Cost" parent="Card" instance=ExtResource( 11 )]
-visible = false
-position = Vector2( -66, -41 )
-frames = SubResource( 3 )
-frame = 8
-
-[node name="Label" type="Label" parent="Card/Cost"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -51.0
-margin_top = -60.0
-margin_right = -11.0
-margin_bottom = 7.0
-custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0.109804, 0.270588, 1 )
-custom_constants/shadow_offset_x = 4
-custom_constants/line_spacing = 0
-custom_constants/shadow_offset_y = 3
-custom_constants/shadow_as_outline = 0
-text = "5"
-align = 1
-valign = 1
 
 [node name="Energy" type="TextureProgress" parent="Card"]
 use_parent_material = true
@@ -195,7 +86,7 @@ margin_top = 66.0
 margin_right = 95.0
 margin_bottom = 86.0
 value = 30.0
-texture_under = ExtResource( 25 )
-texture_over = ExtResource( 26 )
-texture_progress = ExtResource( 27 )
+texture_under = ExtResource( 4 )
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 6 )
 
