@@ -545,6 +545,8 @@ func (g *game) AddUnit(name string, level, posX, posY int, p Player) Unit {
 		u = newTombstone(id, level, posX, posY, g, p)
 	case "trainee":
 		u = newTrainee(id, level, posX, posY, g, p)
+	case "valkyrie":
+		u = newValkyrie(id, level, posX, posY, g, p)
 	case "voidcreeper":
 		u = newVoidcreeper(id, level, posX, posY, g, p)
 	case "wasp":
