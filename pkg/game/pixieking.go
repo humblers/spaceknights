@@ -82,16 +82,14 @@ func (p *pixieking) attackRange() fixed.Scalar {
 }
 
 func (p *pixieking) Update() {
-	if p.isLeader {
-		if p.game.Step()%p.Skill()["perstep"].(int) == 0 {
-			p.spawn(p.Skill())
-		}
-	}
 	if p.freeze > 0 {
 		p.attack = 0
 		p.targetId = 0
 		p.freeze--
 		return
+	}
+	if p.isLeader && p.game.Step()%p.Skill()["perstep"].(int) == 0 {
+		p.spawn(p.Skill())
 	}
 	if p.cast > 0 {
 		if p.cast == p.preCastDelay()+1 {

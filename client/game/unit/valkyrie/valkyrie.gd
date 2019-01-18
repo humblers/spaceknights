@@ -82,6 +82,8 @@ func Update():
 		targetId = 0
 		freeze -= 1
 		return
+	if isLeader and game.Step() % Skill()["perstep"] == 0:
+		threatMissile()
 	if cast > 0:
 		if cast == preCastDelay() + 1:
 			emp()
@@ -182,6 +184,16 @@ func emp():
 	skill.position = pos
 	skill.z_index = Z_INDEX["Skill"]
 
+func threatMissile():
+	var skill = Skill()
+	var unit = skill["unit"]
+	var count = skill["count"]
+	var offsetX = skill["offsetX"]
+	var offsetY = skill["offsetY"]
+	var posX = game.World().ToPixel(initPosX)
+	var posY = game.World().ToPixel(initPosY)
+	for i in count:
+		game.AddUnit(unit, level, posX + offsetX[i], posY + offsetY[i], player)
 
 func target():
 	return game.FindUnit(targetId)
