@@ -20,7 +20,7 @@ onready var medal4 = $Result/Icon/Medal/Medals/Medal4
 onready var medal5 = $Result/Icon/Medal/Medals/Medal5
 
 onready var chest_name = $Boxopen/Chest/ChestNameBG/ChestName
-onready var chest_icons = $Boxopen/Chest/ItemChest
+onready var chest_icons = $Boxopen/Chest/ChestIcon
 
 var medal = 0
 var anim_finished = false
