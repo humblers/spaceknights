@@ -12,8 +12,8 @@ export(NodePath) onready var knight_button_right = get_node(knight_button_right)
 export(NodePath) onready var mothership = get_node(mothership)
 
 onready var icon = $Card/ItemBase/Control/Icon
-onready var cost_label = $Card/ItemBase/Control/Energy/Label
-onready var cost_icon = $Card/ItemBase/Control/Energy
+onready var cost_label = $Card/ItemBase/Control/Cost/Label
+onready var cost_icon = $Card/ItemBase/Control/Cost
 onready var energy_bar = $Card/Energy
 
 onready var card_init_pos = $Card.position
