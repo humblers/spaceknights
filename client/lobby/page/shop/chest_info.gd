@@ -89,4 +89,4 @@ func _process(delta):
 
 func time_left():
 	assert(chest)
-	return int(chest.AcquiredAt) + data.Chests[chest.Name].Duration - OS.get_unix_time()
+	return chest.AcquiredAt + data.Chests[chest.Name].Duration - OS.get_unix_time()
