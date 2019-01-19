@@ -1,25 +1,26 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=82 format=2]
 
-[ext_resource path="res://lobby/resource/itemchest1a.png" type="Texture" id=1]
-[ext_resource path="res://lobby/resource/itemchest1b.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=6]
-[ext_resource path="res://lobby/resource/itemchest1c.png" type="Texture" id=7]
-[ext_resource path="res://lobby/resource/itemchest2a.png" type="Texture" id=8]
-[ext_resource path="res://lobby/resource/itemchest2b.png" type="Texture" id=9]
-[ext_resource path="res://lobby/resource/itemchest2c.png" type="Texture" id=10]
-[ext_resource path="res://lobby/resource/itemchest3a.png" type="Texture" id=11]
-[ext_resource path="res://lobby/resource/itemchest3b.png" type="Texture" id=12]
-[ext_resource path="res://lobby/resource/itemchest3c.png" type="Texture" id=13]
-[ext_resource path="res://lobby/resource/itemchest4a.png" type="Texture" id=14]
-[ext_resource path="res://lobby/resource/itemchest4b.png" type="Texture" id=15]
-[ext_resource path="res://lobby/resource/pointlight.png" type="Texture" id=16]
-[ext_resource path="res://lobby/resource/itemchest4c.png" type="Texture" id=17]
-[ext_resource path="res://lobby/resource/itemchest5a.png" type="Texture" id=18]
-[ext_resource path="res://lobby/resource/itemchest5b.png" type="Texture" id=19]
-[ext_resource path="res://lobby/resource/itemchest5c.png" type="Texture" id=20]
+[ext_resource path="res://lobby/resource/chest_icon.gd" type="Script" id=1]
+[ext_resource path="res://lobby/resource/itemchest1a.png" type="Texture" id=2]
+[ext_resource path="res://lobby/resource/itemchest1b.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=7]
+[ext_resource path="res://lobby/resource/itemchest1c.png" type="Texture" id=8]
+[ext_resource path="res://lobby/resource/itemchest2a.png" type="Texture" id=9]
+[ext_resource path="res://lobby/resource/itemchest2b.png" type="Texture" id=10]
+[ext_resource path="res://lobby/resource/itemchest2c.png" type="Texture" id=11]
+[ext_resource path="res://lobby/resource/itemchest3a.png" type="Texture" id=12]
+[ext_resource path="res://lobby/resource/itemchest3b.png" type="Texture" id=13]
+[ext_resource path="res://lobby/resource/itemchest3c.png" type="Texture" id=14]
+[ext_resource path="res://lobby/resource/itemchest4a.png" type="Texture" id=15]
+[ext_resource path="res://lobby/resource/itemchest4b.png" type="Texture" id=16]
+[ext_resource path="res://lobby/resource/pointlight.png" type="Texture" id=17]
+[ext_resource path="res://lobby/resource/itemchest4c.png" type="Texture" id=18]
+[ext_resource path="res://lobby/resource/itemchest5a.png" type="Texture" id=19]
+[ext_resource path="res://lobby/resource/itemchest5b.png" type="Texture" id=20]
+[ext_resource path="res://lobby/resource/itemchest5c.png" type="Texture" id=21]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -966,12 +967,13 @@ tracks/14/keys = {
 }
 
 [node name="ChestIcon" type="Control"]
+script = ExtResource( 1 )
 
 [node name="Silver" type="Control" parent="."]
 editor/display_folded = true
 
 [node name="Closed" type="TextureRect" parent="Silver"]
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="Open" type="Control" parent="Silver"]
 editor/display_folded = true
@@ -1001,26 +1003,26 @@ color_ramp = SubResource( 4 )
 editor/display_folded = true
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Glow" type="TextureRect" parent="Silver/Open/Open1"]
 visible = false
 self_modulate = Color( 0.415686, 0.517647, 1, 0.4 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 margin_left = 20.0
 margin_top = -168.0
 margin_right = 52.0
 margin_bottom = -136.0
 rect_scale = Vector2( 10, 10 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Steam" type="CPUParticles2D" parent="Silver/Open/Open1"]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 position = Vector2( 241, 59 )
 emitting = false
 amount = 16
 speed_scale = 0.5
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 200, 100 )
 initial_velocity = 30.0
@@ -1035,7 +1037,7 @@ color_ramp = SubResource( 6 )
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Silver/Open/Open1"]
 position = Vector2( 185, 23 )
 emitting = false
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 spread = 180.0
 gravity = Vector2( 0, -150 )
 angular_velocity = 180.0
@@ -1048,7 +1050,7 @@ color_ramp = SubResource( 7 )
 [node name="Open2" type="TextureRect" parent="Silver/Open/Open1"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="Chest1" type="AnimationPlayer" parent="Silver"]
 anims/chestopen1 = SubResource( 8 )
@@ -1058,7 +1060,7 @@ editor/display_folded = true
 visible = false
 
 [node name="Closed" type="TextureRect" parent="Gold"]
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Open" type="Control" parent="Gold"]
 editor/display_folded = true
@@ -1087,7 +1089,7 @@ color_ramp = SubResource( 12 )
 [node name="Open1" type="TextureRect" parent="Gold/Open"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Glow" type="TextureRect" parent="Gold/Open/Open1"]
 visible = false
@@ -1144,7 +1146,7 @@ color_ramp = SubResource( 20 )
 [node name="Open2" type="TextureRect" parent="Gold/Open/Open1"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Chest2" type="AnimationPlayer" parent="Gold"]
 anims/chestopen2 = SubResource( 21 )
@@ -1154,7 +1156,7 @@ editor/display_folded = true
 visible = false
 
 [node name="Closed" type="TextureRect" parent="Diamond"]
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Open" type="Control" parent="Diamond"]
 editor/display_folded = true
@@ -1183,7 +1185,7 @@ color_ramp = SubResource( 25 )
 [node name="Open1" type="TextureRect" parent="Diamond/Open"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Glow" type="TextureRect" parent="Diamond/Open/Open1"]
 visible = false
@@ -1240,7 +1242,7 @@ color_ramp = SubResource( 33 )
 [node name="Open2" type="TextureRect" parent="Diamond/Open/Open1"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="Chest3" type="AnimationPlayer" parent="Diamond"]
 anims/chestopen3 = SubResource( 34 )
@@ -1250,7 +1252,7 @@ editor/display_folded = true
 visible = false
 
 [node name="Closed" type="TextureRect" parent="D-Meter"]
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 
 [node name="Open" type="Control" parent="D-Meter"]
 editor/display_folded = true
@@ -1279,7 +1281,7 @@ color_ramp = SubResource( 38 )
 [node name="Open1" type="TextureRect" parent="D-Meter/Open"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 
 [node name="Glow" type="TextureRect" parent="D-Meter/Open/Open1"]
 visible = false
@@ -1295,14 +1297,14 @@ texture = SubResource( 40 )
 [node name="Light3" type="TextureRect" parent="D-Meter/Open/Open1"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 margin_left = 28.0
 margin_top = -211.0
 margin_right = 328.0
 margin_bottom = 89.0
 rect_scale = Vector2( 0.2, 0.7 )
 rect_pivot_offset = Vector2( 151, 298 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 [node name="Steam" type="CPUParticles2D" parent="D-Meter/Open/Open1"]
 material = SubResource( 41 )
@@ -1339,7 +1341,7 @@ color_ramp = SubResource( 46 )
 [node name="Open2" type="TextureRect" parent="D-Meter/Open/Open1"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 
 [node name="Chest4" type="AnimationPlayer" parent="D-Meter"]
 anims/chestopen4 = SubResource( 47 )
@@ -1349,7 +1351,7 @@ editor/display_folded = true
 visible = false
 
 [node name="Closed" type="TextureRect" parent="E-Meter"]
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 
 [node name="Open" type="Control" parent="E-Meter"]
 editor/display_folded = true
@@ -1378,7 +1380,7 @@ color_ramp = SubResource( 51 )
 [node name="Open1" type="TextureRect" parent="E-Meter/Open"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 
 [node name="Glow" type="TextureRect" parent="E-Meter/Open/Open1"]
 visible = false
@@ -1394,26 +1396,26 @@ texture = SubResource( 53 )
 [node name="Light" type="TextureRect" parent="E-Meter/Open/Open1"]
 visible = false
 modulate = Color( 1, 1, 1, 0.360784 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 margin_left = 30.0
 margin_top = -208.0
 margin_right = 330.0
 margin_bottom = 92.0
 rect_scale = Vector2( 1.5, 1 )
 rect_pivot_offset = Vector2( 151, 298 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 [node name="Light2" type="TextureRect" parent="E-Meter/Open/Open1"]
 visible = false
 modulate = Color( 1, 1, 1, 0.305882 )
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 margin_left = 30.0
 margin_top = -208.0
 margin_right = 330.0
 margin_bottom = 92.0
 rect_scale = Vector2( 1, 0.8 )
 rect_pivot_offset = Vector2( 151, 298 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 [node name="Steam" type="CPUParticles2D" parent="E-Meter/Open/Open1"]
 material = SubResource( 54 )
@@ -1449,7 +1451,7 @@ color_ramp = SubResource( 59 )
 [node name="Open2" type="TextureRect" parent="E-Meter/Open/Open1"]
 margin_right = 363.0
 margin_bottom = 174.0
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 
 [node name="Chest5" type="AnimationPlayer" parent="E-Meter"]
 anims/chestopen5 = SubResource( 60 )

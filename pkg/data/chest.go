@@ -2,6 +2,7 @@ package data
 
 import "encoding/json"
 
+const TimeReductionPerCash = 10 * 60 // seconds
 const RequiredMedalsForMedalChest = 10
 
 var CardPool [ArenaCount]map[CardRarity][]string
@@ -19,6 +20,14 @@ func init() {
 	}
 }
 
+func RequiredCashForTime(sec int) int {
+	cash := sec / TimeReductionPerCash
+	if sec%TimeReductionPerCash > 0 {
+		cash++
+	}
+	return cash
+}
+
 type Chest struct {
 	Name         string
 	AcquiredRank int
@@ -29,12 +38,12 @@ type ChestInfo struct {
 	Name           string `json:"-"`
 	Duration       int64
 	Price          int
-	MinCash        int                                `json:"-"`
-	MaxCash        int                                `json:"-"`
-	MinGoldPerCard int                                `json:"-"`
-	MaxGoldPerCard int                                `json:"-"`
-	NumCards       [ArenaCount]int                    `json:"-"`
-	Guaranteed     map[CardRarity][ArenaCount]int     `json:"-"`
+	MinCash        int `json:"-"`
+	MaxCash        int `json:"-"`
+	MinGoldPerCard int
+	MaxGoldPerCard int
+	NumCards       [ArenaCount]int
+	Guaranteed     map[CardRarity][ArenaCount]int
 	ExtraCards     map[CardRarity][ArenaCount]float64 `json:"-"`
 	BundleMin      int                                `json:"-"`
 }

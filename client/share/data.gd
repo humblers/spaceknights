@@ -1511,28 +1511,89 @@ func fillStatByLevel(key, value):
 		_:
 			return null
 
+const TimeReductionPerCash = 10 * 60 # sec
+const RequiredMedalsForMedalChest = 10
 
+func RequiredCashForTime(sec):
+	var cash = sec / TimeReductionPerCash
+	if sec % TimeReductionPerCash > 0:
+		cash += 1
+	return cash
+	
 var Chests = {
 	"Silver": {
 		"Duration":       3600 * 3,
+		"MinGoldPerCard": 7,
+		"MaxGoldPerCard": 8,
+		"NumCards":       [7, 8, 9, 10, 12, 13],
+		"Guaranteed": {
+			"Rare": [0, 0, 1, 1, 1, 1],
+		},
+
 	},
 	"Gold": {
 		"Duration":       3600 * 8,
+		"MinGoldPerCard": 14,
+		"MaxGoldPerCard": 16,
+		"NumCards":       [14, 16, 18, 21, 23, 26],
+		"Guaranteed": {
+			"Rare": [3, 4, 4, 5, 5, 6],
+		},
+
 	},
 	"Diamond": {
 		"Duration":       3600 * 12,
+		"MinGoldPerCard": 5,
+		"MaxGoldPerCard": 5,
+		"NumCards":       [89, 93, 97, 101, 105, 109],
+		"Guaranteed": {
+			"Rare": [14, 15, 16, 16, 17, 18],
+			"Epic": [1, 1, 1, 2, 2, 2],
+		},
+
 	},
 	"D-Matter": {
 		"Duration":       3600 * 12,
+		"MinGoldPerCard": 7,
+		"MaxGoldPerCard": 7,
+		"NumCards":       [178, 186, 194, 202, 210, 218],
+		"Guaranteed": {
+			"Rare": [35, 37, 38, 40, 42, 43],
+			"Epic": [5, 6, 6, 6, 7, 7],
+		},
+
 	},
 	"E-Matter": {
 		"Duration":       3600 * 12,
+		"MinGoldPerCard": 12,
+		"MaxGoldPerCard": 12,
+		"NumCards":       [260, 270, 280, 290, 300, 310],
+		"Guaranteed": {
+			"Rare":      [52, 54, 56, 58, 60, 62],
+			"Epic":      [17, 18, 18, 19, 20, 20],
+			"Legendary": [0, 0, 0, 0, 1, 1],
+		},
+
 	},
 	"Free": {
 		"Duration":       3600 * 4,
+		"MinGoldPerCard": 7,
+		"MaxGoldPerCard": 8,
+		"NumCards":       [5, 6, 7, 8, 9, 11],
+		"Guaranteed": {
+			"Rare": [0, 0, 0, 0, 0, 1],
+		},
+
 	},
 	"Medal": {
 		"Duration": 0,
+		"MinGoldPerCard": 14,
+		"MaxGoldPerCard": 16,
+		"NumCards":       [27, 32, 37, 42, 46, 51],
+		"Guaranteed": {
+			"Rare": [4, 5, 6, 7, 7, 8],
+		},
+
 	},
 }
 
@@ -1779,7 +1840,7 @@ var ChestOrder = [
 	"Silver",
 ]
 
-const RankNames= {
+const RankNames = {
 	0: "astra",
 	1: "legion",
 	2: "tombstone",
@@ -1806,4 +1867,26 @@ const RankNames= {
 	23: "trainee",
 	24: "felhound",
 	25: "pixie",
+}
+
+const ArenaCount = 6
+const Thanatos = 0
+const Solamante = 1
+const Lunatos = 2
+const Kinetica = 3
+const Karas = 4
+const Eoparu = 5
+
+static func ArenaFromRank(rank):
+	if rank == 0:
+		return "Eoparu"
+	return ArenaCount - ((rank-1)/5 + 2)
+
+const ArenaNames = {
+	0: "Thanatos",
+	1: "Solamante",
+	2: "Lunatos",
+	3: "Kinetica",
+	4: "Karas",
+	5: "Eoparu",
 }

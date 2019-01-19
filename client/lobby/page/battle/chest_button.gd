@@ -1,5 +1,7 @@
 extends Button
 
+export(int, 0, 7) var slot
+export(NodePath) onready var lobby = get_node(lobby)
 export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)
 export(NodePath) onready var cost_label = get_node(cost_label)
@@ -25,7 +27,7 @@ func invalidate():
 	var time_left = time_left()
 	can_open.visible = time_left <= 0
 	can_not_open.visible = time_left > 0
-	cost_label.text = str(ceil(time_left / float(10 * 60)))
+	cost_label.text = str(data.RequiredCashForTime(time_left))
 	time_left_label.text = static_func.get_time_left_string(time_left)
 
 func time_left():
@@ -35,5 +37,4 @@ func time_left():
 func open():
 	if chest == null:
 		return
-	
-	# open chest info popup
+	lobby.hud.chestinfo_dialog.PopUp(chest, slot)

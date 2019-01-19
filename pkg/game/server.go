@@ -272,7 +272,9 @@ func (s *server) saveResult(g Game) {
 						AcquiredAt:   time,
 					}
 					json, _ := json.Marshal(chest)
-					if _, err := conn.Do("LSET", key_slots, i, json); err != nil {
+					conn.Send("LSET", key_slots, i, json)
+					conn.Send("SET", key_order, order+1)
+					if _, err := conn.Do(""); err != nil {
 						panic(err)
 					}
 					break
