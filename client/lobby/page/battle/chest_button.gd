@@ -1,6 +1,6 @@
 extends Button
 
-export(int, 0, 7) var slot
+export(int, 0, 7) var slot = 0
 export(NodePath) onready var lobby = get_node(lobby)
 export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)

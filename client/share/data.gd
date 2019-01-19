@@ -1879,7 +1879,7 @@ const Eoparu = 5
 
 static func ArenaFromRank(rank):
 	if rank == 0:
-		return "Eoparu"
+		return Eoparu
 	return ArenaCount - ((rank-1)/5 + 2)
 
 const ArenaNames = {

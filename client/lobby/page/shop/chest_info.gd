@@ -3,8 +3,8 @@ extends Control
 const NUM_COLUMN = 4
 
 onready var popup = $Popup
-onready var upper_pos = $UpperSlotPosition
-onready var lower_pos = $LowerSlotPosition
+onready var upper_pos = $UpperSlotPosition.position
+onready var lower_pos = $LowerSlotPosition.position
 
 onready var chest_icon = $Popup/Chest/Icon
 onready var chest_name = $Popup/Panel/Title/ChestName
@@ -30,10 +30,14 @@ var chest
 var slot
 
 func _ready():
-	popup.connect("popup_hide", self, "hide")
 	open_button.connect("button_up", self, "open")
 	instant_open_button.connect("button_up", self, "instant_open")
 
+func _input(event):
+	if event is InputEventMouseButton and not event.pressed:
+		if not popup.get_global_rect().has_point(event.global_position):
+			visible = false
+	
 func open():
 	pass
 
@@ -42,15 +46,16 @@ func instant_open():
 
 func PopUp(chest, slot):
 	self.chest = chest
+	self.slot = slot
 	var arena = data.ArenaFromRank(chest.AcquiredRank)
 	var chest_data = data.Chests[chest.Name]
 	var card_count = chest_data.NumCards[arena]
 	var coin_min = card_count * chest_data.MinGoldPerCard
 	var coin_max = card_count * chest_data.MaxGoldPerCard
 	var guaranteed = chest_data.Guaranteed
-	var rare_count = guaranteed[arena] if guaranteed.has("Rare") else 0
-	var epic_count = guaranteed[arena] if guaranteed.has("Epic") else 0
-	var legendary_count = guaranteed[arena] if guaranteed.has("Legendary") else 0
+	var rare_count = guaranteed.Rare[arena] if guaranteed.has("Rare") else 0
+	var epic_count = guaranteed.Epic[arena] if guaranteed.has("Epic") else 0
+	var legendary_count = guaranteed.Legendary[arena] if guaranteed.has("Legendary") else 0
 
 	chest_icon.Set(chest.Name)
 	chest_name.text = "%s CHEST" % chest.Name.to_upper()
@@ -68,9 +73,8 @@ func PopUp(chest, slot):
 	for i in NUM_COLUMN:
 		get("arrow_%d" % i).visible = (i == slot % NUM_COLUMN)
 
-	show()
+	visible = true
 	popup.rect_position = upper_pos if slot < NUM_COLUMN else lower_pos
-	popup.popup()
 
 func _process(delta):
 	if not visible:
