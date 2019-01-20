@@ -10,7 +10,7 @@ func Set(time):
 	invalidate()
 
 func time_left():
-	return int(last_acquired_time) + data.Chests["Free"].Duration - OS.get_unix_time()
+	return last_acquired_time + data.Chests["Free"].Duration - OS.get_unix_time()
 
 func _ready():
 	connect("button_up", self, "open")

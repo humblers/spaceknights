@@ -46,7 +46,7 @@ func handle_response():
 		var text = response_body.get_string_from_utf8()
 		#text = text.to_lower()
 		var request = req_queue.pop_front()
-		request.response(code, parse_json(text))
+		request.response(code, static_func.cast_float_to_int(parse_json(text)))
 		response_body = PoolByteArray()
 
 func handle_request():

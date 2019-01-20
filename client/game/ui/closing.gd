@@ -20,7 +20,7 @@ onready var medal4 = $Result/Icon/Medal/Medals/Medal4
 onready var medal5 = $Result/Icon/Medal/Medals/Medal5
 
 onready var chest_name = $Boxopen/Chest/ChestNameBG/ChestName
-onready var chest_icons = $Boxopen/Chest/ChestIcon
+onready var chest_icon = $Boxopen/Chest/ChestIcon
 
 var medal = 0
 var anim_finished = false
@@ -49,12 +49,9 @@ func Init(rank, medal, chest_order):
 			node.visible = true
 		else:
 			node.visible = false
-	for icon in chest_icons.get_children():
-		var name = data.ChestOrder[chest_order % len(data.ChestOrder)]
-		if icon.name == name:
-			icon.visible = true
-		else:
-			icon.visible = false
+	var name = data.ChestOrder[chest_order % len(data.ChestOrder)]
+	chest_name.text = name
+	chest_icon.Set(name)
 	
 func PlayWinAnim():
 	if medal < data.MedalsPerRank:
