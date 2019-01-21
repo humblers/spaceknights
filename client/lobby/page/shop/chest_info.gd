@@ -26,25 +26,47 @@ onready var arrow_1 = $Popup/Panel/Arrow1
 onready var arrow_2 = $Popup/Panel/Arrow2
 onready var arrow_3 = $Popup/Panel/Arrow3
 
+var lobby
 var chest
 var slot
 
 func _ready():
 	open_button.connect("button_up", self, "open")
-	instant_open_button.connect("button_up", self, "instant_open")
+	instant_open_button.connect("button_up", self, "open", [true])
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if not popup.get_global_rect().has_point(event.global_position):
 			visible = false
 	
-func open():
-	pass
+func open(use_cash=false):
+	var params = {"Name": chest.Name, "Slot": slot, "UseCash": use_cash}
+	var req = lobby.http_manager.new_request(
+			HTTPClient.METHOD_POST, "/chest/open",
+			params)
+	var response = yield(req, "response")
+	if not response[0]:
+		lobby.http_manager.handle_error(response[1].ErrMessage)
+		return
+	var gold = response[1].Gold
+	var cards = response[1].Cards
+	var used_cash = response[1].UsedCash
+	
+	# apply and invalidate ui
+	user.Dimensium -= used_cash
+	user.BattleChestSlots[slot] = null
+	user.Galacticoin += gold
+	for name in cards:
+		var count = cards[name]
+		if not user.Cards.has(name):
+			user.Cards[name] = {"Level": 0, "Holding": 0}
+		user.Cards[name].Holding += count
+	lobby.Invalidate()
+	lobby.hud.chestopen_dialog.PopUp(chest.Name, gold, 0, cards)
+	visible = false
 
-func instant_open():
-	pass
-
-func PopUp(chest, slot):
+func PopUp(lobby, chest, slot):
+	self.lobby = lobby
 	self.chest = chest
 	self.slot = slot
 	var arena = data.ArenaFromRank(chest.AcquiredRank)

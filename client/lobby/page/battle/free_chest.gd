@@ -48,7 +48,6 @@ func open():
 		var count = cards[name]
 		if not user.Cards.has(name):
 			user.Cards[name] = {"Level": 0, "Holding": 0}
-		user.Cards[name].Name = name	# TODO: delete this
 		user.Cards[name].Holding += count
 	user.FreeChest = opened_at
 	lobby.Invalidate()

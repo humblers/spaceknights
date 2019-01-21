@@ -26,4 +26,4 @@ func modify_auth():
 	config.set_value("auth", "pid", to)
 	config.save(hud.lobby.CONFIG_FILE_NAME)
 	user.http_cookie_str = ""
-	loading_screen.goto_scene("res://lobby/lobby.tscn")
+	loading_screen.goto_scene("res://company_logo/company_logo.tscn")

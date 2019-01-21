@@ -6,6 +6,7 @@ export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)
 export(NodePath) onready var cost_label = get_node(cost_label)
 export(NodePath) onready var time_left_label = get_node(time_left_label)
+export(NodePath) onready var chest_icon = get_node(chest_icon)
 
 var chest
 
@@ -24,6 +25,7 @@ func invalidate():
 		visible = false
 		return
 	visible = true
+	chest_icon.Set(chest.Name)
 	var time_left = time_left()
 	can_open.visible = time_left <= 0
 	can_not_open.visible = time_left > 0
@@ -37,4 +39,4 @@ func time_left():
 func open():
 	if chest == null:
 		return
-	lobby.hud.chestinfo_dialog.PopUp(chest, slot)
+	lobby.hud.chestinfo_dialog.PopUp(lobby, chest, slot)
