@@ -26,7 +26,7 @@ func modify_auth():
 		return
 	var config = ConfigFile.new()
 	config.set_value("auth", "pid", to)
-	config.save(hud.lobby.CONFIG_FILE_NAME)
+	config.save(user.CONFIG_FILE_NAME)
 	user.http_cookie_str = ""
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
 
@@ -34,5 +34,5 @@ func toggle_locale():
 	user.locale = "en" if user.locale != "en" else "ko"
 	var config = ConfigFile.new()
 	config.set_value("locale", "language", user.locale)
-	config.save(hud.lobby.CONFIG_FILE_NAME)
+	config.save(user.CONFIG_FILE_NAME)
 	TranslationServer.set_locale(user.locale)

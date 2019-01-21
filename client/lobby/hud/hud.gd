@@ -29,8 +29,7 @@ func _ready():
 		btn.connect("button_up", self, "page_select", [page])
 
 func invalidate():
-	static_func.set_text(level_label, "%d" % (user.Level + 1))
-	static_func
+	level_label.text = "%d" % (user.Level + 1)
 	exp_label.text = "%d/xxx" % user.Exp
 	galacticoin_label.text = "%d" % user.Galacticoin
 	dimensium_label.text = "%d" % user.Dimensium

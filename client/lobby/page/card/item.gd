@@ -26,12 +26,12 @@ func Invalidate(card):
 		return
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%02d" % (card.Level + 1))
+	cost_label.text = "%d" % (card.Cost / 1000)
+	level_label.text = "%02d" % (card.Level + 1)
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
-	static_func.set_text(holding_label, "%d/%d" % [card.Holding, card_cost])
+	holding_label.text = "%d/%d" % [card.Holding, card_cost]
 
 func down():
 	base_animation_player.play("down")

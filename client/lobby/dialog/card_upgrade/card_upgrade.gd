@@ -28,8 +28,8 @@ func _ready():
 func PopUp(card):
 	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	static_func.set_text(card_name_label, card.Name.to_upper())
-	static_func.set_text(level_label, "%02d" % card.Level)
+	card_name_label.text = card.Name.to_upper()
+	level_label.text = "%02d" % card.Level
 	var unit = data.units[card.Unit]
 	var item_nodes = stat_container.get_children()
 	var idx = 0
