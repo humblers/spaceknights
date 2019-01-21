@@ -40,6 +40,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	}
 
 	// validate
+	required_cash := 0
 	var chest data.Chest
 	switch req.Name {
 	case "Free":
@@ -88,9 +89,24 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			resp.ErrMessage = "chest name does not match"
 			return
 		}
-		if time.Now().Unix() < chest.AcquiredAt+data.Chests[chest.Name].Duration {
-			resp.ErrMessage = "cannot open battle chest yet"
-			return
+		time_left := chest.AcquiredAt + data.Chests[chest.Name].Duration - time.Now().Unix()
+		if time_left > 0 {
+			if !req.UseCash {
+				resp.ErrMessage = "cannot open battle chest yet"
+				return
+			} else {
+				required_cash = data.RequiredCashForTime(time_left)
+				current_cash, err := redis.Int(rc.Do("GET", fmt.Sprintf("%v:dimensium", b.uid)))
+				if err != nil {
+					c.logger.Print(err)
+					resp.ErrMessage = err.Error()
+					return
+				}
+				if current_cash < required_cash {
+					resp.ErrMessage = "not enough cash for chest open"
+					return
+				}
+			}
 		}
 	}
 
@@ -148,7 +164,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// remove chest
+	// remove chest and decrement cash if required
 	now := time.Now().Unix()
 	switch req.Name {
 	case "Free":
@@ -156,6 +172,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	case "Medal":
 		rc.Do("SET", fmt.Sprintf("%v:medal-chest", b.uid), 0)
 	default:
+		rc.Do("DECRBY", fmt.Sprintf("%v:dimensium", b.uid), required_cash)
 		rc.Do("LSET", fmt.Sprintf("%v:battle-chest-slots", b.uid), req.Slot, "null")
 	}
 
@@ -164,6 +181,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	resp.Cash = cash
 	resp.Cards = cards
 	resp.OpenedAt = now
+	resp.UsedCash = required_cash
 }
 
 func OpenChest(r *rand.Rand, name string, arena data.Arena) (int, int, map[string]int) {

@@ -52,8 +52,9 @@ type CardUpradeResponse struct {
 }
 
 type ChestOpenRequest struct {
-	Name string
-	Slot int
+	Name    string
+	Slot    int
+	UseCash bool
 }
 
 type ChestOpenResponse struct {
@@ -62,4 +63,5 @@ type ChestOpenResponse struct {
 	Cash       int
 	Cards      map[string]int
 	OpenedAt   int64
+	UsedCash   int
 }

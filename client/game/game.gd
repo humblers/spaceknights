@@ -206,7 +206,7 @@ func _physics_process(delta):
 		if Over():
 			set_physics_process(false)
 			bgm_anim.play("fade-out")
-			closing_scene.Init(user.Rank, user.Medal, user.BattleChestOrder + 1)
+			closing_scene.Init(user.Rank, user.Medal, user.BattleChestOrder)
 			var my_team = $Players/Blue.team
 			var enemy_team = "Blue" if my_team == "Red" else "Red"
 			var my_score = score(my_team)

@@ -20,12 +20,12 @@ func init() {
 	}
 }
 
-func RequiredCashForTime(sec int) int {
+func RequiredCashForTime(sec int64) int {
 	cash := sec / TimeReductionPerCash
 	if sec%TimeReductionPerCash > 0 {
 		cash++
 	}
-	return cash
+	return int(cash)
 }
 
 type Chest struct {
