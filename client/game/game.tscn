@@ -25,14 +25,14 @@
 [ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=23]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=24]
 [ext_resource path="res://game/player/hand_show.tres" type="Animation" id=25]
-[ext_resource path="res://game/ui/opening.tscn" type="PackedScene" id=26]
-[ext_resource path="res://game/ui/closing.tscn" type="PackedScene" id=27]
-[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=28]
-[ext_resource path="res://lobby/page/card/tab_active.png" type="Texture" id=29]
-[ext_resource path="res://game/ui/clan_icon_base.png" type="Texture" id=30]
-[ext_resource path="res://game/ui/temp_ui_sprite_086.png" type="Texture" id=31]
-[ext_resource path="res://game/ui/temp_ui_sprite_091.png" type="Texture" id=32]
-[ext_resource path="res://game/ui/2xenergy.tscn" type="PackedScene" id=33]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=26]
+[ext_resource path="res://lobby/page/card/tab_active.png" type="Texture" id=27]
+[ext_resource path="res://game/ui/clan_icon_base.png" type="Texture" id=28]
+[ext_resource path="res://game/ui/temp_ui_sprite_086.png" type="Texture" id=29]
+[ext_resource path="res://game/ui/temp_ui_sprite_091.png" type="Texture" id=30]
+[ext_resource path="res://game/ui/2xenergy.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/ui/opening.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/ui/closing.tscn" type="PackedScene" id=33]
 [ext_resource path="res://game/bg/kepler/kepler.tscn" type="PackedScene" id=34]
 [ext_resource path="res://game/bg/trappist/trappist_scroll.tscn" type="PackedScene" id=35]
 [ext_resource path="res://game/bg/mothership/mothership/motherships.tscn" type="PackedScene" id=36]
@@ -810,9 +810,11 @@ margin_left = 854.0
 margin_right = 1044.0
 
 [node name="RenderOverPivot" type="Node2D" parent="CameraFollowingUI"]
+editor/display_folded = true
 z_index = 2
 
 [node name="Next" type="Node2D" parent="CameraFollowingUI/RenderOverPivot"]
+editor/display_folded = true
 material = ExtResource( 11 )
 position = Vector2( 136, 1784 )
 scale = Vector2( 0.9, 0.98 )
@@ -833,7 +835,7 @@ texture = ExtResource( 16 )
 visible = false
 self_modulate = Color( 0.407843, 0.462745, 0.541176, 1 )
 use_parent_material = true
-position = Vector2( 1.52588e-005, 1.01953 )
+position = Vector2( 1.52588e-05, 1.01953 )
 scale = Vector2( 2, 2.7 )
 texture = ExtResource( 15 )
 
@@ -958,11 +960,6 @@ __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 
-[node name="Opening" parent="NonCameraFollowingUI" instance=ExtResource( 26 )]
-
-[node name="Closing" parent="NonCameraFollowingUI" instance=ExtResource( 27 )]
-visible = false
-
 [node name="BG" type="TextureRect" parent="NonCameraFollowingUI"]
 modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
@@ -971,7 +968,7 @@ margin_left = -540.0
 margin_right = 540.0
 margin_bottom = 43.0
 rect_scale = Vector2( 1, 0.6 )
-texture = ExtResource( 28 )
+texture = ExtResource( 26 )
 expand = true
 
 [node name="Timenode" type="TextureRect" parent="NonCameraFollowingUI"]
@@ -987,7 +984,7 @@ margin_top = 48.0
 margin_right = 312.0
 margin_bottom = 96.0
 rect_rotation = 180.0
-texture = ExtResource( 29 )
+texture = ExtResource( 27 )
 expand = true
 
 [node name="Time" type="Label" parent="NonCameraFollowingUI/Timenode"]
@@ -1031,7 +1028,7 @@ margin_right = 294.0
 margin_bottom = 96.0
 rect_rotation = 180.0
 rect_scale = Vector2( -1, 1 )
-texture = ExtResource( 29 )
+texture = ExtResource( 27 )
 expand = true
 
 [node name="GuildEmblemEmpty" type="TextureRect" parent="NonCameraFollowingUI/IDnode"]
@@ -1040,7 +1037,7 @@ margin_top = 4.0
 margin_right = 143.0
 margin_bottom = 162.0
 rect_scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 30 )
+texture = ExtResource( 28 )
 
 [node name="GuildEmblem" type="TextureRect" parent="NonCameraFollowingUI/IDnode/GuildEmblemEmpty"]
 editor/display_folded = true
@@ -1049,14 +1046,14 @@ margin_left = 2.0
 margin_top = 2.0
 margin_right = 130.0
 margin_bottom = 154.0
-texture = ExtResource( 31 )
+texture = ExtResource( 29 )
 
 [node name="GuildMark" type="TextureRect" parent="NonCameraFollowingUI/IDnode/GuildEmblemEmpty/GuildEmblem"]
 margin_left = 28.0
 margin_top = 40.0
 margin_right = 101.0
 margin_bottom = 113.0
-texture = ExtResource( 32 )
+texture = ExtResource( 30 )
 
 [node name="GuildNID" type="Node2D" parent="NonCameraFollowingUI/IDnode/GuildEmblemEmpty"]
 use_parent_material = true
@@ -1092,8 +1089,13 @@ margin_left = -20.0
 margin_right = 20.0
 margin_bottom = 40.0
 
-[node name="2Xenergy" parent="NonCameraFollowingUI/EnergyBoost" instance=ExtResource( 33 )]
+[node name="2Xenergy" parent="NonCameraFollowingUI/EnergyBoost" instance=ExtResource( 31 )]
 position = Vector2( -134, 0 )
+
+[node name="Opening" parent="NonCameraFollowingUI" instance=ExtResource( 32 )]
+
+[node name="Closing" parent="NonCameraFollowingUI" instance=ExtResource( 33 )]
+visible = false
 
 [node name="Map" type="Node2D" parent="."]
 editor/display_folded = true
