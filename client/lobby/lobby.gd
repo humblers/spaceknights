@@ -14,6 +14,7 @@ export(NodePath) onready var page_shop = get_node(page_shop)
 export(NodePath) onready var page_social = get_node(page_social)
 
 func _ready():
+	setLocale()
 	input_manager.move_to_page(PAGES[0])
 	http_manager.cookie_str = user.http_cookie_str
 	http_manager.error_dialog = hud.error_dialog
@@ -79,3 +80,12 @@ func requestNewChest():
 	if not response[0]:
 		http_manager.handle_error(response[1].ErrMessage)
 		return
+
+func setLocale():
+	user.locale = OS.get_locale().split("_")[0]
+	var config = ConfigFile.new()
+	var err = config.load(CONFIG_FILE_NAME)
+	if err == OK:
+		if config.has_section_key("locale", "language"):
+			user.locale = config.get_value("locale", "language")
+	TranslationServer.set_locale(user.locale)
