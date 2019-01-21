@@ -16,7 +16,7 @@
 [ext_resource path="res://game/player/card/next.gd" type="Script" id=14]
 [ext_resource path="res://game/player/card/bt_bot.png" type="Texture" id=15]
 [ext_resource path="res://share/icon/lobby/card/panzerkunstler.png" type="Texture" id=16]
-[ext_resource path="res://game/player/card/scanline.png" type="Texture" id=17]
+[ext_resource path="res://game/player/card/bt_noise.png" type="Texture" id=17]
 [ext_resource path="res://game/ui/nextframe.png" type="Texture" id=18]
 [ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=19]
 [ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=20]
@@ -829,15 +829,25 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 16 )
 
 [node name="NotReady" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next/Icon"]
+visible = false
 self_modulate = Color( 0.407843, 0.462745, 0.541176, 1 )
 use_parent_material = true
 position = Vector2( 1.52588e-005, 1.01953 )
 scale = Vector2( 2, 2.7 )
 texture = ExtResource( 15 )
 
-[node name="Sprite" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next/Icon/NotReady"]
-self_modulate = Color( 0, 0, 0, 0.27451 )
+[node name="Sprite" type="CPUParticles2D" parent="CameraFollowingUI/RenderOverPivot/Next/Icon/NotReady"]
+self_modulate = Color( 1, 1, 1, 0.152941 )
+amount = 2
+speed_scale = 4.0
 texture = ExtResource( 17 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 10.0
+gravity = Vector2( 0, 0 )
+radial_accel = 10.0
+radial_accel_random = 1.0
+scale_amount = 0.9
 
 [node name="Frame" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
