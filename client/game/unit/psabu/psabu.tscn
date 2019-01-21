@@ -87,7 +87,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=9]
 
-_data = [ Vector2( 0, 0.478 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.1524 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=10]
 
@@ -108,7 +108,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=14]
 
-colors = PoolColorArray( 0.0431373, 0.282353, 1, 1, 0.374634, 0.265625, 1, 1 )
+colors = PoolColorArray( 0.0431373, 0.282353, 1, 0.497059, 0.372549, 0.262745, 1, 0.556196 )
 
 [node name="Psabu" type="Node2D"]
 script = ExtResource( 1 )
@@ -297,6 +297,7 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.7, 1.8 )
 frames = SubResource( 3 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -320,7 +321,6 @@ position = Vector2( 0, 5 )
 scale = Vector2( 1.7, 1.8 )
 frames = SubResource( 3 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -471,6 +471,7 @@ scale_amount_curve = SubResource( 9 )
 color_ramp = SubResource( 10 )
 
 [node name="Particle1" type="Node2D" parent="Rotatable/Hitpoint/Hit"]
+editor/display_folded = true
 scale = Vector2( 4, 4 )
 
 [node name="Charging" type="CPUParticles2D" parent="Rotatable/Hitpoint/Hit/Particle1"]
@@ -492,6 +493,7 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 11 )
 
 [node name="Particle2" type="Node2D" parent="Rotatable/Hitpoint/Hit"]
+editor/display_folded = true
 scale = Vector2( 3, 3 )
 
 [node name="Orb" type="CPUParticles2D" parent="Rotatable/Hitpoint/Hit/Particle2"]
@@ -510,6 +512,7 @@ scale_amount_curve = SubResource( 12 )
 color = Color( 0.682353, 0.811765, 1, 0.772549 )
 
 [node name="Particle3" type="Node2D" parent="Rotatable/Hitpoint/Hit"]
+editor/display_folded = true
 scale = Vector2( 3, 3 )
 
 [node name="Explosion" type="CPUParticles2D" parent="Rotatable/Hitpoint/Hit/Particle3"]
@@ -528,11 +531,24 @@ scale_amount_curve = SubResource( 13 )
 color_ramp = SubResource( 14 )
 
 [node name="Light2D" type="Light2D" parent="Rotatable/Hitpoint/Hit/Particle3"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.32549 )
 enabled = false
 texture = ExtResource( 15 )
 texture_scale = 6.0
 color = Color( 0.52549, 0.427451, 1, 1 )
-energy = 2.0
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Hitpoint/Hit"]
+visible = false
+rotation = -0.785397
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 15 )
+
+[node name="Sprite2" type="Sprite" parent="Rotatable/Hitpoint/Hit"]
+visible = false
+rotation = 0.785397
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 15 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 editor/display_folded = true
