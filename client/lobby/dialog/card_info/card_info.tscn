@@ -16,7 +16,7 @@
 [ext_resource path="res://share/icon/lifetime.png" type="Texture" id=14]
 [ext_resource path="res://lobby/resource/icon_emition.png" type="Texture" id=15]
 [ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=16]
-[ext_resource path="res://translation/label_font_adjust.gd" type="Script" id=17]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=17]
 [ext_resource path="res://lobby/page/card/upgrade_button_hover.png" type="Texture" id=18]
 [ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=19]
 [ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=20]
@@ -35,6 +35,7 @@
 [ext_resource path="res://share/icon/damage_per_second.png" type="Texture" id=33]
 [ext_resource path="res://share/icon/target.png" type="Texture" id=34]
 [ext_resource path="res://share/icon/move_speed.png" type="Texture" id=35]
+
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -170,11 +171,11 @@ font_data = ExtResource( 7 )
 [sub_resource type="DynamicFont" id=19]
 
 size = 32
-use_filter = true
 font_data = ExtResource( 7 )
 fallback/0 = ExtResource( 16 )
 
 [node name="CardInfo" type="Control"]
+editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -987,15 +988,15 @@ patch_margin_top = 20
 patch_margin_right = 21
 patch_margin_bottom = 19
 
-[node name="Label" type="Label" parent="MainPopup/MainPanel/SubPanel/Info"]
+[node name="Label" type="RichTextLabel" parent="MainPopup/MainPanel/SubPanel/Info"]
 margin_left = 13.0
 margin_top = 15.0
 margin_right = 565.0
 margin_bottom = 324.0
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color = Color( 0.141176, 0.141176, 0.141176, 1 )
+custom_fonts/normal_font = SubResource( 7 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "A Card Info text"
-autowrap = true
+scroll_active = false
 script = ExtResource( 17 )
 
 [node name="Upgrade" type="Button" parent="MainPopup/MainPanel/SubPanel"]
@@ -1054,7 +1055,6 @@ align = 1
 valign = 1
 
 [node name="SubPopup" type="PopupPanel" parent="."]
-visible = true
 margin_top = 360.0
 margin_right = 860.0
 margin_bottom = 780.0
@@ -1484,16 +1484,16 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "20"
 valign = 1
 
-[node name="Description" type="Label" parent="SubPopup/Panel/Spec"]
+[node name="Description" type="RichTextLabel" parent="SubPopup/Panel/Spec"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/normal_font = SubResource( 19 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "YOLO!"
-autowrap = true
 script = ExtResource( 17 )
 
 [node name="LeftPoint" type="TextureRect" parent="SubPopup/Panel"]

@@ -35,4 +35,4 @@ func toggle_locale():
 	var config = ConfigFile.new()
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
-	TranslationServer.set_locale(user.locale)
+	loading_screen.goto_scene("res://company_logo/company_logo.tscn")

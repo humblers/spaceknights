@@ -83,7 +83,7 @@ func PopUp(card, enable_use = false):
 	upgrade_btn.disabled = card_cost > card.Holding
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
-	info_label.text = tr("card_info_%s" % card.Name)
+	info_label.SetText("ID_CARD_INFO_%s" % card.Name)
 	rarity_label.text = card.Rarity
 	cost_label.text = "%d" % (card.Cost / 1000)
 	level_label.text = "%02d" % (card.Level + 1)
