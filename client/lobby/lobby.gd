@@ -1,6 +1,5 @@
 extends Node
 
-const CONFIG_FILE_NAME = "user://settings.cfg"
 const PAGES = ["Battle", "Card", "Explore", "Shop", "Social"]
 
 export(NodePath) onready var hud = get_node(hud)
@@ -44,7 +43,7 @@ func load_data():
 func login():
 	var params = { "ptype": "dev" }
 	var config = ConfigFile.new()
-	var err = config.load(CONFIG_FILE_NAME)
+	var err = config.load(user.CONFIG_FILE_NAME)
 	if err == OK:
 		if config.has_section_key("auth", "pid"):
 			params["pid"] = config.get_value("auth", "pid")
@@ -57,7 +56,7 @@ func login():
 	user.Id = response[1].UID
 	user.PlatformId = response[1].PID
 	config.set_value("auth", "pid", user.PlatformId)
-	config.save(CONFIG_FILE_NAME)
+	config.save(user.CONFIG_FILE_NAME)
 	for k in response[1].User.keys():
 		user.set(k, response[1].User[k])
 	Invalidate()

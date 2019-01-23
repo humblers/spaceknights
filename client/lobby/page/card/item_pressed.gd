@@ -27,8 +27,8 @@ func Invalidate(card):
 	container.rect_size.y = 0 # force downsizing
 	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%02d" % (card.Level + 1))
+	cost_label.text = "%d" % (card.Cost / 1000)
+	level_label.text = "%02d" % (card.Level + 1)
 
 func useButtonUp():
 	page_card.set_picked_card(self.card)

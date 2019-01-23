@@ -83,12 +83,12 @@ func PopUp(card, enable_use = false):
 	upgrade_btn.disabled = card_cost > card.Holding
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
-	static_func.set_text(info_label, tr("card_info_%s" % card.Name))
-	static_func.set_text(rarity_label, card.Rarity)
-	static_func.set_text(cost_label, "%d" % (card.Cost / 1000))
-	static_func.set_text(level_label, "%02d" % (card.Level + 1))
-	static_func.set_text(holding_label, "%d/%d" % [card.Holding, card_cost])
-	static_func.set_text(upgrade_cost, "%d" % coin_cost)
+	info_label.SetText("ID_CARD_INFO_%s" % card.Name)
+	rarity_label.text = card.Rarity
+	cost_label.text = "%d" % (card.Cost / 1000)
+	level_label.text = "%02d" % (card.Level + 1)
+	holding_label.text = "%d/%d" % [card.Holding, card_cost]
+	upgrade_cost.text = "%d" % coin_cost
 
 	main_popup.Invalidate(card, unit)
 	self.visible = true
