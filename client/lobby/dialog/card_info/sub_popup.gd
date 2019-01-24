@@ -51,43 +51,43 @@ func Invalidate(card, pressed):
 func keyText(key, skill):
 	match key:
 		"castduration":
-			return "Cast Duration"
+			return "ID_CASTDURATION"
 		"damageduration":
-			return "Damage Duration"
+			return "ID_DAMAGEDURATION"
 		"damage":
-			return "Area Damage"
+			return "ID_AREADAMAGE"
 		"attackdamage":
-			var t = "Damage"
+			var t = "ID_DAMAGE"
 			var u = data.units.get(skill.get("unit", ""), {})
 			if u.get("damageradius", null) != null:
-				t = "Area %s" % t
+				t = "ID_AREA %s" % t
 			return t
 		"damagepersecond":
-			var t = "Damage Per Second"
+			var t = "ID_DPS"
 			var u = data.units.get(skill.get("unit", ""), {})
 			if u.get("damageradius", null) != null:
-				t = "Area %s" % t
+				t = "ID_AREA %s" % t
 			return t
 		"destroydamage":
-			return "Death Damage"
+			return "ID_DEATHDAMAGE"
 		"hp":
-			return "Hit Points"
+			return "ID_HP"
 		"shield":
-			return "Barrier Points"
+			return "ID_BARRIER"
 		"attackinterval":
-			return "Attack Speed"
+			return "ID_ATTACKSPEED"
 		"damagetype":
-			return "Attack Type"
+			return "ID_ATTACKTYPE"
 		"attackrange":
-			return "Range"
+			return "ID_RANGE"
 		"freezeduration":
-			return "Freeze Duration"
+			return "ID_FREEZEDURATION"
 		"spawninterval":
-			return "Spawn Speed"
+			return "ID_SPAWNSPEED"
 		"decaydamage":
-			return "Lifetime"
+			return "ID_LIFETIME"
 		"spawncount":
-			return "%s Count" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
+			return "%s ID_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
 	return key
 
 func valueText(key, card, skill):
