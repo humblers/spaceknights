@@ -9,14 +9,14 @@
 [ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://lobby/resource/popup_panel.png" type="Texture" id=8]
 [ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=9]
-[ext_resource path="res://lobby/page/battle/medalbox_btn_dis.png" type="Texture" id=10]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=11]
-[ext_resource path="res://lobby/page/card/item_holding.tscn" type="PackedScene" id=12]
-[ext_resource path="res://lobby/dialog/card_info/container_item.gd" type="Script" id=13]
-[ext_resource path="res://share/icon/lifetime.png" type="Texture" id=14]
-[ext_resource path="res://lobby/resource/icon_emition.png" type="Texture" id=15]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=16]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=17]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=10]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=11]
+[ext_resource path="res://lobby/page/battle/medalbox_btn_dis.png" type="Texture" id=12]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=13]
+[ext_resource path="res://lobby/page/card/item_holding.tscn" type="PackedScene" id=14]
+[ext_resource path="res://lobby/dialog/card_info/container_item.gd" type="Script" id=15]
+[ext_resource path="res://share/icon/lifetime.png" type="Texture" id=16]
+[ext_resource path="res://lobby/resource/icon_emition.png" type="Texture" id=17]
 [ext_resource path="res://lobby/page/card/upgrade_button_hover.png" type="Texture" id=18]
 [ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=19]
 [ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=20]
@@ -36,7 +36,6 @@
 [ext_resource path="res://share/icon/target.png" type="Texture" id=34]
 [ext_resource path="res://share/icon/move_speed.png" type="Texture" id=35]
 
-
 [sub_resource type="StyleBoxTexture" id=1]
 
 
@@ -51,14 +50,19 @@ font_data = ExtResource( 7 )
 
 size = 36
 outline_color = Color( 0, 0.215686, 0.45098, 1 )
+use_filter = true
 font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=4]
 
 size = 36
 outline_size = 4
 outline_color = Color( 0, 0.25098, 0.517647, 1 )
+use_mipmaps = true
+use_filter = true
 font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=5]
 
@@ -79,7 +83,7 @@ font_data = ExtResource( 7 )
 
 size = 32
 font_data = ExtResource( 7 )
-fallback/0 = ExtResource( 16 )
+fallback/0 = ExtResource( 10 )
 
 [sub_resource type="StyleBoxTexture" id=8]
 
@@ -122,7 +126,7 @@ margin_bottom = 20.0
 size = 48
 outline_size = 3
 outline_color = Color( 0.00392157, 0.439216, 0.498039, 1 )
-font_data = ExtResource( 16 )
+font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=13]
 
@@ -130,6 +134,7 @@ size = 42
 outline_size = 3
 outline_color = Color( 0.137255, 0.592157, 0.133333, 1 )
 font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 10 )
 
 [sub_resource type="StyleBoxTexture" id=14]
 
@@ -163,7 +168,9 @@ margin_bottom = 20.0
 size = 42
 outline_size = 3
 outline_color = Color( 0.686275, 0.368627, 0.109804, 1 )
+use_filter = true
 font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 10 )
 
 [sub_resource type="StyleBoxTexture" id=18]
 
@@ -172,11 +179,9 @@ font_data = ExtResource( 7 )
 
 size = 32
 font_data = ExtResource( 7 )
-fallback/0 = ExtResource( 16 )
+fallback/0 = ExtResource( 10 )
 
 [node name="CardInfo" type="Control"]
-editor/display_folded = true
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -308,7 +313,6 @@ patch_margin_right = 20
 patch_margin_bottom = 20
 
 [node name="RarityControl" type="Control" parent="MainPopup/MainPanel/SubPanel"]
-editor/display_folded = true
 margin_left = 22.0
 margin_top = -1371.0
 margin_right = 62.0
@@ -334,7 +338,9 @@ margin_right = 560.0
 margin_bottom = 1798.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.913725, 0.913725, 0.913725, 1 )
-text = "Rarity"
+text = "ID_HUD_CARDINFO_RARITY"
+clip_text = true
+script = ExtResource( 11 )
 
 [node name="Rarity" type="Label" parent="MainPopup/MainPanel/SubPanel/RarityControl"]
 margin_left = 584.0
@@ -344,6 +350,7 @@ margin_bottom = 1799.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "COMMON"
+clip_text = true
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
 editor/display_folded = true
@@ -356,14 +363,14 @@ margin_left = -490.0
 margin_top = -520.0
 margin_right = -110.0
 margin_bottom = -90.0
-texture = ExtResource( 10 )
+texture = ExtResource( 12 )
 region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 19
 patch_margin_top = 21
 patch_margin_right = 21
 patch_margin_bottom = 20
 
-[node name="ItemBase" parent="MainPopup/MainPanel/SubPanel/NinePatchRect" instance=ExtResource( 11 )]
+[node name="ItemBase" parent="MainPopup/MainPanel/SubPanel/NinePatchRect" instance=ExtResource( 13 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -376,16 +383,15 @@ rect_scale = Vector2( 1.2, 1.2 )
 rect_pivot_offset = Vector2( 125, 150 )
 
 [node name="Cost" parent="MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase/Control" index="4"]
-frame = 7
+frame = 6
 
-[node name="HoldingBar" parent="MainPopup/MainPanel/SubPanel/NinePatchRect" instance=ExtResource( 12 )]
+[node name="HoldingBar" parent="MainPopup/MainPanel/SubPanel/NinePatchRect" instance=ExtResource( 14 )]
 margin_left = 69.0
 margin_top = 365.0
 margin_right = 319.0
 margin_bottom = 411.0
 
 [node name="Spec" type="NinePatchRect" parent="MainPopup/MainPanel/SubPanel"]
-editor/display_folded = true
 self_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 margin_left = 20.0
 margin_top = 458.0
@@ -407,11 +413,10 @@ margin_bottom = -0.380005
 columns = 2
 
 [node name="Item0" type="Control" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer"]
-editor/display_folded = true
 margin_right = 475.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -424,7 +429,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item0"]
 margin_left = 83.0
@@ -454,8 +459,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item0/SubInfo"]
 position = Vector2( -441, -422 )
@@ -466,7 +471,7 @@ margin_left = 479.0
 margin_right = 954.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -480,7 +485,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item1"]
 margin_left = 83.0
@@ -510,8 +515,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item1/SubInfo"]
 position = Vector2( -740, -422 )
@@ -522,7 +527,7 @@ margin_top = 74.0
 margin_right = 475.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("../Item2/Icon")
 key_label = NodePath("../Item2/Name")
@@ -535,7 +540,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item2"]
 margin_left = 83.0
@@ -565,8 +570,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item2/SubInfo"]
 position = Vector2( -441, -422 )
@@ -578,7 +583,7 @@ margin_top = 74.0
 margin_right = 954.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -592,7 +597,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item3"]
 margin_left = 83.0
@@ -622,8 +627,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item3/SubInfo"]
 position = Vector2( -740, -422 )
@@ -634,7 +639,7 @@ margin_top = 148.0
 margin_right = 475.0
 margin_bottom = 218.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -647,7 +652,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item4"]
 margin_left = 83.0
@@ -677,8 +682,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item4/SubInfo"]
 position = Vector2( -441, -422 )
@@ -690,7 +695,7 @@ margin_top = 148.0
 margin_right = 954.0
 margin_bottom = 218.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -704,7 +709,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item5"]
 margin_left = 83.0
@@ -734,8 +739,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item5/SubInfo"]
 position = Vector2( -740, -422 )
@@ -746,7 +751,7 @@ margin_top = 222.0
 margin_right = 475.0
 margin_bottom = 292.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -759,7 +764,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item6"]
 margin_left = 83.0
@@ -789,8 +794,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item6/SubInfo"]
 position = Vector2( -441, -422 )
@@ -802,7 +807,7 @@ margin_top = 222.0
 margin_right = 954.0
 margin_bottom = 292.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -816,7 +821,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item7"]
 margin_left = 83.0
@@ -846,8 +851,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item7/SubInfo"]
 position = Vector2( -740, -422 )
@@ -857,7 +862,7 @@ margin_top = 296.0
 margin_right = 475.0
 margin_bottom = 366.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("../Item8/Icon")
 key_label = NodePath("../Item8/Name")
@@ -870,7 +875,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item8"]
 margin_left = 83.0
@@ -900,8 +905,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item8/SubInfo"]
 position = Vector2( -441, -422 )
@@ -913,7 +918,7 @@ margin_top = 296.0
 margin_right = 954.0
 margin_bottom = 366.0
 rect_min_size = Vector2( 475, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -927,7 +932,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item9"]
 margin_left = 83.0
@@ -957,8 +962,8 @@ margin_left = -80.0
 margin_top = -31.0
 margin_right = -100.0
 margin_bottom = 31.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 17 )
 
 [node name="Position2D" type="Position2D" parent="MainPopup/MainPanel/SubPanel/Spec/StatIconContainer/Item9/SubInfo"]
 position = Vector2( -740, -422 )
@@ -997,7 +1002,7 @@ custom_fonts/normal_font = SubResource( 7 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "A Card Info text"
 scroll_active = false
-script = ExtResource( 17 )
+script = ExtResource( 11 )
 
 [node name="Upgrade" type="Button" parent="MainPopup/MainPanel/SubPanel"]
 margin_left = 351.0
@@ -1027,15 +1032,16 @@ margin_right = 311.0
 margin_bottom = 4.0
 custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "UPGRADE"
+text = "ID_HUD_CARDINFO_UPGRADE"
 align = 1
 valign = 1
+clip_text = true
+script = ExtResource( 11 )
 
 [node name="Galacticoin" parent="MainPopup/MainPanel/SubPanel/Upgrade" instance=ExtResource( 22 )]
 position = Vector2( 260, 44 )
 
 [node name="Use" type="Button" parent="MainPopup/MainPanel/SubPanel"]
-editor/display_folded = true
 margin_left = 731.0
 margin_top = 953.0
 margin_right = 971.0
@@ -1050,9 +1056,11 @@ margin_top = 12.0
 margin_right = 226.0
 margin_bottom = 75.0
 custom_fonts/font = SubResource( 17 )
-text = "USE"
+text = "ID_HUD_CARDINFO_USE"
 align = 1
 valign = 1
+clip_text = true
+script = ExtResource( 11 )
 
 [node name="SubPopup" type="PopupPanel" parent="."]
 margin_top = 360.0
@@ -1090,7 +1098,6 @@ patch_margin_right = 20
 patch_margin_bottom = 20
 
 [node name="StatIconContainer" type="GridContainer" parent="SubPopup/Panel/Spec"]
-editor/display_folded = true
 anchor_left = 0.021
 anchor_top = 0.036
 anchor_right = 0.981
@@ -1106,7 +1113,7 @@ editor/display_folded = true
 margin_right = 393.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1117,7 +1124,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item0"]
 margin_left = 83.0
@@ -1139,12 +1146,11 @@ text = "20"
 valign = 1
 
 [node name="Item1" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
-editor/display_folded = true
 margin_left = 397.0
 margin_right = 790.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1155,7 +1161,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item1"]
 margin_left = 83.0
@@ -1182,7 +1188,7 @@ margin_top = 70.0
 margin_right = 393.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1193,7 +1199,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item2"]
 margin_left = 83.0
@@ -1221,7 +1227,7 @@ margin_top = 70.0
 margin_right = 790.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1232,7 +1238,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item3"]
 margin_left = 83.0
@@ -1259,7 +1265,7 @@ margin_top = 140.0
 margin_right = 393.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1270,7 +1276,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item4"]
 margin_left = 83.0
@@ -1298,7 +1304,7 @@ margin_top = 140.0
 margin_right = 790.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1309,7 +1315,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item5"]
 margin_left = 83.0
@@ -1336,7 +1342,7 @@ margin_top = 210.0
 margin_right = 393.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1347,7 +1353,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item6"]
 margin_left = 83.0
@@ -1375,7 +1381,7 @@ margin_top = 210.0
 margin_right = 790.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1386,7 +1392,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item7"]
 margin_left = 83.0
@@ -1413,7 +1419,7 @@ margin_top = 280.0
 margin_right = 393.0
 margin_bottom = 350.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1424,7 +1430,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item8"]
 margin_left = 83.0
@@ -1452,7 +1458,7 @@ margin_top = 280.0
 margin_right = 790.0
 margin_bottom = 350.0
 rect_min_size = Vector2( 393, 70 )
-script = ExtResource( 13 )
+script = ExtResource( 15 )
 info_root = NodePath("../../../../..")
 icon = NodePath("Icon")
 key_label = NodePath("Name")
@@ -1463,7 +1469,7 @@ margin_left = 10.0
 margin_top = 5.0
 margin_right = 70.0
 margin_bottom = 65.0
-texture = ExtResource( 14 )
+texture = ExtResource( 16 )
 
 [node name="Name" type="Label" parent="SubPopup/Panel/Spec/StatIconContainer/Item9"]
 margin_left = 83.0
@@ -1494,7 +1500,8 @@ margin_bottom = -10.0
 custom_fonts/normal_font = SubResource( 19 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "YOLO!"
-script = ExtResource( 17 )
+scroll_active = false
+script = ExtResource( 11 )
 
 [node name="LeftPoint" type="TextureRect" parent="SubPopup/Panel"]
 margin_left = 450.0
@@ -1511,7 +1518,7 @@ margin_bottom = 479.0
 texture = ExtResource( 26 )
 
 [node name="StatIcon" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "attackrange", "attackspeed", "attacktype", "barrier", "count", "damage", "damagepersecond", "hp", "lifetime", "radius", "speed" ), [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 30 ), ExtResource( 14 ), ExtResource( 34 ), ExtResource( 35 ) ] ]
+resources = [ PoolStringArray( "attackrange", "attackspeed", "attacktype", "barrier", "count", "damage", "damagepersecond", "hp", "lifetime", "radius", "speed" ), [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 30 ), ExtResource( 16 ), ExtResource( 34 ), ExtResource( 35 ) ] ]
 
 
 [editable path="MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase"]

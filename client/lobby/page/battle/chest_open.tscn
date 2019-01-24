@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://lobby/page/battle/chest_open.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -10,17 +10,19 @@
 [ext_resource path="res://lobby/page/card/item.tscn" type="PackedScene" id=8]
 [ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=9]
 [ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=10]
-[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://lobby/hud/galacticoin_1.png" type="Texture" id=12]
-[ext_resource path="res://lobby/hud/galacticoin_2.png" type="Texture" id=13]
-[ext_resource path="res://lobby/hud/galacticoin_3.png" type="Texture" id=14]
-[ext_resource path="res://lobby/hud/galacticoin_4.png" type="Texture" id=15]
-[ext_resource path="res://lobby/hud/galacticoin_5.png" type="Texture" id=16]
-[ext_resource path="res://lobby/hud/galacticoin_7.png" type="Texture" id=17]
-[ext_resource path="res://lobby/hud/galacticoin.png" type="Texture" id=18]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=19]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=20]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=21]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=11]
+[ext_resource path="res://font/vipnagorgialla.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=13]
+[ext_resource path="res://lobby/hud/galacticoin_1.png" type="Texture" id=14]
+[ext_resource path="res://lobby/hud/galacticoin_2.png" type="Texture" id=15]
+[ext_resource path="res://lobby/hud/galacticoin_3.png" type="Texture" id=16]
+[ext_resource path="res://lobby/hud/galacticoin_4.png" type="Texture" id=17]
+[ext_resource path="res://lobby/hud/galacticoin_5.png" type="Texture" id=18]
+[ext_resource path="res://lobby/hud/galacticoin_7.png" type="Texture" id=19]
+[ext_resource path="res://lobby/hud/galacticoin.png" type="Texture" id=20]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=21]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=22]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=23]
 
 [sub_resource type="Curve" id=1]
 
@@ -1054,8 +1056,10 @@ tracks/6/keys = {
 [sub_resource type="DynamicFont" id=17]
 
 size = 24
+use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
+fallback/0 = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=18]
 
@@ -1063,12 +1067,12 @@ size = 55
 outline_size = 4
 outline_color = Color( 0.329412, 0.231373, 0, 1 )
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
 [sub_resource type="SpriteFrames" id=19]
 
 animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ), ExtResource( 18 ) ],
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "galacticoin",
 "speed": 10.0
@@ -3087,7 +3091,9 @@ margin_right = 547.0
 margin_bottom = 35.0
 custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 0.788235, 0.462745, 1 )
-text = "GALACTICOIN"
+text = "ID_PAGE_CHESTOPEN_GALACTICOIN"
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Amount" type="Label" parent="Coin/Slot"]
 margin_left = 318.0
@@ -3105,7 +3111,7 @@ position = Vector2( 273, 61 )
 position = Vector2( 2, -5 )
 frames = SubResource( 19 )
 animation = "galacticoin"
-frame = 12
+frame = 6
 playing = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
@@ -3116,7 +3122,7 @@ amount = 6
 preprocess = 1.0
 speed_scale = 1.8
 randomness = 1.0
-texture = ExtResource( 18 )
+texture = ExtResource( 20 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -3133,7 +3139,7 @@ color_ramp = SubResource( 21 )
 [node name="Sprite" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
 material = ExtResource( 3 )
 emitting = false
-texture = ExtResource( 19 )
+texture = ExtResource( 21 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -3185,7 +3191,9 @@ margin_right = 547.0
 margin_bottom = 35.0
 custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 0.494118, 0.12549, 1 )
-text = "DIMENSIUM"
+text = "ID_PAGE_CHESTOPEN_DIMENSIUM"
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Amount" type="Label" parent="Cash/Slot"]
 margin_left = 318.0
@@ -3197,7 +3205,7 @@ text = "+9999"
 
 [node name="Cash" type="Node2D" parent="Cash/Slot"]
 
-[node name="Dimensium" parent="Cash/Slot/Cash" instance=ExtResource( 20 )]
+[node name="Dimensium" parent="Cash/Slot/Cash" instance=ExtResource( 22 )]
 position = Vector2( 273, 61 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Cash/Slot/Cash"]
@@ -3208,7 +3216,7 @@ amount = 6
 preprocess = 1.0
 speed_scale = 1.5
 randomness = 1.0
-texture = ExtResource( 21 )
+texture = ExtResource( 23 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
