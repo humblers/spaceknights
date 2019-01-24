@@ -61,7 +61,7 @@ func Update(energy):
 		return
 	var ready = energy >= energy_bar.max_value
 	cost_icon.playing = ready
-	energy_bar.value = energy
+	energy_bar.value = card.Cost - energy
 	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
 		mothership.UpdateDeckReadyState(card.Side, ratio)
@@ -151,7 +151,7 @@ func on_released():
 		return
 	
 	# enough energy?
-	if $Card/Energy.value < $Card/Energy.max_value:
+	if $Card/Energy.value > 0:
 		show_message("Not Enough energy", pos.y)
 		init_card()
 		init_cursor()
