@@ -16,9 +16,9 @@
 [ext_resource path="res://game/player/card/next.gd" type="Script" id=14]
 [ext_resource path="res://game/player/card/bt_bot.png" type="Texture" id=15]
 [ext_resource path="res://share/icon/lobby/card/panzerkunstler.png" type="Texture" id=16]
-[ext_resource path="res://game/player/card/bt_noise.png" type="Texture" id=17]
-[ext_resource path="res://game/ui/nextframe.png" type="Texture" id=18]
-[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=19]
+[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/player/card/bt_noise.png" type="Texture" id=18]
+[ext_resource path="res://game/ui/nextframe.png" type="Texture" id=19]
 [ext_resource path="res://game/ui/energybar_bot.png" type="Texture" id=20]
 [ext_resource path="res://game/ui/energybar_top.png" type="Texture" id=21]
 [ext_resource path="res://game/ui/energybar_inside.png" type="Texture" id=22]
@@ -173,7 +173,6 @@
 [ext_resource path="res://game/player/unit_ready_sound/trainee.wav" type="AudioStream" id=171]
 [ext_resource path="res://game/player/unit_ready_sound/wasp.wav" type="AudioStream" id=172]
 
-
 [sub_resource type="Animation" id=1]
 
 resource_name = "fade-out"
@@ -256,19 +255,19 @@ font_data = ExtResource( 10 )
 size = 32
 font_data = ExtResource( 12 )
 
+[sub_resource type="DynamicFont" id=11]
+
+size = 42
+outline_size = 3
+outline_color = Color( 0.184314, 0.827451, 1, 1 )
+use_filter = true
+font_data = ExtResource( 9 )
+
 [sub_resource type="DynamicFont" id=10]
 
 size = 26
 outline_size = 2
 outline_color = Color( 0.160784, 0.235294, 0.415686, 1 )
-use_filter = true
-font_data = ExtResource( 9 )
-
-[sub_resource type="DynamicFont" id=11]
-
-size = 42
-outline_size = 2
-outline_color = Color( 0.184314, 0.462745, 1, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
@@ -830,7 +829,35 @@ position = Vector2( 0, -18.3674 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 16 )
 
+[node name="Energy" parent="CameraFollowingUI/RenderOverPivot/Next/Icon" instance=ExtResource( 17 )]
+editor/display_folded = true
+position = Vector2( -108.889, -95.918 )
+scale = Vector2( 1.8, 1.8 )
+frame = 4
+playing = false
+
+[node name="Cost" type="Label" parent="CameraFollowingUI/RenderOverPivot/Next/Icon/Energy"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -48.5309
+margin_top = -59.7324
+margin_right = -8.53087
+margin_bottom = 7.26758
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 4
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 3
+custom_constants/shadow_as_outline = 0
+text = "5"
+align = 1
+valign = 1
+
 [node name="NotReady" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next/Icon"]
+editor/display_folded = true
 visible = false
 self_modulate = Color( 0.407843, 0.462745, 0.541176, 1 )
 use_parent_material = true
@@ -842,7 +869,7 @@ texture = ExtResource( 15 )
 self_modulate = Color( 1, 1, 1, 0.152941 )
 amount = 2
 speed_scale = 4.0
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 10.0
@@ -856,7 +883,7 @@ scale_amount = 0.9
 [node name="Frame" type="Sprite" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
 position = Vector2( 0, -15.3062 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 
 [node name="Next" type="Label" parent="CameraFollowingUI/RenderOverPivot/Next"]
 use_parent_material = true
@@ -866,31 +893,6 @@ margin_right = 42.5556
 margin_bottom = 100.367
 custom_fonts/font = SubResource( 10 )
 text = "NEXT"
-
-[node name="Energy" parent="CameraFollowingUI/RenderOverPivot/Next" instance=ExtResource( 19 )]
-position = Vector2( -54.4445, -66.3264 )
-scale = Vector2( 0.9, 0.9 )
-frame = 4
-playing = false
-
-[node name="Cost" type="Label" parent="CameraFollowingUI/RenderOverPivot/Next/Energy"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -51.0
-margin_top = -62.0
-margin_right = -11.0
-margin_bottom = 5.0
-custom_fonts/font = SubResource( 11 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 4
-custom_constants/line_spacing = 0
-custom_constants/shadow_offset_y = 3
-custom_constants/shadow_as_outline = 0
-text = "5"
-align = 1
-valign = 1
 
 [node name="Energy" type="TextureProgress" parent="CameraFollowingUI/RenderOverPivot"]
 material = ExtResource( 11 )
