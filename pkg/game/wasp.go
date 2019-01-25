@@ -68,6 +68,10 @@ func (w *wasp) Update() {
 			}
 		}
 	}
+	w.shield += ShieldRegenPerStep
+	if w.shield > w.initialShield() {
+		w.shield = w.initialShield()
+	}
 }
 
 func (w *wasp) target() Unit {

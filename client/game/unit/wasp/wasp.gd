@@ -7,8 +7,8 @@ var shield = 0
 func Init(id, level, posX, posY, game, player):
 	New(id, "wasp", player.Team(), level, posX, posY, game)
 	shield = initialShield()
-	$Hp/Shield.max_value = shield
-	$Hp/Shield.value = shield
+	$Hp/HBoxContainer/VBoxContainer/Shield.max_value = shield
+	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
 
 func TakeDamage(amount, damageType, attacker):
 	var alreadyDead = IsDead()
@@ -36,10 +36,12 @@ func TakeDamage(amount, damageType, attacker):
 			var r = scalar.Add(u.Radius(), destroyRadius())
 			if d < scalar.Mul(r, r):
 				u.TakeDamage(destroyDamage(), destroyDamageType(), self)
-	$Hp/Shield.value = shield
+	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team)
 	node_hp.value = hp
 	node_hp.visible = true
-	$Hp/Shield.visible = true
+	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
+	$Hp/HBoxContainer/VBoxContainer/Shield.visible = true
+	$Hp/HBoxContainer/Control.visible = true
 
 func Update():
 	.Update()
@@ -61,6 +63,9 @@ func Update():
 				findTargetAndDoAction()
 	if targetId == 0:
 		$AnimationPlayer.play("idle")
+	if shield > initialShield():
+		shield = initialShield()
+	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
 
 func Destroy():
 	.Destroy()
