@@ -28,6 +28,12 @@ func Init(id, level, posX, posY, game, player):
 	)
 	.Occupy(tr)
 
+func set_hp():
+	.set_hp()
+	get_node("Hp/HBoxContainer/VBoxContainer/%s/HpLabel" % client_team).text = "%d" % hp
+	if client_team == "Red":
+		get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team).visible = true
+
 func TakeDamage(amount, damageType, attacker):
 	var initHp = InitialHp()
 	var underHalf = initHp / 2 > hp
