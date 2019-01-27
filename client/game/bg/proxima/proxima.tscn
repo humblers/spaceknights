@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/bg/proxima/bg_proxima_screen.png" type="Texture" id=1]
 [ext_resource path="res://game/bg/proxima/bg_proxima_planet.png" type="Texture" id=2]
-[ext_resource path="res://game/bg/proxima/bg_proxima_debris.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
+[ext_resource path="res://game/bg/proxima/bg_proxima_highlight.png" type="Texture" id=4]
+[ext_resource path="res://game/bg/proxima/bg_proxima_debris.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 
@@ -33,6 +34,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 1091.44, 704.715 ), Vector2( 303.27, 1709.24 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Planet/Light:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 240 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 57, 24 ), Vector2( -53.1335, -21.0025 ) ]
+}
 
 [node name="Proxima" type="Node2D"]
 
@@ -43,41 +56,28 @@ scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 1 )
 
 [node name="Planet" type="Sprite" parent="."]
-modulate = Color( 0.695313, 0.695313, 0.695313, 1 )
+modulate = Color( 0.698039, 0.698039, 0.698039, 1 )
 self_modulate = Color( 1, 0.972656, 0.972656, 1 )
 light_mask = 32
 position = Vector2( 388.726, 727.099 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
+[node name="Light" type="Sprite" parent="Planet"]
+modulate = Color( 0.870588, 0.890196, 0.729412, 1 )
+material = ExtResource( 3 )
+position = Vector2( 57, 24 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
 [node name="Debries" type="Sprite" parent="."]
 modulate = Color( 0.253906, 0.253906, 0.253906, 1 )
 light_mask = 64
 position = Vector2( 1091.44, 704.715 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "bg_scroll"
 anims/bg_scroll = SubResource( 1 )
-
-[node name="LightSimulation" type="Node" parent="."]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="LightSimulation"]
-visible = false
-color = Color( 0.392157, 0.392157, 0.392157, 1 )
-
-[node name="Light2D" type="Light2D" parent="LightSimulation"]
-position = Vector2( 524.739, 949.398 )
-scale = Vector2( 1.13606, 1.47503 )
-texture = ExtResource( 4 )
-texture_scale = 50.0
-color = Color( 0.545098, 0.807843, 1, 1 )
-energy = 1.5
-range_height = 20.0
-range_item_cull_mask = 34
-shadow_enabled = true
-shadow_color = Color( 0, 0, 0, 0.00392157 )
-shadow_filter = 2
-shadow_filter_smooth = 4.0
 
