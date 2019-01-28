@@ -44,37 +44,37 @@ func Invalidate(card, unit):
 func keyText(key, unit):
 	match key:
 		"attackdamage":
-			var t = "Damage"
+			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
-				t = "Area %s" % t
+				t = "ID_AREADAMAGE"
 			return t
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "Skill Damage"
+			return "ID_SKILLDAMAGE"
 		"damagepersecond":
-			var t = "Damage Per Second"
+			var t = "ID_DPS"
 			if unit.has("damageradius"):
-				t = "Area %s" % t
+				t = "ID_AREADPS"
 			return t
 		"destroydamage":
-			return "Death Damage"
+			return "ID_DEATHDAMAGE"
 		"hp":
-			return "Hit Points"
+			return "ID_HP"
 		"shield":
-			return "Barrier Points"
+			return "ID_BARRIER"
 		"attackinterval":
-			return "Attack Speed"
+			return "ID_ATTACKSPEED"
 		"damagetype":
-			return "Attack Type"
+			return "ID_ATTACKTYPE"
 		"attackrange":
-			return "Range"
+			return "ID_RANGE"
 		"leader", "wing":
-			return "%s Skill" % key.capitalize()
+			return "ID_%s_SKILL" % key.to_upper()
 		"freezeduration":
-			return "Freeze Duration"
+			return "ID_FREEZEDURATION"
 		"spawninterval":
-			return "Spawn Speed"
+			return "ID_SPAWNSPEED"
 		"spawncount":
-			return "%s Count" % "spawn unit name"
+			return "%s ID_COUNT" % "spawn unit name"
 	return key.capitalize()
 
 func valueText(key, card, unit):
@@ -108,7 +108,7 @@ func valueText(key, card, unit):
 			return info_root.hud.FormatSpeed(unit.get(key, 0))
 		"leader", "wing":
 			if card.Type == data.KnightCard:
-				 return unit.skill[key].name.capitalize()
+				 return "ID_%s" % unit.skill[key].name.to_upper()
 		"count":
 			if card.Count > 1:
 				return "%d" % card.Count

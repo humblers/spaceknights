@@ -7,6 +7,6 @@ export(NodePath) onready var value_increase_label = get_node(value_increase_labe
 
 func Invalidate(icon_texture, key_text, value_text, value_increase_text):
 	icon.texture = icon_texture
-	key_label.text = key_text
+	key_label.SetText(key_text)
 	value_label.text = value_text
 	value_increase_label.text = value_increase_text
