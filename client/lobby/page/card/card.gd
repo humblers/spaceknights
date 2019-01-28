@@ -8,7 +8,6 @@ export(NodePath) onready var bottom_left = get_node(bottom_left)
 export(NodePath) onready var pressed = get_node(pressed)
 export(NodePath) onready var picked = get_node(picked)
 export(NodePath) onready var tutor_mode = get_node(tutor_mode)
-export(NodePath) onready var deck_label = get_node(deck_label)
 
 export(NodePath) onready var deck_btn_0 = get_node(deck_btn_0)
 export(NodePath) onready var deck_btn_1 = get_node(deck_btn_1)
@@ -69,7 +68,6 @@ func calc_scroll_threshold():
 func Invalidate():
 	var cur_mode = current_mode()
 	var selected = user.DeckSelected
-	deck_label.text = "%d" % (selected + 1)
 	get("deck_btn_%d" % selected).pressed = true
 
 	var not_found_cards = data.cards.keys()

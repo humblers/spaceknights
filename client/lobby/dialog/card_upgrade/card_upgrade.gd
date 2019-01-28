@@ -28,7 +28,7 @@ func _ready():
 func PopUp(card):
 	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	card_name_label.text = card.Name.to_upper()
+	card_name_label.SetText("ID_%s" % card.Name.to_upper())
 	level_label.text = "%02d" % card.Level
 	var unit = data.units[card.Unit]
 	var item_nodes = stat_container.get_children()
@@ -63,14 +63,14 @@ func keyText(key, unit):
 		"attackdamage":
 			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
-				t = "ID_AREA %s" % t
+				t = "ID_AREADAMAGE"
 			return t
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
 			return "ID_SKILLDAMAGE"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
-				t = "ID_AREA %s" % t
+				t = "ID_AREADPS"
 			return t
 		"destroydamage":
 			return "ID_DEATHDAMAGE"
@@ -79,7 +79,7 @@ func keyText(key, unit):
 		"shield":
 			return "ID_BARRIER"
 		"leader", "wing":
-			return "%s ID_SKILL" % key
+			return "ID_%s_SKILL" % key.to_upper()
 	return key.capitalize()
 
 func valueTexts(key, card, unit):

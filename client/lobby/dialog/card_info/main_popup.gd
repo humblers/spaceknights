@@ -46,14 +46,14 @@ func keyText(key, unit):
 		"attackdamage":
 			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
-				t = "ID_AREA %s" % t
+				t = "ID_AREADAMAGE"
 			return t
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
 			return "ID_SKILLDAMAGE"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
-				t = "ID_AREA %s" % t
+				t = "ID_AREADPS"
 			return t
 		"destroydamage":
 			return "ID_DEATHDAMAGE"
@@ -68,7 +68,7 @@ func keyText(key, unit):
 		"attackrange":
 			return "ID_RANGE"
 		"leader", "wing":
-			return "%s ID_SKILL" % key.capitalize()
+			return "ID_%s_SKILL" % key.to_upper()
 		"freezeduration":
 			return "ID_FREEZEDURATION"
 		"spawninterval":
@@ -108,7 +108,7 @@ func valueText(key, card, unit):
 			return info_root.hud.FormatSpeed(unit.get(key, 0))
 		"leader", "wing":
 			if card.Type == data.KnightCard:
-				 return unit.skill[key].name.capitalize()
+				 return "ID_%s" % unit.skill[key].name.to_upper()
 		"count":
 			if card.Count > 1:
 				return "%d" % card.Count
