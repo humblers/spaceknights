@@ -29,7 +29,7 @@ func PopUp(card):
 	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
 	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	card_name_label.SetText("ID_%s" % card.Name.to_upper())
-	level_label.text = "%02d" % card.Level
+	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 	var unit = data.units[card.Unit]
 	var item_nodes = stat_container.get_children()
 	var idx = 0
