@@ -24,7 +24,7 @@ func TakeDamage(amount, damageType, attacker):
 		hp -= amount
 		damages[game.step] = 0
 		$HitEffect.hit(damageType)
-	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team)
+	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % color)
 	node_hp.value = hp
 	node_hp.visible = true
 	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield

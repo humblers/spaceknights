@@ -30,9 +30,9 @@ func Init(id, level, posX, posY, game, player):
 
 func set_hp():
 	.set_hp()
-	get_node("Hp/HBoxContainer/VBoxContainer/%s/HpLabel" % client_team).text = "%d" % hp
-	if client_team == "Red":
-		get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team).visible = true
+	get_node("Hp/HBoxContainer/VBoxContainer/%s/HpLabel" % color).text = "%d" % hp
+	if color == "Red":
+		get_node("Hp/HBoxContainer/VBoxContainer/%s" % color).visible = true
 
 func TakeDamage(amount, damageType, attacker):
 	var initHp = InitialHp()
@@ -40,6 +40,7 @@ func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):
 		amount = amount * data.DecreasedDamageRatioOnKnightBuilding / 100
 	.TakeDamage(amount, damageType, attacker)
+	get_node("Hp/HBoxContainer/VBoxContainer/%s/HpLabel" % color).text = "%d" % hp
 	if not underHalf and initHp / 2 > hp:
 		player.OnKnightHalfDamaged(self)
 	if IsDead():

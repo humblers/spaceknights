@@ -27,7 +27,7 @@ var moving = false
 
 var shader_material = preload("res://game/unit/shader_material.tres")
 var damages = {}
-var client_team
+var color
 var side	# knight position: Left, Center, or Right 
 
 func InitDummy(posX, posY, game, player, initial_angle=0):
@@ -80,11 +80,11 @@ func New(id, name, team, level, posX, posY, game):
 	
 	# client only
 	body.node = self
-	client_team = team
+	color = team
 	if game.team_swapped:
 		posX = game.FlipX(posX)
 		posY = game.FlipY(posY)
-		client_team = "Red" if team == "Blue" else "Blue"
+		color = "Red" if team == "Blue" else "Blue"
 	set_hp()
 	setLevel()
 	position = Vector2(posX, posY)
@@ -139,13 +139,13 @@ func set_rot(vel_x, vel_y):
 		$Rotatable.rotation += PI
 	
 func set_hp():
-	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team)
+	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % color)
 	node_hp.max_value = hp
 	node_hp.value = hp
 
 func setLevel():
 	$Hp/HBoxContainer/Control/LevelLabel.text = "%d" % (level + 1)
-	if client_team == "Red":
+	if color == "Red":
 		$Hp/HBoxContainer/Control.visible = true
 
 func Id():
@@ -177,7 +177,7 @@ func TakeDamage(amount, damageType, attacker):
 	if Layer() != data.Normal:
 		return
 	hp -= amount
-	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team)
+	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % color)
 	node_hp.value = hp
 	node_hp.visible = true
 	$Hp/HBoxContainer/Control.visible = true

@@ -36,7 +36,7 @@ func TakeDamage(amount, damageType, attacker):
 			var r = scalar.Add(u.Radius(), destroyRadius())
 			if d < scalar.Mul(r, r):
 				u.TakeDamage(destroyDamage(), destroyDamageType(), self)
-	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % client_team)
+	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % color)
 	node_hp.value = hp
 	node_hp.visible = true
 	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
@@ -63,6 +63,7 @@ func Update():
 				findTargetAndDoAction()
 	if targetId == 0:
 		$AnimationPlayer.play("idle")
+	shield += data.ShieldRegenPerStep
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
