@@ -38,6 +38,7 @@ func InitDummy(posX, posY, game, player, initial_angle=0):
 		posY = game.FlipY(posY)
 	position = Vector2(posX, posY)
 	init_rotation(initial_angle)
+	$AnimationPlayer.play("idle")
 
 func _process(delta):
 	show_damage(delta)
@@ -93,6 +94,7 @@ func New(id, name, team, level, posX, posY, game):
 	material.set_shader_param("is_blue", true if team == "Blue" else false)
 	var debug = preload("res://game/debug/debug.tscn").instance()
 	debug.init(self, game)
+	$AnimationPlayer.play("idle")
 	add_child(debug)
 	return self
 

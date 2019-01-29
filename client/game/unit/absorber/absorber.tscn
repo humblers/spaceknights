@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://game/unit/absorber/absorber.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/absorber/body.png" type="Texture" id=2]
@@ -20,16 +20,16 @@
 [ext_resource path="res://game/unit/absorber/hiraku.png" type="Texture" id=18]
 [ext_resource path="res://game/unit/absorber/generator.png" type="Texture" id=19]
 [ext_resource path="res://game/unit/absorber/generator_normal.png" type="Texture" id=20]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=21]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=22]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=21]
+[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=22]
 [ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=23]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=24]
-[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=25]
-[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=26]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=27]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=28]
-[ext_resource path="res://game/unit/enforcer/attack.png" type="Texture" id=29]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=30]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=24]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=25]
+[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=26]
+[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=27]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=28]
+[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=29]
+[ext_resource path="res://game/unit/enforcer/attack.png" type="Texture" id=30]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=31]
 [ext_resource path="res://game/unit/absorber/explosion.tres" type="Animation" id=32]
 [ext_resource path="res://game/unit/absorber/attack.tres" type="Animation" id=33]
@@ -43,13 +43,14 @@
 [ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=41]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=42]
 
-[sub_resource type="Curve" id=1]
+[sub_resource type="SpriteFrames" id=21]
 
-_data = [ Vector2( 0, 0.4384 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=2]
-
-colors = PoolColorArray( 1, 1, 1, 1, 0.188235, 0.486275, 1, 0.772039 )
+animations = [ {
+"frames": [ ExtResource( 22 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
 
 [sub_resource type="Curve" id=3]
 
@@ -136,10 +137,8 @@ __meta__ = {
 absorb_node = NodePath("Rotatable/Main/Generator/Absorb")
 
 [node name="Rotatable" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Main" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
@@ -271,34 +270,34 @@ normal_map = ExtResource( 20 )
 offset = Vector2( 0, 17 )
 
 [node name="Booster" type="Position2D" parent="Rotatable/Main/Generator"]
-editor/display_folded = true
+visible = false
 position = Vector2( 0, 29 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/Generator/Booster"]
-position = Vector2( 0, 15 )
-emitting = false
-speed_scale = 2.0
-texture = ExtResource( 21 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector2( 0, 40 )
-angular_velocity = 1.56838e-16
-scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
+[node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Main/Generator/Booster"]
+modulate = Color( 0.133333, 0.207843, 1, 1 )
+material = ExtResource( 21 )
+position = Vector2( 0, 20 )
+scale = Vector2( 1.2, 1.8 )
+frames = SubResource( 21 )
+animation = "thrust"
+speed_scale = 3.0
+playing = true
+offset = Vector2( 0, 15 )
 
-[node name="Sprite" type="Sprite" parent="Rotatable/Main/Generator/Booster/CPUParticles2D"]
-visible = false
-material = ExtResource( 22 )
-position = Vector2( 0, 10 )
-texture = ExtResource( 23 )
+[node name="LightL" type="Sprite" parent="Rotatable/Main/Generator/Booster"]
+modulate = Color( 0.67451, 0.678431, 0.709804, 1 )
+material = ExtResource( 21 )
+position = Vector2( 0, 20 )
+scale = Vector2( 1, 1.8 )
+texture = ExtResource( 24 )
 
 [node name="Absorb" type="Position2D" parent="Rotatable/Main/Generator"]
-editor/display_folded = true
 position = Vector2( 0, -9 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Rotatable/Main/Generator/Absorb"]
+emitting = false
 amount = 2
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -307,9 +306,10 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/Generator/Absorb"]
-material = ExtResource( 22 )
+material = ExtResource( 21 )
+emitting = false
 speed_scale = 2.0
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
@@ -322,14 +322,15 @@ scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
 [node name="CPUParticles2D3" type="CPUParticles2D" parent="Rotatable/Main/Generator/Absorb"]
-material = ExtResource( 22 )
+material = ExtResource( 21 )
+emitting = false
 amount = 3
 speed_scale = 2.0
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 1.56838e-16
+angular_velocity = 1.56838e-016
 angular_velocity_random = 1.0
 radial_accel = -80.0
 radial_accel_random = 1.0
@@ -340,16 +341,16 @@ scale_amount_curve = SubResource( 8 )
 color_ramp = SubResource( 9 )
 
 [node name="Emit" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 
 [node name="Orb" type="Position2D" parent="Rotatable/Emit"]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
+visible = false
 modulate = Color( 0.192157, 0.152941, 0.294118, 1 )
 emitting = false
 speed_scale = 2.0
 explosiveness = 1.0
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -358,10 +359,11 @@ scale_amount_curve = SubResource( 10 )
 color_ramp = SubResource( 11 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
-material = ExtResource( 22 )
+visible = false
+material = ExtResource( 21 )
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
@@ -374,20 +376,22 @@ scale_amount_curve = SubResource( 12 )
 color_ramp = SubResource( 13 )
 
 [node name="Spark" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
-material = ExtResource( 22 )
+visible = false
+material = ExtResource( 21 )
 emitting = false
 amount = 2
 speed_scale = 3.0
-texture = ExtResource( 29 )
+texture = ExtResource( 30 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 2.5
 
 [node name="BlackCircle" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
+visible = false
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -396,9 +400,10 @@ scale_amount_curve = SubResource( 14 )
 color_ramp = SubResource( 15 )
 
 [node name="Core" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
-material = ExtResource( 22 )
+visible = false
+material = ExtResource( 21 )
 emitting = false
-texture = ExtResource( 30 )
+texture = ExtResource( 24 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -411,8 +416,9 @@ scale_amount_curve = SubResource( 16 )
 color = Color( 0.411765, 0.419608, 1, 1 )
 
 [node name="CPUParticles2D3" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
+visible = false
 emitting = false
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
@@ -423,28 +429,28 @@ scale_amount_curve = SubResource( 17 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="CPUParticles2D4" type="CPUParticles2D" parent="Rotatable/Emit/Orb"]
+visible = false
 emitting = false
 amount = 24
 lifetime = 1.5
 speed_scale = 2.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
+angular_velocity = 7.24383e-031
 radial_accel = 180.0
 radial_accel_random = 1.0
 scale_amount = 2.0
 color_ramp = SubResource( 18 )
 
 [node name="Explosion" type="Node2D" parent="."]
-editor/display_folded = true
 scale = Vector2( 1.7, 1.7 )
 
 [node name="Main" type="Node2D" parent="Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 27 )
+texture = ExtResource( 28 )
 
 [node name="Exp2" type="Sprite" parent="Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
@@ -456,7 +462,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 19 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 30 )
+texture = ExtResource( 24 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -464,26 +470,16 @@ modulate = Color( 0.101961, 0.47451, 1, 0 )
 material = SubResource( 20 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 
 [node name="Circle2" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 flip_h = true
 flip_v = true
-
-[node name="Particle" type="CPUParticles2D" parent="Explosion/Main"]
-emitting = false
-amount = 20
-explosiveness = 0.5
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 5.09738e-38
-radial_accel = 180.0
-color = Color( 0.509804, 0.482353, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Explosion"]
 anims/explosion = ExtResource( 32 )
