@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://game/vfx/square.png" type="Texture" id=1]
 [ext_resource path="res://game/bg/field.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://game/bg/piller_top_normal.png" type="Texture" id=11]
 [ext_resource path="res://game/bg/wall_center_top.png" type="Texture" id=12]
 [ext_resource path="res://game/bg/wall_center_normal.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/pointlight.png" type="Texture" id=14]
 
 [sub_resource type="Animation" id=1]
 
@@ -293,6 +294,60 @@ _data = [ Vector2( 0, 0.1568 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 
 offsets = PoolRealArray( 0.288889, 1 )
 colors = PoolColorArray( 1, 0.0976563, 0.0976563, 1, 1, 0.133333, 0.133333, 0.557294 )
 
+[sub_resource type="Animation" id=4]
+
+resource_name = "light"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Background/Light2D:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3, 8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 89.9999, 150.0, 89.9999 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Background/Light2D3:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.95875, 6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 285.0, 330.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Background/Light2D2:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4, 8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 210.0, 300.0, 210.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Background/Light2D4:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 6, 8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 389.999, 434.999, 389.999 ]
+}
+
 [node name="kineticascroll" type="Node2D"]
 light_mask = 3
 z_index = -1
@@ -304,8 +359,10 @@ __meta__ = {
 position = Vector2( 540, 960 )
 
 [node name="Stracture" type="Node2D" parent="Background"]
+editor/display_folded = true
 
 [node name="Floor" type="Node2D" parent="Background/Stracture"]
+editor/display_folded = true
 position = Vector2( 0, 10 )
 
 [node name="FloorDark" type="Sprite" parent="Background/Stracture/Floor"]
@@ -827,4 +884,52 @@ scale = Vector2( 0.8, 0.8 )
 z_index = 2
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
+
+[node name="Light2D" type="Light2D" parent="Background"]
+position = Vector2( -587, 116 )
+rotation = 1.57079
+scale = Vector2( 1, 2 )
+texture = ExtResource( 14 )
+offset = Vector2( -11, -293.333 )
+texture_scale = 2.0
+color = Color( 0.447059, 0.713726, 1, 1 )
+energy = 4.0
+range_item_cull_mask = 65
+
+[node name="Light2D2" type="Light2D" parent="Background"]
+position = Vector2( 585, 256 )
+rotation = 3.66519
+scale = Vector2( 0.8, 1.5 )
+texture = ExtResource( 14 )
+offset = Vector2( -11, -293.333 )
+texture_scale = 2.0
+color = Color( 1, 0.756863, 0.290196, 1 )
+energy = 3.0
+range_item_cull_mask = 65
+
+[node name="Light2D3" type="Light2D" parent="Background"]
+position = Vector2( 583, -266 )
+rotation = 5.36279
+scale = Vector2( 1, 2 )
+texture = ExtResource( 14 )
+offset = Vector2( -11, -293.333 )
+texture_scale = 2.0
+color = Color( 0.447059, 0.572549, 1, 1 )
+energy = 4.0
+range_item_cull_mask = 65
+
+[node name="Light2D4" type="Light2D" parent="Background"]
+position = Vector2( -467, -236 )
+rotation = 6.80677
+scale = Vector2( 1, 2 )
+texture = ExtResource( 14 )
+offset = Vector2( -11, -293.333 )
+texture_scale = 2.0
+color = Color( 0.447059, 0.572549, 1, 1 )
+energy = 4.0
+range_item_cull_mask = 65
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "light"
+anims/light = SubResource( 4 )
 
