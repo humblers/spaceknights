@@ -46,20 +46,20 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=3]
 
 _data = [ Vector2( 0, 0.4736 ), 0.0, 0.0, 0, 0, Vector2( 0.996674, 0.984 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=4]
 
 offsets = PoolRealArray( 0, 0.996364 )
 colors = PoolColorArray( 1, 0.583435, 0.179688, 1, 1, 0, 0, 0.686745 )
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=5]
 
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 
 length = 3.0
 tracks/0/type = "value"
@@ -459,9 +459,8 @@ tracks/32/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=7]
 
-resource_name = "attack2"
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Body:position")
@@ -872,7 +871,7 @@ tracks/33/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 
 length = 0.01
 tracks/0/type = "value"
@@ -1199,8 +1198,20 @@ tracks/26/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/27/type = "value"
+tracks/27/path = NodePath("Rotatable/Explosion/Main/Particles2D:emitting")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 
 length = 0.01
 tracks/0/type = "value"
@@ -1540,7 +1551,8 @@ normal_map = ExtResource( 12 )
 offset = Vector2( -3, 15 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
-modulate = Color( 1, 0.611765, 0.0588235, 0 )
+visible = false
+modulate = Color( 1, 0.611765, 0.0588235, 1 )
 material = ExtResource( 4 )
 position = Vector2( -2, 20 )
 scale = Vector2( 0.3, 1.4 )
@@ -1552,6 +1564,7 @@ rotation = 1.0472
 scale = Vector2( 1.2, 1.2 )
 
 [node name="KnifeTrail" type="AnimatedSprite" parent="Rotatable/Body/UpperarmL/LowerarmL/KnifeLeft"]
+visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
 material = ExtResource( 4 )
 position = Vector2( 10, 0 )
@@ -1559,6 +1572,7 @@ rotation = 1.0472
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 2 )
 animation = "knifetrail"
+frame = 1
 
 [node name="UpperarmR" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
@@ -1587,7 +1601,8 @@ offset = Vector2( 3, 15 )
 flip_h = true
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
-modulate = Color( 1, 0.611765, 0.0588235, 0 )
+visible = false
+modulate = Color( 1, 0.611765, 0.0588235, 1 )
 material = ExtResource( 4 )
 position = Vector2( 2, 20 )
 scale = Vector2( 0.3, 1.4 )
@@ -1598,6 +1613,7 @@ position = Vector2( -10, 1.90735e-006 )
 rotation = -1.0472
 
 [node name="KnifeTrail2" type="AnimatedSprite" parent="Rotatable/Body/UpperarmR/LowerarmR/KnifeRight"]
+visible = false
 modulate = Color( 1, 0.686275, 0.247059, 1 )
 material = ExtResource( 4 )
 position = Vector2( -10, 1.90735e-006 )
@@ -1614,7 +1630,6 @@ position = Vector2( 0, -65 )
 material = ExtResource( 4 )
 position = Vector2( 47.6973, 16.3027 )
 rotation = -0.174533
-scale = Vector2( 1, 1 )
 emitting = false
 speed_scale = 3.0
 explosiveness = 0.8
@@ -1628,15 +1643,13 @@ angular_velocity_random = 1.0
 radial_accel = 90.0
 radial_accel_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 8 )
-color_ramp = SubResource( 9 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 scale = Vector2( 1.5, 1.5 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -1674,7 +1687,7 @@ flip_v = true
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 20
+amount = 12
 speed_scale = 1.5
 explosiveness = 0.5
 spread = 180.0
@@ -1682,7 +1695,7 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 5 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
@@ -1692,13 +1705,14 @@ anims/explosion = ExtResource( 19 )
 circle_radius = 35.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 4 )
-anims/attack2 = SubResource( 5 )
+anims/attack = SubResource( 6 )
+anims/attack2 = SubResource( 7 )
 anims/destroy = ExtResource( 21 )
-anims/idle = SubResource( 6 )
-anims/move = SubResource( 7 )
+anims/idle = SubResource( 8 )
+anims/move = SubResource( 9 )
 
 [node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://game/unit/enforcer/enforcer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/enforcer/body.png" type="Texture" id=2]
@@ -59,7 +59,12 @@ animations = [ {
 
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6848 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Gradient" id=6]
+
+offsets = PoolRealArray( 0.575269, 1 )
+colors = PoolColorArray( 0.666667, 0.513726, 1, 1, 0, 0, 0, 0.254157 )
+
+[sub_resource type="Animation" id=7]
 
 length = 1.5
 tracks/0/type = "value"
@@ -399,9 +404,8 @@ tracks/27/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 
-resource_name = "attack2"
 length = 1.5
 step = 0.05
 tracks/0/type = "value"
@@ -741,7 +745,7 @@ tracks/27/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
 length = 0.01
 tracks/0/type = "value"
@@ -1104,8 +1108,20 @@ tracks/29/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/30/type = "value"
+tracks/30/path = NodePath("Rotatable/Explosion/Particles2D:emitting")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 
 length = 0.01
 tracks/0/type = "value"
@@ -1510,6 +1526,7 @@ scale_amount_curve = SubResource( 2 )
 color = Color( 0.392157, 0.388235, 1, 1 )
 
 [node name="OuterCircle" type="Sprite" parent="Rotatable/Body/ForceField"]
+visible = false
 modulate = Color( 0.0941176, 1, 0.576471, 0 )
 material = ExtResource( 4 )
 rotation = 6.28319
@@ -1537,7 +1554,6 @@ scale = Vector2( 0.694444, 0.694444 )
 
 [node name="ArmL" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
 use_parent_material = true
-rotation = -0.523599
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
@@ -1560,7 +1576,6 @@ texture = ExtResource( 7 )
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
 use_parent_material = true
-rotation = 0.523599
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
@@ -1584,9 +1599,8 @@ texture = ExtResource( 7 )
 scale = Vector2( 1.4, 1.4 )
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion"]
-modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
 emitting = false
-amount = 16
+amount = 12
 speed_scale = 2.0
 texture = ExtResource( 16 )
 spread = 180.0
@@ -1596,7 +1610,7 @@ angular_velocity_random = 1.0
 radial_accel = 60.0
 scale_amount = 1.5
 scale_amount_curve = SubResource( 5 )
-color = Color( 0.666667, 0.513726, 1, 1 )
+color_ramp = SubResource( 6 )
 hue_variation = 1.0
 
 [node name="Light" type="Sprite" parent="Rotatable/Explosion"]
@@ -1619,19 +1633,19 @@ anims/explosion = ExtResource( 17 )
 [node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
 enabled = false
 texture = ExtResource( 7 )
-texture_scale = 10.0
-energy = 0.5
+texture_scale = 5.0
+energy = 1.5
 
 [node name="HitEffect" parent="." instance=ExtResource( 18 )]
 position = Vector2( 0, 5 )
 circle_radius = 30.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 6 )
-anims/attack2 = SubResource( 7 )
+anims/attack = SubResource( 7 )
+anims/attack2 = SubResource( 8 )
 anims/destroy = ExtResource( 19 )
-anims/idle = SubResource( 8 )
-anims/move = SubResource( 9 )
+anims/idle = SubResource( 9 )
+anims/move = SubResource( 10 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true

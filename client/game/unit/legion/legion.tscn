@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/legion/roid.png" type="Texture" id=2]
@@ -45,12 +45,14 @@
 
 [sub_resource type="Curve" id=1]
 
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
 _data = [ Vector2( 0, 0.997113 ), 0.0, -1.25164, 0, 0, Vector2( 1, 0.381304 ), -1.84297, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="Gradient" id=3]
+
+offsets = PoolRealArray( 0, 0.994565 )
+colors = PoolColorArray( 1, 0.80957, 0.238281, 1, 0.101961, 0.956863, 1, 0.314902 )
+
+[sub_resource type="SpriteFrames" id=4]
 
 animations = [ {
 "frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
@@ -88,6 +90,7 @@ normal_map = ExtResource( 7 )
 flip_h = true
 
 [node name="CartridgeL" type="Position2D" parent="Rotatable/Body/ShoulderL/ArmL"]
+editor/display_folded = true
 position = Vector2( -10.5, 12 )
 
 [node name="EjectionL" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/CartridgeL"]
@@ -95,61 +98,20 @@ position = Vector2( 0.499996, -2 )
 rotation = 1.49012e-008
 emitting = false
 amount = 1
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
 speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
 texture = ExtResource( 8 )
-normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 45.0
-flatness = 0.0
 gravity = Vector2( -200, 0 )
 initial_velocity = 0.0
-initial_velocity_random = 0.0
 angular_velocity = 60.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
 radial_accel = 30.0
 radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
 angle = 30.0
 angle_random = 1.0
-angle_curve = null
 scale_amount = 0.4
-scale_amount_random = 0.0
-scale_amount_curve = null
 color = Color( 0.501961, 0.337255, 0.141176, 0.870588 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
 
 [node name="LightCL" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/CartridgeL"]
 visible = false
@@ -167,68 +129,24 @@ scale = Vector2( 0.7, 1 )
 
 [node name="MuzzleflashL" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/ArmL/ShotpointL/Muzzleflash"]
 emitting = false
-amount = 8
 lifetime = 0.4
-one_shot = true
-preprocess = 0.0
 speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
 texture = ExtResource( 11 )
-normalmap = null
-emission_shape = 0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 0.0
-flatness = 0.0
 gravity = Vector2( 0, -300 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
 angular_velocity = 180.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 0.0
-radial_accel_random = 0.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
 angle = 60.0
 angle_random = 1.0
-angle_curve = null
-scale_amount = 1.0
-scale_amount_random = 0.0
 scale_amount_curve = SubResource( 1 )
-color = Color( 0.117647, 0.835294, 0.447059, 0.635294 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
+color_ramp = SubResource( 3 )
 
 [node name="LightSL" type="Sprite" parent="Rotatable/Body/ShoulderL/ArmL/ShotpointL"]
 visible = false
-modulate = Color( 0.87451, 1, 0.00392157, 1 )
+self_modulate = Color( 0.360784, 1, 0.368627, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 14 )
-scale = Vector2( 1.8, 2.8 )
+scale = Vector2( 1, 3.5 )
 texture = ExtResource( 10 )
 
 [node name="BoosterpointL" type="Position2D" parent="Rotatable/Body/ShoulderL/ArmL"]
@@ -241,9 +159,8 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 12 )
 scale = Vector2( 0.6, 1 )
-frames = SubResource( 2 )
+frames = SubResource( 4 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -257,6 +174,7 @@ scale = Vector2( 0.6, 2.5 )
 texture = ExtResource( 10 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( 33.5, 0 )
 texture = ExtResource( 4 )
@@ -270,6 +188,7 @@ texture = ExtResource( 6 )
 normal_map = ExtResource( 7 )
 
 [node name="CartridgeR" type="Position2D" parent="Rotatable/Body/ShoulderR/ArmR"]
+editor/display_folded = true
 position = Vector2( 10.5, 12 )
 
 [node name="EjectionR" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/ArmR/CartridgeR"]
@@ -277,61 +196,20 @@ position = Vector2( -0.5, -2 )
 rotation = 1.30385e-008
 emitting = false
 amount = 1
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
 speed_scale = 4.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
 texture = ExtResource( 8 )
-normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
-spread = 45.0
-flatness = 0.0
 gravity = Vector2( 200, 0 )
 initial_velocity = 0.0
-initial_velocity_random = 0.0
 angular_velocity = 60.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
 radial_accel = 30.0
 radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
 angle = 30.0
 angle_random = 1.0
-angle_curve = null
 scale_amount = 0.4
-scale_amount_random = 0.0
-scale_amount_curve = null
 color = Color( 0.501961, 0.337255, 0.141176, 0.870588 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
 
 [node name="LightCR" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/CartridgeR"]
 visible = false
@@ -349,69 +227,26 @@ scale = Vector2( 0.7, 1 )
 
 [node name="MuzzleflashR" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/ArmR/ShotpointR/Muzzleflash"]
 emitting = false
-amount = 8
 lifetime = 0.4
 one_shot = true
-preprocess = 0.0
 speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
 texture = ExtResource( 11 )
-normalmap = null
-emission_shape = 0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 0.0
-flatness = 0.0
 gravity = Vector2( 0, -300 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
 angular_velocity = 180.0
 angular_velocity_random = 1.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
-radial_accel = 0.0
-radial_accel_random = 0.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
 angle = 60.0
 angle_random = 1.0
-angle_curve = null
-scale_amount = 1.0
-scale_amount_random = 0.0
 scale_amount_curve = SubResource( 1 )
-color = Color( 0.117647, 0.835294, 0.447059, 0.635294 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
+color_ramp = SubResource( 3 )
 
 [node name="LightSR" type="Sprite" parent="Rotatable/Body/ShoulderR/ArmR/ShotpointR"]
 visible = false
-modulate = Color( 0.87451, 1, 0.00392157, 1 )
+self_modulate = Color( 0.360784, 1, 0.368627, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 14 )
 rotation = 4.13921e-009
-scale = Vector2( 1.8, 2.8 )
+scale = Vector2( 1, 3.5 )
 texture = ExtResource( 10 )
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/ShoulderR/ArmR"]
@@ -424,8 +259,9 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 9 )
 position = Vector2( 0, 12 )
 scale = Vector2( 0.6, 1 )
-frames = SubResource( 2 )
+frames = SubResource( 4 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -520,62 +356,16 @@ texture = ExtResource( 28 )
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 35
-lifetime = 1.0
-one_shot = false
+amount = 12
 preprocess = 1.0
 speed_scale = 0.8
 explosiveness = 0.5
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = null
-normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 180.0
-flatness = 0.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
 angular_velocity = 180.0
-angular_velocity_random = 0.0
-angular_velocity_curve = null
-linear_accel = 0.0
-linear_accel_random = 0.0
-linear_accel_curve = null
 radial_accel = 180.0
-radial_accel_random = 0.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
-scale_amount = 1.0
-scale_amount_random = 0.0
-scale_amount_curve = null
-color = Color( 1, 1, 1, 1 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
 
 [node name="Center" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -589,90 +379,31 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 10 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/explosion = ExtResource( 29 )
-blend_times = [  ]
-
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
-enabled = false
-editor_only = false
-texture = ExtResource( 10 )
-offset = Vector2( 0, 0 )
-texture_scale = 30.0
-color = Color( 1, 1, 1, 1 )
-energy = 2.0
-mode = 0
-range_height = 0.0
-range_z_min = -1024
-range_z_max = 1024
-range_layer_min = 0
-range_layer_max = 0
-range_item_cull_mask = 1
-shadow_enabled = false
-shadow_color = Color( 0, 0, 0, 0 )
-shadow_buffer_size = 2048
-shadow_gradient_length = 0.0
-shadow_filter = 0
-shadow_filter_smooth = 0.0
-shadow_item_cull_mask = 1
 
 [node name="HitEffect" parent="." instance=ExtResource( 30 )]
 type = 0
 rect_area = Rect2( -60, -20, 120, 60 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/attack_1 = ExtResource( 31 )
 anims/attack_2 = ExtResource( 32 )
 anims/destroy = ExtResource( 33 )
 anims/idle = ExtResource( 34 )
 anims/show = ExtResource( 35 )
 anims/skill = ExtResource( 36 )
-blend_times = [  ]
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 37 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 38 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
 
 [node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 39 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
 
 [node name="Hp" parent="." instance=ExtResource( 40 )]
 position = Vector2( 0, -70 )

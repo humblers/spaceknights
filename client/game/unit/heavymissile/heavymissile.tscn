@@ -32,12 +32,12 @@ animations = [ {
 
 [sub_resource type="Curve" id=2]
 
-_data = [ Vector2( 0, 0.3592 ), 0.0, -0.527009, 0, 0, Vector2( 1, 0.4384 ), -0.51528, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.3482 ), 0.0, 0.436049, 0, 0, Vector2( 1, 0.5682 ), -0.51528, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=3]
 
-offsets = PoolRealArray( 0.277778, 0.648148, 1 )
-colors = PoolColorArray( 0, 0.231373, 0.254902, 1, 0.186573, 0.090271, 0.398438, 0.48718, 0.264587, 0.430319, 0.996094, 0 )
+offsets = PoolRealArray( 0.0108696, 0.826087, 1 )
+colors = PoolColorArray( 0.0124464, 0, 0.254902, 1, 0.186573, 0.090271, 0.398438, 0.48718, 0.264587, 0.430319, 0.996094, 0 )
 
 [sub_resource type="Curve" id=4]
 
@@ -45,8 +45,8 @@ _data = [ Vector2( 0, 0.4648 ), 0.0, 1.11183, 0, 0, Vector2( 1, 0 ), -4.79465, 0
 
 [sub_resource type="Gradient" id=5]
 
-offsets = PoolRealArray( 0, 0.509259, 1 )
-colors = PoolColorArray( 0.386719, 0.386719, 0.386719, 0.430941, 0.717647, 0.67451, 0.776471, 0.731647, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0, 0.429348, 1 )
+colors = PoolColorArray( 0.717647, 0.67451, 0.776471, 0.731647, 0, 0, 0, 1, 0, 0, 0, 0 )
 
 [sub_resource type="Curve" id=6]
 
@@ -60,13 +60,16 @@ colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 0.270706 )
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 scale = Vector2( 0.8, 0.8 )
 
 [node name="Main" type="Sprite" parent="Rotatable"]
+editor/display_folded = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
 [node name="BoosterC" type="Position2D" parent="Rotatable/Main"]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, 50 )
 scale = Vector2( 0.6, 1.2 )
@@ -78,6 +81,7 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -90,6 +94,7 @@ scale = Vector2( 1, 1.5 )
 texture = ExtResource( 7 )
 
 [node name="WingL" type="Sprite" parent="Rotatable/Main"]
+editor/display_folded = true
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( -13, 30 )
@@ -107,6 +112,7 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -119,6 +125,7 @@ scale = Vector2( 1, 1.5 )
 texture = ExtResource( 7 )
 
 [node name="WingR" type="Sprite" parent="Rotatable/Main"]
+editor/display_folded = true
 texture = ExtResource( 8 )
 normal_map = ExtResource( 9 )
 offset = Vector2( 13, 30 )
@@ -137,6 +144,7 @@ position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 15 )
@@ -151,16 +159,18 @@ texture = ExtResource( 7 )
 [node name="explosion" type="Node2D" parent="Rotatable"]
 
 [node name="Explosion" type="Node2D" parent="Rotatable/explosion"]
+editor/display_folded = true
 
 [node name="Light2D" type="Light2D" parent="Rotatable/explosion/Explosion"]
 enabled = false
 texture = ExtResource( 7 )
-texture_scale = 8.0
+texture_scale = 5.0
 
 [node name="Particle2" type="CPUParticles2D" parent="Rotatable/explosion/Explosion"]
 emitting = false
-amount = 160
+amount = 12
 preprocess = 1.0
+speed_scale = 3.0
 texture = ExtResource( 10 )
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -168,13 +178,13 @@ spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
-radial_accel = 180.0
+radial_accel = 120.0
 radial_accel_random = 1.0
+scale_amount = 1.5
 scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Circle" type="CPUParticles2D" parent="Rotatable/explosion/Explosion"]
-modulate = Color( 0, 0, 0, 1 )
 emitting = false
 speed_scale = 2.0
 explosiveness = 0.8
@@ -184,9 +194,9 @@ emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 360.0
 angular_velocity_random = 1.0
-radial_accel = 30.0
+radial_accel = 90.0
 radial_accel_random = 1.0
-scale_amount = 1.2
+scale_amount = 1.5
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
