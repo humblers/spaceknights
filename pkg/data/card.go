@@ -212,7 +212,7 @@ var Cards = map[string]Card{
 		Rarity:  Rare,
 		Arena:   Lunatos,
 	},
-	"felhound": Card{
+	"felhounds": Card{
 		Type:    SquireCard,
 		Cost:    5000,
 		Unit:    "felhound",
@@ -279,13 +279,13 @@ var Cards = map[string]Card{
 		Rarity:  Rare,
 		Arena:   Thanatos,
 	},
-	"heavymissile": Card{
+	"heavymissiles": Card{
 		Type:    SquireCard,
 		Cost:    4000,
 		Unit:    "heavymissile",
 		Count:   3,
-		OffsetX: []int{-30, 30, 0},
-		OffsetY: []int{30, 30, 0},
+		OffsetX: []int{-40, 40, 0},
+		OffsetY: []int{40, 40, 0},
 		Rarity:  Rare,
 		Arena:   Kinetica,
 	},
@@ -327,7 +327,7 @@ var Cards = map[string]Card{
 		Rarity: Rare,
 		Arena:  Thanatos,
 	},
-	"micromissile": Card{
+	"micromissiles": Card{
 		Type:    SquireCard,
 		Cost:    3000,
 		Unit:    "micromissile",
@@ -374,7 +374,7 @@ var Cards = map[string]Card{
 		Rarity:  Epic,
 		Arena:   Karas,
 	},
-	"pixie": Card{
+	"pixies": Card{
 		Type:    SquireCard,
 		Cost:    1000,
 		Unit:    "pixie",
@@ -401,7 +401,7 @@ var Cards = map[string]Card{
 		Rarity:  Legendary,
 		Arena:   Eoparu,
 	},
-	"sentry": Card{
+	"sentries": Card{
 		Type:    SquireCard,
 		Cost:    2000,
 		Unit:    "sentry",
@@ -431,7 +431,7 @@ var Cards = map[string]Card{
 		Rarity:  Rare,
 		Arena:   Thanatos,
 	},
-	"threestarfires": Card{
+	"starfiresquadron": Card{
 		Type:    SquireCard,
 		Cost:    9000,
 		Unit:    "starfire",
@@ -448,7 +448,7 @@ var Cards = map[string]Card{
 		Rarity: Rare,
 		Arena:  Kinetica,
 	},
-	"trainee": Card{
+	"trainees": Card{
 		Type:    SquireCard,
 		Cost:    2000,
 		Unit:    "trainee",
