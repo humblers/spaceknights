@@ -1035,6 +1035,18 @@ tracks/23/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/24/type = "value"
+tracks/24/path = NodePath("Rotatable/Explosion/Main/Particles2D:emitting")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=9]
 
@@ -1480,6 +1492,7 @@ anims/activate = SubResource( 3 )
 stream = ExtResource( 11 )
 
 [node name="Base" type="Sprite" parent="."]
+editor/display_folded = true
 modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 use_parent_material = true
 texture = ExtResource( 12 )
@@ -1491,53 +1504,45 @@ use_parent_material = true
 
 [node name="AnchorTR" type="Sprite" parent="Base/Anchor"]
 use_parent_material = true
-position = Vector2( 30, -30 )
+position = Vector2( 31, -31 )
 rotation = 0.785398
 texture = ExtResource( 14 )
 
 [node name="Crow" type="Sprite" parent="Base/Anchor/AnchorTR"]
 use_parent_material = true
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 
 [node name="AnchorBL" type="Sprite" parent="Base/Anchor"]
 use_parent_material = true
-position = Vector2( -30, 30 )
+position = Vector2( -31, 31 )
 rotation = -2.35619
 texture = ExtResource( 14 )
 
 [node name="Crow" type="Sprite" parent="Base/Anchor/AnchorBL"]
 use_parent_material = true
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 
 [node name="AnchorBR" type="Sprite" parent="Base/Anchor"]
 use_parent_material = true
-position = Vector2( 30, 30 )
+position = Vector2( 31, 31 )
 rotation = 2.35619
 texture = ExtResource( 14 )
 
 [node name="Crow" type="Sprite" parent="Base/Anchor/AnchorBR"]
 use_parent_material = true
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 
 [node name="AnchorTL" type="Sprite" parent="Base/Anchor"]
 use_parent_material = true
-position = Vector2( -30, -30 )
+position = Vector2( -31, -31 )
 rotation = -0.785398
 texture = ExtResource( 14 )
 
 [node name="Crow" type="Sprite" parent="Base/Anchor/AnchorTL"]
 use_parent_material = true
-position = Vector2( 0, -10 )
-scale = Vector2( 1, 0.6 )
 texture = ExtResource( 15 )
 normal_map = ExtResource( 16 )
 
@@ -1546,7 +1551,6 @@ use_parent_material = true
 
 [node name="CannonBody" type="Sprite" parent="Rotatable"]
 use_parent_material = true
-rotation = 6.28319
 texture = ExtResource( 17 )
 normal_map = ExtResource( 18 )
 
@@ -1562,23 +1566,29 @@ offset = Vector2( 0, -10 )
 position = Vector2( 0, 9.5 )
 scale = Vector2( 4, 0.6 )
 frames = SubResource( 4 )
+frame = 1
 playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable/CannonBody/Gun"]
+visible = false
 position = Vector2( 0, -52 )
 
 [node name="Muzzleflash" type="AnimatedSprite" parent="Rotatable/CannonBody/Gun"]
-modulate = Color( 1, 0.788235, 0.227451, 1 )
+visible = false
+modulate = Color( 1, 0.392157, 0.227451, 0 )
 material = ExtResource( 22 )
 position = Vector2( 0, -80 )
-scale = Vector2( 1.11, 1.1 )
+scale = Vector2( 2, 2 )
 frames = SubResource( 5 )
+frame = 3
 
 [node name="Muzzleflash2" type="AnimatedSprite" parent="Rotatable/CannonBody/Gun"]
+modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 22 )
 position = Vector2( 0, -80 )
-scale = Vector2( 0.8, 0.7 )
+scale = Vector2( 1.8, 1.8 )
 frames = SubResource( 5 )
+frame = 4
 
 [node name="Cartridge" type="Position2D" parent="Rotatable/CannonBody/Gun"]
 position = Vector2( 21, 4 )
@@ -1606,7 +1616,7 @@ texture = ExtResource( 27 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/CannonBody/Gun"]
 visible = false
-modulate = Color( 0.992157, 0.654902, 0.490196, 1 )
+modulate = Color( 0.992157, 0.654902, 0.490196, 0.00392157 )
 material = ExtResource( 22 )
 position = Vector2( 0, -42 )
 scale = Vector2( 0.6, 1 )
@@ -1672,7 +1682,7 @@ texture = ExtResource( 34 )
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 30
+amount = 12
 preprocess = 1.0
 explosiveness = 0.8
 spread = 180.0

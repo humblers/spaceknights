@@ -81,7 +81,7 @@ animations = [ {
 
 _data = [ Vector2( 0.251965, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.370764, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=8]
+[sub_resource type="Gradient" id=6]
 
 colors = PoolColorArray( 0.046875, 0.262817, 1, 1, 0.876068, 0.488281, 1, 0 )
 
@@ -113,6 +113,7 @@ texture = ExtResource( 6 )
 normal_map = ExtResource( 7 )
 
 [node name="BoosterpointC" type="Position2D" parent="Rotatable/Body/Core/BoosterTop"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, 20 )
 
@@ -122,6 +123,7 @@ material = ExtResource( 8 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -138,6 +140,7 @@ texture = ExtResource( 12 )
 normal_map = ExtResource( 13 )
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/Core/BoosterRignt"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 5, 20 )
 rotation = -0.349066
@@ -148,6 +151,7 @@ material = ExtResource( 8 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -165,6 +169,7 @@ normal_map = ExtResource( 13 )
 flip_h = true
 
 [node name="BoosterpointL" type="Position2D" parent="Rotatable/Body/Core/BoosterLeft"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -5, 20 )
 rotation = 0.349066
@@ -175,6 +180,7 @@ material = ExtResource( 8 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
 animation = "thrust"
+frame = 1
 speed_scale = 3.0
 playing = true
 offset = Vector2( 0, 18 )
@@ -398,6 +404,7 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 11 )
 
 [node name="LaserStart" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
 position = Vector2( 0, -100 )
 
 [node name="Fire" type="Node2D" parent="Rotatable/Body/LaserStart"]
@@ -408,13 +415,13 @@ visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -299.286 )
-scale = Vector2( 0.5, 3 )
+scale = Vector2( 1, 3 )
 texture = ExtResource( 23 )
 offset = Vector2( 0, -65 )
 
 [node name="Charge" type="AnimatedSprite" parent="Rotatable/Body/LaserStart/Fire"]
 visible = false
-modulate = Color( 1, 1, 1, 0.333333 )
+modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 scale = Vector2( 1, 0.7 )
 frames = SubResource( 4 )
@@ -422,13 +429,13 @@ animation = "astra_charge"
 playing = true
 
 [node name="Laser1" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -80 )
 texture = ExtResource( 11 )
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/LaserStart/Fire"]
-editor/display_folded = true
 scale = Vector2( 1, 2 )
 
 [node name="LaserParticle" type="CPUParticles2D" parent="Rotatable/Body/LaserStart/Fire/Particle"]
@@ -443,13 +450,15 @@ gravity = Vector2( 0, -50 )
 color = Color( 0.494118, 1, 0.796078, 0.65098 )
 
 [node name="EndCircle" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -150 )
-scale = Vector2( 0.5, 0.05 )
+scale = Vector2( 4, 0.2 )
 texture = ExtResource( 28 )
 
 [node name="LaserBeam2" type="Sprite" parent="Rotatable/Body/LaserStart/Fire"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -70 )
 scale = Vector2( 0.1, 1 )
@@ -460,7 +469,7 @@ offset = Vector2( 0, -10 )
 modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 8 )
 position = Vector2( 0, -62 )
-scale = Vector2( 1e-005, 30 )
+scale = Vector2( 0.2, 19 )
 texture = ExtResource( 21 )
 offset = Vector2( 0, -10 )
 
@@ -490,7 +499,7 @@ angle_random = 1.0
 scale_amount = 1.5
 scale_amount_random = 0.2
 scale_amount_curve = SubResource( 5 )
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 6 )
 hue_variation = 1.0
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Body/LaserStart/Fire/LaserHit"]
@@ -518,6 +527,7 @@ texture = ExtResource( 11 )
 [node name="SkillLight2D" type="Light2D" parent="Rotatable/Body/LaserStart/Fire"]
 position = Vector2( 3, -602.381 )
 scale = Vector2( 1, 1.5 )
+enabled = false
 texture = ExtResource( 11 )
 texture_scale = 30.0
 
@@ -584,7 +594,7 @@ texture = ExtResource( 38 )
 
 [node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 35
+amount = 16
 preprocess = 1.0
 speed_scale = 0.8
 explosiveness = 0.5
@@ -643,6 +653,5 @@ stream = ExtResource( 48 )
 stream = ExtResource( 49 )
 
 [node name="Hp" parent="." instance=ExtResource( 50 )]
-visible = false
 position = Vector2( 0, -110 )
 
