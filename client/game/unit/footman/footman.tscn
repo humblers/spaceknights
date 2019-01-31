@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://game/unit/footman/footman.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/footman/body.png" type="Texture" id=2]
@@ -16,15 +16,16 @@
 [ext_resource path="res://game/unit/footman/chain_saw_1.png" type="Texture" id=14]
 [ext_resource path="res://game/unit/footman/chain_saw_2.png" type="Texture" id=15]
 [ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=17]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=18]
-[ext_resource path="res://game/unit/footman/explosion.tres" type="Animation" id=19]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=20]
-[ext_resource path="res://game/unit/footman/destroy.tres" type="Animation" id=21]
-[ext_resource path="res://game/unit/footman/footman_atk.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=24]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=25]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=17]
+[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=19]
+[ext_resource path="res://game/unit/footman/explosion.tres" type="Animation" id=20]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=21]
+[ext_resource path="res://game/unit/footman/destroy.tres" type="Animation" id=22]
+[ext_resource path="res://game/unit/footman/footman_atk.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=26]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -391,6 +392,18 @@ tracks/27/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/28/type = "value"
+tracks/28/path = NodePath("Rotatable/Head/ShoulderL/Arm:rotation_degrees")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -1073,6 +1086,18 @@ tracks/26/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/27/type = "value"
+tracks/27/path = NodePath("Rotatable/Explosion/Main/Particle:emitting")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=7]
 
@@ -1453,26 +1478,6 @@ material = ExtResource( 6 )
 scale = Vector2( 0.3, 0.8 )
 texture = ExtResource( 9 )
 
-[node name="ShoulderR" type="Sprite" parent="Rotatable/Head"]
-use_parent_material = true
-position = Vector2( 27, 3 )
-texture = ExtResource( 10 )
-normal_map = ExtResource( 11 )
-
-[node name="Arm" type="Sprite" parent="Rotatable/Head/ShoulderR"]
-show_behind_parent = true
-use_parent_material = true
-position = Vector2( 4, -12 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 13 )
-
-[node name="ChainSaw" type="AnimatedSprite" parent="Rotatable/Head/ShoulderR/Arm"]
-show_behind_parent = true
-use_parent_material = true
-position = Vector2( 0, -14 )
-frames = SubResource( 2 )
-frame = 1
-
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Head"]
 use_parent_material = true
 position = Vector2( -27, 3 )
@@ -1494,13 +1499,32 @@ use_parent_material = true
 position = Vector2( 0, -14 )
 frames = SubResource( 2 )
 
+[node name="ShoulderR" type="Sprite" parent="Rotatable/Head"]
+use_parent_material = true
+position = Vector2( 27, 3 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 11 )
+
+[node name="Arm" type="Sprite" parent="Rotatable/Head/ShoulderR"]
+show_behind_parent = true
+use_parent_material = true
+position = Vector2( 4, -12 )
+texture = ExtResource( 12 )
+normal_map = ExtResource( 13 )
+
+[node name="ChainSaw" type="AnimatedSprite" parent="Rotatable/Head/ShoulderR/Arm"]
+show_behind_parent = true
+use_parent_material = true
+position = Vector2( 0, -14 )
+frames = SubResource( 2 )
+frame = 1
+
 [node name="Hit" type="Position2D" parent="Rotatable"]
-editor/display_folded = true
 position = Vector2( 0, -50.7185 )
 
 [node name="Spark" type="CPUParticles2D" parent="Rotatable/Hit"]
 emitting = false
-amount = 60
+amount = 20
 speed_scale = 3.0
 explosiveness = 0.1
 spread = 180.0
@@ -1514,24 +1538,26 @@ visible = false
 modulate = Color( 1, 0.231373, 0.054902, 1 )
 material = ExtResource( 6 )
 frames = SubResource( 3 )
+frame = 1
 speed_scale = 2.0
 playing = true
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Hit"]
 visible = false
+self_modulate = Color( 1, 0.811765, 0.0705882, 1 )
 material = ExtResource( 6 )
-texture = ExtResource( 9 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 17 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 scale = Vector2( 1.5, 1.5 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 
 [node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
@@ -1551,20 +1577,20 @@ modulate = Color( 0.101961, 0.47451, 1, 0 )
 material = ExtResource( 6 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 
 [node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
 rotation = -3.66519
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 flip_h = true
 flip_v = true
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 20
+amount = 12
 explosiveness = 0.5
 spread = 180.0
 gravity = Vector2( 0, 0 )
@@ -1572,16 +1598,16 @@ radial_accel = 180.0
 color = Color( 0.509804, 0.482353, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
-anims/explosion = ExtResource( 19 )
+anims/explosion = ExtResource( 20 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 20 )]
+[node name="HitEffect" parent="." instance=ExtResource( 21 )]
 position = Vector2( 0, 9 )
 circle_radius = 25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 4 )
 anims/attack2 = SubResource( 5 )
-anims/destroy = ExtResource( 21 )
+anims/destroy = ExtResource( 22 )
 anims/idle = SubResource( 6 )
 anims/move = SubResource( 7 )
 
@@ -1589,14 +1615,14 @@ anims/move = SubResource( 7 )
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 24 )
 
-[node name="Hp" parent="." instance=ExtResource( 25 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 25 )
+
+[node name="Hp" parent="." instance=ExtResource( 26 )]
 position = Vector2( 0, -60 )
 

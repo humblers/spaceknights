@@ -128,6 +128,7 @@ normal_map = ExtResource( 11 )
 offset = Vector2( -12, 0 )
 
 [node name="LowerarmL" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL"]
+editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -21, 0 )
@@ -137,6 +138,7 @@ normal_map = ExtResource( 13 )
 offset = Vector2( 0, -10 )
 
 [node name="HandL" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( 0, -24 )
 texture = ExtResource( 14 )
@@ -152,7 +154,6 @@ animation = "impect"
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
 rotation = -2.98023e-008
 emitting = false
-amount = 16
 lifetime = 1.4
 preprocess = 1.0
 speed_scale = 3.0
@@ -179,8 +180,9 @@ energy = 2.0
 [node name="Charge2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
 rotation = -2.98023e-008
 emitting = false
-amount = 30
+amount = 12
 lifetime = 1.3
+speed_scale = 2.0
 texture = ExtResource( 18 )
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -189,6 +191,7 @@ angular_velocity = 360.0
 angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
+scale_amount = 1.5
 scale_amount_curve = SubResource( 3 )
 color = Color( 1, 0.65098, 0.847059, 0.509804 )
 
@@ -231,6 +234,7 @@ offset = Vector2( 0, -10 )
 flip_h = true
 
 [node name="HandR" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR"]
+editor/display_folded = true
 use_parent_material = true
 position = Vector2( 0, -24 )
 texture = ExtResource( 14 )
@@ -248,16 +252,14 @@ animation = "impect"
 [node name="Charge1" type="Light2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
 enabled = false
 texture = ExtResource( 6 )
-texture_scale = 1.2
-color = Color( 0.608032, 1, 0.0351563, 1 )
-energy = 1.64286
+color = Color( 0.777065, 0.624137, 0.046948, 1 )
+energy = 2.0
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
-scale = Vector2( 1.64242, 1.64242 )
+scale = Vector2( 1.4, 1.4 )
 
 [node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR/Particle"]
 emitting = false
-amount = 16
 lifetime = 1.4
 preprocess = 1.0
 speed_scale = 3.0
@@ -277,8 +279,9 @@ color = Color( 0.529412, 0.384314, 0.972549, 0.0823529 )
 
 [node name="Charge2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
 emitting = false
-amount = 30
+amount = 12
 lifetime = 1.3
+speed_scale = 2.0
 texture = ExtResource( 18 )
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -287,6 +290,7 @@ angular_velocity = 360.0
 angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
+scale_amount = 1.5
 scale_amount_curve = SubResource( 3 )
 color = Color( 1, 0.65098, 0.847059, 0.509804 )
 
@@ -313,10 +317,11 @@ normal_map = ExtResource( 22 )
 enabled = false
 texture = ExtResource( 23 )
 color = Color( 1, 0.439216, 0.137255, 1 )
-energy = 0.505
+energy = 0.01
 range_item_cull_mask = 2
 
 [node name="BoosterpointL" type="Position2D" parent="Rotatable/Lowerbody"]
+editor/display_folded = true
 position = Vector2( -13.5, 27.5 )
 rotation = 0.349066
 
@@ -342,6 +347,7 @@ scale = Vector2( 1, 1.5 )
 texture = ExtResource( 6 )
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Lowerbody"]
+editor/display_folded = true
 position = Vector2( 13.5, 27.5 )
 rotation = -0.349066
 
@@ -392,7 +398,6 @@ position = Vector2( 0, -70 )
 scale = Vector2( 1.5, 1.5 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
@@ -430,7 +435,7 @@ flip_v = true
 
 [node name="Particle" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
 emitting = false
-amount = 20
+amount = 12
 explosiveness = 0.5
 spread = 180.0
 gravity = Vector2( 0, 0 )
@@ -440,12 +445,6 @@ color = Color( 0.509804, 0.482353, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 anims/explosion = ExtResource( 31 )
-
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
-enabled = false
-texture = ExtResource( 6 )
-texture_scale = 10.0
-energy = 1.5
 
 [node name="HitEffect" parent="." instance=ExtResource( 32 )]
 circle_radius = 30.0
