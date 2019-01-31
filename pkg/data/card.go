@@ -401,7 +401,7 @@ var Cards = map[string]Card{
 		Rarity:  Legendary,
 		Arena:   Eoparu,
 	},
-	"sentrys": Card{
+	"sentries": Card{
 		Type:    SquireCard,
 		Cost:    2000,
 		Unit:    "sentry",
@@ -431,7 +431,7 @@ var Cards = map[string]Card{
 		Rarity:  Rare,
 		Arena:   Thanatos,
 	},
-	"threestarfires": Card{
+	"starfiresquadron": Card{
 		Type:    SquireCard,
 		Cost:    9000,
 		Unit:    "starfire",

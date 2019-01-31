@@ -377,7 +377,7 @@ var cards = {
 		"OffsetY": [0],
 		"Rarity":  Legendary,
 	},
-	"sentrys": {
+	"sentries": {
 		"Type":    SquireCard,
 		"Cost":    2000,
 		"Unit":    "sentry",
@@ -404,7 +404,7 @@ var cards = {
 		"OffsetY": [0],
 		"Rarity":  Rare,
 	},
-	"threestarfires": {
+	"starfiresquadron": {
 		"Type":    SquireCard,
 		"Cost":    9000,
 		"Unit":    "starfire",
