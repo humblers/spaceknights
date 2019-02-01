@@ -48,6 +48,6 @@ func flip_card(card):
 		return
 	if not hidden_cards.has(card):
 		return
-	card_anim.play("flip")
+	card_anim.play("cardflip")
 	yield(card_anim, "animation_finished")
 	hidden_cards.erase(card)
