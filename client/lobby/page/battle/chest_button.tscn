@@ -1,15 +1,16 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/chest_button.gd" type="Script" id=2]
 [ext_resource path="res://lobby/resource/popup_panel.png" type="Texture" id=3]
 [ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=7]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=8]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=9]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=10]
+[ext_resource path="res://lobby/page/battle/boxes.tscn" type="PackedScene" id=5]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=7]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=9]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=10]
+[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=11]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -41,18 +42,18 @@ margin_bottom = 99.5
 
 [sub_resource type="DynamicFont" id=4]
 
-size = 44
+size = 38
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 4
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 5 )
+font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=5]
 
 size = 26
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=6]
 
@@ -60,8 +61,8 @@ size = 21
 outline_size = 3
 outline_color = Color( 0.223529, 0.560784, 1, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
-fallback/0 = ExtResource( 5 )
+font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 6 )
 
 [node name="ChestButton" type="Button"]
 self_modulate = Color( 0.733333, 0.733333, 0.733333, 1 )
@@ -93,11 +94,19 @@ patch_margin_right = 31
 patch_margin_bottom = 20
 
 [node name="ChestIcon" parent="NinePatchRect" instance=ExtResource( 4 )]
+visible = false
 margin_left = -15.0
 margin_top = 43.0
 margin_right = 214.0
 margin_bottom = 203.0
 rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Boxes" parent="NinePatchRect" instance=ExtResource( 5 )]
+margin_left = 16.0
+margin_top = 25.0
+margin_right = 486.0
+margin_bottom = 415.0
+rect_scale = Vector2( 0.4, 0.4 )
 
 [node name="CanOpen" type="Control" parent="NinePatchRect"]
 visible = false
@@ -106,18 +115,19 @@ margin_bottom = 40.0
 mouse_filter = 2
 
 [node name="Open" type="Label" parent="NinePatchRect/CanOpen"]
-margin_left = 21.0
-margin_top = 183.0
-margin_right = 197.0
-margin_bottom = 237.0
+margin_left = 1.0
+margin_top = 188.0
+margin_right = 220.0
+margin_bottom = 240.0
 custom_fonts/font = SubResource( 4 )
 text = "ID_PAGE_BATTLE_CHEST_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="CannotOpen" type="Control" parent="NinePatchRect"]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
@@ -128,9 +138,9 @@ margin_top = 195.0
 margin_right = 217.0
 margin_bottom = 258.0
 rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
-[node name="Dimensium" parent="NinePatchRect/CannotOpen/CashIcon" instance=ExtResource( 9 )]
+[node name="Dimensium" parent="NinePatchRect/CannotOpen/CashIcon" instance=ExtResource( 10 )]
 position = Vector2( 32.9999, 31 )
 
 [node name="Remain" type="Label" parent="NinePatchRect/CannotOpen"]
@@ -145,7 +155,7 @@ valign = 1
 margin_left = 10.0
 margin_top = 196.0
 margin_right = 143.0
-margin_bottom = 250.0
+margin_bottom = 245.0
 custom_fonts/font = SubResource( 4 )
 text = "46"
 align = 2
@@ -156,7 +166,7 @@ margin_left = 14.0
 margin_top = 5.0
 margin_right = 44.0
 margin_bottom = 35.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="OpenNowText" type="Label" parent="NinePatchRect/CannotOpen"]
 margin_left = 4.0
@@ -169,5 +179,5 @@ text = "ID_PAGE_BATTLE_CHEST_INSTANCE_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
