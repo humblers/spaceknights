@@ -1,6 +1,5 @@
 extends BaseButton
 
-export(NodePath) onready var page_card = get_node(page_card)
 export(NodePath) onready var base = get_node(base)
 export(NodePath) onready var icon = get_node(icon)
 export(NodePath) onready var frame = get_node(frame)
@@ -25,8 +24,8 @@ func Invalidate(card):
 	self.visible = card != null
 	if card == null:
 		return
-	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	icon.texture = $CardIcon.get_resource(card.Name)
+	frame.texture = get_card_frame(card.Type, card.Rarity)
 	cost_label.text = "%d" % (card.Cost / 1000)
 	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
@@ -38,9 +37,14 @@ func Invalidate(card):
 func down():
 	base_animation_player.play("down")
 
+func get_card_frame(type, rarity):
+	var t = "squire"
+	if type == data.KnightCard:
+		t = "knight"
+	return $CardFrame.get_resource("%s_%s_frame" % [t, rarity.to_lower()])
+
 func up():
 	base_animation_player.play_backwards("down")
-	page_card.set_pressed_card(self.card, pressed_btn_guide.global_position)
 
 func changed():
 	animation_player.play("changed")
