@@ -10,7 +10,7 @@ func _ready():
 func Set(medals):
 	progress.value = medals
 	progress.max_value = data.RequiredMedalsForMedalChest
-	progress_text.text = "%d/%d" % [progress.value, progress.max_value]
+#	progress_text.text = "%d/%d" % [progress.value, progress.max_value]
 
 func open():
 	if progress.value < progress.max_value:

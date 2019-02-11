@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -25,14 +25,18 @@
 [ext_resource path="res://lobby/page/card/item_pressed.gd" type="Script" id=23]
 [ext_resource path="res://lobby/page/card/card_btn_expansion_w.png" type="Texture" id=24]
 [ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=25]
-[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=26]
-[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=27]
-[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=28]
+[ext_resource path="res://lobby/page/card/button_info_t.png" type="Texture" id=26]
+[ext_resource path="res://lobby/page/card/button_info_t_pressed.png" type="Texture" id=27]
+[ext_resource path="res://lobby/page/card/button_info_t_hover.png" type="Texture" id=28]
 [ext_resource path="res://lobby/page/card/upgrade_button_t.png" type="Texture" id=29]
 [ext_resource path="res://lobby/page/card/upgrade_button_t_pressed.png" type="Texture" id=30]
 [ext_resource path="res://lobby/page/card/upgrade_button_t_hover.png" type="Texture" id=31]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=32]
-[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=33]
+[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=32]
+[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=33]
+[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=34]
+[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=35]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=36]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=37]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -116,6 +120,23 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 fallback/0 = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=13]
+
+size = 42
+outline_size = 3
+outline_color = Color( 0, 0.321569, 0.145098, 1 )
+use_filter = true
+font_data = ExtResource( 9 )
+fallback/0 = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=14]
+
+size = 50
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=10]
 
@@ -988,6 +1009,8 @@ container = NodePath("MarginContainer")
 main_btn = NodePath(".")
 info_btn = NodePath("MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Info")
 use_btn = NodePath("MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use")
+upgrade_btn = NodePath("MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade")
+upgrade_cost = NodePath("MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer/Label")
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/Control/Pressed"]
 margin_right = 312.0
@@ -1040,6 +1063,7 @@ margin_right = 282.0
 margin_bottom = 434.0
 
 [node name="Info" type="TextureButton" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer"]
+visible = false
 margin_left = 1.0
 margin_right = 281.0
 margin_bottom = 130.0
@@ -1066,6 +1090,57 @@ valign = 1
 clip_text = true
 script = ExtResource( 10 )
 
+[node name="Upgrade" type="TextureButton" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer"]
+margin_left = 1.0
+margin_right = 281.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 280, 130 )
+texture_normal = ExtResource( 29 )
+texture_pressed = ExtResource( 30 )
+texture_hover = ExtResource( 31 )
+expand = true
+
+[node name="Label2" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade"]
+margin_left = 10.0
+margin_top = 15.0
+margin_right = 270.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 260, 50 )
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "ID_PAGE_CARD_UPGRADE"
+align = 1
+valign = 1
+clip_text = true
+script = ExtResource( 10 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade"]
+margin_left = 11.0
+margin_top = 50.0
+margin_right = 269.0
+margin_bottom = 124.0
+custom_constants/separation = 5
+alignment = 1
+
+[node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer"]
+margin_left = 41.0
+margin_right = 161.0
+margin_bottom = 74.0
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "9999"
+align = 1
+valign = 1
+
+[node name="Control" type="Control" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer"]
+margin_left = 166.0
+margin_right = 216.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 50, 30 )
+
+[node name="Galacticoin" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer/Control" instance=ExtResource( 32 )]
+position = Vector2( 25, 39 )
+
 [node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer"]
 margin_top = 438.0
 margin_right = 282.0
@@ -1076,9 +1151,9 @@ margin_left = 1.0
 margin_right = 281.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 280, 130 )
-texture_normal = ExtResource( 29 )
-texture_pressed = ExtResource( 30 )
-texture_hover = ExtResource( 31 )
+texture_normal = ExtResource( 33 )
+texture_pressed = ExtResource( 34 )
+texture_hover = ExtResource( 35 )
 expand = true
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use"]
@@ -1103,7 +1178,7 @@ margin_top = 90.0
 margin_right = 1440.0
 margin_bottom = 178.0
 rect_min_size = Vector2( 1440, 100 )
-texture = ExtResource( 32 )
+texture = ExtResource( 36 )
 expand = true
 
 [node name="TextureRect" type="TextureRect" parent="PageMain/Decks"]
@@ -1157,7 +1232,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 11 )
-texture_normal = ExtResource( 33 )
+texture_normal = ExtResource( 37 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
 
@@ -1184,7 +1259,7 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 0
 group = SubResource( 11 )
-texture_normal = ExtResource( 33 )
+texture_normal = ExtResource( 37 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
 
@@ -1210,7 +1285,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 11 )
-texture_normal = ExtResource( 33 )
+texture_normal = ExtResource( 37 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
 
@@ -1237,7 +1312,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 11 )
-texture_normal = ExtResource( 33 )
+texture_normal = ExtResource( 37 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
 
@@ -1264,7 +1339,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 11 )
-texture_normal = ExtResource( 33 )
+texture_normal = ExtResource( 37 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 18 )
 
