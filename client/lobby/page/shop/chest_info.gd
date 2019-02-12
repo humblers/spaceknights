@@ -19,7 +19,7 @@ onready var legendary_amount = $Popup/Panel/Contents/Guaranteed/Legendary
 onready var remain_time = $Popup/Panel/Contents/TimeLeft
 onready var open_button = $Popup/Panel/Contents/Open
 onready var instant_open_button = $Popup/Panel/Contents/InstantOpen
-onready var instant_open_cost = $Popup/Panel/Contents/InstantOpen/Cost
+onready var instant_open_cost = $Popup/Panel/Contents/InstantOpen/HBoxContainer/Cost
 
 onready var arrow_0 = $Popup/Panel/Arrow0
 onready var arrow_1 = $Popup/Panel/Arrow1
