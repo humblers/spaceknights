@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/chest_button.gd" type="Script" id=2]
@@ -8,9 +8,9 @@
 [ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=7]
 [ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=9]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=10]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=11]
+[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=9]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=10]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -64,6 +64,14 @@ use_filter = true
 font_data = ExtResource( 7 )
 fallback/0 = ExtResource( 6 )
 
+[sub_resource type="DynamicFont" id=7]
+
+size = 50
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 6 )
+
 [node name="ChestButton" type="Button"]
 self_modulate = Color( 0.733333, 0.733333, 0.733333, 1 )
 margin_right = 260.0
@@ -75,8 +83,8 @@ custom_styles/normal = SubResource( 3 )
 script = ExtResource( 2 )
 can_open = NodePath("BG/CanOpen")
 can_not_open = NodePath("BG/CannotOpen")
-cost_label = NodePath("BG/CannotOpen/OpenCost")
-time_left_label = NodePath("BG/CannotOpen/Remain")
+cost_label = NodePath("BG/CannotOpen/HBoxContainer2/OpenCost")
+time_left_label = NodePath("BG/CannotOpen/HBoxContainer1/Remain")
 chest_icon = NodePath("BG/ChestIcon")
 
 [node name="BG" type="TextureRect" parent="."]
@@ -103,6 +111,7 @@ margin_top = 25.0
 margin_right = 486.0
 margin_bottom = 415.0
 rect_scale = Vector2( 0.4, 0.4 )
+mouse_filter = 2
 
 [node name="CanOpen" type="Control" parent="BG"]
 visible = false
@@ -123,52 +132,46 @@ clip_text = true
 script = ExtResource( 8 )
 
 [node name="CannotOpen" type="Control" parent="BG"]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
 
-[node name="CashIcon" type="TextureRect" parent="BG/CannotOpen"]
-margin_left = 151.0
-margin_top = 195.0
-margin_right = 217.0
-margin_bottom = 258.0
-rect_scale = Vector2( 0.8, 0.8 )
+[node name="HBoxContainer1" type="HBoxContainer" parent="BG/CannotOpen"]
+margin_top = 2.0
+margin_right = 220.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 220, 40 )
+alignment = 1
+
+[node name="Control" type="Control" parent="BG/CannotOpen/HBoxContainer1"]
+margin_left = 35.0
+margin_right = 65.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 30, 40 )
+mouse_filter = 2
+
+[node name="TimerIcon" type="TextureRect" parent="BG/CannotOpen/HBoxContainer1/Control"]
+margin_top = 3.0
+margin_right = 30.0
+margin_bottom = 33.0
 texture = ExtResource( 9 )
 
-[node name="Dimensium" parent="BG/CannotOpen/CashIcon" instance=ExtResource( 10 )]
-position = Vector2( 32.9999, 31 )
-
-[node name="Remain" type="Label" parent="BG/CannotOpen"]
-margin_left = 50.0
-margin_right = 215.0
+[node name="Remain" type="Label" parent="BG/CannotOpen/HBoxContainer1"]
+margin_left = 69.0
+margin_right = 185.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
 custom_fonts/font = SubResource( 5 )
 text = "23h 59m"
+align = 1
 valign = 1
-
-[node name="OpenCost" type="Label" parent="BG/CannotOpen"]
-margin_left = 10.0
-margin_top = 196.0
-margin_right = 143.0
-margin_bottom = 245.0
-custom_fonts/font = SubResource( 4 )
-text = "46"
-align = 2
-valign = 2
-
-[node name="TimerIcon" type="TextureRect" parent="BG/CannotOpen"]
-margin_left = 14.0
-margin_top = 5.0
-margin_right = 44.0
-margin_bottom = 35.0
-texture = ExtResource( 11 )
 
 [node name="OpenNowText" type="Label" parent="BG/CannotOpen"]
 margin_left = 4.0
-margin_top = 171.0
+margin_top = 166.0
 margin_right = 215.0
-margin_bottom = 197.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 34 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_INSTANCE_OPEN"
@@ -176,4 +179,39 @@ align = 1
 valign = 1
 clip_text = true
 script = ExtResource( 8 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BG/CannotOpen"]
+margin_top = 180.0
+margin_right = 220.0
+margin_bottom = 254.0
+rect_min_size = Vector2( 0, 74 )
+custom_constants/separation = 1
+alignment = 1
+
+[node name="OpenCost" type="Label" parent="BG/CannotOpen/HBoxContainer2"]
+margin_left = 24.0
+margin_right = 144.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 0, 74 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "9999"
+align = 1
+valign = 1
+
+[node name="Control" type="Control" parent="BG/CannotOpen/HBoxContainer2"]
+margin_left = 145.0
+margin_right = 195.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 50, 74 )
+
+[node name="CashIcon" type="TextureRect" parent="BG/CannotOpen/HBoxContainer2/Control"]
+margin_top = 15.0
+margin_right = 66.0
+margin_bottom = 78.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 10 )
+
+[node name="Dimensium" parent="BG/CannotOpen/HBoxContainer2/Control/CashIcon" instance=ExtResource( 11 )]
+position = Vector2( 32.9999, 31 )
 
