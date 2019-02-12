@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -14,13 +14,15 @@
 [ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=12]
 [ext_resource path="res://lobby/hud/lightcircle.png" type="Texture" id=13]
 [ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=14]
-[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=15]
-[ext_resource path="res://lobby/resource/knight_rare_frame.png" type="Texture" id=16]
-[ext_resource path="res://lobby/page/card/item_holding.tscn" type="PackedScene" id=17]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=18]
-[ext_resource path="res://lobby/dialog/card_upgrade/container_item.gd" type="Script" id=19]
-[ext_resource path="res://share/icon/lifetime.png" type="Texture" id=20]
-[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tres" type="Animation" id=21]
+[ext_resource path="res://share/icon/lobby/card/squire_bg.png" type="Texture" id=15]
+[ext_resource path="res://share/icon/lobby/card/knight_bg.png" type="Texture" id=16]
+[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=17]
+[ext_resource path="res://lobby/resource/knight_rare_frame.png" type="Texture" id=18]
+[ext_resource path="res://lobby/page/card/item_holding.tscn" type="PackedScene" id=19]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=20]
+[ext_resource path="res://lobby/dialog/card_upgrade/container_item.gd" type="Script" id=21]
+[ext_resource path="res://share/icon/lifetime.png" type="Texture" id=22]
+[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tres" type="Animation" id=23]
 
 [sub_resource type="Curve" id=1]
 
@@ -645,7 +647,6 @@ rect_min_size = Vector2( 250, 300 )
 rect_pivot_offset = Vector2( 125, 165 )
 
 [node name="Base" type="MarginContainer" parent="Control/Front"]
-editor/display_folded = true
 margin_top = -6.0
 margin_right = 250.0
 margin_bottom = 294.0
@@ -658,19 +659,37 @@ margin_bottom = 300.0
 rect_min_size = Vector2( 250, 300 )
 mouse_filter = 1
 
+[node name="SquireBG" type="TextureRect" parent="Control/Front/Base/Control"]
+margin_left = 14.0
+margin_top = 20.6667
+margin_right = 238.0
+margin_bottom = 244.667
+rect_min_size = Vector2( 224, 224 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="KnightBG" type="TextureRect" parent="Control/Front/Base/Control"]
+margin_left = 14.0
+margin_top = 20.6667
+margin_right = 238.0
+margin_bottom = 244.667
+rect_min_size = Vector2( 224, 224 )
+texture = ExtResource( 16 )
+expand = true
+
 [node name="Icon" type="TextureRect" parent="Control/Front/Base/Control"]
 margin_left = 14.0
-margin_top = 14.0
+margin_top = 20.6667
 margin_right = 238.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 224, 234 )
-texture = ExtResource( 15 )
+margin_bottom = 244.667
+rect_min_size = Vector2( 224, 224 )
+texture = ExtResource( 17 )
 expand = true
 
 [node name="Frame" type="TextureRect" parent="Control/Front/Base/Control"]
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 16 )
+texture = ExtResource( 18 )
 
 [node name="Label" type="Label" parent="Control/Front/Base/Control"]
 margin_left = 55.0
@@ -697,7 +716,7 @@ valign = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Front/Base"]
 anims/down = SubResource( 12 )
 
-[node name="HoldingBar" parent="Control/Front" instance=ExtResource( 17 )]
+[node name="HoldingBar" parent="Control/Front" instance=ExtResource( 19 )]
 margin_top = -59.6667
 margin_bottom = -13.6667
 
@@ -717,9 +736,9 @@ self_modulate = Color( 1, 1, 1, 0.32549 )
 margin_right = 1080.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 1080, 120 )
-texture = ExtResource( 18 )
+texture = ExtResource( 20 )
 expand = true
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -730,7 +749,7 @@ margin_left = 265.0
 margin_top = 24.0
 margin_right = 325.0
 margin_bottom = 84.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 
 [node name="Name" type="Label" parent="StatContainer/Stat1"]
 margin_left = 348.0
@@ -774,7 +793,7 @@ margin_bottom = 260.0
 rect_min_size = Vector2( 1080, 120 )
 texture = SubResource( 18 )
 expand = true
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -785,7 +804,7 @@ margin_left = 265.0
 margin_top = 24.0
 margin_right = 325.0
 margin_bottom = 84.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 
 [node name="Name" type="Label" parent="StatContainer/Stat2"]
 margin_left = 348.0
@@ -835,7 +854,7 @@ margin_bottom = 400.0
 rect_min_size = Vector2( 1080, 120 )
 texture = SubResource( 21 )
 expand = true
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -846,7 +865,7 @@ margin_left = 265.0
 margin_top = 24.0
 margin_right = 325.0
 margin_bottom = 84.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 
 [node name="Name" type="Label" parent="StatContainer/Stat3"]
 margin_left = 348.0
@@ -896,7 +915,7 @@ margin_bottom = 540.0
 rect_min_size = Vector2( 1080, 120 )
 texture = SubResource( 24 )
 expand = true
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -907,7 +926,7 @@ margin_left = 265.0
 margin_top = 24.0
 margin_right = 325.0
 margin_bottom = 84.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 
 [node name="Name" type="Label" parent="StatContainer/Stat4"]
 margin_left = 348.0
@@ -958,7 +977,7 @@ margin_bottom = 680.0
 rect_min_size = Vector2( 1080, 120 )
 texture = SubResource( 27 )
 expand = true
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 icon = NodePath("Icon")
 key_label = NodePath("Name")
 value_label = NodePath("Value")
@@ -969,7 +988,7 @@ margin_left = 265.0
 margin_top = 24.0
 margin_right = 325.0
 margin_bottom = 84.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 
 [node name="Name" type="Label" parent="StatContainer/Stat5"]
 margin_left = 348.0
@@ -1012,7 +1031,7 @@ text = "+1"
 valign = 1
 
 [node name="UpgradeAni" type="AnimationPlayer" parent="."]
-anims/card_upgrade = ExtResource( 21 )
+anims/card_upgrade = ExtResource( 23 )
 anims/close = SubResource( 30 )
 
 [node name="Button" type="TextureButton" parent="."]
