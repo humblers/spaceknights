@@ -25,6 +25,7 @@ func modify_auth():
 	if to == "":
 		return
 	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) == OK)
 	config.set_value("auth", "pid", to)
 	config.save(user.CONFIG_FILE_NAME)
 	user.http_cookie_str = ""
@@ -33,6 +34,7 @@ func modify_auth():
 func toggle_locale():
 	user.locale = "en" if user.locale != "en" else "ko"
 	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) == OK)
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
