@@ -14,13 +14,15 @@ func _ready():
 	locale_btn.connect("button_up", self, "toggle_locale")
 
 func PopUp():
-	auth_label.text = user.PlatformId
+	auth_label.text = user.Id
 	self.popup()
 
 func hide_config():
 	self.visible = false
 
 func modify_auth():
+	assert("Doesn't work now" == null)
+	"""
 	var to = auth_line_edit.text
 	if to == "":
 		return
@@ -30,6 +32,7 @@ func modify_auth():
 	config.save(user.CONFIG_FILE_NAME)
 	user.http_cookie_str = ""
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
+	"""
 
 func toggle_locale():
 	user.locale = "en" if user.locale != "en" else "ko"

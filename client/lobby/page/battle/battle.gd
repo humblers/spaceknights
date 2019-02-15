@@ -29,7 +29,7 @@ func _ready():
 	config_btn.connect("button_up", self, "show_config")
 
 func invalidate():
-	pid.text = user.PlatformId
+	pid.text = user.Id
 	rank.text = "%d" % user.Rank
 	for card in user.DeckSlots[user.DeckSelected]:
 		card = data.NewCard(card)
@@ -74,6 +74,8 @@ func match_request():
 	loading_screen.goto_scene("res://game/game.tscn", param)
 
 func show_config():
-	lobby.hud.config_dialog.PopUp()
+	var setting = lobby.hud.get_node("PopupSetting")
+	setting.Invalidate()
+	setting.popup()
 
 

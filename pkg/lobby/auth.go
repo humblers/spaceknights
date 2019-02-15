@@ -1,108 +1,126 @@
 package lobby
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
+	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"github.com/gomodule/redigo/redis"
 )
 
+var errEmptyToken = errors.New("token string empty")
+
 type authRouter struct {
 	*Router
-	logger *log.Logger
+
+	firebaseClient *auth.Client
+	logger         *log.Logger
 }
 
-func NewAuthRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+func NewAuthRouter(path string, f *firebase.App, p *redis.Pool, l *log.Logger) (string, http.Handler) {
+	client, err := f.Auth(context.Background())
+	if err != nil {
+		panic(err)
+	}
 	a := &authRouter{
 		Router: &Router{
 			path:      path,
 			redisPool: p,
 			logger:    l,
 		},
-		logger: l,
+		firebaseClient: client,
+		logger:         l,
 	}
-	a.Post("login", a.login)
+	a.PostAuthUnnecessary("login", a.login)
 	return path, http.TimeoutHandler(a, TimeoutDefault, TimeoutMessage)
 }
 
 func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 	var resp LoginResponse
+	var user *user
+	var uid, customToken, errMessage string
+	var err error
 	b.response = &resp
 
+	defer func() {
+		if err != nil {
+			a.logger.Printf("error occured while login: %v", err)
+		}
+		if errMessage != "" {
+			resp.ErrMessage = errMessage
+			return
+		}
+		resp.User = user
+		resp.UID = uid
+		resp.HumblerToken = uid
+		resp.IssuedAt = int(time.Now().Unix())
+		resp.FirebaseToken = customToken
+		w.Header().Set("Set-Cookie", uid)
+	}()
+
 	var req LoginRequest
-	var err error
 	if err = parseJSON(r.Body, &req); err != nil {
-		resp.ErrMessage = "invalid request"
+		errMessage = "invalid request"
 		return
 	}
 
-	var enableEmpty bool
-	switch req.PType {
-	case "dev":
-		enableEmpty = true
-	default:
-		resp.ErrMessage = "invalid login data"
+	uid, user, err = a.userFromHumblerToken(&req, b.redisConn)
+	if err == nil {
 		return
 	}
-
-	// TODO: Check PToken other than "dev" platform
-
-	resp.UID, resp.User, err = userFromPlatformInfo(b.redisConn, req.PType, &req.PID, enableEmpty)
-	if err != nil {
-		a.logger.Printf("query user fail(%v)", err)
-		resp.ErrMessage = "login fail"
+	uid, user, err = a.userFromFirebaseToken(&req, b.redisConn, r.Context())
+	if err == nil {
+		return
+	} else if err != errEmptyToken {
+		errMessage = "login fail"
 		return
 	}
-	resp.PID = req.PID
-	resp.Token = resp.UID
-	w.Header().Set("Set-Cookie", resp.UID)
+	uid, customToken, user, err = a.newUserWithFirebaseCustomToken(b.redisConn, r.Context())
+	if err == nil {
+		return
+	}
+	errMessage = "login fail"
 }
 
-func userFromPlatformInfo(rc redis.Conn, ptype string, pid *string, enableEmpty bool) (string, *user, error) {
-	if enableEmpty && *pid == "" {
-		ret, err := redis.Int(rc.Do("INCR", fmt.Sprintf("gen:%v", ptype)))
-		if err != nil {
-			return "", nil, err
-		}
-		*pid = strconv.Itoa(ret)
-	}
+func (a *authRouter) userFromHumblerToken(req *LoginRequest, rc redis.Conn) (string, *user, error) {
+	//TODO: verify from humbler token or intergrate to firebase token auth
+	return "", nil, fmt.Errorf("unimplemented")
+}
 
-	pkey := fmt.Sprintf("%v:%v", ptype, *pid)
-	if _, err := rc.Do("WATCH", pkey); err != nil {
+func (a *authRouter) userFromFirebaseToken(req *LoginRequest, rc redis.Conn, ctx context.Context) (string, *user, error) {
+	if req.FirebaseToken == "" {
+		return "", nil, errEmptyToken
+	}
+	token, err := a.firebaseClient.VerifyIDToken(ctx, req.FirebaseToken)
+	if err != nil {
 		return "", nil, err
 	}
-	uid, err := redis.String(rc.Do("GET", pkey))
-	if err == nil {
-		user, err := userFromUID(rc, uid)
-		return uid, user, err
-	}
-	if err != redis.ErrNil {
-		return "", nil, err
-	}
+	uid := token.UID
+	user, err := loadUser(rc, uid)
+	return uid, user, err
+}
 
+func (a *authRouter) newUserWithFirebaseCustomToken(rc redis.Conn, ctx context.Context) (string, string, *user, error) {
 	uidRaw, err := redis.Int(rc.Do("INCR", "gen:uid"))
 	if err != nil {
-		return "", nil, err
+		return "", "", nil, err
 	}
-	uid = strconv.Itoa(uidRaw)
+	uid := strconv.Itoa(uidRaw)
 	user := newUser()
 	rc.Send("MULTI")
-	rc.Send("SET", pkey, uid)
 	storeStructToMultipleKeys(rc, *user, uid)
 	if _, err := rc.Do("EXEC"); err != nil {
-		return "", nil, err
+		return "", "", nil, err
 	}
-	return uid, user, nil
-}
-
-func userFromUID(rc redis.Conn, uid string) (*user, error) {
-	user := &user{
-		Cards: make(map[string]card),
+	token, err := a.firebaseClient.CustomToken(ctx, uid)
+	if err != nil {
+		return "", "", nil, err
 	}
-	if err := loadStructFromMultipleKeys(rc, user, uid); err != nil {
-		return nil, err
-	}
-	return user, nil
+	return uid, token, user, nil
 }

@@ -9,17 +9,20 @@ type CommonResponse struct {
 }
 
 type LoginRequest struct {
-	PType  string
-	PID    string
-	PToken string
+	UID           string
+	HumblerToken  string
+	IssuedAt      int
+	FirebaseToken string
 }
 
 type LoginResponse struct {
-	ErrMessage string
-	User       *user
-	UID        string
-	PID        string
-	Token      string
+	ErrMessage   string
+	User         *user
+	UID          string
+	HumblerToken string
+	IssuedAt     int
+
+	FirebaseToken string
 }
 
 type DataResponse struct {

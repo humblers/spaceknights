@@ -10,8 +10,6 @@ var request_new_chest = false
 var http_cookie_str
 var locale
 
-var PlatformId
-
 var Id
 var Name
 var Level
