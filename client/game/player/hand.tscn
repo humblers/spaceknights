@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/player/hand.gd" type="Script" id=1]
-[ext_resource path="res://material/no_light.tres" type="Material" id=2]
-[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=3]
-[ext_resource path="res://lobby/page/card/card_list_panel2.png" type="Texture" id=4]
-[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=5]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://lobby/resource/card_back_empty.png" type="Texture" id=3]
+[ext_resource path="res://material/no_light.tres" type="Material" id=4]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=5]
+[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 
@@ -41,6 +41,15 @@ tracks/0/keys = {
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Curve" id=3]
+
+_data = [ Vector2( 0, 0.9312 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9224 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+
+offsets = PoolRealArray( 0.71345, 1 )
+colors = PoolColorArray( 0.294118, 0.921415, 1, 1, 0.0234375, 0.662399, 1, 0 )
+
 [node name="Hand1" type="Control"]
 margin_left = 248.0
 margin_top = 1710.0
@@ -68,29 +77,34 @@ position = Vector2( 95, 65 )
 [node name="Cursor" type="Position2D" parent="."]
 position = Vector2( 95, 65 )
 
-[node name="Card" type="Node2D" parent="."]
+[node name="ReadyEffect" type="CPUParticles2D" parent="."]
 material = ExtResource( 2 )
+position = Vector2( 94, 90 )
+amount = 4
+explosiveness = 1.0
+texture = ExtResource( 3 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 0.1
+angular_velocity_random = 1.0
+scale_amount = 0.8
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+
+[node name="Card" type="Node2D" parent="."]
+material = ExtResource( 4 )
 position = Vector2( 95, 65 )
 
-[node name="TextureRect" type="TextureRect" parent="Card"]
-self_modulate = Color( 0.333333, 1, 0.780392, 1 )
-margin_left = -81.0
-margin_top = -65.0
-margin_right = 79.0
-margin_bottom = 86.0
-texture = ExtResource( 3 )
-expand = true
-
-[node name="TextureRect2" type="TextureRect" parent="Card"]
-self_modulate = Color( 0, 0.203922, 0.388235, 1 )
-margin_left = -81.0
-margin_right = 80.0
-margin_bottom = 86.0
-texture = ExtResource( 4 )
-expand = true
+[node name="ItemBase" parent="Card" instance=ExtResource( 5 )]
+editor/display_folded = true
+margin_left = -88.0
+margin_top = -79.0
+margin_right = 162.0
+margin_bottom = 221.0
+rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="Energy" type="TextureProgress" parent="Card"]
-self_modulate = Color( 0, 0, 0, 0.898039 )
+self_modulate = Color( 0.0705882, 0.054902, 0.105882, 0.898039 )
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -99,16 +113,9 @@ anchor_bottom = 0.5
 margin_left = -80.0
 margin_top = -68.0
 margin_right = 80.0
-margin_bottom = 86.0
+margin_bottom = 92.0
 rect_pivot_offset = Vector2( 80, 80 )
 value = 50.0
-texture_progress = ExtResource( 5 )
-fill_mode = 2
-
-[node name="ItemBase" parent="Card" instance=ExtResource( 6 )]
-margin_left = -88.0
-margin_top = -79.0
-margin_right = 162.0
-margin_bottom = 221.0
-rect_scale = Vector2( 0.7, 0.7 )
+texture_progress = ExtResource( 6 )
+fill_mode = 4
 
