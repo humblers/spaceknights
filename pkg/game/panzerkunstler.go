@@ -25,7 +25,7 @@ func newPanzerkunstler(id int, level, posX, posY int, g Game, p Player) Unit {
 }
 
 func (p *panzerkunstler) TakeDamage(amount int, damageType data.DamageType) {
-	if damageType != data.AntiShield {
+	if !damageType.Is(data.AntiShield) {
 		p.shield -= amount
 		if p.shield < 0 {
 			p.hp += p.shield

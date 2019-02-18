@@ -23,6 +23,8 @@ func StatIcon(stat_key):
 			texture = stat_icon.get_resource("damagepersecond")
 		"attackinterval":
 			texture = stat_icon.get_resource("attackspeed")
+		"chargedattackdamage", "powerattackdamage", "absorbdamage":
+			texture = stat_icon.get_resource("skilldamage")
 		"damagetype":
 			texture = stat_icon.get_resource("attacktype")
 		"decaydamage":
