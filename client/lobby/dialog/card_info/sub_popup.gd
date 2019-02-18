@@ -179,6 +179,6 @@ func valueText(key, card, skill):
 			if atk_type == null:
 				atk_type = u.get("attacktype", "")
 			if dmg_type == null:
-				dmg_type = u.get("damagetype", "")
+				dmg_type = u.get("damagetype", 0)
 			return info_root.hud.FormatAttackType(target_types, atk_type, dmg_type)
 	return null
