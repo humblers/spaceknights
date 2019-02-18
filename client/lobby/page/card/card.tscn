@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -37,14 +37,16 @@
 [ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=35]
 [ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=36]
 [ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=37]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=38]
-[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=39]
+[ext_resource path="res://lobby/page/battle/reward_slot_cover2.png" type="Texture" id=38]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=39]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=40]
+[ext_resource path="res://lobby/page/battle/reward_slot_cover.png" type="Texture" id=41]
 
 [sub_resource type="DynamicFont" id=1]
 
-size = 32
-outline_size = 2
-outline_color = Color( 0.698039, 0.447059, 0.247059, 1 )
+size = 36
+outline_size = 3
+outline_color = Color( 0.678431, 0.419608, 0.215686, 1 )
 use_filter = true
 font_data = ExtResource( 10 )
 fallback/0 = ExtResource( 9 )
@@ -55,14 +57,15 @@ size = 24
 outline_size = 3
 outline_color = Color( 0.180392, 0.180392, 0.180392, 1 )
 use_filter = true
+extra_spacing_top = 10
 font_data = ExtResource( 10 )
 fallback/0 = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=3]
 
-size = 32
-outline_size = 2
-outline_color = Color( 0.309804, 0.658824, 1, 1 )
+size = 36
+outline_size = 3
+outline_color = Color( 0.168627, 0.431373, 0.988235, 1 )
 use_filter = true
 font_data = ExtResource( 10 )
 fallback/0 = ExtResource( 9 )
@@ -241,22 +244,23 @@ texture = ExtResource( 4 )
 expand = true
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain"]
-margin_top = -2.0
+margin_top = 8.0
 margin_right = 1440.0
-margin_bottom = 2294.0
+margin_bottom = 3187.0
 rect_min_size = Vector2( 1080, 1920 )
 custom_constants/margin_top = 190
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PageMain/MarginContainer"]
+editor/display_folded = true
 margin_top = 190.0
 margin_right = 1440.0
-margin_bottom = 3164.0
+margin_bottom = 3179.0
 rect_min_size = Vector2( 1080, 1800 )
 custom_constants/separation = 25
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
 margin_right = 1440.0
-margin_bottom = 1229.0
+margin_bottom = 1244.0
 custom_constants/margin_right = 180
 custom_constants/margin_top = 10
 custom_constants/margin_left = 180
@@ -266,12 +270,12 @@ custom_constants/margin_bottom = 0
 margin_left = 180.0
 margin_top = 10.0
 margin_right = 1260.0
-margin_bottom = 1229.0
+margin_bottom = 1244.0
 
 [node name="KnightsDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_right = 1080.0
-margin_bottom = 465.0
-rect_min_size = Vector2( 0, 465 )
+margin_bottom = 480.0
+rect_min_size = Vector2( 0, 480 )
 
 [node name="CenterDeck" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
 modulate = Color( 0.47451, 0.47451, 0.47451, 1 )
@@ -305,11 +309,10 @@ rect_scale = Vector2( 2.5, 2.5 )
 texture = ExtResource( 5 )
 
 [node name="KnightBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
-editor/display_folded = true
-modulate = Color( 1, 0.772549, 0.447059, 0.784314 )
+self_modulate = Color( 1, 0.772549, 0.447059, 0.588235 )
 margin_top = -13.0
 margin_right = 1080.0
-margin_bottom = 452.0
+margin_bottom = 467.0
 texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 240, 240 )
 patch_margin_left = 70
@@ -318,7 +321,7 @@ patch_margin_right = 70
 patch_margin_bottom = 30
 
 [node name="TextureRect" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/KnightBG"]
-modulate = Color( 1, 1, 1, 0.784314 )
+self_modulate = Color( 1, 0.796078, 0.443137, 0.784314 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
@@ -329,15 +332,16 @@ texture = ExtResource( 7 )
 expand = true
 
 [node name="Emblem" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
+margin_top = -6.0
 margin_right = 95.0
-margin_bottom = 57.0
+margin_bottom = 51.0
 texture = ExtResource( 8 )
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
 margin_left = 95.0
-margin_top = 10.0
+margin_top = 2.0
 margin_right = 1065.0
-margin_bottom = 48.0
+margin_bottom = 51.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_CARD_KNIGHTS"
@@ -346,7 +350,6 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="Knights" type="HBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
-editor/display_folded = true
 margin_top = 45.0
 margin_right = 1080.0
 margin_bottom = 510.0
@@ -354,27 +357,28 @@ custom_constants/separation = 80
 alignment = 1
 
 [node name="Left" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
+editor/display_folded = true
 margin_left = 85.0
 margin_right = 335.0
 margin_bottom = 465.0
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Left"]
 margin_right = 250.0
-margin_bottom = 30.0
+margin_bottom = 39.0
 rect_min_size = Vector2( 250, 30 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_CARD_LEFTWING"
-align = 1
 clip_text = true
 script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Left" instance=ExtResource( 12 )]
-margin_top = 34.0
-margin_bottom = 364.0
+margin_top = 43.0
+margin_bottom = 373.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Center" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
+editor/display_folded = true
 margin_left = 415.0
 margin_right = 665.0
 margin_bottom = 465.0
@@ -382,7 +386,7 @@ rect_min_size = Vector2( 250, 299 )
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Center"]
 margin_right = 250.0
-margin_bottom = 30.0
+margin_bottom = 39.0
 rect_min_size = Vector2( 250, 30 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -392,11 +396,12 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Center" instance=ExtResource( 12 )]
-margin_top = 34.0
-margin_bottom = 364.0
+margin_top = 43.0
+margin_bottom = 373.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Right" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
+editor/display_folded = true
 margin_left = 745.0
 margin_right = 995.0
 margin_bottom = 465.0
@@ -404,24 +409,24 @@ rect_min_size = Vector2( 250, 299 )
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Right"]
 margin_right = 250.0
-margin_bottom = 30.0
+margin_bottom = 39.0
 rect_min_size = Vector2( 250, 30 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_CARD_RIGHTWING"
-align = 1
+align = 2
 clip_text = true
 script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Right" instance=ExtResource( 12 )]
-margin_top = 34.0
-margin_bottom = 364.0
+margin_top = 43.0
+margin_bottom = 373.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="SquiresDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 469.0
+margin_top = 484.0
 margin_right = 1080.0
-margin_bottom = 1219.0
+margin_bottom = 1234.0
 rect_min_size = Vector2( 0, 750 )
 
 [node name="TextureRect2" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck"]
@@ -510,11 +515,11 @@ rect_min_size = Vector2( 90, 81 )
 texture = ExtResource( 15 )
 
 [node name="UnitBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck"]
-self_modulate = Color( 0.392157, 0.701961, 1, 0.784314 )
+self_modulate = Color( 0.392157, 0.701961, 1, 0.588235 )
 margin_left = -1.0
 margin_top = -28.0
 margin_right = 1079.0
-margin_bottom = 767.0
+margin_bottom = 777.0
 texture = ExtResource( 6 )
 region_rect = Rect2( 0, 0, 240, 240 )
 patch_margin_left = 70
@@ -544,9 +549,9 @@ texture = ExtResource( 16 )
 
 [node name="Label2" type="Label" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck"]
 margin_left = 95.0
-margin_top = -5.0
+margin_top = -13.0
 margin_right = 1065.0
-margin_bottom = 33.0
+margin_bottom = 36.0
 rect_min_size = Vector2( 970, 37 )
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -621,9 +626,9 @@ page_card = NodePath("../../../../../../../../..")
 
 [node name="Tab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer"]
 editor/display_folded = true
-margin_top = 1254.0
+margin_top = 1269.0
 margin_right = 1440.0
-margin_bottom = 1404.0
+margin_bottom = 1419.0
 rect_min_size = Vector2( 1440, 150 )
 texture = ExtResource( 4 )
 expand = true
@@ -802,9 +807,9 @@ script = ExtResource( 11 )
 
 [node name="BottomContainers" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
 editor/display_folded = true
-margin_top = 1429.0
+margin_top = 1444.0
 margin_right = 1440.0
-margin_bottom = 2974.0
+margin_bottom = 2989.0
 custom_constants/margin_top = 15
 
 [node name="MarginCard" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
@@ -1009,9 +1014,10 @@ margin_right = 1440.0
 margin_bottom = 1530.0
 
 [node name="Control" type="Control" parent="PageMain/MarginContainer"]
+editor/display_folded = true
 margin_top = 190.0
 margin_right = 1440.0
-margin_bottom = 3164.0
+margin_bottom = 3179.0
 mouse_filter = 2
 
 [node name="Pressed" type="TextureButton" parent="PageMain/MarginContainer/Control"]
@@ -1194,17 +1200,28 @@ valign = 1
 clip_text = true
 script = ExtResource( 11 )
 
-[node name="Decks" type="TextureRect" parent="PageMain"]
-editor/display_folded = true
-margin_top = 90.0
-margin_right = 1440.0
-margin_bottom = 178.0
-rect_min_size = Vector2( 1440, 100 )
+[node name="CoverTop" type="TextureRect" parent="PageMain"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -550.0
+margin_top = -230.0
+margin_right = 550.0
+margin_bottom = 210.0
 texture = ExtResource( 38 )
 expand = true
 
+[node name="Decks" type="TextureRect" parent="PageMain"]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0.215686 )
+margin_top = 90.0
+margin_right = 1440.0
+margin_bottom = 190.0
+rect_min_size = Vector2( 1440, 100 )
+texture = ExtResource( 39 )
+expand = true
+
 [node name="TextureRect" type="TextureRect" parent="PageMain/Decks"]
-self_modulate = Color( 0.12549, 0.12549, 0.12549, 1 )
+self_modulate = Color( 0.12549, 0.12549, 0.12549, 0.784314 )
 margin_left = 192.0
 margin_top = 19.0
 margin_right = 609.0
@@ -1254,7 +1271,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 39 )
+texture_normal = ExtResource( 40 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1281,7 +1298,7 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 39 )
+texture_normal = ExtResource( 40 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1307,7 +1324,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 39 )
+texture_normal = ExtResource( 40 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1334,7 +1351,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 39 )
+texture_normal = ExtResource( 40 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1361,7 +1378,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 39 )
+texture_normal = ExtResource( 40 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1378,6 +1395,18 @@ custom_fonts/font = SubResource( 14 )
 text = "5"
 align = 1
 valign = 1
+
+[node name="CoverBottom" type="TextureRect" parent="PageMain"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -550.0
+margin_top = -210.0
+margin_right = 550.0
+margin_bottom = 230.0
+texture = ExtResource( 41 )
+expand = true
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "item" ), [ ExtResource( 12 ) ] ]
