@@ -77,14 +77,13 @@
 [ext_resource path="res://lobby/page/shop/dim_megagrid.png" type="Texture" id=75]
 [ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=76]
 [ext_resource path="res://lobby/page/shop/temp_pouch.png" type="Texture" id=77]
-[ext_resource path="res://lobby/page/shop/temp_box.png" type="Texture" id=78]
+[ext_resource path="res://lobby/page/shop/galacticoin_box.png" type="Texture" id=78]
 [ext_resource path="res://lobby/page/shop/temp_container.png" type="Texture" id=79]
 [ext_resource path="res://lobby/page/shop/buyitem.tscn" type="PackedScene" id=80]
 [ext_resource path="res://lobby/page/shop/buycard.tscn" type="PackedScene" id=81]
 [ext_resource path="res://lobby/page/shop/buygalacticoin.tscn" type="PackedScene" id=82]
 [ext_resource path="res://lobby/page/battle/rewardbox_bg.png" type="Texture" id=83]
-[ext_resource path="res://lobby/page/shop/temp_buycash.png" type="Texture" id=84]
-[ext_resource path="res://lobby/page/underdevelop.tscn" type="PackedScene" id=85]
+[ext_resource path="res://lobby/page/underdevelop.tscn" type="PackedScene" id=84]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -330,6 +329,11 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
+[sub_resource type="StreamTexture" id=24]
+
+flags = 4
+load_path = "res://.import/temp_buycash.png-21405614e8c3ffc2494d32da6309d885.stex"
+
 [node name="Shop" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -405,14 +409,12 @@ texture = ExtResource( 4 )
 expand = true
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain"]
-editor/display_folded = true
 margin_top = 100.0
 margin_right = 1440.0
 margin_bottom = 4966.0
 rect_min_size = Vector2( 1080, 1920 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PageMain/MarginContainer"]
-editor/display_folded = true
 margin_right = 1440.0
 margin_bottom = 4866.0
 
@@ -3251,13 +3253,12 @@ align = 1
 valign = 1
 autowrap = true
 
-[node name="TextureRect" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card2"]
-margin_left = 40.0
-margin_top = 255.0
-margin_right = 311.0
-margin_bottom = 473.0
+[node name="Icon" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card2"]
+margin_left = 20.0
+margin_top = 215.0
+margin_right = 330.0
+margin_bottom = 525.0
 texture = ExtResource( 78 )
-expand = true
 
 [node name="Price" type="Label" parent="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card2"]
 margin_left = 49.0
@@ -3475,7 +3476,7 @@ margin_left = 180.0
 margin_top = 970.0
 margin_right = 1260.0
 margin_bottom = 1760.0
-texture = ExtResource( 84 )
+texture = SubResource( 24 )
 expand = true
 
 [node name="TextureButton" type="TextureButton" parent="BuyCash/TextureRect2"]
@@ -3484,7 +3485,8 @@ margin_top = 660.0
 margin_right = 917.0
 margin_bottom = 792.0
 
-[node name="UnderDevelop" parent="." instance=ExtResource( 85 )]
+[node name="UnderDevelop" parent="." instance=ExtResource( 84 )]
+visible = false
 
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card2/Button" to="." method="_on_Button_pressed"]
