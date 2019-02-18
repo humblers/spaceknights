@@ -75,6 +75,10 @@ func keyText(key, unit):
 			return "ID_SPAWNSPEED"
 		"spawncount":
 			return "%s ID_COUNT" % "spawn unit name"
+		"speed":
+			return "ID_SPEED"
+		"count":
+			return "ID_COUNT"
 	return key.capitalize()
 
 func valueText(key, card, unit):
@@ -102,7 +106,7 @@ func valueText(key, card, unit):
 			return info_root.hud.FormatAttackType(target_types, atk_type, dmg_type)
 		"attackrange":
 			if data.DamageTypeIs(unit.get("damagetype", 0), data.Melee):
-				return "Melee"
+				return "ID_MELEE"
 			return info_root.hud.FormatPixelToTile(unit[key])
 		"speed":
 			return info_root.hud.FormatSpeed(unit.get(key, 0))

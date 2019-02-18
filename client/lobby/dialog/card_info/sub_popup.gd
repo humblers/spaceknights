@@ -88,6 +88,14 @@ func keyText(key, skill):
 			return "ID_LIFETIME"
 		"spawncount":
 			return "%s ID_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
+		"radius":
+			return "ID_RADIUS"
+		"area":
+			return "ID_AREA"
+		"speed":
+			return "ID_SPEED"
+		"count":
+			return "ID_COUNT"
 	return key
 
 func valueText(key, card, skill):

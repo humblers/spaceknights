@@ -47,21 +47,21 @@ func FormatPixelToTile(pixels):
 
 func FormatSpeed(speed):
 	if speed > 150:
-		return "Very Fast"
+		return "ID_VERYFAST"
 	if speed > 100:
-		return "Fast"
+		return "ID_FAST"
 	if speed > 75:
-		return "Medium"
+		return "ID_MEDIUM"
 	if speed > 0:
-		return "Slow"
+		return "ID_SLOW"
 	return null
 
 func FormatAttackType(target_types, attack_type, damage_type):
 	var types = PoolStringArray()
 	var VISIBLE_DAMAGE_TYPES = {
-		"Siege": data.Siege,
-		"AB attack": data.AntiShield,
-		"Bombing": data.Death,
+		"ID_SIEGE": data.Siege,
+		"ID_ABATTACK": data.AntiShield,
+		"ID_BOMBING": data.Death,
 	}
 	for k in VISIBLE_DAMAGE_TYPES:
 		if data.DamageTypeIs(damage_type, VISIBLE_DAMAGE_TYPES[k]):
