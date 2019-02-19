@@ -60,26 +60,52 @@ func buttonUp():
 
 func keyText(key, unit):
 	match key:
+		"area":
+			return "ID_AREA"
 		"attackdamage":
 			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
 				t = "ID_AREADAMAGE"
 			return t
+		"attackinterval":
+			return "ID_ATTACKSPEED"
+		"attackrange":
+			return "ID_RANGE"
+		"castduration":
+			return "ID_CASTDURATION"
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "ID_SKILLDAMAGE"
+			return "ID_SKILLDAMAGE"		
+		"count":
+			return "ID_COUNT"
+		"damage":
+			return "ID_AREADAMAGE"
+		"damageduration":
+			return "ID_DAMAGEDURATION"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
 				t = "ID_AREADPS"
 			return t
+		"damagetype":
+			return "ID_ATTACKTYPE"
+		"decaydamage":
+			return "ID_LIFETIME"
 		"destroydamage":
 			return "ID_DEATHDAMAGE"
+		"freezeduration":
+			return "ID_FREEZEDURATION"
 		"hp":
 			return "ID_HP"
-		"shield":
-			return "ID_BARRIER"
 		"leader", "wing":
 			return "ID_%s_SKILL" % key.to_upper()
+		"radius":
+			return "ID_RADIUS"
+		"shield":
+			return "ID_BARRIER"
+		"spawninterval":
+			return "ID_SPAWNSPEED"
+		"speed":
+			return "ID_SPEED"
 	return key.capitalize()
 
 func valueTexts(key, card, unit):
@@ -100,5 +126,5 @@ func valueTexts(key, card, unit):
 				return ["%d" % cur, "+%d" % (cur - before)]
 		"leader", "wing":
 			if card.Type == data.KnightCard:
-				 return ["%s" % unit.skill[key].name.capitalize(), "+1"]
+				 return ["ID_%s" % unit.skill[key].name.to_upper(), "+1"]
 	return null

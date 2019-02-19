@@ -83,7 +83,7 @@ func handleAttack():
 				var d = vector.LengthSquared(x, y)
 				var r = scalar.Add(u.Radius(), damageRadius())
 				if d < scalar.Mul(r, r):
-					t.TakeDamage(attackDamage(), damageType(), self)
+					u.TakeDamage(attackDamage(), damageType(), self)
 		else:
 			attack = 0
 			return

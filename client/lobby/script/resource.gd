@@ -19,6 +19,8 @@ func StatIcon(stat_key):
 	match stat_key:
 		"damage", "attackdamage":
 			texture = stat_icon.get_resource("damage")
+		"damageduration", "duration":
+			texture = stat_icon.get_resource("damageduration")
 		"damagepersecond":
 			texture = stat_icon.get_resource("damagepersecond")
 		"attackinterval":
