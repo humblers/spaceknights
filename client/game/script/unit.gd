@@ -21,8 +21,8 @@ var body
 var tiles
 var slowUntil = 0
 var freeze = 0
-var prev_desired_pos_x
-var prev_desired_pos_y
+var prev_desired_pos_x = 0
+var prev_desired_pos_y = 0
 var moving = false
 
 var shader_material = preload("res://game/unit/shader_material.tres")
@@ -30,6 +30,34 @@ var damages = {}
 var color
 var side	# knight position: Left, Center, or Right 
 
+func State():
+	return {
+		"id": id,
+		"name": name_,
+		"team": team,
+		"level": level,
+		"hp": hp,
+		"body": body.State(),
+		"slowUntil": slowUntil,
+		"freeze": freeze,
+		"prev_desired_pos": {"X": prev_desired_pos_x, "Y": prev_desired_pos_y},
+		"moving": moving
+	}
+	
+func Hash():
+	return djb2.Combine([
+		djb2.HashInt(id),
+		djb2.HashString(name_),
+		djb2.HashString(team),
+		djb2.HashInt(level),
+		djb2.HashInt(hp),
+		body.Hash(),
+		djb2.HashInt(slowUntil),
+		djb2.HashInt(freeze),
+		vector.Hash(prev_desired_pos_x, prev_desired_pos_y),
+		djb2.HashBool(moving)
+	])
+	
 func InitDummy(posX, posY, game, player, initial_angle=0):
 	self.team = player.team
 	self.game = game

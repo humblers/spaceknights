@@ -18,6 +18,9 @@ const epsilon = 1
 const One = scale
 const Two = One << 1
 
+static func Hash(s):
+	return djb2.HashInt(s)
+
 static func FromInt(i):
 	return saturated(i * scale)
 

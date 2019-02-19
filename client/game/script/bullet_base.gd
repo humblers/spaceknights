@@ -8,10 +8,34 @@ var slowDuration = 0
 var game
 
 # for splash attack
-var targetTeam
+var targetTeam = ""
 var damageRadius = 0
 var lastTargetPositionX
 var lastTargetPositionY
+
+func State():
+	return {
+		"targetId": targetId,
+		"lifetime": lifetime,
+		"damage": damage,
+		"damageType": damageType,
+		"slowDuration": slowDuration,
+		"targetTeam": targetTeam,
+		"damageRadius": damageRadius,
+		"lastTargetPosition": {"X": lastTargetPositionX, "Y": lastTargetPositionY},
+	}
+	
+func Hash():
+	return djb2.Combine([
+		djb2.HashInt(targetId),
+		djb2.HashInt(lifetime),
+		djb2.HashInt(damage),
+		djb2.HashInt(damageType),
+		djb2.HashInt(slowDuration),
+		djb2.HashString(targetTeam),
+		scalar.Hash(damageRadius),
+		vector.Hash(lastTargetPositionX, lastTargetPositionY)
+	])
 
 func Init(targetId, lifetime, damage, damageType, game):
 	self.targetId = targetId

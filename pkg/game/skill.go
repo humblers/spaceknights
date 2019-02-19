@@ -2,12 +2,15 @@ package game
 
 import (
 	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/djb2"
 	"github.com/humblers/spaceknights/pkg/fixed"
 )
 
 type ISkill interface {
 	Update()
 	IsExpired() bool
+	Hash() uint32
+	State() map[string]interface{}
 }
 
 type DOT struct {
@@ -19,6 +22,30 @@ type DOT struct {
 	remainingStep int
 	damageType    data.DamageType
 	game          Game
+}
+
+func (d *DOT) State() map[string]interface{} {
+	return map[string]interface{}{
+		"team":          d.team,
+		"position":      d.position,
+		"width":         d.width,
+		"height":        d.height,
+		"damagePerSec":  d.damagePerSec,
+		"remainingStep": d.remainingStep,
+		"damageType":    d.damageType,
+	}
+}
+
+func (d *DOT) Hash() uint32 {
+	return djb2.Combine(
+		djb2.HashString(string(d.team)),
+		d.position.Hash(),
+		d.width.Hash(),
+		d.height.Hash(),
+		djb2.HashInt(d.damagePerSec),
+		djb2.HashInt(d.remainingStep),
+		djb2.HashInt(int(d.damageType)),
+	)
 }
 
 func newDOT(t Team, p fixed.Vector, w, h fixed.Scalar, dps, remain int, damageType data.DamageType, g Game) ISkill {

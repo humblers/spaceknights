@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/djb2"
 	"github.com/humblers/spaceknights/pkg/fixed"
 	"github.com/humblers/spaceknights/pkg/nav"
 	"github.com/humblers/spaceknights/pkg/physics"
@@ -61,7 +62,7 @@ type Game interface {
 	Replay() *Replay
 	Update()
 	Over() bool
-	PrintGameState()
+	State() map[string]interface{}
 }
 
 type game struct {
@@ -176,6 +177,10 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 		quit:    make(chan struct{}),
 		logger:  l,
 	}
+	g.deathToll[Blue] = 0
+	g.deathToll[Red] = 0
+	g.lastDeadPosX[Blue] = 0
+	g.lastDeadPosX[Red] = 0
 	if g.actions == nil {
 		g.actions = make(map[int][]Action)
 	}
@@ -355,12 +360,74 @@ func (g *game) Run() {
 	close(g.quit)
 }
 
+func (g *game) State() map[string]interface{} {
+	state := map[string]interface{}{
+		"step":         g.step,
+		"unitCounter":  g.unitCounter,
+		"deathToll":    g.deathToll,
+		"world":        g.world.State(),
+		"lastDeadPosX": g.lastDeadPosX,
+		"units":        map[int]interface{}{},
+	}
+	units := map[int]interface{}{}
+	for id, u := range g.units {
+		units[id] = u.State()
+	}
+	bullets := []map[string]interface{}{}
+	for _, b := range g.bullets {
+		bullets = append(bullets, b.State())
+	}
+	skills := []map[string]interface{}{}
+	for _, s := range g.skills {
+		skills = append(skills, s.State())
+	}
+	occupied := [][]int{}
+	for i, row := range g.occupied {
+		occupied = append(occupied, nil)
+		for _, v := range row {
+			occupied[i] = append(occupied[i], v)
+		}
+	}
+	state["units"] = units
+	state["bullets"] = bullets
+	state["skills"] = skills
+	state["occupied"] = occupied
+	return state
+}
+
+func (g *game) Hash() uint32 {
+	hashes := []uint32{
+		djb2.HashInt(g.step),
+		djb2.HashInt(g.unitCounter),
+		djb2.HashInt(g.deathToll[Blue]),
+		djb2.HashInt(g.deathToll[Red]),
+		g.world.Hash(),
+		g.lastDeadPosX[Blue].Hash(),
+		g.lastDeadPosX[Red].Hash(),
+	}
+	for _, id := range g.unitIds {
+		hashes = append(hashes, g.units[id].Hash())
+	}
+	for _, b := range g.bullets {
+		hashes = append(hashes, b.Hash())
+	}
+	for _, s := range g.skills {
+		hashes = append(hashes, s.Hash())
+	}
+	for _, row := range g.occupied {
+		for _, i := range row {
+			hashes = append(hashes, djb2.HashInt(i))
+		}
+	}
+	return djb2.Combine(hashes...)
+}
+
 func (g *game) broadcast() {
 	step := g.step - 1
 	state := State{
 		Step:    step,
 		Actions: g.actions[step],
-		Hash:    g.world.Digest(),
+		Hash:    g.Hash(),
 	}
 	packet := newPacket(state)
 	g.sent = append(g.sent, packet...)
@@ -403,15 +470,6 @@ func (g *game) Update() {
 	g.removeExpiredSkills()
 	g.world.Step()
 	g.step++
-}
-
-func (g *game) PrintGameState() {
-	for _, id := range g.unitIds {
-		u := g.units[id]
-		g.logger.Printf("%v %v\n", u.Id(), u.Name())
-		g.logger.Printf("\tpos_x: %v\n", u.Position().X)
-		g.logger.Printf("\tpos_y: %v\n", u.Position().Y)
-	}
 }
 
 func (g *game) removeDeadUnits() {

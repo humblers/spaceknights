@@ -42,8 +42,11 @@ func main() {
 	for !g.Over() {
 		g.Update()
 		if g.Step() == step {
-			fmt.Println(g.World().Digest())
-			g.PrintGameState()
+			b, err := json.Marshal(g.State())
+			if err != nil {
+				panic(err)
+			}
+			l.Println(string(b))
 			break
 		}
 	}

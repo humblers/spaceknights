@@ -17,6 +17,8 @@ type Body interface {
 	SetLayer(l string)
 	AddForce(f fixed.Vector)
 	Colliding() bool
+	Hash() uint32
+	State() map[string]interface{}
 }
 
 type body struct {
@@ -130,10 +132,40 @@ func (b *body) move(dt fixed.Scalar) {
 	b.pos = b.pos.Add(b.vel.Mul(dt))
 }
 
-func (b *body) digest(opt ...uint32) uint32 {
-	h := djb2.Hash(uint32(b.id), opt...)
-	for _, e := range []interface{}{b.mass, b.imass, b.rest, b.pos, b.vel, b.force, []byte(b.shape), b.radius, b.width, b.height} {
-		h = djb2.Hash(e, h)
+func (b *body) Hash() uint32 {
+	return djb2.Combine(
+		djb2.HashInt(b.id),
+		b.mass.Hash(),
+		b.imass.Hash(),
+		b.rest.Hash(),
+		b.pos.Hash(),
+		b.vel.Hash(),
+		b.force.Hash(),
+		djb2.HashString(string(b.shape)),
+		b.radius.Hash(),
+		b.width.Hash(),
+		b.height.Hash(),
+		djb2.HashBool(b.no_physics),
+		djb2.HashString(b.layer),
+		djb2.HashBool(b.colliding),
+	)
+}
+
+func (b *body) State() map[string]interface{} {
+	return map[string]interface{}{
+		"id":         b.id,
+		"mass":       b.mass,
+		"imass":      b.imass,
+		"rest":       b.rest,
+		"pos":        b.pos,
+		"vel":        b.vel,
+		"force":      b.force,
+		"shape":      b.shape,
+		"radius":     b.radius,
+		"width":      b.width,
+		"height":     b.height,
+		"no_physics": b.no_physics,
+		"layer":      b.layer,
+		"colliding":  b.colliding,
 	}
-	return h
 }
