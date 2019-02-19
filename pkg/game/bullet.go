@@ -1,5 +1,6 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/djb2"
 import "github.com/humblers/spaceknights/pkg/data"
 import "github.com/humblers/spaceknights/pkg/fixed"
 
@@ -8,6 +9,8 @@ type Bullet interface {
 	IsExpired() bool
 	MakeFrozen(slowDuration int)
 	MakeSplash(radius fixed.Scalar)
+	Hash() uint32
+	State() map[string]interface{}
 }
 
 type bullet struct {
@@ -32,6 +35,32 @@ func newBullet(targetId, lifetime, damage int, damageType data.DamageType, game 
 		damageType: damageType,
 		game:       game,
 	}
+}
+
+func (b *bullet) State() map[string]interface{} {
+	return map[string]interface{}{
+		"targetId":           b.targetId,
+		"lifetime":           b.lifetime,
+		"damage":             b.damage,
+		"damageType":         b.damageType,
+		"slowDuration":       b.slowDuration,
+		"targetTeam":         b.targetTeam,
+		"damageRadius":       b.damageRadius,
+		"lastTargetPosition": b.lastTargetPosition,
+	}
+}
+
+func (b *bullet) Hash() uint32 {
+	return djb2.Combine(
+		djb2.HashInt(b.targetId),
+		djb2.HashInt(b.lifetime),
+		djb2.HashInt(b.damage),
+		djb2.HashInt(int(b.damageType)),
+		djb2.HashInt(b.slowDuration),
+		djb2.HashString(string(b.targetTeam)),
+		b.damageRadius.Hash(),
+		b.lastTargetPosition.Hash(),
+	)
 }
 
 func (b *bullet) Update() {

@@ -13,7 +13,8 @@ type World interface {
 	AddBox(mass, width, height fixed.Scalar, pos fixed.Vector) Body
 	AddCircle(mass, radius fixed.Scalar, pos fixed.Vector) Body
 	RemoveBody(b Body)
-	Digest(opt ...uint32) uint32
+	Hash() uint32
+	State() map[string]interface{}
 }
 
 type world struct {
@@ -135,15 +136,40 @@ func (w *world) RemoveBody(b Body) {
 	}
 }
 
-func (w *world) Digest(opt ...uint32) uint32 {
-	h := djb2.Hash(uint32(w.counter), opt...)
-	for _, b := range w.bodies {
-		h = b.digest(h)
+func (w *world) State() map[string]interface{} {
+	state := map[string]interface{}{
+		"counter":             w.counter,
+		"iterations":          w.iterations,
+		"scale":               w.scale,
+		"dt":                  w.dt,
+		"gravity":             w.gravity,
+		"restitution":         w.restitution,
+		"correctionPercent":   w.correctionPercent,
+		"correctionThreshold": w.correctionThreshold,
+		"collisions":          []interface{}{},
 	}
 	for _, c := range w.collisions {
-		h = c.digest(h)
+		slice := state["collisions"].([]interface{})
+		slice = append(slice, c.State())
 	}
-	return h
+	return state
+}
+
+func (w *world) Hash() uint32 {
+	hashes := []uint32{
+		djb2.HashInt(w.counter),
+		djb2.HashInt(w.iterations),
+		w.scale.Hash(),
+		w.dt.Hash(),
+		w.gravity.Hash(),
+		w.restitution.Hash(),
+		w.correctionPercent.Hash(),
+		w.correctionThreshold.Hash(),
+	}
+	for _, c := range w.collisions {
+		hashes = append(hashes, c.Hash())
+	}
+	return djb2.Combine(hashes...)
 }
 
 func checkCollision(a, b *body) *collision {

@@ -43,9 +43,20 @@ func (c *collision) resolve() {
 	c.b.vel = c.b.vel.Add(impulse.Mul(c.b.imass))
 }
 
-func (c *collision) digest(opt ...uint32) uint32 {
-	h := djb2.Hash(c.penetration, opt...)
-	h = djb2.Hash(c.normal, h)
-	h = c.a.digest(h)
-	return c.b.digest(h)
+func (c *collision) State() map[string]interface{} {
+	return map[string]interface{}{
+		"a":           c.a.id,
+		"b":           c.b.id,
+		"normal":      c.normal,
+		"penetration": c.penetration,
+	}
+}
+
+func (c *collision) Hash() uint32 {
+	return djb2.Combine(
+		djb2.HashInt(c.a.id),
+		djb2.HashInt(c.b.id),
+		c.normal.Hash(),
+		c.penetration.Hash(),
+	)
 }

@@ -241,6 +241,52 @@ func _physics_process(delta):
 	
 	frame += 1
 
+func Hash():
+	var hashes = [
+		djb2.HashInt(step),
+		djb2.HashInt(unitCounter),
+		djb2.HashInt(deathToll["Blue"]),
+		djb2.HashInt(deathToll["Red"]),
+		world.Hash(),
+		scalar.Hash(lastDeadPosX["Blue"]),
+		scalar.Hash(lastDeadPosX["Red"]),
+	]
+	for id in units.keys():
+		hashes.append(units[id].Hash())
+	for b in bullets:
+		hashes.append(b.Hash())
+	for s in skills:
+		hashes.append(s.Hash())
+	for row in occupied:
+		for i in row:
+			hashes.append(djb2.HashInt(i))
+	return djb2.Combine(hashes)
+
+func State():
+	var state = {
+		"step": step,
+		"unitCounter": unitCounter,
+		"deathToll": deathToll,
+		"world": world.State(),
+		"lastDeadPosX": lastDeadPosX,
+		"units": {},
+		"bullets": [],
+		"skills": [],
+		"occupied": [],
+	}
+	for id in units:
+		state["units"][id] = units[id].State()
+	for b in bullets:
+		state["bullets"].append(b.State())
+	for s in skills:
+		state["skills"].append(s.State())
+	for row in occupied:
+		var slice = []
+		state["occupied"].append(slice)
+		for i in row:
+			slice.append(i)
+	return state
+
 func Update(state):
 	if state.Actions != null:
 		for action in state.Actions:
@@ -259,12 +305,17 @@ func Update(state):
 	removeExpiredBullets()
 	removeExpiredSkills()
 	world.Step()
+	step += 1
+	validate(state)
 	
-	# validate
+	# client only
+	elapsed = 0
+	update_time()
+	update_energy_boost()
+
+func validate(state):
 	if connected:
-		if step != state.Step:
-			print("step mismatch: %s - %s" % [step, state.Step])
-		var client_hash = world.Digest()
+		var client_hash = Hash()
 		var server_hash = state.Hash
 		if client_hash != server_hash:
 			print("desync detected")
@@ -272,13 +323,8 @@ func Update(state):
 			print("step: %s" % step)
 			print("client hash: %s" % client_hash)
 			print("server hash: %s" % server_hash)
-			printGameState()
-			get_tree().quit()
-
-	step += 1
-	elapsed = 0
-	update_time()
-	update_energy_boost()
+			print(to_json(State()))
+			get_tree().paused = true
 
 func update_time():
 	var time_left
@@ -298,13 +344,6 @@ func update_energy_boost():
 	else:
 		boost_ui.visible = false
 		boost_fx.visible = false
-
-func printGameState():
-	for id in units.keys():
-		var u = units[id]
-		print("%s %s" % [u.Id(), u.Name()])
-		print("\tpos_x: %s" % u.PositionX())
-		print("\tpos_y: %s" % u.PositionY())
 	
 func removeDeadUnits():
 	for id in units.keys():

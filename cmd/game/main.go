@@ -8,13 +8,10 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/humblers/spaceknights/pkg/data"
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
 func main() {
-	data.Initialize()
-
 	var host, port, lport string
 	flag.StringVar(&host, "host", "127.0.0.1", "game server host. default_host=127.0.0.1")
 	flag.StringVar(&port, "port", "9999", "game server port for client. default_port=9999")

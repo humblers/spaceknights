@@ -1,58 +1,62 @@
 extends Node
 
 const INITIAL_HASH = 5381
+const MASK = 0xFFFFFFFF
 
-# calling hash() for cast result value to uint32
-static func Hash(input, prev = INITIAL_HASH):
-	assert(typeof(input) != TYPE_OBJECT)
-	return hash(((prev << 5) + prev) + hash(input))
+static func to_uint32(v):
+	assert(typeof(v) == TYPE_INT)
+	return v & MASK
 
-## set of test functions for hash result
-#func _ready():
-#	var cases_int = [
-#		# if integer value is greater than uint32_max.
-#		# it can be replaced by uint32_max value. because of godot's hash() func behavior
-#		[(1 << 63) - 1, 177572],
-#		[(1 << 32) - 1, 177572],
-#
-#		[(1 << 31) - 1, 2147661220],
-#	]
-#	for c in cases_int:
-#		assert(Hash(c[0]) == c[1])
-#
-#	var cases_str = [
-#		["a", 355243],
-#		["spaceknights", 2910229102],
-#	]
-#	for c in cases_str:
-#		assert(Hash(c[0]) == c[1])
-#
-#	var cases_arr = [
-#		[[(1<<63) - 1, (1<<48) - 1, (1<<32) - 1, (1<<16) - 1], 134358278],
-#		[[(1<<32) - 1, (1<<32) - 1, (1<<32) - 1, (1<<16) - 1], 134358278],
-#	]
-#	for c in cases_arr:
-#		assert(Hash(c[0]) == c[1])
-#
-#	var cases_fixed = [
-#		[scalar.One, 243109],
-#		[scalar.FromInt((1<<15) - 1),  2147595685],
-#		# equal to fixed Vector (1, 1)
-#		[[scalar.One, scalar.One], 195782794]
-#	]
-#	for c in cases_fixed:
-#		assert(Hash(c[0]) == c[1])
-#
-#	var body = load("res://physics/body.gd")
-#	var b = body.new(
-#		1,
-#		scalar.FromInt(100),
-#		scalar.Div(scalar.One, scalar.Two),
-#		scalar.One,
-#		scalar.One
-#	)
-#	var cases_physics = [
-#		[b, 2771927977],
-#	]
-#	for c in cases_physics:
-#		assert(c[0].digest() == c[1])
+static func is_uint32(v):
+	assert(typeof(v) == TYPE_INT)
+	return v >> 32 == 0
+
+# djb2 hash
+# http://www.cse.yorku.ca/~oz/hash.html
+static func hash_uint32(u, prev):
+	assert(is_uint32(u))
+	assert(is_uint32(prev))
+	return to_uint32(((prev << 5) + prev) + u)
+
+static func HashBool(b):
+	assert(typeof(b) == TYPE_BOOL)
+	var h = INITIAL_HASH
+	return hash_uint32(1, h) if b else hash_uint32(0, h)
+
+static func HashInt(i):
+	assert(typeof(i) == TYPE_INT)
+	var h = INITIAL_HASH
+	var upper = to_uint32(i >> 32)
+	var lower = to_uint32(i)
+	h = hash_uint32(upper, h)
+	h = hash_uint32(lower, h)
+	return h
+
+static func HashString(s):
+	assert(typeof(s) == TYPE_STRING)
+	var h = INITIAL_HASH
+	for c in s.to_ascii():
+		h = hash_uint32(c, h)
+	return h
+
+static func Combine(hashes):
+	assert(typeof(hashes) == TYPE_ARRAY)
+	var h = INITIAL_HASH
+	for e in hashes:
+		h = hash_uint32(e, h)
+	return h
+	
+static func TestHashBool():
+	assert(HashBool(true) == 0x2B5A6)
+	assert(HashBool(false) == 0x2B5A5)
+
+static func TestHashInt64():
+	assert(HashInt(0) == 0x596A45)
+	assert(HashInt(1234567890) == 0x49EF6D17)
+
+static func TestHashString():
+	assert(HashString("") == 0x1505)
+	assert(HashString("SpaceKnights") == 0xEFC09889)
+
+static func TestCombine():
+	assert(Combine(0, 0, 0) == 0xB86B2E5)

@@ -1,5 +1,8 @@
 extends Node
 
+static func Hash(x, y):
+	return djb2.Combine([scalar.Hash(x), scalar.Hash(y)])
+
 static func Dot(Ax, Ay, Bx, By):
 	return scalar.Add(scalar.Mul(Ax, Bx), scalar.Mul(Ay, By))
 
