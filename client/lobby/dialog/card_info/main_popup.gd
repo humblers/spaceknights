@@ -48,37 +48,37 @@ func keyText(key, unit):
 			if unit.has("damageradius"):
 				t = "ID_AREADAMAGE"
 			return t
+		"attackinterval":
+			return "ID_ATTACKSPEED"
+		"attackrange":
+			return "ID_RANGE"
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "ID_SKILLDAMAGE"
+			return "ID_SKILLDAMAGE"		
+		"count":
+			return "ID_COUNT"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
 				t = "ID_AREADPS"
 			return t
-		"destroydamage":
-			return "ID_DEATHDAMAGE"
-		"hp":
-			return "ID_HP"
-		"shield":
-			return "ID_BARRIER"
-		"attackinterval":
-			return "ID_ATTACKSPEED"
 		"damagetype":
 			return "ID_ATTACKTYPE"
-		"attackrange":
-			return "ID_RANGE"
-		"leader", "wing":
-			return "ID_%s_SKILL" % key.to_upper()
+		"destroydamage":
+			return "ID_DEATHDAMAGE"
 		"freezeduration":
 			return "ID_FREEZEDURATION"
+		"hp":
+			return "ID_HP"
+		"leader", "wing":
+			return "ID_%s_SKILL" % key.to_upper()
+		"shield":
+			return "ID_BARRIER"
 		"spawninterval":
 			return "ID_SPAWNSPEED"
 		"spawncount":
 			return "%s ID_COUNT" % "spawn unit name"
 		"speed":
 			return "ID_SPEED"
-		"count":
-			return "ID_COUNT"
 	return key.capitalize()
 
 func valueText(key, card, unit):

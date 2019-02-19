@@ -50,52 +50,56 @@ func Invalidate(card, pressed):
 
 func keyText(key, skill):
 	match key:
-		"castduration":
-			return "ID_CASTDURATION"
-		"damageduration":
-			return "ID_DAMAGEDURATION"
-		"damage":
-			return "ID_AREADAMAGE"
+		"area":
+			return "ID_AREA"
 		"attackdamage":
 			var t = "ID_DAMAGE"
 			var u = data.units.get(skill.get("unit", ""), {})
 			if u.get("damageradius", null) != null:
 				t = "ID_AREADAMAGE"
 			return t
+		"attackinterval":
+			return "ID_ATTACKSPEED"
+		"attackrange":
+			return "ID_RANGE"
+		"castduration":
+			return "ID_CASTDURATION"
+		"chargedattackdamage", "powerattackdamage", "absorbdamage":
+			return "ID_SKILLDAMAGE"		
+		"count":
+			return "ID_COUNT"
+		"damage":
+			return "ID_AREADAMAGE"
+		"damageduration", "duration":
+			return "ID_DAMAGEDURATION"
 		"damagepersecond":
 			var t = "ID_DPS"
 			var u = data.units.get(skill.get("unit", ""), {})
 			if u.get("damageradius", null) != null:
 				t = "ID_AREADPS"
 			return t
-		"destroydamage":
-			return "ID_DEATHDAMAGE"
-		"hp":
-			return "ID_HP"
-		"shield":
-			return "ID_BARRIER"
-		"attackinterval":
-			return "ID_ATTACKSPEED"
 		"damagetype":
 			return "ID_ATTACKTYPE"
-		"attackrange":
-			return "ID_RANGE"
-		"freezeduration":
-			return "ID_FREEZEDURATION"
-		"spawninterval":
-			return "ID_SPAWNSPEED"
 		"decaydamage":
 			return "ID_LIFETIME"
-		"spawncount":
-			return "%s ID_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
+		"destroydamage":
+			return "ID_DEATHDAMAGE"
+		"freezeduration":
+			return "ID_FREEZEDURATION"
+		"hp":
+			return "ID_HP"
+		"leader", "wing":
+			return "ID_%s_SKILL" % key.to_upper()
 		"radius":
 			return "ID_RADIUS"
-		"area":
-			return "ID_AREA"
+		"shield":
+			return "ID_BARRIER"
+		"spawninterval":
+			return "ID_SPAWNSPEED"		
+		"spawncount":
+			return "%s ID_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
 		"speed":
-			return "ID_SPEED"
-		"count":
-			return "ID_COUNT"
+			return "ID_SPEED"		
 	return key
 
 func valueText(key, card, skill):
@@ -143,7 +147,7 @@ func valueText(key, card, skill):
 					return info_root.hud.FormatSpeed(u.get(key, 0))
 				"attackrange":
 					if data.DamageTypeIs(u.get("damagetype", 0), data.Melee):
-						return "Melee"
+						return "ID_MELEE"
 					return info_root.hud.FormatPixelToTile(u[key])
 				"decaydamage":
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
