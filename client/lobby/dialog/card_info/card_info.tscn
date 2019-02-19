@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://lobby/dialog/card_info/card_info.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_gradation.png" type="Texture" id=2]
@@ -28,15 +28,17 @@
 [ext_resource path="res://lobby/page/card/button.png" type="Texture" id=26]
 [ext_resource path="res://lobby/dialog/card_info/sub_popup.gd" type="Script" id=27]
 [ext_resource path="res://lobby/page/battle/point.png" type="Texture" id=28]
-[ext_resource path="res://share/icon/attack_range.png" type="Texture" id=29]
-[ext_resource path="res://share/icon/attack_speed.png" type="Texture" id=30]
-[ext_resource path="res://share/icon/attack_type.png" type="Texture" id=31]
-[ext_resource path="res://share/icon/hp.png" type="Texture" id=32]
-[ext_resource path="res://share/icon/spawn_count.png" type="Texture" id=33]
-[ext_resource path="res://share/icon/damage.png" type="Texture" id=34]
-[ext_resource path="res://share/icon/dps.png" type="Texture" id=35]
-[ext_resource path="res://share/icon/area_damage.png" type="Texture" id=36]
-[ext_resource path="res://share/icon/speed.png" type="Texture" id=37]
+[ext_resource path="res://lobby/page/battle/line_seperator.png" type="Texture" id=29]
+[ext_resource path="res://share/icon/lobby/wingskill/fireball.png" type="Texture" id=30]
+[ext_resource path="res://share/icon/attack_range.png" type="Texture" id=31]
+[ext_resource path="res://share/icon/attack_speed.png" type="Texture" id=32]
+[ext_resource path="res://share/icon/attack_type.png" type="Texture" id=33]
+[ext_resource path="res://share/icon/hp.png" type="Texture" id=34]
+[ext_resource path="res://share/icon/spawn_count.png" type="Texture" id=35]
+[ext_resource path="res://share/icon/damage.png" type="Texture" id=36]
+[ext_resource path="res://share/icon/dps.png" type="Texture" id=37]
+[ext_resource path="res://share/icon/area_damage.png" type="Texture" id=38]
+[ext_resource path="res://share/icon/speed.png" type="Texture" id=39]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -105,6 +107,7 @@ fallback/0 = ExtResource( 7 )
 size = 32
 outline_size = 3
 outline_color = Color( 0.368627, 0.368627, 0.368627, 1 )
+use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 8 )
 fallback/0 = ExtResource( 7 )
@@ -243,6 +246,7 @@ fallback/0 = ExtResource( 7 )
 size = 36
 outline_size = 3
 outline_color = Color( 0.368627, 0.368627, 0.368627, 1 )
+use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 8 )
 fallback/0 = ExtResource( 7 )
@@ -314,6 +318,7 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="MainPopup" type="PopupPanel" parent="."]
+editor/display_folded = true
 visible = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -420,7 +425,7 @@ margin_bottom = 120.0
 rect_scale = Vector2( 1.2, 1.2 )
 rect_pivot_offset = Vector2( 125, 150 )
 
-[node name="Cost" parent="MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase/Control" index="6"]
+[node name="Cost" parent="MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase/Control" index="5"]
 frame = 11
 
 [node name="HoldingBar" parent="MainPopup/MainPanel/SubPanel/NinePatchRect" instance=ExtResource( 13 )]
@@ -1206,6 +1211,7 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="SubPopup" type="PopupPanel" parent="."]
+visible = true
 margin_top = 360.0
 margin_right = 860.0
 margin_bottom = 780.0
@@ -1228,11 +1234,30 @@ patch_margin_top = 30
 patch_margin_right = 30
 patch_margin_bottom = 30
 
-[node name="Spec" type="NinePatchRect" parent="SubPopup/Panel"]
+[node name="Spec" type="Control" parent="SubPopup/Panel"]
 margin_left = 10.0
-margin_top = 9.0
+margin_top = 11.0
 margin_right = 850.0
-margin_bottom = 389.0
+margin_bottom = 391.0
+
+[node name="LeftPoint" type="TextureRect" parent="SubPopup/Panel/Spec"]
+margin_left = 420.0
+margin_top = 388.0
+margin_right = 500.0
+margin_bottom = 468.0
+texture = ExtResource( 28 )
+
+[node name="RightPoint" type="TextureRect" parent="SubPopup/Panel/Spec"]
+margin_left = 720.0
+margin_top = 388.0
+margin_right = 800.0
+margin_bottom = 468.0
+texture = ExtResource( 28 )
+
+[node name="Spec2" type="NinePatchRect" parent="SubPopup/Panel/Spec"]
+margin_top = 20.0
+margin_right = 840.0
+margin_bottom = 400.0
 texture = ExtResource( 10 )
 region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 20
@@ -1242,18 +1267,19 @@ patch_margin_bottom = 20
 
 [node name="StatIconContainer" type="GridContainer" parent="SubPopup/Panel/Spec"]
 editor/display_folded = true
-visible = false
 anchor_left = 0.021
 anchor_top = 0.036
 anchor_right = 0.981
 anchor_bottom = 0.96
 margin_left = -1.0
+margin_top = 20.0
 margin_right = 2.0
-margin_bottom = -1.0
+margin_bottom = 19.0
 custom_constants/vseparation = 0
 columns = 2
 
 [node name="Item0" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
 margin_right = 393.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 393, 70 )
@@ -1294,6 +1320,7 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item1" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
 margin_left = 397.0
 margin_right = 790.0
 margin_bottom = 70.0
@@ -1335,6 +1362,7 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item2" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
 margin_top = 70.0
 margin_right = 393.0
 margin_bottom = 140.0
@@ -1376,6 +1404,7 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item3" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
 margin_left = 397.0
 margin_top = 70.0
 margin_right = 790.0
@@ -1418,6 +1447,7 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item4" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
 margin_top = 140.0
 margin_right = 393.0
 margin_bottom = 210.0
@@ -1459,6 +1489,8 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item5" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
+visible = false
 margin_left = 397.0
 margin_top = 140.0
 margin_right = 790.0
@@ -1501,6 +1533,8 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item6" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
+visible = false
 margin_top = 210.0
 margin_right = 393.0
 margin_bottom = 280.0
@@ -1542,6 +1576,8 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item7" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
+visible = false
 margin_left = 397.0
 margin_top = 210.0
 margin_right = 790.0
@@ -1584,6 +1620,8 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item8" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
+visible = false
 margin_top = 280.0
 margin_right = 393.0
 margin_bottom = 350.0
@@ -1625,6 +1663,8 @@ clip_text = true
 script = ExtResource( 9 )
 
 [node name="Item9" type="Control" parent="SubPopup/Panel/Spec/StatIconContainer"]
+editor/display_folded = true
+visible = false
 margin_left = 397.0
 margin_top = 280.0
 margin_right = 790.0
@@ -1666,35 +1706,57 @@ valign = 1
 clip_text = true
 script = ExtResource( 9 )
 
+[node name="TextureRect" type="TextureRect" parent="SubPopup/Panel/Spec"]
+self_modulate = Color( 1, 0.32549, 0.117647, 1 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -430.0
+margin_top = -400.0
+margin_right = 430.0
+margin_bottom = -350.0
+texture = ExtResource( 29 )
+expand = true
+
+[node name="WingSkill" type="NinePatchRect" parent="SubPopup/Panel/Spec"]
+margin_left = -180.0
+margin_top = -11.0
+margin_right = -20.0
+margin_bottom = 149.0
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 19
+patch_margin_top = 20
+patch_margin_right = 21
+patch_margin_bottom = 19
+
+[node name="SkillIcon" type="TextureRect" parent="SubPopup/Panel/Spec/WingSkill"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = -70.0
+margin_right = 150.0
+margin_bottom = 70.0
+texture = ExtResource( 30 )
+expand = true
+
 [node name="Description" type="RichTextLabel" parent="SubPopup/Panel/Spec"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
-margin_top = 10.0
+margin_top = 30.0
 margin_right = -10.0
-margin_bottom = -10.0
+margin_bottom = 10.0
 custom_fonts/normal_font = SubResource( 25 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 text = "YOLO!"
 scroll_active = false
 script = ExtResource( 9 )
 
-[node name="LeftPoint" type="TextureRect" parent="SubPopup/Panel/Spec"]
-margin_left = 420.0
-margin_top = 390.0
-margin_right = 500.0
-margin_bottom = 470.0
-texture = ExtResource( 28 )
-
-[node name="RightPoint" type="TextureRect" parent="SubPopup/Panel/Spec"]
-margin_left = 720.0
-margin_top = 390.0
-margin_right = 800.0
-margin_bottom = 470.0
-texture = ExtResource( 28 )
-
 [node name="StatIcon" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "attackrange", "attackspeed", "attacktype", "barrier", "count", "damage", "damagepersecond", "hp", "lifetime", "radius", "speed" ), [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 32 ), ExtResource( 17 ), ExtResource( 36 ), ExtResource( 37 ) ] ]
+resources = [ PoolStringArray( "attackrange", "attackspeed", "attacktype", "barrier", "count", "damage", "damagepersecond", "hp", "lifetime", "radius", "speed" ), [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 34 ), ExtResource( 17 ), ExtResource( 38 ), ExtResource( 39 ) ] ]
 
 
 [editable path="MainPopup/MainPanel/SubPanel/NinePatchRect/ItemBase"]
