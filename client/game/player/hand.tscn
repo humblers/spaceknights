@@ -1,14 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://game/player/hand.gd" type="Script" id=1]
 [ext_resource path="res://material/no_light.tres" type="Material" id=2]
-[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=3]
-[ext_resource path="res://lobby/page/card/card_list_panel2.png" type="Texture" id=4]
-[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=5]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=3]
+[ext_resource path="res://lobby/resource/card_glow.png" type="Texture" id=4]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=5]
+[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
-
 resource_name = "launch"
 length = 0.5
 tracks/0/type = "value"
@@ -25,7 +24,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-
 resource_name = "show"
 length = 0.5
 tracks/0/type = "value"
@@ -39,6 +37,34 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "glow"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Glow:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.294118, 1, 0.882353, 1 ), Color( 0.294118, 0.552941, 1, 1 ), Color( 0.294118, 1, 0.882353, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Glow:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.2, 2.6 ), Vector2( 2.5, 3 ), Vector2( 2.2, 2.6 ) ]
 }
 
 [node name="Hand1" type="Control"]
@@ -72,25 +98,27 @@ position = Vector2( 95, 65 )
 material = ExtResource( 2 )
 position = Vector2( 95, 65 )
 
-[node name="TextureRect" type="TextureRect" parent="Card"]
-self_modulate = Color( 0.333333, 1, 0.780392, 1 )
-margin_left = -81.0
-margin_top = -65.0
-margin_right = 79.0
-margin_bottom = 86.0
-texture = ExtResource( 3 )
-expand = true
+[node name="GlowAni" type="AnimationPlayer" parent="Card"]
+autoplay = "glow"
+anims/glow = SubResource( 3 )
 
-[node name="TextureRect2" type="TextureRect" parent="Card"]
-self_modulate = Color( 0, 0.203922, 0.388235, 1 )
-margin_left = -81.0
-margin_right = 80.0
-margin_bottom = 86.0
+[node name="Glow" type="Sprite" parent="Card"]
+self_modulate = Color( 0.294118, 1, 0.882353, 1 )
+material = ExtResource( 3 )
+position = Vector2( 0, 29 )
+scale = Vector2( 2.2, 2.6 )
 texture = ExtResource( 4 )
-expand = true
+
+[node name="ItemBase" parent="Card" instance=ExtResource( 5 )]
+editor/display_folded = true
+margin_left = -88.0
+margin_top = -79.0
+margin_right = 162.0
+margin_bottom = 221.0
+rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="Energy" type="TextureProgress" parent="Card"]
-self_modulate = Color( 0, 0, 0, 0.898039 )
+self_modulate = Color( 0.0705882, 0.054902, 0.105882, 0.898039 )
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -99,16 +127,9 @@ anchor_bottom = 0.5
 margin_left = -80.0
 margin_top = -68.0
 margin_right = 80.0
-margin_bottom = 86.0
+margin_bottom = 92.0
 rect_pivot_offset = Vector2( 80, 80 )
 value = 50.0
-texture_progress = ExtResource( 5 )
-fill_mode = 2
-
-[node name="ItemBase" parent="Card" instance=ExtResource( 6 )]
-margin_left = -88.0
-margin_top = -79.0
-margin_right = 162.0
-margin_bottom = 221.0
-rect_scale = Vector2( 0.7, 0.7 )
+texture_progress = ExtResource( 6 )
+fill_mode = 4
 
