@@ -15,6 +15,8 @@ onready var icon = $Card/ItemBase/Control/Icon
 onready var cost_label = $Card/ItemBase/Control/Cost/Label
 onready var cost_icon = $Card/ItemBase/Control/Cost
 onready var energy_bar = $Card/Energy
+onready var glow = $Card/Glow
+
 
 onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
@@ -61,6 +63,7 @@ func Update(energy):
 		return
 	var ready = energy >= energy_bar.max_value
 	cost_icon.playing = ready
+	glow.visible = ready
 	energy_bar.value = card.Cost - energy
 	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
