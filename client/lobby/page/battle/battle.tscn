@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://material/no_light.tres" type="Material" id=1]
 [ext_resource path="res://lobby/page/battle/battle.gd" type="Script" id=2]
@@ -62,7 +62,7 @@
 [ext_resource path="res://game/hpbar/ingame_level_icon_knight.png" type="Texture" id=60]
 [ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=61]
 [ext_resource path="res://lobby/page/battle/medalbox_btn_dis.png" type="Texture" id=62]
-[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=63]
+[ext_resource path="res://lobby/page/card/button_disabled.png" type="Texture" id=63]
 [ext_resource path="res://lobby/page/battle/chest_button.tscn" type="PackedScene" id=64]
 [ext_resource path="res://lobby/page/battle/reward_slot_cover2.png" type="Texture" id=65]
 [ext_resource path="res://lobby/page/battle/reward_slot_cover.png" type="Texture" id=66]
@@ -89,6 +89,7 @@
 [ext_resource path="res://lobby/page/battle/setting.tscn" type="PackedScene" id=87]
 [ext_resource path="res://lobby/page/shop/buyitem.tscn" type="PackedScene" id=88]
 
+
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
@@ -107,7 +108,7 @@ animations = [ {
 "speed": 1.0
 } ]
 
-[sub_resource type="SpriteFrames" id=22]
+[sub_resource type="SpriteFrames" id=3]
 
 animations = [ {
 "frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ],
@@ -186,7 +187,7 @@ tracks/3/keys = {
 "values": [ Vector2( -357, 303 ), Vector2( 243, -286 ), Vector2( -357, 303 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
 length = 2.0
 tracks/0/type = "value"
@@ -358,7 +359,7 @@ tracks/13/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 
 length = 10.0
 loop = true
@@ -411,7 +412,7 @@ tracks/3/keys = {
 "values": [ Vector2( 150, -270 ), Vector2( 146.5, -268.502 ), Vector2( 150, -270 ) ]
 }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=11]
 
 size = 28
 outline_size = 2
@@ -420,7 +421,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 49 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=12]
 
 size = 40
 outline_size = 4
@@ -431,7 +432,7 @@ extra_spacing_top = 2
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 
 size = 30
 use_filter = true
@@ -439,7 +440,7 @@ extra_spacing_top = 2
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=14]
 
 size = 22
 outline_size = 3
@@ -449,7 +450,7 @@ use_filter = true
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=15]
 
 size = 26
 outline_size = 2
@@ -459,7 +460,7 @@ use_filter = true
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=16]
 
 size = 20
 outline_size = 1
@@ -468,21 +469,11 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 49 )
 
-[sub_resource type="DynamicFont" id=16]
-
-size = 24
-outline_size = 2
-outline_color = Color( 0.180392, 0.180392, 0.180392, 1 )
-use_filter = true
-font_data = ExtResource( 49 )
-fallback/0 = ExtResource( 50 )
-
 [sub_resource type="DynamicFont" id=17]
 
 size = 24
 outline_size = 2
 outline_color = Color( 0.180392, 0.180392, 0.180392, 1 )
-use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
@@ -499,6 +490,16 @@ fallback/0 = ExtResource( 50 )
 
 [sub_resource type="DynamicFont" id=19]
 
+size = 24
+outline_size = 2
+outline_color = Color( 0.180392, 0.180392, 0.180392, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 49 )
+fallback/0 = ExtResource( 50 )
+
+[sub_resource type="DynamicFont" id=20]
+
 size = 28
 outline_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 use_mipmaps = true
@@ -506,9 +507,13 @@ use_filter = true
 font_data = ExtResource( 49 )
 fallback/0 = ExtResource( 50 )
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Gradient" id=21]
 
-resource_name = "openslot"
+offsets = PoolRealArray( 0.0704225, 0.690141, 1 )
+colors = PoolColorArray( 1, 0.905579, 0.289063, 1, 1, 0, 0, 1, 1, 0, 0, 0.22651 )
+
+[sub_resource type="Animation" id=22]
+
 length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("CoverTop:rect_position")
@@ -582,8 +587,56 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Vector2( 500, 40 ), Vector2( 500, 40 ), Vector2( 500, 40 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("CoverTop2/SparkTL2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1.9, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CoverTop2/SparkTL:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 1.9, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("CoverBottom/SparkTL4:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 1.9, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("CoverBottom/SparkTL3:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1.9, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=23]
 
 size = 52
 outline_size = 3
@@ -631,7 +684,6 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 
 [node name="Map" type="Node2D" parent="Background"]
-editor/display_folded = true
 light_mask = 3
 position = Vector2( -540, -960 )
 z_index = -1
@@ -694,7 +746,6 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 8 )
 
 [node name="Mothership" type="Node2D" parent="Background"]
-editor/display_folded = true
 modulate = Color( 0.439216, 0.439216, 0.439216, 1 )
 light_mask = 2
 position = Vector2( -420, -890 )
@@ -703,6 +754,7 @@ scale = Vector2( 1.2, 1.2 )
 z_index = -1
 
 [node name="Nodes" type="Node2D" parent="Background/Mothership"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( 6.93918, 1037.98 )
 scale = Vector2( 2, 2 )
@@ -733,7 +785,6 @@ position = Vector2( -30.5, -82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="BodyR" type="Node2D" parent="Background/Mothership/Nodes/Body"]
@@ -757,6 +808,7 @@ position = Vector2( -30.5, 82.5 )
 scale = Vector2( 0.8, 3 )
 frames = SubResource( 2 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="Takeoffway" type="Node2D" parent="Background/Mothership/Nodes"]
@@ -773,6 +825,7 @@ texture = ExtResource( 14 )
 normal_map = ExtResource( 15 )
 
 [node name="Nose" type="Node2D" parent="Background/Mothership/Nodes"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( -150, 0 )
 
@@ -795,16 +848,15 @@ position = Vector2( -193, -26.5 )
 scale = Vector2( 2.5, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="Deck" type="Node2D" parent="Background/Mothership/Nodes"]
-editor/display_folded = true
 light_mask = 2
 position = Vector2( -93.3532, -13.3069 )
 rotation = 0.523599
 
 [node name="Left" type="Node2D" parent="Background/Mothership/Nodes/Deck"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( -150, -264.871 )
 
@@ -924,7 +976,7 @@ visible = false
 modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -935,7 +987,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = -2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -946,7 +998,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = 2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -958,6 +1010,7 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Background/Mothership/Nodes/Deck/Left/Position"]
 
 [node name="Right" type="Node2D" parent="Background/Mothership/Nodes/Deck"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( 148.907, -269.532 )
 
@@ -1078,7 +1131,7 @@ visible = false
 modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1089,7 +1142,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = -2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1100,7 +1153,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = 2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1113,6 +1166,7 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Background/Mothership/Nodes/Deck/Right/Position"]
 
 [node name="Center" type="Node2D" parent="Background/Mothership/Nodes/Deck"]
+editor/display_folded = true
 light_mask = 2
 position = Vector2( 0, -230 )
 
@@ -1216,7 +1270,7 @@ visible = false
 modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1227,7 +1281,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = -2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1238,7 +1292,7 @@ modulate = Color( 1, 0.627451, 0.0509804, 1 )
 light_mask = 2
 rotation = 2.09439
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 22 )
+frames = SubResource( 3 )
 offset = Vector2( 0, 140 )
 flip_h = true
 flip_v = true
@@ -1317,7 +1371,6 @@ position = Vector2( 137, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="IndicatorRed2" type="AnimatedSprite" parent="Background/Mothership/Nodes/Container/Sprite"]
@@ -1326,7 +1379,6 @@ position = Vector2( -199, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 1 )
 animation = "indicator"
-frame = 1
 playing = true
 
 [node name="IndicatorGreen1" type="AnimatedSprite" parent="Background/Mothership/Nodes/Container/Sprite"]
@@ -1335,6 +1387,7 @@ position = Vector2( 137, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 6 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="IndicatorGreen2" type="AnimatedSprite" parent="Background/Mothership/Nodes/Container/Sprite"]
@@ -1343,6 +1396,7 @@ position = Vector2( -199, 66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 6 )
 animation = "indicatorG"
+frame = 1
 playing = true
 
 [node name="DeckAni" type="Node2D" parent="Background/Mothership"]
@@ -1354,14 +1408,13 @@ anims/map = SubResource( 7 )
 
 [node name="AppearAni" type="AnimationPlayer" parent="Background/Mothership"]
 autoplay = "appear"
-anims/appear = SubResource( 8 )
+anims/appear = SubResource( 9 )
 
 [node name="IdleAni" type="AnimationPlayer" parent="Background/Mothership"]
 autoplay = "idle"
-anims/idle = SubResource( 9 )
+anims/idle = SubResource( 10 )
 
 [node name="CenterTop" type="Control" parent="."]
-editor/display_folded = true
 light_mask = 512
 use_parent_material = true
 anchor_left = 0.5
@@ -1385,7 +1438,7 @@ stretch_mode = 2
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
-margin_top = -962.0
+margin_top = -24.0
 margin_right = 720.0
 margin_bottom = 960.0
 rect_min_size = Vector2( 1440, 600 )
@@ -1552,7 +1605,7 @@ margin_left = 27.0
 margin_top = 7.0
 margin_right = 85.0
 margin_bottom = 41.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "25"
 align = 1
 valign = 1
@@ -1572,7 +1625,7 @@ margin_top = 3.0
 margin_right = 470.0
 margin_bottom = 52.0
 rect_min_size = Vector2( 300, 0 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 text = "USER NAME HERE"
 valign = 2
 
@@ -1581,7 +1634,7 @@ use_parent_material = true
 margin_top = 60.0
 margin_right = 470.0
 margin_bottom = 97.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "CLAN NAME HERE"
 valign = 2
@@ -1657,7 +1710,7 @@ margin_left = -82.0
 margin_top = 7.0
 margin_right = 88.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_FREE_CHEST"
 align = 1
@@ -1683,7 +1736,7 @@ margin_left = 6.0
 margin_top = 2.0
 margin_right = -7.0
 margin_bottom = -1.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "ID_PAGE_BATTLE_FREE_CHEST_BUTTON"
 align = 1
 valign = 1
@@ -1749,7 +1802,7 @@ margin_left = -82.0
 margin_top = 7.0
 margin_right = 88.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 0.835294, 0.27451, 1 )
 text = "ID_PAGE_BATTLE_MEDAL_CHEST"
 align = 1
@@ -1776,7 +1829,7 @@ margin_left = 6.0
 margin_top = 2.0
 margin_right = -8.0
 margin_bottom = -1.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "ID_PAGE_BATTLE_FREE_CHEST_BUTTON"
 align = 1
 valign = 1
@@ -1812,7 +1865,7 @@ margin_left = 73.0
 margin_top = 187.0
 margin_right = 125.0
 margin_bottom = 215.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 text = "3/5"
 align = 1
 valign = 2
@@ -1870,7 +1923,7 @@ margin_left = -460.0
 margin_top = -58.0
 margin_right = -263.0
 margin_bottom = -22.0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
 text = "ID_PAGE_BATTLE_LEFTWING"
 align = 1
 valign = 1
@@ -1884,7 +1937,7 @@ margin_left = 252.0
 margin_top = -57.0
 margin_right = 467.0
 margin_bottom = -21.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 text = "ID_PAGE_BATTLE_RIGHTWING"
 align = 1
 valign = 1
@@ -1898,7 +1951,7 @@ margin_left = -80.0
 margin_top = -1.0
 margin_right = 81.0
 margin_bottom = 52.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 19 )
 text = "ID_PAGE_BATTLE_LEADER"
 align = 1
 valign = 1
@@ -2017,7 +2070,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2087,7 +2140,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2158,7 +2211,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2229,7 +2282,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2307,7 +2360,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2378,7 +2431,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2449,7 +2502,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2520,7 +2573,7 @@ margin_left = -118.0
 margin_top = -20.0
 margin_right = 118.0
 margin_bottom = 20.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_SLOT"
 align = 1
@@ -2549,7 +2602,7 @@ mouse_filter = 2
 margin_left = -10.0
 margin_top = -168.0
 margin_right = 490.0
-margin_bottom = 32.0
+margin_bottom = 32.0002
 rect_scale = Vector2( 2.2, 0.6 )
 rect_pivot_offset = Vector2( 0, 200 )
 texture = ExtResource( 65 )
@@ -2564,14 +2617,58 @@ rect_scale = Vector2( 2.2, 2.1 )
 texture = ExtResource( 65 )
 region_rect = Rect2( 0, 160, 500, 40 )
 
+[node name="SparkTL" type="CPUParticles2D" parent="SlotCover/CoverTop2"]
+position = Vector2( 7.72727, 24.2857 )
+scale = Vector2( 0.454545, 0.47619 )
+emitting = false
+lifetime = 1.5
+speed_scale = 2.0
+spread = 180.0
+radial_accel = 180.0
+scale_amount = 2.0
+color_ramp = SubResource( 21 )
+
+[node name="SparkTL2" type="CPUParticles2D" parent="SlotCover/CoverTop2"]
+position = Vector2( 491.818, 24.762 )
+scale = Vector2( 0.454545, 0.47619 )
+emitting = false
+lifetime = 1.5
+speed_scale = 2.0
+spread = 180.0
+radial_accel = 180.0
+scale_amount = 2.0
+color_ramp = SubResource( 21 )
+
 [node name="CoverBottom" type="TextureRect" parent="SlotCover"]
 margin_left = -10.0
 margin_top = 670.0
 margin_right = 490.0
-margin_bottom = 870.0
+margin_bottom = 869.999
 rect_scale = Vector2( 2.2, 2.1 )
 texture = ExtResource( 66 )
 expand = true
+
+[node name="SparkTL4" type="CPUParticles2D" parent="SlotCover/CoverBottom"]
+position = Vector2( 7.72727, 10 )
+scale = Vector2( 0.454545, 0.47619 )
+emitting = false
+lifetime = 1.5
+speed_scale = 2.0
+spread = 180.0
+radial_accel = 180.0
+scale_amount = 2.0
+color_ramp = SubResource( 21 )
+
+[node name="SparkTL3" type="CPUParticles2D" parent="SlotCover/CoverBottom"]
+position = Vector2( 491.818, 10.4763 )
+scale = Vector2( 0.454545, 0.47619 )
+emitting = false
+lifetime = 1.5
+speed_scale = 2.0
+spread = 180.0
+radial_accel = 180.0
+scale_amount = 2.0
+color_ramp = SubResource( 21 )
 
 [node name="RailL" type="NinePatchRect" parent="SlotCover"]
 margin_left = -30.0
@@ -2595,9 +2692,10 @@ patch_margin_bottom = 30
 
 [node name="SlotAni" type="AnimationPlayer" parent="SlotCover"]
 autoplay = "openslot"
-anims/openslot = SubResource( 20 )
+anims/openslot = SubResource( 22 )
 
 [node name="Mid" type="TextureRect" parent="."]
+editor/display_folded = true
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -2663,7 +2761,7 @@ margin_left = -187.0
 margin_top = -29.0
 margin_right = 187.0
 margin_bottom = 32.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0.196078, 0.152941, 0.0784314, 1 )
 text = "ID_PAGE_BATTLE_BATTLE_BUTTON"
 align = 1
