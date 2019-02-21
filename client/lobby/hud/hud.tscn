@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://lobby/hud/hud.gd" type="Script" id=1]
 [ext_resource path="res://lobby/dialog/card_info/card_info.tscn" type="PackedScene" id=2]
@@ -35,19 +35,12 @@
 [ext_resource path="res://lobby/hud/shop_pressed.png" type="Texture" id=33]
 [ext_resource path="res://lobby/hud/shop_hover.png" type="Texture" id=34]
 [ext_resource path="res://lobby/dialog/modal.tscn" type="PackedScene" id=35]
-[ext_resource path="res://lobby/dialog/config.gd" type="Script" id=36]
-[ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=37]
-[ext_resource path="res://lobby/page/battle/medalbox_btn_atv.png" type="Texture" id=38]
-[ext_resource path="res://lobby/dialog/close_btn_nor.png" type="Texture" id=39]
-[ext_resource path="res://lobby/dialog/close_btn_ov.png" type="Texture" id=40]
-[ext_resource path="res://lobby/page/card/button.png" type="Texture" id=41]
-[ext_resource path="res://lobby/page/card/button_pressed.png" type="Texture" id=42]
-[ext_resource path="res://lobby/page/card/button_hover.png" type="Texture" id=43]
-[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=44]
-[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tscn" type="PackedScene" id=45]
-[ext_resource path="res://lobby/page/shop/chest_info.tscn" type="PackedScene" id=46]
-[ext_resource path="res://lobby/page/battle/chest_open.tscn" type="PackedScene" id=47]
-[ext_resource path="res://lobby/hud/setting.tscn" type="PackedScene" id=48]
+[ext_resource path="res://lobby/hud/modal_confirm.tscn" type="PackedScene" id=36]
+[ext_resource path="res://lobby/dialog/requesting.tscn" type="PackedScene" id=37]
+[ext_resource path="res://lobby/dialog/card_upgrade/card_upgrade.tscn" type="PackedScene" id=38]
+[ext_resource path="res://lobby/page/shop/chest_info.tscn" type="PackedScene" id=39]
+[ext_resource path="res://lobby/page/battle/chest_open.tscn" type="PackedScene" id=40]
+[ext_resource path="res://lobby/hud/setting.tscn" type="PackedScene" id=41]
 
 
 
@@ -118,52 +111,6 @@ use_filter = true
 font_data = ExtResource( 6 )
 fallback/0 = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=9]
-
-size = 40
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=10]
-
-size = 30
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=11]
-
-size = 30
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=12]
-
-size = 40
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=13]
-
-size = 30
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=14]
-
-size = 40
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=15]
-
-size = 30
-font_data = ExtResource( 6 )
-
 [node name="HeadUpDisplay" type="CanvasLayer"]
 script = ExtResource( 1 )
 __meta__ = {
@@ -183,7 +130,6 @@ cardinfo_dialog = NodePath("CardInfo")
 cardupgrade_dialog = NodePath("CardUpgrade")
 requesting_dialog = NodePath("Requesting")
 error_dialog = NodePath("Modal")
-config_dialog = NodePath("Config")
 chestinfo_dialog = NodePath("ChestInfo")
 chestopen_dialog = NodePath("ChestOpen")
 
@@ -202,6 +148,7 @@ __meta__ = {
 }
 
 [node name="Stat" type="TextureRect" parent="."]
+editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 120.0
 texture = ExtResource( 4 )
@@ -555,205 +502,20 @@ script = ExtResource( 7 )
 
 [node name="Modal" parent="." instance=ExtResource( 35 )]
 
-[node name="Config" type="PopupPanel" parent="."]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -510.0
-margin_top = -266.0
-margin_right = 509.0
-margin_bottom = 334.0
-rect_min_size = Vector2( 1000, 600 )
-script = ExtResource( 36 )
-hud = NodePath("..")
-close_btn = NodePath("PopupBG/Close")
-auth_btn = NodePath("PopupBG/Account/Change")
-locale_btn = NodePath("PopupBG/Button")
-auth_label = NodePath("PopupBG/Account/PID")
-auth_line_edit = NodePath("PopupBG/Account/PIDEdit")
+[node name="ModalConfirm" parent="." instance=ExtResource( 36 )]
 
-[node name="PopupBG" type="NinePatchRect" parent="Config"]
-self_modulate = Color( 0.2, 0.290196, 0.372549, 1 )
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 1015.0
-margin_bottom = 596.0
-texture = ExtResource( 37 )
-region_rect = Rect2( 0, 0, 240, 240 )
-patch_margin_left = 70
-patch_margin_top = 60
-patch_margin_right = 71
-patch_margin_bottom = 30
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Config/PopupBG"]
-self_modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
-margin_left = 21.0
-margin_top = 26.0
-margin_right = 991.0
-margin_bottom = 566.0
-texture = ExtResource( 38 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 29
-patch_margin_top = 27
-patch_margin_right = 32
-patch_margin_bottom = 27
-
-[node name="Label" type="Label" parent="Config/PopupBG"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -472.5
-margin_top = -259.0
-margin_right = 382.5
-margin_bottom = -212.0
-custom_fonts/font = SubResource( 9 )
-custom_colors/font_color = Color( 0.607843, 0.607843, 0.607843, 1 )
-text = "MASTER CONFIG"
-valign = 1
-
-[node name="Close" type="TextureButton" parent="Config/PopupBG"]
-margin_left = 913.0
-margin_top = 36.0
-margin_right = 977.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 39 )
-texture_pressed = ExtResource( 40 )
-expand = true
-
-[node name="Account" type="Label" parent="Config/PopupBG"]
-editor/display_folded = true
-margin_left = 39.0
-margin_top = 115.0
-margin_right = 203.0
-margin_bottom = 154.0
-rect_min_size = Vector2( 140, 0 )
-custom_fonts/font = SubResource( 10 )
-text = "Cur PID:"
-align = 1
-valign = 1
-
-[node name="PID" type="Label" parent="Config/PopupBG/Account"]
-margin_left = 174.0
-margin_right = 314.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 140, 0 )
-custom_fonts/font = SubResource( 10 )
-text = "xxxxx"
-align = 1
-valign = 1
-
-[node name="PIDEdit" type="LineEdit" parent="Config/PopupBG/Account"]
-margin_left = -7.0
-margin_top = 68.0
-margin_right = 593.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 200, 60 )
-custom_fonts/font = SubResource( 11 )
-align = 1
-placeholder_text = "Place PID to change account"
-
-[node name="Change" type="TextureButton" parent="Config/PopupBG/Account"]
-margin_left = 598.0
-margin_top = 56.0
-margin_right = 924.0
-margin_bottom = 144.0
-texture_normal = ExtResource( 41 )
-texture_pressed = ExtResource( 42 )
-texture_hover = ExtResource( 43 )
-expand = true
-
-[node name="Label" type="Label" parent="Config/PopupBG/Account/Change"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -124.0
-margin_top = -28.0
-margin_right = 126.0
-margin_bottom = 29.0
-custom_fonts/font = SubResource( 12 )
-text = "CHANGE"
-align = 1
-valign = 1
-
-[node name="Replay" type="Label" parent="Config/PopupBG"]
-editor/display_folded = true
-margin_left = 192.0
-margin_top = 279.0
-margin_right = 353.0
-margin_bottom = 318.0
-rect_min_size = Vector2( 140, 0 )
-custom_fonts/font = SubResource( 10 )
-text = "Replay:"
-align = 1
-valign = 1
-
-[node name="ReplayEdit" type="LineEdit" parent="Config/PopupBG/Replay"]
-margin_left = -160.0
-margin_top = 71.0
-margin_right = 440.0
-margin_bottom = 131.0
-rect_min_size = Vector2( 200, 60 )
-custom_fonts/font = SubResource( 13 )
-align = 1
-placeholder_text = "Place replay ID to change account"
-
-[node name="Play" type="TextureButton" parent="Config/PopupBG/Replay"]
-margin_left = 446.0
-margin_top = 59.0
-margin_right = 773.0
-margin_bottom = 146.0
-texture_normal = ExtResource( 41 )
-texture_pressed = ExtResource( 42 )
-texture_hover = ExtResource( 43 )
-expand = true
-
-[node name="Label" type="Label" parent="Config/PopupBG/Replay/Play"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -78.5
-margin_top = -27.5
-margin_right = 76.5
-margin_bottom = 29.5
-custom_fonts/font = SubResource( 14 )
-text = "PLAY"
-align = 1
-valign = 1
-
-[node name="Button" type="Button" parent="Config/PopupBG"]
-editor/display_folded = true
-margin_left = 538.0
-margin_top = 473.0
-margin_right = 953.0
-margin_bottom = 543.0
-
-[node name="Label" type="Label" parent="Config/PopupBG/Button"]
-margin_left = 12.35
-margin_top = 17.55
-margin_right = 402.35
-margin_bottom = 56.55
-custom_fonts/font = SubResource( 15 )
-text = "TOGGLE LANGUAGE"
-align = 1
-valign = 1
-
-[node name="Requesting" parent="." instance=ExtResource( 44 )]
+[node name="Requesting" parent="." instance=ExtResource( 37 )]
 visible = false
 
-[node name="CardUpgrade" parent="." instance=ExtResource( 45 )]
+[node name="CardUpgrade" parent="." instance=ExtResource( 38 )]
 visible = false
 hud = NodePath("..")
 
-[node name="ChestInfo" parent="." instance=ExtResource( 46 )]
+[node name="ChestInfo" parent="." instance=ExtResource( 39 )]
 visible = false
 
-[node name="ChestOpen" parent="." instance=ExtResource( 47 )]
+[node name="ChestOpen" parent="." instance=ExtResource( 40 )]
 visible = false
 
-[node name="PopupSetting" parent="." instance=ExtResource( 48 )]
+[node name="PopupSetting" parent="." instance=ExtResource( 41 )]
 

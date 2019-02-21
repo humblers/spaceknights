@@ -19,7 +19,6 @@ export(NodePath) onready var cardinfo_dialog = get_node(cardinfo_dialog)
 export(NodePath) onready var cardupgrade_dialog = get_node(cardupgrade_dialog)
 export(NodePath) onready var requesting_dialog = get_node(requesting_dialog)
 export(NodePath) onready var error_dialog = get_node(error_dialog)
-export(NodePath) onready var config_dialog = get_node(config_dialog)
 export(NodePath) onready var chestinfo_dialog = get_node(chestinfo_dialog)
 export(NodePath) onready var chestopen_dialog = get_node(chestopen_dialog)
 

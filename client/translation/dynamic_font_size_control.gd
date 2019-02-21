@@ -6,17 +6,22 @@ var multiline = false
 var org_font_size
 
 func _ready():
-	if self.get_class() == "Label":
-		assert(self.get("clip_text") == true)
+	match self.get_class():
+		"Label":
+			assert(self.get("clip_text") == true)
+		"RichTextLabel":
+			self.set("bbcode_enabled", true)
 	var font = getFont()
 	assert(font != null)
 	org_font_size = font.size
 	call_deferred("fontDownsizing")
 
 func SetText(id):
-	self.set("text", tr(id))
-	var font = getFont()
-	font.size = org_font_size
+	var property = "text"
+	if self.get_class() == "RichTextLabel":
+		property = "bbcode_text"
+	self.set(property, tr(id))
+	getFont().size = org_font_size
 	call_deferred("fontDownsizing")
 
 func fontDownsizing():
