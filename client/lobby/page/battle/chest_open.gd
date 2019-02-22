@@ -27,7 +27,7 @@ func _input(event):
 			visible = false
 
 func PopUp(chest_name, gold, cash, cards):
-	chest_icon.Set(chest_name)
+	chest_icon.Open(chest_name)
 	gold_label.text = "+%d" % gold
 	cash_label.text = "+%d" % cash
 	var i = 1
