@@ -21,6 +21,7 @@ export(NodePath) onready var requesting_dialog = get_node(requesting_dialog)
 export(NodePath) onready var error_dialog = get_node(error_dialog)
 export(NodePath) onready var chestinfo_dialog = get_node(chestinfo_dialog)
 export(NodePath) onready var chestopen_dialog = get_node(chestopen_dialog)
+export(NodePath) onready var confirm_modal = get_node(confirm_modal)
 
 func _ready():
 	for page in lobby.PAGES:

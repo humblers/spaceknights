@@ -10,7 +10,7 @@ export(NodePath) onready var knight_right = get_node(knight_right)
 export(NodePath) onready var match_btn = get_node(match_btn)
 export(NodePath) onready var config_btn = get_node(config_btn)
 
-export(NodePath) onready var pid = get_node(pid)
+export(NodePath) onready var user_name = get_node(user_name)
 export(NodePath) onready var rank = get_node(rank)
 
 export(NodePath) onready var free_chest = get_node(free_chest)
@@ -29,7 +29,8 @@ func _ready():
 	config_btn.connect("button_up", self, "show_config")
 
 func invalidate():
-	pid.text = user.Id
+	# temporary set uid
+	user_name.text = user.Id
 	rank.text = "%d" % user.Rank
 	for card in user.DeckSlots[user.DeckSelected]:
 		card = data.NewCard(card)
