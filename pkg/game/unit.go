@@ -2,6 +2,7 @@ package game
 
 import (
 	"github.com/humblers/spaceknights/pkg/data"
+	"github.com/humblers/spaceknights/pkg/djb2"
 	"github.com/humblers/spaceknights/pkg/fixed"
 	"github.com/humblers/spaceknights/pkg/physics"
 )
@@ -22,6 +23,8 @@ type Unit interface {
 	SetHp(hp int)
 	Occupy(tr *tileRect)
 	Release()
+	Hash() uint32
+	State() map[string]interface{}
 
 	// stat
 	InitialHp() int
@@ -54,6 +57,36 @@ type unit struct {
 	freeze           int
 	prev_desired_pos fixed.Vector
 	moving           bool
+}
+
+func (u *unit) State() map[string]interface{} {
+	return map[string]interface{}{
+		"id":               u.id,
+		"name":             u.name,
+		"team":             u.team,
+		"level":            u.level,
+		"hp":               u.hp,
+		"body":             u.Body.State(),
+		"slowUntil":        u.slowUntil,
+		"freeze":           u.freeze,
+		"prev_desired_pos": u.prev_desired_pos,
+		"moving":           u.moving,
+	}
+}
+
+func (u *unit) Hash() uint32 {
+	return djb2.Combine(
+		djb2.HashInt(u.id),
+		djb2.HashString(u.name),
+		djb2.HashString(string(u.team)),
+		djb2.HashInt(u.level),
+		djb2.HashInt(u.hp),
+		u.Body.Hash(),
+		djb2.HashInt(u.slowUntil),
+		djb2.HashInt(u.freeze),
+		u.prev_desired_pos.Hash(),
+		djb2.HashBool(u.moving),
+	)
 }
 
 func (u *unit) Occupy(tr *tileRect) {

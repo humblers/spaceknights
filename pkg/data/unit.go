@@ -1078,7 +1078,7 @@ var Units = map[string]Unit{
 	},
 }
 
-func Initialize() {
+func init() {
 	for k, v := range Units {
 		fillStatByLevel(k, v)
 	}

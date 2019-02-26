@@ -3,6 +3,7 @@ package fixed
 
 import "log"
 import "os"
+import "github.com/humblers/spaceknights/pkg/djb2"
 
 const (
 	m              = 16
@@ -24,6 +25,10 @@ func SetLogger(l *log.Logger) {
 
 // Scalar represents a single fixed point number in Q-format: https://en.wikipedia.org/wiki/Q_(number_format)
 type Scalar int64
+
+func (s Scalar) Hash() uint32 {
+	return djb2.HashInt(int(s))
+}
 
 func FromInt(x int) Scalar {
 	return Scalar(x * scale).saturated()

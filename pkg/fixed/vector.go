@@ -1,8 +1,14 @@
 package fixed
 
+import "github.com/humblers/spaceknights/pkg/djb2"
+
 // Vector represents a fixed point 2d vector
 type Vector struct {
 	X, Y Scalar
+}
+
+func (v Vector) Hash() uint32 {
+	return djb2.Combine(v.X.Hash(), v.Y.Hash())
 }
 
 func (a Vector) Add(b Vector) Vector {

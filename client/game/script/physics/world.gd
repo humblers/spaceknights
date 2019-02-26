@@ -16,6 +16,22 @@ var restitution = scalar.Div(scalar.One, scalar.Two)
 var correctionPercent = scalar.Div(scalar.Two, scalar.FromInt(5))
 var correctionThreshold = scalar.Div(scalar.One, scalar.FromInt(100))
 
+func State():
+	var state = {
+		"counter": counter,
+		"iterations": iterations,
+		"scale": scale,
+		"dt": dt,
+		"gravity": {"X": gravity_x, "Y": gravity_y},
+		"restitution": restitution,
+		"correctionPercent": correctionPercent,
+		"correctionThreshold": correctionThreshold,
+		"collisions": [],
+	}
+	for c in collisions:
+		state["collisions"].append(c.State())
+	return state
+	
 func _init(params):
 	for k in params:
 		var v = params[k]
@@ -89,13 +105,20 @@ func RemoveBody(b):
 			bodies.pop_back()
 			return
 
-func Digest(h=djb2.INITIAL_HASH):
-	h = djb2.Hash(counter, h)
-	for b in bodies:
-		h = b.digest(h)
+func Hash():
+	var hashes = [
+		djb2.HashInt(counter),
+		djb2.HashInt(iterations),
+		scalar.Hash(scale),
+		scalar.Hash(dt),
+		vector.Hash(gravity_x, gravity_y),
+		scalar.Hash(restitution),
+		scalar.Hash(correctionPercent),
+		scalar.Hash(correctionThreshold),
+	]
 	for c in collisions:
-		h = c.digest(h)
-	return h
+		hashes.append(c.Hash())
+	return djb2.Combine(hashes)
 
 static func checkCollision(a, b):
 	if a.no_physics or b.no_physics:

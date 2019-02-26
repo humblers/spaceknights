@@ -15,8 +15,6 @@ func addNewColumn(name string, idx int, c *map[string]int) bool {
 	return true
 }
 func main() {
-	Initialize()
-
 	columns := make(map[string]int)
 	records := [][]string{
 		{"name"},

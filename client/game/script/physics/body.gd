@@ -26,6 +26,24 @@ var prev_pos_y = 0
 var node = null
 var set_position = false
 
+func State():
+	return {
+		"id": id,
+		"mass": mass,
+		"imass": imass,
+		"rest": rest,
+		"pos": {"X": pos_x, "Y": pos_y},
+		"vel": {"X": vel_x, "Y": vel_y},
+		"force": {"X": force_x, "Y": force_y},
+		"shape": shape,
+		"radius": radius,
+		"width": width,
+		"height": height,
+		"no_physics": no_physics,
+		"layer": layer,
+		"colliding": colliding,
+	}
+	
 func _init(id, mass, rest, pos_x, pos_y):
 	self.id = id
 	self.mass = mass
@@ -106,13 +124,20 @@ func move(dt):
 	pos_x = scalar.Add(pos_x, scalar.Mul(vel_x, dt))
 	pos_y = scalar.Add(pos_y, scalar.Mul(vel_y, dt))
 
-func digest(h=djb2.INITIAL_HASH):
-	var elems = [id, mass, imass, rest,
-			[pos_x, pos_y],
-			[vel_x, vel_y],
-			[force_x, force_y],
-			shape, radius, width, height
-	]
-	for e in elems:
-		h = djb2.Hash(e, h)
-	return h
+func Hash():
+	return djb2.Combine([
+		djb2.HashInt(id),
+		scalar.Hash(mass),
+		scalar.Hash(imass),
+		scalar.Hash(rest),
+		vector.Hash(pos_x, pos_y),
+		vector.Hash(vel_x, vel_y),
+		vector.Hash(force_x, force_y),
+		djb2.HashString(shape),
+		scalar.Hash(radius),
+		scalar.Hash(width),
+		scalar.Hash(height),
+		djb2.HashBool(no_physics),
+		djb2.HashString(layer),
+		djb2.HashBool(colliding),
+	])

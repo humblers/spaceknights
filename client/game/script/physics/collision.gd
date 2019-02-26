@@ -6,6 +6,14 @@ var normal_x = 0
 var normal_y = 0
 var penetration = 0
 
+func State():
+	return {
+		"a": a.id,
+		"b": b.id,
+		"normal": {"X": normal_x, "Y": normal_y},
+		"penetration": penetration,
+	}
+
 func _init(a, b):
 	self.a = a
 	self.b = b
@@ -38,8 +46,10 @@ func resolve():
 	b.vel_x = scalar.Add(b.vel_x, scalar.Mul(impulse_x, b.imass))
 	b.vel_y = scalar.Add(b.vel_y, scalar.Mul(impulse_y, b.imass))
 
-func digest(h=djb2.INITIAL_HASH):
-	h = djb2.Hash(penetration, h)
-	h = djb2.Hash([normal_x, normal_y], h)
-	h = a.digest(h)
-	return b.digest(h)
+func Hash():
+	return djb2.Combine([
+		djb2.HashInt(a.id),
+		djb2.HashInt(b.id),
+		vector.Hash(normal_x, normal_y),
+		scalar.Hash(penetration),
+	])
