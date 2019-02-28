@@ -52,8 +52,9 @@ type bases struct {
 type handler func(b *bases, w http.ResponseWriter, r *http.Request)
 
 type route struct {
-	method  methodType
-	handler handler
+	method          methodType
+	handler         handler
+	authUnnecessary bool
 }
 
 type Router struct {
@@ -86,7 +87,11 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		b.response = &CommonResponse{"405 method not allowed"}
 		return
 	}
-	b.uid = r.Header.Get("Cookie")
+
+	if !route.authUnnecessary {
+		//TODO: verify auth and get uid by token from header/payload whatever. then branching succ/fail case
+		b.uid = r.Header.Get("Cookie")
+	}
 	route.handler(b, w, r)
 }
 
@@ -109,6 +114,12 @@ func (rt *Router) Get(path string, h handler) {
 
 func (rt *Router) Post(path string, h handler) {
 	rt.registerHandler(mPOST, path, h)
+}
+
+func (rt *Router) PostAuthUnnecessary(path string, h handler) {
+	rt.registerHandler(mPOST, path, h)
+	route := rt.route[path]
+	route.authUnnecessary = true
 }
 
 func parseJSON(in io.ReadCloser, out interface{}) error {

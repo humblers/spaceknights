@@ -80,6 +80,16 @@ func newUser() *user {
 	}
 }
 
+func loadUser(c redis.Conn, uid string) (*user, error) {
+	user := &user{
+		Cards: make(map[string]card),
+	}
+	if err := loadStructFromMultipleKeys(c, user, uid); err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 func convertMap(v reflect.Value, src []interface{}, err error) error {
 	if err != nil {
 		return err

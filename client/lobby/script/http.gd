@@ -70,7 +70,7 @@ func handle_request():
 func handle_error(message):
 	error_dialog.pop(message)
 	yield(error_dialog, "popup_hide")
-	loading_screen.goto_scene("res://lobby/lobby.tscn")
+	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
 	return
 
 func connect_to_host(host, port):

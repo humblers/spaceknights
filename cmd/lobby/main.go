@@ -8,7 +8,10 @@ import (
 	"os/signal"
 	"time"
 
+	firebase "firebase.google.com/go"
 	"github.com/gomodule/redigo/redis"
+	"google.golang.org/api/option"
+
 	"github.com/humblers/spaceknights/pkg/lobby"
 )
 
@@ -24,9 +27,14 @@ func main() {
 	}
 	defer p.Close()
 
+	f, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsFile("test-8372b-firebase-adminsdk-4cule-5b08ab311e.json"))
+	if err != nil {
+		panic(err)
+	}
+
 	// set http mux for routing
 	m := http.NewServeMux()
-	m.Handle(lobby.NewAuthRouter("/auth/", p, logger))
+	m.Handle(lobby.NewAuthRouter("/auth/", f, p, logger))
 	m.Handle(lobby.NewDataRouter("/data/", p, logger))
 	m.Handle(lobby.NewEditRouter("/edit/", p, logger))
 	m.Handle(lobby.NewChestRouter("/chest/", p, logger))
