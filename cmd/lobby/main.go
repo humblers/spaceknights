@@ -27,7 +27,7 @@ func main() {
 	}
 	defer p.Close()
 
-	f, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsFile("test-8372b-firebase-adminsdk-4cule-5b08ab311e.json"))
+	f, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsFile("humbler-8830f-firebase-adminsdk-czm59-aa395e102e.json"))
 	if err != nil {
 		panic(err)
 	}
