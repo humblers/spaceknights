@@ -2,6 +2,7 @@ extends "res://game/script/unit.gd"
 
 var targetId = 0
 var attack = 0
+var attack_counter = 0
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "voidcreeper", player.Team(), level, posX, posY, game)
@@ -68,7 +69,11 @@ func findTargetAndDoAction():
 
 func handleAttack():
 	if attack == 0:
-		$AnimationPlayer.play("attack")
+		if attack_counter % 2 == 0:
+			$AnimationPlayer.play("attack_1")
+		else:
+			$AnimationPlayer.play("attack_2")
+		attack_counter += 1
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
