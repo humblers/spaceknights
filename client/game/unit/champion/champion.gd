@@ -5,6 +5,7 @@ var attack = 0
 var charge = 0
 var shield
 var player
+var attack_counter = 0
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "champion", player.Team(), level, posX, posY, game)
@@ -114,7 +115,11 @@ func handleAttack():
 	else:
 		charge = 0			# prevent charge accumulation
 		if attack == 0:
-			$AnimationPlayer.play("attack")
+			if attack_counter % 2 == 0:
+				$AnimationPlayer.play("attack1")
+			else:
+				$AnimationPlayer.play("attack2")
+			attack_counter += 1
 		var t = target()
 		if t != null:
 			look_at_pos(t.PositionX(), t.PositionY())
