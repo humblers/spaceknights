@@ -1,43 +1,44 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://material/no_light.tres" type="Material" id=1]
-[ext_resource path="res://game/vfx/laser_target_area.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/target_square_1.png" type="Texture" id=3]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=4]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=5]
-
+[ext_resource path="res://game/script/skill_cursor.gd" type="Script" id=2]
+[ext_resource path="res://game/vfx/laser_target_area.png" type="Texture" id=3]
+[ext_resource path="res://game/vfx/target_square_1.png" type="Texture" id=4]
+[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
-
 size = 40
 outline_size = 3
 use_mipmaps = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=2]
-
 size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 5 )
+fallback/0 = ExtResource( 6 )
 
 [node name="TargetSquare" type="Node2D"]
 light_mask = 4096
 material = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Target1" type="Sprite" parent="."]
 visible = false
 light_mask = 4096
 use_parent_material = true
 scale = Vector2( 4, 1.6 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 1.90735e-006, 7.62939e-006 )
+position = Vector2( 1.90735e-06, 7.62939e-06 )
 scale = Vector2( 1.5625, 3.125 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="Deco" type="Node2D" parent="."]
 use_parent_material = true
@@ -46,7 +47,7 @@ use_parent_material = true
 use_parent_material = true
 position = Vector2( 0, 150 )
 
-[node name="Label" type="Label" parent="Deco/NameNod"]
+[node name="Level" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
 use_parent_material = true
 margin_left = -100.0
@@ -64,17 +65,18 @@ custom_constants/shadow_as_outline = 1
 text = "lvl. 7"
 align = 1
 
-[node name="Label2" type="Label" parent="Deco/NameNod"]
+[node name="Skill" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
 use_parent_material = true
 margin_left = -200.0
 margin_top = -210.0
 margin_right = 200.0
-margin_bottom = -60.0
+margin_bottom = -136.0
+rect_min_size = Vector2( 0, 74 )
 custom_fonts/font = SubResource( 2 )
-text = "네이팜
-
-"
+text = "ID_NAPALM"
 align = 1
 valign = 1
+clip_text = true
+script = ExtResource( 7 )
 

@@ -93,9 +93,11 @@ func init_cursor(card = null):
 			# TODO: change data.Squire to data.SquireCard
 			var node = cursor_resource.get_resource(data.Squire.to_lower()).instance()
 			$Cursor.add_child(node)
+			node.set_text(card.Name, card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 		else:
 			var node = cursor_resource.get_resource(card.Name).instance()
 			$Cursor.add_child(node)
+			node.set_level(card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 
 func init_dummy(card):
 	$Dummy.position = dummy_init_pos
