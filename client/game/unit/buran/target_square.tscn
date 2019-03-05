@@ -1,45 +1,46 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://material/no_light.tres" type="Material" id=1]
-[ext_resource path="res://game/unit/beholder/dummy.png" type="Texture" id=2]
-[ext_resource path="res://game/ui/temp_ui_sprite_772.png" type="Texture" id=3]
-[ext_resource path="res://game/ui/temp_aoe_circular.png" type="Texture" id=4]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
-
+[ext_resource path="res://game/script/skill_cursor.gd" type="Script" id=2]
+[ext_resource path="res://game/unit/beholder/dummy.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/temp_ui_sprite_772.png" type="Texture" id=4]
+[ext_resource path="res://game/ui/temp_aoe_circular.png" type="Texture" id=5]
+[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=7]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
-
 size = 40
 outline_size = 3
 use_mipmaps = true
-font_data = ExtResource( 5 )
+font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=2]
-
 size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 6 )
+fallback/0 = ExtResource( 7 )
 
 [node name="TargetSquare" type="Node2D"]
 light_mask = 4096
 material = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Dummy" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.431373 )
 use_parent_material = true
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="TempTarget" type="Sprite" parent="."]
 scale = Vector2( 1.4, 1.4 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="TempRange" type="Sprite" parent="."]
 scale = Vector2( 3.7, 3.7 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Deco" type="Node2D" parent="."]
 use_parent_material = true
@@ -47,7 +48,7 @@ use_parent_material = true
 [node name="NameNod" type="Node2D" parent="Deco"]
 use_parent_material = true
 
-[node name="Label" type="Label" parent="Deco/NameNod"]
+[node name="Level" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
 use_parent_material = true
 margin_left = -100.0
@@ -65,16 +66,18 @@ custom_constants/shadow_as_outline = 1
 text = "lvl. 7"
 align = 1
 
-[node name="Label2" type="Label" parent="Deco/NameNod"]
+[node name="Skill" type="Label" parent="Deco/NameNod"]
 light_mask = 4096
 use_parent_material = true
 margin_left = -200.0
 margin_top = -210.0
 margin_right = 200.0
-margin_bottom = -60.0
+margin_bottom = -136.0
+rect_min_size = Vector2( 0, 74 )
 custom_fonts/font = SubResource( 2 )
-text = "비홀더
-"
+text = "ID_BEHOLDER"
 align = 1
 valign = 1
+clip_text = true
+script = ExtResource( 8 )
 
