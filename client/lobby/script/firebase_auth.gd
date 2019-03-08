@@ -38,7 +38,8 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 	match res.auth_error:
 		kAuthErrorNone, kAuthErrorProviderAlreadyLinked:
 			setting_popup.Invalidate()
-			return
+			if idp == EMAIL_PASSWORD_PROVIDER_ID:
+				save_email_password(arg1, arg2)
 		kAuthErrorCredentialAlreadyInUse, kAuthErrorEmailAlreadyInUse:
 			var modal = global_object.lobby.hud.confirm_modal
 			modal.PopUp("ID_MODAL_CONFIRM_CHANGE_ACCOUNT")
@@ -61,5 +62,25 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 	if res.auth_error != kAuthErrorNone:
 		global_object.lobby.http_manager.handle_error(res.error_message)
 		return
+	if idp == EMAIL_PASSWORD_PROVIDER_ID:
+		save_email_password(arg1, arg2)
 	global_object.lobby = null
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
+
+func save_email_password(email, password):
+	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) == OK)
+	config.set_value("desktop_auth", "email", email)
+	config.set_value("desktop_auth", "password", password)
+	config.save(user.CONFIG_FILE_NAME)
+
+func sign_in_with_email_and_password_if_exists():
+	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) == OK)
+	if not config.has_section_key("desktop_auth", "email"):
+		call_deferred("emit_signal", "on_sign_in_complete", {"auth_error": kAuthErrorFailure})
+		return
+	if not config.has_section_key("desktop_auth", "password"):
+		call_deferred("emit_signal", "on_sign_in_complete", {"auth_error": kAuthErrorFailure})
+		return
+	sign_in_with_email_and_password(config.get_value("desktop_auth", "email"), config.get_value("desktop_auth", "password"))
