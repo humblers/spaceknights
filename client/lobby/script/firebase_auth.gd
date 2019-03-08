@@ -46,6 +46,8 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			var ok = yield(modal, "modal_confirmed")
 			if ok:
 				change_account(idp, token, arg1, arg2)
+		_:
+			global_object.lobby.http_manager.handle_error(res.error_message)
 
 func change_account(idp, token, arg1 = null, arg2 = null):
 	match idp:
