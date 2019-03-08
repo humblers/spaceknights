@@ -43,6 +43,10 @@ func load_data():
 	login()
 
 func login():
+	# for desktop
+	firebase_auth_manager.sign_in_with_email_and_password_if_exists()
+	yield(firebase_auth_manager, "on_sign_in_complete")
+
 	var params = {}
 	if firebase_auth_manager.has_user():
 		firebase_auth_manager.retrieve_token()
