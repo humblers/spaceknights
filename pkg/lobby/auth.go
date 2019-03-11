@@ -3,15 +3,14 @@ package lobby
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	"github.com/gomodule/redigo/redis"
+	"github.com/humblers/spaceknights/pkg/token"
 )
 
 var errEmptyToken = errors.New("token string empty")
@@ -58,10 +57,8 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 		}
 		resp.User = user
 		resp.UID = uid
-		resp.HumblerToken = uid
-		resp.IssuedAt = int(time.Now().Unix())
 		resp.FirebaseToken = customToken
-		w.Header().Set("Set-Cookie", uid)
+		resp.HumblerToken, resp.IssuedAt = token.NewToken(uid)
 	}()
 
 	var req LoginRequest
@@ -70,10 +67,6 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	uid, user, err = a.userFromHumblerToken(&req, b.redisConn)
-	if err == nil {
-		return
-	}
 	uid, user, err = a.userFromFirebaseToken(&req, b.redisConn, r.Context())
 	if err == nil {
 		return
@@ -86,11 +79,6 @@ func (a *authRouter) login(b *bases, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	errMessage = "login fail"
-}
-
-func (a *authRouter) userFromHumblerToken(req *LoginRequest, rc redis.Conn) (string, *user, error) {
-	//TODO: verify from humbler token or intergrate to firebase token auth
-	return "", nil, fmt.Errorf("unimplemented")
 }
 
 func (a *authRouter) userFromFirebaseToken(req *LoginRequest, rc redis.Conn, ctx context.Context) (string, *user, error) {

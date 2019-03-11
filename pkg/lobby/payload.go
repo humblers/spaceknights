@@ -4,6 +4,12 @@ import (
 	"github.com/humblers/spaceknights/pkg/game"
 )
 
+type HumblerToken struct {
+	UID          string
+	HumblerToken string
+	IssuedAt     int64
+}
+
 type CommonResponse struct {
 	ErrMessage string
 }
@@ -11,17 +17,16 @@ type CommonResponse struct {
 type LoginRequest struct {
 	UID           string
 	HumblerToken  string
-	IssuedAt      int
+	IssuedAt      int64
 	FirebaseToken string
 }
 
 type LoginResponse struct {
-	ErrMessage   string
-	User         *user
-	UID          string
-	HumblerToken string
-	IssuedAt     int
-
+	ErrMessage    string
+	User          *user
+	UID           string
+	HumblerToken  string
+	IssuedAt      int64
 	FirebaseToken string
 }
 

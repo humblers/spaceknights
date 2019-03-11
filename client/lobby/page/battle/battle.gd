@@ -79,4 +79,5 @@ func show_config():
 	setting.Invalidate()
 	setting.popup()
 
-
+func PlayAppearAni():
+	$Background/Mothership/AppearAni.play("appear")

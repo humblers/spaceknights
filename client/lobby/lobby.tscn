@@ -1,11 +1,11 @@
 [gd_scene load_steps=88 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
-[ext_resource path="res://lobby/script/http.gd" type="Script" id=2]
-[ext_resource path="res://lobby/script/input.gd" type="Script" id=3]
-[ext_resource path="res://lobby/script/firebase_auth.gd" type="Script" id=4]
-[ext_resource path="res://lobby/script/resource.gd" type="Script" id=5]
-[ext_resource path="res://lobby/script/request.gd" type="Script" id=6]
+[ext_resource path="res://lobby/script/http_request.gd" type="Script" id=2]
+[ext_resource path="res://lobby/script/queued_request.gd" type="Script" id=3]
+[ext_resource path="res://lobby/script/input.gd" type="Script" id=4]
+[ext_resource path="res://lobby/script/firebase_auth.gd" type="Script" id=5]
+[ext_resource path="res://lobby/script/resource.gd" type="Script" id=6]
 [ext_resource path="res://share/upgrade.gd" type="Script" id=7]
 [ext_resource path="res://share/icon/lobby/card/absorber.png" type="Texture" id=8]
 [ext_resource path="res://share/icon/lobby/card/archengineer.png" type="Texture" id=9]
@@ -89,7 +89,6 @@
 
 [sub_resource type="ButtonGroup" id=1]
 
-
 [node name="lobby" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -99,7 +98,7 @@ __meta__ = {
 }
 hud = NodePath("HeadupDisplay")
 input_manager = NodePath("Managers/Input")
-http_manager = NodePath("Managers/Http")
+http_manager = NodePath("Managers/HTTPRequest")
 firebase_auth_manager = NodePath("Managers/FirebaseAuth")
 resource_manager = NodePath("Managers/Resources")
 page_battle = NodePath("Pages/Battle")
@@ -110,28 +109,31 @@ page_social = NodePath("Pages/Social")
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="Http" type="Node" parent="Managers"]
+[node name="HTTPRequest" type="HTTPRequest" parent="Managers"]
+editor/display_folded = true
 script = ExtResource( 2 )
-lobby = NodePath("../..")
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="Managers/HTTPRequest"]
+resources = [ PoolStringArray( "queued_request" ), [ ExtResource( 3 ) ] ]
 
 [node name="Input" type="Node" parent="Managers"]
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 lobby = NodePath("../..")
 camera = NodePath("../../InitialCenter/Camera2D")
 tween = NodePath("../../InitialCenter/Tween")
 
 [node name="FirebaseAuth" type="FirebaseAuth" parent="Managers"]
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 
 [node name="Resources" type="Node" parent="Managers"]
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 scripts = NodePath("Scripts")
 card_icon = NodePath("CardIcon")
 card_frame = NodePath("CardFrame")
 stat_icon = NodePath("StatIcon")
 
 [node name="Scripts" type="ResourcePreloader" parent="Managers/Resources"]
-resources = [ PoolStringArray( "request", "upgrade" ), [ ExtResource( 6 ), ExtResource( 7 ) ] ]
+resources = [ PoolStringArray( "upgrade" ), [ ExtResource( 7 ) ] ]
 
 [node name="CardIcon" type="ResourcePreloader" parent="Managers/Resources"]
 resources = [ PoolStringArray( "absorber", "archengineer", "archers", "archmage", "archsapper", "astra", "azero", "berserker", "blaster", "buran", "champion", "drillram", "enforcer", "felhounds", "footmans", "frost", "gargoyleking", "gargoyles", "gargoylesquad", "giant", "heavymissiles", "ironcoffin", "jouster", "judge", "lancer", "legion", "micromissiles", "nagmash", "nukemissile", "ogre", "panzerkunstler", "pixiegeode", "pixieking", "pixies", "psabu", "sentries", "sentryshelter", "shadowvision", "starfire", "starfiresquadron", "tombstone", "trainees", "valkyrie", "voidcreeper", "wasp" ), [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 52 ) ] ]
@@ -160,6 +162,7 @@ drag_margin_v_enabled = false
 [node name="Tween" type="Tween" parent="InitialCenter"]
 
 [node name="Pages" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -179,27 +182,6 @@ editor/display_folded = true
 margin_left = -1.0
 margin_right = -1.0
 lobby = NodePath("../..")
-
-[node name="IndicatorRed" parent="Pages/Battle/Background/Mothership/Nodes/Body/BodyL/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorGreen" parent="Pages/Battle/Background/Mothership/Nodes/Body/BodyR/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorRed" parent="Pages/Battle/Background/Mothership/Nodes/Nose/NoseL/Sprite" index="1"]
-frame = 1
-
-[node name="IndicatorRed1" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="1"]
-frame = 1
-
-[node name="IndicatorRed2" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="2"]
-frame = 1
-
-[node name="IndicatorGreen1" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="3"]
-frame = 0
-
-[node name="IndicatorGreen2" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="4"]
-frame = 0
 
 [node name="FreeChest" parent="Pages/Battle/Chests" index="0"]
 lobby = NodePath("../../../..")
@@ -273,8 +255,14 @@ group = SubResource( 1 )
 [node name="Shop" parent="HeadupDisplay/Bot" index="4"]
 group = SubResource( 1 )
 
+[node name="Control" parent="HeadupDisplay/ChestOpen" index="5"]
+editor/display_folded = true
+
 [node name="Coin" parent="HeadupDisplay/ChestOpen/Coin/Slot/Galacticoin" index="0"]
-frame = 0
+frame = 6
+
+[node name="Cash" parent="HeadupDisplay/ChestOpen" index="8"]
+editor/display_folded = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 86 )

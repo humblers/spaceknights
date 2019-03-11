@@ -1,14 +1,15 @@
-extends Control
+extends CanvasLayer
 
 var param = null
 var thread = null
-onready var progress = $ProgressBar
+onready var progress = $Control/ProgressBar
+onready var visible_control = $Control
 
 func _ready():
-	visible = false
+	visible_control.visible = false
 
 func goto_scene(path, param = null):
-	visible = true
+	visible_control.visible = true
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = self
 	progress.value = 0
@@ -32,7 +33,6 @@ func _load_scene(path):
 		elif err != OK:
 			print("error loading %s" % path)
 			break
-	
 	call_deferred("_load_done", res)
 
 func _load_done(res):
@@ -52,5 +52,7 @@ func _load_done(res):
 			new_scene.set(k, param[k])
 
 	get_tree().root.add_child(new_scene)
+	if new_scene.has_user_signal("load_completed"):
+		yield(new_scene, "load_completed")
 	get_tree().current_scene = new_scene
-	visible = false
+	visible_control.visible = false

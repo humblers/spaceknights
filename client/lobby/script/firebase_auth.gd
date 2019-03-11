@@ -71,18 +71,15 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 
 func save_email_password(email, password):
 	var config = ConfigFile.new()
-	assert(config.load(user.CONFIG_FILE_NAME) == OK)
 	config.set_value("desktop_auth", "email", email)
 	config.set_value("desktop_auth", "password", password)
 	config.save(user.CONFIG_FILE_NAME)
 
 func sign_in_with_email_and_password_if_exists():
 	var config = ConfigFile.new()
-	assert(config.load(user.CONFIG_FILE_NAME) == OK)
-	if not config.has_section_key("desktop_auth", "email"):
-		call_deferred("emit_signal", "on_sign_in_complete", {"auth_error": kAuthErrorFailure})
-		return
-	if not config.has_section_key("desktop_auth", "password"):
+	if config.load(user.CONFIG_FILE_NAME) != OK\
+			or not config.has_section_key("desktop_auth", "email")\
+			or not config.has_section_key("desktop_auth", "password"):
 		call_deferred("emit_signal", "on_sign_in_complete", {"auth_error": kAuthErrorFailure})
 		return
 	sign_in_with_email_and_password(config.get_value("desktop_auth", "email"), config.get_value("desktop_auth", "password"))
