@@ -18,7 +18,7 @@ func RequestCompleted(result, response_code, headers, body):
 	elif response_code != HTTPClient.RESPONSE_OK:
 		dict = {"ErrMessage": "response code not ok"}
 	else:
-		dict = parse_json(body.get_string_from_utf8())
+		dict = static_func.cast_float_to_int(parse_json(body.get_string_from_utf8()))
 	emit_signal("receive_response", [dict.ErrMessage == "", dict])
 	http_manager.requestNext()
 	call_deferred("free")

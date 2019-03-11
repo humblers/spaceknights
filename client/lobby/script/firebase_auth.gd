@@ -14,7 +14,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			request_google_id_token()
 			var res = yield(self, "on_request_google_id_token_complete")
 			if res.auth_error != kAuthErrorNone:
-				global_object.lobby.http_manager.handle_error(res.error_message)
+				global_object.lobby.HandleError(res.error_message)
 				return
 			token = res.google_id_token
 			link_with_google_id_token(token)
@@ -22,7 +22,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			request_facebook_access_token()
 			var res = yield(self, "on_request_facebook_access_token_complete")
 			if res.auth_error != kAuthErrorNone:
-				global_object.lobby.http_manager.handle_error(res.error_message)
+				global_object.lobby.HandleError(res.error_message)
 				return
 			token = res.access_token
 			link_with_facebook_access_token(token)
@@ -32,7 +32,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			assert(typeof(arg2) == TYPE_STRING)
 			link_with_email_and_password(arg1, arg2)
 		_:
-			global_object.lobby.http_manager.handle_error(idp)
+			global_object.lobby.HandleError(idp)
 			return
 	var res = yield(self, "on_link_complete")
 	match res.auth_error:
@@ -47,7 +47,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			if ok:
 				change_account(idp, token, arg1, arg2)
 		_:
-			global_object.lobby.http_manager.handle_error(res.error_message)
+			global_object.lobby.HandleError(res.error_message)
 
 func change_account(idp, token, arg1 = null, arg2 = null):
 	match idp:
@@ -58,11 +58,11 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 		EMAIL_PASSWORD_PROVIDER_ID:
 			sign_in_with_email_and_password(arg1, arg2)
 		_:
-			global_object.lobby.http_manager.handle_error(idp)
+			global_object.lobby.HandleError(idp)
 			return
 	var res = yield(self, "on_sign_in_complete")
 	if res.auth_error != kAuthErrorNone:
-		global_object.lobby.http_manager.handle_error(res.error_message)
+		global_object.lobby.HandleError(res.error_message)
 		return
 	if idp == EMAIL_PASSWORD_PROVIDER_ID:
 		save_email_password(arg1, arg2)

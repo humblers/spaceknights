@@ -7,8 +7,6 @@ export(Color) var rarity_panel_rare
 export(Color) var rarity_panel_epic
 export(Color) var rarity_panel_legendary
 
-export(NodePath) onready var hud = get_node(hud)
-
 export(NodePath) onready var main_popup = get_node(main_popup)
 export(NodePath) onready var sub_popup = get_node(sub_popup)
 
@@ -39,7 +37,7 @@ func _ready():
 	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
 
 func useButtonUp():
-	hud.lobby.page_card.set_picked_card(card)
+	global_object.lobby.page_card.set_picked_card(card)
 	main_popup.hide()
 
 func isUpgradable():
@@ -54,20 +52,19 @@ func upgradeButtonUp():
 		main_popup.hide()
 		return
 	var params = {"Name": card.Name}
-	var req = hud.lobby.http_manager.new_request(
-			HTTPClient.METHOD_POST, "/edit/card/upgrade",
-			params)
-	var response = yield(req, "response")
+	var req = global_object.lobby.http_manager.RequestToLobby(
+			"/edit/card/upgrade", params)
+	var response = yield(req, "receive_response")
 	if not response[0]:
-		hud.lobby.http_manager.handle_error(response[1].ErrMessage)
+		global_object.lobby.HandleError(response[1].ErrMessage)
 		return
 	var c = response[1].Card
 	user.Cards[card.Name] = c
 	user.Galacticoin = response[1].Galacticoin
 	c.Name = card.Name
 	card = data.NewCard(c)
-	hud.lobby.Invalidate()
-	hud.cardupgrade_dialog.PopUp(card)
+	global_object.lobby.Invalidate()
+	global_object.lobby.hud.cardupgrade_dialog.PopUp(card)
 	main_popup.hide()
 
 func PopUp(card, enable_use = false):
@@ -75,8 +72,8 @@ func PopUp(card, enable_use = false):
 	self.unit = data.units[card.Unit]
 
 	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
-	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	icon.texture = global_object.lobby.resource_manager.get_card_icon(card.Name)
+	frame.texture = global_object.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	use_btn.visible = enable_use
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)

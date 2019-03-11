@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -89,8 +90,13 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if !route.authUnnecessary {
+		data, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			b.response = &CommonResponse{"invalid request"}
+			return
+		}
 		var req HumblerToken
-		if err := parseJSON(r.Body, &req); err != nil {
+		if err := json.Unmarshal(data, &req); err != nil {
 			b.response = &CommonResponse{"invalid request"}
 			return
 		}
@@ -99,6 +105,7 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		b.uid = req.UID
+		r.Body = ioutil.NopCloser(bytes.NewReader(data))
 	}
 	route.handler(b, w, r)
 }

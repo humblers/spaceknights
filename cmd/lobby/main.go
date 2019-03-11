@@ -40,6 +40,9 @@ func main() {
 	m.Handle(lobby.NewChestRouter("/chest/", p, logger))
 	path, mm := lobby.NewMatchMaker("/match/", p, logger)
 	m.Handle(path, mm)
+	m.HandleFunc("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 
 	// gracefully shutdown http server
 	hs := &http.Server{Addr: ":8080", Handler: m}

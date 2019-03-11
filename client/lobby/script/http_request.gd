@@ -12,6 +12,8 @@ func _ready():
 	lobby_host = config.get("LOBBY_HOST")
 	if lobby_host == null:
 		lobby_host = LOBBY_DEFAULT_HOST
+	if not lobby_host.begins_with("http"):
+		lobby_host = "http://%s:8080" % lobby_host
 
 func RequestToLobby(path, params = {}):
 	params["UID"] = user.Id
