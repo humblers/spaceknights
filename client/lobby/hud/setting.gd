@@ -48,6 +48,7 @@ func select_language():
 		return
 	user.locale = "en" if user.locale != "en" else "ko"
 	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) in [OK, ERR_FILE_NOT_FOUND])
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")

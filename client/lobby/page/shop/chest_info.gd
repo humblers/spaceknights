@@ -26,7 +26,6 @@ onready var arrow_1 = $Popup/Panel/Arrow1
 onready var arrow_2 = $Popup/Panel/Arrow2
 onready var arrow_3 = $Popup/Panel/Arrow3
 
-var lobby
 var chest
 var slot
 
@@ -44,12 +43,12 @@ func open(use_cash=false):
 	var req = lobby_request.New("/chest/open", params)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.HandleError(response[1].ErrMessage)
+		get_tree().current_scene.HandleError(response[1].ErrMessage)
 		return
 	var gold = response[1].Gold
 	var cards = response[1].Cards
 	var used_cash = response[1].UsedCash
-	
+
 	# apply and invalidate ui
 	user.Dimensium -= used_cash
 	user.BattleChestSlots[slot] = null
@@ -59,12 +58,17 @@ func open(use_cash=false):
 		if not user.Cards.has(name):
 			user.Cards[name] = {"Level": 0, "Holding": 0}
 		user.Cards[name].Holding += count
-	lobby.Invalidate()
-	lobby.hud.chestopen_dialog.PopUp(chest.Name, gold, 0, cards)
+	get_tree().current_scene.Invalidate()
+
+	# for test
+	#get_tree().current_scene.hud.chestopen_dialog.PopUp(chest.Name, gold, 0, cards)
+	var cash = response[1].Cash
+	user.Dimensium += cash
+	get_tree().current_scene.hud.chestopen_dialog.PopUp(chest.Name, gold, cash, cards)
+
 	visible = false
 
-func PopUp(lobby, chest, slot):
-	self.lobby = lobby
+func PopUp(chest, slot):
 	self.chest = chest
 	self.slot = slot
 	var arena = data.ArenaFromRank(chest.AcquiredRank)
