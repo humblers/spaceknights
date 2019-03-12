@@ -16,8 +16,8 @@ func open():
 	if progress.value < progress.max_value:
 		return
 	var params = {"Name": "Medal"}
-	var req = lobby.http_manager.RequestToLobby("/chest/open", params)
-	var response = yield(req, "receive_response")
+	var req = lobby_request.New("/chest/open", params)
+	var response = yield(req, "ReceiveResponse")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return

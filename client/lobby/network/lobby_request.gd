@@ -15,7 +15,7 @@ func _ready():
 	if not lobby_host.begins_with("http"):
 		lobby_host = "http://%s:8080" % lobby_host
 
-func RequestToLobby(path, params = {}):
+func New(path, params = {}):
 	params["UID"] = user.Id
 	params["HumblerToken"] = user.HumblerToken
 	params["IssuedAt"] = user.IssuedAt
@@ -33,7 +33,7 @@ func requestNext():
 				HTTPClient.METHOD_POST, next.body)
 	match err:
 		OK:
-			self.connect("request_completed", next, "RequestCompleted")
+			self.connect("request_completed", next, "requestCompleted")
 		ERR_BUSY:
 			queued_requests.push_front(next)
 		_:

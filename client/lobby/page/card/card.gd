@@ -133,8 +133,8 @@ func current_mode():
 
 func button_up_deck_num(btn):
 	var pressed_num = int(btn.name[-1])
-	var request = lobby.http_manager.RequestToLobby("/edit/deck/select", {"num":pressed_num})
-	var response = yield(request, "receive_response")
+	var request = lobby_request.New("/edit/deck/select", {"num":pressed_num})
+	var response = yield(request, "ReceiveResponse")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return
@@ -158,7 +158,7 @@ func button_up_deck_item(btn):
 		c = c.duplicate(true)
 		c.Side = side
 		params.deck.append(c)
-	var request = lobby.http_manager.RequestToLobby("/edit/deck/set", params)
+	var request = lobby_request.New("/edit/deck/set", params)
 
 	var origin = picked.rect_global_position
 	tween.interpolate_property(
@@ -177,7 +177,7 @@ func button_up_deck_item(btn):
 	)
 	tween.start()
 
-	var response = yield(request, "receive_response")
+	var response = yield(request, "ReceiveResponse")
 	if tween.is_active():
 		yield(tween, "tween_completed")
 	picked.animation_player.play("changed")

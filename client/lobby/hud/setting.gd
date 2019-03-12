@@ -21,7 +21,7 @@ func _ready():
 		link_email.connect("button_up", self, "email_link")
 
 func Invalidate():
-	var firebase = global_object.lobby.firebase_auth_manager
+	var firebase = get_tree().current_scene.firebase_auth_manager
 	if not link_google.is_connected("button_up", firebase, "link_account"):
 		link_google.connect("button_up", firebase, "link_account", [firebase.GOOGLE_PROVIDER_ID, self])
 	if not link_facebook.is_connected("button_up", firebase, "link_account"):
@@ -41,7 +41,7 @@ func Invalidate():
 	current_language.SetText("ID_SETTING_%s" % user.locale.to_upper())
 
 func select_language():
-	var modal = global_object.lobby.hud.confirm_modal
+	var modal = get_tree().current_scene.hud.confirm_modal
 	modal.PopUp("ID_MODAL_CONFIRM_CHANGE_LANGUAGE")
 	var ok = yield(modal, "modal_confirmed")
 	if not ok:
@@ -50,7 +50,6 @@ func select_language():
 	var config = ConfigFile.new()
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
-	global_object.lobby = null
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
 
 func email_link():
@@ -59,5 +58,5 @@ func email_link():
 	$PopupEmail.hide()
 	var email = $PopupEmail/VBoxContainer/HBoxContainer/TextEditEmail.text
 	var password = $PopupEmail/VBoxContainer/HBoxContainer2/TextEditPassword.text
-	var firebase = global_object.lobby.firebase_auth_manager
+	var firebase = get_tree().current_scene.firebase_auth_manager
 	firebase.link_account(firebase.EMAIL_PASSWORD_PROVIDER_ID, self, email, password)

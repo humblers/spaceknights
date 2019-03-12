@@ -4,7 +4,6 @@ const PAGES = ["Battle", "Card", "Explore", "Shop", "Social"]
 
 export(NodePath) onready var hud = get_node(hud)
 export(NodePath) onready var input_manager = get_node(input_manager)
-export(NodePath) onready var http_manager = get_node(http_manager)
 export(NodePath) onready var firebase_auth_manager = get_node(firebase_auth_manager)
 export(NodePath) onready var resource_manager = get_node(resource_manager)
 export(NodePath) onready var page_battle = get_node(page_battle)
@@ -14,7 +13,6 @@ export(NodePath) onready var page_shop = get_node(page_shop)
 export(NodePath) onready var page_social = get_node(page_social)
 
 func _ready():
-	global_object.lobby = self
 	add_user_signal("load_completed")
 	input_manager.move_to_page(PAGES[0])
 	requestNewChest()
@@ -22,13 +20,13 @@ func _ready():
 
 func load_data():
 	for path in ["cards", "units", "Chests", "ChestOrder"]:
-		var response = yield(http_manager.RequestToLobby("/data/%s" % path.to_lower()), "receive_response")
+		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "ReceiveResponse")
 		if not response[0]:
 			handleErrorInLoadStep(response[1].ErrMessage)
 			return
 		data.set(path, static_func.cast_float_to_int(parse_json(response[1]["Data"])))
 	for path in ["upgrade"]:
-		var response = yield(http_manager.RequestToLobby("/data/%s" % path.to_lower()), "receive_response")
+		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "ReceiveResponse")
 		if not response[0]:
 			handleErrorInLoadStep(response[1].ErrMessage)
 			return
@@ -51,7 +49,7 @@ func login():
 			handleErrorInLoadStep(res.error_message)
 			return
 		params["firebasetoken"] = res.token
-	var response = yield(http_manager.RequestToLobby("/auth/login", params), "receive_response")
+	var response = yield(lobby_request.New("/auth/login", params), "ReceiveResponse")
 	if not response[0]:
 		handleErrorInLoadStep(response[1].ErrMessage)
 		return
@@ -88,8 +86,8 @@ func requestNewChest():
 	if not user.request_new_chest:
 		return
 	user.request_new_chest = false
-	var req = http_manager.RequestToLobby("/chest/new", { "Name": "Battle", "Rank": user.Rank })
-	var response = yield(req, "receive_response")
+	var req = lobby_request.New("/chest/new", { "Name": "Battle", "Rank": user.Rank })
+	var response = yield(req, "ReceiveResponse")
 	if not response[0]:
 		HandleError(response[1].ErrMessage)
 		return

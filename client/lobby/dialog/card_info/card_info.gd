@@ -37,7 +37,7 @@ func _ready():
 	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
 
 func useButtonUp():
-	global_object.lobby.page_card.set_picked_card(card)
+	get_tree().current_scene.page_card.set_picked_card(card)
 	main_popup.hide()
 
 func isUpgradable():
@@ -52,19 +52,19 @@ func upgradeButtonUp():
 		main_popup.hide()
 		return
 	var params = {"Name": card.Name}
-	var req = global_object.lobby.http_manager.RequestToLobby(
+	var req = lobby_request.New(
 			"/edit/card/upgrade", params)
-	var response = yield(req, "receive_response")
+	var response = yield(req, "ReceiveResponse")
 	if not response[0]:
-		global_object.lobby.HandleError(response[1].ErrMessage)
+		get_tree().current_scene.HandleError(response[1].ErrMessage)
 		return
 	var c = response[1].Card
 	user.Cards[card.Name] = c
 	user.Galacticoin = response[1].Galacticoin
 	c.Name = card.Name
 	card = data.NewCard(c)
-	global_object.lobby.Invalidate()
-	global_object.lobby.hud.cardupgrade_dialog.PopUp(card)
+	get_tree().current_scene.Invalidate()
+	get_tree().current_scene.hud.cardupgrade_dialog.PopUp(card)
 	main_popup.hide()
 
 func PopUp(card, enable_use = false):
@@ -72,8 +72,8 @@ func PopUp(card, enable_use = false):
 	self.unit = data.units[card.Unit]
 
 	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
-	icon.texture = global_object.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = global_object.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	icon.texture = get_tree().current_scene.resource_manager.get_card_icon(card.Name)
+	frame.texture = get_tree().current_scene.resource_manager.get_card_frame(card.Type, card.Rarity)
 	use_btn.visible = enable_use
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)

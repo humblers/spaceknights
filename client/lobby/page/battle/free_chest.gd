@@ -29,8 +29,8 @@ func open():
 	if time_left() > 0:
 		return
 	var params = {"Name": "Free"}
-	var req = lobby.http_manager.RequestToLobby("/chest/open", params)
-	var response = yield(req, "receive_response")
+	var req = lobby_request.New("/chest/open", params)
+	var response = yield(req, "ReceiveResponse")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return
