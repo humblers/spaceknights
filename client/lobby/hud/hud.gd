@@ -18,9 +18,10 @@ export(NodePath) onready var dimensium_label = get_node(dimensium_label)
 export(NodePath) onready var cardinfo_dialog = get_node(cardinfo_dialog)
 export(NodePath) onready var cardupgrade_dialog = get_node(cardupgrade_dialog)
 export(NodePath) onready var requesting_dialog = get_node(requesting_dialog)
-export(NodePath) onready var error_dialog = get_node(error_dialog)
 export(NodePath) onready var chestinfo_dialog = get_node(chestinfo_dialog)
 export(NodePath) onready var chestopen_dialog = get_node(chestopen_dialog)
+
+export(NodePath) onready var message_modal = get_node(message_modal)
 export(NodePath) onready var confirm_modal = get_node(confirm_modal)
 
 func _ready():

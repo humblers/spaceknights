@@ -59,11 +59,11 @@ func recursive_light_masking(node, mask):
 			recursive_light_masking(child, mask)
 
 func match_request():
-	var req = lobby.http_manager.new_request(HTTPClient.METHOD_POST, "/match/request")
+	var req = lobby_request.New("/match/request")
 	lobby.hud.requesting_dialog.pop(req)
-	var response = yield(req, "response")
+	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.http_manager.handle_error(response[1].ErrMessage)
+		lobby.HandleError(response[1].ErrMessage)
 		return
 	var cfg = response[1].Config
 	var addr = cfg.Address.split(":")
@@ -79,4 +79,5 @@ func show_config():
 	setting.Invalidate()
 	setting.popup()
 
-
+func PlayAppearAni():
+	$Background/Mothership/AppearAni.play("appear")

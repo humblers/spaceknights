@@ -29,12 +29,10 @@ func open():
 	if time_left() > 0:
 		return
 	var params = {"Name": "Free"}
-	var req = lobby.http_manager.new_request(
-			HTTPClient.METHOD_POST, "/chest/open",
-			params)
-	var response = yield(req, "response")
+	var req = lobby_request.New("/chest/open", params)
+	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.http_manager.handle_error(response[1].ErrMessage)
+		lobby.HandleError(response[1].ErrMessage)
 		return
 	var gold = response[1].Gold
 	var cash = response[1].Cash

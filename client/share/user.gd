@@ -7,7 +7,9 @@ const CONFIG_FILE_NAME = "user://settings.cfg"
 
 var request_new_chest = false
 
-var http_cookie_str
+var HumblerToken = ""
+var IssuedAt = 0
+
 var locale
 
 var Id

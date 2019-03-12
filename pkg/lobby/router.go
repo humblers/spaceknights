@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/humblers/spaceknights/pkg/token"
 )
 
 type methodType int
@@ -59,7 +61,7 @@ type route struct {
 
 type Router struct {
 	path  string
-	route map[string]route
+	route map[string]*route
 
 	redisPool *redis.Pool
 	logger    *log.Logger
@@ -87,10 +89,23 @@ func (rt *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		b.response = &CommonResponse{"405 method not allowed"}
 		return
 	}
-
 	if !route.authUnnecessary {
-		//TODO: verify auth and get uid by token from header/payload whatever. then branching succ/fail case
-		b.uid = r.Header.Get("Cookie")
+		data, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			b.response = &CommonResponse{"invalid request"}
+			return
+		}
+		var req HumblerToken
+		if err := json.Unmarshal(data, &req); err != nil {
+			b.response = &CommonResponse{"invalid request"}
+			return
+		}
+		if err := token.VerifyToken(req.UID, req.HumblerToken, req.IssuedAt); err != nil {
+			b.response = &CommonResponse{"token not verified"}
+			return
+		}
+		b.uid = req.UID
+		r.Body = ioutil.NopCloser(bytes.NewReader(data))
 	}
 	route.handler(b, w, r)
 }
@@ -100,9 +115,9 @@ func (rt *Router) registerHandler(method methodType, path string, h handler) {
 		panic(errors.New("path already exist"))
 	}
 	if rt.route == nil {
-		rt.route = make(map[string]route)
+		rt.route = make(map[string]*route)
 	}
-	rt.route[path] = route{
+	rt.route[path] = &route{
 		method:  method,
 		handler: h,
 	}
