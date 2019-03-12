@@ -37,4 +37,4 @@ func requestNext():
 		ERR_BUSY:
 			queued_requests.push_front(next)
 		_:
-			next.call_deffered("RequestCompleted", [err, OK, PoolStringArray(), "{}"])
+			next.call_deffered("requestCompleted", [err, OK, PoolStringArray(), "{}"])
