@@ -54,7 +54,7 @@ func upgradeButtonUp():
 	var params = {"Name": card.Name}
 	var req = lobby_request.New(
 			"/edit/card/upgrade", params)
-	var response = yield(req, "ReceiveResponse")
+	var response = yield(req, "Completed")
 	if not response[0]:
 		get_tree().current_scene.HandleError(response[1].ErrMessage)
 		return

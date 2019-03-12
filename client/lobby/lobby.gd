@@ -20,13 +20,13 @@ func _ready():
 
 func load_data():
 	for path in ["cards", "units", "Chests", "ChestOrder"]:
-		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "ReceiveResponse")
+		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "Completed")
 		if not response[0]:
 			handleErrorInLoadStep(response[1].ErrMessage)
 			return
 		data.set(path, static_func.cast_float_to_int(parse_json(response[1]["Data"])))
 	for path in ["upgrade"]:
-		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "ReceiveResponse")
+		var response = yield(lobby_request.New("/data/%s" % path.to_lower()), "Completed")
 		if not response[0]:
 			handleErrorInLoadStep(response[1].ErrMessage)
 			return
@@ -49,7 +49,7 @@ func login():
 			handleErrorInLoadStep(res.error_message)
 			return
 		params["firebasetoken"] = res.token
-	var response = yield(lobby_request.New("/auth/login", params), "ReceiveResponse")
+	var response = yield(lobby_request.New("/auth/login", params), "Completed")
 	if not response[0]:
 		handleErrorInLoadStep(response[1].ErrMessage)
 		return
@@ -87,7 +87,7 @@ func requestNewChest():
 		return
 	user.request_new_chest = false
 	var req = lobby_request.New("/chest/new", { "Name": "Battle", "Rank": user.Rank })
-	var response = yield(req, "ReceiveResponse")
+	var response = yield(req, "Completed")
 	if not response[0]:
 		HandleError(response[1].ErrMessage)
 		return

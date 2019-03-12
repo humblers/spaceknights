@@ -61,7 +61,7 @@ func recursive_light_masking(node, mask):
 func match_request():
 	var req = lobby_request.New("/match/request")
 	lobby.hud.requesting_dialog.pop(req)
-	var response = yield(req, "ReceiveResponse")
+	var response = yield(req, "Completed")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return

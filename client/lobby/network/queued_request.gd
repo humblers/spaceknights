@@ -4,7 +4,7 @@ var http_manager
 var url
 var body
 
-signal ReceiveResponse(success, body)
+signal Completed(success, body)
 
 func _init(http_manager, url, body):
 	self.http_manager = http_manager
@@ -19,6 +19,6 @@ func requestCompleted(result, response_code, headers, body):
 		dict = {"ErrMessage": "response code not ok"}
 	else:
 		dict = static_func.cast_float_to_int(parse_json(body.get_string_from_utf8()))
-	emit_signal("ReceiveResponse", [dict.ErrMessage == "", dict])
+	emit_signal("Completed", [dict.ErrMessage == "", dict])
 	http_manager.requestNext()
 	call_deferred("free")

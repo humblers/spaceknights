@@ -30,7 +30,7 @@ func open():
 		return
 	var params = {"Name": "Free"}
 	var req = lobby_request.New("/chest/open", params)
-	var response = yield(req, "ReceiveResponse")
+	var response = yield(req, "Completed")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return

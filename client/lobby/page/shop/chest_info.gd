@@ -42,7 +42,7 @@ func _input(event):
 func open(use_cash=false):
 	var params = {"Name": chest.Name, "Slot": slot, "UseCash": use_cash}
 	var req = lobby_request.New("/chest/open", params)
-	var response = yield(req, "ReceiveResponse")
+	var response = yield(req, "Completed")
 	if not response[0]:
 		lobby.HandleError(response[1].ErrMessage)
 		return
