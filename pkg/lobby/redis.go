@@ -62,9 +62,9 @@ var initialDeckSlots = [data.DeckSlotSize]deck{
 
 func newUser() *user {
 	if initialCards == nil {
-		initialCards = make(map[string]card, len(data.Cards))
-		for k, _ := range data.Cards {
-			initialCards[k] = card{Holding: data.Upgrade.CardCostToLevel(0, 4)}
+		initialCards = make(map[string]card, len(data.InitialDeck))
+		for _, c := range data.InitialDeck {
+			initialCards[c.Name] = card{}
 		}
 	}
 
