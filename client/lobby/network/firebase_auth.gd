@@ -70,6 +70,7 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 
 func save_email_password(email, password):
 	var config = ConfigFile.new()
+	assert(config.load(user.CONFIG_FILE_NAME) in [OK, ERR_FILE_NOT_FOUND])
 	config.set_value("desktop_auth", "email", email)
 	config.set_value("desktop_auth", "password", password)
 	config.save(user.CONFIG_FILE_NAME)

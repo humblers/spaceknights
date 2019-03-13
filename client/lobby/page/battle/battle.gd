@@ -28,7 +28,7 @@ func _ready():
 	match_btn.connect("button_up", self, "match_request")
 	config_btn.connect("button_up", self, "show_config")
 
-func invalidate():
+func Invalidate():
 	# temporary set uid
 	user_name.text = user.Id
 	rank.text = "%d" % user.Rank

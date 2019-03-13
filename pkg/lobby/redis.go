@@ -67,11 +67,9 @@ func newUser() *user {
 			initialCards[k] = card{Holding: data.Upgrade.CardCostToLevel(0, 4)}
 		}
 	}
-	coin := data.Upgrade.CoinCostToLevel(data.Legendary, 0, 4) * 9
 
 	return &user{
-		//		Galacticoin: data.InitialGalacticoin,
-		Galacticoin:      coin,
+		Galacticoin:      data.InitialGalacticoin,
 		Dimensium:        data.InitialDimensium,
 		Cards:            initialCards,
 		DeckSlots:        initialDeckSlots[0:],

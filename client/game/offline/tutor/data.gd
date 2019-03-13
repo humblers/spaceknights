@@ -47,6 +47,7 @@ const BAD_BEHAVIORS = [
 	UNSTABLE_INPUT,
 ]
 static func pick_bad_behavior(tutor_difficulty):
+	return null # disable
 	if randi() % DIFFICULTY_THRESHOLD > tutor_difficulty:
 		return null
 	return BAD_BEHAVIORS[randi() % len(BAD_BEHAVIORS)]

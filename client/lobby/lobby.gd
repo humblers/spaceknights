@@ -15,7 +15,6 @@ export(NodePath) onready var page_social = get_node(page_social)
 func _ready():
 	add_user_signal("load_completed")
 	input_manager.move_to_page(PAGES[0])
-	requestNewChest()
 	login()
 
 func load_data():
@@ -68,7 +67,7 @@ func login():
 
 func Invalidate():
 	hud.invalidate()
-	page_battle.invalidate()
+	page_battle.Invalidate()
 	page_card.Invalidate()
 
 func handleErrorInLoadStep(message):
@@ -81,13 +80,3 @@ func HandleError(message, back_to_company_logo = true):
 		return
 	yield(hud.message_modal, "popup_hide")
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
-
-func requestNewChest():
-	if not user.request_new_chest:
-		return
-	user.request_new_chest = false
-	var req = lobby_request.New("/chest/new", { "Name": "Battle", "Rank": user.Rank })
-	var response = yield(req, "Completed")
-	if not response[0]:
-		HandleError(response[1].ErrMessage)
-		return

@@ -7,8 +7,8 @@ const EnergyBoostAfter = 120 * StepPerSec
 
 const TileSizeInPixel = 50
 
-const InitialDimensium = 100
-const InitialGalacticoin = 100
+const InitialDimensium = 1000
+const InitialGalacticoin = 0
 
 const DeckSlotSize = 5
 

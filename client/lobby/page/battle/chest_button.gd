@@ -1,7 +1,6 @@
 extends Button
 
 export(int, 0, 7) var slot = 0
-export(NodePath) onready var lobby = get_node(lobby)
 export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)
 export(NodePath) onready var cost_label = get_node(cost_label)
@@ -39,4 +38,4 @@ func time_left():
 func open():
 	if chest == null:
 		return
-	lobby.hud.chestinfo_dialog.PopUp(lobby, chest, slot)
+	get_tree().current_scene.hud.chestinfo_dialog.PopUp(chest, slot)

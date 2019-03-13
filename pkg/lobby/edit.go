@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/humblers/spaceknights/pkg/data"
@@ -25,6 +26,10 @@ func NewEditRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Hand
 	e.Post("deck/select", e.deckSelect)
 	e.Post("deck/set", e.deckSet)
 	e.Post("card/upgrade", e.cardUpgrade)
+
+	// for test
+	e.Post("chest/fill", e.fillChest)
+	e.Post("rank/set", e.setRank)
 	return path, http.TimeoutHandler(e, TimeoutDefault, TimeoutMessage)
 }
 
@@ -127,4 +132,92 @@ func (e *editRouter) cardUpgrade(b *bases, w http.ResponseWriter, r *http.Reques
 		return
 	}
 	resp.Card = card
+}
+
+// for test. below code must remove before production level
+type ChestFillRequest struct {
+	Rank int
+}
+
+type ChestFillResponse struct {
+	ErrMessage   string
+	MedalChest   int
+	BattleChests []*data.Chest
+}
+
+func (e *editRouter) fillChest(b *bases, w http.ResponseWriter, r *http.Request) {
+	rc := b.redisConn
+	var resp ChestFillResponse
+	b.response = &resp
+
+	var req ChestFillRequest
+	var err error
+	if err := parseJSON(r.Body, &req); err != nil {
+		resp.ErrMessage = err.Error()
+		return
+	}
+
+	key_slots := fmt.Sprintf("%v:battle-chest-slots", b.uid)
+	v, _ := rc.Do("LRANGE", key_slots, 0, -1)
+	slice := v.([]interface{})
+	for i, v := range slice {
+		var chest *data.Chest
+		json.Unmarshal(v.([]byte), &chest)
+		if chest != nil {
+			resp.BattleChests = append(resp.BattleChests, chest)
+			continue
+		}
+
+		// empty slot
+		key_order := fmt.Sprintf("%v:battle-chest-order", b.uid)
+		order, _ := redis.Int(rc.Do("GET", key_order))
+		order = order % len(data.ChestOrder)
+		name := data.ChestOrder[order]
+		if _, err := rc.Do("INCR", key_order); err != nil {
+			e.logger.Print(err)
+		}
+		time := time.Now().Unix()
+		chest = &data.Chest{
+			Name:         name,
+			AcquiredRank: req.Rank,
+			AcquiredAt:   time,
+		}
+		json, _ := json.Marshal(chest)
+		if _, err := rc.Do("LSET", key_slots, i, json); err != nil {
+			panic(err)
+		}
+		resp.BattleChests = append(resp.BattleChests, chest)
+	}
+
+	key_medal_chest := fmt.Sprintf("%v:medal-chest", b.uid)
+	resp.MedalChest, err = redis.Int(rc.Do("INCRBY", key_medal_chest, 10))
+	if err != nil {
+		panic(err)
+	}
+}
+
+type SetRankRequestResponse struct {
+	ErrMessage string
+	Rank       int
+	Medal      int
+}
+
+func (e *editRouter) setRank(b *bases, w http.ResponseWriter, r *http.Request) {
+	rc := b.redisConn
+	var payload SetRankRequestResponse
+	b.response = &payload
+
+	if err := parseJSON(r.Body, &payload); err != nil {
+		payload.ErrMessage = err.Error()
+		return
+	}
+
+	if _, err := rc.Do("SET", fmt.Sprintf("%v:rank", b.uid), payload.Rank); err != nil {
+		payload.ErrMessage = err.Error()
+		return
+	}
+	if _, err := rc.Do("SET", fmt.Sprintf("%v:medal", b.uid), payload.Medal); err != nil {
+		payload.ErrMessage = err.Error()
+		return
+	}
 }

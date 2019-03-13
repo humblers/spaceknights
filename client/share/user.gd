@@ -5,8 +5,6 @@ const KNIGHT_SIDES = ["center", "left", "right"]
 const SQUIRE_COUNT = 6
 const CONFIG_FILE_NAME = "user://settings.cfg"
 
-var request_new_chest = false
-
 var HumblerToken = ""
 var IssuedAt = 0
 
