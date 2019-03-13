@@ -42,6 +42,7 @@ func _physics_process(delta):
 	if game.frame % game.frame_per_step == 0:
 		if game.Over():
 			set_physics_process(false)
+			# must delete below code. before production level
 			if user.IssuedAt <= 0:
 				return
 			if game.score("Blue") > game.score("Red"):
