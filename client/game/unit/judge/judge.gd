@@ -8,6 +8,7 @@ var cast = 0
 var castPosX = 0
 var castPosY = 0
 var retargeting = false
+var skillstart = false
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -85,12 +86,16 @@ func Update():
 		freeze -= 1
 		return
 	if cast > 0:
+		if skillstart == false:
+			bulletrainClient()
+			skillstart = true
 		if cast == preCastDelay() + 1:
 			bulletrain()
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
 			z_index = Z_INDEX[.Layer()]
+			skillstart = false
 		else:
 			cast += 1
 	else:
@@ -175,6 +180,7 @@ func bulletrain():
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(damage, damageType, self)
 	
+func bulletrainClient():
 	# client only
 	var skill = $ResourcePreloader.get_resource("bulletrain").instance()
 	game.get_node("Skills").add_child(skill)
