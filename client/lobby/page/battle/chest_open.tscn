@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://lobby/page/battle/chest_open.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=20]
 [ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=21]
 [ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=22]
+[ext_resource path="res://lobby/page/battle/new_card.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.984 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5176 ), 0.0, 0.0, 0, 0 ]
@@ -1721,7 +1722,6 @@ stretch_mode = 2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2( 543, 1751 )
-emitting = false
 amount = 30
 lifetime = 2.5
 speed_scale = 0.5
@@ -1729,7 +1729,7 @@ emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, -300 )
-angular_velocity = 4.58491e-041
+angular_velocity = 4.58491e-41
 radial_accel = 270.0
 radial_accel_random = 1.0
 scale_amount = 10.0
@@ -1737,13 +1737,13 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
 [node name="Light" type="TextureRect" parent="."]
-modulate = Color( 1, 0.478431, 0.341176, 0 )
+modulate = Color( 0.780392, 0.341176, 1, 0.996078 )
 self_modulate = Color( 0.32549, 0.207843, 1, 1 )
 material = ExtResource( 3 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -300.0
-margin_right = 300.0
+margin_left = -540.0
+margin_right = 540.0
 margin_bottom = 1920.0
 texture = ExtResource( 4 )
 expand = true
@@ -1769,22 +1769,18 @@ texture = ExtResource( 6 )
 expand = true
 
 [node name="Control" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1920.0
 
 [node name="Card1" parent="Control" instance=ExtResource( 7 )]
-visible = false
-margin_left = 415.0
-margin_top = 1070.0
-margin_right = 665.0
-margin_bottom = 1400.0
+margin_right = 425.001
+margin_bottom = 630.0
 
 [node name="Card2" parent="Control" instance=ExtResource( 7 )]
-visible = false
-margin_left = 415.0
-margin_top = 1070.0
-margin_right = 665.0
-margin_bottom = 1400.0
+margin_left = 655.0
+margin_right = 905.0
+margin_bottom = 630.0
 
 [node name="Card3" parent="Control" instance=ExtResource( 7 )]
 visible = false
@@ -1813,13 +1809,13 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -350.0
-margin_top = -420.0
+margin_top = -520.0
 margin_right = -350.0
-margin_bottom = -420.0
+margin_bottom = -520.0
 rect_scale = Vector2( 2, 2 )
 
 [node name="Coin" type="Control" parent="."]
-visible = false
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1830,7 +1826,6 @@ margin_right = 20.0
 margin_bottom = 20.0
 
 [node name="Slot" type="Control" parent="Coin"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1842,7 +1837,8 @@ margin_bottom = 428.0
 
 [node name="Form" type="TextureRect" parent="Coin/Slot"]
 self_modulate = Color( 0, 0, 0, 0.580392 )
-margin_right = 760.0
+margin_left = -100.0
+margin_right = 660.0
 margin_bottom = 94.0
 texture = ExtResource( 9 )
 expand = true
@@ -1867,13 +1863,14 @@ custom_fonts/font = SubResource( 4 )
 text = "+9999"
 
 [node name="Galacticoin" type="Node2D" parent="Coin/Slot"]
+editor/display_folded = true
 position = Vector2( 268, 61 )
 
 [node name="Coin" type="AnimatedSprite" parent="Coin/Slot/Galacticoin"]
 position = Vector2( 2, -5 )
 frames = SubResource( 5 )
 animation = "galacticoin"
-frame = 17
+frame = 14
 playing = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
@@ -1889,7 +1886,7 @@ emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( -420, -800 )
-angular_velocity = 2.83772e+020
+angular_velocity = 2.83772e+20
 radial_accel = 90.0
 tangential_accel = -10.0
 angle = 20.0
@@ -1906,7 +1903,7 @@ emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
-angular_velocity = -2.91649e-040
+angular_velocity = -2.91649e-40
 radial_accel = 20.0
 radial_accel_random = 1.0
 scale_amount = 4.0
@@ -1919,7 +1916,7 @@ anims/coin = SubResource( 10 )
 anims/default = SubResource( 11 )
 
 [node name="Cash" type="Control" parent="."]
-visible = false
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1935,9 +1932,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -720.0
-margin_top = 240.0
+margin_top = 230.0
 margin_right = 40.0
-margin_bottom = 334.0
+margin_bottom = 324.0
 
 [node name="Form" type="TextureRect" parent="Cash/Slot"]
 self_modulate = Color( 0, 0, 0, 0.580392 )
@@ -1974,6 +1971,7 @@ position = Vector2( 273, 61 )
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Cash/Slot/Cash"]
 material = SubResource( 12 )
 position = Vector2( 793, 310 )
+emitting = false
 amount = 6
 preprocess = 1.0
 speed_scale = 1.5
@@ -1996,12 +1994,13 @@ color_ramp = SubResource( 14 )
 [node name="Sprite2" type="CPUParticles2D" parent="Cash/Slot/Cash"]
 material = SubResource( 15 )
 position = Vector2( 276, 58 )
+emitting = false
 texture = SubResource( 16 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
-angular_velocity = -2.91649e-040
+angular_velocity = -2.91649e-40
 radial_accel = 20.0
 radial_accel_random = 1.0
 scale_amount = 4.0
@@ -2018,3 +2017,30 @@ anims/open3 = SubResource( 21 )
 anims/open4 = SubResource( 22 )
 anims/open5 = SubResource( 23 )
 
+[node name="Newcard" parent="." instance=ExtResource( 23 )]
+editor/display_folded = true
+visible = false
+mouse_filter = 2
+
+[node name="BG" parent="Newcard" index="0"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="Control" parent="Newcard/BG" index="1"]
+visible = false
+
+[node name="TextureRect" parent="Newcard/BG/Control" index="1"]
+emitting = false
+
+[node name="Card" parent="Newcard/BG/Control" index="2"]
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="CardEffect" parent="Newcard/BG/Control" index="3"]
+margin_left = -245.833
+margin_top = -297.833
+margin_right = 4.16687
+margin_bottom = 2.16669
+rect_scale = Vector2( 2, 2 )
+
+
+[editable path="Newcard"]
