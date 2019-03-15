@@ -51,19 +51,15 @@
 [ext_resource path="res://game/unit/frost/freeze.tscn" type="PackedScene" id=49]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.745126 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=2]
-
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.4648 ), -1.99728, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=3]
-
 colors = PoolColorArray( 0.335938, 0.548645, 1, 1, 0.392157, 0.956863, 1, 0.193373 )
 
 [sub_resource type="SpriteFrames" id=4]
-
 animations = [ {
 "frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
 "loop": true,
@@ -79,7 +75,6 @@ use_parent_material = true
 
 [node name="Body" type="Node2D" parent="Rotatable"]
 use_parent_material = true
-position = Vector2( 0, 14.3333 )
 scale = Vector2( 1.13333, 1.13333 )
 
 [node name="LegL" type="Sprite" parent="Rotatable/Body"]
@@ -101,6 +96,7 @@ offset = Vector2( 30, 0 )
 
 [node name="Main" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
+position = Vector2( 0, 2 )
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 
@@ -114,7 +110,6 @@ normal_map = ExtResource( 7 )
 offset = Vector2( 0, -60 )
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body/Main"]
-editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( -35, 0 )
@@ -145,7 +140,6 @@ offset = Vector2( -8, -20 )
 flip_h = true
 
 [node name="CartridgeL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL"]
-visible = false
 position = Vector2( -18, -24.5 )
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/CartridgeL"]
@@ -179,14 +173,13 @@ scale = Vector2( 0.5, 1 )
 texture = ExtResource( 16 )
 
 [node name="ShotpointL" type="Position2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL"]
-visible = false
 position = Vector2( -3, -70 )
 
 [node name="MuzzleFlash" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL"]
-light_mask = 0
 visible = false
-rotation = -2.98023e-008
-emitting = false
+light_mask = 0
+material = ExtResource( 15 )
+rotation = -2.98023e-08
 speed_scale = 3.0
 texture = ExtResource( 17 )
 emission_shape = 1
@@ -201,13 +194,11 @@ scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/MuzzleFlash"]
-visible = false
 material = ExtResource( 15 )
 scale = Vector2( 1, 1.5 )
 texture = ExtResource( 16 )
 
 [node name="Light" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/MuzzleFlash"]
-visible = false
 modulate = Color( 0.0941176, 0.533333, 1, 1 )
 material = ExtResource( 15 )
 position = Vector2( 0, 20 )
@@ -241,11 +232,10 @@ normal_map = ExtResource( 13 )
 offset = Vector2( 8, -20 )
 
 [node name="CartrigdeR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR"]
-visible = false
 position = Vector2( 18, -24.5 )
 
 [node name="Particle" type="Node2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR"]
-rotation = -2.02656e-006
+rotation = -2.02656e-06
 scale = Vector2( 0.4, 0.4 )
 
 [node name="Ejection" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/CartrigdeR/Particle"]
@@ -276,14 +266,13 @@ scale = Vector2( 0.5, 1 )
 texture = ExtResource( 16 )
 
 [node name="ShotpointR" type="Position2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR"]
-visible = false
 position = Vector2( 3, -70 )
 
 [node name="MuzzleFlash2" type="CPUParticles2D" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR"]
-light_mask = 0
 visible = false
-rotation = -2.98023e-008
-emitting = false
+light_mask = 0
+material = ExtResource( 15 )
+rotation = -2.98023e-08
 speed_scale = 3.0
 texture = ExtResource( 17 )
 emission_shape = 1
@@ -298,13 +287,11 @@ scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/MuzzleFlash2"]
-visible = false
 material = ExtResource( 15 )
 scale = Vector2( 1, 1.5 )
 texture = ExtResource( 16 )
 
 [node name="Light" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/MuzzleFlash2"]
-visible = false
 modulate = Color( 0.0941176, 0.533333, 1, 1 )
 material = ExtResource( 15 )
 position = Vector2( 0, 20 )
