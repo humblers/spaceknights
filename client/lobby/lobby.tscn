@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/script/input.gd" type="Script" id=2]
@@ -80,11 +80,13 @@
 [ext_resource path="res://lobby/page/shop/shop.tscn" type="PackedScene" id=78]
 [ext_resource path="res://lobby/page/card/card.tscn" type="PackedScene" id=79]
 [ext_resource path="res://lobby/page/battle/battle.tscn" type="PackedScene" id=80]
-[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=81]
-[ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=82]
-[ext_resource path="res://lobby/hud/hud.tscn" type="PackedScene" id=83]
-[ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=84]
-
+[ext_resource path="res://lobby/page/card/upgrade_button_t.png" type="Texture" id=81]
+[ext_resource path="res://lobby/page/card/upgrade_button_t_hover.png" type="Texture" id=82]
+[ext_resource path="res://lobby/page/card/upgrade_button_t_pressed.png" type="Texture" id=83]
+[ext_resource path="res://lobby/page/explore/explore.tscn" type="PackedScene" id=84]
+[ext_resource path="res://lobby/page/social/social.tscn" type="PackedScene" id=85]
+[ext_resource path="res://lobby/hud/hud.tscn" type="PackedScene" id=86]
+[ext_resource path="res://game/bgm/viennese.ogg" type="AudioStream" id=87]
 
 [sub_resource type="ButtonGroup" id=1]
 
@@ -153,7 +155,6 @@ drag_margin_v_enabled = false
 [node name="Tween" type="Tween" parent="InitialCenter"]
 
 [node name="Pages" type="Control" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -169,31 +170,9 @@ margin_right = -1440.0
 lobby = NodePath("../..")
 
 [node name="Battle" parent="Pages" instance=ExtResource( 80 )]
-editor/display_folded = true
 margin_left = -1.0
 margin_right = -1.0
 lobby = NodePath("../..")
-
-[node name="IndicatorRed" parent="Pages/Battle/Background/Mothership/Nodes/Body/BodyL/Sprite/Normal" index="0"]
-frame = 0
-
-[node name="IndicatorGreen" parent="Pages/Battle/Background/Mothership/Nodes/Body/BodyR/Sprite/Normal" index="0"]
-frame = 1
-
-[node name="IndicatorRed" parent="Pages/Battle/Background/Mothership/Nodes/Nose/NoseL/Sprite" index="1"]
-frame = 0
-
-[node name="IndicatorRed1" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="1"]
-frame = 0
-
-[node name="IndicatorRed2" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="2"]
-frame = 0
-
-[node name="IndicatorGreen1" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="3"]
-frame = 1
-
-[node name="IndicatorGreen2" parent="Pages/Battle/Background/Mothership/Nodes/Container/Sprite" index="4"]
-frame = 1
 
 [node name="FreeChest" parent="Pages/Battle/Chests" index="0"]
 lobby = NodePath("../../../..")
@@ -201,29 +180,8 @@ lobby = NodePath("../../../..")
 [node name="MedalChest" parent="Pages/Battle/Chests" index="1"]
 lobby = NodePath("../../../..")
 
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/ShotLine1/Slot0" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/ShotLine1/Slot1" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/ShotLine1/Slot2" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/ShotLine1/Slot3" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/SlotLine2/Slot4" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/SlotLine2/Slot5" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/SlotLine2/Slot6" index="2"]
-lobby = NodePath("../../../../../../..")
-
-[node name="Chest" parent="Pages/Battle/BattleChests/Slots/SlotLine2/Slot7" index="2"]
-lobby = NodePath("../../../../../../..")
+[node name="BattleChests" parent="Pages/Battle" index="5"]
+editor/display_folded = true
 
 [node name="SparkTL" parent="Pages/Battle/SlotCover/CoverTop2" index="0"]
 angular_velocity = 360.0
@@ -237,18 +195,30 @@ angular_velocity = 360.0
 [node name="SparkTL3" parent="Pages/Battle/SlotCover/CoverBottom" index="1"]
 angular_velocity = 180.0
 
-[node name="Explore" parent="Pages" instance=ExtResource( 81 )]
+[node name="FillChest" parent="Pages/Battle" index="8"]
+editor/display_folded = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -271.0
+margin_top = -31.5
+margin_right = -20.0
+margin_bottom = 51.5
+texture_normal = ExtResource( 81 )
+texture_pressed = ExtResource( 82 )
+texture_hover = ExtResource( 83 )
+
+[node name="Explore" parent="Pages" instance=ExtResource( 84 )]
 editor/display_folded = true
 margin_left = 1440.0
 margin_right = 1440.0
 lobby = NodePath("../..")
 
-[node name="Social" parent="Pages" instance=ExtResource( 82 )]
+[node name="Social" parent="Pages" instance=ExtResource( 85 )]
 margin_left = 2699.0
 margin_right = 3059.0
 lobby = NodePath("../..")
 
-[node name="HeadupDisplay" parent="." instance=ExtResource( 83 )]
+[node name="HeadupDisplay" parent="." instance=ExtResource( 86 )]
 editor/display_folded = true
 lobby = NodePath("..")
 
@@ -267,17 +237,17 @@ group = SubResource( 1 )
 [node name="Shop" parent="HeadupDisplay/Bot" index="4"]
 group = SubResource( 1 )
 
-[node name="Control" parent="HeadupDisplay/ChestOpen" index="5"]
-editor/display_folded = true
+[node name="ModalConfirm" parent="HeadupDisplay" index="8"]
+visible = false
 
 [node name="Coin" parent="HeadupDisplay/ChestOpen/Coin/Slot/Galacticoin" index="0"]
-frame = 7
+frame = 15
 
-[node name="Cash" parent="HeadupDisplay/ChestOpen" index="8"]
-editor/display_folded = true
+[node name="PopupSetting" parent="HeadupDisplay" index="13"]
+visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 84 )
+stream = ExtResource( 87 )
 volume_db = -10.0
 
 
