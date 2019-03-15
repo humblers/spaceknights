@@ -7,46 +7,36 @@
 [ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=5]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.104 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-
 colors = PoolColorArray( 1, 1, 1, 0.745843, 0, 0.0964661, 0.425781, 1 )
 
 [sub_resource type="Curve" id=3]
-
 _data = [ Vector2( 0, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=4]
-
 offsets = PoolRealArray( 0, 0.428571, 1 )
 colors = PoolColorArray( 0, 0.0322266, 0.375, 0.0025098, 1, 1, 1, 1, 0, 0.105316, 0.792969, 0.00321569 )
 
 [sub_resource type="Curve" id=5]
-
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.3416 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=6]
-
 colors = PoolColorArray( 1, 1, 1, 0, 0, 0.625, 1, 1 )
 
 [sub_resource type="Curve" id=7]
-
 _data = [ Vector2( 0, 0.4296 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9928 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=8]
-
 offsets = PoolRealArray( 0.335165, 0.626374, 1 )
 colors = PoolColorArray( 0.105882, 0.768627, 1, 0, 0.351563, 0.832825, 1, 1, 0.0664063, 0.518616, 1, 0.185529 )
 
 [sub_resource type="Curve" id=9]
-
 _data = [ Vector2( 0.517085, 0.4208 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.530801, 0.0, 0, 0 ]
 
 [sub_resource type="Animation" id=10]
-
-length = 0.3
+length = 1.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Inner:emitting")
 tracks/0/interp = 1
@@ -107,12 +97,26 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
 
 [node name="EMP" type="Node2D"]
 
 [node name="Core" type="CPUParticles2D" parent="."]
-light_mask = 0
 modulate = Color( 0.329412, 0.576471, 1, 1 )
+light_mask = 0
 material = ExtResource( 1 )
 emitting = false
 amount = 5

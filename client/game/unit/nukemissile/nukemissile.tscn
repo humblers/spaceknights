@@ -30,43 +30,33 @@
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=28]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0, 0.7464 ), 0.0, 0.6141, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="Curve" id=3]
-
 _data = [ Vector2( 0, 0.2272 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=4]
-
 colors = PoolColorArray( 0.953125, 1, 0.996704, 1, 0.235294, 0.713726, 1, 1 )
 
 [sub_resource type="Curve" id=5]
-
 _data = [ Vector2( 0, 0.5176 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=6]
-
 _data = [ Vector2( 0, 0.6232 ), 0.0, 0.0, 0, 0, Vector2( 0.924267, 0.9928 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=7]
-
 _data = [ Vector2( 0, 0.2184 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 3.40768, 0.0, 0, 0 ]
 
 [sub_resource type="CanvasItemMaterial" id=8]
-
 blend_mode = 1
 
 [sub_resource type="CanvasItemMaterial" id=9]
-
 blend_mode = 1
 
 [sub_resource type="Animation" id=10]
-
 resource_name = "explosion"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Main/Ex1:visible")
@@ -339,6 +329,7 @@ script = ExtResource( 1 )
 [node name="Rotatable" type="Node2D" parent="."]
 
 [node name="Main" type="Sprite" parent="Rotatable"]
+modulate = Color( 0, 0, 0, 0 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
@@ -360,8 +351,9 @@ color_ramp = SubResource( 2 )
 position = Vector2( -28, 52 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/BoosterL"]
-light_mask = 0
 editor/display_folded = true
+visible = false
+light_mask = 0
 position = Vector2( 0, 10 )
 texture = ExtResource( 4 )
 gravity = Vector2( 0, 30 )
@@ -379,8 +371,9 @@ texture = ExtResource( 4 )
 position = Vector2( 28, 52 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/BoosterR"]
-light_mask = 0
 editor/display_folded = true
+visible = false
+light_mask = 0
 position = Vector2( 0, 10 )
 texture = ExtResource( 4 )
 gravity = Vector2( 0, 30 )
@@ -398,8 +391,9 @@ texture = ExtResource( 4 )
 position = Vector2( 0, 54 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Rotatable/Main/BoosterC"]
-light_mask = 0
 editor/display_folded = true
+visible = false
+light_mask = 0
 position = Vector2( 0, 10 )
 texture = ExtResource( 4 )
 gravity = Vector2( 0, 30 )
@@ -414,19 +408,16 @@ scale = Vector2( 0.616667, 0.633388 )
 texture = ExtResource( 4 )
 
 [node name="Crack" type="Sprite" parent="Rotatable"]
-visible = false
 modulate = Color( 1, 0.945098, 0.145098, 0 )
 material = ExtResource( 5 )
 texture = ExtResource( 6 )
 
 [node name="light" type="Sprite" parent="Rotatable"]
-visible = false
 modulate = Color( 1, 0.780392, 0.12549, 0 )
 material = ExtResource( 5 )
 texture = ExtResource( 7 )
 
 [node name="Bomb_explosion" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 
 [node name="Explosion" type="Node2D" parent="Rotatable/Bomb_explosion"]
 editor/display_folded = true
@@ -443,8 +434,8 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 9 )
 
 [node name="Exp4" type="CPUParticles2D" parent="Rotatable/Bomb_explosion/Explosion"]
-light_mask = 0
 modulate = Color( 0.419608, 0.0196078, 1, 0 )
+light_mask = 0
 texture = ExtResource( 10 )
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -457,8 +448,8 @@ scale_amount = 2.0
 scale_amount_curve = SubResource( 5 )
 
 [node name="Exp3" type="CPUParticles2D" parent="Rotatable/Bomb_explosion/Explosion"]
-light_mask = 0
 modulate = Color( 1, 0.592157, 0.196078, 0 )
+light_mask = 0
 texture = ExtResource( 11 )
 spread = 90.0
 gravity = Vector2( 0, 0 )
@@ -498,8 +489,8 @@ texture = ExtResource( 13 )
 [node name="ForScale" type="Node2D" parent="Rotatable/Bomb_explosion/Explosion"]
 
 [node name="Exp1" type="CPUParticles2D" parent="Rotatable/Bomb_explosion/Explosion/ForScale"]
-light_mask = 0
 modulate = Color( 1, 1, 1, 0 )
+light_mask = 0
 material = ExtResource( 5 )
 amount = 13
 speed_scale = 1.5
@@ -540,7 +531,6 @@ stream = ExtResource( 19 )
 volume_db = 3.0
 
 [node name="Distroy" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 scale = Vector2( 1.5, 1.5 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Distroy"]
