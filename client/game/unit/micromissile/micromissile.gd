@@ -74,8 +74,7 @@ func suicideAttack():
 
 func handleAttack():
 	if attack == 0:
-		if $AnimationPlayer.current_animation != "destroy":
-			$AnimationPlayer.play("destroy")
+		$AnimationPlayer.play("destroy")
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())
