@@ -12,11 +12,11 @@
 [ext_resource path="res://game/unit/units.sprites/judge/arm.tres" type="Texture" id=10]
 [ext_resource path="res://game/unit/units.sprites/judge/arm_normal.tres" type="Texture" id=11]
 [ext_resource path="res://game/unit/units.sprites/judge/open.tres" type="Texture" id=12]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_1.tres" type="Texture" id=13]
-[ext_resource path="res://game/vfx/vfx.sprites/bullet_shell.tres" type="Texture" id=14]
+[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/bullet_shell.png" type="Texture" id=14]
 [ext_resource path="res://game/unit/judge/gun_frame.png" type="Texture" id=15]
 [ext_resource path="res://game/unit/judge/gun_frame_normal.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/vfx.sprites/cloud_1.tres" type="Texture" id=17]
+[ext_resource path="res://game/vfx/cloud_1.png" type="Texture" id=17]
 [ext_resource path="res://game/unit/units.sprites/judge/barrel.tres" type="Texture" id=18]
 [ext_resource path="res://game/unit/units.sprites/judge/barrel_normal.tres" type="Texture" id=19]
 [ext_resource path="res://game/unit/units.sprites/judge/picatinnyrail.tres" type="Texture" id=20]
@@ -100,6 +100,7 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 21, 20 )
 
 [node name="ThrustRR" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointR"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
@@ -111,6 +112,7 @@ speed_scale = 3.0
 offset = Vector2( 0, 15 )
 
 [node name="LightRR" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointR"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = -0.523599
@@ -122,6 +124,7 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -21, 20 )
 
 [node name="ThrustRL" type="AnimatedSprite" parent="Rotatable/Body/Booster/BoosterpointL"]
+visible = false
 modulate = Color( 0.184314, 1, 0.427451, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
@@ -132,6 +135,7 @@ speed_scale = 3.0
 offset = Vector2( 0, 15 )
 
 [node name="LightRL" type="Sprite" parent="Rotatable/Body/Booster/BoosterpointL"]
+visible = false
 modulate = Color( 0.85098, 0.937255, 0.831373, 1 )
 material = ExtResource( 4 )
 rotation = 0.523599
@@ -182,7 +186,6 @@ scale = Vector2( 1.5, 1.9 )
 texture = ExtResource( 7 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
-editor/display_folded = true
 show_behind_parent = true
 use_parent_material = true
 position = Vector2( 30, 0 )
@@ -389,6 +392,7 @@ frames = SubResource( 2 )
 animation = "hatchopen"
 
 [node name="EffectOver" type="Node2D" parent="Rotatable/Body/ShoulderL/ArmL"]
+editor/display_folded = true
 
 [node name="ShotpointL" type="Position2D" parent="Rotatable/Body/ShoulderL/ArmL/EffectOver"]
 material = ExtResource( 4 )
@@ -603,17 +607,6 @@ radial_accel = 1.0
 scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
-[node name="Flashing" type="Light2D" parent="Rotatable/Body/GunFrame"]
-material = ExtResource( 4 )
-position = Vector2( 24, -85.75 )
-scale = Vector2( 0.6, 1.30625 )
-enabled = false
-texture = ExtResource( 7 )
-texture_scale = 5.0
-color = Color( 1, 0.729412, 0.258824, 1 )
-energy = 4.0
-range_item_cull_mask = 0
-
 [node name="MuzzleFlash" type="Position2D" parent="Rotatable/Body/GunFrame"]
 position = Vector2( 27, -109 )
 
@@ -662,6 +655,19 @@ use_parent_material = true
 position = Vector2( 24, -50 )
 texture = ExtResource( 20 )
 normal_map = ExtResource( 21 )
+
+[node name="Flashing" type="Sprite" parent="Rotatable/Body/GunFrame"]
+visible = false
+modulate = Color( 1, 0.780392, 0.121569, 1 )
+material = ExtResource( 4 )
+position = Vector2( 24, -69.75 )
+texture = ExtResource( 18 )
+
+[node name="Flashing2" type="Sprite" parent="Rotatable/Body/GunFrame/Flashing"]
+modulate = Color( 1, 0.780392, 0.121569, 0.427451 )
+material = ExtResource( 4 )
+position = Vector2( 0, 20 )
+texture = ExtResource( 20 )
 
 [node name="Head" type="Sprite" parent="Rotatable/Body"]
 use_parent_material = true
