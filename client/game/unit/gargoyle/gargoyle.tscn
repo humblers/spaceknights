@@ -1,16 +1,16 @@
 [gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/unit/gargoyle/gargoyle.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/gargoyle/body.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/gargoyle/gargoyle_normal.png" type="Texture" id=3]
+[ext_resource path="res://game/unit/units.sprites/gargoyle/body.tres" type="Texture" id=2]
+[ext_resource path="res://game/unit/units.sprites/gargoyle/gargoyle_normal.tres" type="Texture" id=3]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
-[ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=11]
+[ext_resource path="res://game/vfx/vfx.sprites/cloud_2.tres" type="Texture" id=5]
+[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=6]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=7]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=8]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=9]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=10]
+[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=11]
 [ext_resource path="res://game/unit/gargoyle/explosion.tres" type="Animation" id=12]
 [ext_resource path="res://game/vfx/energyshield_nodirection.tscn" type="PackedScene" id=13]
 [ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=14]
@@ -25,16 +25,13 @@
 [ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=23]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0, 0.4736 ), 0.0, 0.709621, 0, 0, Vector2( 1, 1 ), 0.0509817, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
-
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.706522, 1 )
 colors = PoolColorArray( 1, 0.761017, 0.253906, 1, 1, 0.419608, 0.0745098, 0.803373, 1, 0.172549, 0, 0.140627 )
 
-[sub_resource type="SpriteFrames" id=2]
-
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
@@ -42,8 +39,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="SpriteFrames" id=3]
-
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ null, null ],
 "loop": true,
@@ -51,8 +47,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=4]
-
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ null, null ],
 "loop": true,
@@ -68,14 +63,12 @@ use_parent_material = true
 scale = Vector2( 1.1, 1.1 )
 
 [node name="Main" type="Sprite" parent="Rotatable"]
-editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
 [node name="Flame" type="Position2D" parent="Rotatable/Main"]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -43.75 )
 scale = Vector2( 1.25, 1.25 )
@@ -94,7 +87,7 @@ angle = 90.0
 angle_random = 1.0
 scale_amount = 0.3
 scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Main/Flame"]
 visible = false
@@ -105,7 +98,6 @@ scale = Vector2( 1.5, 0.8 )
 texture = ExtResource( 6 )
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Main"]
-editor/display_folded = true
 visible = false
 position = Vector2( -17.5, 50 )
 scale = Vector2( 1.25, 1.25 )
@@ -114,7 +106,7 @@ scale = Vector2( 1.25, 1.25 )
 modulate = Color( 1, 0.317647, 0.317647, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "thrust"
 frame = 1
 speed_scale = 2.0
@@ -126,7 +118,6 @@ scale = Vector2( 0.2, 0.5 )
 texture = ExtResource( 6 )
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/Main"]
-editor/display_folded = true
 visible = false
 position = Vector2( 17.5, 50 )
 scale = Vector2( 1.25, 1.25 )
@@ -135,7 +126,7 @@ scale = Vector2( 1.25, 1.25 )
 modulate = Color( 1, 0.317647, 0.317647, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "thrust"
 speed_scale = 2.0
 offset = Vector2( 0, 16 )
@@ -148,20 +139,18 @@ texture = ExtResource( 6 )
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Main"]
 position = Vector2( -30, 11.25 )
 rotation = 0.349066
-frames = SubResource( 3 )
+frames = SubResource( 4 )
 
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Main"]
 position = Vector2( 30, 11.25 )
 rotation = -0.349066
-frames = SubResource( 4 )
+frames = SubResource( 5 )
 frame = 1
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
-editor/display_folded = true
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false

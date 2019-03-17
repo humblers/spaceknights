@@ -2,28 +2,20 @@
 
 [ext_resource path="res://game/vfx/energyshield.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
-[ext_resource path="res://game/vfx/ring.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/energy_shield_octa.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/unit_explosion_6.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/impectreflex.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/vfx.sprites/ring.tres" type="Texture" id=3]
+[ext_resource path="res://game/vfx/vfx.sprites/energy_shield_octa.tres" type="Texture" id=4]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_6.tres" type="Texture" id=5]
+[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=6]
+[ext_resource path="res://game/vfx/vfx.sprites/impectreflex.tres" type="Texture" id=7]
 [ext_resource path="res://game/vfx/energyshield.tres" type="Animation" id=8]
 
 [sub_resource type="Curve" id=1]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
 _data = [ Vector2( 0, 0.513086 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.984197 ), 0.0, 0.0, 0, 0 ]
-_sections_unfolded = [ "Resource" ]
 
 [node name="Energyshield" type="Node2D"]
-editor/display_folded = true
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Main" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Mask" type="Sprite" parent="Main"]
 visible = false
@@ -33,7 +25,6 @@ material = ExtResource( 2 )
 position = Vector2( 0, 156 )
 scale = Vector2( 1.2, 0.1 )
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Material", "Range", "Transform", "Visibility", "material" ]
 
 [node name="Shield" type="Sprite" parent="Main"]
 visible = false
@@ -41,16 +32,13 @@ modulate = Color( 0.671875, 0.746216, 1, 0 )
 self_modulate = Color( 0.918701, 0.71875, 1, 1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Sprite" type="Sprite" parent="Main/Shield"]
 modulate = Color( 0.903992, 0.441406, 1, 1 )
 material = ExtResource( 2 )
 texture = ExtResource( 4 )
-_sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="ParticlePhysical" type="Node2D" parent="Main"]
-_sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
 [node name="ImpactEffect" type="Sprite" parent="Main/ParticlePhysical"]
 visible = false
@@ -59,69 +47,24 @@ material = ExtResource( 2 )
 position = Vector2( 0, -98 )
 scale = Vector2( 3, 0.4 )
 texture = ExtResource( 5 )
-_sections_unfolded = [ "Material", "Process Material", "Textures", "Time", "Transform", "Visibility" ]
 
 [node name="Particle" type="CPUParticles2D" parent="Main/ParticlePhysical"]
 position = Vector2( 0, -110 )
 rotation = -3.14159
 emitting = false
 amount = 16
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
 speed_scale = 2.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-local_coords = true
-draw_order = 0
-texture = null
-normalmap = null
 emission_shape = 1
 emission_sphere_radius = 1.0
-emission_points = PoolVector2Array(  )
-emission_colors = PoolColorArray(  )
-flag_align_y = false
 spread = 180.0
-flatness = 0.0
 gravity = Vector2( 0, -30 )
-initial_velocity = 1.0
-initial_velocity_random = 0.0
-angular_velocity = 0.0
-angular_velocity_random = 0.0
-angular_velocity_curve = null
 linear_accel = 180.0
 linear_accel_random = 1.0
-linear_accel_curve = null
 radial_accel = 100.0
 radial_accel_random = 1.0
-radial_accel_curve = null
-tangential_accel = 0.0
-tangential_accel_random = 0.0
-tangential_accel_curve = null
-damping = 0.0
-damping_random = 0.0
-damping_curve = null
-angle = 0.0
-angle_random = 0.0
-angle_curve = null
 scale_amount = 4.0
-scale_amount_random = 0.0
 scale_amount_curve = SubResource( 1 )
 color = Color( 0.937255, 0.682353, 0.682353, 0.709765 )
-color_ramp = null
-hue_variation = 0.0
-hue_variation_random = 0.0
-hue_variation_curve = null
-anim_speed = 0.0
-anim_speed_random = 0.0
-anim_speed_curve = null
-anim_offset = 0.0
-anim_offset_random = 0.0
-anim_offset_curve = null
-anim_loop = false
-_sections_unfolded = [ "Angle", "Color", "Damping", "Drawing", "Emission Shape", "Gravity", "Initial Velocity", "Linear Accel", "Material", "Radial Accel", "Scale", "Spread", "Tangential Accel", "Time", "Transform" ]
 
 [node name="Glow" type="Sprite" parent="Main/ParticlePhysical"]
 visible = false
@@ -131,25 +74,16 @@ position = Vector2( -1, -110 )
 rotation = -3.14159
 scale = Vector2( 2, 0.5 )
 texture = ExtResource( 6 )
-_sections_unfolded = [ "Material", "Range", "Transform", "Visibility" ]
 
 [node name="ParticleEnergy" type="Node2D" parent="Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 2, 2 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Reflex" type="Sprite" parent="Main/ParticleEnergy"]
 material = ExtResource( 2 )
 position = Vector2( 0, 20 )
 texture = ExtResource( 7 )
-_sections_unfolded = [ "Material", "Visibility", "material" ]
 
 [node name="EnergyShieldAni" type="AnimationPlayer" parent="."]
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
 anims/energyshield = ExtResource( 8 )
-blend_times = [  ]
 
