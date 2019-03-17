@@ -1,18 +1,18 @@
 [gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/unit/giant/giant.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/giant/body.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/giant/body_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/giant/giantdrill.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/giant/giantdrill_normal.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/circle.png" type="Texture" id=6]
+[ext_resource path="res://game/unit/units.sprites/giant/body.tres" type="Texture" id=2]
+[ext_resource path="res://game/unit/units.sprites/giant/body_normal.tres" type="Texture" id=3]
+[ext_resource path="res://game/unit/units.sprites/giant/giantdrill.tres" type="Texture" id=4]
+[ext_resource path="res://game/unit/units.sprites/giant/giantdrill_normal.tres" type="Texture" id=5]
+[ext_resource path="res://game/vfx/vfx.sprites/circle.tres" type="Texture" id=6]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=7]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=13]
+[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=8]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=9]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=10]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=11]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=12]
+[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=13]
 [ext_resource path="res://game/unit/giant/explosion.tres" type="Animation" id=14]
 [ext_resource path="res://game/unit/giant/attack.tres" type="Animation" id=15]
 [ext_resource path="res://game/unit/giant/destroy.tres" type="Animation" id=16]
@@ -25,24 +25,19 @@
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0.000664171, 0 ), 0.0, 0.971592, 0, 0, Vector2( 1, 1 ), 0.0695606, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=6]
-
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.983696 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0165882 )
 
-[sub_resource type="Curve" id=2]
-
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.27855, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=3]
-
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.489258 ), 2.70302, 0.0, 0, 0 ]
 
-[sub_resource type="SpriteFrames" id=4]
-
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
@@ -50,8 +45,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=5]
-
+[sub_resource type="Curve" id=6]
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Giant" type="Node2D"]
@@ -86,10 +80,10 @@ frame = 1
 region_rect = Rect2( 0, 0, 40, 45 )
 
 [node name="Rcs" type="Node2D" parent="Rotatable/Main"]
+editor/display_folded = true
 scale = Vector2( 0.833333, 0.833333 )
 
 [node name="RcsFrontL" type="Position2D" parent="Rotatable/Main/Rcs"]
-editor/display_folded = true
 position = Vector2( -50, -30 )
 rotation = 2.0944
 scale = Vector2( 2, 1 )
@@ -103,7 +97,7 @@ emission_sphere_radius = 1.0
 gravity = Vector2( 0, 80 )
 initial_velocity = 0.0
 scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="FrontLLight" type="Sprite" parent="Rotatable/Main/Rcs/RcsFrontL"]
 visible = false
@@ -114,7 +108,6 @@ scale = Vector2( 0.3, 1 )
 texture = ExtResource( 8 )
 
 [node name="RcsRearL" type="Position2D" parent="Rotatable/Main/Rcs"]
-editor/display_folded = true
 position = Vector2( -55, 30 )
 rotation = 1.0472
 scale = Vector2( 2, 1 )
@@ -128,7 +121,7 @@ emission_sphere_radius = 1.0
 gravity = Vector2( 0, 80 )
 initial_velocity = 0.0
 scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="RearLLight" type="Sprite" parent="Rotatable/Main/Rcs/RcsRearL"]
 visible = false
@@ -139,7 +132,6 @@ scale = Vector2( 0.3, 1 )
 texture = ExtResource( 8 )
 
 [node name="RcsFrontR" type="Position2D" parent="Rotatable/Main/Rcs"]
-editor/display_folded = true
 position = Vector2( 50, -30 )
 rotation = -2.0944
 scale = Vector2( 2, 1 )
@@ -153,7 +145,7 @@ emission_sphere_radius = 1.0
 gravity = Vector2( 0, 80 )
 initial_velocity = 0.0
 scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="FrontRLight" type="Sprite" parent="Rotatable/Main/Rcs/RcsFrontR"]
 visible = false
@@ -164,7 +156,6 @@ scale = Vector2( 0.3, 1 )
 texture = ExtResource( 8 )
 
 [node name="RcsRearR" type="Position2D" parent="Rotatable/Main/Rcs"]
-editor/display_folded = true
 position = Vector2( 55, 30 )
 rotation = -1.0472
 scale = Vector2( 2, 1 )
@@ -178,7 +169,7 @@ emission_sphere_radius = 1.0
 gravity = Vector2( 0, 80 )
 initial_velocity = 0.0
 scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 2 )
 
 [node name="RearRLight" type="Sprite" parent="Rotatable/Main/Rcs/RcsRearR"]
 visible = false
@@ -189,6 +180,7 @@ scale = Vector2( 0.3, 1 )
 texture = ExtResource( 8 )
 
 [node name="DrillingL" type="Position2D" parent="Rotatable/Main"]
+editor/display_folded = true
 position = Vector2( -21.6667, -63.3333 )
 scale = Vector2( 0.833333, 0.833333 )
 
@@ -206,7 +198,7 @@ radial_accel_random = 1.0
 damping = 10.0
 damping_random = 0.5
 scale_amount = 2.2
-scale_amount_curve = SubResource( 2 )
+scale_amount_curve = SubResource( 3 )
 color = Color( 1, 0.427451, 0.145098, 1 )
 
 [node name="GlowL" type="CPUParticles2D" parent="Rotatable/Main/DrillingL"]
@@ -219,7 +211,7 @@ gravity = Vector2( 0, -10 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 4 )
 
 [node name="Light1" type="Sprite" parent="Rotatable/Main/DrillingL"]
 visible = false
@@ -236,6 +228,7 @@ material = ExtResource( 7 )
 texture = ExtResource( 8 )
 
 [node name="DrillingR" type="Position2D" parent="Rotatable/Main"]
+editor/display_folded = true
 position = Vector2( 21.6667, -63.3333 )
 scale = Vector2( 0.833333, 0.833333 )
 
@@ -253,7 +246,7 @@ radial_accel_random = 1.0
 damping = 10.0
 damping_random = 0.5
 scale_amount = 2.2
-scale_amount_curve = SubResource( 2 )
+scale_amount_curve = SubResource( 3 )
 color = Color( 1, 0.427451, 0.145098, 1 )
 
 [node name="GlowR" type="CPUParticles2D" parent="Rotatable/Main/DrillingR"]
@@ -266,7 +259,7 @@ gravity = Vector2( 0, -10 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 4 )
 
 [node name="Light3" type="Sprite" parent="Rotatable/Main/DrillingR"]
 visible = false
@@ -283,8 +276,6 @@ material = ExtResource( 7 )
 texture = ExtResource( 8 )
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Main"]
-editor/display_folded = true
-visible = false
 position = Vector2( -20.8333, 41.667 )
 scale = Vector2( 0.833333, 0.833333 )
 
@@ -293,9 +284,10 @@ modulate = Color( 1, 0.290196, 0.101961, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, -15 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 4 )
+frames = SubResource( 5 )
 animation = "thrust"
 speed_scale = 2.0
+playing = true
 offset = Vector2( 0, 35 )
 
 [node name="ThrustLightL" type="Sprite" parent="Rotatable/Main/BoosterL"]
@@ -306,8 +298,6 @@ scale = Vector2( 1, 1.3 )
 texture = ExtResource( 8 )
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/Main"]
-editor/display_folded = true
-visible = false
 position = Vector2( 20.8333, 41.6667 )
 scale = Vector2( 0.833333, 0.833333 )
 
@@ -316,9 +306,10 @@ modulate = Color( 1, 0.290196, 0.101961, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, -15 )
 scale = Vector2( 0.8, 1 )
-frames = SubResource( 4 )
+frames = SubResource( 5 )
 animation = "thrust"
 speed_scale = 2.0
+playing = true
 offset = Vector2( 0, 35 )
 
 [node name="ThrustLightR" type="Sprite" parent="Rotatable/Main/BoosterR"]
@@ -377,7 +368,7 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 5 )
+scale_amount_curve = SubResource( 6 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
