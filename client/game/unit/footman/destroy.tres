@@ -1,11 +1,8 @@
 [gd_resource type="Animation" format=2]
 
 [resource]
-
 resource_name = "destroy"
 length = 3.3
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Head:rotation_degrees")
 tracks/0/interp = 1
@@ -163,7 +160,7 @@ tracks/12/keys = {
 "values": [ false, false ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Rotatable/Head/ShoulderR/Arm/ChainSaw:playing")
+tracks/13/path = NodePath("Rotatable:visible")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -175,7 +172,7 @@ tracks/13/keys = {
 "values": [ true, true ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Rotatable/Head/ShoulderL/Arm/ChainSaw:playing")
+tracks/14/path = NodePath("Rotatable:modulate")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -183,11 +180,11 @@ tracks/14/enabled = true
 tracks/14/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, true ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Rotatable:visible")
+tracks/15/path = NodePath("Rotatable/Head:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -196,58 +193,58 @@ tracks/15/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true, true ]
+"values": [ true, false ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("Rotatable:modulate")
+tracks/16/path = NodePath("Rotatable/Head:modulate")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("Rotatable/Head:visible")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/18/type = "value"
-tracks/18/path = NodePath("Rotatable/Head:modulate")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
 "times": PoolRealArray( 0, 0.7, 0.9, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ) ]
 }
-tracks/19/type = "value"
-tracks/19/path = NodePath("Rotatable/Head/Under:position")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/keys = {
+tracks/17/type = "value"
+tracks/17/path = NodePath("Rotatable/Head/Under:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
 "times": PoolRealArray( 0, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 10 ), Vector2( -14.2511, 17.3193 ), Vector2( -14.2511, 17.3193 ) ]
 }
+tracks/18/type = "value"
+tracks/18/path = NodePath("Rotatable/Head/Under/BoosterL:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Rotatable/Head/Under/BoosterR:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 tracks/20/type = "value"
-tracks/20/path = NodePath("Rotatable/Head/Under/BoosterL:visible")
+tracks/20/path = NodePath("Rotatable/Hit/Glow:visible")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -259,7 +256,7 @@ tracks/20/keys = {
 "values": [ false ]
 }
 tracks/21/type = "value"
-tracks/21/path = NodePath("Rotatable/Head/Under/BoosterR:visible")
+tracks/21/path = NodePath("Rotatable/Hit/Light2D:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -270,20 +267,18 @@ tracks/21/keys = {
 "update": 1,
 "values": [ false ]
 }
-tracks/22/type = "value"
-tracks/22/path = NodePath("Rotatable/Hit/Glow:visible")
+tracks/22/type = "animation"
+tracks/22/path = NodePath("Rotatable/Explosion/ExplosionAni")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
 tracks/22/enabled = true
 tracks/22/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"clips": PoolStringArray( "explosion" ),
+"times": PoolRealArray( 0 )
 }
 tracks/23/type = "value"
-tracks/23/path = NodePath("Rotatable/Hit/Light2D:visible")
+tracks/23/path = NodePath("Sound/Destroy:playing")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -292,49 +287,27 @@ tracks/23/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true ]
 }
-tracks/24/type = "animation"
-tracks/24/path = NodePath("Rotatable/Explosion/ExplosionAni")
+tracks/24/type = "value"
+tracks/24/path = NodePath("Sound/Move:playing")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
 tracks/24/enabled = true
 tracks/24/keys = {
-"clips": PoolStringArray( "explosion" ),
-"times": PoolRealArray( 0 )
-}
-tracks/25/type = "value"
-tracks/25/path = NodePath("Sound/Destroy:playing")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/26/type = "value"
-tracks/26/path = NodePath("Sound/Move:playing")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/27/type = "value"
-tracks/27/path = NodePath("Hp:visible")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/keys = {
+tracks/25/type = "value"
+tracks/25/path = NodePath("Hp:visible")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
