@@ -2,12 +2,11 @@
 
 [ext_resource path="res://game/script/bullet.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=3]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=4]
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
-
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
@@ -17,7 +16,6 @@ animations = [ {
 
 [node name="Bullet" type="Node2D"]
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
 
 [node name="bulletLarge" type="AnimatedSprite" parent="."]
 modulate = Color( 0.266667, 1, 0.552941, 1 )
@@ -25,14 +23,12 @@ material = ExtResource( 2 )
 position = Vector2( 0, 5 )
 scale = Vector2( 0.2, 0.4 )
 frames = SubResource( 1 )
-animation = "default"
 frame = 1
 speed_scale = 2.0
-_sections_unfolded = [ "Material", "Process Material", "Time", "Transform", "Visibility", "frames", "material" ]
+playing = true
 
 [node name="Light2D" type="Sprite" parent="."]
 material = ExtResource( 2 )
 scale = Vector2( 0.2, 0.5 )
 texture = ExtResource( 5 )
-_sections_unfolded = [ "Material", "Transform", "Visibility", "material" ]
 

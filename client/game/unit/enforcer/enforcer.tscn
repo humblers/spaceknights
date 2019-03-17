@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://game/unit/enforcer/enforcer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/enforcer/body.tres" type="Texture" id=2]
@@ -8,22 +8,23 @@
 [ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=6]
 [ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=7]
 [ext_resource path="res://game/unit/units.sprites/enforcer/attack.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/energy_shield_1.tres" type="Texture" id=9]
-[ext_resource path="res://game/unit/units.sprites/enforcer/circle.tres" type="Texture" id=10]
-[ext_resource path="res://game/unit/units.sprites/enforcer/circle_normal.tres" type="Texture" id=11]
-[ext_resource path="res://game/unit/units.sprites/enforcer/arm.tres" type="Texture" id=12]
-[ext_resource path="res://game/unit/units.sprites/enforcer/arm_normal.tres" type="Texture" id=13]
-[ext_resource path="res://game/vfx/vfx.sprites/beacon_black.tres" type="Texture" id=14]
-[ext_resource path="res://game/vfx/vfx.sprites/beacon_green.tres" type="Texture" id=15]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=16]
-[ext_resource path="res://game/unit/enforcer/explosion.tres" type="Animation" id=17]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/unit/enforcer/attack_1.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/enforcer/destroy.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/enforcer/enforcer_atk.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=23]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=24]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
+[ext_resource path="res://game/vfx/vfx.sprites/energy_shield_1.tres" type="Texture" id=10]
+[ext_resource path="res://game/unit/units.sprites/enforcer/circle.tres" type="Texture" id=11]
+[ext_resource path="res://game/unit/units.sprites/enforcer/circle_normal.tres" type="Texture" id=12]
+[ext_resource path="res://game/unit/units.sprites/enforcer/arm.tres" type="Texture" id=13]
+[ext_resource path="res://game/unit/units.sprites/enforcer/arm_normal.tres" type="Texture" id=14]
+[ext_resource path="res://game/vfx/vfx.sprites/beacon_black.tres" type="Texture" id=15]
+[ext_resource path="res://game/vfx/vfx.sprites/beacon_green.tres" type="Texture" id=16]
+[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=17]
+[ext_resource path="res://game/unit/enforcer/explosion.tres" type="Animation" id=18]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/unit/enforcer/attack_1.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/enforcer/destroy.tres" type="Animation" id=21]
+[ext_resource path="res://game/unit/enforcer/enforcer_atk.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=24]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -38,7 +39,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9752 ), 0.0, 0.0, 0, 0 
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 16 ) ],
 "loop": true,
 "name": "default",
 "speed": 1.0
@@ -46,7 +47,7 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 14 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 16 ) ],
 "loop": true,
 "name": "default",
 "speed": 1.0
@@ -774,9 +775,33 @@ tracks/30/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/31/type = "value"
+tracks/31/path = NodePath("Rotatable/Body/Circle/Arm/ArmR/FlashingR:playing")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/32/type = "value"
+tracks/32/path = NodePath("Rotatable/Body/Circle/Arm/ArmL/FlashingL:playing")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=9]
-length = 0.01
+length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Body/Circle:position")
 tracks/0/interp = 1
@@ -1113,6 +1138,18 @@ tracks/27/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/28/type = "value"
+tracks/28/path = NodePath("Rotatable/Body/Booster/Thrust:playing")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [node name="Enforcer" type="Node2D"]
 script = ExtResource( 1 )
@@ -1138,7 +1175,9 @@ modulate = Color( 0.290196, 0.768627, 1, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 1 )
+frame = 1
 speed_scale = 2.0
+playing = true
 offset = Vector2( 0, 20 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Booster"]
@@ -1170,18 +1209,19 @@ material = ExtResource( 4 )
 emitting = false
 amount = 1
 lifetime = 0.6
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 gravity = Vector2( 0, 0 )
 scale_amount = 7.0
 scale_amount_curve = SubResource( 2 )
 color = Color( 0.392157, 0.388235, 1, 1 )
 
 [node name="OuterCircle" type="Sprite" parent="Rotatable/Body/ForceField"]
+visible = false
 modulate = Color( 0.0941176, 1, 0.576471, 0 )
 material = ExtResource( 4 )
 rotation = 6.28319
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="OuterCircle2" type="Sprite" parent="Rotatable/Body/ForceField"]
 visible = false
@@ -1189,14 +1229,14 @@ modulate = Color( 0.835294, 0.996078, 0.388235, 0 )
 material = ExtResource( 4 )
 rotation = -6.28319
 scale = Vector2( 2.3, 2.3 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Circle" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 10 )
-normal_map = ExtResource( 11 )
+texture = ExtResource( 11 )
+normal_map = ExtResource( 12 )
 
 [node name="Arm" type="Node2D" parent="Rotatable/Body/Circle"]
 use_parent_material = true
@@ -1204,10 +1244,9 @@ scale = Vector2( 0.694444, 0.694444 )
 
 [node name="ArmL" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
 use_parent_material = true
-rotation = -0.523599
 scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 13 )
+texture = ExtResource( 13 )
+normal_map = ExtResource( 14 )
 offset = Vector2( -31, -9 )
 flip_h = true
 
@@ -1215,6 +1254,7 @@ flip_h = true
 position = Vector2( -33, 1 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 3 )
+frame = 1
 
 [node name="GlowL" type="Sprite" parent="Rotatable/Body/Circle/Arm/ArmL"]
 modulate = Color( 0.439216, 1, 0.603922, 0 )
@@ -1225,17 +1265,15 @@ texture = ExtResource( 7 )
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
 use_parent_material = true
-rotation = 0.523599
 scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 13 )
+texture = ExtResource( 13 )
+normal_map = ExtResource( 14 )
 offset = Vector2( 31, -9 )
 
 [node name="FlashingR" type="AnimatedSprite" parent="Rotatable/Body/Circle/Arm/ArmR"]
 position = Vector2( 33, 1 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 4 )
-frame = 1
 
 [node name="GlowR" type="Sprite" parent="Rotatable/Body/Circle/Arm/ArmR"]
 modulate = Color( 0.439216, 1, 0.603922, 0 )
@@ -1252,7 +1290,7 @@ scale = Vector2( 1.4, 1.4 )
 emitting = false
 amount = 12
 speed_scale = 2.0
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -1278,23 +1316,23 @@ rotation = 1.5708
 texture = ExtResource( 8 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
-anims/explosion = ExtResource( 17 )
+anims/explosion = ExtResource( 18 )
 
 [node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
 enabled = false
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 texture_scale = 5.0
 energy = 1.5
 range_item_cull_mask = 0
 
-[node name="HitEffect" parent="." instance=ExtResource( 18 )]
+[node name="HitEffect" parent="." instance=ExtResource( 19 )]
 position = Vector2( 0, 5 )
 circle_radius = 30.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack_1 = ExtResource( 19 )
+anims/attack_1 = ExtResource( 20 )
 anims/attack_2 = SubResource( 7 )
-anims/destroy = ExtResource( 20 )
+anims/destroy = ExtResource( 21 )
 anims/idle = SubResource( 8 )
 anims/move = SubResource( 9 )
 
@@ -1302,14 +1340,15 @@ anims/move = SubResource( 9 )
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 21 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 23 )
 
-[node name="Hp" parent="." instance=ExtResource( 24 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 24 )
+
+[node name="Hp" parent="." instance=ExtResource( 25 )]
+visible = false
 position = Vector2( 0, -60 )
 
