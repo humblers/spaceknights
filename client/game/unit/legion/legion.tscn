@@ -2,11 +2,11 @@
 
 [ext_resource path="res://game/unit/legion/legion.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/legion/roid.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/units.sprites/legion/roid_normal.tres" type="Texture" id=3]
+[ext_resource path="res://game/unit/legion/roid_normal.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/units.sprites/legion/shoulder.tres" type="Texture" id=4]
-[ext_resource path="res://game/unit/units.sprites/legion/shoulder_normal.tres" type="Texture" id=5]
+[ext_resource path="res://game/unit/legion/shoulder_normal.png" type="Texture" id=5]
 [ext_resource path="res://game/unit/units.sprites/legion/arm.tres" type="Texture" id=6]
-[ext_resource path="res://game/unit/units.sprites/legion/arm_normal.tres" type="Texture" id=7]
+[ext_resource path="res://game/unit/legion/arm_normal.png" type="Texture" id=7]
 [ext_resource path="res://game/vfx/bullet_shell.png" type="Texture" id=8]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=9]
 [ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=10]
@@ -14,11 +14,11 @@
 [ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=12]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=13]
 [ext_resource path="res://game/unit/units.sprites/legion/head.tres" type="Texture" id=14]
-[ext_resource path="res://game/unit/units.sprites/legion/head_normal.tres" type="Texture" id=15]
+[ext_resource path="res://game/unit/legion/head_normal.png" type="Texture" id=15]
 [ext_resource path="res://game/unit/units.sprites/legion/cockpit.tres" type="Texture" id=16]
-[ext_resource path="res://game/unit/units.sprites/legion/cockpit_normal.tres" type="Texture" id=17]
+[ext_resource path="res://game/unit/legion/cockpit_normal.png" type="Texture" id=17]
 [ext_resource path="res://game/unit/legion/leg.png" type="Texture" id=18]
-[ext_resource path="res://game/unit/units.sprites/legion/leg_normal.tres" type="Texture" id=19]
+[ext_resource path="res://game/unit/legion/leg_normal.png" type="Texture" id=19]
 [ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=20]
 [ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_8.tres" type="Texture" id=21]
 [ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_7.tres" type="Texture" id=22]
@@ -65,12 +65,14 @@ script = ExtResource( 1 )
 use_parent_material = true
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+light_mask = 3
 use_parent_material = true
 position = Vector2( 0, 7 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
 [node name="ShoulderL" type="Sprite" parent="Rotatable/Body"]
+light_mask = 3
 use_parent_material = true
 position = Vector2( -33.5, 0 )
 texture = ExtResource( 4 )
@@ -79,6 +81,7 @@ flip_h = true
 
 [node name="ArmL" type="Sprite" parent="Rotatable/Body/ShoulderL"]
 show_behind_parent = true
+light_mask = 3
 use_parent_material = true
 position = Vector2( -20, 0 )
 texture = ExtResource( 6 )
@@ -172,13 +175,16 @@ scale = Vector2( 0.6, 2.5 )
 texture = ExtResource( 10 )
 
 [node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
+light_mask = 3
 use_parent_material = true
 position = Vector2( 33.5, 0 )
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Body/ShoulderR"]
+editor/display_folded = true
 show_behind_parent = true
+light_mask = 3
 use_parent_material = true
 position = Vector2( 20, 0 )
 texture = ExtResource( 6 )
@@ -272,12 +278,14 @@ scale = Vector2( 0.6, 2.5 )
 texture = ExtResource( 10 )
 
 [node name="Head" type="Sprite" parent="Rotatable/Body"]
+light_mask = 3
 use_parent_material = true
 texture = ExtResource( 14 )
 normal_map = ExtResource( 15 )
 
 [node name="Cockpit" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 1, 0.4 )
 texture = ExtResource( 16 )
@@ -285,6 +293,7 @@ normal_map = ExtResource( 17 )
 
 [node name="Leg" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
+light_mask = 3
 use_parent_material = true
 position = Vector2( 0, 5.5 )
 texture = ExtResource( 18 )

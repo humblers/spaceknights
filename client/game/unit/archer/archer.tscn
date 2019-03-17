@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/archer/archer.tres" type="Texture" id=2]
-[ext_resource path="res://game/unit/units.sprites/archer/archer_normal.tres" type="Texture" id=3]
+[ext_resource path="res://game/unit/archer/archer_normal.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=5]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=6]
@@ -84,6 +84,7 @@ script = ExtResource( 1 )
 use_parent_material = true
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+light_mask = 3
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
@@ -166,7 +167,6 @@ position = Vector2( 31.5, 20 )
 rotation = -0.314159
 frames = SubResource( 5 )
 animation = "flashred"
-frame = 1
 playing = true
 
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Body"]
@@ -174,7 +174,6 @@ position = Vector2( -31.5, 20 )
 rotation = 0.314159
 frames = SubResource( 6 )
 animation = "flashgreen"
-frame = 1
 playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable"]
@@ -193,6 +192,7 @@ texture = ExtResource( 7 )
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false

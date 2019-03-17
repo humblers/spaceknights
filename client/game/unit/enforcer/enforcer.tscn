@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/unit/enforcer/enforcer.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/enforcer/body.tres" type="Texture" id=2]
-[ext_resource path="res://game/unit/units.sprites/enforcer/body_normal.tres" type="Texture" id=3]
+[ext_resource path="res://game/unit/enforcer/body_normal.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=4]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=5]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=6]
@@ -11,9 +11,9 @@
 [ext_resource path="res://game/vfx/sphere.png" type="Texture" id=9]
 [ext_resource path="res://game/vfx/vfx.sprites/energy_shield_1.tres" type="Texture" id=10]
 [ext_resource path="res://game/unit/units.sprites/enforcer/circle.tres" type="Texture" id=11]
-[ext_resource path="res://game/unit/units.sprites/enforcer/circle_normal.tres" type="Texture" id=12]
+[ext_resource path="res://game/unit/enforcer/circle_normal.png" type="Texture" id=12]
 [ext_resource path="res://game/unit/units.sprites/enforcer/arm.tres" type="Texture" id=13]
-[ext_resource path="res://game/unit/units.sprites/enforcer/arm_normal.tres" type="Texture" id=14]
+[ext_resource path="res://game/unit/enforcer/arm_normal.png" type="Texture" id=14]
 [ext_resource path="res://game/vfx/vfx.sprites/beacon_black.tres" type="Texture" id=15]
 [ext_resource path="res://game/vfx/vfx.sprites/beacon_green.tres" type="Texture" id=16]
 [ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=17]
@@ -752,7 +752,7 @@ tracks/28/keys = {
 "values": [ true ]
 }
 tracks/29/type = "value"
-tracks/29/path = NodePath("Rotatable/Explosion/Light2D:enabled")
+tracks/29/path = NodePath("Rotatable/Explosion/Particles2D:emitting")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -764,7 +764,7 @@ tracks/29/keys = {
 "values": [ false ]
 }
 tracks/30/type = "value"
-tracks/30/path = NodePath("Rotatable/Explosion/Particles2D:emitting")
+tracks/30/path = NodePath("Rotatable/Body/Circle/Arm/ArmR/FlashingR:playing")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -773,27 +773,15 @@ tracks/30/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true ]
 }
 tracks/31/type = "value"
-tracks/31/path = NodePath("Rotatable/Body/Circle/Arm/ArmR/FlashingR:playing")
+tracks/31/path = NodePath("Rotatable/Body/Circle/Arm/ArmL/FlashingL:playing")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
 tracks/31/enabled = true
 tracks/31/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/32/type = "value"
-tracks/32/path = NodePath("Rotatable/Body/Circle/Arm/ArmL/FlashingL:playing")
-tracks/32/interp = 1
-tracks/32/loop_wrap = true
-tracks/32/imported = false
-tracks/32/enabled = true
-tracks/32/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -1159,13 +1147,14 @@ use_parent_material = true
 scale = Vector2( 1.1, 1.1 )
 
 [node name="Body" type="Sprite" parent="Rotatable"]
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
 [node name="Booster" type="Position2D" parent="Rotatable/Body"]
-visible = false
+editor/display_folded = true
 position = Vector2( 0, 21.6667 )
 scale = Vector2( 0.833333, 0.833333 )
 
@@ -1233,16 +1222,19 @@ texture = ExtResource( 10 )
 
 [node name="Circle" type="Sprite" parent="Rotatable/Body"]
 show_behind_parent = true
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 11 )
 normal_map = ExtResource( 12 )
 
 [node name="Arm" type="Node2D" parent="Rotatable/Body/Circle"]
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 0.694444, 0.694444 )
 
 [node name="ArmL" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 13 )
@@ -1255,6 +1247,7 @@ position = Vector2( -33, 1 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 3 )
 frame = 1
+playing = true
 
 [node name="GlowL" type="Sprite" parent="Rotatable/Body/Circle/Arm/ArmL"]
 modulate = Color( 0.439216, 1, 0.603922, 0 )
@@ -1264,6 +1257,7 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 7 )
 
 [node name="ArmR" type="Sprite" parent="Rotatable/Body/Circle/Arm"]
+light_mask = 3
 use_parent_material = true
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 13 )
@@ -1274,6 +1268,7 @@ offset = Vector2( 31, -9 )
 position = Vector2( 33, 1 )
 scale = Vector2( 2, 1 )
 frames = SubResource( 4 )
+playing = true
 
 [node name="GlowR" type="Sprite" parent="Rotatable/Body/Circle/Arm/ArmR"]
 modulate = Color( 0.439216, 1, 0.603922, 0 )
@@ -1318,13 +1313,6 @@ texture = ExtResource( 8 )
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 anims/explosion = ExtResource( 18 )
 
-[node name="Light2D" type="Light2D" parent="Rotatable/Explosion"]
-enabled = false
-texture = ExtResource( 9 )
-texture_scale = 5.0
-energy = 1.5
-range_item_cull_mask = 0
-
 [node name="HitEffect" parent="." instance=ExtResource( 19 )]
 position = Vector2( 0, 5 )
 circle_radius = 30.0
@@ -1349,6 +1337,5 @@ stream = ExtResource( 23 )
 stream = ExtResource( 24 )
 
 [node name="Hp" parent="." instance=ExtResource( 25 )]
-visible = false
 position = Vector2( 0, -60 )
 
