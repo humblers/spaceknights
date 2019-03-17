@@ -10,6 +10,7 @@ var RelativeLvByRarity = {
 }
 
 func _enter_tree():
+	"""
 	randomize()
 	for player in cfg.Players:
 		if player.Team != "Red":
@@ -36,6 +37,7 @@ func _enter_tree():
 			player.Deck.append(card)
 		player.Deck.shuffle()
 		print(player.Deck)
+	"""
 	get_node("game").cfg = cfg
 
 func _physics_process(delta):
