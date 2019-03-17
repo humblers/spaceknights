@@ -27,8 +27,8 @@ var InitialDeck = []Card{
 	Card{Name: "gargoyles"},
 	Card{Name: "enforcer"},
 	Card{Name: "jouster"},
-	Card{Name: "archsapper", Side: Center},
-	Card{Name: "legion", Side: Left},
+	Card{Name: "archsapper", Side: Left},
+	Card{Name: "legion", Side: Center},
 	Card{Name: "judge", Side: Right},
 }
 
