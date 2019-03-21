@@ -1,19 +1,19 @@
 [gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://game/unit/starfire/starfire.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/starfire/body.png" type="Texture" id=2]
+[ext_resource path="res://game/unit/units.sprites/starfire/body.tres" type="Texture" id=2]
 [ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/beacon_black.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/beacon_red.png" type="Texture" id=5]
-[ext_resource path="res://game/vfx/beacon_green.png" type="Texture" id=6]
+[ext_resource path="res://game/vfx/vfx.sprites/beacon_black.tres" type="Texture" id=4]
+[ext_resource path="res://game/vfx/vfx.sprites/beacon_red.tres" type="Texture" id=5]
+[ext_resource path="res://game/vfx/vfx.sprites/beacon_green.tres" type="Texture" id=6]
 [ext_resource path="res://game/unit/light_material.tres" type="Material" id=7]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=8]
+[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=8]
 [ext_resource path="res://game/vfx/astra_charge_1.png" type="Texture" id=9]
-[ext_resource path="res://game/vfx/thrust.png" type="Texture" id=10]
-[ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=11]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=12]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=13]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=14]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=10]
+[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=11]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=12]
+[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=13]
+[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=14]
 [ext_resource path="res://game/unit/starfire/explosion.tres" type="Animation" id=15]
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=16]
 [ext_resource path="res://game/unit/starfire/attack.tres" type="Animation" id=17]
@@ -27,7 +27,6 @@
 [ext_resource path="res://game/unit/starfire/bullet.tscn" type="PackedScene" id=25]
 
 [sub_resource type="SpriteFrames" id=1]
-
 animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
@@ -36,7 +35,6 @@ animations = [ {
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
-
 animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 6 ) ],
 "loop": true,
@@ -45,16 +43,13 @@ animations = [ {
 } ]
 
 [sub_resource type="Curve" id=3]
-
 _data = [ Vector2( 0, 0.9664 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.1304 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=4]
-
 offsets = PoolRealArray( 0.0108696, 0.402174, 0.994565 )
 colors = PoolColorArray( 1, 1, 1, 0, 0.973511, 0.515625, 1, 1, 0.490196, 0, 0.647059, 0 )
 
 [sub_resource type="SpriteFrames" id=5]
-
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
@@ -63,7 +58,6 @@ animations = [ {
 } ]
 
 [sub_resource type="Curve" id=6]
-
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Starfire" type="Node2D"]
@@ -82,12 +76,13 @@ normal_map = ExtResource( 3 )
 position = Vector2( 42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
+playing = true
 
 [node name="FlashingGreen" type="AnimatedSprite" parent="Rotatable/Body"]
 position = Vector2( -42.5, 24.5 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 2 )
-frame = 1
+playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
 position = Vector2( 0, -25.5556 )
@@ -113,7 +108,6 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 position = Vector2( -15, 54.1667 )
 scale = Vector2( 1.16667, 0.833333 )
 
@@ -136,7 +130,6 @@ scale = Vector2( 0.5, 1.5 )
 texture = ExtResource( 8 )
 
 [node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
-editor/display_folded = true
 position = Vector2( 15, 54.1667 )
 scale = Vector2( 1.16667, 0.833333 )
 
