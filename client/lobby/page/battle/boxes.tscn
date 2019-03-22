@@ -9,17 +9,14 @@
 [ext_resource path="res://lobby/resource/medalchest1b.png" type="Texture" id=7]
 [ext_resource path="res://lobby/resource/medalchest1c.png" type="Texture" id=8]
 
-[sub_resource type="Curve" id=4]
-
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2008 ), -0.426477, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=9]
-
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.0116959, 0.169591, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.364627, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=7]
-
+[sub_resource type="Animation" id=3]
 resource_name = "oliveopen"
 length = 2.5
 tracks/0/type = "value"
@@ -143,8 +140,7 @@ tracks/9/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=10]
-
+[sub_resource type="Animation" id=4]
 resource_name = "tanopen"
 length = 2.5
 tracks/0/type = "value"
@@ -313,8 +309,8 @@ linear_accel = 20.0
 linear_accel_random = 1.0
 radial_accel = 180.0
 scale_amount = 0.4
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 9 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="OliveBody" type="TextureRect" parent="Olive"]
 margin_left = 1.0
@@ -325,12 +321,12 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 
 [node name="Light2D3" type="Light2D" parent="Olive/OliveBody"]
-range_item_cull_mask = 0
 position = Vector2( 116, 38.5 )
 enabled = false
 texture = ExtResource( 1 )
 texture_scale = 0.5
 color = Color( 0.431373, 0.560784, 1, 0.454902 )
+range_item_cull_mask = 0
 
 [node name="OliveCover" type="TextureRect" parent="Olive/OliveBody"]
 margin_right = 233.0
@@ -338,9 +334,11 @@ margin_bottom = 164.0
 texture = ExtResource( 5 )
 
 [node name="OliveAni" type="AnimationPlayer" parent="Olive/OliveBody"]
-anims/oliveopen = SubResource( 7 )
+anims/oliveopen = SubResource( 3 )
 
 [node name="Tan" type="Node2D" parent="."]
+editor/display_folded = true
+visible = false
 
 [node name="Sprite3" type="Sprite" parent="Tan"]
 modulate = Color( 0, 0, 0, 1 )
@@ -374,8 +372,8 @@ linear_accel = 20.0
 linear_accel_random = 1.0
 radial_accel = 180.0
 scale_amount = 0.4
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 9 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="TanBody" type="TextureRect" parent="Tan"]
 margin_left = 1.0
@@ -386,12 +384,12 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 7 )
 
 [node name="Light2D3" type="Light2D" parent="Tan/TanBody"]
-range_item_cull_mask = 0
 position = Vector2( 116, 38.5 )
 enabled = false
 texture = ExtResource( 1 )
 texture_scale = 0.5
 color = Color( 0.431373, 0.560784, 1, 0.454902 )
+range_item_cull_mask = 0
 
 [node name="TanCover" type="TextureRect" parent="Tan/TanBody"]
 margin_right = 233.0
@@ -399,5 +397,5 @@ margin_bottom = 164.0
 texture = ExtResource( 8 )
 
 [node name="TanAni" type="AnimationPlayer" parent="Tan/TanBody"]
-anims/tanopen = SubResource( 10 )
+anims/tanopen = SubResource( 4 )
 

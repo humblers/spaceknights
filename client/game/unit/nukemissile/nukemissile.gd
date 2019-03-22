@@ -34,7 +34,7 @@ func Update():
 
 func Destroy():
 	.Destroy()
-	if not $AnimationPlayer.current_animation in ["destroy", "explosion"]:
+	if not $AnimationPlayer.current_animation in ["destroy", "selfdestroy"]:
 		$AnimationPlayer.play("destroy")
 	yield($AnimationPlayer, "animation_finished")
 	queue_free()
