@@ -1,17 +1,16 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://game/bg/ross/ross_set_1.png" type="Texture" id=1]
 [ext_resource path="res://game/bg/ross/ross_set_2.png" type="Texture" id=2]
 [ext_resource path="res://game/unit/starfire/body.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/shadowvision/shadowvision.png" type="Texture" id=4]
 [ext_resource path="res://game/bg/building_1.png" type="Texture" id=5]
-[ext_resource path="res://game/bg/cloud_1.png" type="Texture" id=6]
-[ext_resource path="res://game/bg/cloud_2.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=8]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
+[ext_resource path="res://game/bg/cloud_1.png" type="Texture" id=7]
+[ext_resource path="res://game/bg/cloud_2.png" type="Texture" id=8]
+[ext_resource path="res://game/bg/debris/debris.tscn" type="PackedScene" id=9]
 
-
-[sub_resource type="Animation" id=6]
-
+[sub_resource type="Animation" id=1]
 length = 240.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Starfire:position")
@@ -98,8 +97,7 @@ tracks/6/keys = {
 "values": [ true, false, true, false, true, false, true, false, true, false ]
 }
 
-[sub_resource type="Animation" id=12]
-
+[sub_resource type="Animation" id=2]
 length = 240.0
 loop = true
 tracks/0/type = "value"
@@ -163,8 +161,7 @@ tracks/4/keys = {
 "values": [ true, false, true, false, true, true ]
 }
 
-[sub_resource type="Animation" id=13]
-
+[sub_resource type="Animation" id=3]
 length = 240.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Set2/Shadow:position")
@@ -239,8 +236,7 @@ tracks/5/keys = {
 "values": [ 90.0, 120.0 ]
 }
 
-[sub_resource type="Animation" id=14]
-
+[sub_resource type="Animation" id=4]
 length = 10.0
 loop = true
 tracks/0/type = "value"
@@ -256,8 +252,7 @@ tracks/0/keys = {
 "values": [ Vector2( 406, -1350 ), Vector2( 406, 1412 ) ]
 }
 
-[sub_resource type="Animation" id=15]
-
+[sub_resource type="Animation" id=5]
 length = 14.0
 loop = true
 tracks/0/type = "value"
@@ -273,8 +268,7 @@ tracks/0/keys = {
 "values": [ Vector2( -156.719, -1840.73 ), Vector2( -156.719, 1658.86 ) ]
 }
 
-[sub_resource type="Animation" id=16]
-
+[sub_resource type="Animation" id=6]
 length = 18.0
 loop = true
 tracks/0/type = "value"
@@ -290,8 +284,7 @@ tracks/0/keys = {
 "values": [ Vector2( -404, -1639 ), Vector2( -404, 1559 ) ]
 }
 
-[sub_resource type="Animation" id=17]
-
+[sub_resource type="Animation" id=7]
 length = 20.0
 loop = true
 tracks/0/type = "value"
@@ -307,8 +300,7 @@ tracks/0/keys = {
 "values": [ Vector2( -430, -2126.79 ), Vector2( -430, 2178.16 ) ]
 }
 
-[sub_resource type="Animation" id=18]
-
+[sub_resource type="Animation" id=8]
 length = 120.0
 loop = true
 tracks/0/type = "value"
@@ -330,6 +322,7 @@ tracks/0/keys = {
 position = Vector2( 540, 960 )
 
 [node name="Set" type="Node2D" parent="Background"]
+editor/display_folded = true
 position = Vector2( 0, -3639.29 )
 
 [node name="1" type="Sprite" parent="Background/Set"]
@@ -347,6 +340,7 @@ scale = Vector2( 4, 4 )
 texture = ExtResource( 1 )
 
 [node name="Units" type="Node2D" parent="Background"]
+editor/display_folded = true
 rotation = 0.469287
 
 [node name="Starfire" type="Sprite" parent="Background/Units"]
@@ -359,7 +353,7 @@ texture = ExtResource( 3 )
 [node name="Starfire" type="Sprite" parent="Background/Units/Starfire"]
 modulate = Color( 0, 0, 0, 0.160784 )
 position = Vector2( -17.55, 180.97 )
-rotation = 1.86264e-008
+rotation = 1.86264e-08
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 3 )
 
@@ -373,7 +367,7 @@ texture = ExtResource( 3 )
 [node name="Starfire" type="Sprite" parent="Background/Units/Starfire2"]
 modulate = Color( 0, 0, 0, 0.286275 )
 position = Vector2( -17.55, 180.97 )
-rotation = 1.86264e-008
+rotation = 1.86264e-08
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 3 )
 
@@ -387,13 +381,13 @@ texture = ExtResource( 3 )
 [node name="Starfire" type="Sprite" parent="Background/Units/Starfire3"]
 modulate = Color( 0, 0, 0, 0.313726 )
 position = Vector2( -17.55, 180.97 )
-rotation = 1.86264e-008
+rotation = 1.86264e-08
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 3 )
 
 [node name="StarfireAni" type="AnimationPlayer" parent="Background/Units"]
 autoplay = "move"
-anims/move = SubResource( 6 )
+anims/move = SubResource( 1 )
 
 [node name="Units2" type="Node2D" parent="Background"]
 editor/display_folded = true
@@ -414,13 +408,12 @@ texture = ExtResource( 4 )
 
 [node name="ShadowVAni" type="AnimationPlayer" parent="Background/Units2"]
 autoplay = "move"
-anims/move = SubResource( 12 )
+anims/move = SubResource( 2 )
 
 [node name="Objects" type="Node2D" parent="Background"]
 editor/display_folded = true
 
 [node name="Set2" type="Node2D" parent="Background/Objects"]
-editor/display_folded = true
 
 [node name="Shadow" type="Sprite" parent="Background/Objects/Set2"]
 modulate = Color( 0, 0, 0, 0.160784 )
@@ -454,73 +447,59 @@ texture = ExtResource( 5 )
 
 [node name="ObjectAni" type="AnimationPlayer" parent="Background/Objects"]
 autoplay = "scroll"
-anims/scroll = SubResource( 13 )
+anims/scroll = SubResource( 3 )
 
 [node name="Cloud" type="Node2D" parent="Background"]
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0.407843 )
 
 [node name="1" type="Sprite" parent="Background/Cloud"]
+material = ExtResource( 6 )
 position = Vector2( 406, -1350 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="2" type="Sprite" parent="Background/Cloud"]
 modulate = Color( 1, 1, 1, 0.530392 )
+material = ExtResource( 6 )
 position = Vector2( -156.719, -1840.73 )
 rotation = 4.71239
 scale = Vector2( 4, 4 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="3" type="Sprite" parent="Background/Cloud"]
+material = ExtResource( 6 )
 position = Vector2( -404, -1639 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="4" type="Sprite" parent="Background/Cloud"]
 modulate = Color( 1, 1, 1, 0.491686 )
+material = ExtResource( 6 )
 position = Vector2( -430, -2126.79 )
 rotation = 4.71239
 scale = Vector2( 5, 5 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="CloudAni" type="AnimationPlayer" parent="Background/Cloud"]
 autoplay = "scroll"
-anims/scroll = SubResource( 14 )
+anims/scroll = SubResource( 4 )
 
 [node name="CloudAni2" type="AnimationPlayer" parent="Background/Cloud"]
 autoplay = "scroll"
-anims/scroll = SubResource( 15 )
+anims/scroll = SubResource( 5 )
 
 [node name="CloudAni3" type="AnimationPlayer" parent="Background/Cloud"]
 autoplay = "scroll"
-anims/scroll = SubResource( 16 )
+anims/scroll = SubResource( 6 )
 
 [node name="CloudAni4" type="AnimationPlayer" parent="Background/Cloud"]
 autoplay = "scroll"
-anims/scroll = SubResource( 17 )
+anims/scroll = SubResource( 7 )
 
 [node name="BackgroundAni" type="AnimationPlayer" parent="Background"]
 autoplay = "bgscroll"
-anims/bgscroll = SubResource( 18 )
+anims/bgscroll = SubResource( 8 )
 
-[node name="LightSimulation" type="Node" parent="."]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="LightSimulation"]
-scale = Vector2( 6, 6 )
-color = Color( 0.392157, 0.392157, 0.392157, 1 )
-
-[node name="Light2D" type="Light2D" parent="LightSimulation"]
-range_item_cull_mask = 0
-position = Vector2( 540, 972 )
-scale = Vector2( 4, 4.94 )
-texture = ExtResource( 8 )
-texture_scale = 50.0
-color = Color( 0.988235, 0.988235, 0.988235, 1 )
-range_height = 20.0
-shadow_enabled = true
-shadow_color = Color( 0, 0, 0, 0.384314 )
-shadow_filter = 2
-shadow_filter_smooth = 4.0
-shadow_item_cull_mask = 2
+[node name="Debris" parent="Background" instance=ExtResource( 9 )]
+position = Vector2( -69.1584, -27.9255 )
 
