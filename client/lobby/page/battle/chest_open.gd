@@ -14,19 +14,34 @@ export(NodePath) onready var chest_icon = get_node(chest_icon)
 
 var hidden_cards = []
 
+export(String, "Silver", "Gold", "Diamond", "D-Matter", "E-Matter") var chest_name = "Silver"
+export(int) var gold = 0
+export(int) var cash = 0
+export(Dictionary) var cards = {
+	"archers": 3,
+	"legion": 1,
+}
+export(Dictionary) var user_cards = {
+	"archers": {"Level": 0, "Holding": 5},
+	"legion": {"Level": 0, "Holding": 3},
+}
+export(bool) var test_open = false
+
 func _ready():
 	card1.connect("button_up", self, "flip_card", [card1])
 	card2.connect("button_up", self, "flip_card", [card2])
 	card3.connect("button_up", self, "flip_card", [card3])
 	card4.connect("button_up", self, "flip_card", [card4])
 	card5.connect("button_up", self, "flip_card", [card5])
+	if test_open:
+		PopUp(chest_name, gold, cash, cards, user_cards)
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if len(hidden_cards) <= 0:
 			visible = false
 
-func PopUp(chest_name, gold, cash, cards):
+func PopUp(chest_name, gold, cash, cards, user_cards = user.Cards):
 	chest_icon.Open(chest_name)
 	gold_label.text = "+%d" % gold
 	cash_label.text = "+%d" % cash
@@ -34,9 +49,9 @@ func PopUp(chest_name, gold, cash, cards):
 	for name in cards:
 		var card = get("card%d" % i)
 		var card_item = card.get_node("Item")
-		var card_data = user.Cards[name]
+		var card_data = user_cards[name]
 		card_data.Name = name
-		card_item.Invalidate(data.NewCard(card_data))
+		card_item.Invalidate(data.NewCard(card_data), cards[name])
 		hidden_cards.append(card)
 		i += 1
 	open_anim.play("open%d" % len(cards))

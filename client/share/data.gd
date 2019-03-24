@@ -1473,7 +1473,8 @@ var units = {
 	},
 }
 
-var Upgrade
+# TODO: change this to autoloaded(global) object
+onready var Upgrade = preload("res://share/upgrade.gd").new()
 
 func Initialize():
 	for k in units:
