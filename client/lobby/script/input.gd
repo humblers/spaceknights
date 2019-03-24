@@ -5,6 +5,7 @@ const MODE_SCROLL_HORIZONTAL = "SCROLL_HORIZONTAL"
 const MODE_SCROLL_VERTICAL = "SCROLL_VERTICAL"
 
 const SCROLL_DECISION_PIXEL = 50
+const SCROLL_EXTEND_LIMIT = 100
 
 export(NodePath) onready var lobby = get_node(lobby)
 
@@ -69,8 +70,13 @@ func _input(ev):
 					scroll = MODE_SCROLL_VERTICAL
 			MODE_SCROLL_VERTICAL:
 				var control = cur_page.get_vertical_scrollable_control()
-				if control != null:
-					control.rect_position.y -= d.y
+				if control == null:
+					continue
+				if control.rect_position.y < cur_page.scroll_min_y - SCROLL_EXTEND_LIMIT:
+					continue
+				if control.rect_position.y > cur_page.scroll_max_y + SCROLL_EXTEND_LIMIT:
+					continue
+				control.rect_position.y -= d.y
 				continue
 			MODE_SCROLL_HORIZONTAL:
 				camera.position.x += d.x

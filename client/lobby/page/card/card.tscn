@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://lobby/page/card/card.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -23,25 +23,26 @@
 [ext_resource path="res://lobby/page/card/practice_icon.png" type="Texture" id=21]
 [ext_resource path="res://lobby/page/card/sort_icon.png" type="Texture" id=22]
 [ext_resource path="res://lobby/page/card/card_btn_expansion_wt.png" type="Texture" id=23]
-[ext_resource path="res://lobby/hud/panel.png" type="Texture" id=24]
-[ext_resource path="res://lobby/page/card/item_pressed.gd" type="Script" id=25]
-[ext_resource path="res://lobby/resource/card_back_empty.png" type="Texture" id=26]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=27]
-[ext_resource path="res://lobby/page/card/button_info_t.png" type="Texture" id=28]
-[ext_resource path="res://lobby/page/card/button_info_t_pressed.png" type="Texture" id=29]
-[ext_resource path="res://lobby/page/card/button_info_t_hover.png" type="Texture" id=30]
-[ext_resource path="res://lobby/page/card/upgrade_button_t.png" type="Texture" id=31]
-[ext_resource path="res://lobby/page/card/upgrade_button_t_pressed.png" type="Texture" id=32]
-[ext_resource path="res://lobby/page/card/upgrade_button_t_hover.png" type="Texture" id=33]
-[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=34]
-[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=35]
-[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=36]
-[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=37]
-[ext_resource path="res://lobby/page/battle/reward_slot_cover2.png" type="Texture" id=38]
-[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=39]
-[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=40]
-[ext_resource path="res://lobby/page/battle/reward_slot_cover.png" type="Texture" id=41]
-[ext_resource path="res://lobby/page/battle/reward_slot_rail.png" type="Texture" id=42]
+[ext_resource path="res://lobby/page/card/item_not_found.tscn" type="PackedScene" id=24]
+[ext_resource path="res://lobby/hud/panel.png" type="Texture" id=25]
+[ext_resource path="res://lobby/page/card/item_pressed.gd" type="Script" id=26]
+[ext_resource path="res://lobby/resource/card_back_empty.png" type="Texture" id=27]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=28]
+[ext_resource path="res://lobby/page/card/button_info_t.png" type="Texture" id=29]
+[ext_resource path="res://lobby/page/card/button_info_t_pressed.png" type="Texture" id=30]
+[ext_resource path="res://lobby/page/card/button_info_t_hover.png" type="Texture" id=31]
+[ext_resource path="res://lobby/page/card/upgrade_button_t.png" type="Texture" id=32]
+[ext_resource path="res://lobby/page/card/upgrade_button_t_pressed.png" type="Texture" id=33]
+[ext_resource path="res://lobby/page/card/upgrade_button_t_hover.png" type="Texture" id=34]
+[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=35]
+[ext_resource path="res://lobby/page/card/button_t.png" type="Texture" id=36]
+[ext_resource path="res://lobby/page/card/button_t_pressed.png" type="Texture" id=37]
+[ext_resource path="res://lobby/page/card/button_t_hover.png" type="Texture" id=38]
+[ext_resource path="res://lobby/page/battle/reward_slot_cover2.png" type="Texture" id=39]
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=40]
+[ext_resource path="res://lobby/page/card/slot_normal.png" type="Texture" id=41]
+[ext_resource path="res://lobby/page/battle/reward_slot_cover.png" type="Texture" id=42]
+[ext_resource path="res://lobby/page/battle/reward_slot_rail.png" type="Texture" id=43]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -246,6 +247,7 @@ rect_min_size = Vector2( 1080, 1800 )
 custom_constants/separation = 25
 
 [node name="MarginContainer" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_right = 1440.0
 margin_bottom = 1244.0
 custom_constants/margin_right = 180
@@ -254,13 +256,13 @@ custom_constants/margin_left = 180
 custom_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer"]
+editor/display_folded = true
 margin_left = 180.0
 margin_top = 10.0
 margin_right = 1260.0
 margin_bottom = 1244.0
 
 [node name="KnightsDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 480.0
 rect_min_size = Vector2( 0, 480 )
@@ -338,7 +340,6 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="Knights" type="HBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck"]
-editor/display_folded = true
 margin_top = 45.0
 margin_right = 1080.0
 margin_bottom = 510.0
@@ -363,7 +364,7 @@ script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Left" instance=ExtResource( 12 )]
 margin_top = 43.0
-margin_bottom = 373.0
+margin_bottom = 393.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Center" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
@@ -386,7 +387,7 @@ script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Center" instance=ExtResource( 12 )]
 margin_top = 43.0
-margin_bottom = 373.0
+margin_bottom = 393.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Right" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights"]
@@ -409,7 +410,7 @@ script = ExtResource( 11 )
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/KnightsDeck/Knights/Right" instance=ExtResource( 12 )]
 margin_top = 43.0
-margin_bottom = 373.0
+margin_bottom = 393.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="SquiresDeck" type="Control" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
@@ -511,6 +512,7 @@ rect_min_size = Vector2( 90, 81 )
 texture = ExtResource( 15 )
 
 [node name="UnitBG" type="NinePatchRect" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck"]
+editor/display_folded = true
 self_modulate = Color( 0.392157, 0.701961, 1, 0.588235 )
 margin_left = -1.0
 margin_top = -28.0
@@ -565,62 +567,67 @@ custom_constants/separation = 15
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
+editor/display_folded = true
 margin_left = 17.0
 margin_right = 267.0
-margin_bottom = 685.0
-custom_constants/separation = 25
+margin_bottom = 705.0
+custom_constants/separation = 5
 alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer" instance=ExtResource( 12 )]
 margin_top = 177.0
-margin_bottom = 507.0
+margin_bottom = 527.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
+editor/display_folded = true
 margin_left = 282.0
 margin_right = 532.0
-margin_bottom = 685.0
-custom_constants/separation = 25
+margin_bottom = 705.0
+custom_constants/separation = 5
 alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2" instance=ExtResource( 12 )]
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer2" instance=ExtResource( 12 )]
 margin_top = 355.0
-margin_bottom = 685.0
+margin_bottom = 705.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
+editor/display_folded = true
 margin_left = 547.0
 margin_right = 797.0
-margin_bottom = 685.0
-custom_constants/separation = 25
+margin_bottom = 705.0
+custom_constants/separation = 5
 alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer3" instance=ExtResource( 12 )]
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer3" instance=ExtResource( 12 )]
 margin_top = 355.0
-margin_bottom = 685.0
+margin_bottom = 705.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops"]
+editor/display_folded = true
 margin_left = 812.0
 margin_right = 1062.0
-margin_bottom = 685.0
-custom_constants/separation = 25
+margin_bottom = 705.0
+custom_constants/separation = 5
 alignment = 1
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SquiresDeck/Troops/VBoxContainer4" instance=ExtResource( 12 )]
 margin_top = 177.0
-margin_bottom = 507.0
+margin_bottom = 527.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Tab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 1269.0
 margin_right = 1440.0
 margin_bottom = 1419.0
@@ -717,6 +724,7 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="TutorMode" type="TextureButton" parent="PageMain/MarginContainer/VBoxContainer/Tab"]
+editor/display_folded = true
 self_modulate = Color( 0.945098, 0.552941, 1, 1 )
 anchor_left = 1.0
 anchor_top = 0.5
@@ -761,6 +769,7 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="SortBt" type="TextureButton" parent="PageMain/MarginContainer/VBoxContainer/Tab"]
+editor/display_folded = true
 visible = false
 self_modulate = Color( 0.945098, 0.552941, 1, 1 )
 anchor_left = 1.0
@@ -808,13 +817,14 @@ script = ExtResource( 11 )
 [node name="BottomContainers" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer"]
 margin_top = 1444.0
 margin_right = 1440.0
-margin_bottom = 2989.0
+margin_bottom = 2729.0
 custom_constants/margin_top = 15
 
 [node name="MarginCard" type="MarginContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
+editor/display_folded = true
 margin_top = 15.0
 margin_right = 1440.0
-margin_bottom = 1545.0
+margin_bottom = 1285.0
 rect_min_size = Vector2( 1440, 400 )
 custom_constants/margin_right = 180
 custom_constants/margin_top = -35
@@ -827,7 +837,7 @@ self_modulate = Color( 0.411765, 0.356863, 0.254902, 1 )
 margin_left = 180.0
 margin_top = -35.0
 margin_right = 1260.0
-margin_bottom = 1565.0
+margin_bottom = 1305.0
 texture = ExtResource( 23 )
 region_rect = Rect2( 0, 0, 240, 240 )
 patch_margin_left = 69
@@ -839,14 +849,14 @@ patch_margin_bottom = 40
 editor/display_folded = true
 margin_top = 15.0
 margin_right = 1440.0
-margin_bottom = 1545.0
+margin_bottom = 1285.0
 rect_min_size = Vector2( 0, 400 )
 
 [node name="Control" type="Control" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer"]
 margin_left = 720.0
-margin_top = 765.0
+margin_top = 635.0
 margin_right = 720.0
-margin_bottom = 765.0
+margin_bottom = 635.0
 
 [node name="Picked" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Control" instance=ExtResource( 12 )]
 margin_left = -125.0
@@ -855,11 +865,11 @@ margin_right = 125.0
 margin_bottom = 157.0
 page_card = NodePath("../../../../../../..")
 
-[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Control"]
-margin_left = -242.0
-margin_top = -220.0
-margin_right = 239.0
-margin_bottom = -180.0
+[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/CenterContainer/Control/Picked"]
+margin_left = -117.0
+margin_top = -47.0
+margin_right = 364.0
+margin_bottom = -7.0
 rect_min_size = Vector2( 481, 40 )
 custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.811765, 0.811765, 0.811765, 1 )
@@ -872,68 +882,61 @@ script = ExtResource( 11 )
 [node name="Lists" type="VBoxContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers"]
 margin_top = 15.0
 margin_right = 1440.0
-margin_bottom = 1545.0
+margin_bottom = 1285.0
 custom_constants/separation = 20
 
 [node name="CenterContainer" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
 margin_right = 1440.0
-margin_bottom = 685.0
+margin_bottom = 705.0
 
 [node name="Founds" type="GridContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer"]
+editor/display_folded = true
 margin_left = 202.0
 margin_right = 1238.0
-margin_bottom = 685.0
-custom_constants/vseparation = 25
+margin_bottom = 705.0
+custom_constants/vseparation = 5
 custom_constants/hseparation = 12
 columns = 4
 
 [node name="Item" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../..")
 
 [node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
 margin_left = 262.0
 margin_right = 512.0
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../..")
 
 [node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
 margin_left = 524.0
 margin_right = 774.0
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../..")
 
 [node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
 margin_left = 786.0
 margin_right = 1036.0
-margin_bottom = 330.0
+margin_bottom = 350.0
 page_card = NodePath("../../../../../../../..")
 
 [node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
 margin_top = 355.0
-margin_bottom = 685.0
+margin_bottom = 705.0
 page_card = NodePath("../../../../../../../..")
 
 [node name="Item6" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer/Founds" instance=ExtResource( 12 )]
 margin_left = 262.0
 margin_top = 355.0
 margin_right = 512.0
-margin_bottom = 685.0
+margin_bottom = 705.0
 page_card = NodePath("../../../../../../../..")
 
-[node name="LastTab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-margin_top = 705.0
+[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
+margin_top = 725.0
 margin_right = 1440.0
-margin_bottom = 805.0
-rect_min_size = Vector2( 1440, 100 )
-texture = ExtResource( 4 )
-expand = true
-
-[node name="Label" type="Label" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/LastTab"]
-margin_top = 27.0
-margin_right = 1440.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 1440, 47 )
+margin_bottom = 780.0
+rect_min_size = Vector2( 1440, 55 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.572549, 0.407843, 0.180392, 1 )
 text = "ID_PAGE_CARD_FOUND"
@@ -942,81 +945,70 @@ valign = 1
 clip_text = true
 script = ExtResource( 11 )
 
-[node name="SeperateBar" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/LastTab"]
+[node name="SeperateBar" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/Label"]
 self_modulate = Color( 0.415686, 0.356863, 0.227451, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -540.0
-margin_top = -85.0
+margin_top = -55.0
 margin_right = 540.0
-margin_bottom = -80.0
+margin_bottom = -50.0
+rect_min_size = Vector2( 1080, 5 )
 texture = ExtResource( 17 )
+expand = true
+
+[node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
+margin_top = 800.0
+margin_right = 1440.0
+margin_bottom = 1130.0
+
+[node name="NotFounds" type="GridContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2"]
+margin_left = 333.0
+margin_right = 1107.0
+margin_bottom = 330.0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 12
+columns = 4
+
+[node name="Item" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 24 )]
+margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
+
+[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 24 )]
+margin_left = 262.0
+margin_right = 512.0
+margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
+
+[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 24 )]
+margin_left = 524.0
+margin_right = 774.0
+margin_bottom = 330.0
+page_card = NodePath("../../../../../../../..")
+
+[node name="LastTab" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
+margin_top = 1150.0
+margin_right = 1440.0
+margin_bottom = 1250.0
+rect_min_size = Vector2( 1440, 100 )
+texture = ExtResource( 4 )
 expand = true
 
 [node name="Expand" type="TextureRect" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/LastTab"]
 margin_top = 100.0
 margin_right = 1440.0
 margin_bottom = 1375.0
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 expand = true
 
-[node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-margin_top = 825.0
-margin_right = 1440.0
-margin_bottom = 1510.0
-
-[node name="NotFounds" type="GridContainer" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2"]
-editor/display_folded = true
-margin_left = 202.0
-margin_right = 1238.0
-margin_bottom = 685.0
-custom_constants/vseparation = 25
-custom_constants/hseparation = 12
-columns = 4
-
-[node name="Item" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_bottom = 330.0
-page_card = NodePath("../../../../../../../..")
-
-[node name="Item6" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_left = 262.0
-margin_right = 512.0
-margin_bottom = 330.0
-page_card = NodePath("../../../../../../../..")
-
-[node name="Item2" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_left = 524.0
-margin_right = 774.0
-margin_bottom = 330.0
-page_card = NodePath("../../../../../../../..")
-
-[node name="Item5" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_left = 786.0
-margin_right = 1036.0
-margin_bottom = 330.0
-page_card = NodePath("../../../../../../../..")
-
-[node name="Item3" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_top = 355.0
-margin_bottom = 685.0
-page_card = NodePath("../../../../../../../..")
-
-[node name="Item4" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists/CenterContainer2/NotFounds" instance=ExtResource( 12 )]
-margin_left = 262.0
-margin_top = 355.0
-margin_right = 512.0
-margin_bottom = 685.0
-page_card = NodePath("../../../../../../../..")
-
 [node name="BottomLeft" type="Control" parent="PageMain/MarginContainer/VBoxContainer/BottomContainers/Lists"]
-margin_top = 1530.0
+margin_top = 1270.0
 margin_right = 1440.0
-margin_bottom = 1530.0
+margin_bottom = 1270.0
 
 [node name="Control" type="Control" parent="PageMain/MarginContainer"]
-editor/display_folded = true
 margin_top = 190.0
 margin_right = 1440.0
 margin_bottom = 3179.0
@@ -1027,7 +1019,7 @@ margin_left = 915.0
 margin_top = 78.0
 margin_right = 1227.0
 margin_bottom = 556.0
-script = ExtResource( 25 )
+script = ExtResource( 26 )
 page_card = NodePath("../../../..")
 base = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base")
 icon = NodePath("MarginContainer/MarginContainer/VBoxContainer/Base/Control/Icon")
@@ -1050,7 +1042,7 @@ mouse_filter = 1
 self_modulate = Color( 0.862745, 0.862745, 0.862745, 1 )
 margin_right = 312.0
 margin_bottom = 618.0
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 region_rect = Rect2( -0.5, 0.0750008, 250.5, 299.925 )
 patch_margin_left = 30
 patch_margin_top = 212
@@ -1063,7 +1055,7 @@ margin_left = 19.0
 margin_top = 14.0
 margin_right = 293.0
 margin_bottom = 454.0
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 region_rect = Rect2( -0.5, 0.0750008, 250.5, 299.925 )
 patch_margin_left = 30
 patch_margin_top = 212
@@ -1080,7 +1072,7 @@ margin_left = -137.0
 margin_top = -261.0
 margin_right = 137.0
 margin_bottom = -18.0
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 region_rect = Rect2( -0.5, 0.0750008, 250.5, 299.925 )
 patch_margin_left = 30
 patch_margin_top = 212
@@ -1102,7 +1094,7 @@ margin_top = 20.0
 margin_right = 297.0
 margin_bottom = 588.0
 
-[node name="Base" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer" instance=ExtResource( 27 )]
+[node name="Base" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer" instance=ExtResource( 28 )]
 editor/display_folded = true
 margin_top = 0.0
 margin_right = 282.0
@@ -1127,9 +1119,9 @@ margin_left = 1.0
 margin_right = 281.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 280, 130 )
-texture_normal = ExtResource( 28 )
-texture_pressed = ExtResource( 29 )
-texture_hover = ExtResource( 30 )
+texture_normal = ExtResource( 29 )
+texture_pressed = ExtResource( 30 )
+texture_hover = ExtResource( 31 )
 expand = true
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Info"]
@@ -1154,9 +1146,9 @@ margin_left = 1.0
 margin_right = 281.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 280, 130 )
-texture_normal = ExtResource( 31 )
-texture_pressed = ExtResource( 32 )
-texture_hover = ExtResource( 33 )
+texture_normal = ExtResource( 32 )
+texture_pressed = ExtResource( 33 )
+texture_hover = ExtResource( 34 )
 expand = true
 
 [node name="Label2" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade"]
@@ -1196,8 +1188,9 @@ margin_left = 166.0
 margin_right = 216.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 50, 30 )
+mouse_filter = 1
 
-[node name="Galacticoin" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer/Control" instance=ExtResource( 34 )]
+[node name="Galacticoin" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer/Upgrade/HBoxContainer/Control" instance=ExtResource( 35 )]
 position = Vector2( 25, 39 )
 
 [node name="CenterContainer2" type="CenterContainer" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer"]
@@ -1210,9 +1203,9 @@ margin_left = 1.0
 margin_right = 281.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 280, 130 )
-texture_normal = ExtResource( 35 )
-texture_pressed = ExtResource( 36 )
-texture_hover = ExtResource( 37 )
+texture_normal = ExtResource( 36 )
+texture_pressed = ExtResource( 37 )
+texture_hover = ExtResource( 38 )
 expand = true
 
 [node name="Label" type="Label" parent="PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer/VBoxContainer/CenterContainer2/Use"]
@@ -1239,7 +1232,7 @@ margin_left = -550.0
 margin_top = -230.0
 margin_right = 550.0
 margin_bottom = 210.0
-texture = ExtResource( 38 )
+texture = ExtResource( 39 )
 expand = true
 
 [node name="Decks" type="TextureRect" parent="PageMain"]
@@ -1249,7 +1242,7 @@ margin_top = 90.0
 margin_right = 1440.0
 margin_bottom = 190.0
 rect_min_size = Vector2( 1440, 100 )
-texture = ExtResource( 39 )
+texture = ExtResource( 40 )
 expand = true
 
 [node name="TextureRect" type="TextureRect" parent="PageMain/Decks"]
@@ -1302,7 +1295,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 40 )
+texture_normal = ExtResource( 41 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1329,7 +1322,7 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 40 )
+texture_normal = ExtResource( 41 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1355,7 +1348,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 40 )
+texture_normal = ExtResource( 41 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1382,7 +1375,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 40 )
+texture_normal = ExtResource( 41 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1409,7 +1402,7 @@ focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
 group = SubResource( 13 )
-texture_normal = ExtResource( 40 )
+texture_normal = ExtResource( 41 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 20 )
 
@@ -1428,6 +1421,7 @@ align = 1
 valign = 1
 
 [node name="CoverBottom" type="TextureRect" parent="PageMain"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1436,7 +1430,7 @@ margin_left = -550.0
 margin_top = -211.0
 margin_right = 550.0
 margin_bottom = 229.0
-texture = ExtResource( 41 )
+texture = ExtResource( 42 )
 expand = true
 
 [node name="RailL1" type="NinePatchRect" parent="PageMain"]
@@ -1446,7 +1440,7 @@ margin_left = 150.0
 margin_top = -880.0
 margin_right = 190.0
 margin_bottom = -32.0
-texture = ExtResource( 42 )
+texture = ExtResource( 43 )
 region_rect = Rect2( 0, 0, 20, 200 )
 patch_margin_top = 29
 patch_margin_bottom = 29
@@ -1458,7 +1452,7 @@ margin_left = 150.0
 margin_top = -33.0
 margin_right = 190.0
 margin_bottom = 815.0
-texture = ExtResource( 42 )
+texture = ExtResource( 43 )
 region_rect = Rect2( 0, 0, 20, 200 )
 patch_margin_top = 29
 patch_margin_bottom = 29
@@ -1472,7 +1466,7 @@ margin_left = -190.0
 margin_top = -880.0
 margin_right = -150.0
 margin_bottom = -32.0
-texture = ExtResource( 42 )
+texture = ExtResource( 43 )
 region_rect = Rect2( 0, 0, 20, 200 )
 patch_margin_top = 29
 patch_margin_bottom = 29
@@ -1486,13 +1480,13 @@ margin_left = -190.0
 margin_top = -33.0
 margin_right = -150.0
 margin_bottom = 815.0
-texture = ExtResource( 42 )
+texture = ExtResource( 43 )
 region_rect = Rect2( 0, 0, 20, 200 )
 patch_margin_top = 29
 patch_margin_bottom = 29
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "item" ), [ ExtResource( 12 ) ] ]
+resources = [ PoolStringArray( "item", "item_not_found" ), [ ExtResource( 12 ), ExtResource( 24 ) ] ]
 
 [node name="Tween" type="Tween" parent="."]
 

@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://lobby/page/card/item_not_found.gd" type="Script" id=1]
+[ext_resource path="res://lobby/resource/board_black.png" type="Texture" id=2]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=3]
+[ext_resource path="res://material/grayscale_screen.tres" type="Material" id=4]
+[ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=5]
+
+[node name="Item" type="Button"]
+margin_right = 250.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 330 )
+rect_pivot_offset = Vector2( 125, 165 )
+icon = NodePath("Base/Control/Icon")
+flat = true
+script = ExtResource( 1 )
+base = NodePath("Base")
+icon = NodePath("Base/Control/Icon")
+frame = NodePath("Base/Control/Frame")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+visible = false
+self_modulate = Color( 0.384314, 0.384314, 0.384314, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -130.0
+margin_top = -171.0
+margin_right = 130.0
+margin_bottom = 179.0
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 200, 200 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="Base" parent="." instance=ExtResource( 3 )]
+editor/display_folded = true
+margin_bottom = 301.0
+
+[node name="Label" parent="Base/Control" index="3"]
+visible = false
+
+[node name="Lv" parent="Base/Control" index="4"]
+visible = false
+
+[node name="Cost" parent="Base/Control" index="5"]
+visible = false
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+position = Vector2( 125.286, 150.177 )
+scale = Vector2( 1.27407, 1.52296 )
+copy_mode = 2
+
+[node name="Sprite" type="Sprite" parent="BackBufferCopy"]
+material = ExtResource( 4 )
+texture = ExtResource( 5 )
+
+
+[editable path="Base"]

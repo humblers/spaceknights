@@ -105,7 +105,7 @@ func Invalidate():
 		var name = not_found_cards[i]
 		if filter != data.cards[name].Type:
 			continue
-		var item = resource_preloader.get_resource("item").instance()
+		var item = resource_preloader.get_resource("item_not_found").instance()
 		item.page_card = get_path()
 		container_notfounds.add_child(item)
 		item.Invalidate(data.NewCard({"Name": name, "Level": -1}))
