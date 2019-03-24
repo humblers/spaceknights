@@ -26,6 +26,7 @@ onready var closing_scene = $NonCameraFollowingUI/Closing
 onready var bgm_anim = $BGM/AnimationPlayer
 onready var boost_ui = $NonCameraFollowingUI/EnergyBoost
 onready var boost_fx = $CameraFollowingUI/RenderOverPivot/EnergyBoost
+onready var opening_anim = $NonCameraFollowingUI/Opening
 
 var map
 
@@ -93,6 +94,9 @@ func _ready():
 		var player = $Players.get_node(team)
 		player.Init(p, self)
 		players[p.Id] = player
+	opening_anim.Play($Players.get_node("Blue").leader, 
+		$Players.get_node("Red").leader,
+		$Resource/Icon)
 
 func initTiles():
 	for i in map.TileNumX():

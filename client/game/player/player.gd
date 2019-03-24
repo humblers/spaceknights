@@ -23,6 +23,7 @@ const INITIAL_KNIGHT_POSITION_Y = {
 const INPUT_DELAY_STEP = 10
 
 var team
+var leader = ""
 var energy = 0
 var hand = []
 var pending = []
@@ -48,6 +49,8 @@ func Init(playerData, game):
 		if card.Type == data.KnightCard:
 			var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 			addKnight(card.Name, lv, card.Side)
+			if card.Side == data.Center:
+				leader = card.Name
 	applyLeaderSkill()
 
 func ClampToValidTile(tx, ty):
