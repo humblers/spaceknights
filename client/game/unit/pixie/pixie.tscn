@@ -29,10 +29,10 @@
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.296801 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Pixie" type="Node2D"]
@@ -46,20 +46,22 @@ scale = Vector2( 0.8, 0.8 )
 use_parent_material = true
 
 [node name="Body" type="Sprite" parent="Rotatable/Main"]
+light_mask = 3
 use_parent_material = true
 texture = ExtResource( 2 )
 normal_map = ExtResource( 3 )
 
 [node name="Rake" type="Node2D" parent="Rotatable/Main/Body"]
 show_behind_parent = true
-scale = Vector2( 1, 1 )
 
 [node name="Right" type="Sprite" parent="Rotatable/Main/Body/Rake"]
+light_mask = 3
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 offset = Vector2( 17, -6 )
 
 [node name="Left" type="Sprite" parent="Rotatable/Main/Body/Rake"]
+light_mask = 3
 texture = ExtResource( 4 )
 normal_map = ExtResource( 5 )
 offset = Vector2( -17, -6 )
@@ -67,11 +69,9 @@ flip_h = true
 
 [node name="Attackpoint" type="Position2D" parent="Rotatable/Main/Body"]
 position = Vector2( 0, -47.5 )
-scale = Vector2( 1, 1 )
 
 [node name="AttackP" type="CPUParticles2D" parent="Rotatable/Main/Body/Attackpoint"]
 material = ExtResource( 6 )
-scale = Vector2( 1, 1 )
 emitting = false
 speed_scale = 2.0
 texture = ExtResource( 7 )
@@ -144,7 +144,7 @@ spread = 180.0
 angular_velocity = 180.0
 radial_accel = 100.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 2 )
 
 [node name="LightF" type="Sprite" parent="Rotatable/Main/Body/Forcefield"]
 visible = false
@@ -208,7 +208,7 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 4 )
+scale_amount_curve = SubResource( 3 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
