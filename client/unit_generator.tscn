@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=1]
 
@@ -8,11 +8,13 @@ script/source = "extends VBoxContainer
 func _ready():
 	randomize()
 	add_scene_to_button(\"res://game/unit\")
+	$HBoxContainer/OptionButton.connect(\"item_selected\", self, \"anim_selected\")
 
 func _on_Button_button_up():
 	for child in get_node(\"../Units\").get_children():
 		child.queue_free()
 	$Generated.visible = true
+	$HBoxContainer/OptionButton.visible = false
 
 func add_scene_to_button(path, depth = 0):
 	var dir = Directory.new()
@@ -37,31 +39,59 @@ func add_scene_to_button(path, depth = 0):
 
 func generate(button):
 	var res = load(button.text)
+	var unit
 	for i in range(int($HBoxContainer/TextEdit.text)):
-		var unit = res.instance()
+		unit = res.instance()
 		unit.InitDummy(randi() % 1080, randi() % 1920, {\"team_swapped\": false}, {\"team\": \"Blue\"})
 		get_node(\"../Units\").add_child(unit)
-		play_random_anim(unit)
+#		play_random_anim(unit)
+	var option = $HBoxContainer/OptionButton
+	for i in range(option.get_item_count()):
+		option.remove_item(i)
+	$HBoxContainer/OptionButton.add_item(\"Choose Animation\")
+	$HBoxContainer/OptionButton.add_item(\"random\")
+	for anim in unit.get_node(\"AnimationPlayer\").get_animation_list():
+		$HBoxContainer/OptionButton.add_item(anim)
 	$Generated.visible = false
+	$HBoxContainer/OptionButton.visible = true
 
 func play_random_anim(unit):
 	var anim_player = unit.get_node(\"AnimationPlayer\")
 	var anims = anim_player.get_animation_list()
 	while true:
 		var anim = anims[randi() % len(anims)]
+		anim_player.get_animation(anim).loop = false
 		anim_player.play(anim)
-		yield(anim_player, \"animation_finished\")"
+		yield(anim_player, \"animation_finished\")
+
+func play_anim(unit, anim):
+	var anim_player = unit.get_node(\"AnimationPlayer\")
+	anim_player.get_animation(anim).loop = true
+	anim_player.play(anim)
+
+func anim_selected(ID):
+	var anim = $HBoxContainer/OptionButton.get_item_text(ID)
+	for unit in get_node(\"../Units\").get_children():
+		if anim == \"random\":
+			play_random_anim(unit)
+		else:
+			play_anim(unit, anim)"
 
 [sub_resource type="DynamicFont" id=2]
 size = 32
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 32
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
+size = 32
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 32
 use_filter = true
 font_data = ExtResource( 1 )
@@ -94,8 +124,17 @@ margin_left = 177.0
 margin_right = 277.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 100, 0 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "100"
+
+[node name="OptionButton" type="OptionButton" parent="Control/HBoxContainer"]
+visible = false
+margin_left = 281.0
+margin_right = 614.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 5 )
+text = "Choose Animation"
+align = 1
 
 [node name="SceneButtonPlaceHolder" type="Button" parent="Control"]
 visible = false
@@ -116,6 +155,6 @@ margin_top = 48.0
 margin_right = 1080.0
 margin_bottom = 1048.0
 rect_min_size = Vector2( 0, 1000 )
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 4 )
 
 [connection signal="button_up" from="Control/HBoxContainer/Button" to="Control" method="_on_Button_button_up"]
