@@ -5,9 +5,9 @@
 [ext_resource path="res://game/bg/kapteyn/kapteyn.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/bg/luyten/luyten.tscn" type="PackedScene" id=4]
 [ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=5]
-[ext_resource path="res://game/player/ui_tile.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=7]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=8]
+[ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
+[ext_resource path="res://game/player/ui_tile.png" type="Texture" id=7]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=8]
 [ext_resource path="res://game/ui/knightready.png" type="Texture" id=9]
 [ext_resource path="res://game/bg/mothership/mothership/mothership_cut.png" type="Texture" id=10]
 [ext_resource path="res://game/bg/mothership/knight_deck/knight_energy_link.png" type="Texture" id=11]
@@ -647,13 +647,22 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 
 [node name="Map" type="Node2D" parent="Background"]
-editor/display_folded = true
 position = Vector2( -540, -960 )
 z_index = -1
 
 [node name="Kapteyn" parent="Background/Map" instance=ExtResource( 3 )]
+editor/display_folded = true
 visible = false
 light_mask = 0
+
+[node name="Colony2" parent="Background/Map/Kapteyn" index="2"]
+editor/display_folded = true
+
+[node name="Colony" parent="Background/Map/Kapteyn" index="3"]
+editor/display_folded = true
+
+[node name="SpaceDebris" parent="Background/Map/Kapteyn" index="5"]
+visible = false
 
 [node name="Luyten" parent="Background/Map" instance=ExtResource( 4 )]
 position = Vector2( 0, -860 )
@@ -668,17 +677,18 @@ texture = ExtResource( 5 )
 expand = true
 
 [node name="Grid" type="TextureRect" parent="Background/Map"]
-modulate = Color( 1, 1, 1, 0.027451 )
+modulate = Color( 1, 1, 1, 0.14902 )
+material = ExtResource( 6 )
 margin_left = -180.0
 margin_right = 1260.0
 margin_bottom = 998.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 2
 
 [node name="Light2D" type="Light2D" parent="Background"]
 position = Vector2( 4.99992, -484.5 )
 scale = Vector2( 3.525, 2.8775 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 texture_scale = 50.0
 color = Color( 1, 0.878431, 0.823529, 1 )
 energy = 3.5
@@ -694,7 +704,7 @@ shadow_item_cull_mask = 0
 visible = false
 modulate = Color( 1, 1, 1, 0.0705882 )
 light_mask = 3
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 position = Vector2( 103, -40 )
 rotation = 1.04308e-06
 scale = Vector2( 2, 2 )
@@ -704,7 +714,7 @@ texture = ExtResource( 9 )
 visible = false
 modulate = Color( 1, 1, 1, 0.0352941 )
 light_mask = 3
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 position = Vector2( -357, 303 )
 rotation = 1.04308e-06
 scale = Vector2( 1.5, 1.5 )
@@ -1152,7 +1162,7 @@ rotation = 2.618
 scale = Vector2( 1, 0.7 )
 
 [node name="RBoosterL" type="CPUParticles2D" parent="Background/Mothership/Nodes/Container/Rerverse/ReverseBoosterL"]
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 z_index = 1
 emitting = false
 lifetime = 1.5
@@ -1173,7 +1183,7 @@ rotation = -2.618
 scale = Vector2( 1, 0.7 )
 
 [node name="RBoosterR" type="CPUParticles2D" parent="Background/Mothership/Nodes/Container/Rerverse/ReverseBoosterR"]
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 z_index = 1
 emitting = false
 lifetime = 1.5
@@ -1196,11 +1206,12 @@ texture = ExtResource( 29 )
 offset = Vector2( -80, 0 )
 
 [node name="IndicatorRed1" type="AnimatedSprite" parent="Background/Mothership/Nodes/Container/Sprite"]
-material = ExtResource( 8 )
+material = ExtResource( 6 )
 position = Vector2( 137, -66 )
 scale = Vector2( 3, 0.3 )
 frames = SubResource( 4 )
 animation = "indicator"
+frame = 1
 playing = true
 
 [node name="DeckAni" type="Node2D" parent="Background/Mothership"]
@@ -2582,3 +2593,5 @@ margin_left = -540.0
 margin_right = 540.0
 script = null
 
+
+[editable path="Background/Map/Kapteyn"]
