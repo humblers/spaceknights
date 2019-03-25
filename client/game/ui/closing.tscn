@@ -873,6 +873,7 @@ anchor_bottom = 0.5
 script = ExtResource( 1 )
 
 [node name="Boxopen" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -890,9 +891,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -540.0
 margin_top = -960.0
-margin_right = 540.0
-margin_bottom = 960.0
 rect_min_size = Vector2( 0, 600 )
+rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 stretch_mode = 2
 
@@ -913,9 +913,10 @@ expand = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
-margin_right = -270.0
-margin_bottom = 1920.0
+margin_right = -495.0
+margin_bottom = 960.0
 rect_min_size = Vector2( 0, 600 )
+rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 stretch_mode = 2
 
@@ -926,8 +927,9 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = -450.0
 margin_top = -960.0
-margin_bottom = 960.0
+margin_right = -225.0
 rect_min_size = Vector2( 0, 600 )
+rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 stretch_mode = 2
 
@@ -968,6 +970,7 @@ texture = ExtResource( 3 )
 stretch_mode = 2
 
 [node name="Spotlight" type="CPUParticles2D" parent="Boxopen"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 714, 1306 )
 amount = 2
 lifetime = 0.2
@@ -993,6 +996,8 @@ texture = ExtResource( 5 )
 expand = true
 
 [node name="Chest" type="Control" parent="Boxopen"]
+visible = false
+modulate = Color( 1, 1, 1, 0.166667 )
 margin_left = 451.0
 margin_top = 1125.91
 margin_right = 993.0
@@ -1030,11 +1035,13 @@ align = 1
 valign = 1
 
 [node name="Effect" type="Control" parent="Boxopen/Chest"]
+visible = false
 margin_right = 541.0
 margin_bottom = 413.0
 
 [node name="ChestEffect" type="CPUParticles2D" parent="Boxopen/Chest/Effect"]
 position = Vector2( 251.551, 210.842 )
+emitting = false
 amount = 30
 lifetime = 2.0
 speed_scale = 0.5
@@ -1052,6 +1059,7 @@ color_ramp = SubResource( 5 )
 [node name="Chestlight" type="CPUParticles2D" parent="Boxopen/Chest/Effect"]
 material = ExtResource( 9 )
 position = Vector2( 251.616, 209.094 )
+emitting = false
 amount = 2
 lifetime = 2.0
 speed_scale = 0.2
@@ -1066,7 +1074,7 @@ color_ramp = SubResource( 7 )
 
 [node name="GlowEffect" type="Sprite" parent="Boxopen/Chest"]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.333333 )
 material = ExtResource( 9 )
 position = Vector2( 272, 211.09 )
 scale = Vector2( 30, 30 )
@@ -1080,6 +1088,7 @@ margin_bottom = -5.13599
 rect_scale = Vector2( 2, 2 )
 
 [node name="Result" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1136,6 +1145,7 @@ anchor_bottom = 1.0
 
 [node name="WinWing" type="Control" parent="Result/Icon"]
 editor/display_folded = true
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
@@ -1327,7 +1337,9 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 17 )
 
 [node name="WinEffect" type="CPUParticles2D" parent="Result/Icon/RankBase"]
+visible = false
 material = ExtResource( 9 )
+emitting = false
 amount = 4
 lifetime = 1.5
 preprocess = 1.0
@@ -1451,6 +1463,8 @@ scale_amount_curve = SubResource( 22 )
 color_ramp = SubResource( 23 )
 
 [node name="RankIcon" type="TextureRect" parent="Result/Icon/RankBase/Rank"]
+visible = false
+self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1463,7 +1477,6 @@ rect_pivot_offset = Vector2( 860, 219.8 )
 texture = ExtResource( 21 )
 
 [node name="RankIconUp" type="TextureRect" parent="Result/Icon/RankBase/Rank"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1543,6 +1556,7 @@ texture = ExtResource( 27 )
 
 [node name="Medal1" type="Sprite" parent="Result/Icon/Medal/Medals"]
 editor/display_folded = true
+visible = false
 position = Vector2( -180, 35 )
 texture = ExtResource( 28 )
 
@@ -1679,6 +1693,7 @@ margin_right = 540.0
 margin_bottom = 960.0
 
 [node name="RankNumber" type="Label" parent="Texts"]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = 468.0
 margin_top = 588.721
 margin_right = 613.0
@@ -1717,10 +1732,12 @@ align = 1
 valign = 1
 
 [node name="RankName" type="Label" parent="Texts"]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = 1.0
 margin_top = 672.0
 margin_right = 1081.0
 margin_bottom = 772.0
+rect_scale = Vector2( 1.33333, 1.33333 )
 rect_pivot_offset = Vector2( 540, 41 )
 custom_fonts/font = SubResource( 34 )
 text = "WASP"
@@ -1762,7 +1779,8 @@ margin_right = 720.0
 margin_bottom = -30.0
 
 [node name="TextBG" type="TextureRect" parent="Winlose"]
-modulate = Color( 0, 0, 0, 0.470588 )
+visible = false
+modulate = Color( 0, 0, 0, 0.130719 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1775,6 +1793,7 @@ texture = ExtResource( 7 )
 expand = true
 
 [node name="Win" type="Sprite" parent="Winlose"]
+visible = false
 position = Vector2( 720, 70 )
 texture = ExtResource( 40 )
 
