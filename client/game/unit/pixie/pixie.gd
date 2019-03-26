@@ -55,7 +55,7 @@ func handleAttack():
 	if attack == 0:
 		$AnimationPlayer.play("attack")
 		setLayer(data.Normal)
-		$AnimationPlayer.play("cloaking_end")
+		#$AnimationPlayer.play("cloaking_end")
 	var t = target()
 	if t != null:
 		look_at_pos(t.PositionX(), t.PositionY())

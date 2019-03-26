@@ -595,7 +595,7 @@ var units = {
 			},
 			"leader": {
 				"name":    "reinforce",
-				"hpratio": [110],
+				"hpratio": [52],
 			},
 		},
 	},
@@ -728,7 +728,7 @@ var units = {
 			},
 			"leader": {
 				"name":                "amplify",
-				"amplifydamagepersec": [3],
+				"amplifydamagepersec": [2],
 				"amplifycountlimit":   10,
 			},
 		},
@@ -1050,7 +1050,7 @@ var units = {
 				"name":           "deathcarpet",
 				"duration":       600,
 				"damagetype":     DecreaseOnKnight | Skill,
-				"damage":         [150],
+				"damage":         [93],
 				"count":          2,
 				"posX":           [225, 775], # pos based on blue side
 				"posY":           [850, 850],
@@ -1198,7 +1198,7 @@ var units = {
 	},
 	"pixie": {
 		"type":           Squire,
-		"layer":          Ether,
+		"layer":          Normal,
 		"mass":           1,
 		"radius":         15,
 		"hp":             [40],

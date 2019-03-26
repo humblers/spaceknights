@@ -196,7 +196,7 @@ var Units = map[string]Unit{
 			},
 			"leader": map[string]interface{}{
 				"name":    "reinforce",
-				"hpratio": []int{110},
+				"hpratio": []int{52},
 			},
 		},
 	},
@@ -329,7 +329,7 @@ var Units = map[string]Unit{
 			},
 			"leader": map[string]interface{}{
 				"name":                "amplify",
-				"amplifydamagepersec": []int{3},
+				"amplifydamagepersec": []int{2},
 				"amplifycountlimit":   10,
 			},
 		},
@@ -651,7 +651,7 @@ var Units = map[string]Unit{
 				"name":       "deathcarpet",
 				"duration":   600,
 				"damagetype": DecreaseOnKnight | Skill,
-				"damage":     []int{150},
+				"damage":     []int{93},
 				"count":      2,
 				"posX":       []int{225, 775}, // pos based on blue side
 				"posY":       []int{850, 850},
@@ -800,7 +800,7 @@ var Units = map[string]Unit{
 	},
 	"pixie": map[string]interface{}{
 		"type":           Squire,
-		"layer":          Ether,
+		"layer":          Normal,
 		"mass":           1,
 		"radius":         15,
 		"hp":             []int{40},
