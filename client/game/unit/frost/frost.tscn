@@ -3,7 +3,7 @@
 [ext_resource path="res://game/unit/frost/frost.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/frost/leg.tres" type="Texture" id=2]
 [ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/frost/body.png" type="Texture" id=4]
+[ext_resource path="res://game/unit/units.sprites/frost/body.tres" type="Texture" id=4]
 [ext_resource path="res://game/unit/units.sprites/frost/nose.tres" type="Texture" id=5]
 [ext_resource path="res://game/unit/units.sprites/frost/shoulder.tres" type="Texture" id=6]
 [ext_resource path="res://game/unit/units.sprites/frost/upperarm.tres" type="Texture" id=7]
@@ -176,6 +176,7 @@ position = Vector2( -3, -70 )
 visible = false
 material = ExtResource( 10 )
 rotation = -2.98023e-08
+emitting = false
 speed_scale = 3.0
 texture = ExtResource( 12 )
 emission_shape = 1
@@ -190,11 +191,13 @@ scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/MuzzleFlash"]
+visible = false
 material = ExtResource( 10 )
 scale = Vector2( 1, 1.5 )
 texture = ExtResource( 11 )
 
 [node name="Light" type="Sprite" parent="Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL/ShotpointL/MuzzleFlash"]
+visible = false
 modulate = Color( 0.0941176, 0.533333, 1, 1 )
 material = ExtResource( 10 )
 position = Vector2( 0, 20 )
@@ -272,6 +275,7 @@ position = Vector2( 3, -70 )
 visible = false
 material = ExtResource( 10 )
 rotation = -2.98023e-08
+emitting = false
 speed_scale = 3.0
 texture = ExtResource( 12 )
 emission_shape = 1
@@ -286,11 +290,13 @@ scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/MuzzleFlash2"]
+visible = false
 material = ExtResource( 10 )
 scale = Vector2( 1, 1.5 )
 texture = ExtResource( 11 )
 
 [node name="Light" type="Sprite" parent="Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR/ShotpointR/MuzzleFlash2"]
+visible = false
 modulate = Color( 0.0941176, 0.533333, 1, 1 )
 material = ExtResource( 10 )
 position = Vector2( 0, 20 )
@@ -306,18 +312,17 @@ offset = Vector2( 0, 20 )
 flip_h = true
 
 [node name="BoosterpointL" type="Position2D" parent="Rotatable/Body/Main/BoosterL"]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -2, 35 )
 
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Main/BoosterL/BoosterpointL"]
-visible = false
 modulate = Color( 0.262745, 0.862745, 1, 1 )
 material = ExtResource( 10 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 4 )
 frame = 1
 speed_scale = 2.0
+playing = true
 offset = Vector2( 0, 30 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/Main/BoosterL/BoosterpointL"]
@@ -335,17 +340,16 @@ normal_map = ExtResource( 3 )
 offset = Vector2( 0, 20 )
 
 [node name="BoosterpointR" type="Position2D" parent="Rotatable/Body/Main/BoosterR"]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 2, 35 )
 
 [node name="Thrust2" type="AnimatedSprite" parent="Rotatable/Body/Main/BoosterR/BoosterpointR"]
-visible = false
 modulate = Color( 0.262745, 0.862745, 1, 1 )
 material = ExtResource( 10 )
 scale = Vector2( 0.8, 1 )
 frames = SubResource( 4 )
 speed_scale = 2.0
+playing = true
 offset = Vector2( 0, 30 )
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/Body/Main/BoosterR/BoosterpointR"]
@@ -501,6 +505,7 @@ stream = ExtResource( 36 )
 stream = ExtResource( 37 )
 
 [node name="Hp" parent="." instance=ExtResource( 38 )]
+visible = false
 position = Vector2( 0, -100 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]

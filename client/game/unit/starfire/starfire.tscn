@@ -43,11 +43,11 @@ animations = [ {
 } ]
 
 [sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0.9664 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.1304 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.9103 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0127 ), -1.20837, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0.0108696, 0.402174, 0.994565 )
-colors = PoolColorArray( 1, 1, 1, 0, 0.973511, 0.515625, 1, 1, 0.490196, 0, 0.647059, 0 )
+offsets = PoolRealArray( 0.0108696, 0.402174, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0.254902, 1, 1, 0.698039, 0.00392157, 0.921569, 0.156863 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
@@ -100,44 +100,23 @@ texture = ExtResource( 8 )
 
 [node name="Effect" type="CPUParticles2D" parent="Rotatable/Body/Shotpoint"]
 material = ExtResource( 7 )
-position = Vector2( 0, 11.1111 )
+position = Vector2( 0, 33.3333 )
 emitting = false
 amount = 4
 speed_scale = 2.0
 texture = ExtResource( 9 )
 gravity = Vector2( 0, -200 )
-scale_amount = 0.5
+scale_amount = 0.8
 scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="BoosterL" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
+show_behind_parent = true
 position = Vector2( -15, 54.1667 )
 scale = Vector2( 1.16667, 0.833333 )
 
 [node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Body/BoosterL"]
-visible = false
-modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
-material = ExtResource( 7 )
-position = Vector2( 0, 8 )
-scale = Vector2( 1, 1.8 )
-frames = SubResource( 5 )
-animation = "thrust"
-speed_scale = 3.0
-offset = Vector2( 0, 15 )
-
-[node name="LightL" type="Sprite" parent="Rotatable/Body/BoosterL"]
-visible = false
-material = ExtResource( 7 )
-position = Vector2( 0, -2 )
-scale = Vector2( 0.5, 1.5 )
-texture = ExtResource( 8 )
-
-[node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
-position = Vector2( 15, 54.1667 )
-scale = Vector2( 1.16667, 0.833333 )
-
-[node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Body/BoosterR"]
-visible = false
 modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
 material = ExtResource( 7 )
 position = Vector2( 0, 8 )
@@ -146,10 +125,33 @@ frames = SubResource( 5 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
+playing = true
+offset = Vector2( 0, 15 )
+
+[node name="LightL" type="Sprite" parent="Rotatable/Body/BoosterL"]
+material = ExtResource( 7 )
+position = Vector2( 0, -2 )
+scale = Vector2( 0.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="BoosterR" type="Position2D" parent="Rotatable/Body"]
+editor/display_folded = true
+show_behind_parent = true
+position = Vector2( 15, 54.1667 )
+scale = Vector2( 1.16667, 0.833333 )
+
+[node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Body/BoosterR"]
+modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
+material = ExtResource( 7 )
+position = Vector2( 0, 8 )
+scale = Vector2( 1, 1.8 )
+frames = SubResource( 5 )
+animation = "thrust"
+speed_scale = 3.0
+playing = true
 offset = Vector2( 0, 15 )
 
 [node name="LightR" type="Sprite" parent="Rotatable/Body/BoosterR"]
-visible = false
 material = ExtResource( 7 )
 position = Vector2( 0, -2 )
 scale = Vector2( 0.5, 1.5 )
