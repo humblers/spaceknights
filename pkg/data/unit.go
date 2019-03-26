@@ -800,7 +800,7 @@ var Units = map[string]Unit{
 	},
 	"pixie": map[string]interface{}{
 		"type":           Squire,
-		"layer":          Ether,
+		"layer":          Normal,
 		"mass":           1,
 		"radius":         15,
 		"hp":             []int{40},
