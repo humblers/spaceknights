@@ -21,6 +21,6 @@ func pop(request, time_out=0):
 	show_modal()
 	visible = true
 	set_process(true)
-	yield(request, "response")
+	yield(request, "Completed")
 	set_process(false)
 	visible = false
