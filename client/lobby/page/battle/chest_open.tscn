@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://lobby/page/battle/chest_open.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile2.png" type="Texture" id=2]
@@ -23,8 +23,6 @@
 [ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=21]
 [ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=22]
 [ext_resource path="res://lobby/page/battle/new_card.tscn" type="PackedScene" id=23]
-
-
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.984 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5176 ), 0.0, 0.0, 0, 0 ]
@@ -160,30 +158,24 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=12]
-blend_mode = 1
-
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 0.8256 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6496 ), 0.198045, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Gradient" id=13]
 offsets = PoolRealArray( 0, 0.00438596, 0.357143, 0.785088, 1 )
 colors = PoolColorArray( 0, 0, 0, 0, 0.0833333, 0.0833333, 0.0833333, 0.0833333, 1, 0.307739, 0.171875, 1, 1, 1, 1, 1, 0.0514184, 0.0514184, 0.0514184, 0.0514184 )
 
-[sub_resource type="CanvasItemMaterial" id=15]
-blend_mode = 1
-
-[sub_resource type="StreamTexture" id=16]
+[sub_resource type="StreamTexture" id=15]
 flags = 4
 load_path = "res://.import/sphere.png-f2362f7ff56852dd8222aaf5a51847ff.stex"
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=16]
 _data = [ Vector2( 0, 0.984 ), 0.0, -3.14096, 0, 0, Vector2( 1, 0.0951999 ), -4.75795, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=18]
+[sub_resource type="Gradient" id=17]
 colors = PoolColorArray( 1, 0.662781, 0.136719, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=18]
 resource_name = "cash"
 length = 1.5
 tracks/0/type = "value"
@@ -211,7 +203,7 @@ tracks/1/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=19]
 resource_name = "coincash"
 length = 5.0
 tracks/0/type = "animation"
@@ -1656,7 +1648,7 @@ position = Vector2( 268, 61 )
 position = Vector2( 2, -5 )
 frames = SubResource( 5 )
 animation = "galacticoin"
-frame = 15
+frame = 12
 playing = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
@@ -1760,7 +1752,7 @@ text = "+9999"
 position = Vector2( 143, 57 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Cash/Slot/Cash"]
-material = SubResource( 12 )
+material = ExtResource( 3 )
 position = Vector2( 33, 180 )
 emitting = false
 amount = 6
@@ -1780,14 +1772,14 @@ tangential_accel = 15.0
 angle = 20.0
 angle_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 12 )
+color_ramp = SubResource( 13 )
 
 [node name="Sprite2" type="CPUParticles2D" parent="Cash/Slot/Cash"]
-material = SubResource( 15 )
+material = ExtResource( 3 )
 position = Vector2( 136, 58 )
 emitting = false
-texture = SubResource( 16 )
+texture = SubResource( 15 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -1797,14 +1789,14 @@ radial_accel = 20.0
 radial_accel_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 17 )
-color_ramp = SubResource( 18 )
+scale_amount_curve = SubResource( 16 )
+color_ramp = SubResource( 17 )
 
 [node name="CashAni" type="AnimationPlayer" parent="Cash"]
-anims/cash = SubResource( 19 )
+anims/cash = SubResource( 18 )
 
 [node name="CoinCashAni" type="AnimationPlayer" parent="."]
-anims/coincash = SubResource( 24 )
+anims/coincash = SubResource( 19 )
 
 [node name="BoxopenAni" type="AnimationPlayer" parent="."]
 anims/open2 = SubResource( 20 )

@@ -8,55 +8,40 @@
 [ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=6]
 [ext_resource path="res://game/bg/luyten/flare.png" type="Texture" id=7]
 [ext_resource path="res://game/bg/luyten/luyten_satellite.png" type="Texture" id=8]
-[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=9]
-[ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=10]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=11]
-
-
+[ext_resource path="res://material/subtractive_blend.tres" type="Material" id=9]
+[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=10]
+[ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=11]
+[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=12]
 
 [sub_resource type="Curve" id=1]
-
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-
 offsets = PoolRealArray( 0, 0.7 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1 )
 
 [sub_resource type="Curve" id=3]
-
 _data = [ Vector2( 0, 0.5176 ), 0.0, 2.27552, 0, 0, Vector2( 1, 0.6584 ), -0.625631, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=4]
-
 offsets = PoolRealArray( 0, 0.627778, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="CanvasItemMaterial" id=5]
-
-blend_mode = 2
-
-[sub_resource type="StreamTexture" id=6]
-
+[sub_resource type="StreamTexture" id=5]
 flags = 4
 load_path = "res://.import/ui_tile.png-bfa411042fc9f3ffbe0e587f960b71ac.stex"
 
-[sub_resource type="DynamicFont" id=9]
-
+[sub_resource type="DynamicFont" id=6]
 size = 72
-use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=10]
-
+[sub_resource type="DynamicFont" id=7]
 size = 30
-use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
-[sub_resource type="Animation" id=11]
-
+[sub_resource type="Animation" id=8]
 length = 30.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("ArenaData/Planet:rect_position")
@@ -145,7 +130,6 @@ texture = ExtResource( 1 )
 expand = true
 
 [node name="ArenaData" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Background" type="TextureRect" parent="ArenaData"]
 margin_left = -70.0
@@ -209,10 +193,10 @@ expand = true
 
 [node name="Grid" type="TextureRect" parent="ArenaData"]
 self_modulate = Color( 1, 1, 1, 0.0901961 )
-material = SubResource( 5 )
+material = ExtResource( 9 )
 margin_right = 1440.0
 margin_bottom = 1920.0
-texture = SubResource( 6 )
+texture = SubResource( 5 )
 expand = true
 stretch_mode = 2
 
@@ -224,7 +208,7 @@ margin_right = 1440.0
 margin_bottom = -1218.0
 rect_rotation = -180.0
 rect_pivot_offset = Vector2( 720, 1030 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 expand = true
 
 [node name="Gradation2" type="TextureRect" parent="ArenaData"]
@@ -235,7 +219,7 @@ margin_right = 1440.0
 margin_bottom = 1920.0
 rect_rotation = -359.999
 rect_pivot_offset = Vector2( 720, 1030 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 expand = true
 
 [node name="ArenaTitle" type="TextureRect" parent="."]
@@ -246,7 +230,7 @@ margin_left = 160.0
 margin_top = 246.0
 margin_right = 820.0
 margin_bottom = 386.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 expand = true
 
 [node name="Name" type="Label" parent="ArenaTitle"]
@@ -256,7 +240,7 @@ margin_left = 40.0
 margin_top = -69.0
 margin_right = 457.0
 margin_bottom = 18.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 6 )
 text = "LUYTEN"
 
 [node name="Name2" type="Label" parent="ArenaTitle"]
@@ -266,11 +250,11 @@ margin_left = 40.0
 margin_top = 9.0
 margin_right = 571.0
 margin_bottom = 46.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.615686, 0.654902, 0.705882, 1 )
 text = "INFERNO FROM HELL"
 
 [node name="BGAni" type="AnimationPlayer" parent="."]
 autoplay = "bg"
-anims/bg = SubResource( 11 )
+anims/bg = SubResource( 8 )
 

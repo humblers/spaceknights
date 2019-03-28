@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/unit/azero/azero.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/azero/ball.tres" type="Texture" id=2]
@@ -28,8 +28,6 @@
 [ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=26]
 [ext_resource path="res://game/unit/azero/ice_orb.tscn" type="PackedScene" id=27]
 
-
-
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.0311091, 0.9928 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6848 ), 0.0, 0.0, 0, 0 ]
 
@@ -58,16 +56,10 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=8]
-blend_mode = 1
-
-[sub_resource type="CanvasItemMaterial" id=9]
-blend_mode = 1
-
-[sub_resource type="Curve" id=10]
+[sub_resource type="Curve" id=9]
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 resource_name = "hit"
 length = 0.5
 tracks/0/type = "value"
@@ -253,7 +245,6 @@ texture = ExtResource( 12 )
 normal_map = ExtResource( 3 )
 
 [node name="Explosion" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Main" type="Node2D" parent="Explosion"]
 scale = Vector2( 1.4, 1.4 )
@@ -271,14 +262,14 @@ texture = ExtResource( 14 )
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 8 )
+material = ExtResource( 5 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = SubResource( 9 )
+material = ExtResource( 5 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
@@ -302,7 +293,7 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 10 )
+scale_amount_curve = SubResource( 9 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Explosion"]
@@ -373,7 +364,7 @@ scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
 [node name="HitEffect" type="AnimationPlayer" parent="HitPoint"]
-anims/hit = SubResource( 11 )
+anims/hit = SubResource( 10 )
 
 [node name="HitEffect" parent="." instance=ExtResource( 22 )]
 type = 0

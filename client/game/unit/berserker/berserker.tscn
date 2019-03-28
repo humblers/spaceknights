@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/unit/berserker/berserker.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/berserker/body.tres" type="Texture" id=2]
@@ -7,10 +7,10 @@
 [ext_resource path="res://game/unit/units.sprites/berserker/upperarm.tres" type="Texture" id=5]
 [ext_resource path="res://game/unit/units.sprites/berserker/lowerarm.tres" type="Texture" id=6]
 [ext_resource path="res://game/unit/units.sprites/berserker/sword.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_1.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_2.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_3.tres" type="Texture" id=10]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=11]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=8]
+[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_1.tres" type="Texture" id=9]
+[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_2.tres" type="Texture" id=10]
+[ext_resource path="res://game/vfx/vfx.sprites/bladetrail_3.tres" type="Texture" id=11]
 [ext_resource path="res://game/vfx/vfx.sprites/muzzle_flash_2.tres" type="Texture" id=12]
 [ext_resource path="res://game/vfx/vfx.sprites/muzzle_flash_3.tres" type="Texture" id=13]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=14]
@@ -32,20 +32,15 @@
 [ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=30]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=31]
 
-
-
-[sub_resource type="CanvasItemMaterial" id=1]
-blend_mode = 1
-
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ null, ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), null ],
+"frames": [ null, ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), null ],
 "loop": true,
 "name": "sword",
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ null, ExtResource( 12 ), ExtResource( 13 ), null ],
 "loop": true,
@@ -53,26 +48,23 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=4]
-blend_mode = 1
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ null, ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), null ],
+"loop": true,
+"name": "sword",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ null, ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), null ],
+"loop": true,
+"name": "sword",
+"speed": 5.0
+} ]
 
 [sub_resource type="SpriteFrames" id=5]
-animations = [ {
-"frames": [ null, ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), null ],
-"loop": true,
-"name": "sword",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=6]
-animations = [ {
-"frames": [ null, ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), null ],
-"loop": true,
-"name": "sword",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 14 ), ExtResource( 15 ) ],
 "loop": true,
@@ -130,7 +122,7 @@ offset = Vector2( 0, -30 )
 
 [node name="SwordAnim" type="Position2D" parent="Rotatable/Body/UpperarmR/ArmR/Sword"]
 visible = false
-material = SubResource( 1 )
+material = ExtResource( 8 )
 position = Vector2( -37, -7.00016 )
 rotation = 2.8798
 
@@ -140,7 +132,7 @@ use_parent_material = true
 position = Vector2( -26.2488, -22.5021 )
 rotation = -2.35619
 scale = Vector2( 2.5, 2.5 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "sword"
 flip_h = true
 
@@ -150,25 +142,25 @@ use_parent_material = true
 position = Vector2( -27.2276, -18.1083 )
 rotation = -2.35619
 scale = Vector2( 2.2, 2.2 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "sword"
 flip_h = true
 
 [node name="SwordPick" type="AnimatedSprite" parent="Rotatable/Body/UpperarmR/ArmR/Sword"]
 visible = false
 self_modulate = Color( 1, 0.713726, 0.376471, 1 )
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 position = Vector2( 0.540031, 3.2652 )
 rotation = 3.14159
 scale = Vector2( 2, 4 )
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 frame = 3
 flip_h = true
 flip_v = true
 
 [node name="SwordAnim2" type="Position2D" parent="Rotatable/Body/UpperarmR/ArmR/Sword"]
 visible = false
-material = SubResource( 4 )
+material = ExtResource( 8 )
 position = Vector2( -39.7719, 20.2959 )
 rotation = 2.09439
 
@@ -178,7 +170,7 @@ use_parent_material = true
 position = Vector2( -26.2488, -22.5021 )
 rotation = -2.35619
 scale = Vector2( 2.5, 2.5 )
-frames = SubResource( 5 )
+frames = SubResource( 3 )
 animation = "sword"
 
 [node name="Anim4" type="AnimatedSprite" parent="Rotatable/Body/UpperarmR/ArmR/Sword/SwordAnim2"]
@@ -187,7 +179,7 @@ use_parent_material = true
 position = Vector2( -27.2276, -18.1083 )
 rotation = -2.35619
 scale = Vector2( 2.2, 2.2 )
-frames = SubResource( 6 )
+frames = SubResource( 4 )
 animation = "sword"
 
 [node name="UpperarmL" type="Sprite" parent="Rotatable/Body"]
@@ -218,17 +210,17 @@ rotation = 0.698132
 [node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/BoosterL"]
 visible = false
 modulate = Color( 0.443137, 1, 0.737255, 1 )
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 position = Vector2( 0.82171, -9.39222 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
 offset = Vector2( 0, 40 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Body/BoosterL"]
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 scale = Vector2( 0.3, 0.7 )
 texture = ExtResource( 16 )
 
@@ -240,17 +232,17 @@ rotation = -0.698132
 [node name="Thrust2" type="AnimatedSprite" parent="Rotatable/Body/BoosterR"]
 visible = false
 modulate = Color( 0.443137, 1, 0.737255, 1 )
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 position = Vector2( -0.821711, -9.39222 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 7 )
+frames = SubResource( 5 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
 offset = Vector2( 0, 40 )
 
 [node name="Sprite2" type="Sprite" parent="Rotatable/Body/BoosterR"]
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 scale = Vector2( 0.3, 0.7 )
 texture = ExtResource( 16 )
 
@@ -276,14 +268,14 @@ texture = ExtResource( 18 )
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 19 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.101961, 0.47451, 1, 0 )
-material = ExtResource( 11 )
+material = ExtResource( 8 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 20 )

@@ -1,46 +1,31 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://game/script/dot.gd" type="Script" id=1]
 [ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=2]
-[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=5]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=3]
+[ext_resource path="res://game/vfx/unit_explosion_4.png" type="Texture" id=4]
+[ext_resource path="res://game/vfx/unit_explosion_2.png" type="Texture" id=5]
+[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=6]
 [ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=7]
 
-
-
-[sub_resource type="CanvasItemMaterial" id=1]
-
-blend_mode = 1
-
-[sub_resource type="SpriteFrames" id=2]
-
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "dot",
 "speed": 5.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=3]
-
-blend_mode = 1
-
-[sub_resource type="Curve" id=4]
-
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0.5704 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.8696 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
-
+[sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.45302 )
 
-[sub_resource type="Curve" id=6]
-
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0, 0.7024 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9664 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=7]
-
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 0.647705, 1, 0.132813, 1, 0.183594, 1, 0.215485, 1 )
 
 [node name="deathcarpet" type="Node2D"]
@@ -95,7 +80,6 @@ radial_accel = 60.0
 color = Color( 0.156863, 0.560784, 0.286275, 1 )
 
 [node name="Set4" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( -4, -7 )
 
 [node name="Dot" type="CPUParticles2D" parent="Set4"]
@@ -111,25 +95,25 @@ color = Color( 0.156863, 0.560784, 0.286275, 1 )
 
 [node name="DotCloud" type="AnimatedSprite" parent="Set4"]
 modulate = Color( 0, 0, 0, 1 )
-material = SubResource( 1 )
+material = ExtResource( 3 )
 scale = Vector2( 2, 1 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 animation = "dot"
 speed_scale = 2.0
 
 [node name="Particle" type="CPUParticles2D" parent="Set4"]
-material = SubResource( 3 )
+material = ExtResource( 3 )
 scale = Vector2( 1.5, 1 )
 amount = 16
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 radial_accel = 60.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
 
 [node name="Set5" type="Node2D" parent="."]
 editor/display_folded = true
@@ -151,7 +135,7 @@ color = Color( 0.156863, 0.560784, 0.286275, 1 )
 editor/display_folded = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Set"]
-material = ExtResource( 6 )
+material = ExtResource( 3 )
 scale = Vector2( 0.8, 0.5 )
 amount = 3
 texture = ExtResource( 7 )
@@ -160,6 +144,6 @@ angular_velocity = 180.0
 angular_velocity_random = 1.0
 radial_accel = 10.0
 scale_amount = 4.0
-scale_amount_curve = SubResource( 6 )
-color_ramp = SubResource( 7 )
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
 

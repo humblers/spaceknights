@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/gargoyleking/body.tres" type="Texture" id=2]
@@ -24,8 +24,6 @@
 [ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=22]
 [ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=23]
 
-
-
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.4736 ), 0.0, 0.709621, 0, 0, Vector2( 1, 1 ), 0.0509817, 0.0, 0, 0 ]
 
@@ -41,13 +39,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=4]
-blend_mode = 1
-
-[sub_resource type="CanvasItemMaterial" id=5]
-blend_mode = 1
-
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
@@ -55,7 +47,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 11 ) ],
 "loop": true,
@@ -63,7 +55,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 length = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Main:position")
@@ -246,7 +238,7 @@ tracks/14/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=7]
 length = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Main/FlameL/Flame:emitting")
@@ -453,7 +445,7 @@ tracks/16/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=8]
 length = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("Rotatable/Main/FlameR/Flame:emitting")
@@ -732,7 +724,7 @@ scale = Vector2( 2.5, 1.8 )
 [node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Main/BoosterR"]
 visible = false
 modulate = Color( 0.592157, 0.223529, 1, 1 )
-material = SubResource( 4 )
+material = ExtResource( 4 )
 scale = Vector2( 0.4, 0.5 )
 frames = SubResource( 3 )
 animation = "thrust"
@@ -740,7 +732,7 @@ speed_scale = 2.0
 offset = Vector2( 0, 18 )
 
 [node name="ThrustLightR" type="Sprite" parent="Rotatable/Main/BoosterR"]
-material = SubResource( 5 )
+material = ExtResource( 4 )
 scale = Vector2( 0.2, 0.5 )
 texture = ExtResource( 5 )
 
@@ -748,16 +740,14 @@ texture = ExtResource( 5 )
 position = Vector2( -53, 20.5 )
 rotation = 0.855211
 scale = Vector2( 1, 0.8 )
-frames = SubResource( 6 )
-frame = 1
+frames = SubResource( 4 )
 playing = true
 
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Main"]
 position = Vector2( 53, 20.5 )
 rotation = -0.855211
 scale = Vector2( 1, 0.8 )
-frames = SubResource( 7 )
-frame = 1
+frames = SubResource( 5 )
 playing = true
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
@@ -829,10 +819,10 @@ type = 0
 rect_area = Rect2( -40, -10, 80, 40 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 8 )
+anims/attack = SubResource( 6 )
 anims/destroy = ExtResource( 19 )
-anims/idle = SubResource( 9 )
-anims/move = SubResource( 10 )
+anims/idle = SubResource( 7 )
+anims/move = SubResource( 8 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
