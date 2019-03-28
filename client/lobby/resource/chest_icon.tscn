@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://lobby/resource/chest_icon.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/itemchest1a.png" type="Texture" id=2]
@@ -924,19 +924,18 @@ tracks/14/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Curve" id=62]
+[sub_resource type="Curve" id=61]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2008 ), -0.426477, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=63]
+[sub_resource type="Gradient" id=62]
 offsets = PoolRealArray( 0.0116959, 0.169591, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.364627, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=64]
+[sub_resource type="Gradient" id=63]
 offsets = PoolRealArray( 0.658879, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 0.277039, 1, 0.195313, 0.180392 )
 
-[sub_resource type="Animation" id=61]
-resource_name = "chestopen"
+[sub_resource type="Animation" id=64]
 length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("OliveBody/OliveCover:rect_position")
@@ -1071,21 +1070,11 @@ tracks/10/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=66]
-blend_mode = 1
-
-[sub_resource type="Gradient" id=67]
+[sub_resource type="Gradient" id=65]
 offsets = PoolRealArray( 0.658879, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.557251, 0.0859375, 0.180392 )
 
-[sub_resource type="CanvasItemMaterial" id=68]
-blend_mode = 1
-
-[sub_resource type="StreamTexture" id=69]
-flags = 4
-load_path = "res://.import/sphere.png-f2362f7ff56852dd8222aaf5a51847ff.stex"
-
-[sub_resource type="Animation" id=65]
+[sub_resource type="Animation" id=66]
 length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("TanBody/TanCover:rect_position")
@@ -1728,7 +1717,6 @@ scale = Vector2( 21.375, 6 )
 texture = ExtResource( 5 )
 
 [node name="Inside" type="TextureRect" parent="Free"]
-editor/display_folded = true
 show_behind_parent = true
 margin_left = 121.0
 margin_top = 15.0
@@ -1757,8 +1745,8 @@ linear_accel = 20.0
 linear_accel_random = 1.0
 radial_accel = 180.0
 scale_amount = 0.4
-scale_amount_curve = SubResource( 62 )
-color_ramp = SubResource( 63 )
+scale_amount_curve = SubResource( 61 )
+color_ramp = SubResource( 62 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Free/Inside"]
 visible = false
@@ -1777,7 +1765,7 @@ angular_velocity = 180.0
 angular_velocity_random = 1.0
 radial_accel = 180.0
 scale_amount = 2.0
-color_ramp = SubResource( 64 )
+color_ramp = SubResource( 63 )
 
 [node name="Light2D3" type="Sprite" parent="Free"]
 visible = false
@@ -1802,10 +1790,9 @@ margin_bottom = 164.0
 texture = ExtResource( 25 )
 
 [node name="Chest" type="AnimationPlayer" parent="Free"]
-anims/chestopen = SubResource( 61 )
+anims/chestopen = SubResource( 64 )
 
 [node name="Medal" type="Control" parent="."]
-editor/display_folded = true
 visible = false
 margin_left = -15.0
 margin_top = 10.0
@@ -1821,7 +1808,6 @@ scale = Vector2( 21.375, 6 )
 texture = ExtResource( 5 )
 
 [node name="Inside" type="TextureRect" parent="Medal"]
-editor/display_folded = true
 show_behind_parent = true
 margin_left = 121.0
 margin_top = 15.0
@@ -1850,12 +1836,12 @@ linear_accel = 20.0
 linear_accel_random = 1.0
 radial_accel = 180.0
 scale_amount = 0.4
-scale_amount_curve = SubResource( 62 )
-color_ramp = SubResource( 63 )
+scale_amount_curve = SubResource( 61 )
+color_ramp = SubResource( 62 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Medal/Inside"]
 visible = false
-material = SubResource( 66 )
+material = ExtResource( 4 )
 position = Vector2( 113.5, 128.5 )
 emitting = false
 amount = 20
@@ -1870,15 +1856,15 @@ angular_velocity = 180.0
 angular_velocity_random = 1.0
 radial_accel = 180.0
 scale_amount = 2.0
-color_ramp = SubResource( 67 )
+color_ramp = SubResource( 65 )
 
 [node name="Light2D4" type="Sprite" parent="Medal"]
 visible = false
 modulate = Color( 0.498039, 0.313726, 0, 0 )
-material = SubResource( 68 )
+material = ExtResource( 4 )
 position = Vector2( 353, 135 )
 scale = Vector2( 14, 10.9375 )
-texture = SubResource( 69 )
+texture = ExtResource( 5 )
 
 [node name="TanBody" type="TextureRect" parent="Medal"]
 editor/display_folded = true
@@ -1895,5 +1881,5 @@ margin_bottom = 164.0
 texture = ExtResource( 28 )
 
 [node name="Chest" type="AnimationPlayer" parent="Medal"]
-anims/chestopen = SubResource( 65 )
+anims/chestopen = SubResource( 66 )
 
