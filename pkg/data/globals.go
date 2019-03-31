@@ -24,12 +24,12 @@ var InitialDeck = []Card{
 	Card{Name: "archers"},
 	Card{Name: "giant"},
 	Card{Name: "footmans"},
-	Card{Name: "gargoyles"},
+	Card{Name: "blaster"},
 	Card{Name: "enforcer"},
 	Card{Name: "jouster"},
 	Card{Name: "archsapper", Side: Left},
 	Card{Name: "legion", Side: Center},
-	Card{Name: "judge", Side: Right},
+	Card{Name: "nagmash", Side: Right},
 }
 
 type Arena int

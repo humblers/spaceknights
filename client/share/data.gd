@@ -324,7 +324,7 @@ var cards = {
 		"Type":    KnightCard,
 		"Cost":    3000,
 		"Unit":   "nagmash",
-		"Rarity":  Epic,
+		"Rarity":  Rare,
 	},
 	"nukemissile": {
 		"Type":    SquireCard,
