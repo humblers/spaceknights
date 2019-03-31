@@ -102,14 +102,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
-		Arena:   Kinetica,
+		Arena:   Thanatos,
 	},
 	"archengineer": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "archengineer",
 		Rarity: Rare,
-		Arena:  Karas,
+		Arena:  Thanatos,
 	},
 	"archers": Card{
 		Type:    SquireCard,
@@ -129,21 +129,21 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
-		Arena:   Eoparu,
+		Arena:   Thanatos,
 	},
 	"archsapper": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "archsapper",
 		Rarity: Common,
-		Arena:  Kinetica,
+		Arena:  Thanatos,
 	},
 	"astra": Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "astra",
 		Rarity: Legendary,
-		Arena:  Solamante,
+		Arena:  Thanatos,
 	},
 	"azero": Card{
 		Type:    SquireCard,
@@ -153,7 +153,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
-		Arena:   Karas,
+		Arena:   Thanatos,
 	},
 	"berserker": Card{
 		Type:    SquireCard,
@@ -173,14 +173,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Common,
-		Arena:   Lunatos,
+		Arena:   Thanatos,
 	},
 	"buran": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "buran",
 		Rarity: Rare,
-		Arena:  Karas,
+		Arena:  Thanatos,
 	},
 	"champion": Card{
 		Type:    SquireCard,
@@ -190,7 +190,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Lunatos,
+		Arena:   Thanatos,
 	},
 	"drillram": Card{
 		Type:    SquireCard,
@@ -200,7 +200,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
-		Arena:   Solamante,
+		Arena:   Thanatos,
 	},
 	"enforcer": Card{
 		Type:    SquireCard,
@@ -210,7 +210,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
-		Arena:   Lunatos,
+		Arena:   Thanatos,
 	},
 	"felhounds": Card{
 		Type:    SquireCard,
@@ -220,7 +220,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 40},
 		OffsetY: []int{0, 0},
 		Rarity:  Common,
-		Arena:   Kinetica,
+		Arena:   Thanatos,
 	},
 	"footmans": Card{
 		Type:    SquireCard,
@@ -230,7 +230,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, -30, 30},
 		OffsetY: []int{-30, -30, 30, 30},
 		Rarity:  Common,
-		Arena:   Solamante,
+		Arena:   Thanatos,
 	},
 	"frost": Card{
 		Type:   KnightCard,
@@ -257,7 +257,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 0, 40, -40, 0, 40},
 		OffsetY: []int{-20, -20, -20, 20, 20, 20},
 		Rarity:  Common,
-		Arena:   Karas,
+		Arena:   Thanatos,
 	},
 	"gargoyleking": Card{
 		Type:    SquireCard,
@@ -267,7 +267,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Rare,
-		Arena:   Karas,
+		Arena:   Thanatos,
 	},
 	"giant": Card{
 		Type:    SquireCard,
@@ -287,14 +287,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-40, 40, 0},
 		OffsetY: []int{40, 40, 0},
 		Rarity:  Rare,
-		Arena:   Kinetica,
+		Arena:   Thanatos,
 	},
 	"ironcoffin": Card{
 		Type:   KnightCard,
 		Cost:   4000,
 		Unit:   "ironcoffin",
 		Rarity: Rare,
-		Arena:  Solamante,
+		Arena:  Thanatos,
 	},
 	"jouster": Card{
 		Type:    SquireCard,
@@ -318,7 +318,7 @@ var Cards = map[string]Card{
 		Cost:   3000,
 		Unit:   "lancer",
 		Rarity: Epic,
-		Arena:  Eoparu,
+		Arena:  Thanatos,
 	},
 	"legion": Card{
 		Type:   KnightCard,
@@ -341,8 +341,8 @@ var Cards = map[string]Card{
 		Type:   KnightCard,
 		Cost:   3000,
 		Unit:   "nagmash",
-		Rarity: Epic,
-		Arena:  Solamante,
+		Rarity: Rare,
+		Arena:  Thanatos,
 	},
 	"nukemissile": Card{
 		Type:    SquireCard,
@@ -352,7 +352,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Lunatos,
+		Arena:   Thanatos,
 	},
 	"ogre": Card{
 		Type:    SquireCard,
@@ -362,7 +362,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Karas,
+		Arena:   Thanatos,
 	},
 	"panzerkunstler": Card{
 		Type:    SquireCard,
@@ -372,7 +372,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Karas,
+		Arena:   Thanatos,
 	},
 	"pixies": Card{
 		Type:    SquireCard,
@@ -382,14 +382,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
-		Arena:   Lunatos,
+		Arena:   Thanatos,
 	},
 	"pixieking": Card{
 		Type:   KnightCard,
 		Cost:   2000,
 		Unit:   "pixieking",
 		Rarity: Rare,
-		Arena:  Lunatos,
+		Arena:  Thanatos,
 	},
 	"psabu": Card{
 		Type:    SquireCard,
@@ -399,7 +399,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Legendary,
-		Arena:   Eoparu,
+		Arena:   Thanatos,
 	},
 	"sentries": Card{
 		Type:    SquireCard,
@@ -409,7 +409,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Common,
-		Arena:   Solamante,
+		Arena:   Thanatos,
 	},
 	"shadowvision": Card{
 		Type:    SquireCard,
@@ -439,14 +439,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-60, 60, 0},
 		OffsetY: []int{60, 60, 0},
 		Rarity:  Rare,
-		Arena:   Eoparu,
+		Arena:   Thanatos,
 	},
 	"tombstone": Card{
 		Type:   KnightCard,
 		Cost:   5000,
 		Unit:   "tombstone",
 		Rarity: Rare,
-		Arena:  Kinetica,
+		Arena:  Thanatos,
 	},
 	"trainees": Card{
 		Type:    SquireCard,
@@ -456,14 +456,14 @@ var Cards = map[string]Card{
 		OffsetX: []int{-30, 30, 0},
 		OffsetY: []int{30, 30, 0},
 		Rarity:  Rare,
-		Arena:   Solamante,
+		Arena:   Thanatos,
 	},
 	"valkyrie": Card{
 		Type:   KnightCard,
 		Cost:   1000,
 		Unit:   "valkyrie",
 		Rarity: Common,
-		Arena:  Lunatos,
+		Arena:  Thanatos,
 	},
 	"voidcreeper": Card{
 		Type:    SquireCard,
@@ -473,7 +473,7 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Kinetica,
+		Arena:   Thanatos,
 	},
 	"wasp": Card{
 		Type:    SquireCard,
@@ -483,6 +483,6 @@ var Cards = map[string]Card{
 		OffsetX: []int{0},
 		OffsetY: []int{0},
 		Rarity:  Epic,
-		Arena:   Kinetica,
+		Arena:   Thanatos,
 	},
 }
