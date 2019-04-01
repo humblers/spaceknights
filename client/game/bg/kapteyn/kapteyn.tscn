@@ -11,7 +11,7 @@
 resource_name = "bg_scroll"
 length = 240.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Planet:position")
+tracks/0/path = NodePath("BG/Planet:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "values": [ Vector2( 927.667, 1690 ), Vector2( 171.807, 207.957 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Background:rotation_degrees")
+tracks/1/path = NodePath("BG/Background:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -35,7 +35,7 @@ tracks/1/keys = {
 "values": [ 10.0, -10.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Colony:position")
+tracks/2/path = NodePath("BG/Colony:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -47,7 +47,7 @@ tracks/2/keys = {
 "values": [ Vector2( 928.654, 658.908 ), Vector2( 84.243, 1700.53 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Colony2:position")
+tracks/3/path = NodePath("BG/Colony2:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -59,7 +59,7 @@ tracks/3/keys = {
 "values": [ Vector2( 125.032, 53.0998 ), Vector2( 1237.74, 560 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Colony2:rotation_degrees")
+tracks/4/path = NodePath("BG/Colony2:rotation_degrees")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -70,50 +70,69 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 120.0, 90.0 ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("BG:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 110.7, 240 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.278431, 0.282353, 0.352941, 0.886275 ), Color( 0.796078, 0.8, 0.882353, 1 ), Color( 0.278431, 0.282353, 0.352941, 0.886275 ) ]
+}
 
 [node name="Kapteyn" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.886275 )
 
-[node name="Background" type="Sprite" parent="."]
+[node name="BG" type="Node2D" parent="."]
+editor/display_folded = true
+modulate = Color( 0.278431, 0.282353, 0.352941, 0.886275 )
+
+[node name="Background" type="Sprite" parent="BG"]
 position = Vector2( 540, 960 )
 rotation = 0.174533
 scale = Vector2( 5, 4.6 )
 texture = ExtResource( 1 )
 
-[node name="Planet" type="Sprite" parent="."]
+[node name="Planet" type="Sprite" parent="BG"]
 light_mask = 3
 position = Vector2( 927.667, 1690 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
-[node name="Colony2" type="Node2D" parent="."]
+[node name="Colony2" type="Node2D" parent="BG"]
+editor/display_folded = true
 modulate = Color( 0.855469, 0.855469, 0.855469, 1 )
 position = Vector2( 125.032, 53.0998 )
 rotation = 2.0944
 
-[node name="Colony3" type="Sprite" parent="Colony2"]
+[node name="Colony3" type="Sprite" parent="BG/Colony2"]
 modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
 position = Vector2( 386.88, 150.007 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 3 )
 
-[node name="Colony2" type="Sprite" parent="Colony2"]
+[node name="Colony2" type="Sprite" parent="BG/Colony2"]
 modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
 texture = ExtResource( 3 )
 
-[node name="Colony4" type="Sprite" parent="Colony2"]
+[node name="Colony4" type="Sprite" parent="BG/Colony2"]
 position = Vector2( 436.668, 157.298 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 4 )
 
-[node name="Colony1" type="Sprite" parent="Colony2"]
+[node name="Colony1" type="Sprite" parent="BG/Colony2"]
 position = Vector2( 49.7878, 7.29041 )
 texture = ExtResource( 4 )
 
-[node name="Colony" type="Node2D" parent="."]
+[node name="Colony" type="Node2D" parent="BG"]
+editor/display_folded = true
 position = Vector2( 928.654, 658.908 )
 scale = Vector2( 2, 2 )
 
-[node name="ColonyEx" type="Sprite" parent="Colony"]
+[node name="ColonyEx" type="Sprite" parent="BG/Colony"]
 modulate = Color( 0.230347, 0.394498, 0.398438, 1 )
 position = Vector2( -17.2504, -18.1186 )
 rotation = 0.714195
@@ -121,11 +140,11 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 3 )
 flip_v = true
 
-[node name="Colony2" type="Sprite" parent="Colony"]
+[node name="Colony2" type="Sprite" parent="BG/Colony"]
 modulate = Color( 0.746094, 0.746094, 0.746094, 1 )
 texture = ExtResource( 3 )
 
-[node name="Colony1" type="Sprite" parent="Colony"]
+[node name="Colony1" type="Sprite" parent="BG/Colony"]
 position = Vector2( 49.7878, 7.29041 )
 texture = ExtResource( 4 )
 
@@ -149,6 +168,7 @@ scale = Vector2( 49.9375, 12.5 )
 texture = ExtResource( 5 )
 
 [node name="SpaceDebris" parent="." instance=ExtResource( 6 )]
+modulate = Color( 0.517647, 0.517647, 0.517647, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "bg_scroll"
