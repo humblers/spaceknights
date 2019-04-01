@@ -1,11 +1,11 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://game/unit/nukemissile/nukemissile.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/nukemissile/nuke_missile.tres" type="Texture" id=2]
 [ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
 [ext_resource path="res://game/unit/nukemissile/nuke_missile.png" type="Texture" id=4]
 [ext_resource path="res://game/vfx/thrust_2.png" type="Texture" id=5]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=6]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
 [ext_resource path="res://game/unit/units.sprites/nukemissile/nuke_missile_dist.tres" type="Texture" id=7]
 [ext_resource path="res://game/unit/units.sprites/nukemissile/nuke_missile_dist_2.tres" type="Texture" id=8]
 [ext_resource path="res://game/vfx/vfx.sprites/energy_shield_1.tres" type="Texture" id=9]
@@ -54,13 +54,7 @@ _data = [ Vector2( 0, 0.6232 ), 0.0, 0.0, 0, 0, Vector2( 0.924267, 0.9928 ), 0.0
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0.2184 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 3.40768, 0.0, 0, 0 ]
 
-[sub_resource type="CanvasItemMaterial" id=8]
-blend_mode = 1
-
-[sub_resource type="CanvasItemMaterial" id=9]
-blend_mode = 1
-
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 resource_name = "explosion"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Main/Ex1:visible")
@@ -558,7 +552,7 @@ texture = ExtResource( 16 )
 [node name="Ex6" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 1, 0.509804, 0.0352941, 0.160784 )
-material = SubResource( 8 )
+material = ExtResource( 6 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 10 )
 
@@ -609,7 +603,7 @@ radial_accel = 180.0
 [node name="Center" type="Sprite" parent="Rotatable/Distroy/Main"]
 visible = false
 modulate = Color( 0.333333, 0.160784, 0.258824, 1 )
-material = SubResource( 9 )
+material = ExtResource( 6 )
 scale = Vector2( 5, 5 )
 texture = ExtResource( 13 )
 
@@ -618,7 +612,7 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 13 )
 
 [node name="DisAni" type="AnimationPlayer" parent="Rotatable/Distroy"]
-anims/explosion = SubResource( 10 )
+anims/explosion = SubResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = ExtResource( 26 )

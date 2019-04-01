@@ -1,7 +1,7 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://game/unit/voidcreeper/voidcreeper.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=2]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=2]
 [ext_resource path="res://game/vfx/vfx.sprites/energy_shield_1.tres" type="Texture" id=3]
 [ext_resource path="res://game/vfx/vfx.sprites/bladetrail_3.tres" type="Texture" id=4]
 [ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=5]
@@ -75,24 +75,21 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 [sub_resource type="Gradient" id=12]
 colors = PoolColorArray( 1, 0.799194, 0.265625, 1, 1, 0, 0, 0.42949 )
 
-[sub_resource type="CanvasItemMaterial" id=13]
-blend_mode = 1
-
-[sub_resource type="Curve" id=14]
+[sub_resource type="Curve" id=13]
 _data = [ Vector2( 0, 0.4824 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.633, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=14]
 offsets = PoolRealArray( 0.0875, 1 )
 colors = PoolColorArray( 0.191406, 1, 0.981049, 1, 0, 0, 0, 1 )
 
-[sub_resource type="Curve" id=16]
+[sub_resource type="Curve" id=15]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.368 ), -0.732947, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=17]
+[sub_resource type="Gradient" id=16]
 offsets = PoolRealArray( 0.4875, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.28125, 0.713623, 1, 1 )
 
-[sub_resource type="Gradient" id=18]
+[sub_resource type="Gradient" id=17]
 colors = PoolColorArray( 1, 1, 1, 0.235451, 1, 1, 1, 1 )
 
 [node name="Voidcreeper" type="Node2D"]
@@ -451,7 +448,6 @@ anims/idle = ExtResource( 21 )
 anims/move = ExtResource( 22 )
 
 [node name="Explosion" type="Node2D" parent="."]
-editor/display_folded = true
 scale = Vector2( 2.5, 2.5 )
 
 [node name="Main" type="Node2D" parent="Explosion"]
@@ -470,7 +466,7 @@ texture = ExtResource( 24 )
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0.168627, 0.454902, 1, 1 )
-material = SubResource( 13 )
+material = ExtResource( 2 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 13 )
 
@@ -491,8 +487,8 @@ angular_velocity_random = 1.0
 radial_accel = 60.0
 radial_accel_random = 1.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 14 )
-color_ramp = SubResource( 15 )
+scale_amount_curve = SubResource( 13 )
+color_ramp = SubResource( 14 )
 
 [node name="SmallExp" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( -20, -32 )
@@ -507,8 +503,8 @@ angular_velocity = 90.0
 angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="SmallExp2" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( 24, -32 )
@@ -524,8 +520,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="SmallExp3" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( 44, 0.399998 )
@@ -540,8 +536,8 @@ angular_velocity = 90.0
 angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="SmallExp4" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( 32, 24 )
@@ -556,8 +552,8 @@ angular_velocity = 90.0
 angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="SmallExp5" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( -37.2, 16 )
@@ -573,8 +569,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="SmallExp6" type="CPUParticles2D" parent="Explosion/Main"]
 position = Vector2( 6.8, 28 )
@@ -590,8 +586,8 @@ angular_velocity_random = 1.0
 radial_accel = 30.0
 radial_accel_random = 1.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 16 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="Circle2" type="CPUParticles2D" parent="Explosion/Main"]
 visible = false
@@ -609,7 +605,7 @@ angular_velocity_random = 1.0
 radial_accel = 50.0
 radial_accel_random = 1.0
 scale_amount = 2.0
-color_ramp = SubResource( 18 )
+color_ramp = SubResource( 17 )
 
 [node name="Particle" type="CPUParticles2D" parent="Explosion/Main"]
 emitting = false

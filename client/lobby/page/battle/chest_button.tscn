@@ -1,16 +1,18 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/chest_button.gd" type="Script" id=2]
 [ext_resource path="res://share/icon/lobby/card/knight_bg.png" type="Texture" id=3]
 [ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://lobby/page/battle/boxes.tscn" type="PackedScene" id=5]
-[ext_resource path="res://font/noto_sans_cjk_kr_black.otf" type="DynamicFontData" id=6]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=7]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=9]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=10]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=11]
+[ext_resource path="res://font/scdream8/size_38_outline_000000_es_0_0_4_0_fallback.tres" type="DynamicFont" id=6]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=7]
+[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=8]
+[ext_resource path="res://font/scdream8/size_26.tres" type="DynamicFont" id=9]
+[ext_resource path="res://font/scdream8/size_21_outline_3_398fff_fallback.tres" type="DynamicFont" id=10]
+[ext_resource path="res://font/noto_sans_cjk_kr_black/size_50_outline_4_000000.tres" type="DynamicFont" id=11]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=12]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=13]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 1 )
@@ -36,34 +38,6 @@ margin_left = 69.5
 margin_right = 71.0
 margin_top = 30.5
 margin_bottom = 99.5
-
-[sub_resource type="DynamicFont" id=4]
-size = 38
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 4
-font_data = ExtResource( 7 )
-fallback/0 = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 26
-use_filter = true
-font_data = ExtResource( 7 )
-
-[sub_resource type="DynamicFont" id=6]
-size = 21
-outline_size = 3
-outline_color = Color( 0.223529, 0.560784, 1, 1 )
-use_filter = true
-font_data = ExtResource( 7 )
-fallback/0 = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=7]
-size = 50
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 6 )
 
 [node name="ChestButton" type="Button"]
 margin_right = 260.0
@@ -115,7 +89,6 @@ rect_scale = Vector2( 0.4, 0.4 )
 mouse_filter = 2
 
 [node name="CanOpen" type="Control" parent="BG"]
-editor/display_folded = true
 visible = false
 margin_left = -5.0
 margin_right = 35.0
@@ -127,15 +100,14 @@ margin_left = 1.0
 margin_top = 188.0
 margin_right = 220.0
 margin_bottom = 240.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = ExtResource( 6 )
 text = "ID_PAGE_BATTLE_CHEST_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 8 )
+script = ExtResource( 7 )
 
 [node name="CannotOpen" type="Control" parent="BG"]
-editor/display_folded = true
 margin_left = -5.0
 margin_right = 35.0
 margin_bottom = 40.0
@@ -160,14 +132,14 @@ mouse_filter = 2
 margin_top = 3.0
 margin_right = 30.0
 margin_bottom = 33.0
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 
 [node name="Remain" type="Label" parent="BG/CannotOpen/HBoxContainer1"]
 margin_left = 69.0
 margin_right = 185.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = ExtResource( 9 )
 text = "23h 59m"
 align = 1
 valign = 1
@@ -178,16 +150,15 @@ margin_top = 166.0
 margin_right = 215.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 34 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_INSTANCE_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 8 )
+script = ExtResource( 7 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="BG/CannotOpen"]
-editor/display_folded = true
 margin_top = 180.0
 margin_right = 220.0
 margin_bottom = 254.0
@@ -200,7 +171,7 @@ margin_left = 24.0
 margin_right = 144.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 0, 74 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = ExtResource( 11 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "9999"
 align = 1
@@ -217,8 +188,8 @@ margin_top = 15.0
 margin_right = 66.0
 margin_bottom = 78.0
 rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 10 )
+texture = ExtResource( 12 )
 
-[node name="Dimensium" parent="BG/CannotOpen/HBoxContainer2/Control/CashIcon" instance=ExtResource( 11 )]
+[node name="Dimensium" parent="BG/CannotOpen/HBoxContainer2/Control/CashIcon" instance=ExtResource( 13 )]
 position = Vector2( 32.9999, 31 )
 

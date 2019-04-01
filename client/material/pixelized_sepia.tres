@@ -1,0 +1,33 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 base : hint_color;
+
+uniform float size_x=0.003;
+uniform float size_y=0.003;
+uniform float color_size=0.004;
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+	uv-=mod(uv,vec2(size_x,size_y));
+	vec3 c = textureLod(SCREEN_TEXTURE,uv,0.0).rgb;
+	//float v = max(c.r,max(c.g,c.b));
+	float v = dot(c,vec3(1.0,1.0,1.0));
+	//v=sqrt(v);
+	v*=v;
+	//COLOR.rgb= (base.rgb*v);
+	COLOR.rgb= (base.rgb*v) - mod(base.rgb*v, vec3(color_size,color_size,color_size));
+
+}
+
+"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/base = Color( 0, 1, 0.6, 1 )
+shader_param/size_x = 0.003
+shader_param/size_y = 0.003
+shader_param/color_size = 0.4
+

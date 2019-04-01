@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/mid_panel.png" type="Texture" id=2]
@@ -8,19 +8,11 @@
 [ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=6]
 [ext_resource path="res://lobby/page/card/tab_bar.png" type="Texture" id=7]
 [ext_resource path="res://lobby/hud/battle_pressed.png" type="Texture" id=8]
-[ext_resource path="res://font/scdream8.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://font/scdream8/size_80_outline_5_000000.tres" type="DynamicFont" id=9]
 [ext_resource path="res://lobby/resource/result_star_empty.png" type="Texture" id=10]
 [ext_resource path="res://lobby/resource/result_star.png" type="Texture" id=11]
 
-[sub_resource type="DynamicFont" id=1]
-size = 80
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 9 )
-
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
@@ -28,7 +20,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Victory/Clan/Glow:scale")
@@ -238,11 +230,11 @@ scale = Vector2( 3.2, 3.2 )
 texture = ExtResource( 4 )
 
 [node name="Light2D" type="Light2D" parent="Victory/Clan/Glow"]
-range_item_cull_mask = 0
 texture = ExtResource( 5 )
 texture_scale = 25.0
 color = Color( 1, 0.776471, 0.305882, 1 )
 range_layer_max = 1
+range_item_cull_mask = 0
 
 [node name="Clanicon2" type="Sprite" parent="Victory/Clan"]
 modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
@@ -278,7 +270,7 @@ margin_left = 468.0
 margin_top = 672.0
 margin_right = 613.0
 margin_bottom = 769.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 9 )
 text = "99"
 align = 1
 valign = 1
@@ -289,37 +281,37 @@ position = Vector2( 540, 301 )
 
 [node name="Star1" type="AnimatedSprite" parent="Victory/Star"]
 position = Vector2( -180, 35 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 frame = 1
 
 [node name="Star2" type="AnimatedSprite" parent="Victory/Star"]
 position = Vector2( -90, -16 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 frame = 1
 
 [node name="Star3" type="AnimatedSprite" parent="Victory/Star"]
 position = Vector2( 0, -64 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 frame = 1
 
 [node name="Star4" type="AnimatedSprite" parent="Victory/Star"]
 position = Vector2( 90, -16 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 frame = 1
 
 [node name="Star5" type="AnimatedSprite" parent="Victory/Star"]
 position = Vector2( 180, 35 )
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 frame = 1
 
 [node name="Light2D" type="Light2D" parent="Victory/Star"]
-range_item_cull_mask = 0
 position = Vector2( 270, 40 )
 texture = ExtResource( 5 )
 texture_scale = 3.0
 color = Color( 1, 0.52549, 0.180392, 1 )
 range_layer_max = 1
+range_item_cull_mask = 0
 
 [node name="ResultAni" type="AnimationPlayer" parent="."]
-anims/glow = SubResource( 3 )
+anims/glow = SubResource( 2 )
 

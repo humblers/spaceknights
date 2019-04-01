@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://game/unit/absorber/absorber.gd" type="Script" id=1]
 [ext_resource path="res://game/unit/units.sprites/absorber/body.tres" type="Texture" id=2]
@@ -13,7 +13,7 @@
 [ext_resource path="res://game/unit/units.sprites/absorber/fist.tres" type="Texture" id=11]
 [ext_resource path="res://game/unit/units.sprites/absorber/hiraku.tres" type="Texture" id=12]
 [ext_resource path="res://game/unit/units.sprites/absorber/generator.tres" type="Texture" id=13]
-[ext_resource path="res://game/unit/light_material.tres" type="Material" id=14]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=14]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=15]
 [ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=16]
 [ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=17]
@@ -98,12 +98,6 @@ _data = [ Vector2( 0, 0.8256 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 
 
 [sub_resource type="Gradient" id=17]
 colors = PoolColorArray( 0.759491, 0.167969, 1, 0, 1, 1, 1, 1 )
-
-[sub_resource type="CanvasItemMaterial" id=18]
-blend_mode = 1
-
-[sub_resource type="CanvasItemMaterial" id=19]
-blend_mode = 1
 
 [node name="Absorber" type="Node2D"]
 script = ExtResource( 1 )
@@ -438,11 +432,9 @@ scale_amount = 2.0
 color_ramp = SubResource( 17 )
 
 [node name="Explosion" type="Node2D" parent="."]
-editor/display_folded = true
 scale = Vector2( 1.7, 1.7 )
 
 [node name="Main" type="Node2D" parent="Explosion"]
-editor/display_folded = true
 
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -457,14 +449,14 @@ texture = ExtResource( 26 )
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 18 )
+material = ExtResource( 14 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 17 )
 
 [node name="Circle1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.101961, 0.47451, 1, 0 )
-material = SubResource( 19 )
+material = ExtResource( 14 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 27 )
