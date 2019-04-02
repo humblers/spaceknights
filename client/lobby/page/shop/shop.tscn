@@ -1,4 +1,4 @@
-[gd_scene load_steps=105 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://lobby/page/shop/shop.gd" type="Script" id=1]
 [ext_resource path="res://lobby/resource/background_tile.png" type="Texture" id=2]
@@ -94,9 +94,53 @@
 [ext_resource path="res://lobby/page/shop/buyitem.tscn" type="PackedScene" id=92]
 [ext_resource path="res://lobby/page/shop/buycard.tscn" type="PackedScene" id=93]
 [ext_resource path="res://lobby/page/shop/buygalacticoin.tscn" type="PackedScene" id=94]
-[ext_resource path="res://lobby/page/shop/buycard.gd" type="Script" id=95]
-[ext_resource path="res://lobby/page/battle/rewardbox_bg.png" type="Texture" id=96]
-[ext_resource path="res://lobby/page/underdevelop.tscn" type="PackedScene" id=97]
+[ext_resource path="res://lobby/page/shop/buydimensium.tscn" type="PackedScene" id=95]
+[ext_resource path="res://lobby/page/underdevelop.tscn" type="PackedScene" id=96]
+
+[sub_resource type="Animation" id=1]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("CardFrame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("CardFrame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("CardFrame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.19 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
+}
 
 [sub_resource type="Animation" id=4]
 length = 0.2
@@ -113,7 +157,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("CardFrame:rect_scale")
@@ -128,7 +172,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("CardFrame:rect_scale")
@@ -142,54 +186,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
 }
-
-[sub_resource type="Animation" id=9]
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("CardFrame:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.19 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
-}
-
-[sub_resource type="Animation" id=10]
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("CardFrame:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.19 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
-}
-
-[sub_resource type="Animation" id=11]
-length = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("CardFrame:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.19 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.9, 0.9 ) ]
-}
-
-[sub_resource type="StreamTexture" id=23]
-flags = 4
 
 [node name="Shop" type="Control"]
 anchor_right = 1.0
@@ -500,7 +496,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card/Button/ItemBase"]
-anims/down = SubResource( 4 )
+anims/down = SubResource( 1 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card/Button"]
 margin_left = 28.0
@@ -691,7 +687,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card2/Button/ItemBase"]
-anims/down = SubResource( 7 )
+anims/down = SubResource( 2 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card2/Button"]
 margin_left = 28.0
@@ -881,7 +877,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card3/Button/ItemBase"]
-anims/down = SubResource( 8 )
+anims/down = SubResource( 3 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card3/Button"]
 margin_left = 28.0
@@ -1080,7 +1076,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card/Button/ItemBase"]
-anims/down = SubResource( 9 )
+anims/down = SubResource( 4 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card/Button"]
 margin_left = 28.0
@@ -1271,7 +1267,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card2/Button/ItemBase"]
-anims/down = SubResource( 10 )
+anims/down = SubResource( 5 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card2/Button"]
 margin_left = 28.0
@@ -1461,7 +1457,7 @@ resources = [ PoolStringArray( "archengineer", "archers", "archsapper", "astra",
 resources = [ PoolStringArray( "Common", "Epic", "Legendary", "Rare" ), [ ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ) ] ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card3/Button/ItemBase"]
-anims/down = SubResource( 11 )
+anims/down = SubResource( 6 )
 
 [node name="HoldingBar" type="CenterContainer" parent="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards2/Card3/Button"]
 editor/display_folded = true
@@ -1501,6 +1497,7 @@ valign = 1
 autowrap = true
 
 [node name="TreasureChests" type="Control" parent="PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 1584.0
 margin_right = 1440.0
 margin_bottom = 2404.0
@@ -2027,7 +2024,6 @@ texture = ExtResource( 76 )
 position = Vector2( 33, 31 )
 
 [node name="Dimensium" type="Control" parent="PageMain/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 2408.0
 margin_right = 1440.0
 margin_bottom = 3978.0
@@ -2089,7 +2085,6 @@ align = 1
 valign = 1
 
 [node name="Items" type="Control" parent="PageMain/MarginContainer/VBoxContainer/Dimensium"]
-editor/display_folded = true
 margin_left = 180.0
 margin_top = 127.0
 margin_right = 1260.0
@@ -3315,41 +3310,10 @@ visible = false
 [node name="BuyCoin" parent="." instance=ExtResource( 94 )]
 visible = false
 
-[node name="BuyCash" type="Control" parent="."]
-editor/display_folded = true
+[node name="BuyDimen" parent="." instance=ExtResource( 95 )]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -713.0
-margin_top = -961.0
-margin_right = 727.0
-margin_bottom = 959.0
-script = ExtResource( 95 )
 
-[node name="TextureRect" type="TextureRect" parent="BuyCash"]
-modulate = Color( 0, 0, 0, 1 )
-margin_right = 1440.0
-margin_bottom = 1920.0
-texture = ExtResource( 96 )
-expand = true
-
-[node name="TextureRect2" type="TextureRect" parent="BuyCash"]
-margin_left = 180.0
-margin_top = 970.0
-margin_right = 1260.0
-margin_bottom = 1760.0
-texture = SubResource( 23 )
-expand = true
-
-[node name="TextureButton" type="TextureButton" parent="BuyCash/TextureRect2"]
-margin_left = 146.0
-margin_top = 660.0
-margin_right = 917.0
-margin_bottom = 792.0
-
-[node name="UnderDevelop" parent="." instance=ExtResource( 97 )]
+[node name="UnderDevelop" parent="." instance=ExtResource( 96 )]
 visible = false
 
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/DailyDeals/Cards/Card/Button" to="." method="_on_Button_pressed"]
@@ -3370,4 +3334,3 @@ visible = false
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card1/BuyCoin" to="." method="_on_BuyCoin_pressed"]
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card2/BuyCoin2" to="." method="_on_BuyCoin_pressed"]
 [connection signal="pressed" from="PageMain/MarginContainer/VBoxContainer/Galacticoin/Items/Card3/BuyCoin3" to="." method="_on_BuyCoin_pressed"]
-[connection signal="pressed" from="BuyCash/TextureRect2/TextureButton" to="." method="_on_TextureButton_pressed"]
