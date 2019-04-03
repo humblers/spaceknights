@@ -33,17 +33,19 @@ func fontDownsizing():
 				if size.x <= self.rect_size.x && size.y <= self.rect_size.y:
 					break
 				font.size -= 1
+			self.add_font_override("font", font)
 		"RichTextLabel":
 			while font.size > MIN_SIZE:
 				if self.call("get_content_height") < self.rect_size.y:
 					break
 				font.size -= 1
+			self.add_font_override("normal_font", font)
 	font.update_changes()
 
 func getFont():
 	match self.get_class():
 		"Label":
-			return self.get_font("font")
+			return self.get_font("font").duplicate()
 		"RichTextLabel":
-			return self.get_font("normal_font")
+			return self.get_font("normal_font").duplicate()
 	return null
