@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+var depenedencies = []
+
+func _ready():
+	list_up_dependencies(\"res://game/game.tscn\")
+	find_scene_files(\"res://game\")
+
+func list_up_dependencies(path):
+	for res in ResourceLoader.get_dependencies(path):
+		if res.ends_with(\"tscn\") and not depenedencies.has(res):
+			depenedencies.append(res)
+			list_up_dependencies(res)
+
+func find_scene_files(path):
+	var dir = Directory.new()
+	var err = dir.open(path)
+	if err != OK:
+		print(\"An error occurred when trying to access the path. err code: \", err)
+		return
+	dir.list_dir_begin(true)
+	var n = dir.get_next()
+	while (n != \"\"):
+		var combine = \"%s/%s\" % [path, n]
+		if dir.current_is_dir():
+			find_scene_files(combine)
+			print(combine)
+		else:
+			if n.ends_with(\"tscn\") and depenedencies.has(combine):
+				var res = load(combine)
+				var paths = path.replace(\"res://\", \"\").split(\"/\")
+				paths.append(n)
+				var fname = \"user://%s.txt\" % [PoolStringArray(paths).join(\"_\")]
+				var node = res.instance()
+				var f = list_up_downsizing_nodes(node, node, fname)
+				if f != null:
+					f.close()
+		n = dir.get_next()
+
+func list_up_downsizing_nodes(node, root, fname, f = null):
+	if node.get(\"scale\"):
+		var scale = node.get(\"scale\")
+		if scale.x < 1 or scale.y < 1:
+			var path = root.get_path_to(node)
+			if f == null:
+				f = File.new()
+				f.open(fname, File.WRITE)
+			f.store_line(\"%s , (%.3f, %.3f)\" % [path, scale.x , scale.y])
+	if node.get(\"rect_scale\"):
+		var scale = node.get(\"rect_scale\")
+		if scale.x < 1 or scale.y < 1:
+			var path = root.get_path_to(node)
+			if f == null:
+				f = File.new()
+				f.open(fname, File.WRITE)
+			f.store_line(\"%s , (%.3f, %.3f)\" % [path, scale.x , scale.y])
+	for child in node.get_children():
+		f = list_up_downsizing_nodes(child, root, fname, f)
+	return f"
+
+[node name="ScrollContainer" type="Node"]
+script = SubResource( 1 )
+
