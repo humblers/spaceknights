@@ -25,7 +25,7 @@ func SetText(id):
 	call_deferred("fontDownsizing")
 
 func fontDownsizing():
-	var font = getFont()
+	var font = getFont().duplicate()
 	match self.get_class():
 		"Label":
 			while font.size > MIN_SIZE:
@@ -45,7 +45,7 @@ func fontDownsizing():
 func getFont():
 	match self.get_class():
 		"Label":
-			return self.get_font("font").duplicate()
+			return self.get_font("font")
 		"RichTextLabel":
-			return self.get_font("normal_font").duplicate()
+			return self.get_font("normal_font")
 	return null
