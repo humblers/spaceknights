@@ -1,18 +1,16 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://lobby/resource/card_back.png" type="Texture" id=1]
 [ext_resource path="res://lobby/page/battle/chest_button.gd" type="Script" id=2]
 [ext_resource path="res://share/icon/lobby/card/knight_bg.png" type="Texture" id=3]
 [ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://lobby/page/battle/boxes.tscn" type="PackedScene" id=5]
-[ext_resource path="res://font/scdream8/size_38_outline_000000_es_0_0_4_0_fallback.tres" type="DynamicFont" id=6]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=7]
-[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=8]
-[ext_resource path="res://font/scdream8/size_26.tres" type="DynamicFont" id=9]
-[ext_resource path="res://font/scdream8/size_21_outline_3_398fff_fallback.tres" type="DynamicFont" id=10]
-[ext_resource path="res://font/noto_sans_cjk_kr_black/size_50_outline_4_000000.tres" type="DynamicFont" id=11]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=12]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=13]
+[ext_resource path="res://font/scdream8/size_32.tres" type="DynamicFont" id=5]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=6]
+[ext_resource path="res://lobby/page/battle/time_icon.png" type="Texture" id=7]
+[ext_resource path="res://font/scdream8/size_20_outline_2_000000_fallback.tres" type="DynamicFont" id=8]
+[ext_resource path="res://font/noto_sans_cjk_kr_black/size_50_outline_4_000000.tres" type="DynamicFont" id=9]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=10]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 1 )
@@ -79,16 +77,8 @@ margin_right = 318.0
 margin_bottom = 259.0
 rect_scale = Vector2( 0.7, 0.7 )
 
-[node name="Boxes" parent="BG" instance=ExtResource( 5 )]
-visible = false
-margin_left = 11.0
-margin_top = 25.0
-margin_right = 481.0
-margin_bottom = 415.0
-rect_scale = Vector2( 0.4, 0.4 )
-mouse_filter = 2
-
 [node name="CanOpen" type="Control" parent="BG"]
+editor/display_folded = true
 visible = false
 margin_left = -5.0
 margin_right = 35.0
@@ -100,12 +90,12 @@ margin_left = 1.0
 margin_top = 188.0
 margin_right = 220.0
 margin_bottom = 240.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 5 )
 text = "ID_PAGE_BATTLE_CHEST_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 7 )
+script = ExtResource( 6 )
 
 [node name="CannotOpen" type="Control" parent="BG"]
 margin_left = -5.0
@@ -122,8 +112,8 @@ alignment = 1
 
 [node name="Control" type="Control" parent="BG/CannotOpen/HBoxContainer1"]
 editor/display_folded = true
-margin_left = 35.0
-margin_right = 65.0
+margin_left = 24.0
+margin_right = 54.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 30, 40 )
 mouse_filter = 2
@@ -132,14 +122,14 @@ mouse_filter = 2
 margin_top = 3.0
 margin_right = 30.0
 margin_bottom = 33.0
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="Remain" type="Label" parent="BG/CannotOpen/HBoxContainer1"]
-margin_left = 69.0
-margin_right = 185.0
+margin_left = 58.0
+margin_right = 196.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 5 )
 text = "23h 59m"
 align = 1
 valign = 1
@@ -150,13 +140,13 @@ margin_top = 166.0
 margin_right = 215.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 34 )
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_BATTLE_CHEST_INSTANCE_OPEN"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 7 )
+script = ExtResource( 6 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="BG/CannotOpen"]
 margin_top = 180.0
@@ -171,7 +161,7 @@ margin_left = 24.0
 margin_right = 144.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 0, 74 )
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "9999"
 align = 1
@@ -188,8 +178,8 @@ margin_top = 15.0
 margin_right = 66.0
 margin_bottom = 78.0
 rect_scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 
-[node name="Dimensium" parent="BG/CannotOpen/HBoxContainer2/Control/CashIcon" instance=ExtResource( 13 )]
+[node name="Dimensium" parent="BG/CannotOpen/HBoxContainer2/Control/CashIcon" instance=ExtResource( 11 )]
 position = Vector2( 32.9999, 31 )
 
