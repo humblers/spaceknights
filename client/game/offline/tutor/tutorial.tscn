@@ -1,20 +1,19 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/game.tscn" type="PackedScene" id=1]
 [ext_resource path="res://material/unshaded.tres" type="Material" id=2]
 [ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=3]
 [ext_resource path="res://font/noto_sans_cjk_kr_black/size_30.tres" type="DynamicFont" id=4]
 [ext_resource path="res://font/scdream8/size_30.tres" type="DynamicFont" id=5]
-[ext_resource path="res://game/offline/tutor/squaretutor.png" type="Texture" id=6]
-[ext_resource path="res://game/offline/tutor/arrowtutor1.png" type="Texture" id=7]
-[ext_resource path="res://game/offline/tutor/arrowtutor2.png" type="Texture" id=8]
-[ext_resource path="res://game/offline/tutor/arrowtutor3.png" type="Texture" id=9]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=10]
-[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=11]
-[ext_resource path="res://material/pixelized_sepia.tres" type="Material" id=12]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=13]
-
-
+[ext_resource path="res://lobby/page/card/slots_panel.png" type="Texture" id=6]
+[ext_resource path="res://game/offline/tutor/squaretutor.png" type="Texture" id=7]
+[ext_resource path="res://game/offline/tutor/arrowtutor1.png" type="Texture" id=8]
+[ext_resource path="res://game/offline/tutor/arrowtutor2.png" type="Texture" id=9]
+[ext_resource path="res://game/offline/tutor/arrowtutor3.png" type="Texture" id=10]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=11]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=12]
+[ext_resource path="res://material/pixelized_sepia.tres" type="Material" id=13]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=14]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), -0.236835, 0.0, 0, 0 ]
@@ -25,7 +24,7 @@ colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -2240,6 +2239,10 @@ editor/display_folded = true
 [node name="NonCameraFollowingUI" parent="." index="6"]
 editor/display_folded = true
 
+[node name="BGBasic" parent="Map" index="0"]
+position = Vector2( 543.5, 962.5 )
+scale = Vector2( 180, 240 )
+
 [node name="Tutorial" type="Control" parent="." index="12"]
 material = ExtResource( 2 )
 anchor_left = 0.5
@@ -2581,7 +2584,13 @@ margin_right = 1440.0
 margin_bottom = 1920.0
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Tutorial/Resource/Pointing" index="0"]
+[node name="BG" type="Sprite" parent="Tutorial/Resource/Pointing" index="0"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 720, 49 )
+scale = Vector2( 1, 6 )
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="Tutorial/Resource/Pointing" index="1"]
 use_parent_material = true
 margin_left = 181.0
 margin_top = 17.0
@@ -2592,12 +2601,12 @@ text = "전장의 파란색 영역에 스콰이어 카드를 드래그 해서 �
 align = 1
 valign = 1
 
-[node name="Marking" type="CPUParticles2D" parent="Tutorial/Resource/Pointing" index="1"]
+[node name="Marking" type="CPUParticles2D" parent="Tutorial/Resource/Pointing" index="2"]
 use_parent_material = true
 position = Vector2( 522, 241 )
 amount = 2
 speed_scale = 0.7
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 scale_amount = 2.5
@@ -2614,12 +2623,12 @@ frame = 2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Tutorial/Arrow" index="0"]
 visible = false
-material = ExtResource( 10 )
+material = ExtResource( 11 )
 position = Vector2( 0, 56.667 )
 scale = Vector2( 0.62, 0.1 )
 amount = 2
 speed_scale = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 color_ramp = SubResource( 4 )
@@ -2637,7 +2646,7 @@ anims/set8 = SubResource( 13 )
 
 [node name="VirtualUI" type="TextureRect" parent="Tutorial" index="3"]
 modulate = Color( 0.666667, 0.666667, 0.666667, 0.97098 )
-material = ExtResource( 12 )
+material = ExtResource( 13 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
@@ -2645,7 +2654,7 @@ margin_right = 540.0
 margin_bottom = 1700.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 expand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Tutorial/VirtualUI" index="0"]
