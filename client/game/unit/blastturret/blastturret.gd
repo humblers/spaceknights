@@ -13,7 +13,7 @@ func Init(id, level, posX, posY, game, player):
 	Decayable.Init(self)
 
 func _ready():
-	$Float/FloatAni.play("activate")
+	$AnimationPlayer.play("anchor")
 
 func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):

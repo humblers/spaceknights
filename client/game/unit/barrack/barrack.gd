@@ -12,7 +12,7 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 
 func _ready():
-	$Rotatable/Float/FloatAni.play("activate")
+	$AnimationPlayer.play("anchor")
 
 func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):

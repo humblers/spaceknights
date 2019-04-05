@@ -17,7 +17,7 @@ func Init(id, level, posX, posY, game, player):
 	Decayable.Init(self)
 
 func _ready():
-	$Float/FloatAni.play("activate")
+	$AnimationPlayer.play("anchor")
 	damage_max = .attackDamage() * data.units[name_]["amplifycountlimit"]
 
 func TakeDamage(amount, damageType, attacker):
