@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://game/script/mothership.gd" type="Script" id=1]
 [ext_resource path="res://game/bg/mothership/mothership/mothership_small.png" type="Texture" id=2]
@@ -23,14 +23,13 @@
 [ext_resource path="res://game/bg/mothership/mothership/blue_right_partial_destroy.tres" type="Animation" id=21]
 [ext_resource path="res://game/bg/mothership/knight_deck/red_deck.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=23]
-[ext_resource path="res://game/bg/mothership/mothership/red_ship_default.tres" type="Animation" id=24]
-[ext_resource path="res://game/bg/mothership/mothership/red_ship_show.tres" type="Animation" id=25]
-[ext_resource path="res://game/bg/mothership/mothership/red_left_destroy.tres" type="Animation" id=26]
-[ext_resource path="res://game/bg/mothership/mothership/red_left_partial_destroy.tres" type="Animation" id=27]
-[ext_resource path="res://game/bg/mothership/mothership/red_center_destroy.tres" type="Animation" id=28]
-[ext_resource path="res://game/bg/mothership/mothership/red_center_partial_destroy.tres" type="Animation" id=29]
-[ext_resource path="res://game/bg/mothership/mothership/red_right_destroy.tres" type="Animation" id=30]
-[ext_resource path="res://game/bg/mothership/mothership/red_right_partial_destroy.tres" type="Animation" id=31]
+[ext_resource path="res://game/bg/mothership/mothership/red_ship_show.tres" type="Animation" id=24]
+[ext_resource path="res://game/bg/mothership/mothership/red_left_destroy.tres" type="Animation" id=25]
+[ext_resource path="res://game/bg/mothership/mothership/red_left_partial_destroy.tres" type="Animation" id=26]
+[ext_resource path="res://game/bg/mothership/mothership/red_center_destroy.tres" type="Animation" id=27]
+[ext_resource path="res://game/bg/mothership/mothership/red_center_partial_destroy.tres" type="Animation" id=28]
+[ext_resource path="res://game/bg/mothership/mothership/red_right_destroy.tres" type="Animation" id=29]
+[ext_resource path="res://game/bg/mothership/mothership/red_right_partial_destroy.tres" type="Animation" id=30]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, -0.110066, 0, 0, Vector2( 1, 0.5264 ), -1.82839, 0.0, 0, 0 ]
@@ -500,19 +499,20 @@ angular_velocity = 360.0
 radial_accel = 270.0
 scale_amount = 2.0
 
+[node name="DefaultAnim" parent="Red" instance_placeholder="res://game/bg/mothership/mothership/red_default_anim.tscn"]
+
 [node name="Ship" type="AnimationPlayer" parent="Red"]
-anims/red_ship_default = ExtResource( 24 )
-anims/show = ExtResource( 25 )
+anims/show = ExtResource( 24 )
 
 [node name="AnimLeft" type="AnimationPlayer" parent="Red"]
-anims/destroy = ExtResource( 26 )
-anims/partial_destroy = ExtResource( 27 )
+anims/destroy = ExtResource( 25 )
+anims/partial_destroy = ExtResource( 26 )
 
 [node name="AnimCenter" type="AnimationPlayer" parent="Red"]
-anims/destroy = ExtResource( 28 )
-anims/partial_destroy = ExtResource( 29 )
+anims/destroy = ExtResource( 27 )
+anims/partial_destroy = ExtResource( 28 )
 
 [node name="AnimRight" type="AnimationPlayer" parent="Red"]
-anims/destroy = ExtResource( 30 )
-anims/partial_destroy = ExtResource( 31 )
+anims/destroy = ExtResource( 29 )
+anims/partial_destroy = ExtResource( 30 )
 
