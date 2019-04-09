@@ -19,7 +19,6 @@ const STAT_ORDER = [
 export(NodePath) onready var info_root = get_node(info_root)
 export(NodePath) onready var stat_container = get_node(stat_container)
 export(NodePath) onready var description_label = get_node(description_label)
-export(NodePath) onready var wingskill_icon = get_node(wingskill_icon)
 
 export(NodePath) onready var left_point = get_node(left_point)
 export(NodePath) onready var right_point = get_node(right_point)
@@ -30,7 +29,6 @@ func Invalidate(card, pressed):
 	right_point.visible = not pressed.is_left
 	description_label.visible = pressed.sub_info.type == "leader"
 	stat_container.visible = pressed.sub_info.type == "wing"
-	wingskill_icon.visible = pressed.sub_info.type == "wing"
 	if pressed.sub_info.type == "leader":
 		description_label.SetText("ID_LEADER_SKILL_%s" % card.Name)
 	else:
