@@ -5,7 +5,7 @@ const DECK_READY_LIGHT = "Nodes/Deck/%s/Ready%s/SkillReadyC"
 const DECK_READY_SIGN = "Nodes/Deck/%s/Ready%s/ReadySign"
 
 func Init(player):
-	add_dummy(player)
+	call_deferred("add_dummy", player)
 	$Ship.play("show")
 	yield($Ship, "animation_finished")
 	remove_dummy(player)
