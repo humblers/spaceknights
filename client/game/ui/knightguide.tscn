@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=1]
+[ext_resource path="res://game/ui/knight_guide.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/knight_guide_arrow.png" type="Texture" id=3]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.741722, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[node name="Knightguide" type="Node2D"]
+
+[node name="Rotate" type="Node2D" parent="."]
+
+[node name="Guide" type="Sprite" parent="Rotate"]
+modulate = Color( 1, 0.815686, 0.321569, 0.588235 )
+material = ExtResource( 1 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -64 )
+
+[node name="Position2D" type="Position2D" parent="Rotate/Guide"]
+position = Vector2( 0, -128 )
+
+[node name="Arrow" type="CPUParticles2D" parent="Rotate"]
+modulate = Color( 1, 0.603922, 0.141176, 1 )
+material = ExtResource( 1 )
+position = Vector2( 0, -20 )
+scale = Vector2( 1, 0.5 )
+amount = 2
+lifetime = 2.0
+speed_scale = 1.4
+texture = ExtResource( 3 )
+gravity = Vector2( 0, -70 )
+initial_velocity = 0.0
+color_ramp = SubResource( 1 )
+
