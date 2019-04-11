@@ -1,31 +1,29 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://lobby/page/shop/buyitem.gd" type="Script" id=1]
 [ext_resource path="res://lobby/page/battle/rewardbox_bg.png" type="Texture" id=2]
-[ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=3]
-[ext_resource path="res://lobby/resource/board_black.png" type="Texture" id=4]
-[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=5]
-[ext_resource path="res://font/scdream8/size_50_outline_4_000000_fallback.tres" type="DynamicFont" id=6]
-[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=7]
+[ext_resource path="res://lobby/resource/card_back_empty.png" type="Texture" id=3]
+[ext_resource path="res://lobby/page/battle/mid_panel.png" type="Texture" id=4]
+[ext_resource path="res://font/scdream8/size_90_outline_7_1f1f1f_fallback.tres" type="DynamicFont" id=5]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=6]
+[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=7]
 [ext_resource path="res://lobby/hud/card_icon.png" type="Texture" id=8]
-[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=9]
-[ext_resource path="res://lobby/page/card/upgrade_button_hover.png" type="Texture" id=10]
-[ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=11]
-[ext_resource path="res://lobby/page/card/upgrade_button.png" type="Texture" id=12]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=13]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=14]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=15]
-[ext_resource path="res://lobby/hud/lightcircle.png" type="Texture" id=16]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=17]
-[ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=18]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=19]
-
-
-
-
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=9]
+[ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=10]
+[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=11]
+[ext_resource path="res://lobby/page/card/upgrade_button_hover.png" type="Texture" id=12]
+[ext_resource path="res://lobby/page/card/upgrade_button_pressed.png" type="Texture" id=13]
+[ext_resource path="res://lobby/page/card/upgrade_button.png" type="Texture" id=14]
+[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=15]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=16]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=17]
+[ext_resource path="res://lobby/hud/lightcircle.png" type="Texture" id=18]
+[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=19]
+[ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=20]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=21]
 
 [sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 10 )
+texture = ExtResource( 12 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
 margin_right = 49.75
@@ -33,7 +31,7 @@ margin_top = 20.0
 margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id=2]
-texture = ExtResource( 11 )
+texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.5
 margin_right = 50.0
@@ -41,7 +39,7 @@ margin_top = 20.0
 margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 12 )
+texture = ExtResource( 14 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 50.0
 margin_right = 50.0
@@ -66,10 +64,11 @@ margin_right = 720.0
 margin_bottom = 960.0
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1402.0 ]
+"_edit_horizontal_guides_": [ 1402.0 ],
+"_edit_vertical_guides_": [  ]
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="BG" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -87,260 +86,265 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -540.0
+margin_left = -720.0
 margin_top = -960.0
-margin_right = 540.0
+margin_right = 720.0
 margin_bottom = 960.0
-rect_min_size = Vector2( 250, 0 )
+rect_min_size = Vector2( 1440, 1920 )
 mouse_filter = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="BuyCard"]
-self_modulate = Color( 0.243137, 0.278431, 0.380392, 1 )
+[node name="TextureRect" type="TextureRect" parent="BuyCard"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -530.0
-margin_top = -295.0
-margin_right = 530.0
-margin_bottom = 735.0
+margin_left = -450.0
+margin_top = -230.0
+margin_right = 450.0
+margin_bottom = 770.0
 texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 40
-patch_margin_top = 40
-patch_margin_right = 40
-patch_margin_bottom = 40
+expand = true
 
-[node name="InputForm2" type="NinePatchRect" parent="BuyCard"]
+[node name="TextureRect5" type="TextureRect" parent="BuyCard"]
+modulate = Color( 0, 0, 0, 0.862745 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -519.0
-margin_top = -205.0
-margin_right = 521.0
-margin_bottom = 726.0
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 30
-patch_margin_top = 30
-patch_margin_right = 30
-patch_margin_bottom = 29
+margin_left = -400.0
+margin_top = -180.0
+margin_right = 400.0
+margin_bottom = 720.0
+texture = ExtResource( 3 )
+expand = true
 
 [node name="Title" type="Control" parent="BuyCard"]
 anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -720.0
+margin_top = 110.0
+margin_right = 720.0
+margin_bottom = 290.0
+
+[node name="Center" type="NinePatchRect" parent="BuyCard/Title"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -720.0
+margin_top = -90.5
+margin_right = 720.0
+margin_bottom = 90.5
+texture = ExtResource( 4 )
+region_rect = Rect2( -40, 0, 800, 90 )
+patch_margin_left = 309
+patch_margin_right = 320
+
+[node name="Name" type="Label" parent="BuyCard/Title"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -431.0
+margin_top = -58.5
+margin_right = 431.0
+margin_bottom = 48.5
+custom_fonts/font = ExtResource( 5 )
+text = "D-MATTER"
+align = 1
+valign = 1
+clip_text = true
+script = ExtResource( 6 )
+
+[node name="Location" type="Label" parent="BuyCard/Title"]
+anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -540.0
-margin_top = -294.0
+margin_top = 70.0
 margin_right = 540.0
-margin_bottom = -214.0
-
-[node name="Center" type="TextureRect" parent="BuyCard/Title"]
-self_modulate = Color( 0.156863, 0.156863, 0.156863, 1 )
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1070.0
-margin_bottom = 80.0
-texture = ExtResource( 5 )
-expand = true
-
-[node name="Top" type="TextureRect" parent="BuyCard/Title"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1070.0
-margin_bottom = 15.0
-texture = ExtResource( 5 )
-expand = true
-
-[node name="Bottom" type="TextureRect" parent="BuyCard/Title"]
-margin_left = 10.0
-margin_top = 75.0
-margin_right = 1070.0
-margin_bottom = 80.0
-texture = ExtResource( 5 )
-expand = true
-
-[node name="Name" type="Label" parent="BuyCard/Title"]
-margin_left = 10.0
-margin_top = 19.0
-margin_right = 1070.0
-margin_bottom = 77.0
-custom_fonts/font = ExtResource( 6 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "D - METER"
-align = 1
-valign = 1
-
-[node name="Location" type="Label" parent="BuyCard/Title"]
-margin_top = 105.0
-margin_right = 1080.0
-margin_bottom = 165.0
+margin_bottom = 130.0
 custom_fonts/font = ExtResource( 7 )
 text = "Thanatos - 13"
 align = 1
 valign = 1
 
-[node name="InputForm" type="NinePatchRect" parent="BuyCard"]
-self_modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 31.0
-margin_top = -379.0
-margin_right = 1051.0
-margin_bottom = -244.0
-texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 200, 200 )
-patch_margin_left = 40
-patch_margin_top = 40
-patch_margin_right = 41
-patch_margin_bottom = 40
+[node name="CardSort" type="HBoxContainer" parent="BuyCard"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = 410.0
+margin_right = 450.0
+margin_bottom = 550.0
+rect_min_size = Vector2( 900, 1 )
+alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="BuyCard"]
-margin_left = 373.0
-margin_top = 1455.0
-margin_right = 435.0
-margin_bottom = 1525.0
+[node name="Common" type="Control" parent="BuyCard/CardSort"]
+editor/display_folded = true
+margin_left = 71.0
+margin_right = 321.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 250, 140 )
+
+[node name="TextureRect4" type="TextureRect" parent="BuyCard/CardSort/Common"]
+margin_left = 1.0
+margin_top = 55.0
+margin_right = 63.0
+margin_bottom = 125.0
 texture = ExtResource( 8 )
 
-[node name="TextureRect4" type="TextureRect" parent="BuyCard"]
-margin_left = 43.0
-margin_top = 1455.0
-margin_right = 105.0
-margin_bottom = 1525.0
-texture = ExtResource( 8 )
-
-[node name="TextureRect3" type="TextureRect" parent="BuyCard"]
-margin_left = 705.0
-margin_top = 1455.0
-margin_right = 767.0
-margin_bottom = 1525.0
-texture = ExtResource( 8 )
-
-[node name="Label" type="Label" parent="BuyCard"]
-margin_left = 51.0
-margin_top = 1350.0
-margin_right = 446.0
-margin_bottom = 1389.0
+[node name="Label6" type="Label" parent="BuyCard/CardSort/Common"]
+margin_left = 65.0
+margin_top = 65.0
+margin_right = 191.0
+margin_bottom = 123.0
 custom_fonts/font = ExtResource( 7 )
-custom_colors/font_color = Color( 0.682353, 0.682353, 0.682353, 1 )
-text = "Must Include With"
-valign = 2
-
-[node name="Label4" type="Label" parent="BuyCard"]
-margin_left = 437.0
-margin_top = 1465.0
-margin_right = 563.0
-margin_bottom = 1516.0
-custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "x 20"
 valign = 2
 
-[node name="Label6" type="Label" parent="BuyCard"]
-margin_left = 107.0
-margin_top = 1465.0
-margin_right = 233.0
-margin_bottom = 1516.0
-custom_fonts/font = ExtResource( 6 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "x 20"
-valign = 2
-
-[node name="Label5" type="Label" parent="BuyCard"]
-margin_left = 767.0
-margin_top = 1465.0
-margin_right = 893.0
-margin_bottom = 1516.0
-custom_fonts/font = ExtResource( 6 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "x 20"
-valign = 2
-
-[node name="Label2" type="Label" parent="BuyCard"]
-margin_left = 438.0
-margin_top = 1429.0
-margin_right = 711.0
-margin_bottom = 1464.0
-custom_fonts/font = ExtResource( 7 )
-custom_colors/font_color = Color( 0.137255, 0.411765, 0.654902, 1 )
-text = "Rares"
-valign = 2
-
-[node name="Label7" type="Label" parent="BuyCard"]
-margin_left = 101.0
-margin_top = 1429.0
-margin_right = 374.0
-margin_bottom = 1464.0
-custom_fonts/font = ExtResource( 7 )
+[node name="Label7" type="Label" parent="BuyCard/CardSort/Common"]
+margin_left = 59.0
+margin_top = 29.0
+margin_right = 239.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0.654902, 0.25098, 1 )
 text = "Common"
 valign = 2
 
-[node name="Label3" type="Label" parent="BuyCard"]
-margin_left = 764.0
-margin_top = 1429.0
-margin_right = 1039.0
-margin_bottom = 1464.0
+[node name="Rares" type="Control" parent="BuyCard/CardSort"]
+editor/display_folded = true
+margin_left = 325.0
+margin_right = 575.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 250, 140 )
+
+[node name="TextureRect2" type="TextureRect" parent="BuyCard/CardSort/Rares"]
+margin_left = 2.0
+margin_top = 55.0
+margin_right = 64.0
+margin_bottom = 125.0
+texture = ExtResource( 8 )
+
+[node name="Label4" type="Label" parent="BuyCard/CardSort/Rares"]
+margin_left = 66.0
+margin_top = 65.0
+margin_right = 192.0
+margin_bottom = 123.0
 custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "x 20"
+valign = 2
+
+[node name="Label2" type="Label" parent="BuyCard/CardSort/Rares"]
+margin_left = 67.0
+margin_top = 29.0
+margin_right = 247.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.137255, 0.411765, 0.654902, 1 )
+text = "Rares"
+valign = 2
+
+[node name="Epics" type="Control" parent="BuyCard/CardSort"]
+editor/display_folded = true
+margin_left = 579.0
+margin_right = 829.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 250, 140 )
+
+[node name="TextureRect3" type="TextureRect" parent="BuyCard/CardSort/Epics"]
+margin_top = 55.0
+margin_right = 62.0
+margin_bottom = 125.0
+texture = ExtResource( 8 )
+
+[node name="Label5" type="Label" parent="BuyCard/CardSort/Epics"]
+margin_left = 62.0
+margin_top = 65.0
+margin_right = 188.0
+margin_bottom = 123.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "x 20"
+valign = 2
+
+[node name="Label3" type="Label" parent="BuyCard/CardSort/Epics"]
+margin_left = 59.0
+margin_top = 29.0
+margin_right = 239.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0, 0.545098, 0.27451, 1 )
 text = "Epics"
 valign = 2
 
-[node name="GalacticCoinSlot" type="Control" parent="BuyCard"]
-margin_left = 23.0
-margin_top = 634.0
-margin_right = 63.0
-margin_bottom = 674.0
+[node name="Label" type="Label" parent="BuyCard"]
+margin_left = 351.0
+margin_top = 1352.0
+margin_right = 746.0
+margin_bottom = 1391.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.682353, 0.682353, 0.682353, 1 )
+text = "Must Include With"
+valign = 2
 
-[node name="InputForm3" type="NinePatchRect" parent="BuyCard/GalacticCoinSlot"]
-self_modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
-margin_left = 8.0
-margin_top = 577.0
-margin_right = 513.0
-margin_bottom = 697.0
-texture = ExtResource( 3 )
+[node name="GalacticoinSlot" type="NinePatchRect" parent="BuyCard"]
+editor/display_folded = true
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -370.0
+margin_top = 240.0
+margin_right = -10.0
+margin_bottom = 360.0
+texture = ExtResource( 10 )
 region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 29
 patch_margin_top = 30
 patch_margin_right = 30
 patch_margin_bottom = 29
 
-[node name="GalacticText" type="Label" parent="BuyCard/GalacticCoinSlot"]
-margin_left = 12.0
-margin_top = 581.0
-margin_right = 289.0
-margin_bottom = 619.0
-custom_fonts/font = ExtResource( 7 )
+[node name="GalacticText" type="Label" parent="BuyCard/GalacticoinSlot"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 281.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0.737255, 0.364706, 1 )
 text = "Galactic Coin"
 valign = 2
 
-[node name="Galacticoin2" parent="BuyCard/GalacticCoinSlot" instance=ExtResource( 9 )]
-position = Vector2( 54, 660 )
+[node name="Galacticoin2" parent="BuyCard/GalacticoinSlot" instance=ExtResource( 11 )]
+position = Vector2( 46, 83 )
 
-[node name="Label" type="Label" parent="BuyCard/GalacticCoinSlot"]
-margin_left = 89.0
-margin_top = 631.0
-margin_right = 434.0
-margin_bottom = 695.0
-custom_fonts/font = ExtResource( 6 )
+[node name="Label2" type="Label" parent="BuyCard/GalacticoinSlot"]
+margin_left = 81.0
+margin_top = 54.0
+margin_right = 426.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 7 )
 text = "1800"
 
-[node name="CardSlot" type="Control" parent="BuyCard"]
-margin_left = 22.0
-margin_top = 634.0
-margin_right = 62.0
-margin_bottom = 674.0
-
-[node name="InputForm3" type="NinePatchRect" parent="BuyCard/CardSlot"]
-self_modulate = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
-margin_left = 524.0
-margin_top = 577.0
-margin_right = 1029.0
-margin_bottom = 697.0
-texture = ExtResource( 3 )
+[node name="CardSlot" type="NinePatchRect" parent="BuyCard"]
+editor/display_folded = true
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 240.0
+margin_right = 370.0
+margin_bottom = 360.0
+texture = ExtResource( 10 )
 region_rect = Rect2( 0, 0, 200, 200 )
 patch_margin_left = 29
 patch_margin_top = 30
@@ -348,35 +352,40 @@ patch_margin_right = 30
 patch_margin_bottom = 30
 
 [node name="CardText" type="Label" parent="BuyCard/CardSlot"]
-margin_left = 542.0
-margin_top = 581.0
-margin_right = 766.0
-margin_bottom = 619.0
-custom_fonts/font = ExtResource( 7 )
+margin_left = 18.0
+margin_top = 4.0
+margin_right = 242.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.364706, 0.701961, 1, 1 )
 text = "Card"
 valign = 2
 
-[node name="Label" type="Label" parent="BuyCard/CardSlot"]
-margin_left = 608.0
-margin_top = 631.0
-margin_right = 876.0
-margin_bottom = 695.0
-custom_fonts/font = ExtResource( 6 )
+[node name="Label2" type="Label" parent="BuyCard/CardSlot"]
+margin_left = 84.0
+margin_top = 54.0
+margin_right = 352.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 7 )
 text = "x 250"
 
-[node name="TextureRect" type="TextureRect" parent="BuyCard/CardSlot"]
-margin_left = 547.0
-margin_top = 628.0
-margin_right = 602.0
-margin_bottom = 688.0
+[node name="TextureRect2" type="TextureRect" parent="BuyCard/CardSlot"]
+margin_left = 23.0
+margin_top = 51.0
+margin_right = 85.0
+margin_bottom = 121.0
 texture = ExtResource( 8 )
 
 [node name="BuyButton2" type="Button" parent="BuyCard"]
-margin_left = 391.0
-margin_top = 1548.0
-margin_right = 691.0
-margin_bottom = 1672.0
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -150.0
+margin_top = -374.0
+margin_right = 150.0
+margin_bottom = -250.0
 rect_min_size = Vector2( 300, 124 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
@@ -387,7 +396,7 @@ margin_left = 13.0
 margin_top = 36.0
 margin_right = 178.0
 margin_bottom = 94.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "750"
 align = 2
@@ -400,27 +409,26 @@ margin_top = 25.0
 margin_right = 249.0
 margin_bottom = 88.0
 rect_scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 13 )
+texture = ExtResource( 15 )
 
-[node name="Dimensium2" parent="BuyCard/BuyButton2" instance=ExtResource( 14 )]
+[node name="Dimensium2" parent="BuyCard/BuyButton2" instance=ExtResource( 16 )]
 position = Vector2( 223, 62 )
 
 [node name="Chest" type="Control" parent="BuyCard"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
-margin_top = 10.0
+margin_top = 260.0
 margin_right = 540.0
-margin_bottom = 641.0
+margin_bottom = 760.0
 
 [node name="BGeffect" type="CPUParticles2D" parent="BuyCard/Chest"]
-material = ExtResource( 15 )
-position = Vector2( 516, 414 )
+material = ExtResource( 17 )
+position = Vector2( 516, 304 )
 amount = 1
 lifetime = 3.0
 speed_scale = 0.5
-texture = ExtResource( 16 )
+texture = ExtResource( 18 )
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -431,12 +439,12 @@ color_ramp = SubResource( 5 )
 
 [node name="TextureRect" type="TextureRect" parent="BuyCard/Chest/BGeffect"]
 self_modulate = Color( 0.129412, 0.756863, 1, 1 )
-material = ExtResource( 15 )
+material = ExtResource( 17 )
 margin_left = -515.0
 margin_top = -332.0
 margin_right = 560.0
 margin_bottom = 261.0
-texture = ExtResource( 17 )
+texture = ExtResource( 19 )
 expand = true
 
 [node name="ItemChest" type="Control" parent="BuyCard/Chest"]
@@ -444,47 +452,47 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -322.6
-margin_top = -99.5
-margin_right = -322.6
-margin_bottom = -99.5
-rect_scale = Vector2( 2, 2 )
+margin_left = -262.6
+margin_top = -129.5
+margin_right = -262.6
+margin_bottom = -129.5
+rect_scale = Vector2( 1.6, 1.6 )
 
-[node name="ChestIcon" parent="BuyCard/Chest/ItemChest" instance=ExtResource( 18 )]
+[node name="ChestIcon" parent="BuyCard/Chest/ItemChest" instance=ExtResource( 20 )]
 
 [node name="GridContainer" type="GridContainer" parent="BuyCard"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -506.0
-margin_top = -130.0
-margin_right = 341.0
-margin_bottom = 170.0
+margin_left = -384.0
+margin_top = -150.0
+margin_right = 256.0
+margin_bottom = 150.0
 rect_scale = Vector2( 1.2, 1.2 )
-custom_constants/hseparation = -51
+custom_constants/hseparation = -120
 columns = 4
 
-[node name="ItemBase" parent="BuyCard/GridContainer" instance=ExtResource( 19 )]
+[node name="ItemBase" parent="BuyCard/GridContainer" instance=ExtResource( 21 )]
 margin_top = 0.0
 margin_bottom = 300.0
 
-[node name="ItemBase2" parent="BuyCard/GridContainer" instance=ExtResource( 19 )]
-margin_left = 199.0
+[node name="ItemBase2" parent="BuyCard/GridContainer" instance=ExtResource( 21 )]
+margin_left = 130.0
 margin_top = 0.0
-margin_right = 449.0
+margin_right = 380.0
 margin_bottom = 300.0
 
-[node name="ItemBase3" parent="BuyCard/GridContainer" instance=ExtResource( 19 )]
-margin_left = 398.0
+[node name="ItemBase3" parent="BuyCard/GridContainer" instance=ExtResource( 21 )]
+margin_left = 260.0
 margin_top = 0.0
-margin_right = 648.0
+margin_right = 510.0
 margin_bottom = 300.0
 
-[node name="ItemBase4" parent="BuyCard/GridContainer" instance=ExtResource( 19 )]
-margin_left = 597.0
+[node name="ItemBase4" parent="BuyCard/GridContainer" instance=ExtResource( 21 )]
+margin_left = 390.0
 margin_top = 0.0
-margin_right = 847.0
+margin_right = 640.0
 margin_bottom = 300.0
 
 [connection signal="pressed" from="BuyCard/BuyButton2" to="." method="_on_BuyButton_pressed"]
