@@ -156,6 +156,7 @@ func adjustSkillAnim():
 	if game.team_swapped:
 		vec = vec.rotated(PI)
 	var angle = ref_vec.angle_to(vec)
+	$Rotatable.rotate(angle)
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
 	var new_anim = $AnimationPlayer.get_animation("skill")
@@ -188,6 +189,13 @@ func bulletrainClient():
 	if game.team_swapped:
 		pos.x = game.FlipX(pos.x)
 		pos.y = game.FlipY(pos.y)
+	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = Vector2(x, y)
+	if game.team_swapped:
+		vec = vec.rotated(PI)
+	var angle = pos.angle_to(self.position)
+	skill.look_at(vec.rotated(PI / 2))
 	skill.position = pos
 	skill.z_index = Z_INDEX["Skill"]
 
