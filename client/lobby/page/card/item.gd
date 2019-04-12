@@ -12,6 +12,7 @@ export(NodePath) onready var pressed_btn_guide = get_node(pressed_btn_guide)
 
 export(NodePath) onready var base_animation_player = get_node(base_animation_player)
 export(NodePath) onready var animation_player = get_node(animation_player)
+export(NodePath) onready var upgradable = get_node(upgradable)
 
 var card
 
@@ -32,6 +33,10 @@ func Invalidate(card):
 	holding_progress.max_value = card_cost
 	holding_progress.value = card.Holding
 	holding_label.text = "%d/%d" % [card.Holding, card_cost]
+	if isUpgradable():
+		upgradable.show()
+	else:
+		upgradable.hide()
 
 func down():
 	base_animation_player.play("down")
@@ -42,3 +47,12 @@ func up():
 
 func changed():
 	animation_player.play("changed")
+
+func isUpgradable():
+	if data.Upgrade.IsLevelMax(card.Rarity, card.Level):
+		return false
+	#print("card = %s \n rare = %s \n level = %s"  %[card , card.Rarity, card.Level])
+	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
+	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
+	return card.Holding >= card_cost and user.Galacticoin >= coin_cost
+	
