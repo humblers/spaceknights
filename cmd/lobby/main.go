@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
 	firebase "firebase.google.com/go"
@@ -40,6 +41,17 @@ func main() {
 	m.Handle(lobby.NewChestRouter("/chest/", p, logger))
 	path, mm := lobby.NewMatchMaker("/match/", p, logger)
 	m.Handle(path, mm)
+	fileServer := http.FileServer(http.Dir("./statics"))
+	hideDirListing := func(fileServer http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.HasSuffix(r.URL.Path, "/") {
+				http.NotFound(w, r)
+				return
+			}
+			fileServer.ServeHTTP(w, r)
+		})
+	}
+	m.Handle("/static/", http.StripPrefix("/static", hideDirListing(fileServer)))
 	m.HandleFunc("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
