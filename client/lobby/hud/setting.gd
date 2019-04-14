@@ -12,9 +12,12 @@ onready var uid = $VBoxContainer/HBoxContainer/UID
 onready var language_button = $VBoxContainer/Buttons/Language/Button
 onready var current_language = $VBoxContainer/Buttons/Language/Button/Description
 
+onready var intro_button = $VBoxContainer/Buttons2/Intro/Button
+
 func _ready():
 	$Close.connect("button_up", self, "hide")
 	language_button.connect("button_up", self, "select_language")
+	intro_button.connect("button_up", self, "playIntro")
 	if not OS.get_name() in ["Android", "iOS"]:
 		$VBoxContainer/Buttons/Email/Label.visible = true
 		link_email.visible = true
@@ -50,7 +53,8 @@ func select_language():
 	var config = ConfigFile.new()
 	var err = config.load(user.CONFIG_FILE_NAME)
 	if err != OK:
-		print(err)
+		print("config file load fail. file name: ", user.CONFIG_FILE_NAME, ", err code: ", err)
+		assert(err in [ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN])
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
 	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
@@ -63,3 +67,6 @@ func email_link():
 	var password = $PopupEmail/VBoxContainer/HBoxContainer2/TextEditPassword.text
 	var firebase = get_tree().current_scene.firebase_auth_manager
 	firebase.link_account(firebase.EMAIL_PASSWORD_PROVIDER_ID, self, email, password)
+
+func playIntro():
+	loading_screen.goto_scene("res://intro/intro.tscn")

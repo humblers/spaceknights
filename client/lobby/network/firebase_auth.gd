@@ -72,7 +72,8 @@ func save_email_password(email, password):
 	var config = ConfigFile.new()
 	var err = config.load(user.CONFIG_FILE_NAME)
 	if err != OK:
-		print(err)
+		print("config file load fail. file name: ", user.CONFIG_FILE_NAME, ", err code: ", err)
+		assert(err in [ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN])
 	config.set_value("desktop_auth", "email", email)
 	config.set_value("desktop_auth", "password", password)
 	config.save(user.CONFIG_FILE_NAME)
