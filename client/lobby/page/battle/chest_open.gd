@@ -64,6 +64,5 @@ func flip_card(card):
 	if not hidden_cards.has(card):
 		return
 	card_anim.play("cardflip")
-	card.get_node("Item").show_increase()
 	yield(card_anim, "animation_finished")
 	hidden_cards.erase(card)
