@@ -58,6 +58,7 @@ func _input(ev):
 				)
 				tween.start()
 		get_tree().set_input_as_handled()
+		get_tree().get_root().gui_release_mouse_focus()
 		scroll = MODE_NO_SCROLL
 
 	if ev is InputEventMouseMotion and prev_input_pos != null:
