@@ -6,7 +6,7 @@ var next_scene = "res://lobby/lobby.tscn"
 
 func _ready():
 	connect("button_up", self, "skipToNextAnimation")
-	$Skip.connect("button_up", self, "goToNextScene")
+	$Skip.connect("button_up", self, "skipToNextScene")
 	$AnimationPlayer.connect("animation_finished", self, "animationFinished")
 	var idx = 1
 	while true:
@@ -27,6 +27,13 @@ func skipToNextAnimation():
 
 func animationFinished(anim_name):
 	goToNextScene()
+
+func skipToNextScene():
+	$Skip.visible = false
+	self.disconnect("button_up", self, "skipToNextAnimation")
+	$AnimationPlayer.play("fade_out")
+	$AnimationPlayer.seek($AnimationPlayer.get_animation("fade_out").length, true)
+	$AnimationPlayer.play(LAST_ANIM_NAME)
 
 func goToNextScene():
 	var config = ConfigFile.new()
