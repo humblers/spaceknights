@@ -30,9 +30,6 @@ var input_sent = false
 
 func _ready():
 	# don't show lv info
-	$Card/ItemBase/Control/Label.visible = false
-	$Card/ItemBase/Control/Lv.visible = false
-	
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])

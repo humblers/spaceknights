@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://game/player/hand.gd" type="Script" id=1]
 [ext_resource path="res://material/unshaded.tres" type="Material" id=2]
@@ -6,11 +6,13 @@
 [ext_resource path="res://lobby/resource/card_back_empty.png" type="Texture" id=4]
 [ext_resource path="res://game/ui/takeoff_sign_5.png" type="Texture" id=5]
 [ext_resource path="res://lobby/resource/card_glow.png" type="Texture" id=6]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=7]
-[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=8]
-
-
-
+[ext_resource path="res://game/ui/card/for_ingame.png" type="Texture" id=7]
+[ext_resource path="res://share/icon/lobby/card/lancer.png" type="Texture" id=8]
+[ext_resource path="res://game/ui/card/ingame_knight_frame.png" type="Texture" id=9]
+[ext_resource path="res://game/ui/card/ingame_squire_frame.png" type="Texture" id=10]
+[ext_resource path="res://lobby/hud/quantum.tscn" type="PackedScene" id=11]
+[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=12]
+[ext_resource path="res://lobby/resource/progresscircle.png" type="Texture" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "launch"
@@ -70,7 +72,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.6, 1.5, 2.1, 3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.76, 0.76 ), Vector2( 0.85, 0.85 ), Vector2( 0.76, 0.76 ), Vector2( 0.85, 0.85 ), Vector2( 0.76, 0.76 ) ]
+"values": [ Vector2( 0.76, 0.6125 ), Vector2( 0.85, 0.690833 ), Vector2( 0.76, 0.645833 ), Vector2( 0.85, 0.690833 ), Vector2( 0.76, 0.6125 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Glow:position")
@@ -82,7 +84,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 26.2501 ) ]
+"values": [ Vector2( 0, 5.25012 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Glow/Glow3:self_modulate")
@@ -96,6 +98,9 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Color( 0.290196, 1, 0, 0 ), Color( 0, 1, 0.392157, 0.34902 ), Color( 0.290196, 1, 0, 0 ) ]
 }
+
+[sub_resource type="Animation" id=4]
+length = 0.2
 
 [node name="Hand1" type="Control"]
 margin_left = 248.0
@@ -119,9 +124,11 @@ anims/launch = SubResource( 1 )
 anims/show = SubResource( 2 )
 
 [node name="Dummy" type="Position2D" parent="."]
-position = Vector2( 95, 65 )
+visible = false
+position = Vector2( 95, -300 )
 
 [node name="Cursor" type="Position2D" parent="."]
+visible = false
 position = Vector2( 95, 65 )
 
 [node name="Card" type="Node2D" parent="."]
@@ -133,34 +140,113 @@ autoplay = "glow"
 anims/glow = SubResource( 3 )
 
 [node name="Glow" type="Sprite" parent="Card"]
-self_modulate = Color( 0.294118, 1, 0.882353, 1 )
+self_modulate = Color( 0.294118, 0.801307, 0.934641, 1 )
 material = ExtResource( 3 )
-position = Vector2( 0, 26.2501 )
-scale = Vector2( 0.76, 0.76 )
+position = Vector2( 0, 5.25012 )
+scale = Vector2( 0.8, 0.665833 )
 texture = ExtResource( 4 )
 
 [node name="Glow2" type="Sprite" parent="Card/Glow"]
 self_modulate = Color( 0.235294, 1, 0.658824, 1 )
 use_parent_material = true
-position = Vector2( 0, -158.223 )
-scale = Vector2( 0.8, 1.2 )
+position = Vector2( 0, -159.061 )
+scale = Vector2( 0.8, 1.26701 )
 texture = ExtResource( 5 )
 
 [node name="Glow3" type="Sprite" parent="Card/Glow"]
-self_modulate = Color( 0.290196, 1, 0, 0 )
+self_modulate = Color( 0.0773856, 1, 0.287582, 0.255948 )
 use_parent_material = true
-position = Vector2( -0.657898, -18.6603 )
-scale = Vector2( 2.44961, 2.20973 )
+position = Vector2( -0.657898, 0.287231 )
+scale = Vector2( 2.44961, 2.84079 )
 z_index = 1
 texture = ExtResource( 6 )
 
-[node name="ItemBase" parent="Card" instance=ExtResource( 7 )]
-editor/display_folded = true
+[node name="ItemBase" type="MarginContainer" parent="Card"]
+material = ExtResource( 2 )
 margin_left = -88.0
 margin_top = -79.0
 margin_right = 162.0
-margin_bottom = 221.0
+margin_bottom = 161.0
+rect_min_size = Vector2( 250, 196 )
 rect_scale = Vector2( 0.7, 0.7 )
+mouse_filter = 1
+
+[node name="Control" type="Control" parent="Card/ItemBase"]
+use_parent_material = true
+margin_right = 250.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 250, 240 )
+mouse_filter = 1
+
+[node name="Background" type="TextureRect" parent="Card/ItemBase/Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -112.0
+margin_top = -112.0
+margin_right = 112.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 224, 224 )
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Icon" type="TextureRect" parent="Card/ItemBase/Control"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -112.0
+margin_top = -112.0
+margin_right = 112.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 224, 224 )
+texture = ExtResource( 8 )
+expand = true
+
+[node name="FrameKnight" type="TextureRect" parent="Card/ItemBase/Control"]
+visible = false
+use_parent_material = true
+margin_right = 250.0
+margin_bottom = 240.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="FrameSquire" type="TextureRect" parent="Card/ItemBase/Control"]
+use_parent_material = true
+margin_right = 250.0
+margin_bottom = 240.0
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Cost" parent="Card/ItemBase/Control" instance=ExtResource( 11 )]
+position = Vector2( 27.8327, 36.438 )
+scale = Vector2( 1.2, 1.2 )
+frame = 4
+
+[node name="Label" type="Label" parent="Card/ItemBase/Control/Cost"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -56.6667
+margin_top = -47.1667
+margin_right = -1.66666
+margin_bottom = -3.16667
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 2
+custom_constants/shadow_as_outline = 0
+text = "3"
+align = 1
+valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Card/ItemBase"]
+anims/down = SubResource( 4 )
 
 [node name="Energy" type="TextureProgress" parent="Card"]
 self_modulate = Color( 0.0705882, 0.054902, 0.105882, 0.898039 )
@@ -170,11 +256,10 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -80.0
-margin_top = -68.0
+margin_top = -75.0
 margin_right = 80.0
-margin_bottom = 92.0
+margin_bottom = 85.0
 rect_pivot_offset = Vector2( 80, 80 )
 value = 50.0
-texture_progress = ExtResource( 8 )
+texture_progress = ExtResource( 13 )
 fill_mode = 4
-
