@@ -233,32 +233,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/bt_bot.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,33,95,65</rect>
-                <key>scale9Paddings</key>
-                <rect>48,33,95,65</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/bt_noise.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>45,30,90,60</rect>
-                <key>scale9Paddings</key>
-                <rect>45,30,90,60</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">ui/card_back_empty.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -269,19 +243,6 @@
                 <rect>63,75,125,150</rect>
                 <key>scale9Paddings</key>
                 <rect>63,75,125,150</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/card_bg.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>60,48,120,95</rect>
-                <key>scale9Paddings</key>
-                <rect>60,48,120,95</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -538,7 +499,6 @@
             </struct>
             <key type="filename">ui/for_ingame.png</key>
             <key type="filename">ui/icon/astra_small.png</key>
-            <key type="filename">ui/icon/pixiegeode_small.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -656,7 +616,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/pointlight.png</key>
+            <key type="filename">ui/point_light.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -761,19 +721,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/tab_bar.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>360,2,720,4</rect>
-                <key>scale9Paddings</key>
-                <rect>360,2,720,4</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">ui/takeoff_sign_5.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -840,16 +787,17 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/targetcursor/laser_target_area.png</key>
+            <key type="filename">ui/targetcursor/laser_target_1.png</key>
+            <key type="filename">ui/targetcursor/laser_target_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>13,63,25,125</rect>
+                <rect>13,5,25,10</rect>
                 <key>scale9Paddings</key>
-                <rect>13,63,25,125</rect>
+                <rect>13,5,25,10</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
