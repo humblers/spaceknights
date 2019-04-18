@@ -347,6 +347,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">ui/chest/unlock_sign.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,9,25,17</rect>
+                <key>scale9Paddings</key>
+                <rect>12,9,25,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">ui/clan_icon_base.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -410,6 +423,25 @@
                 <rect>15,13,30,27</rect>
                 <key>scale9Paddings</key>
                 <rect>15,13,30,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ui/cursor_ab.png</key>
+            <key type="filename">ui/cursor_barrier.png</key>
+            <key type="filename">ui/cursor_death.png</key>
+            <key type="filename">ui/cursor_ether.png</key>
+            <key type="filename">ui/cursor_melee.png</key>
+            <key type="filename">ui/cursor_range.png</key>
+            <key type="filename">ui/cursor_siege.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,31,31</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,31,31</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -561,19 +593,6 @@
                 <rect>35,35,70,70</rect>
                 <key>scale9Paddings</key>
                 <rect>35,35,70,70</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/line_seperator.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>270,14,540,27</rect>
-                <key>scale9Paddings</key>
-                <rect>270,14,540,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -851,19 +870,6 @@
                 <rect>13,13,25,25</rect>
                 <key>scale9Paddings</key>
                 <rect>13,13,25,25</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/unlock_sign.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,9,25,17</rect>
-                <key>scale9Paddings</key>
-                <rect>12,9,25,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

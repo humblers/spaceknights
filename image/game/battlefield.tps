@@ -803,19 +803,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">battlefield/unit/astra/dummy.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>17,22,34,43</rect>
-                <key>scale9Paddings</key>
-                <rect>17,22,34,43</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">battlefield/unit/astra/frame.png</key>
             <key type="filename">battlefield/unit/astra/frame_normal.png</key>
             <struct type="IndividualSpriteSettings">
@@ -1080,6 +1067,19 @@
                 <rect>43,54,85,107</rect>
                 <key>scale9Paddings</key>
                 <rect>43,54,85,107</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">battlefield/unit/buran/dummy.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,22,34,43</rect>
+                <key>scale9Paddings</key>
+                <rect>17,22,34,43</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
