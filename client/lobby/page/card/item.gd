@@ -38,9 +38,13 @@ func Invalidate(card):
 		upgrade_process.get_node("Active").show()
 		upgrade_process.get_node("Active").set_emitting(true)
 		upgrade_process.get_node("Inactive").hide()
-		
 	else:
-		upgrade_process.set_self_modulate(Color(0.101, 0.584, 1, 1))
+		if card.Holding < card_cost:
+			upgrade_process.set_self_modulate(Color(0.101, 0.584, 1, 1))
+			upgrade_process.get_node("Inactive").set_modulate(Color(0.062, 0.584, 1, 1))
+		else:
+			upgrade_process.set_self_modulate(Color(0, 1, 0.553,1))
+			upgrade_process.get_node("Inactive").set_modulate(Color(0.117, 1, 0.6, 1))
 		upgrade_process.get_node("Active").hide()
 		upgrade_process.get_node("Active").set_emitting(false)
 		upgrade_process.get_node("Inactive").show()
