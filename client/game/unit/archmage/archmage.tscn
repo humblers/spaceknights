@@ -1,16 +1,16 @@
 [gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/unit/archmage/archmage.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/units.sprites/archmage/archmage.tres" type="Texture" id=2]
-[ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/archmage/archmage.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=4]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=5]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=11]
 [ext_resource path="res://game/unit/archmage/explosion.tres" type="Animation" id=12]
 [ext_resource path="res://game/unit/archmage/attack.tres" type="Animation" id=13]
 [ext_resource path="res://game/unit/archmage/destroy.tres" type="Animation" id=14]
@@ -35,7 +35,7 @@ colors = PoolColorArray( 1, 1, 1, 1, 0.6875, 0, 1, 0 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -87,6 +87,7 @@ emitting = false
 amount = 16
 lifetime = 1.5
 speed_scale = 1.5
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -146,12 +147,12 @@ scale = Vector2( 2, 2 )
 [node name="Exp1" type="Sprite" parent="Explosion/Main"]
 visible = false
 modulate = Color( 0.0541992, 0, 0.433594, 0 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Exp2" type="Sprite" parent="Explosion/Main"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 10 )
+texture = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Explosion/Main"]
 visible = false
@@ -182,6 +183,7 @@ emitting = false
 amount = 16
 speed_scale = 1.5
 explosiveness = 0.5
+texture = ExtResource( 7 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -219,4 +221,3 @@ stream = ExtResource( 21 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [ PoolStringArray( "orb" ), [ ExtResource( 22 ) ] ]
-
