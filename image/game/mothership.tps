@@ -237,6 +237,8 @@
             </struct>
             <key type="filename">mothership/container_front.png</key>
             <key type="filename">mothership/container_front_normal.png</key>
+            <key type="filename">mothership/container_rear.png</key>
+            <key type="filename">mothership/container_rear_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
