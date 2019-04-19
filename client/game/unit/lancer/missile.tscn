@@ -1,25 +1,26 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://game/unit/lancer/missile.gd" type="Script" id=1]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=2]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_8.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_8.tres" type="Texture" id=3]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=4]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_7.tres" type="Texture" id=5]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_6.tres" type="Texture" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_5.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_4.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_2.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=11]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=12]
-[ext_resource path="res://game/unit/lancer/lancer_missile.wav" type="AudioStream" id=13]
-[ext_resource path="res://game/unit/units.sprites/heavymissile/heavy_missile_body.tres" type="Texture" id=14]
-[ext_resource path="res://game/unit/units_normal.png" type="Texture" id=15]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=16]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=17]
-[ext_resource path="res://game/unit/units.sprites/lancer/lancer.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_7.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_6.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_5.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_4.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=13]
+[ext_resource path="res://game/unit/lancer/lancer_missile.wav" type="AudioStream" id=14]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/heavymissile/heavy_missile_body.tres" type="Texture" id=15]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=16]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=17]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/lancer/lancer.tres" type="Texture" id=19]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 length = 2.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("HitPosition/Explosion/Main/Ex1a:visible")
@@ -334,9 +335,9 @@ tracks/25/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 16 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 17 ), ExtResource( 18 ) ],
 "loop": true,
 "name": "thrust",
 "speed": 5.0
@@ -417,6 +418,7 @@ amount = 35
 preprocess = 1.0
 speed_scale = 0.8
 explosiveness = 0.5
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -430,30 +432,29 @@ visible = false
 modulate = Color( 0.159531, 0.182441, 0.332031, 1 )
 material = ExtResource( 4 )
 scale = Vector2( 5, 5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Center2" type="Sprite" parent="HitPosition/Explosion/Main"]
 visible = false
 material = ExtResource( 4 )
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 2 )
+anims/attack = SubResource( 1 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 13 )
+stream = ExtResource( 14 )
 
 [node name="HeavyMissileL1" type="Sprite" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -600 )
 rotation = 0.174533
-texture = ExtResource( 14 )
-normal_map = ExtResource( 15 )
+texture = ExtResource( 15 )
+normal_map = ExtResource( 16 )
 flip_v = true
 
 [node name="BoosterC" type="Position2D" parent="HeavyMissileL1"]
@@ -465,7 +466,7 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 animation = "thrust"
 frame = 1
 speed_scale = 3.0
@@ -476,15 +477,14 @@ modulate = Color( 0.67451, 0.678431, 0.709804, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, -4 )
 scale = Vector2( 1, 1.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="HeavyMissileR1" type="Sprite" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -600 )
 rotation = -0.174533
-texture = ExtResource( 14 )
-normal_map = ExtResource( 15 )
+texture = ExtResource( 15 )
+normal_map = ExtResource( 16 )
 flip_v = true
 
 [node name="BoosterC" type="Position2D" parent="HeavyMissileR1"]
@@ -496,7 +496,7 @@ modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, 2 )
 scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 3 )
+frames = SubResource( 2 )
 animation = "thrust"
 speed_scale = 3.0
 offset = Vector2( 0, 15 )
@@ -506,9 +506,8 @@ modulate = Color( 0.67451, 0.678431, 0.709804, 1 )
 material = ExtResource( 4 )
 position = Vector2( 0, -4 )
 scale = Vector2( 1, 1.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Dummy" type="Sprite" parent="."]
 visible = false
-texture = ExtResource( 18 )
-
+texture = ExtResource( 19 )

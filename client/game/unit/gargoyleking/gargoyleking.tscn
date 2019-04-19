@@ -1,28 +1,29 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://game/unit/gargoyleking/gargoyleking.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/units.sprites/gargoyleking/body.tres" type="Texture" id=2]
-[ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/gargoyleking/body.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=4]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=5]
-[ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/beacon_black.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/beacon_green.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/beacon_red.tres" type="Texture" id=11]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=12]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=13]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=14]
-[ext_resource path="res://game/unit/gargoyleking/explosion.tres" type="Animation" id=15]
-[ext_resource path="res://game/vfx/energyshield_nodirection.tscn" type="PackedScene" id=16]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=17]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=22]
-[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=23]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_2.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_black.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_green.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_red.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=14]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=15]
+[ext_resource path="res://game/unit/gargoyleking/explosion.tres" type="Animation" id=16]
+[ext_resource path="res://game/vfx/energyshield_nodirection.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=18]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=19]
+[ext_resource path="res://game/unit/gargoyleking/destroy.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/gargoyleking/gargoyleking_atk.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/explosion_m.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/sfx/thrust_m.wav" type="AudioStream" id=23]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=24]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.4736 ), 0.0, 0.709621, 0, 0, Vector2( 1, 1 ), 0.0509817, 0.0, 0, 0 ]
@@ -697,6 +698,7 @@ position = Vector2( -53, 20.5 )
 rotation = 0.855211
 scale = Vector2( 1, 0.8 )
 frames = SubResource( 4 )
+frame = 1
 playing = true
 
 [node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Main"]
@@ -753,6 +755,7 @@ lifetime = 1.2
 preprocess = 1.0
 speed_scale = 1.5
 explosiveness = 0.5
+texture = ExtResource( 15 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -761,22 +764,22 @@ scale_amount = 1.5
 color = Color( 1, 1, 1, 0.552941 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
-anims/explosion = ExtResource( 15 )
+anims/explosion = ExtResource( 16 )
 
-[node name="EnergyshieldND" parent="." instance=ExtResource( 16 )]
+[node name="EnergyshieldND" parent="." instance=ExtResource( 17 )]
 scale = Vector2( 0.6, 0.6 )
 
-[node name="Energyshield" parent="." instance=ExtResource( 17 )]
+[node name="Energyshield" parent="." instance=ExtResource( 18 )]
 visible = false
 scale = Vector2( 0.6, 0.6 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 18 )]
+[node name="HitEffect" parent="." instance=ExtResource( 19 )]
 type = 0
 rect_area = Rect2( -40, -10, 80, 40 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 6 )
-anims/destroy = ExtResource( 19 )
+anims/destroy = ExtResource( 20 )
 anims/idle = SubResource( 7 )
 anims/move = SubResource( 8 )
 
@@ -784,14 +787,13 @@ anims/move = SubResource( 8 )
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 20 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 22 )
 
-[node name="Hp" parent="." instance=ExtResource( 23 )]
-position = Vector2( 0, -60 )
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 23 )
 
+[node name="Hp" parent="." instance=ExtResource( 24 )]
+position = Vector2( 0, -60 )

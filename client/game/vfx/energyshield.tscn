@@ -1,15 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/vfx/energyshield.gd" type="Script" id=1]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=2]
-[ext_resource path="res://game/vfx/vfx.sprites/ring.tres" type="Texture" id=3]
-[ext_resource path="res://game/vfx/vfx.sprites/energy_shield_octa.tres" type="Texture" id=4]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_6.tres" type="Texture" id=5]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/impectreflex.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/energyshield.tres" type="Animation" id=8]
-
-
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/ring.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/energy_shield_octa.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_6.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/impectreflex.tres" type="Texture" id=8]
+[ext_resource path="res://game/vfx/energyshield.tres" type="Animation" id=9]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.513086 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.984197 ), 0.0, 0.0, 0, 0 ]
@@ -56,6 +55,7 @@ rotation = -3.14159
 emitting = false
 amount = 16
 speed_scale = 2.0
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -75,7 +75,7 @@ material = ExtResource( 2 )
 position = Vector2( -1, -110 )
 rotation = -3.14159
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="ParticleEnergy" type="Node2D" parent="Main"]
 modulate = Color( 1, 1, 1, 0 )
@@ -84,8 +84,7 @@ scale = Vector2( 2, 2 )
 [node name="Reflex" type="Sprite" parent="Main/ParticleEnergy"]
 material = ExtResource( 2 )
 position = Vector2( 0, 20 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="EnergyShieldAni" type="AnimationPlayer" parent="."]
-anims/energyshield = ExtResource( 8 )
-
+anims/energyshield = ExtResource( 9 )
