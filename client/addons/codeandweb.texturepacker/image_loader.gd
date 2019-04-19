@@ -24,7 +24,7 @@ tool
 extends Object
 
 func load_image(rel_path, source_path, options):
-	var flags = options.image_flags if "image_flags" in options else Texture.FLAGS_DEFAULT
+	var flags = options.image_flags if "image_flags" in options else Texture.FLAG_FILTER
 	var embed = options.embed_internal_images if "embed_internal_images" in options else false
 
 	var ext = rel_path.get_extension().to_lower()
