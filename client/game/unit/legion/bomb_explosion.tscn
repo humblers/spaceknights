@@ -1,19 +1,18 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://game/vfx/vfx.sprites/ring.tres" type="Texture" id=1]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_6.tres" type="Texture" id=2]
-[ext_resource path="res://game/vfx/explosion_2.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/unit_explosion_3.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=5]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_2.tres" type="Texture" id=6]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=7]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_7.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_8.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/energy_shield_2.tres" type="Texture" id=11]
-[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=12]
-
-
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/ring.tres" type="Texture" id=1]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_6.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=7]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_7.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_8.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/energy_shield_2.tres" type="Texture" id=12]
+[ext_resource path="res://game/unit/legion/skill_fireball.wav" type="AudioStream" id=13]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.5176 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -412,6 +411,7 @@ amount = 24
 preprocess = 0.4
 speed_scale = 2.0
 explosiveness = 0.2
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -425,16 +425,16 @@ color = Color( 1, 0.564706, 0.278431, 1 )
 [node name="Exp2" type="Sprite" parent="Explosion"]
 modulate = Color( 0.227451, 0.494118, 1, 0 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="ForScale" type="Node2D" parent="Explosion"]
 
 [node name="Exp1" type="CPUParticles2D" parent="Explosion/ForScale"]
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 7 )
+material = ExtResource( 8 )
 amount = 13
 speed_scale = 1.5
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 30.0
@@ -448,17 +448,17 @@ scale_amount_curve = SubResource( 3 )
 [node name="Smoke1" type="Sprite" parent="Explosion"]
 modulate = Color( 0, 0, 0, 0 )
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Smoke2" type="Sprite" parent="Explosion"]
 modulate = Color( 0, 0, 0, 0 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Circle" type="Sprite" parent="Explosion"]
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "explosion"
@@ -467,6 +467,5 @@ anims/explosion = SubResource( 4 )
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Explosion" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 12 )
+stream = ExtResource( 13 )
 volume_db = 3.0
-
