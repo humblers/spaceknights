@@ -1,18 +1,17 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://game/unit/blastturret/missile.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/units.sprites/blastturret/missile_blaster.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield.sprites/missile/missile_blaster.tres" type="Texture" id=2]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=3]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=4]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=5]
-[ext_resource path="res://game/vfx/explosion_1.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_2.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_6.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=10]
-[ext_resource path="res://game/unit/blastturret/blastturret_missile.wav" type="AudioStream" id=11]
-
-
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_1.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_6.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=11]
+[ext_resource path="res://game/unit/blastturret/blastturret_missile.wav" type="AudioStream" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -27,7 +26,7 @@ _data = [ Vector2( 0, 0.1304 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9752 ), 0.0, 0.0, 
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
@@ -397,6 +396,7 @@ color = Color( 1, 0.454902, 0.054902, 1 )
 amount = 16
 speed_scale = 2.0
 explosiveness = 0.5
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -419,7 +419,7 @@ speed_scale = 2.0
 [node name="Sprite" type="Sprite" parent="HitPosition"]
 material = ExtResource( 3 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 4 )
@@ -427,5 +427,4 @@ anims/attack = SubResource( 4 )
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 11 )
-
+stream = ExtResource( 12 )
