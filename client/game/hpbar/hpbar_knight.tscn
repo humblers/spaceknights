@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/hpbar/hpbar_l.tscn" type="PackedScene" id=1]
-[ext_resource path="res://game/hpbar/ingame_level_icon_knight.png" type="Texture" id=2]
-[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=3]
-[ext_resource path="res://font/vipnagorgialla/size_20_outline_1_000000.tres" type="DynamicFont" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/hp/ingame_level_icon_knight.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield.sprites/hp/hpbar_bg_l.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/hp/hpbar_blue_l.tres" type="Texture" id=4]
+[ext_resource path="res://font/vipnagorgialla/size_20_outline_1_000000.tres" type="DynamicFont" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/hp/hpbar_red_l.tres" type="Texture" id=6]
 
 [node name="Hp" index="0" instance=ExtResource( 1 )]
 
@@ -12,16 +14,11 @@ margin_top = -27.5
 margin_bottom = 29.5
 texture = ExtResource( 2 )
 
-[node name="LevelLabel" parent="HBoxContainer/Control" index="1"]
-margin_left = -27.0
-margin_top = -25.5
-margin_right = 27.0
-margin_bottom = 25.5
-custom_fonts/font = ExtResource( 3 )
-
 [node name="Blue" parent="HBoxContainer/VBoxContainer" index="0"]
 margin_top = 5.0
 margin_bottom = 21.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
 
 [node name="HpLabel" type="Label" parent="HBoxContainer/VBoxContainer/Blue" index="0"]
 use_parent_material = true
@@ -29,9 +26,13 @@ margin_left = 9.0
 margin_top = -15.0
 margin_right = 77.0
 margin_bottom = 16.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "0000"
 align = 1
+
+[node name="Red" parent="HBoxContainer/VBoxContainer" index="1"]
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 6 )
 
 [node name="HpLabel" type="Label" parent="HBoxContainer/VBoxContainer/Red" index="0"]
 use_parent_material = true
@@ -39,7 +40,6 @@ margin_left = 9.0
 margin_top = -15.0
 margin_right = 77.0
 margin_bottom = 16.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "0000"
 align = 1
-
