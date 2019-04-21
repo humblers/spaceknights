@@ -1,35 +1,10 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=1]
-[ext_resource path="res://game/bg/trappist/bg_trappist.png" type="Texture" id=2]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=3]
-[ext_resource path="res://game/bg/cloud_1.png" type="Texture" id=4]
-[ext_resource path="res://game/bg/trappist/trappist.png" type="Texture" id=5]
-[ext_resource path="res://game/ui/knightready.png" type="Texture" id=6]
-[ext_resource path="res://game/vfx/crosshair.png" type="Texture" id=7]
-[ext_resource path="res://material/subtractive_blend.tres" type="Material" id=8]
-[ext_resource path="res://lobby/page/card/card_list_panel.png" type="Texture" id=9]
-[ext_resource path="res://lobby/page/card/tab_disable.png" type="Texture" id=10]
-[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=11]
-[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=12]
+[ext_resource path="res://atlas/lobby/background.sprites/trappist/bg_trappist.tres" type="Texture" id=1]
+[ext_resource path="res://atlas/lobby/background.sprites/trappist/trappist.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/lobby/background.sprites/trappist/trappist_debris.tres" type="Texture" id=3]
 
-
-
-
-
-
-[sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.7 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1 )
-
-[sub_resource type="StreamTexture" id=3]
-flags = 4
-load_path = "res://.import/ui_tile.png-bfa411042fc9f3ffbe0e587f960b71ac.stex"
-
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 length = 30.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("ArenaData/Planet:rect_position")
@@ -44,7 +19,7 @@ tracks/0/keys = {
 "values": [ Vector2( -20, 110 ), Vector2( 360, 520 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ArenaData/Effect:rect_position")
+tracks/1/path = NodePath("ArenaData/Effect:rect_rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -53,10 +28,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 30 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 390, 370 ), Vector2( -165, -420 ) ]
+"values": [ 0.0, 30.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ArenaData/Effect:rect_rotation")
+tracks/2/path = NodePath("ArenaData/Effect:rect_position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -65,7 +40,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 30 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0, 30.0 ]
+"values": [ Vector2( 390, 370 ), Vector2( -165, -420 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("ArenaData/Background:rect_position")
@@ -79,32 +54,8 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector2( -100, 0 ), Vector2( -100, -190 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("ArenaData/Planet/Targeting:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 8, 10.2, 18.1, 20.1, 23.0805, 30 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 806, 280 ), Vector2( 536, 524.667 ), Vector2( 197.7, 404.067 ), Vector2( 476, 380 ), Vector2( 94.3, 674.6 ), Vector2( 383, 845 ), Vector2( 156, 180 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("ArenaData/Planet/Targeting:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
 
-[node name="4Trappist" type="TextureRect"]
+[node name="4Trappist" type="Control"]
 self_modulate = Color( 0, 0, 0, 0.784314 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -114,123 +65,33 @@ margin_left = -720.0
 margin_top = -960.0
 margin_right = 720.0
 margin_bottom = 960.0
-texture = ExtResource( 1 )
-expand = true
 
 [node name="ArenaData" type="Node2D" parent="."]
 
 [node name="Background" type="TextureRect" parent="ArenaData"]
 margin_left = -100.0
-margin_top = -190.0
 margin_right = 1340.0
-margin_bottom = 1730.0
+margin_bottom = 1920.0
 rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Planet" type="TextureRect" parent="ArenaData"]
+margin_left = -20.0
+margin_top = 110.0
+margin_right = 1181.0
+margin_bottom = 1310.0
 texture = ExtResource( 2 )
 expand = true
 
 [node name="Effect" type="TextureRect" parent="ArenaData"]
-self_modulate = Color( 1, 0.164706, 0.164706, 0.360784 )
-material = ExtResource( 3 )
-margin_left = -165.0
-margin_top = -420.0
-margin_right = 1265.0
-margin_bottom = 1010.0
-rect_rotation = 30.0
-texture = ExtResource( 4 )
+margin_left = 390.0
+margin_top = 370.0
+margin_right = 1820.0
+margin_bottom = 1800.0
+texture = ExtResource( 3 )
 expand = true
-
-[node name="Planet" type="TextureRect" parent="ArenaData"]
-margin_left = 360.0
-margin_top = 520.0
-margin_right = 1561.0
-margin_bottom = 1720.0
-texture = ExtResource( 5 )
-expand = true
-
-[node name="Targeting" type="TextureRect" parent="ArenaData/Planet"]
-material = ExtResource( 3 )
-margin_left = 156.0
-margin_top = 180.0
-margin_right = 369.02
-margin_bottom = 324.004
-texture = ExtResource( 6 )
-
-[node name="Crosshair" type="CPUParticles2D" parent="ArenaData/Planet/Targeting"]
-position = Vector2( 110, 80 )
-amount = 1
-lifetime = 2.0
-texture = ExtResource( 7 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 0.01
-scale_amount = 2.0
-scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
-
-[node name="Grid" type="TextureRect" parent="ArenaData"]
-self_modulate = Color( 1, 1, 1, 0.0901961 )
-material = ExtResource( 8 )
-margin_right = 1440.0
-margin_bottom = 1920.0
-texture = SubResource( 3 )
-expand = true
-stretch_mode = 2
-
-[node name="Gradation" type="TextureRect" parent="ArenaData"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_top = -1639.0
-margin_right = 1440.0
-margin_bottom = -1218.0
-rect_rotation = -180.0
-rect_pivot_offset = Vector2( 720, 1030 )
-texture = ExtResource( 9 )
-expand = true
-
-[node name="Gradation2" type="TextureRect" parent="ArenaData"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_top = 890.0
-margin_right = 1440.0
-margin_bottom = 1920.0
-rect_rotation = -359.999
-rect_pivot_offset = Vector2( 720, 1030 )
-texture = ExtResource( 9 )
-expand = true
-
-[node name="ArenaTitle" type="TextureRect" parent="."]
-self_modulate = Color( 0, 0, 0, 1 )
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 160.0
-margin_top = 246.0
-margin_right = 820.0
-margin_bottom = 386.0
-texture = ExtResource( 10 )
-expand = true
-
-[node name="Name" type="Label" parent="ArenaTitle"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 40.0
-margin_top = -50.0
-margin_right = 457.0
-margin_bottom = 8.0
-custom_fonts/font = ExtResource( 11 )
-text = "TRAPPIST"
-
-[node name="Name2" type="Label" parent="ArenaTitle"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 40.0
-margin_top = 9.0
-margin_right = 571.0
-margin_bottom = 46.0
-custom_fonts/font = ExtResource( 12 )
-custom_colors/font_color = Color( 0.615686, 0.654902, 0.705882, 1 )
-text = "MASSIVE FACTORY PLANET"
 
 [node name="BGAni" type="AnimationPlayer" parent="."]
 autoplay = "bg"
-anims/bg = SubResource( 4 )
-
+anims/bg = SubResource( 1 )
