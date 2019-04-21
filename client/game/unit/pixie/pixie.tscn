@@ -1,18 +1,18 @@
 [gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/unit/pixie/pixie.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/pixie/pixie_body.png" type="Texture" id=2]
-[ext_resource path="res://game/unit/pixie/pixie_body_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/unit/pixie/pixie_rake.png" type="Texture" id=4]
-[ext_resource path="res://game/unit/pixie/pixie_rake_normal.png" type="Texture" id=5]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=8]
-[ext_resource path="res://game/unit/units.sprites/pixie/wing.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/ring.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=11]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=12]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/pixie_body.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/pixie_rake.tres" type="Texture" id=4]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/wing.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/ring.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=13]
 [ext_resource path="res://game/unit/pixie/explosion.tres" type="Animation" id=14]
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
 [ext_resource path="res://game/unit/pixie/attack.tres" type="Animation" id=16]
@@ -57,13 +57,13 @@ position = Vector2( 0, 3 )
 [node name="Right" type="Sprite" parent="Rotatable/Main/Body/Rake"]
 light_mask = 3
 texture = ExtResource( 4 )
-normal_map = ExtResource( 5 )
+normal_map = ExtResource( 3 )
 offset = Vector2( 17, -6 )
 
 [node name="Left" type="Sprite" parent="Rotatable/Main/Body/Rake"]
 light_mask = 3
 texture = ExtResource( 4 )
-normal_map = ExtResource( 5 )
+normal_map = ExtResource( 3 )
 offset = Vector2( -17, -6 )
 flip_h = true
 
@@ -71,10 +71,10 @@ flip_h = true
 position = Vector2( 0, -47.5 )
 
 [node name="AttackP" type="CPUParticles2D" parent="Rotatable/Main/Body/Attackpoint"]
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 10 )
@@ -88,10 +88,10 @@ color = Color( 1, 0.137255, 0.137255, 1 )
 [node name="AttackLight" type="Sprite" parent="Rotatable/Main/Body/Attackpoint"]
 visible = false
 modulate = Color( 0.941176, 0.611765, 0.0901961, 0.854902 )
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 position = Vector2( 0, 8 )
 scale = Vector2( 1.6, 1.6 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="Wings" type="Position2D" parent="Rotatable/Main/Body"]
 
@@ -99,7 +99,7 @@ texture = ExtResource( 8 )
 visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -2.5, -5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( -22, 4.5 )
 
 [node name="WingL2" type="Sprite" parent="Rotatable/Main/Body/Wings"]
@@ -107,14 +107,14 @@ visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -2.5, -1 )
 rotation = -0.523599
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( -22, 4.5 )
 
 [node name="WingR1" type="Sprite" parent="Rotatable/Main/Body/Wings"]
 visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( 2.5, -5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( 22, 4.5 )
 flip_h = true
 
@@ -123,7 +123,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( 2.5, -1 )
 rotation = 0.523599
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( 22, 4.5 )
 flip_h = true
 
@@ -138,6 +138,7 @@ lifetime = 1.4
 preprocess = 1.0
 speed_scale = 1.4
 randomness = 1.0
+texture = ExtResource( 9 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -149,9 +150,9 @@ scale_amount_curve = SubResource( 2 )
 [node name="LightF" type="Sprite" parent="Rotatable/Main/Body/Forcefield"]
 visible = false
 modulate = Color( 0.478431, 0.596078, 0.905882, 0.945098 )
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 scale = Vector2( 4, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="Rotatable/Main/Body/Forcefield"]
 modulate = Color( 1, 1, 1, 0.254157 )
@@ -177,14 +178,14 @@ texture = ExtResource( 12 )
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 13 )
@@ -203,6 +204,7 @@ emitting = false
 amount = 12
 speed_scale = 1.5
 explosiveness = 0.5
+texture = ExtResource( 9 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -217,9 +219,9 @@ anims/explosion = ExtResource( 14 )
 [node name="CenterLight" type="Sprite" parent="."]
 visible = false
 modulate = Color( 0.458824, 0.0901961, 0.901961, 1 )
-material = ExtResource( 6 )
+material = ExtResource( 5 )
 scale = Vector2( 1.8, 1.8 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 
 [node name="HitEffect" parent="." instance=ExtResource( 15 )]
 circle_radius = 15.0
@@ -246,4 +248,3 @@ stream = ExtResource( 24 )
 
 [node name="Hp" parent="." instance=ExtResource( 25 )]
 position = Vector2( 0, -35 )
-
