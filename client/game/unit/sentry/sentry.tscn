@@ -1,28 +1,29 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/unit/sentry/sentry.gd" type="Script" id=1]
-[ext_resource path="res://game/unit/units.sprites/sentry/body.tres" type="Texture" id=2]
-[ext_resource path="res://game/unit/units_normal.png" type="Texture" id=3]
-[ext_resource path="res://game/vfx/beacon_black.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/beacon_red.png" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/sentry/body.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_black.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_red.tres" type="Texture" id=5]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=7]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=8]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_3.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/unit_explosion_1.tres" type="Texture" id=11]
-[ext_resource path="res://game/vfx/vfx.sprites/explosion_2.tres" type="Texture" id=12]
-[ext_resource path="res://game/unit/sentry/explosion.tres" type="Animation" id=13]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=14]
-[ext_resource path="res://game/unit/sentry/attack.tres" type="Animation" id=15]
-[ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=16]
-[ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=17]
-[ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=19]
-[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=20]
-[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=21]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=22]
-[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=23]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=13]
+[ext_resource path="res://game/unit/sentry/explosion.tres" type="Animation" id=14]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/unit/sentry/attack.tres" type="Animation" id=16]
+[ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=17]
+[ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=20]
+[ext_resource path="res://game/sfx/explosion_s.wav" type="AudioStream" id=21]
+[ext_resource path="res://game/sfx/thrust_s.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -61,6 +62,7 @@ position = Vector2( 0, 4.6 )
 rotation = 1.5708
 scale = Vector2( 0.8, 1.6 )
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
@@ -139,6 +141,7 @@ emitting = false
 amount = 12
 speed_scale = 1.5
 explosiveness = 0.5
+texture = ExtResource( 13 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
@@ -148,33 +151,32 @@ scale_amount_curve = SubResource( 3 )
 color = Color( 1, 0.819608, 0.643137, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Body/Explosion"]
-anims/explosion = ExtResource( 13 )
+anims/explosion = ExtResource( 14 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 14 )]
+[node name="HitEffect" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 4 )
 circle_radius = 20.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 15 )
-anims/destroy = ExtResource( 16 )
-anims/idle = ExtResource( 17 )
-anims/move = ExtResource( 18 )
+anims/attack = ExtResource( 16 )
+anims/destroy = ExtResource( 17 )
+anims/idle = ExtResource( 18 )
+anims/move = ExtResource( 19 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 19 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 20 )
 
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 21 )
 
-[node name="Hp" parent="." instance=ExtResource( 22 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 22 )
+
+[node name="Hp" parent="." instance=ExtResource( 23 )]
 position = Vector2( 0, -45 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 23 ) ] ]
-
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]

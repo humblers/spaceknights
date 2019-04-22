@@ -195,32 +195,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">background/background_tile.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>60,35,121,70</rect>
-                <key>scale9Paddings</key>
-                <rect>60,35,121,70</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">background/background_tile2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>45,60,90,120</rect>
-                <key>scale9Paddings</key>
-                <rect>45,60,90,120</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">background/card_list_panel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
