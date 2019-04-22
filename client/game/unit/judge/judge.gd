@@ -8,7 +8,6 @@ var cast = 0
 var castPosX = 0
 var castPosY = 0
 var retargeting = false
-var skillstart = false
 
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
@@ -86,16 +85,12 @@ func Update():
 		freeze -= 1
 		return
 	if cast > 0:
-		if skillstart == false:
-			bulletrainClient()
-			skillstart = true
 		if cast == preCastDelay() + 1:
 			bulletrain()
 		if cast > castDuration():
 			cast = 0
 			setLayer(initialLayer())
 			z_index = Z_INDEX[.Layer()]
-			skillstart = false
 		else:
 			cast += 1
 	else:
@@ -148,6 +143,22 @@ func CastSkill(posX, posY):
 	$AnimationPlayer.play("skill")
 	setLayer(data.Casting)
 
+	# client only
+	var skill = $ResourcePreloader.get_resource("bulletrain").instance()
+	game.AddSkill(skill, false)
+	var pos = Vector2(castPosX, castPosY)
+	if game.team_swapped:
+		pos.x = game.FlipX(pos.x)
+		pos.y = game.FlipY(pos.y)
+	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
+	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
+	var vec = Vector2(x, y)
+	if game.team_swapped:
+		vec = vec.rotated(PI)
+	var angle = pos.angle_to(self.position)
+	skill.look_at(vec.rotated(PI / 2))
+	skill.position = pos
+
 func adjustSkillAnim():
 	var ref_vec = Vector2(0, -800) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
@@ -180,28 +191,10 @@ func bulletrain():
 		var r = scalar.Add(u.Radius(), radius)
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(damage, damageType, self)
-	
-func bulletrainClient():
-	# client only
-	var skill = $ResourcePreloader.get_resource("bulletrain").instance()
-	game.get_node("Skills").add_child(skill)
-	var pos = Vector2(castPosX, castPosY)
-	if game.team_swapped:
-		pos.x = game.FlipX(pos.x)
-		pos.y = game.FlipY(pos.y)
-	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
-	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
-	var vec = Vector2(x, y)
-	if game.team_swapped:
-		vec = vec.rotated(PI)
-	var angle = pos.angle_to(self.position)
-	skill.look_at(vec.rotated(PI / 2))
-	skill.position = pos
-	skill.z_index = Z_INDEX["Skill"]
 
 func target():
 	return game.FindUnit(targetId)
-	
+
 func setTarget(unit):
 	if unit == null:
 		targetId = 0

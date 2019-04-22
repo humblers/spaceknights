@@ -3,9 +3,7 @@ extends Node2D
 const Z_INDEX = {
 	"Normal": 0,
 	"Ether": 1,
-	"Bullet": 2,
-	"Skill": 3,
-	"Casting": 4,
+	"Casting": 2,
 }
 
 const DAMAGE_FORWARD_DURATION = 0.2

@@ -3,7 +3,6 @@ extends Player
 export(NodePath) onready var mothership = get_node(mothership)
 export(NodePath) onready var tile = get_node(tile)
 export(NodePath) onready var energy_bar = get_node(energy_bar) if energy_bar else null
-export(NodePath) onready var unit_ready_sound = get_node(unit_ready_sound) if unit_ready_sound else null
 
 export(NodePath) onready var hand1 = get_node(hand1) if hand1 else null
 export(NodePath) onready var hand2 = get_node(hand2) if hand2 else null
@@ -48,11 +47,10 @@ func addKnight(name, level, side):
 
 func useCard(card, tileX, tileY):
 	.useCard(card, tileX, tileY)
-	if unit_ready_sound:
-		if card.Type == data.SquireCard:
-			var sound = unit_ready_sound.get_resource(card.Name)
-			$AudioStreamPlayer.stream = sound
-			$AudioStreamPlayer.play()
+	if $AudioStreamPlayer != null:
+		var sound_path = loading_screen.GetCardReadySoundPath(card)
+		$AudioStreamPlayer.stream = loading_screen.LoadResource(sound_path)
+		$AudioStreamPlayer.play()
 
 func init_deck():
 	for i in len(hand):

@@ -5,7 +5,7 @@ const DECK_READY_LIGHT = "Nodes/Deck/%s/Ready%s/SkillReadyC"
 const DECK_READY_SIGN = "Nodes/Deck/%s/Ready%s/ReadySign"
 
 func Init(player):
-	call_deferred("add_dummy", player)
+	add_dummy(player)
 	$Ship.play("show")
 	yield($Ship, "animation_finished")
 	remove_dummy(player)
@@ -14,7 +14,8 @@ func add_dummy(player):
 	for side in player.knightIds:
 		var id = player.knightIds[side]
 		var name = player.game.FindUnit(id).Name()
-		var node = get_tree().current_scene.get_node("Resource/Unit").get_resource(name).instance()
+		var path = loading_screen.GetUnitScenePath(name)
+		var node = loading_screen.LoadResource(path).instance()
 		var deck = get_node(DECK_POSITION % side)
 		node.InitDummy(0, 0, player.game, player, deck.global_rotation)
 		deck.add_child(node)

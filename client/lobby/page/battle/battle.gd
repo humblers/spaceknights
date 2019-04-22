@@ -66,13 +66,17 @@ func match_request():
 		lobby.HandleError(response[1].ErrMessage)
 		return
 	var cfg = response[1].Config
+	var non_preload_paths = []
+	for player in cfg.Players:
+		for card in player.Deck:
+			non_preload_paths += loading_screen.GetReqResourcePathsInGame(data.NewCard(card))
 	var addr = cfg.Address.split(":")
 	tcp.Connect(addr[0], int(addr[1]))
 	yield(tcp, "connected")
 	tcp.Send({"Id": user.Id, "Token": user.Id})
 	tcp.Send({"GameId": cfg.Id})
 	var param = {"connected": true, "cfg": cfg}
-	loading_screen.goto_scene("res://game/game.tscn", param)
+	loading_screen.GoToScene("res://game/game.tscn", non_preload_paths, param)
 
 func show_config():
 	var setting = lobby.hud.get_node("PopupSetting")

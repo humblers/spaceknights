@@ -1,9 +1,8 @@
 extends Node2D
 
-export(NodePath) onready var icon = get_node(icon)
-
 func Set(card):
-	$Icon.texture = icon.get_resource(card.Name)
+	var path = loading_screen.GetCardIconPathInGame(card.Name)
+	$Icon.texture = loading_screen.LoadResource(path)
 	$Icon/Energy/Cost.text = str(card.Cost/1000)
 
 func Update(ready):

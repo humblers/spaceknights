@@ -18,6 +18,6 @@ func _ready():
 
 	# determine next scene
 	if not config.get_value("gameflag", "intro_skip"):
-		loading_screen.goto_scene("res://intro/intro.tscn")
+		loading_screen.GoToScene("res://intro/intro.tscn")
 		return
-	loading_screen.goto_scene("res://lobby/lobby.tscn")
+	loading_screen.GoToScene("res://lobby/lobby.tscn")

@@ -4,9 +4,6 @@ export(NodePath) onready var game = get_node(game)
 export(NodePath) onready var player = get_node(player)
 export(NodePath) onready var tile = get_node(tile)
 export(NodePath) onready var map = get_node(map)
-export(NodePath) onready var unit_resource = get_node(unit_resource)
-export(NodePath) onready var cursor_resource = get_node(cursor_resource)
-export(NodePath) onready var icon_resource = get_node(icon_resource)
 export(NodePath) onready var knight_button_left = get_node(knight_button_left)
 export(NodePath) onready var knight_button_right = get_node(knight_button_right)
 export(NodePath) onready var mothership = get_node(mothership)
@@ -16,7 +13,6 @@ onready var cost_label = $Card/ItemBase/Control/Cost/Label
 onready var cost_icon = $Card/ItemBase/Control/Cost
 onready var energy_bar = $Card/Energy
 onready var glow = $Card/Glow
-
 
 onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
@@ -74,7 +70,8 @@ func init_card(card = null):
 	$Card.scale = card_init_scale
 	$Card.z_index = card_init_z_index
 	if card != null:
-		icon.texture = icon_resource.get_resource(card.Name)
+		var path = loading_screen.GetCardIconPathInGame(card.Name)
+		icon.texture = loading_screen.LoadResource(path)
 		cost_label.text = str(card.Cost/1000)
 		energy_bar.max_value = card.Cost
 	
@@ -84,20 +81,21 @@ func init_cursor(card = null):
 	if card != null:
 		for c in $Cursor.get_children():
 			c.queue_free()
+		var cursor_path = loading_screen.GetCursorScenePath(card)
+		var cursor_node = loading_screen.LoadResource(cursor_path).instance()
 		if card.Type == data.SquireCard:
 			for i in card.Count:
-				var node = unit_resource.get_resource(card.Unit).instance()
-				node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
-				node.modulate = Color(1, 1, 1, 0.5)
-				$Cursor.add_child(node)
+				var path = loading_screen.GetUnitScenePath(card.Unit)
+				var unit_node = loading_screen.LoadResource(path).instance()
+				unit_node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+				unit_node.modulate = Color(1, 1, 1, 0.5)
+				$Cursor.add_child(unit_node)
 			# TODO: change data.Squire to data.SquireCard
-			var node = cursor_resource.get_resource(data.Squire.to_lower()).instance()
-			$Cursor.add_child(node)
-			node.set_text(card.Name, card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
+			$Cursor.add_child(cursor_node)
+			cursor_node.set_text(card.Name, card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 		else:
-			var node = cursor_resource.get_resource(card.Name).instance()
-			$Cursor.add_child(node)
-			node.set_level(card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
+			$Cursor.add_child(cursor_node)
+			cursor_node.set_level(card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 
 func init_dummy(card):
 	$Dummy.position = dummy_init_pos
@@ -105,7 +103,8 @@ func init_dummy(card):
 		c.queue_free()
 	if card.Type == data.SquireCard:
 		for i in card.Count:
-			var node = unit_resource.get_resource(card.Unit).instance()
+			var path = loading_screen.GetUnitScenePath(card.Unit)
+			var node = loading_screen.LoadResource(path).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Dummy.add_child(node)
 	

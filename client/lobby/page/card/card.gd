@@ -225,6 +225,7 @@ func change_filter(filter):
 
 func go_to_tutor_mode():
 	var params = config.GAME.duplicate(true)
+	var non_preload_paths = []
 	for player in params.Players:
 		if player.Team == "Red":
 			continue
@@ -232,8 +233,10 @@ func go_to_tutor_mode():
 		d.clear()
 		for side in user.KNIGHT_SIDES:
 			var knight_btn = get("knight_%s" % side)
+			non_preload_paths += loading_screen.GetReqResourcePathsInGame(knight_btn.card)
 			d.append({"Name":knight_btn.card.Name, "Level":0, "Side": side.capitalize()})
 		for i in range(user.SQUIRE_COUNT):
 			var squire_btn = get("squire_%d" % i)
+			non_preload_paths += loading_screen.GetReqResourcePathsInGame(squire_btn.card)
 			d.append({"Name":squire_btn.card.Name, "Level":0})
-	loading_screen.goto_scene("res://game/offline/tutor/tutor.tscn", {"cfg": params})
+	loading_screen.GoToScene("res://game/offline/tutor/tutor.tscn", non_preload_paths, {"cfg": params})

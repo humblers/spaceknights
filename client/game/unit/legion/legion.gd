@@ -185,13 +185,12 @@ func fireball():
 
 	# client only
 	var skill = $ResourcePreloader.get_resource("bomb_explosion").instance()
-	game.get_node("Skills").add_child(skill)
+	game.AddSkill(skill, false)
 	var pos = Vector2(castPosX, castPosY)
 	if game.team_swapped:
 		pos.x = game.FlipX(pos.x)
 		pos.y = game.FlipY(pos.y)
 	skill.position = pos
-	skill.z_index = Z_INDEX["Skill"]
 	game.camera.Shake(1, 60, 16)
 
 func target():

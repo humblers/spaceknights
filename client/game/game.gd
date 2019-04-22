@@ -22,11 +22,11 @@ var params = {
 var step = 0
 
 onready var world = $Resource/Physics.get_resource("world").new(params)
-onready var closing_scene = $NonCameraFollowingUI/Closing
+onready var closing_scene = $UI/Hud/Closing
 onready var bgm_anim = $BGM/AnimationPlayer
-onready var boost_ui = $NonCameraFollowingUI/EnergyBoost
-onready var boost_fx = $CameraFollowingUI/RenderOverPivot/EnergyBoost
-onready var opening_anim = $NonCameraFollowingUI/Opening
+onready var boost_fx = $UI/EnergyBoost
+onready var boost_ui = $UI/Hud/EnergyBoost
+onready var opening_anim = $UI/Hud/Opening
 
 var map
 
@@ -95,8 +95,7 @@ func _ready():
 		player.Init(p, self)
 		players[p.Id] = player
 	opening_anim.Play($Players.get_node("Blue").leader, 
-		$Players.get_node("Red").leader,
-		$Resource/Icon)
+		$Players.get_node("Red").leader)
 
 func initTiles():
 	for i in map.TileNumX():
@@ -334,20 +333,20 @@ func update_time():
 	var time_left
 	if step < data.PlayTime:
 		time_left = data.PlayTime - step
-		$NonCameraFollowingUI/Timenode/Text.text ="Time Left"
+		$UI/Hud/Time/Text.text ="Time Left"
 	else:
 		time_left = data.PlayTime + data.OverTime - step
-		$NonCameraFollowingUI/Timenode/Text.text ="Sudden Death"
+		$UI/Hud/Time/Text.text ="Sudden Death"
 	var sec = time_left / data.StepPerSec
-	$NonCameraFollowingUI/Timenode/Time.text = "%d:%02d" % [sec/60, sec%60]
+	$UI/Hud/Time/Remaining.text = "%d:%02d" % [sec/60, sec%60]
 
 func update_energy_boost():
 	if step > data.EnergyBoostAfter:
-		boost_ui.visible = true
 		boost_fx.visible = true
+		boost_ui.visible = true
 	else:
-		boost_ui.visible = false
 		boost_fx.visible = false
+		boost_ui.visible = false
 	
 func removeDeadUnits():
 	for id in units.keys():
@@ -380,9 +379,10 @@ func removeExpiredSkills():
 func AddUnit(name, level, posX, posY, player):
 	unitCounter += 1
 	var id = unitCounter
-	var node = $Resource/Unit.get_resource(name).instance()
+	var path = loading_screen.GetUnitScenePath(name)
+	var node = loading_screen.LoadResource(path).instance()
 	node.Init(id, level, posX, posY, self, player)
-	$Units.add_child(node)
+	$BattleField/Unit.add_child(node)
 	units[id] = node
 	return node
 
@@ -393,12 +393,13 @@ func FindUnit(id):
 		return null
 
 func AddBullet(bullet):
-	$Bullets.add_child(bullet)
+	$BattleField/Bullet.add_child(bullet)
 	bullets.append(bullet)
 
-func AddSkill(s):
-	skills.append(s)
-	$Skills.add_child(s)
+func AddSkill(s, has_logic = true):
+	if has_logic:
+		skills.append(s)
+	$BattleField/Skill.add_child(s)
 
 func World():
 	return world
@@ -481,4 +482,4 @@ static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	return true
 
 func restart_game():
-	loading_screen.goto_scene("res://game/offline/offline.tscn")
+	loading_screen.GoToScene("res://game/offline/offline.tscn")
