@@ -388,6 +388,8 @@
             </struct>
             <key type="filename">contents/card_btn_expansion.png</key>
             <key type="filename">contents/card_btn_expansion_wt.png</key>
+            <key type="filename">contents/icon/result_star.png</key>
+            <key type="filename">contents/icon/result_star_empty.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -521,6 +523,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/exp_bar.png</key>
+            <key type="filename">contents/exp_bar_bg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,4,89,8</rect>
+                <key>scale9Paddings</key>
+                <rect>45,4,89,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">contents/humbler_glow.png</key>
             <key type="filename">contents/zezaxo.png</key>
             <struct type="IndividualSpriteSettings">
@@ -628,6 +644,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/icon/ingame_level_icon_knight.png</key>
+            <key type="filename">contents/icon/ingame_level_icon_squire.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,14,47,29</rect>
+                <key>scale9Paddings</key>
+                <rect>24,14,47,29</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">contents/icon/time_icon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -677,6 +707,19 @@
                 <rect>3,32,5,64</rect>
                 <key>scale9Paddings</key>
                 <rect>3,32,5,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">contents/pixel.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>0,0,1,1</rect>
+                <key>scale9Paddings</key>
+                <rect>0,0,1,1</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -755,6 +798,19 @@
                 <rect>4,4,8,8</rect>
                 <key>scale9Paddings</key>
                 <rect>4,4,8,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">contents/sphere.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

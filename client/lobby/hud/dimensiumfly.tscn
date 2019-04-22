@@ -1,27 +1,24 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=1]
-[ext_resource path="res://lobby/hud/dimensium.png" type="Texture" id=2]
+[ext_resource path="res://atlas/lobby/popup.sprites/lightcircle.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dimensium.tres" type="Texture" id=3]
 
-[sub_resource type="StreamTexture" id=1]
-flags = 4
-load_path = "res://.import/lightcircle.png-8514e3f835236017405625ab6eb0a4d6.stex"
-
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.5088 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.372222, 1 )
 colors = PoolColorArray( 1, 0.167328, 0.00390625, 1, 1, 0.57666, 0.203125, 0 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0.6606 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.65, 0.972222 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "fly"
 length = 2.0
 tracks/0/type = "value"
@@ -55,25 +52,25 @@ tracks/1/keys = {
 material = ExtResource( 1 )
 emitting = false
 amount = 4
-texture = SubResource( 1 )
+texture = ExtResource( 2 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
 scale_amount = 1.2
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = ExtResource( 1 )
 emitting = false
 speed_scale = 1.5
 randomness = 1.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -81,9 +78,8 @@ gravity = Vector2( 0, -300 )
 angular_velocity = 0.01
 angular_velocity_random = 1.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/fly = SubResource( 6 )
-
+anims/fly = SubResource( 5 )
