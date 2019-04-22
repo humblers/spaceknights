@@ -196,6 +196,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">hud/board_black.png</key>
+            <key type="filename">hud/board_white.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,10,20,20</rect>
+                <key>scale9Paddings</key>
+                <rect>10,10,20,20</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">hud/bottom_panel_l.png</key>
             <key type="filename">hud/bottom_panel_r.png</key>
             <struct type="IndividualSpriteSettings">
@@ -220,6 +234,38 @@
                 <rect>129,20,257,39</rect>
                 <key>scale9Paddings</key>
                 <rect>129,20,257,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/button/button.png</key>
+            <key type="filename">hud/button/button_hover.png</key>
+            <key type="filename">hud/button/button_pressed.png</key>
+            <key type="filename">hud/button/upgrade_button.png</key>
+            <key type="filename">hud/button/upgrade_button_hover.png</key>
+            <key type="filename">hud/button/upgrade_button_pressed.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>58,15,115,30</rect>
+                <key>scale9Paddings</key>
+                <rect>58,15,115,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/button/close_btn_nor.png</key>
+            <key type="filename">hud/button/close_btn_ov.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,15,30,30</rect>
+                <key>scale9Paddings</key>
+                <rect>15,15,30,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -325,6 +371,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">hud/rewardbox_bg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">hud/shop.png</key>
             <key type="filename">hud/shop_hover.png</key>
             <key type="filename">hud/shop_pressed.png</key>
@@ -337,6 +396,19 @@
                 <rect>23,20,46,39</rect>
                 <key>scale9Paddings</key>
                 <rect>23,20,46,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">hud/slots_panel_w.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>180,3,360,5</rect>
+                <key>scale9Paddings</key>
+                <rect>180,3,360,5</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
