@@ -150,13 +150,13 @@ _data = [ Vector2( 0, 0.8256 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6496 ), 0.198045, 
 offsets = PoolRealArray( 0, 0.00438596, 0.357143, 0.785088, 1 )
 colors = PoolColorArray( 0, 0, 0, 0, 0.0833333, 0.0833333, 0.0833333, 0.0833333, 1, 0.307739, 0.171875, 1, 1, 1, 1, 1, 0.0514184, 0.0514184, 0.0514184, 0.0514184 )
 
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 0.984 ), 0.0, -3.14096, 0, 0, Vector2( 1, 0.0951999 ), -4.75795, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Gradient" id=13]
 colors = PoolColorArray( 1, 0.662781, 0.136719, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=14]
 resource_name = "cash"
 length = 1.5
 tracks/0/type = "value"
@@ -184,7 +184,7 @@ tracks/1/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=15]
 resource_name = "coincash"
 length = 5.0
 tracks/0/type = "animation"
@@ -280,7 +280,7 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=16]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -553,7 +553,7 @@ tracks/22/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=17]
 resource_name = "open3"
 length = 3.0
 tracks/0/type = "value"
@@ -837,7 +837,7 @@ tracks/23/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=18]
 resource_name = "open4"
 length = 4.0
 tracks/0/type = "value"
@@ -1131,7 +1131,7 @@ tracks/24/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=19]
 resource_name = "open5"
 length = 4.0
 tracks/0/type = "value"
@@ -1458,6 +1458,7 @@ card4 = NodePath("Control/Card4")
 card5 = NodePath("Control/Card5")
 open_anim = NodePath("BoxopenAni")
 chest_icon = NodePath("ChestIcon")
+skip_button = NodePath("Control/SkipButton")
 chest_name = "D-Matter"
 
 [node name="Tile" type="TextureRect" parent="."]
@@ -1520,9 +1521,12 @@ texture = ExtResource( 7 )
 expand = true
 
 [node name="Control" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1920.0
+
+[node name="SkipButton" type="TextureButton" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="Card1" parent="Control" instance=ExtResource( 8 )]
 visible = false
@@ -1631,7 +1635,7 @@ position = Vector2( 268, 61 )
 position = Vector2( 2, -5 )
 frames = SubResource( 3 )
 animation = "galacticoin"
-frame = 10
+frame = 17
 playing = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Coin/Slot/Galacticoin"]
@@ -1772,23 +1776,27 @@ radial_accel = 20.0
 radial_accel_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 12 )
+color_ramp = SubResource( 13 )
 
 [node name="CashAni" type="AnimationPlayer" parent="Cash"]
-anims/cash = SubResource( 15 )
+anims/cash = SubResource( 14 )
 
 [node name="CoinCashAni" type="AnimationPlayer" parent="."]
-anims/coincash = SubResource( 16 )
+anims/coincash = SubResource( 15 )
 
 [node name="BoxopenAni" type="AnimationPlayer" parent="."]
-anims/open2 = SubResource( 17 )
-anims/open3 = SubResource( 18 )
-anims/open4 = SubResource( 19 )
-anims/open5 = SubResource( 20 )
+anims/open2 = SubResource( 16 )
+anims/open3 = SubResource( 17 )
+anims/open4 = SubResource( 18 )
+anims/open5 = SubResource( 19 )
 
 [node name="Newcard" parent="." instance=ExtResource( 24 )]
+editor/display_folded = true
 visible = false
 mouse_filter = 2
+
+[node name="CardEffect" parent="Newcard/BG/Control" index="3"]
+margin_right = 87.5001
 
 [editable path="Newcard"]

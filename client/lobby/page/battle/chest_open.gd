@@ -11,6 +11,7 @@ export(NodePath) onready var card5 = get_node(card5)
 
 export(NodePath) onready var open_anim = get_node(open_anim)
 export(NodePath) onready var chest_icon = get_node(chest_icon)
+export(NodePath) onready var skip_button = get_node(skip_button)
 
 var hidden_cards = []
 
@@ -33,6 +34,7 @@ func _ready():
 	card3.connect("button_up", self, "flip_card", [card3])
 	card4.connect("button_up", self, "flip_card", [card4])
 	card5.connect("button_up", self, "flip_card", [card5])
+	skip_button.connect("button_up", self, "skip_open")
 	if test_open:
 		PopUp(chest_name, gold, cash, cards, user_cards)
 
@@ -66,3 +68,8 @@ func flip_card(card):
 	card_anim.play("cardflip")
 	yield(card_anim, "animation_finished")
 	hidden_cards.erase(card)
+	
+func skip_open():
+	for card in hidden_cards:
+		flip_card(card)
+		
