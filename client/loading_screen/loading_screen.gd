@@ -1,5 +1,46 @@
 extends CanvasLayer
 
+static func GetCardIconPathInGame(card_name):
+	return "res://atlas/game/ui.sprites/icon/%s_small.tres" % [card_name]
+
+static func GetUnitScenePath(unit):
+	return "res://game/unit/%s/%s.tscn" % [unit, unit]
+
+static func GetCardReadySoundPath(card):
+	if card.Type != data.SquireCard:
+		return "res://sound/sfx/ready/archers.wav"
+	var path = "res://sound/sfx/ready/%s.wav"
+	match card.Name:
+		"absorber", "heavymissiles", "nukemissile", "valkyrie", "voidcreeper":
+			path = path % ["archers"]
+		"gargoyles", "gargoylesquad":
+			path = path % ["gargoylesquad"]
+		_:
+			path = path % [card.Name]
+	return path
+
+static func GetCursorScenePath(card):
+	if card.Type == data.SquireCard:
+		return "res://game/player/cursor/squire.tscn"
+	return "res://game/unit/%s/skill_cursor.tscn" % [card.Unit]
+
+static func GetReqResourcePathsInGame(card):
+	var paths = [
+		GetCardIconPathInGame(card.Name),
+		GetUnitScenePath(card.Unit),
+		GetCardReadySoundPath(card),
+		GetCursorScenePath(card),
+	]
+	if card.Type == data.KnightCard:
+		var skill = data.units[card.Unit].skill
+		if skill.wing.has("unit"):
+			paths.append(GetUnitScenePath(skill.wing.unit))
+		if skill.leader.has("unit"):
+			paths.append(GetUnitScenePath(skill.leader.unit))
+	return paths
+
+var loaded_resources = {}
+var dest_path = ""
 var param = null
 var thread = null
 onready var progress = $Control/ProgressBar
@@ -8,35 +49,56 @@ onready var visible_control = $Control
 func _ready():
 	visible_control.visible = false
 
-func goto_scene(path, param = null):
+func GoToScene(dest_path, nonpreload_paths = [], param = null):
+	loaded_resources = {}
 	visible_control.visible = true
 	get_tree().current_scene.queue_free()
 	get_tree().current_scene = self
 	progress.value = 0
+	self.dest_path = dest_path
 	self.param = param
+	nonpreload_paths.push_front(dest_path)
 	thread = Thread.new()
-	thread.start(self, "_load_scene", path)
-	
-func _load_scene(path):
-	var loader = ResourceLoader.load_interactive(path)
-	assert(loader != null)
-	var total = loader.get_stage_count()
-	progress.call_deferred("set_max", total)
-	
-	var res = null
-	while(true):
-		progress.call_deferred("set_value", loader.get_stage())
-		var err = loader.poll()
-		if err == ERR_FILE_EOF:
-			res = loader.get_resource()
-			break
-		elif err != OK:
-			print("error loading %s" % path)
-			break
-	call_deferred("_load_done", res)
+	thread.start(self, "_load_scene", nonpreload_paths)
 
-func _load_done(res):
-	assert(res)
+func LoadResource(path):
+	if loaded_resources.has(path):
+		return loaded_resources[path]
+	print("resource is not in loaded_resources: ", path)
+	var res = ResourceLoader.load(path)
+	loaded_resources[path] = res
+	return res
+
+func _load_scene(paths):
+	var dict = {}
+	var total = 0
+	for path in paths:
+		if dict.has(path):
+			continue
+		var loader = ResourceLoader.load_interactive(path)
+		assert(loader != null and loader.get_stage_count() > 0)
+		dict[path] = loader
+		total += loader.get_stage_count()
+	progress.call_deferred("set_max", total)
+
+	var loaded_resources = {}
+	var progress_val = 0
+	for path in dict.keys():
+		var loader = dict[path]
+		while(true):
+			progress.call_deferred("set_value", progress_val + loader.get_stage())
+			var err = loader.poll()
+			if err == ERR_FILE_EOF:
+				loaded_resources[path] = loader.get_resource()
+				progress_val += loader.get_stage()
+				break
+			elif err != OK:
+				print("error loading %s" % path)
+				break
+	call_deferred("_load_done", loaded_resources)
+
+func _load_done(loaded_resources):
+	assert(loaded_resources)
 	thread.wait_to_finish()
 	
 	progress.value = progress.max_value
@@ -44,7 +106,9 @@ func _load_done(res):
 	# pause a while to show completed status(100%)
 	yield(get_tree().create_timer(0.5), "timeout")
 	
-	var new_scene = res.instance()
+	# retain resource until current_scene freed
+	self.loaded_resources = loaded_resources
+	var new_scene = loaded_resources[dest_path].instance()
 	
 	# set parameters
 	if param != null:

@@ -66,7 +66,7 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 		return
 	if idp == EMAIL_PASSWORD_PROVIDER_ID:
 		save_email_password(arg1, arg2)
-	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
+	loading_screen.GoToScene("res://company_logo/company_logo.tscn")
 
 func save_email_password(email, password):
 	var config = ConfigFile.new()

@@ -57,7 +57,7 @@ func select_language():
 		assert(err in [ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN])
 	config.set_value("locale", "language", user.locale)
 	config.save(user.CONFIG_FILE_NAME)
-	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
+	loading_screen.GoToScene("res://company_logo/company_logo.tscn")
 
 func email_link():
 	$PopupEmail.popup_centered()
@@ -69,4 +69,4 @@ func email_link():
 	firebase.link_account(firebase.EMAIL_PASSWORD_PROVIDER_ID, self, email, password)
 
 func playIntro():
-	loading_screen.goto_scene("res://intro/intro.tscn")
+	loading_screen.GoToScene("res://intro/intro.tscn")

@@ -28,7 +28,7 @@ var anim_finished = false
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if anim_finished:
-			loading_screen.goto_scene("res://lobby/lobby.tscn")
+			loading_screen.GoToScene("res://lobby/lobby.tscn")
 
 func Init(rank, medal, chest_order):
 	self.medal = medal

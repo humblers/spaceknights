@@ -43,4 +43,4 @@ func goToNextScene():
 		assert(err in [ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN])
 	config.set_value("gameflag", "intro_skip", true)
 	config.save(user.CONFIG_FILE_NAME)
-	loading_screen.goto_scene(next_scene)
+	loading_screen.GoToScene(next_scene)

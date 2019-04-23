@@ -79,4 +79,4 @@ func HandleError(message, back_to_company_logo = true):
 	if not back_to_company_logo:
 		return
 	yield(hud.message_modal, "popup_hide")
-	loading_screen.goto_scene("res://company_logo/company_logo.tscn")
+	loading_screen.GoToScene("res://company_logo/company_logo.tscn")
