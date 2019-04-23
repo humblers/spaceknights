@@ -65,7 +65,7 @@ func Invalidate(card, count):
 	for i in key_num:
 		var prev_holding_value = holding_value
 		if count > key_num:
-			holding_value = round(holding_value + count * i / (key_num - 1))
+			holding_value = round(card.Holding + count * i / (key_num - 1))
 		else:
 			holding_value = min(card.Holding, holding_value + 1)
 		anim.track_set_key_value(text_track_idx, i, "%d/%d" % [holding_value, card_cost])

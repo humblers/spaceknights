@@ -29,6 +29,7 @@ func Invalidate(card):
 	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
 	cost_label.text = "%d" % (card.Cost / 1000)
 	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
+	level_label.modulate = Color(1, 1, 1, 1)
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	upgrade_process.max_value = card_cost
 	upgrade_process.value = card.Holding
