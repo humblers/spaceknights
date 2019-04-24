@@ -220,10 +220,10 @@ tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0, 1, 1.3, 1.9, 2.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.9, 2.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.1, 1.1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("Base/Control/Glow:visible")
@@ -427,10 +427,10 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 1.9, 2, 2.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.9, 2, 2.1, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1.1, 1.1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
 }
 tracks/16/type = "value"
 tracks/16/path = NodePath(".:rect_position")
@@ -511,7 +511,6 @@ tracks/21/keys = {
 margin_right = 250.0
 margin_bottom = 352.0
 rect_min_size = Vector2( 250, 350 )
-rect_scale = Vector2( 1.1, 1.1 )
 rect_pivot_offset = Vector2( 125, 165 )
 flat = true
 
@@ -534,6 +533,7 @@ rect_min_size = Vector2( 250, 300 )
 mouse_filter = 1
 
 [node name="Glow" type="NinePatchRect" parent="Item/Base/Control"]
+visible = false
 modulate = Color( 0.227451, 1, 0.854902, 1 )
 material = ExtResource( 2 )
 margin_left = -3.18182
@@ -586,6 +586,7 @@ align = 1
 valign = 2
 
 [node name="Lv" type="Label" parent="Item/Base/Control"]
+modulate = Color( 0.254902, 1, 0.509804, 1 )
 use_parent_material = true
 margin_left = 107.0
 margin_top = 228.0
@@ -593,7 +594,7 @@ margin_right = 197.0
 margin_bottom = 289.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = ExtResource( 8 )
-text = "02"
+text = "03"
 align = 1
 valign = 1
 
@@ -652,14 +653,15 @@ margin_left = 15.0
 margin_top = 2.0
 margin_right = 235.0
 margin_bottom = 48.0
-value = 100.0
 texture_under = ExtResource( 23 )
 texture_progress = ExtResource( 24 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Item/HoldingBar/TextureProgress2"]
+visible = false
 material = ExtResource( 2 )
 position = Vector2( 217.273, 23 )
 scale = Vector2( 0.3, 0.5 )
+emitting = false
 amount = 4
 lifetime = 6.5
 speed_scale = 4.0
@@ -670,13 +672,13 @@ initial_velocity = 0.0
 color_ramp = SubResource( 2 )
 
 [node name="Label" type="Label" parent="Item/HoldingBar"]
-margin_left = 77.0
+margin_left = 74.0
 margin_top = 4.0
-margin_right = 173.0
+margin_right = 175.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 85, 41 )
 custom_fonts/font = ExtResource( 21 )
-text = "10/10"
+text = "0/20"
 align = 1
 valign = 2
 
@@ -694,12 +696,13 @@ margin_right = -106.0
 margin_bottom = -1.0
 
 [node name="Up1" type="Sprite" parent="Item/HoldingBar/Control/Arrow"]
-visible = false
-modulate = Color( 0.0627451, 0.584314, 1, 0 )
+modulate = Color( 0.0627451, 0.584314, 1, 1 )
 texture = ExtResource( 26 )
 
 [node name="Up2" type="CPUParticles2D" parent="Item/HoldingBar/Control/Arrow"]
+visible = false
 position = Vector2( 0, 13 )
+emitting = false
 amount = 1
 texture = ExtResource( 26 )
 gravity = Vector2( 0, -50 )
