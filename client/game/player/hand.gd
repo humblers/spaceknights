@@ -23,6 +23,8 @@ onready var card_init_z_index = $Card.z_index
 onready var cursor_init_pos = $Cursor.position
 onready var dummy_init_pos = $Rotate/Dummy.position
 
+export(int, 1, 4)  var index = null
+
 var card
 var pressed = false
 var input_sent = false
@@ -38,6 +40,8 @@ func _ready():
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
 	map.connect("gui_input", self, "handle_map_input")
+	event.connect("BlueEnergyUpdated", self, "updateEnergy")
+	event.connect("BlueSetHand%d" % index, self, "setHand")
 
 func handle_knight_input(event, side):
 	if card and card.Side == side:
@@ -57,7 +61,7 @@ func handle_map_input(ev):
 		pass
 		
 
-func Set(card):
+func setHand(card):
 	if card == null:
 		visible = false		# also cancels previous input
 		pressed = false
@@ -73,7 +77,7 @@ func Set(card):
 		if card.Type == data.KnightCard:
 			mothership.OpenDeck(card.Side)
 
-func Update(energy):
+func updateEnergy(energy):
 	if input_sent:
 		return
 	var ready = energy >= energy_bar.max_value
@@ -292,7 +296,7 @@ func set_cursor_pos(x, y):
 		pos[1] = game.FlipY(pos[1])
 	$Cursor.global_position.x = pos[0] + map.rect_position.x
 	$Cursor.global_position.y = pos[1] + map.rect_position.y
-	
+
 func set_guide_pos(x, y):
 	if game.team_swapped:
 		x = game.FlipX(x)
@@ -373,4 +377,3 @@ func rotateRunway(angle):
 		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
 	if runway:
 		runway.set_rotation_degrees((180/PI) * angle)
-		

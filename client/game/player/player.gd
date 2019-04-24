@@ -264,8 +264,10 @@ func findCard(from, name):
 	return -1
 
 func removeCardFromHand(index):
+	var card = hand[index]
 	hand[index] = null
 	emptyIdx.append(index)
+	return card
 
 func removeCardFromPending(index):
 	pending.remove(index)

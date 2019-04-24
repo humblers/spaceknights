@@ -1,0 +1,23 @@
+extends Node
+
+signal BlueEnergyUpdated(energy)
+signal BlueSetHand1(card)
+signal BlueSetHand2(card)
+signal BlueSetHand3(card)
+signal BlueSetHand4(card)
+signal BlueKnightHalfDamaged(side)
+signal BlueKnightDead(side)
+signal BlueSetNext(card)
+signal BlueUpdateNext(ready)
+signal BluePlayerInitialized(player)
+
+signal RedEnergyUpdated(energy)
+signal RedSetHand1(card)
+signal RedSetHand2(card)
+signal RedSetHand3(card)
+signal RedSetHand4(card)
+signal RedKnightHalfDamaged(side)
+signal RedKnightDead(side)
+signal RedSetNext(card)
+signal RedUpdateNext(ready)
+signal RedPlayerInitialized(player)

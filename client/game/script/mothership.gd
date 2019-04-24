@@ -4,7 +4,14 @@ const DECK_POSITION = "Nodes/Deck/%s/Position/Unit"
 const DECK_READY_LIGHT = "Nodes/Deck/%s/Ready%s/SkillReadyC"
 const DECK_READY_SIGN = "Nodes/Deck/%s/Ready%s/ReadySign"
 
-func Init(player):
+export(String, "Blue", "Red") var color = null
+
+func _ready():
+	event.connect("%sPlayerInitialized" % String(color), self, "init", [], CONNECT_ONESHOT)
+
+func init(player):
+	event.connect("%sKnightDead" % color, self, "destroy")
+	event.connect("%sKnightHalfDamaged" % color, self, "partialDestroy")
 	add_dummy(player)
 	$Ship.play("show")
 	yield($Ship, "animation_finished")
@@ -29,11 +36,11 @@ func remove_dummy(player):
 		var knight = player.game.FindUnit(id)
 		knight.visible = true
 
-func PartialDestroy(side):
+func partialDestroy(side):
 	# delay playing if deck opening anim is not finished
 	get_node("Anim%s" % side).queue("partial_destroy")
 
-func Destroy(side):
+func destroy(side):
 	get_node("Anim%s" % side).play("destroy")
 	
 func OpenDeck(side):

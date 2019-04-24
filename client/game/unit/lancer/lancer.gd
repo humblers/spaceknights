@@ -46,9 +46,10 @@ func TakeDamage(amount, damageType, attacker):
 	.TakeDamage(amount, damageType, attacker)
 	get_node("Hp/HBoxContainer/VBoxContainer/%s/HpLabel" % color).text = "%d" % hp
 	if not underHalf and initHp / 2 > hp:
-		player.OnKnightHalfDamaged(self)
+		event.emit_signal("%sKnightHalfDamaged" % color, side)
 	if IsDead():
 		player.OnKnightDead(self)
+		event.emit_signal("%sKnightDead" % color, side)
 
 func Destroy():
 	.Destroy()
