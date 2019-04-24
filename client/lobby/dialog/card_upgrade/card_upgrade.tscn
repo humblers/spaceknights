@@ -164,7 +164,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 resource_name = "upgrade"
 length = 2.0
 tracks/0/type = "value"
@@ -276,7 +276,7 @@ tracks/8/keys = {
 "values": [ "02", "03" ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -354,6 +354,7 @@ stretch_mode = 2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2( 543, 1751 )
+emitting = false
 amount = 30
 lifetime = 2.5
 speed_scale = 0.5
@@ -370,13 +371,13 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 
 [node name="Light" type="TextureRect" parent="."]
-modulate = Color( 0.160784, 0.427451, 1, 0.996078 )
+modulate = Color( 1, 0.478431, 0.341176, 0 )
 self_modulate = Color( 0, 0.321569, 1, 1 )
 material = ExtResource( 4 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -540.0
-margin_right = 540.0
+margin_left = -300.0
+margin_right = 300.0
 margin_bottom = 1920.0
 texture = ExtResource( 5 )
 expand = true
@@ -412,7 +413,8 @@ texture = ExtResource( 6 )
 expand = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color( 0.188235, 0.6, 1, 0.772549 )
+visible = false
+modulate = Color( 0.188235, 0.6, 1, 0 )
 material = ExtResource( 4 )
 anchor_left = 0.5
 anchor_right = 0.5
@@ -423,6 +425,7 @@ texture = ExtResource( 8 )
 expand = true
 
 [node name="Title" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
@@ -454,8 +457,11 @@ clip_text = true
 script = ExtResource( 11 )
 
 [node name="Cardglow" type="CPUParticles2D" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 4 )
-position = Vector2( 553, 555 )
+position = Vector2( 543, 555 )
+emitting = false
 amount = 2
 lifetime = 3.0
 speed_scale = 0.5
@@ -472,14 +478,14 @@ hue_variation_random = 1.0
 
 [node name="Control" type="Control" parent="."]
 margin_left = 415.0
-margin_top = 447.0
+margin_top = 1070.0
 margin_right = 665.0
-margin_bottom = 747.003
+margin_bottom = 1370.0
 rect_min_size = Vector2( 250, 300 )
-rect_scale = Vector2( 1.5, 1.5 )
 rect_pivot_offset = Vector2( 125, 165 )
 
 [node name="Cardemission" type="CPUParticles2D" parent="Control"]
+visible = false
 material = ExtResource( 4 )
 position = Vector2( 124.333, 146.333 )
 amount = 4
@@ -487,11 +493,14 @@ lifetime = 2.0
 texture = ExtResource( 13 )
 gravity = Vector2( 0, 0 )
 angular_velocity = -1.0
+scale_amount = 1.6
 scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
 [node name="Back" type="Control" parent="Control"]
+editor/display_folded = true
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.318
 anchor_right = 0.5
@@ -509,6 +518,8 @@ margin_bottom = 300.0
 texture = ExtResource( 13 )
 
 [node name="Front" type="Control" parent="Control"]
+editor/display_folded = true
+visible = false
 margin_left = -0.142883
 margin_top = 4.71423
 margin_right = 249.857
@@ -573,13 +584,14 @@ align = 1
 valign = 1
 
 [node name="Lv" type="Label" parent="Control/Front/Base/Control"]
+modulate = Color( 0.254902, 1, 0.509804, 1 )
 margin_left = 100.0
 margin_top = 230.0
 margin_right = 196.0
 margin_bottom = 292.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = ExtResource( 19 )
-text = "02"
+text = "03"
 align = 1
 valign = 1
 
@@ -592,23 +604,24 @@ margin_bottom = -13.6667
 rect_pivot_offset = Vector2( 125, 0 )
 
 [node name="UpgradeProgress" parent="Control/Front/HoldingBar" index="1"]
-value = 100.0
+self_modulate = Color( 0.109804, 0.584314, 1, 1 )
+value = 0.0
 
 [node name="Inactive" parent="Control/Front/HoldingBar/UpgradeProgress" index="0"]
-modulate = Color( 0.0627451, 0.584314, 1, 0 )
-
-[node name="Active" parent="Control/Front/HoldingBar/UpgradeProgress" index="1"]
 visible = true
 
+[node name="Active" parent="Control/Front/HoldingBar/UpgradeProgress" index="1"]
+emitting = false
+
 [node name="Label" parent="Control/Front/HoldingBar" index="3"]
-margin_left = 54.0
-margin_right = 196.0
-text = "170/170"
+margin_left = 71.0
+margin_right = 179.0
+text = "0/170"
 
 [node name="CardAni" type="AnimationPlayer" parent="Control"]
 anims/changed = SubResource( 8 )
 anims/default = SubResource( 9 )
-anims/upgrade = SubResource( 13 )
+anims/upgrade = SubResource( 10 )
 
 [node name="StatContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -617,6 +630,7 @@ margin_top = 880.0
 custom_constants/separation = 20
 
 [node name="Stat1" type="TextureRect" parent="StatContainer"]
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 0.32549 )
 margin_right = 1080.0
 margin_bottom = 120.0
@@ -672,6 +686,7 @@ text = "+10"
 valign = 1
 
 [node name="Stat2" type="TextureRect" parent="StatContainer"]
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 0.32549 )
 margin_top = 140.0
 margin_right = 1080.0
@@ -734,6 +749,7 @@ text = "+10"
 valign = 1
 
 [node name="Stat3" type="TextureRect" parent="StatContainer"]
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 0.32549 )
 margin_top = 280.0
 margin_right = 1080.0
@@ -796,6 +812,7 @@ text = "+10"
 valign = 1
 
 [node name="Stat4" type="TextureRect" parent="StatContainer"]
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 0.32549 )
 margin_top = 420.0
 margin_right = 1080.0
@@ -858,6 +875,7 @@ text = "+10"
 valign = 1
 
 [node name="Stat5" type="TextureRect" parent="StatContainer"]
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 0.32549 )
 margin_top = 560.0
 margin_right = 1080.0
@@ -921,9 +939,10 @@ valign = 1
 
 [node name="UpgradeAni" type="AnimationPlayer" parent="."]
 anims/card_upgrade = ExtResource( 24 )
-anims/close = SubResource( 10 )
+anims/close = SubResource( 11 )
 
 [node name="Button" type="TextureButton" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
