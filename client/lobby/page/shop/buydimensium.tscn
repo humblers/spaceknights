@@ -1,26 +1,27 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://lobby/page/shop/buycard.gd" type="Script" id=1]
 [ext_resource path="res://atlas/lobby/popup.sprites/rewardbox_bg.tres" type="Texture" id=2]
 [ext_resource path="res://atlas/lobby/popup.sprites/mid_panel.tres" type="Texture" id=3]
 [ext_resource path="res://font/scdream8/size_90_outline_7_1f1f1f_fallback.tres" type="DynamicFont" id=4]
 [ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=5]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/card_back_empty.tres" type="Texture" id=6]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=7]
-[ext_resource path="res://atlas/lobby/popup.sprites/card_glow.tres" type="Texture" id=8]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_cell.tres" type="Texture" id=9]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_stack.tres" type="Texture" id=10]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_archive.tres" type="Texture" id=11]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_megaplant.tres" type="Texture" id=12]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_megagrid.tres" type="Texture" id=13]
-[ext_resource path="res://font/vipnagorgialla/size_70_outline_4_000000.tres" type="DynamicFont" id=14]
-[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=15]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button_hover.tres" type="Texture" id=16]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button_pressed.tres" type="Texture" id=17]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/lobby/popup.sprites/board_white.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/lobby/popup.sprites/board_black.tres" type="Texture" id=7]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=8]
+[ext_resource path="res://atlas/lobby/popup.sprites/card_glow.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_cell.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_stack.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_archive.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_megaplant.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dim_megagrid.tres" type="Texture" id=14]
+[ext_resource path="res://font/vipnagorgialla/size_70_outline_4_000000.tres" type="DynamicFont" id=15]
+[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=16]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button_hover.tres" type="Texture" id=17]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button_pressed.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button.tres" type="Texture" id=19]
 
 [sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
 margin_right = 49.75
@@ -28,7 +29,7 @@ margin_top = 20.25
 margin_bottom = 19.75
 
 [sub_resource type="StyleBoxTexture" id=2]
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
 margin_right = 50.25
@@ -36,7 +37,7 @@ margin_top = 20.25
 margin_bottom = 19.75
 
 [sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
 margin_right = 50.0
@@ -71,6 +72,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="Title" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -124,19 +126,23 @@ grow_vertical = 2
 rect_min_size = Vector2( 250, 196 )
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="CardAll"]
+[node name="TextureRect" type="NinePatchRect" parent="CardAll"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -450.0
-margin_top = -500.0
-margin_right = 450.0
-margin_bottom = 500.0
+margin_left = -410.0
+margin_top = -460.0
+margin_right = 410.0
+margin_bottom = 460.0
 texture = ExtResource( 6 )
-expand = true
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
-[node name="TextureRect2" type="TextureRect" parent="CardAll/TextureRect"]
+[node name="TextureRect2" type="NinePatchRect" parent="CardAll"]
 modulate = Color( 0, 0, 0, 0.862745 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -146,12 +152,16 @@ margin_left = -400.0
 margin_top = -450.0
 margin_right = 400.0
 margin_bottom = 450.0
-texture = ExtResource( 6 )
-expand = true
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
 [node name="Light" type="TextureRect" parent="CardAll"]
 modulate = Color( 1, 0.117647, 0.117647, 1 )
-material = ExtResource( 7 )
+material = ExtResource( 8 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -162,7 +172,7 @@ margin_right = 350.0
 margin_bottom = 350.0
 rect_rotation = -44.9999
 rect_pivot_offset = Vector2( 350, 350 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 
 [node name="CardFrame" type="Control" parent="CardAll"]
@@ -185,7 +195,7 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Cash02" type="TextureRect" parent="CardAll/CardFrame"]
 visible = false
@@ -194,7 +204,7 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 
 [node name="Cash03" type="TextureRect" parent="CardAll/CardFrame"]
 margin_left = -10.0
@@ -202,7 +212,7 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Cash04" type="TextureRect" parent="CardAll/CardFrame"]
 editor/display_folded = true
@@ -212,14 +222,14 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 
 [node name="Cash07" type="TextureRect" parent="CardAll/CardFrame/Cash04"]
 margin_left = -6.66667
 margin_top = 113.0
 margin_right = 190.333
 margin_bottom = 310.0
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 expand = true
 
 [node name="Cash08" type="TextureRect" parent="CardAll/CardFrame/Cash04"]
@@ -227,7 +237,7 @@ margin_left = 137.333
 margin_top = 133.333
 margin_right = 307.333
 margin_bottom = 303.333
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 expand = true
 
 [node name="Cash05" type="TextureRect" parent="CardAll/CardFrame"]
@@ -237,7 +247,7 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Cash06" type="TextureRect" parent="CardAll/CardFrame"]
 visible = false
@@ -246,7 +256,7 @@ margin_top = 15.0
 margin_right = 300.0
 margin_bottom = 325.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="x10" type="Label" parent="CardAll"]
 anchor_left = 0.5
@@ -256,7 +266,7 @@ margin_top = 50.0
 margin_right = 540.0
 margin_bottom = 170.0
 rect_min_size = Vector2( 1080, 120 )
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 15 )
 custom_colors/font_color = Color( 0.992157, 0.282353, 0.282353, 1 )
 text = "200"
 align = 1
@@ -272,7 +282,7 @@ margin_top = 227.5
 margin_right = 450.0
 margin_bottom = 292.5
 rect_min_size = Vector2( 250, 65 )
-custom_fonts/font = ExtResource( 15 )
+custom_fonts/font = ExtResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Get Box of Dimensium?"
 align = 1
@@ -298,7 +308,7 @@ margin_left = 19.0
 margin_top = 35.0
 margin_right = 279.0
 margin_bottom = 93.0
-custom_fonts/font = ExtResource( 15 )
+custom_fonts/font = ExtResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "119,000"
 align = 1
