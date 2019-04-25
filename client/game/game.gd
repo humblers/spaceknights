@@ -96,6 +96,7 @@ func _ready():
 		players[p.Id] = player
 	opening_anim.Play($Players.get_node("Blue").leader, 
 		$Players.get_node("Red").leader)
+	event.emit_signal("GameInitialized", self)
 
 func initTiles():
 	for i in map.TileNumX():

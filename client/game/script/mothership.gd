@@ -8,6 +8,7 @@ export(String, "Blue", "Red") var color = null
 
 func _ready():
 	event.connect("%sPlayerInitialized" % String(color), self, "init", [], CONNECT_ONESHOT)
+	event.connect("%sMothershipDeckUpdate" % color, self, "updateDeck")
 
 func init(player):
 	event.connect("%sKnightDead" % color, self, "destroy")
@@ -42,15 +43,13 @@ func partialDestroy(side):
 
 func destroy(side):
 	get_node("Anim%s" % side).play("destroy")
-	
-func OpenDeck(side):
-	get_node("Anim%s" % side).play("deck_on")
 
-func CloseDeck(side):
-	get_node("Anim%s" % side).play("deck_off")
-
-func UpdateDeckReadyState(side, ratio):
-	var node = get_node(DECK_READY_LIGHT % [side, side.left(1)])
-	node.modulate.a = clamp(ratio, 0, 1)
-	node = get_node(DECK_READY_SIGN % [side, side.left(1)])
-	node.visible = ratio > 1
+func updateDeck(state, side, charging_ratio = 0):
+	match state:
+		event.MothershipDeckOpen, event.MothershipDeckClose:
+			get_node("Anim%s" % side).play(state)
+		event.MothershipDeckCharging:
+			var node = get_node(DECK_READY_LIGHT % [side, side.left(1)])
+			node.modulate.a = clamp(charging_ratio, 0, 1)
+			node = get_node(DECK_READY_SIGN % [side, side.left(1)])
+			node.visible = charging_ratio >= 1
