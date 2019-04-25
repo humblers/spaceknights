@@ -6,24 +6,24 @@
 [ext_resource path="res://font/scdream8/size_90_outline_7_1f1f1f_fallback.tres" type="DynamicFont" id=4]
 [ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=5]
 [ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=6]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/card_back_empty.tres" type="Texture" id=7]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/card_icon.tres" type="Texture" id=8]
-[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=9]
-[ext_resource path="res://atlas/lobby/popup.sprites/board_white.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/lobby/popup.sprites/board_white.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/lobby/popup.sprites/board_black.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/card_icon.tres" type="Texture" id=9]
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=10]
 [ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=11]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_hover.tres" type="Texture" id=12]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_pressed.tres" type="Texture" id=13]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button.tres" type="Texture" id=14]
-[ext_resource path="res://atlas/lobby/popup.sprites/icon/dimensium.tres" type="Texture" id=15]
-[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=16]
-[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=17]
+[ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=12]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_hover.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_pressed.tres" type="Texture" id=14]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button.tres" type="Texture" id=15]
+[ext_resource path="res://atlas/lobby/popup.sprites/icon/dimensium.tres" type="Texture" id=16]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=17]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=18]
 [ext_resource path="res://atlas/lobby/popup.sprites/lightcircle.tres" type="Texture" id=19]
 [ext_resource path="res://atlas/lobby/popup.sprites/sphere.tres" type="Texture" id=20]
 [ext_resource path="res://lobby/resource/chest_icon.tscn" type="PackedScene" id=21]
 
 [sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
 margin_right = 49.75
@@ -31,7 +31,7 @@ margin_top = 20.0
 margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id=2]
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.5
 margin_right = 50.0
@@ -39,7 +39,7 @@ margin_top = 20.0
 margin_bottom = 20.0
 
 [sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 50.0
 margin_right = 50.0
@@ -82,6 +82,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="Title" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
@@ -133,20 +134,23 @@ text = "Thanatos - 13"
 align = 1
 valign = 1
 
-[node name="Frame" type="TextureRect" parent="."]
-editor/display_folded = true
+[node name="Frame" type="NinePatchRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -450.0
-margin_top = -230.0
-margin_right = 450.0
-margin_bottom = 770.0
+margin_left = -410.0
+margin_top = -270.0
+margin_right = 410.0
+margin_bottom = 650.0
 texture = ExtResource( 7 )
-expand = true
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
-[node name="InnerFrame" type="TextureRect" parent="Frame"]
+[node name="InnerFrame" type="NinePatchRect" parent="Frame"]
 modulate = Color( 0, 0, 0, 0.862745 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -156,8 +160,12 @@ margin_left = -400.0
 margin_top = -450.0
 margin_right = 400.0
 margin_bottom = 450.0
-texture = ExtResource( 7 )
-expand = true
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
 
 [node name="CardSort" type="HBoxContainer" parent="Frame"]
 editor/display_folded = true
@@ -166,9 +174,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -450.0
-margin_top = 140.0
+margin_top = 160.0
 margin_right = 450.0
-margin_bottom = 280.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 900, 1 )
 alignment = 1
 
@@ -183,7 +191,7 @@ margin_left = 1.0
 margin_top = 55.0
 margin_right = 63.0
 margin_bottom = 125.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Label6" type="Label" parent="Frame/CardSort/Common"]
 margin_left = 65.0
@@ -200,7 +208,7 @@ margin_left = 59.0
 margin_top = 29.0
 margin_right = 239.0
 margin_bottom = 64.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 0.654902, 0.25098, 1 )
 text = "Common"
 valign = 2
@@ -216,7 +224,7 @@ margin_left = 2.0
 margin_top = 55.0
 margin_right = 64.0
 margin_bottom = 125.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Label4" type="Label" parent="Frame/CardSort/Rares"]
 margin_left = 66.0
@@ -233,7 +241,7 @@ margin_left = 67.0
 margin_top = 29.0
 margin_right = 247.0
 margin_bottom = 64.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.137255, 0.411765, 0.654902, 1 )
 text = "Rares"
 valign = 2
@@ -248,7 +256,7 @@ rect_min_size = Vector2( 250, 140 )
 margin_top = 55.0
 margin_right = 62.0
 margin_bottom = 125.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Label5" type="Label" parent="Frame/CardSort/Epics"]
 margin_left = 62.0
@@ -265,32 +273,33 @@ margin_left = 59.0
 margin_top = 29.0
 margin_right = 239.0
 margin_bottom = 64.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0, 0.545098, 0.27451, 1 )
 text = "Epics"
 valign = 2
 
 [node name="Label" type="Label" parent="Frame"]
-margin_left = 81.0
-margin_top = 622.0
-margin_right = 476.0
-margin_bottom = 661.0
-custom_fonts/font = ExtResource( 9 )
+margin_left = 31.0
+margin_top = 602.0
+margin_right = 426.0
+margin_bottom = 641.0
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.682353, 0.682353, 0.682353, 1 )
 text = "Must Include With"
 valign = 2
 
 [node name="GalacticoinSlot" type="NinePatchRect" parent="Frame"]
+editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -370.0
-margin_top = -30.0
+margin_top = -20.0
 margin_right = -10.0
-margin_bottom = 90.0
-texture = ExtResource( 10 )
+margin_bottom = 100.0
+texture = ExtResource( 7 )
 region_rect = Rect2( 0, 0, 40, 40 )
 patch_margin_left = 14
 patch_margin_top = 15
@@ -302,7 +311,7 @@ margin_left = 4.0
 margin_top = 4.0
 margin_right = 281.0
 margin_bottom = 42.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 0.737255, 0.364706, 1 )
 text = "Galactic Coin"
 valign = 2
@@ -319,16 +328,17 @@ custom_fonts/font = ExtResource( 6 )
 text = "1800"
 
 [node name="CardSlot" type="NinePatchRect" parent="Frame"]
+editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 10.0
-margin_top = -30.0
+margin_top = -20.0
 margin_right = 370.0
-margin_bottom = 90.0
-texture = ExtResource( 10 )
+margin_bottom = 100.0
+texture = ExtResource( 7 )
 region_rect = Rect2( 0, 0, 40, 40 )
 patch_margin_left = 15
 patch_margin_top = 15
@@ -340,7 +350,7 @@ margin_left = 18.0
 margin_top = 4.0
 margin_right = 242.0
 margin_bottom = 42.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.364706, 0.701961, 1, 1 )
 text = "Card"
 valign = 2
@@ -358,17 +368,54 @@ margin_left = 23.0
 margin_top = 51.0
 margin_right = 85.0
 margin_bottom = 121.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
+
+[node name="GridContainer" type="GridContainer" parent="Frame"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -384.0
+margin_top = -420.0
+margin_right = 256.0
+margin_bottom = -120.0
+rect_scale = Vector2( 1.2, 1.2 )
+custom_constants/hseparation = -120
+columns = 4
+
+[node name="ItemBase" parent="Frame/GridContainer" instance=ExtResource( 12 )]
+margin_top = 0.0
+margin_bottom = 300.0
+
+[node name="ItemBase2" parent="Frame/GridContainer" instance=ExtResource( 12 )]
+margin_left = 130.0
+margin_top = 0.0
+margin_right = 380.0
+margin_bottom = 300.0
+
+[node name="ItemBase3" parent="Frame/GridContainer" instance=ExtResource( 12 )]
+margin_left = 260.0
+margin_top = 0.0
+margin_right = 510.0
+margin_bottom = 300.0
+
+[node name="ItemBase4" parent="Frame/GridContainer" instance=ExtResource( 12 )]
+margin_left = 390.0
+margin_top = 0.0
+margin_right = 640.0
+margin_bottom = 300.0
 
 [node name="BuyButton2" type="Button" parent="Frame"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -150.0
-margin_top = -184.0
+margin_top = -144.0
 margin_right = 150.0
-margin_bottom = -60.0
+margin_bottom = -20.0
 rect_min_size = Vector2( 300, 124 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
@@ -392,54 +439,19 @@ margin_top = 25.0
 margin_right = 249.0
 margin_bottom = 88.0
 rect_scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 
-[node name="Dimensium2" parent="Frame/BuyButton2" instance=ExtResource( 16 )]
+[node name="Dimensium2" parent="Frame/BuyButton2" instance=ExtResource( 17 )]
 position = Vector2( 223, 62 )
-
-[node name="GridContainer" type="GridContainer" parent="Frame"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -384.0
-margin_top = -420.0
-margin_right = 256.0
-margin_bottom = -120.0
-rect_scale = Vector2( 1.2, 1.2 )
-custom_constants/hseparation = -120
-columns = 4
-
-[node name="ItemBase" parent="Frame/GridContainer" instance=ExtResource( 17 )]
-margin_top = 0.0
-margin_bottom = 300.0
-
-[node name="ItemBase2" parent="Frame/GridContainer" instance=ExtResource( 17 )]
-margin_left = 130.0
-margin_top = 0.0
-margin_right = 380.0
-margin_bottom = 300.0
-
-[node name="ItemBase3" parent="Frame/GridContainer" instance=ExtResource( 17 )]
-margin_left = 260.0
-margin_top = 0.0
-margin_right = 510.0
-margin_bottom = 300.0
-
-[node name="ItemBase4" parent="Frame/GridContainer" instance=ExtResource( 17 )]
-margin_left = 390.0
-margin_top = 0.0
-margin_right = 640.0
-margin_bottom = 300.0
 
 [node name="Chest" type="Control" parent="."]
 editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
-margin_top = 260.0
+margin_top = 240.0
 margin_right = 540.0
-margin_bottom = 760.0
+margin_bottom = 740.0
 
 [node name="BGeffect" type="CPUParticles2D" parent="Chest"]
 material = ExtResource( 18 )
