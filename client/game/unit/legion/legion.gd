@@ -8,6 +8,7 @@ var cast = 0
 var castPosX = 0
 var castPosY = 0
 var retargeting = false
+var skillReady = false
 
 var attack_counter = 0
 
@@ -115,7 +116,7 @@ func Update():
 				else:
 					attack = 0
 					findTargetAndAttack()
-	if target() == null and cast == 0:
+	if target() == null and cast == 0 and not skillReady:
 		$AnimationPlayer.play("idle")
 
 func findTargetAndAttack():
@@ -237,3 +238,12 @@ func fire():
 	else:
 		b.global_position = $Rotatable/Body/ShoulderR/ArmR/ShotpointR.global_position
 	attack_counter += 1
+
+
+func skillReady():
+	get_node("AnimationPlayer").play("skill_ready")
+	skillReady = true
+	
+func skillRest():
+	get_node("AnimationPlayer").play("idle")
+	skillReady = false

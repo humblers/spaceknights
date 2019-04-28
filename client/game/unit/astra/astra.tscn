@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://game/unit/astra/astra.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/astra/frame.tres" type="Texture" id=2]
@@ -31,18 +31,18 @@
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=29]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=30]
 [ext_resource path="res://game/unit/astra/explosion.tres" type="Animation" id=31]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=32]
-[ext_resource path="res://game/unit/astra/attack.tres" type="Animation" id=33]
-[ext_resource path="res://game/unit/astra/destroy.tres" type="Animation" id=34]
-[ext_resource path="res://game/unit/astra/idle.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/astra/move.tres" type="Animation" id=36]
-[ext_resource path="res://game/unit/astra/show.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/astra/skill.tres" type="Animation" id=38]
-[ext_resource path="res://sound/sfx/laser_loop.wav" type="AudioStream" id=39]
-[ext_resource path="res://sound/sfx/explosion_knight.wav" type="AudioStream" id=40]
-[ext_resource path="res://game/unit/astra/astra_skill.wav" type="AudioStream" id=41]
-[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=42]
-
+[ext_resource path="res://game/vfx/cloud_2.png" type="Texture" id=32]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=33]
+[ext_resource path="res://game/unit/astra/attack.tres" type="Animation" id=34]
+[ext_resource path="res://game/unit/astra/destroy.tres" type="Animation" id=35]
+[ext_resource path="res://game/unit/astra/idle.tres" type="Animation" id=36]
+[ext_resource path="res://game/unit/astra/move.tres" type="Animation" id=37]
+[ext_resource path="res://game/unit/astra/show.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/astra/skill.tres" type="Animation" id=39]
+[ext_resource path="res://sound/sfx/laser_loop.wav" type="AudioStream" id=40]
+[ext_resource path="res://sound/sfx/explosion_knight.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/unit/astra/astra_skill.wav" type="AudioStream" id=42]
+[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=43]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -73,6 +73,67 @@ colors = PoolColorArray( 0.046875, 0.262817, 1, 1, 0.876068, 0.488281, 1, 0 )
 
 [sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 0.544 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=11]
+colors = PoolColorArray( 0.0585938, 0.0585938, 0.0585938, 1, 1, 0, 0, 0.0529412 )
+
+[sub_resource type="Gradient" id=12]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0.5625, 0, 1 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "skill_ready"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotatable:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.3, 1.3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Rotatable/SkillReady/LoseEffect:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Rotatable/SkillReady/LoseEffect/Particle:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Rotatable/SkillReady:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.009359 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="Astra" type="Node2D"]
 script = ExtResource( 1 )
@@ -600,29 +661,71 @@ texture = ExtResource( 9 )
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 anims/explosion = ExtResource( 31 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 32 )]
+[node name="SkillReady" type="Node2D" parent="Rotatable"]
+visible = false
+
+[node name="LoseEffect" type="CPUParticles2D" parent="Rotatable/SkillReady"]
+material = ExtResource( 6 )
+scale = Vector2( 1, 1.5 )
+emitting = false
+speed_scale = 0.5
+texture = ExtResource( 32 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
+
+[node name="Particle" type="CPUParticles2D" parent="Rotatable/SkillReady/LoseEffect"]
+use_parent_material = true
+position = Vector2( 0, 18 )
+emitting = false
+amount = 16
+lifetime = 1.5
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+linear_accel = 180.0
+linear_accel_random = 1.0
+radial_accel = 180.0
+radial_accel_random = 1.0
+scale_amount = 3.0
+color_ramp = SubResource( 12 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 33 )]
 type = 0
 rect_area = Rect2( -30, -70, 60, 150 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 33 )
-anims/destroy = ExtResource( 34 )
-anims/idle = ExtResource( 35 )
-anims/move = ExtResource( 36 )
-anims/show = ExtResource( 37 )
-anims/skill = ExtResource( 38 )
+anims/attack = ExtResource( 34 )
+anims/destroy = ExtResource( 35 )
+anims/idle = ExtResource( 36 )
+anims/move = ExtResource( 37 )
+anims/show = ExtResource( 38 )
+anims/skill = ExtResource( 39 )
+anims/skill_ready = SubResource( 9 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 39 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 40 )
 
-[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 41 )
 
-[node name="Hp" parent="." instance=ExtResource( 42 )]
+[node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 42 )
+
+[node name="Hp" parent="." instance=ExtResource( 43 )]
 position = Vector2( 0, -110 )

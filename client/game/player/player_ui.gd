@@ -14,6 +14,8 @@ var id
 var color
 var input_sent_cards = []		# input sent but not used cards
 
+var focusCard
+
 func Init(playerData, game):
 	.Init(playerData, game)
 	id = playerData.Id
@@ -128,3 +130,24 @@ func send_input(card, pos):
 			game.actions[input.Step] = [input.Action]
 	input_sent_cards.append(card)
 	update_energy()
+
+	
+func focusedCard(selected):
+	focusCard = selected
+	
+	for i in HAND_SIZE:
+		var node = get("hand%d" % (i+1))
+		var knight = findKnight(node.card.Name)
+		if node == selected:
+			#print(" i = ", i, " focus = ", node)
+			node.get_node("AnimationPlayer").play("card%d_ready" % (i+1))
+			if knight != null:
+				knight.skillReady()
+			
+		else:
+			node.get_node("AnimationPlayer").play("card%d_rest" % (i+1))
+			node.cardRest()
+			if knight != null:
+				knight.skillRest()
+			
+			#print(" i = ", i, " none = ", node)
