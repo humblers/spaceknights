@@ -8,6 +8,9 @@ export(NodePath) onready var knight_button_left = get_node(knight_button_left)
 export(NodePath) onready var knight_button_right = get_node(knight_button_right)
 export(NodePath) onready var mothership = get_node(mothership)
 
+export(NodePath) onready var knight_guide = get_node(knight_guide)
+export(NodePath) onready var squire_guide = get_node(squire_guide)
+
 onready var icon = $Card/ItemBase/Control/Icon
 onready var cost_label = $Card/ItemBase/Control/Cost/Label
 onready var cost_icon = $Card/ItemBase/Control/Cost
@@ -24,20 +27,35 @@ var card
 var pressed = false
 var input_sent = false
 
+var knight = null
+var focused = false
+var guide
+
 func _ready():
-	# don't show lv info
-	$Card/ItemBase/Control/Label.visible = false
-	$Card/ItemBase/Control/Lv.visible = false
-	
+
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
+	map.connect("gui_input", self, "handle_map_input")
 
 func handle_knight_input(event, side):
 	if card and card.Side == side:
 		event.position = get_local_mouse_position()
 		handle_input(event)
 		
+func handle_map_input(ev):
+	if input_sent or not focused:
+		return
+	if ev is InputEventMouseButton:
+		pressed = ev.pressed
+		if pressed:
+			pass
+		else:
+			map_on_released(ev)
+	if ev is InputEventMouseMotion and pressed:
+		print("맵 드래그")
+		
+
 func Set(card):
 	if card == null:
 		visible = false		# also cancels previous input
@@ -74,9 +92,15 @@ func init_card(card = null):
 		icon.texture = loading_screen.LoadResource(path)
 		cost_label.text = str(card.Cost/1000)
 		energy_bar.max_value = card.Cost
+		
+		if card.Type == data.KnightCard:
+			guide = knight_guide
+		else:
+			guide = squire_guide
 	
 func init_cursor(card = null):
 	$Cursor.visible = false
+	guide.visible = false
 	$Cursor.position = cursor_init_pos
 	if card != null:
 		for c in $Cursor.get_children():
@@ -123,7 +147,8 @@ func handle_input(ev):
 func on_pressed():
 	tile.Show(data.CardIsSpell(card))
 	$Card.z_index += 1
-
+	cardReady()
+	
 func on_dragged(ev):
 	$Card.position = ev.position
 	
@@ -141,11 +166,34 @@ func on_dragged(ev):
 		var pos = map.get_local_mouse_position()
 		set_cursor_pos(int(pos.x), int(pos.y))
 		$Cursor.visible = true
+		set_guide_pos(int(pos.x), int(pos.y))
+		guide.visible = true
+		
 	else:
 		$Cursor.visible = false
+		guide.visible = false
 	
+func map_on_released(ev):
+	$Card.position = ev.position
+	
+	var y = ev.position.y
+	
+	var pos = map.get_local_mouse_position()
+	set_cursor_pos(int(pos.x), int(pos.y))
+	$Cursor.visible = true
+	set_guide_pos(int(pos.x), int(pos.y))
+	guide.visible = true
+	on_released()
+
+
 func on_released():
-	tile.Hide()
+	if not focused:
+		tile.Hide()
+		
+	if card.Type == data.KnightCard and knight:
+		knight.set_rotation_degrees(0)
+	else:
+		rotateRunway(0)
 	
 	# released on map?
 	var pos = map.get_local_mouse_position()
@@ -171,11 +219,14 @@ func on_released():
 		yield($AnimationPlayer, "animation_finished")
 		$Dummy.position = $Cursor.position
 		$Cursor.visible = false
+		guide.visible = false
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
 
 	if card.Type == data.KnightCard:
 		mothership.CloseDeck(card.Side)
+	
+	focused = false
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")
@@ -212,3 +263,79 @@ func set_cursor_pos(x, y):
 		pos[1] = game.FlipY(pos[1])
 	$Cursor.global_position.x = pos[0] + map.rect_position.x
 	$Cursor.global_position.y = pos[1] + map.rect_position.y
+	
+func set_guide_pos(x, y):
+	if game.team_swapped:
+		x = game.FlipX(x)
+		y = game.FlipY(y)
+
+	var tile = game.TileFromPos(x, y)
+	var isSpell = data.CardIsSpell(card)
+	if not isSpell:
+		tile = player.ClampToValidTile(tile[0], tile[1])
+		var num = data.CardTileNum(card)
+		var nx = num[0]
+		var ny = num[1]
+		var tr = game.NewTileRect(tile[0], tile[1], nx, ny)
+		tr = player.FindUnoccupiedTileRect(tr, 5)
+		if tr == null:
+			print("cannot find unoccupied tile")
+			return
+		tile[0] = tr.x
+		tile[1] = tr.y
+
+	var pos = game.PosFromTile(tile[0], tile[1])
+	if game.team_swapped:
+		pos[0] = game.FlipX(pos[0])
+		pos[1] = game.FlipY(pos[1])
+	
+	
+	var from
+	var target = Vector2(pos[0], pos[1])
+
+	if card.Type == data.SquireCard:
+		from = Vector2( (int(self.name.right(4)) -1) * 202 + 346, 1800)
+		guide.set_position(from)
+
+	else:
+		knight = player.findKnight(card.Name)
+		if card.Side == "Left":
+			from = Vector2(200,1350)
+		else:
+			from = Vector2(800,1350)
+		guide.set_position(from)
+	
+	var dir = from-target
+	var ref = Vector2(0,100)
+	var angle = ref.angle_to(dir)
+	
+	#skill.look_at(vec.rotated(PI / 2))
+	guide.set_rotation_degrees((180/PI) * angle)
+	guide.get_node("Sprite").value = (dir.length()/15.3)
+
+	if card.Type == data.KnightCard:
+		knight.set_rotation_degrees((180/PI) * angle)
+	else:
+		rotateRunway(angle)
+
+
+func cardReady():
+	focused = true
+	player.focusedCard(self)
+	
+	
+func cardRest():
+	focused = false
+	
+func rotateRunway(angle):
+	var runway
+	if self.name == "Hand1":
+		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L1/DeckBaseL1/Guide")
+	if self.name == "Hand2":
+		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L2/DeckBaseL2/Guide")
+	if self.name == "Hand3":
+		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L3/DeckBaseR2/Guide")
+	if self.name == "Hand4":
+		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
+	if runway:
+		runway.set_rotation_degrees((180/PI) * angle)
