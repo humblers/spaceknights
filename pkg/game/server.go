@@ -148,10 +148,8 @@ func (s *server) listenLobby() {
 					if err := packet(b).parse(&cfg); err != nil {
 						panic(err)
 					}
+					cfg.Address = s.caddr
 					s.runGame(cfg)
-					if _, err := conn.Write(newPacket(LobbyResponse{s.caddr})); err != nil {
-						panic(err)
-					}
 				}()
 			}
 		}
@@ -203,13 +201,31 @@ func (s *server) runGame(cfg Config) {
 		defer s.gwg.Done()
 		defer s.saveResult(g)
 		defer s.logger.Printf("%v stopped", g)
-		defer s.removeGame(g)
+		defer s.removeGame(g, cfg)
 		s.logger.Printf("%v starting", g)
 		g.Run()
 	}()
 	s.Lock()
 	s.games[cfg.Id] = g
 	s.Unlock()
+
+	// record game config for reconnect
+	conn := s.redisPool.Get()
+	defer conn.Close()
+	key1 := fmt.Sprintf("%v:game", cfg.Players[0].Id)
+	key2 := fmt.Sprintf("%v:game", cfg.Players[1].Id)
+	if _, err := conn.Do("MSET", key1, cfg, key2, cfg); err != nil {
+		panic(err)
+	}
+
+	// publish to notifier
+	msg, err := json.Marshal(cfg)
+	if err != nil {
+		panic(err)
+	}
+	if _, err := conn.Do("PUBLISH", "match", msg); err != nil {
+		panic(err)
+	}
 }
 
 func (s *server) saveResult(g Game) {
@@ -297,8 +313,17 @@ func (s *server) saveResult(g Game) {
 	}
 }
 
-func (s *server) removeGame(g Game) {
+func (s *server) removeGame(g Game, cfg Config) {
 	s.Lock()
 	delete(s.games, g.Id())
 	s.Unlock()
+
+	// delete game config to prevent reconnect
+	conn := s.redisPool.Get()
+	defer conn.Close()
+	key1 := fmt.Sprintf("%v:game", cfg.Players[0].Id)
+	key2 := fmt.Sprintf("%v:game", cfg.Players[1].Id)
+	if _, err := conn.Do("DEL", key1, key2); err != nil {
+		panic(err)
+	}
 }

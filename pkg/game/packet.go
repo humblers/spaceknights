@@ -64,7 +64,3 @@ type Config struct {
 	MapName string
 	Players []PlayerData
 }
-
-type LobbyResponse struct {
-	Address string
-}

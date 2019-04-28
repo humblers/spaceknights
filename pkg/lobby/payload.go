@@ -1,9 +1,5 @@
 package lobby
 
-import (
-	"github.com/humblers/spaceknights/pkg/game"
-)
-
 type HumblerToken struct {
 	UID          string
 	HumblerToken string
@@ -33,11 +29,6 @@ type LoginResponse struct {
 type DataResponse struct {
 	ErrMessage string
 	Data       string
-}
-
-type MatchResponse struct {
-	ErrMessage string
-	Config     game.Config
 }
 
 type DeckSelectRequest struct {
