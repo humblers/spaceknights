@@ -13,6 +13,8 @@ var castPosX = 0
 var castPosY = 0
 var retargeting = false
 
+var skillReady = false
+
 func Init(id, level, posX, posY, game, player):
 	New(id, "lancer", player.Team(), level, posX, posY, game)
 	self.player = player
@@ -226,3 +228,11 @@ func fire():
 	# client only
 	b.rotation = $Rotatable.rotation
 	b.global_position = $Rotatable/Shotpoint.global_position
+
+func skillReady():
+	get_node("AnimationPlayer").play("skill_ready")
+	skillReady = true
+	
+func skillRest():
+	get_node("AnimationPlayer").play("idle")
+	skillReady = false

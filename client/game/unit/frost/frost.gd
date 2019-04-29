@@ -9,6 +9,8 @@ var castPosX = 0
 var castPosY = 0
 var retargeting = false
 
+var skillReady = false
+
 const ROT_SPEED = PI/4
 onready var arm_l = $Rotatable/Body/Main/ShoulderL/UpperarmL/ArmL
 onready var arm_r = $Rotatable/Body/Main/ShoulderR/UpperarmR/ArmR
@@ -260,3 +262,11 @@ func fire():
 		damageRadius += scalar.Add(damageRadius, game.World().FromPixel(r))
 	b.MakeSplash(damageRadius)
 	game.AddBullet(b)
+
+func skillReady():
+	get_node("AnimationPlayer").play("skill_ready")
+	skillReady = true
+	
+func skillRest():
+	get_node("AnimationPlayer").play("idle")
+	skillReady = false

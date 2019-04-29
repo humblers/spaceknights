@@ -10,6 +10,8 @@ var castPosY = 0
 var castTiles
 var retargeting = false
 
+var skillReady = false
+
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -242,3 +244,11 @@ func fire():
 	
 	# client only
 	b.global_position = $Rotatable/Body/Main/Gun/ShootingPoint.global_position
+
+func skillReady():
+	get_node("AnimationPlayer").play("skill_ready")
+	skillReady = true
+	
+func skillRest():
+	get_node("AnimationPlayer").play("idle")
+	skillReady = false
