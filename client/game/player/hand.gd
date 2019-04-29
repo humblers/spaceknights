@@ -21,7 +21,7 @@ onready var card_init_pos = $Card.position
 onready var card_init_scale = $Card.scale
 onready var card_init_z_index = $Card.z_index
 onready var cursor_init_pos = $Cursor.position
-onready var dummy_init_pos = $Dummy.position
+onready var dummy_init_pos = $Rotate/Dummy.position
 
 var card
 var pressed = false
@@ -122,15 +122,15 @@ func init_cursor(card = null):
 			cursor_node.set_level(card.Level+data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 
 func init_dummy(card):
-	$Dummy.position = dummy_init_pos
-	for c in $Dummy.get_children():
+	$Rotate/Dummy.position = dummy_init_pos
+	for c in $Rotate/Dummy.get_children():
 		c.queue_free()
 	if card.Type == data.SquireCard:
 		for i in card.Count:
 			var path = loading_screen.GetUnitScenePath(card.Unit)
 			var node = loading_screen.LoadResource(path).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
-			$Dummy.add_child(node)
+			$Rotate/Dummy.add_child(node)
 	
 func handle_input(ev):
 	if input_sent:
@@ -190,10 +190,10 @@ func on_released():
 	if not focused:
 		tile.Hide()
 		
-	if card.Type == data.KnightCard and knight:
-		knight.set_rotation_degrees(0)
-	else:
-		rotateRunway(0)
+#	if card.Type == data.KnightCard and knight:
+#		knight.set_rotation_degrees(0)
+#	else:
+#		rotateRunway(0)
 	
 	# released on map?
 	var pos = map.get_local_mouse_position()
@@ -217,14 +217,17 @@ func on_released():
 	if card.Type == data.SquireCard:
 		$AnimationPlayer.play("launch")
 		yield($AnimationPlayer, "animation_finished")
-		$Dummy.position = $Cursor.position
+		$Rotate/Dummy.position = $Cursor.position
 		$Cursor.visible = false
 		guide.visible = false
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
+		rotateRunway(0)
 
 	if card.Type == data.KnightCard:
 		mothership.CloseDeck(card.Side)
+		if knight:
+			knight.set_rotation_degrees(0)
 	
 	focused = false
 
@@ -339,3 +342,4 @@ func rotateRunway(angle):
 		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
 	if runway:
 		runway.set_rotation_degrees((180/PI) * angle)
+		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
