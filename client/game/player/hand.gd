@@ -190,10 +190,10 @@ func on_released():
 	if not focused:
 		tile.Hide()
 		
-#	if card.Type == data.KnightCard and knight:
-#		knight.set_rotation_degrees(0)
-#	else:
-#		rotateRunway(0)
+	if card.Type == data.KnightCard and knight:
+		knight.set_rotation_degrees(0)
+	else:
+		rotateRunway(0)
 	
 	# released on map?
 	var pos = map.get_local_mouse_position()
@@ -222,12 +222,11 @@ func on_released():
 		guide.visible = false
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
-		rotateRunway(0)
+		self.get_node("Rotate").set_rotation_degrees(0)
 
 	if card.Type == data.KnightCard:
 		mothership.CloseDeck(card.Side)
-		if knight:
-			knight.set_rotation_degrees(0)
+		guide.visible = false
 	
 	focused = false
 
@@ -320,6 +319,7 @@ func set_guide_pos(x, y):
 		knight.set_rotation_degrees((180/PI) * angle)
 	else:
 		rotateRunway(angle)
+		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
 
 func cardReady():
@@ -342,4 +342,4 @@ func rotateRunway(angle):
 		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
 	if runway:
 		runway.set_rotation_degrees((180/PI) * angle)
-		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
+		

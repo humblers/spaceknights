@@ -32,11 +32,10 @@
 [ext_resource path="res://game/unit/absorber/idle.tres" type="Animation" id=30]
 [ext_resource path="res://game/unit/absorber/move.tres" type="Animation" id=31]
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=32]
-[ext_resource path="res://game/unit/enforcer/enforcer_atk.wav" type="AudioStream" id=33]
+[ext_resource path="res://game/unit/absorber/absorber_atk.wav" type="AudioStream" id=33]
 [ext_resource path="res://sound/sfx/explosion_m.wav" type="AudioStream" id=34]
 [ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=35]
 [ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=36]
-
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -116,7 +115,7 @@ normal_map = ExtResource( 3 )
 
 [node name="Head" type="Sprite" parent="Rotatable/Main"]
 light_mask = 3
-position = Vector2( 0, -3 )
+position = Vector2( 0, -4 )
 texture = ExtResource( 4 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, -1 )
@@ -125,7 +124,7 @@ offset = Vector2( 0, -1 )
 editor/display_folded = true
 show_behind_parent = true
 light_mask = 3
-position = Vector2( 0, 1 )
+position = Vector2( 0, -2 )
 texture = ExtResource( 5 )
 normal_map = ExtResource( 3 )
 
@@ -133,7 +132,7 @@ normal_map = ExtResource( 3 )
 show_behind_parent = true
 light_mask = 3
 position = Vector2( 11, 2 )
-rotation = 1.0472
+rotation = 0.261799
 texture = ExtResource( 6 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 13, -6 )
@@ -142,7 +141,7 @@ offset = Vector2( 13, -6 )
 show_behind_parent = true
 light_mask = 3
 position = Vector2( -11, 2 )
-rotation = -1.0472
+rotation = -0.261799
 texture = ExtResource( 6 )
 normal_map = ExtResource( 3 )
 offset = Vector2( -13, -6 )
@@ -152,7 +151,7 @@ flip_h = true
 editor/display_folded = true
 light_mask = 3
 position = Vector2( 21, 0 )
-rotation = 0.261799
+rotation = -0.523599
 texture = ExtResource( 7 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 9, 0 )
@@ -161,7 +160,7 @@ offset = Vector2( 9, 0 )
 show_behind_parent = true
 light_mask = 3
 position = Vector2( 12, 0 )
-rotation = 0.261799
+rotation = -0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 9, 0 )
@@ -171,7 +170,6 @@ editor/display_folded = true
 show_behind_parent = true
 light_mask = 3
 position = Vector2( 18, 0 )
-rotation = -0.261799
 texture = ExtResource( 9 )
 normal_map = ExtResource( 3 )
 offset = Vector2( -1, -12 )
@@ -179,7 +177,6 @@ offset = Vector2( -1, -12 )
 [node name="handR" type="Sprite" parent="Rotatable/Main/ShoulderR/UpperarmR/LowerarmR"]
 light_mask = 3
 position = Vector2( -1, -23 )
-rotation = -0.261799
 texture = ExtResource( 10 )
 offset = Vector2( 0, -5 )
 
@@ -201,7 +198,7 @@ texture = ExtResource( 12 )
 editor/display_folded = true
 light_mask = 3
 position = Vector2( -21, 0 )
-rotation = -0.261799
+rotation = 0.523599
 texture = ExtResource( 7 )
 normal_map = ExtResource( 3 )
 offset = Vector2( -9, 0 )
@@ -211,7 +208,7 @@ flip_h = true
 show_behind_parent = true
 light_mask = 3
 position = Vector2( -12, 0 )
-rotation = -0.261799
+rotation = 0.523599
 texture = ExtResource( 8 )
 normal_map = ExtResource( 3 )
 offset = Vector2( -9, 0 )
@@ -222,7 +219,6 @@ editor/display_folded = true
 show_behind_parent = true
 light_mask = 3
 position = Vector2( -18, 0 )
-rotation = 0.261799
 texture = ExtResource( 9 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 1, -12 )
@@ -231,7 +227,6 @@ flip_h = true
 [node name="handL" type="Sprite" parent="Rotatable/Main/ShoulderL/UpperarmL/LowerarmL"]
 light_mask = 3
 position = Vector2( 1, -23 )
-rotation = 0.261799
 texture = ExtResource( 10 )
 offset = Vector2( 0, -5 )
 flip_h = true
@@ -255,7 +250,8 @@ flip_h = true
 [node name="Generator" type="Sprite" parent="Rotatable/Main"]
 editor/display_folded = true
 light_mask = 3
-position = Vector2( 0, 16 )
+position = Vector2( 0, 7 )
+scale = Vector2( 1, 0.7 )
 texture = ExtResource( 13 )
 normal_map = ExtResource( 3 )
 offset = Vector2( 0, 17 )
@@ -265,15 +261,14 @@ visible = false
 position = Vector2( 0, 29 )
 
 [node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Main/Generator/Booster"]
+visible = false
 modulate = Color( 0.133333, 0.207843, 1, 1 )
 material = ExtResource( 14 )
 position = Vector2( 0, 20 )
 scale = Vector2( 1.2, 1.8 )
 frames = SubResource( 1 )
 animation = "thrust"
-frame = 1
 speed_scale = 3.0
-playing = true
 offset = Vector2( 0, 15 )
 
 [node name="LightL" type="Sprite" parent="Rotatable/Main/Generator/Booster"]
@@ -500,7 +495,6 @@ position = Vector2( 0, 5 )
 circle_radius = 30.0
 
 [node name="Sound" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 33 )
