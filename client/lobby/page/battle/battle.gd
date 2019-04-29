@@ -59,24 +59,13 @@ func recursive_light_masking(node, mask):
 			recursive_light_masking(child, mask)
 
 func match_request():
+	notifier_client.connect("game_created", self, "start_game")
 	var req = lobby_request.New("/match/request")
-	lobby.hud.requesting_dialog.pop(req)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.HandleError(response[1].ErrMessage)
+		lobby.HandleError(response[1].ErrMessage, false)
 		return
-	var cfg = response[1].Config
-	var non_preload_paths = []
-	for player in cfg.Players:
-		for card in player.Deck:
-			non_preload_paths += loading_screen.GetReqResourcePathsInGame(data.NewCard(card))
-	var addr = cfg.Address.split(":")
-	tcp.Connect(addr[0], int(addr[1]))
-	yield(tcp, "connected")
-	tcp.Send({"Id": user.Id, "Token": user.Id})
-	tcp.Send({"GameId": cfg.Id})
-	var param = {"connected": true, "cfg": cfg}
-	loading_screen.GoToScene("res://game/game.tscn", non_preload_paths, param)
+	lobby.hud.requesting_dialog.Pop()
 
 func show_config():
 	var setting = lobby.hud.get_node("PopupSetting")
@@ -85,3 +74,16 @@ func show_config():
 
 func PlayAppearAni():
 	$Background/Mothership/AppearAni.play("appear")
+
+func start_game(cfg):
+	var non_preload_paths = []
+	for player in cfg.Players:
+		for card in player.Deck:
+			non_preload_paths += loading_screen.GetReqResourcePathsInGame(data.NewCard(card))
+	var addr = cfg.Address.split(":")
+	game_client.Connect(addr[0], int(addr[1]))
+	yield(game_client, "connected")
+	game_client.Send({"Id": user.Id, "Token": user.Id})
+	game_client.Send({"GameId": cfg.Id})
+	var param = {"connected": true, "cfg": cfg}
+	loading_screen.GoToScene("res://game/game.tscn", non_preload_paths, param)

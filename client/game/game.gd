@@ -74,7 +74,7 @@ func _unhandled_key_input(ev):
 func _ready():
 	randomize()
 	if connected:
-		tcp.connect("disconnected", self, "request_stop")
+		game_client.connect("disconnected", self, "request_stop")
 	else:
 		data.Upgrade = $Resource/Upgrade.get_resource("upgrade").new()
 		data.Initialize()
@@ -223,7 +223,7 @@ func _physics_process(delta):
 		else:
 			if connected:
 				var iterations = 1
-				var n = tcp.received.size()
+				var n = game_client.received.size()
 				if n <= 0:
 					if to_stop:
 						stop()
@@ -234,7 +234,7 @@ func _physics_process(delta):
 					print("too many packets %s" % [n])
 					iterations = min(10, n)
 				for i in range(iterations):
-					var state = static_func.cast_float_to_int(parse_json(tcp.received.pop_front()))
+					var state = static_func.cast_float_to_int(parse_json(game_client.received.pop_front()))
 					Update(state)
 			else:
 				var state = {"Actions": null}

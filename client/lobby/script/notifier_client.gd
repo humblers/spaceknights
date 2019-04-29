@@ -7,10 +7,10 @@ var client_connected = false
 
 var send_buf = ""
 var receive_buf = ""
-var received = []
 
 signal connected
 signal disconnected
+signal game_created(cfg)
 
 func _ready():
 	set_physics_process(true)
@@ -18,7 +18,7 @@ func _ready():
 func Connect(ip, port):
 	var err = client.connect_to_host(ip, port)
 	if err != OK:
-		print("tcp Connect failed: %s" % err)
+		print("[notifier] tcp Connect failed: %s" % err)
 
 func Disconnect():
 	client.disconnect_from_host()
@@ -28,7 +28,7 @@ func Send(dict):
 		var packet = to_json(dict) + PACKET_TERMINATOR
 		send_buf = send_buf + packet
 	else:
-		print("tcp Send failed: client not connected")
+		print("[notifier] tcp Send failed: client not connected")
 
 func _physics_process(delta):
 	if not client_connected:
@@ -53,9 +53,9 @@ func read():
 				break
 			var packet = receive_buf.left(pos)
 			receive_buf = receive_buf.right(pos + 1)
-			received.append(packet)
+			parse(packet)
 	else:
-		print("tcp read failed: %s" % err)
+		print("[notifier] tcp read failed: %s" % err)
 		client_connected = false
 		emit_signal("disconnected")
 
@@ -67,6 +67,12 @@ func write():
 		if err == OK:
 			send_buf = send_buf.right(n)
 		else:
-			print("tcp write failed: %s" % err)
+			print("[notifier] tcp write failed: %s" % err)
 			client_connected = false
 			emit_signal("disconnected")
+
+func parse(packet):
+	var dict = static_func.cast_float_to_int(parse_json(packet))
+	var cfg = dict["GameCreated"]
+	if cfg != null:
+		emit_signal("game_created", cfg)

@@ -39,8 +39,7 @@ func main() {
 	m.Handle(lobby.NewDataRouter("/data/", p, logger))
 	m.Handle(lobby.NewEditRouter("/edit/", p, logger))
 	m.Handle(lobby.NewChestRouter("/chest/", p, logger))
-	path, mm := lobby.NewMatchMaker("/match/", p, logger)
-	m.Handle(path, mm)
+	m.Handle(lobby.NewMatchRouter("/match/", p, logger))
 	fileServer := http.FileServer(http.Dir("./statics"))
 	hideDirListing := func(fileServer http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +63,6 @@ func main() {
 		signal.Notify(stop, os.Interrupt)
 		<-stop
 
-		mm.Stop()
 		// Shutdown close http connection gracefully
 		if err := hs.Shutdown(context.Background()); err != nil {
 			logger.Printf("HTTP server Shutdown(%v)", err)
