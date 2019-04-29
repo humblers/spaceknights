@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=1]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/ring.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/ui.sprites/knightready.tres" type="Texture" id=3]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.544 ), 0.0, 0.0, 0, 0, Vector2( 0.660165, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.7915 ), -1.29018, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.65625, 0.870536 )
+colors = PoolColorArray( 0.0585938, 0.0585938, 0.0585938, 1, 0.347656, 0.526031, 1, 1, 1, 0.509804, 0.0352941, 1 )
+
+[node name="SkillReady" type="Node2D"]
+
+[node name="LoseEffect" type="CPUParticles2D" parent="."]
+material = ExtResource( 1 )
+emitting = false
+amount = 2
+speed_scale = 1.2
+explosiveness = 0.8
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity_random = 1.0
+radial_accel_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Deco" type="Sprite" parent="LoseEffect"]
+modulate = Color( 1, 1, 1, 0.588235 )
+use_parent_material = true
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 3 )
+offset = Vector2( -5, -7 )
