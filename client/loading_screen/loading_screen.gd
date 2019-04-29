@@ -11,8 +11,6 @@ static func GetCardReadySoundPath(card):
 		return "res://sound/sfx/ready/archers.wav"
 	var path = "res://sound/sfx/ready/%s.wav"
 	match card.Name:
-		"absorber", "heavymissiles", "nukemissile", "valkyrie", "voidcreeper":
-			path = path % ["archers"]
 		"gargoyles", "gargoylesquad":
 			path = path % ["gargoylesquad"]
 		_:
