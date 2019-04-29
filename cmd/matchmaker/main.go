@@ -19,11 +19,11 @@ import (
 var matchMakeScript = redis.NewScript(1, `
 	-- arguments
 	local key = KEYS[1]
-	local now = ARGS[1]
-	local t1 = ARGS[2]
-	local t2 = ARGS[3]
-	local d1 = ARGS[4]
-	local d2 = ARGS[5]
+	local now = ARGV[1]
+	local t1 = ARGV[2]
+	local t2 = ARGV[3]
+	local d1 = ARGV[4]
+	local d2 = ARGV[5]
 
 	-- functions
 	local getusers = function ()
@@ -58,6 +58,7 @@ var matchMakeScript = redis.NewScript(1, `
 				return false
 			end
 		end
+	end
 
 	-- main
 	local users = getusers()
@@ -90,7 +91,9 @@ var matchMakeScript = redis.NewScript(1, `
 			end
 		end
 	end
-	redis.call('HDEL', key, unpack(matched))
+	if #matched > 0 then
+		redis.call('HDEL', key, unpack(matched))
+	end
 	return matched
 `)
 

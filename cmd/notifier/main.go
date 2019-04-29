@@ -16,6 +16,11 @@ import "github.com/humblers/spaceknights/pkg/game"
 
 const clientTimeout = time.Minute
 
+type Notification struct {
+	GameCreated *game.Config
+	// add another notification types here
+}
+
 var logger *log.Logger
 var pool *redis.Pool
 
@@ -132,7 +137,12 @@ func main() {
 					c := clients[p.Id]
 					mutex.RUnlock()
 					if c != nil {
-						c.Write(v.Data)
+						noti := Notification{GameCreated: &cfg}
+						packet, err := json.Marshal(noti)
+						if err != nil {
+							panic(err)
+						}
+						c.Write(packet)
 					}
 				}
 			case redis.Subscription:

@@ -37,7 +37,7 @@ func (m *matchRouter) request(b *bases, w http.ResponseWriter, r *http.Request) 
 	// if game server crashes before key deletion, client cannot request match forever
 
 	// push to queue
-	rank, err := redis.Int(b.redisConn.Do("GET", fmt.Sprintf("%v:rank"), b.uid))
+	rank, err := redis.Int(b.redisConn.Do("GET", fmt.Sprintf("%v:rank", b.uid)))
 	if err != nil {
 		m.logger.Print(err)
 		b.response = &CommonResponse{err.Error()}

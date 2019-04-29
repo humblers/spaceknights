@@ -122,7 +122,7 @@ func send_input(card, pos):
 			},
 	}
 	if game.connected:
-		tcp.Send(input)
+		game_client.Send(input)
 	else:
 		if game.actions.has(input.Step):
 			game.actions[input.Step].append(input.Action)
