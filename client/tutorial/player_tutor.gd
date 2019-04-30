@@ -30,11 +30,10 @@ func phaseChanged(phase, PHASES):
 			event.connect("StudentUseCard", self, "useFootmans")
 		PHASES.REQUEST_GIANT_GARGOYLE:
 			event.disconnect("StudentUseCard", self, "useFootmans")
-			if game.FindGiantGargoyle() == null:
-				game.AddUnit("giant_gargoyle", 0,
-						game.RED_PLAYER_CARD_POS_X, game.RED_PLAYER_CARD_POS_Y,
-						self)
-				game.call_deferred("ForwardToNextPhase")
+			game.AddUnit("giant_gargoyle", 0,
+					game.RED_PLAYER_CARD_POS_X, game.RED_PLAYER_CARD_POS_Y,
+					self)
+			game.call_deferred("ForwardToNextPhase")
 		PHASES.REQUEST_RANGE_SQUIRES:
 			var archers = data.NewCard({"Name": "archers", "Level": 0})
 			useCard(archers, randi() % game.Map().TileNumX(), randi() % (game.Map().TileNumY() / 2 - 2))

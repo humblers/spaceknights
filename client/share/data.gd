@@ -1471,6 +1471,24 @@ var units = {
 		"destroydamage":     [400],
 		"destroyradius":     175,
 	},
+
+	"giant_gargoyle": {
+		"type":           Squire,
+		"layer":          Normal,
+		"mass":           5,
+		"radius":         27,
+		"hp":             [180],
+		"shield":         [54000],
+		"sight":          275,
+		"speed":          150,	#pixels per second
+		"targettypes":    [Squire, Building, Knight],
+		"targetlayers":   [Normal],
+		"damagetype":     Melee,
+		"attackdamage":   [40],
+		"attackrange":    100,
+		"attackinterval": 10,
+		"preattackdelay": 5,
+	},
 }
 
 # TODO: change this to autoloaded(global) object

@@ -125,15 +125,15 @@ func studentCardUsed(card):
 	match phase:
 		PHASES.REQUEST_BERSERKER:
 			if card.Name == "berserker":
-				event.emit_signal("FocusOff")
+				event.emit_signal("MarkOff")
 				ForwardToNextPhase()
 		PHASES.REQUEST_GARGOYLES:
 			if card.Name == "gargoyles":
-				event.emit_signal("FocusOff")
+				event.emit_signal("MarkOff")
 				ForwardToNextPhase()
 		PHASES.REQUEST_FIREBALL:
 			if card.Name == "legion":
-				event.emit_signal("FocusOff")
+				event.emit_signal("MarkOff")
 				ForwardToNextPhase()
 
 func isTutorRemainOnlyKnights():

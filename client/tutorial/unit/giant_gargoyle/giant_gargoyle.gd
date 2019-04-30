@@ -1,5 +1,11 @@
 extends "res://game/unit/gargoyle/gargoyle.gd"
 
+func Init(id, level, posX, posY, game, player):
+	New(id, "giant_gargoyle", player.Team(), level, posX, posY, game)
+	shield = initialShield()
+	$Hp/HBoxContainer/VBoxContainer/Shield.max_value = shield
+	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
+
 func Update():
 	.Update()
 	if freeze > 0:
@@ -24,7 +30,3 @@ func Update():
 	if shield > initialShield():
 		shield = initialShield()
 	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
-
-func initialShield():
-	var v = data.units[name_]["shield"]
-	return v[level] * game.GIANT_GARGOYLE_SHIELD_MULTIPLIER

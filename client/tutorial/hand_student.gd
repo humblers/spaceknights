@@ -1,6 +1,6 @@
 extends "res://game/player/hand.gd"
 
-var focused = false
+var marked = false
 var revealed = false
 
 func _ready():
@@ -14,32 +14,32 @@ func setHand(card):
 func phaseChanged(phase, PHASES):
 	match index:
 		1:
-			focused = phase == PHASES.REQUEST_ARCHERS
+			marked = phase == PHASES.REQUEST_ARCHERS
 			revealed = phase >= PHASES.REQUEST_ARCHERS
 		2:
-			focused = phase == PHASES.REQUEST_BERSERKER
+			marked = phase == PHASES.REQUEST_BERSERKER
 			revealed = phase >= PHASES.REQUEST_BERSERKER
 		3:
-			focused = phase == PHASES.REQUEST_GARGOYLES
+			marked = phase == PHASES.REQUEST_GARGOYLES
 			revealed = phase >= PHASES.REQUEST_GARGOYLES
 		4:
-			focused = phase == PHASES.REQUEST_FIREBALL
+			marked = phase == PHASES.REQUEST_FIREBALL
 			revealed = phase >= PHASES.REQUEST_FIREBALL
 	visible = revealed
 	focusHand()
 
-func handle_input(ev):
-	.handle_input(ev)
+func handle_input(ev, side = null):
+	.handle_input(ev, side)
 	focusHand()
 
 func focusHand():
-	if not focused:
+	if not marked:
 		return
 	if not pressed:
 		var grect = self.get_global_rect()
 		var center_global_pos = grect.position + grect.size / 2
-		event.emit_signal("FocusAt", center_global_pos)
+		event.emit_signal("MarkAt", center_global_pos)
 		return
-	event.emit_signal("FocusOff")
+	event.emit_signal("MarkOff")
 	if $Cursor.visible:
 		event.emit_signal("TransmissionOff")

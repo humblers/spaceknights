@@ -34,7 +34,6 @@ var guide
 var prev_mouse = null
 
 func _ready():
-
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
@@ -43,6 +42,7 @@ func _ready():
 	event.connect("BluePlayerInitialized", self, "setPlayer", [], CONNECT_ONESHOT)
 	event.connect("BlueEnergyUpdated", self, "updateEnergy")
 	event.connect("BlueSetHand%d" % index, self, "setHand")
+	event.connect("BlueHandFocused", self, "updateFocus")
 
 func setGame(game):
 	self.game = game
@@ -144,7 +144,7 @@ func init_dummy(card):
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Rotate/Dummy.add_child(node)
 	
-func handle_input(ev , side = null):
+func handle_input(ev, side = null):
 	if input_sent:
 		return
 	if ev is InputEventMouseButton:
@@ -159,9 +159,9 @@ func handle_input(ev , side = null):
 func on_pressed(side = null):
 	tile.Show(data.CardIsSpell(card))
 	$Card.z_index += 1
-	cardReady(side)
+	event.emit_signal("BlueHandFocused", index)
 	prev_mouse = "Pressed"
-	
+
 func on_dragged(ev):
 	$Card.position = ev.position
 	
@@ -328,8 +328,7 @@ func set_guide_pos(x, y):
 	if game.team_swapped:
 		pos[0] = game.FlipX(pos[0])
 		pos[1] = game.FlipY(pos[1])
-	
-	
+
 	var from
 	var target = Vector2(pos[0] + map.rect_position.x, pos[1] + map.rect_position.y)
 
@@ -355,23 +354,19 @@ func set_guide_pos(x, y):
 		rotateRunway(angle)
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
-
-func cardReady(side = null):
-	focused = true
-	player.focusedCard(self)
-	knight = player.findKnight(card.Name)
-	if side == "Left":
-		knight_button_right.visible = false
-	elif side == "Right":
-		knight_button_left.visible = false
+func updateFocus(focused_hand_index):
+	focused = index == focused_hand_index
+	if focused:
+		$AnimationPlayer.play("card%d_ready" % index)
+		var knight_btns = [knight_button_left, knight_button_right]
+		if card.Type == data.KnightCard:
+			knight_btns.erase(knight_button_left if card.Side == data.Left else knight_button_right)
+		for btn in knight_btns:
+			btn.visible = false
+		knight = player.findKnight(card.Name)
 	else:
-		knight_button_left.visible = false
-		knight_button_right.visible = false
-	
-	
-func cardRest():
-	focused = false
-	
+		$AnimationPlayer.play("card%d_rest" % index)
+
 func rotateRunway(angle):
 	var runway
 #	if self.name == "Hand1":

@@ -22,10 +22,12 @@ signal BlueSetHand1(card)
 signal BlueSetHand2(card)
 signal BlueSetHand3(card)
 signal BlueSetHand4(card)
+signal BlueHandFocused(index)
 signal RedSetHand1(card)
 signal RedSetHand2(card)
 signal RedSetHand3(card)
 signal RedSetHand4(card)
+signal RedHandFocused(index)
 
 signal BlueSetNext(card)
 signal BlueUpdateNext(ready)
@@ -35,7 +37,7 @@ signal RedUpdateNext(ready)
 # For tutorial
 signal StudentUseCard(card)
 signal PhaseChanged(phase)
-signal FocusAt(global_pos)
-signal FocusOff
+signal MarkAt(global_pos)
+signal MarkOff
 signal TransmissionOff
 signal TransmissionTerminated

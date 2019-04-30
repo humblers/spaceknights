@@ -1,13 +1,11 @@
 extends Player
 
-export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if next else null
-export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if next else null
+export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if knightbutton_left else null
+export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if knightbutton_right else null
 
 var id
 var color
 var input_sent_cards = []		# input sent but not used cards
-
-var focusCard
 
 func Init(playerData, game):
 	.Init(playerData, game)
@@ -18,10 +16,11 @@ func Init(playerData, game):
 	init_deck()
 	for card in hand:
 		if card.Type == data.KnightCard:
-			if card.Side == "Left":
+			if card.Side == "Left" and knightbutton_left:
 				knightbutton_left.visible = true
-			elif card.Side == "Right":
+			elif card.Side == "Right" and knightbutton_right:
 				knightbutton_right.visible = true
+	event.connect("%sHandFocused" % color, self, "handFocused")
 	event.emit_signal("%sPlayerInitialized" % color, self)
 
 func Update():
@@ -107,23 +106,15 @@ func send_input(card, pos):
 	input_sent_cards.append(card)
 	update_energy()
 
-	
-func focusedCard(selected):
-	focusCard = selected
-	
-	for i in HAND_SIZE:
-		var node = get("hand%d" % (i+1))
-		var knight = findKnight(node.card.Name)
-		if node == selected:
-			#print(" i = ", i, " focus = ", node)
-			node.get_node("AnimationPlayer").play("card%d_ready" % (i+1))
-			if knight != null:
-				knight.skillReady()
-			
+func handFocused(index):
+	for i in range(len(hand)):
+		var card = hand[i]
+		if card == null:
+			continue
+		var knight = findKnight(card.Name)
+		if knight == null:
+			continue
+		if i == index - 1:
+			knight.skillReady()
 		else:
-			node.get_node("AnimationPlayer").play("card%d_rest" % (i+1))
-			node.cardRest()
-			if knight != null:
-				knight.skillRest()
-			
-			#print(" i = ", i, " none = ", node)
+			knight.skillRest()
