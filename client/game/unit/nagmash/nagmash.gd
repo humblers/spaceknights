@@ -12,6 +12,8 @@ var maxPosX = 0
 var castPosX = 0
 var castPosY = 0
 
+var skillReady = false
+
 func _ready():
 	var dup = $AnimationPlayer.get_animation("skill").duplicate()
 	$AnimationPlayer.rename_animation("skill", "skill-ref")
@@ -223,3 +225,11 @@ func setTarget(unit):
 		targetId = 0
 	else:
 		targetId = unit.Id()
+
+func skillReady():
+	get_node("AnimationPlayer").play("skill_ready")
+	skillReady = true
+	
+func skillRest():
+	get_node("AnimationPlayer").play("idle")
+	skillReady = false
