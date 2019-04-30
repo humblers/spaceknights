@@ -609,6 +609,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">ui/knight_guide_arrow_1.png</key>
+            <key type="filename">ui/knight_guide_arrow_2.png</key>
+            <key type="filename">ui/knight_guide_arrow_3.png</key>
+            <key type="filename">ui/squire_guide_arrow_1.png</key>
+            <key type="filename">ui/squire_guide_arrow_2.png</key>
+            <key type="filename">ui/squire_guide_arrow_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,128,10,256</rect>
+                <key>scale9Paddings</key>
+                <rect>5,128,10,256</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">ui/knightready.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
