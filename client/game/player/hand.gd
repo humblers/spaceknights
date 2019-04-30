@@ -54,7 +54,7 @@ func handle_map_input(ev):
 		else:
 			map_on_released(ev)
 	if ev is InputEventMouseMotion and pressed:
-		print("맵 드래그" , ev)
+		pass
 		
 
 func Set(card):
