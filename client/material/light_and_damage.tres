@@ -10,7 +10,12 @@ uniform vec4 red_damaged : hint_color;
 uniform float damage_ratio : hint_range(0, 1);
 
 void fragment(){
-	COLOR = texture(TEXTURE, UV);
+	vec4 color = texture(TEXTURE, UV);
+	vec3 l = normalize(vec3(0, 0, 1));
+	float light = max(dot(NORMAL, l), 0);
+//	vec4 lit = vec4(light * color.xyz, color.a);
+	vec4 lit = light * color;
+	COLOR = color + lit;
 	if (is_blue) {
 		COLOR.rgb += blue_damaged.rgb * damage_ratio;
 	} else {

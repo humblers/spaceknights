@@ -1,17 +1,16 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
 [ext_resource path="res://game/player/player_ui.gd" type="Script" id=2]
 [ext_resource path="res://game/script/camera.gd" type="Script" id=3]
 [ext_resource path="res://sound/bgm/bgm_maoudamashii_orchestra24.ogg" type="AudioStream" id=4]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
-[ext_resource path="res://game/map.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/mothership.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/battlefield.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/ui.tscn" type="PackedScene" id=9]
-[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=10]
-[ext_resource path="res://share/upgrade.gd" type="Script" id=11]
-[ext_resource path="res://game/script/physics/world.gd" type="Script" id=12]
+[ext_resource path="res://game/map.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/mothership.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/battlefield.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/ui.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/script/nav/thanatos.gd" type="Script" id=9]
+[ext_resource path="res://share/upgrade.gd" type="Script" id=10]
+[ext_resource path="res://game/script/physics/world.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade-out"
@@ -83,42 +82,27 @@ autoplay = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BGM"]
 anims/fade-out = SubResource( 1 )
 
-[node name="LightSimulation" type="Node2D" parent="."]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="LightSimulation"]
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.8, 0.752941, 0.678431, 1 )
 
-[node name="Light2D" type="Light2D" parent="LightSimulation"]
-position = Vector2( 540, 861.25 )
-scale = Vector2( 3.2, 4 )
-texture = ExtResource( 5 )
-texture_scale = 50.0
-color = Color( 1, 0.823529, 0.784314, 1 )
-energy = 1.5
-range_height = 20.0
-range_item_cull_mask = 2
-shadow_color = Color( 0, 0, 0, 0.00392157 )
-shadow_filter = 2
-shadow_filter_smooth = 4.0
-shadow_item_cull_mask = 0
+[node name="Map" parent="." instance=ExtResource( 5 )]
 
-[node name="Map" parent="." instance=ExtResource( 6 )]
+[node name="Mothership" parent="." instance=ExtResource( 6 )]
 
-[node name="Mothership" parent="." instance=ExtResource( 7 )]
+[node name="BattleField" parent="." instance=ExtResource( 7 )]
+position = Vector2( 40, 60 )
 
-[node name="BattleField" parent="." instance=ExtResource( 8 )]
-
-[node name="UI" parent="." instance=ExtResource( 9 )]
+[node name="UI" parent="." instance=ExtResource( 8 )]
 
 [node name="Resource" type="Node" parent="."]
 
 [node name="Map" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 10 ) ] ]
+resources = [ PoolStringArray( "Thanatos" ), [ ExtResource( 9 ) ] ]
 
 [node name="Upgrade" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "upgrade" ), [ ExtResource( 11 ) ] ]
+resources = [ PoolStringArray( "upgrade" ), [ ExtResource( 10 ) ] ]
 
 [node name="Physics" type="ResourcePreloader" parent="Resource"]
-resources = [ PoolStringArray( "world" ), [ ExtResource( 12 ) ] ]
+resources = [ PoolStringArray( "world" ), [ ExtResource( 11 ) ] ]
 
 [editable path="UI"]
