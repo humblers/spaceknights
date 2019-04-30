@@ -18,3 +18,6 @@ func Play(blue_leader, red_leader):
 	path = loading_screen.GetCardIconPathInGame(red_leader)
 	red_leader_icon.texture = loading_screen.LoadResource(path)
 	anim.play("show")
+
+func IsFinished():
+	return not visible

@@ -46,10 +46,10 @@ func destroy(side):
 
 func updateDeck(state, side, charging_ratio = 0):
 	match state:
-		event.MothershipDeckOpen, event.MothershipDeckClose:
-			get_node("Anim%s" % side).play(state)
 		event.MothershipDeckCharging:
 			var node = get_node(DECK_READY_LIGHT % [side, side.left(1)])
 			node.modulate.a = clamp(charging_ratio, 0, 1)
 			node = get_node(DECK_READY_SIGN % [side, side.left(1)])
 			node.visible = charging_ratio >= 1
+		event.MothershipDeckOpen, event.MothershipDeckClose:
+			get_node("Anim%s" % side).play(state)

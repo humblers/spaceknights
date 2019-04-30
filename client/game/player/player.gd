@@ -148,6 +148,7 @@ func addKnight(name, level, side):
 		x = game.FlipX(x)
 		y = game.FlipY(y)
 	var knight = game.AddUnit(name, level, x, y, self)
+	knight.SetSide(side)
 	knightIds[side] = knight.Id()
 	return knight
 

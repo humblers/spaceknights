@@ -73,7 +73,7 @@ func removeCardFromHand(index):
 func removeCardFromPending(index):
 	.removeCardFromPending(index)
 	if index == 0:
-		event.emit_signal("BlueSetNext" % color, pending[0])
+		event.emit_signal("%sSetNext" % color, pending[0])
 
 func OnKnightDead(knight):
 	.OnKnightDead(knight)

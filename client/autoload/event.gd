@@ -31,3 +31,11 @@ signal BlueSetNext(card)
 signal BlueUpdateNext(ready)
 signal RedSetNext(card)
 signal RedUpdateNext(ready)
+
+# For tutorial
+signal StudentUseCard(card)
+signal PhaseChanged(phase)
+signal FocusAt(global_pos)
+signal FocusOff
+signal TransmissionOff
+signal TransmissionTerminated

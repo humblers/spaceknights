@@ -1,0 +1,237 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://game/ui.tscn" type="PackedScene" id=1]
+[ext_resource path="res://tutorial/transmission.gd" type="Script" id=2]
+[ext_resource path="res://material/pixelized_sepia.tres" type="Material" id=3]
+[ext_resource path="res://game/vfx/square.png" type="Texture" id=4]
+[ext_resource path="res://tutorial/animation/transmission/monitor_repeat.tres" type="Animation" id=5]
+[ext_resource path="res://lobby/resource/board_white.png" type="Texture" id=6]
+[ext_resource path="res://font/noto_sans_cjk_kr_black/size_30_outline_2_000000.tres" type="DynamicFont" id=7]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=9]
+[ext_resource path="res://tutorial/animation/transmission/explain_energy_boost.tres" type="Animation" id=10]
+[ext_resource path="res://tutorial/animation/transmission/remind_anti_barrier.tres" type="Animation" id=11]
+[ext_resource path="res://tutorial/animation/transmission/remind_position_strategy.tres" type="Animation" id=12]
+[ext_resource path="res://tutorial/animation/transmission/request_archers.tres" type="Animation" id=13]
+[ext_resource path="res://tutorial/animation/transmission/request_berserker.tres" type="Animation" id=14]
+[ext_resource path="res://tutorial/animation/transmission/request_fireball.tres" type="Animation" id=15]
+[ext_resource path="res://tutorial/animation/transmission/request_gargoyles.tres" type="Animation" id=16]
+[ext_resource path="res://tutorial/animation/transmission/to_the_victory.tres" type="Animation" id=17]
+[ext_resource path="res://tutorial/hand_student.gd" type="Script" id=18]
+[ext_resource path="res://material/unshaded.tres" type="Material" id=19]
+[ext_resource path="res://tutorial/focus.gd" type="Script" id=20]
+[ext_resource path="res://game/offline/tutor/squaretutor.png" type="Texture" id=21]
+[ext_resource path="res://game/offline/tutor/arrowtutor1.png" type="Texture" id=22]
+[ext_resource path="res://game/offline/tutor/arrowtutor2.png" type="Texture" id=23]
+[ext_resource path="res://game/offline/tutor/arrowtutor3.png" type="Texture" id=24]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=25]
+[ext_resource path="res://lobby/page/card/slots_panel_w.png" type="Texture" id=26]
+[ext_resource path="res://tutorial/animation/focus/off.tres" type="Animation" id=27]
+[ext_resource path="res://tutorial/animation/focus/on.tres" type="Animation" id=28]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), -0.236835, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.0898204, 0.754491, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 0.101961, 1, 0.392157, 0.623804, 0, 0.976471, 1, 0 )
+
+[node name="UI" index="0" instance=ExtResource( 1 )]
+z_index = 10
+z_as_relative = false
+
+[node name="Opening" parent="Hud" index="4"]
+visible = true
+
+[node name="Blue" parent="Hud/Opening/Deckopen" index="2"]
+editor/display_folded = true
+
+[node name="UserB" parent="Hud/Opening/Deckopen/Blue" index="0"]
+margin_bottom = 0.0341187
+
+[node name="Red" parent="Hud/Opening/Deckopen" index="3"]
+editor/display_folded = true
+
+[node name="ControlR" parent="Hud/Opening/Deckopen/Red" index="2"]
+margin_right = 870.003
+
+[node name="TransmissionMonitor" type="Node2D" parent="." index="2"]
+editor/display_folded = true
+visible = false
+script = ExtResource( 2 )
+
+[node name="Monitor" type="TextureRect" parent="TransmissionMonitor" index="0"]
+editor/display_folded = true
+modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
+material = ExtResource( 3 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -420.0
+margin_right = 1500.0
+margin_bottom = 1920.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 4 )
+expand = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TransmissionMonitor/Monitor" index="0"]
+anims/repeat = ExtResource( 5 )
+
+[node name="TextBG" type="NinePatchRect" parent="TransmissionMonitor" index="1"]
+editor/display_folded = true
+self_modulate = Color( 0.435294, 1, 0.733333, 0.2 )
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = 621.0
+margin_right = 1061.0
+margin_bottom = 921.0
+texture = ExtResource( 6 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+
+[node name="TextureRect" type="NinePatchRect" parent="TransmissionMonitor/TextBG" index="0"]
+self_modulate = Color( 0, 0, 0, 0.431373 )
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -510.0
+margin_top = -100.0
+margin_right = 510.0
+margin_bottom = 140.0
+texture = ExtResource( 6 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 12
+patch_margin_top = 28
+patch_margin_right = 12
+patch_margin_bottom = 28
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TransmissionMonitor/TextBG" index="1"]
+use_parent_material = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = -90.0
+margin_right = 450.0
+margin_bottom = 130.0
+mouse_filter = 2
+custom_fonts/normal_font = ExtResource( 7 )
+bbcode_enabled = true
+bbcode_text = "ID_REQUEST_BERSERKER_1"
+tab_size = 0
+text = "ID_REQUEST_BERSERKER_1"
+scroll_active = false
+script = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="TransmissionMonitor/TextBG" index="2"]
+margin_left = 20.0
+margin_top = 7.0
+margin_right = 220.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.647059, 1, 0.545098, 1 )
+text = "ID_TUTORIAL_TITLE"
+valign = 2
+clip_text = true
+script = ExtResource( 8 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TransmissionMonitor" index="2"]
+anims/explain_energy_boost = ExtResource( 10 )
+anims/remind_anti_barrier = ExtResource( 11 )
+anims/remind_position_strategy = ExtResource( 12 )
+anims/request_archers = ExtResource( 13 )
+anims/request_berserker = ExtResource( 14 )
+anims/request_fireball = ExtResource( 15 )
+anims/request_gargoyles = ExtResource( 16 )
+anims/to_the_victory = ExtResource( 17 )
+
+[node name="Hand1" parent="." index="8"]
+editor/display_folded = true
+margin_bottom = 1866.0
+script = ExtResource( 18 )
+
+[node name="Glow" parent="Hand1/Card" index="1"]
+editor/display_folded = true
+
+[node name="Hand2" parent="." index="9"]
+script = ExtResource( 18 )
+
+[node name="Hand3" parent="." index="10"]
+script = ExtResource( 18 )
+
+[node name="Hand4" parent="." index="11"]
+script = ExtResource( 18 )
+
+[node name="Icon" parent="Next" index="1"]
+editor/display_folded = true
+visible = false
+
+[node name="Next" parent="Next" index="3"]
+visible = false
+
+[node name="UIAni" parent="." index="15"]
+autoplay = ""
+
+[node name="FocusPointer" type="Node2D" parent="." index="16"]
+editor/display_folded = true
+material = ExtResource( 19 )
+position = Vector2( 343, 1790 )
+script = ExtResource( 20 )
+
+[node name="Marking" type="CPUParticles2D" parent="FocusPointer" index="0"]
+use_parent_material = true
+emitting = false
+amount = 2
+speed_scale = 0.7
+texture = ExtResource( 21 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+scale_amount = 2.5
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="Arrow" type="AnimatedSprite" parent="FocusPointer" index="1"]
+editor/display_folded = true
+visible = false
+self_modulate = Color( 0, 1, 0.905882, 1 )
+position = Vector2( 0, -92 )
+scale = Vector2( 1, 1.5 )
+frames = SubResource( 4 )
+playing = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="FocusPointer/Arrow" index="0"]
+visible = false
+material = ExtResource( 25 )
+position = Vector2( 0, 56.667 )
+scale = Vector2( 0.62, 0.1 )
+amount = 2
+speed_scale = 0.2
+texture = ExtResource( 26 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+color_ramp = SubResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FocusPointer" index="2"]
+anims/off = ExtResource( 27 )
+anims/on = ExtResource( 28 )
