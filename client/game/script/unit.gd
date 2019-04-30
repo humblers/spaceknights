@@ -23,7 +23,7 @@ var prev_desired_pos_x = 0
 var prev_desired_pos_y = 0
 var moving = false
 
-var shader_material = preload("res://material/unit_damaged.tres")
+var shader_material = preload("res://material/light_and_damage.tres")
 var damages = {}
 var color
 var side	# knight position: Left, Center, or Right 

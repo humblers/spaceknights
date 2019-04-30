@@ -194,9 +194,14 @@ func on_released(side = null):
 	pressed = false
 	if not focused:
 		tile.Hide()
+	
+	var pos = map.get_local_mouse_position()
 		
-	if side:
-		return
+	if side and pos.y < map.rect_size.y:
+		if prev_mouse != "Dragged":
+			return
+		elif knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
+			return
 		
 	if card.Type == data.KnightCard and knight:
 		knight.set_rotation_degrees(0)
@@ -204,18 +209,19 @@ func on_released(side = null):
 		rotateRunway(0)
 	
 	# released on map?
-	var pos = map.get_local_mouse_position()
+	
 	if pos.y > map.rect_size.y:
 		init_card()
 		init_cursor()
 		if prev_mouse == "Dragged":
 			focused = false
 			guide.visible = false
+			tile.Hide()
 			knight_button_left.visible = true
 			knight_button_right.visible = true
+			if knight != null:
+				knight.skillRest()
 		prev_mouse = "Released"
-		if knight != null:
-			knight.skillRest()
 		return
 	
 	# enough energy?
@@ -244,12 +250,12 @@ func on_released(side = null):
 	if card.Type == data.KnightCard:
 		mothership.CloseDeck(card.Side)
 		guide.visible = false
-	
-	
+		
 	knight_button_left.visible = true
 	knight_button_right.visible = true
 	prev_mouse = "Released"
 	focused = false
+	tile.Hide()
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")
@@ -314,18 +320,14 @@ func set_guide_pos(x, y):
 	
 	
 	var from
-	var target = Vector2(pos[0], pos[1])
+	var target = Vector2(pos[0] + map.rect_position.x, pos[1] + map.rect_position.y)
 
 	if card.Type == data.SquireCard:
 		from = Vector2( (int(self.name.right(4)) -1) * 202 + 346, 1800)
 		guide.set_position(from)
 
 	else:
-		knight = player.findKnight(card.Name)
-		if card.Side == "Left":
-			from = Vector2(200,1350)
-		else:
-			from = Vector2(800,1350)
+		from = Vector2(player.INITIAL_KNIGHT_POSITION_X[card.Side] + map.rect_position.x ,player.INITIAL_KNIGHT_POSITION_Y[card.Side] + map.rect_position.y)
 		guide.set_position(from)
 	
 	var dir = from-target
@@ -346,6 +348,7 @@ func set_guide_pos(x, y):
 func cardReady(side = null):
 	focused = true
 	player.focusedCard(self)
+	knight = player.findKnight(card.Name)
 	if side == "Left":
 		knight_button_right.visible = false
 	elif side == "Right":
