@@ -1,48 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=1]
-[ext_resource path="res://image/squire_guide_arrow_1.png" type="Texture" id=2]
-[ext_resource path="res://image/squire_guide_arrow_2.png" type="Texture" id=3]
-[ext_resource path="res://image/squire_guide_arrow_3.png" type="Texture" id=4]
+[ext_resource path="res://atlas/game/ui.sprites/squire_guide_arrow_1.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/ui.sprites/squire_guide_arrow_2.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/ui.sprites/squire_guide_arrow_3.tres" type="Texture" id=4]
 
-[sub_resource type="AnimatedTexture" id=1]
-flags = 4
-frames = 3
-fps = 10.0
-frame_0/texture = ExtResource( 2 )
-frame_0/delay_sec = 0.2
-frame_1/texture = ExtResource( 3 )
-frame_1/delay_sec = 0.2
-frame_2/texture = ExtResource( 4 )
-frame_2/delay_sec = 0.2
-
-[sub_resource type="Animation" id=2]
-resource_name = "strach_test"
-length = 5.0
+[sub_resource type="Animation" id=1]
+resource_name = "activate"
+length = 0.9
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/path = NodePath("Sprite:texture_progress")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2.5, 5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 44.9999, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:value")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 2.5, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 5.0, 100.0, 65.0, 80.0 ]
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 568.099, 11.3137 ),
+"update": 1,
+"values": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ]
 }
 
 [node name="SquireGuide" type="Node2D"]
@@ -61,9 +38,10 @@ rect_min_size = Vector2( 20, 512 )
 rect_scale = Vector2( 6, 2.9 )
 rect_pivot_offset = Vector2( 10, 512 )
 rect_clip_content = true
-value = 100.0
-texture_progress = SubResource( 1 )
+value = 80.0
+texture_progress = ExtResource( 2 )
 fill_mode = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/strach_test = SubResource( 2 )
+autoplay = "activate"
+anims/activate = SubResource( 1 )
