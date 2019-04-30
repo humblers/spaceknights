@@ -30,6 +30,7 @@ var input_sent = false
 var knight = null
 var focused = false
 var guide
+var prev_mouse = null
 
 func _ready():
 
@@ -41,7 +42,7 @@ func _ready():
 func handle_knight_input(event, side):
 	if card and card.Side == side:
 		event.position = get_local_mouse_position()
-		handle_input(event)
+		handle_input(event, side)
 		
 func handle_map_input(ev):
 	if input_sent or not focused:
@@ -53,7 +54,7 @@ func handle_map_input(ev):
 		else:
 			map_on_released(ev)
 	if ev is InputEventMouseMotion and pressed:
-		print("맵 드래그")
+		pass
 		
 
 func Set(card):
@@ -132,22 +133,23 @@ func init_dummy(card):
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Rotate/Dummy.add_child(node)
 	
-func handle_input(ev):
+func handle_input(ev , side = null):
 	if input_sent:
 		return
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
 		if pressed:
-			on_pressed()
+			on_pressed(side)
 		else:
-			on_released()
+			on_released(side)
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)
 
-func on_pressed():
+func on_pressed(side = null):
 	tile.Show(data.CardIsSpell(card))
 	$Card.z_index += 1
-	cardReady()
+	cardReady(side)
+	prev_mouse = "Pressed"
 	
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -173,6 +175,8 @@ func on_dragged(ev):
 		$Cursor.visible = false
 		guide.visible = false
 	
+	prev_mouse = "Dragged"
+	
 func map_on_released(ev):
 	$Card.position = ev.position
 	
@@ -186,9 +190,13 @@ func map_on_released(ev):
 	on_released()
 
 
-func on_released():
+func on_released(side = null):
+	pressed = false
 	if not focused:
 		tile.Hide()
+		
+	if side:
+		return
 		
 	if card.Type == data.KnightCard and knight:
 		knight.set_rotation_degrees(0)
@@ -200,6 +208,14 @@ func on_released():
 	if pos.y > map.rect_size.y:
 		init_card()
 		init_cursor()
+		if prev_mouse == "Dragged":
+			focused = false
+			guide.visible = false
+			knight_button_left.visible = true
+			knight_button_right.visible = true
+		prev_mouse = "Released"
+		if knight != null:
+			knight.skillRest()
 		return
 	
 	# enough energy?
@@ -207,6 +223,7 @@ func on_released():
 		show_message("Not Enough energy", pos.y)
 		init_card()
 		init_cursor()
+		prev_mouse = "Released"
 		return
 	
 	# send input
@@ -228,6 +245,10 @@ func on_released():
 		mothership.CloseDeck(card.Side)
 		guide.visible = false
 	
+	
+	knight_button_left.visible = true
+	knight_button_right.visible = true
+	prev_mouse = "Released"
 	focused = false
 
 func show_message(msg, pos_y):
@@ -322,9 +343,16 @@ func set_guide_pos(x, y):
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
 
-func cardReady():
+func cardReady(side = null):
 	focused = true
 	player.focusedCard(self)
+	if side == "Left":
+		knight_button_right.visible = false
+	elif side == "Right":
+		knight_button_left.visible = false
+	else:
+		knight_button_left.visible = false
+		knight_button_right.visible = false
 	
 	
 func cardRest():

@@ -9,6 +9,8 @@ export(NodePath) onready var hand2 = get_node(hand2) if hand2 else null
 export(NodePath) onready var hand3 = get_node(hand3) if hand3 else null
 export(NodePath) onready var hand4 = get_node(hand4) if hand4 else null
 export(NodePath) onready var next = get_node(next) if next else null
+export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if next else null
+export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if next else null
 
 var id
 var color
@@ -25,6 +27,13 @@ func Init(playerData, game):
 	if energy_bar:
 		energy_bar.max_value = MAX_ENERGY
 	init_deck()
+	
+	for card in hand:
+		if card.Type == data.KnightCard:
+			if card.Side == "Left":
+				knightbutton_left.visible = true
+			elif card.Side == "Right":
+				knightbutton_right.visible = true
 	mothership.Init(self)
 
 func Update():
