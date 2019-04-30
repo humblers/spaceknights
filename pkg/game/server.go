@@ -38,7 +38,7 @@ type server struct {
 
 	logger *log.Logger
 
-	numGR int // # of goroutine for leak detection
+	numGR int // # of goroutines for leak detection
 
 	redisPool *redis.Pool // for replay save
 }

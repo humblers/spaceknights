@@ -1,6 +1,5 @@
 package main
 
-import "fmt"
 import "sync"
 import "log"
 import "time"
@@ -10,6 +9,8 @@ import "os"
 import "os/signal"
 import "bufio"
 import "encoding/json"
+import "runtime"
+import "runtime/pprof"
 
 import "github.com/gomodule/redigo/redis"
 import "github.com/humblers/spaceknights/pkg/game"
@@ -25,8 +26,9 @@ var logger *log.Logger
 var pool *redis.Pool
 
 var mutex sync.RWMutex
-var clients map[string]net.Conn
+var clients map[string]net.Conn = make(map[string]net.Conn)
 var wg sync.WaitGroup
+var numGR int // # of goroutines for leak detection
 
 func main() {
 	var port, rhost, rport string
@@ -42,6 +44,8 @@ func main() {
 		IdleTimeout: 240 * time.Second,
 	}
 	defer pool.Close()
+	logger.Println("server starting")
+	numGR = runtime.NumGoroutine()
 
 	// listen clients
 	addr, err := net.ResolveTCPAddr("tcp", net.JoinHostPort("", port))
@@ -90,6 +94,7 @@ func main() {
 				}
 				clients[id] = conn
 				mutex.Unlock()
+				logger.Printf("user %v connected", id)
 
 				wg.Add(1)
 				go func() {
@@ -105,6 +110,7 @@ func main() {
 							mutex.Lock()
 							delete(clients, id)
 							mutex.Unlock()
+							logger.Printf("user %v disconnected", id)
 							break
 						} else {
 							// client heartbeat: no-op
@@ -132,6 +138,7 @@ func main() {
 				if err := json.Unmarshal(v.Data, &cfg); err != nil {
 					panic(err)
 				}
+				logger.Printf("game created: %v vs %v", cfg.Players[0].Id, cfg.Players[1].Id)
 				for _, p := range cfg.Players {
 					mutex.RLock()
 					c := clients[p.Id]
@@ -142,12 +149,13 @@ func main() {
 						if err != nil {
 							panic(err)
 						}
+						packet = append(packet, '\n')
 						c.Write(packet)
 					}
 				}
 			case redis.Subscription:
 				if v.Kind == "unsubscribe" {
-					break
+					return
 				}
 			case error:
 				panic(v)
@@ -157,27 +165,30 @@ func main() {
 
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt)
-	select {
-	case sig := <-c:
-		fmt.Fprintln(os.Stderr, "")
-		logger.Printf("Got %v signal. Aborting...", sig)
+	sig := <-c
+	logger.Printf("Got %v signal. Aborting...", sig)
 
-		// stop listening
-		if err := listener.SetDeadline(time.Now()); err != nil {
-			panic(err)
-		}
-
-		// stop all clients
-		mutex.RLock()
-		for _, c := range clients {
-			c.SetReadDeadline(time.Now())
-		}
-		mutex.RUnlock()
-
-		// stop subscribing
-		if err := psc.Unsubscribe(); err != nil {
-			panic(err)
-		}
-		wg.Wait()
+	// stop listening
+	if err := listener.SetDeadline(time.Now()); err != nil {
+		panic(err)
 	}
+
+	// stop all clients
+	mutex.RLock()
+	for _, c := range clients {
+		c.SetReadDeadline(time.Now())
+	}
+	mutex.RUnlock()
+
+	// stop subscribing
+	if err := psc.Unsubscribe(); err != nil {
+		panic(err)
+	}
+	wg.Wait()
+	curr := runtime.NumGoroutine()
+	if curr != numGR {
+		logger.Printf("go routine leak detected: %v -> %v", numGR, curr)
+		pprof.Lookup("goroutine").WriteTo(os.Stderr, 2)
+	}
+	logger.Println("server stopped")
 }

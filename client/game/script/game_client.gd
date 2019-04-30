@@ -12,9 +12,6 @@ var received = []
 signal connected
 signal disconnected
 
-func _ready():
-	set_physics_process(true)
-
 func Connect(ip, port):
 	var err = client.connect_to_host(ip, port)
 	if err != OK:
