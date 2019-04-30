@@ -8,6 +8,9 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"runtime"
+	"runtime/pprof"
+	"strconv"
 	"sync"
 	"time"
 
@@ -19,11 +22,11 @@ import (
 var matchMakeScript = redis.NewScript(1, `
 	-- arguments
 	local key = KEYS[1]
-	local now = ARGV[1]
-	local t1 = ARGV[2]
-	local t2 = ARGV[3]
-	local d1 = ARGV[4]
-	local d2 = ARGV[5]
+	local now = tonumber(ARGV[1])
+	local t1 = tonumber(ARGV[2])
+	local t2 = tonumber(ARGV[3])
+	local d1 = tonumber(ARGV[4])
+	local d2 = tonumber(ARGV[5])
 
 	-- functions
 	local getusers = function ()
@@ -35,7 +38,7 @@ var matchMakeScript = redis.NewScript(1, `
 				id = v
 			else
 				local data = cjson.decode(v)
-				users[#users + 1] = { id = id, rank = data.rank, time = data.time }
+				users[#users + 1] = { id = id, rank = data.Rank, time = data.Time }
 			end
 		end
 		return users
@@ -101,6 +104,7 @@ var logger *log.Logger
 var pool *redis.Pool
 var gameServerAddr string
 var wg sync.WaitGroup
+var numGR int // # of goroutines for leak detection
 
 func main() {
 	var rhost, rport string
@@ -123,7 +127,8 @@ func main() {
 	defer pool.Close()
 	gameServerAddr = net.JoinHostPort(ghost, gport)
 
-	logger.Print("matchmaker starting")
+	logger.Print("server starting")
+	numGR = runtime.NumGoroutine()
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 	for {
@@ -132,7 +137,13 @@ func main() {
 			fmt.Fprintln(os.Stderr, "")
 			logger.Printf("Got %v signal. Aborting...", sig)
 			wg.Wait()
-			logger.Print("matchmaker stopped")
+			curr := runtime.NumGoroutine()
+			if curr != numGR {
+				logger.Printf("go routine leak detected: %v -> %v", numGR, curr)
+				pprof.Lookup("goroutine").WriteTo(os.Stderr, 2)
+			}
+			logger.Print("server stopped")
+			return
 		case <-ticker.C:
 			matchMake()
 		}
@@ -155,15 +166,18 @@ func matchMake() {
 		panic(err)
 	}
 	for i := 0; i < len(matched); i += 2 {
+		p1 := matched[i]
+		p2 := matched[i+1]
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			createMatch(matched[i], matched[i+1])
+			createMatch(p1, p2)
 		}()
 	}
 }
 
 func createMatch(id1, id2 string) {
+	logger.Printf("creating match: %v vs %v", id1, id2)
 	conn := pool.Get()
 	defer conn.Close()
 	config := game.Config{
@@ -172,11 +186,11 @@ func createMatch(id1, id2 string) {
 	p1 := getPlayerData(id1, "Blue")
 	p2 := getPlayerData(id2, "Red")
 	config.Players = append(config.Players, p1, p2)
-	gameid, err := redis.String(conn.Do("INCR", "nextgameid"))
+	gameid, err := redis.Int(conn.Do("INCR", "nextgameid"))
 	if err != nil {
 		panic(err)
 	}
-	config.Id = gameid
+	config.Id = strconv.Itoa(gameid)
 	requestToGameServer(config)
 }
 

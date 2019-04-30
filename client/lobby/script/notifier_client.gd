@@ -1,5 +1,7 @@
 extends Node
 
+const DEFAULT_HOST = '127.0.0.1'
+const DEFAULT_PORT = 9998
 const PACKET_TERMINATOR = '\n'
 
 var client = StreamPeerTCP.new()
@@ -13,9 +15,16 @@ signal disconnected
 signal game_created(cfg)
 
 func _ready():
-	set_physics_process(true)
+	var timer = Timer.new()
+	add_child(timer)
+	timer.connect("timeout", self, "ping")
+	timer.start(10)
 
-func Connect(ip, port):
+func ping():
+	if client_connected:
+		Send("PING")
+	
+func Connect(ip=DEFAULT_HOST, port=DEFAULT_PORT):
 	var err = client.connect_to_host(ip, port)
 	if err != OK:
 		print("[notifier] tcp Connect failed: %s" % err)
@@ -23,9 +32,9 @@ func Connect(ip, port):
 func Disconnect():
 	client.disconnect_from_host()
 
-func Send(dict):
+func Send(val):
 	if client_connected:
-		var packet = to_json(dict) + PACKET_TERMINATOR
+		var packet = to_json(val) + PACKET_TERMINATOR
 		send_buf = send_buf + packet
 	else:
 		print("[notifier] tcp Send failed: client not connected")

@@ -33,8 +33,15 @@ func load_data():
 		data.set(path.capitalize(), resource_manager.scripts.get_resource(path).new(d))
 	Invalidate()
 	page_battle.PlayAppearAni()
-	emit_signal("load_completed")
+	connect_to_notifier()
 
+func connect_to_notifier():
+	if not notifier_client.client_connected:
+		notifier_client.Connect()
+		yield(notifier_client, "connected")
+		notifier_client.Send({"Id": user.Id, "Token": user.Id})
+	emit_signal("load_completed")
+	
 func login():
 	# for desktop
 	firebase_auth_manager.sign_in_with_email_and_password_if_exists()
