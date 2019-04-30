@@ -106,15 +106,15 @@ func _load_done(loaded_resources):
 	
 	# retain resource until current_scene freed
 	self.loaded_resources = loaded_resources
-	#var new_scene = loaded_resources[dest_path].instance()
-#
-#	# set parameters
-#	if param != null:
-#		for k in param:
-#			new_scene.set(k, param[k])
-#
-#	get_tree().root.add_child(new_scene)
-#	if new_scene.has_user_signal("load_completed"):
-#		yield(new_scene, "load_completed")
-#	get_tree().current_scene = new_scene
-#	visible_control.visible = false
+	var new_scene = loaded_resources[dest_path].instance()
+
+	# set parameters
+	if param != null:
+		for k in param:
+			new_scene.set(k, param[k])
+
+	get_tree().root.add_child(new_scene)
+	if new_scene.has_user_signal("load_completed"):
+		yield(new_scene, "load_completed")
+	get_tree().current_scene = new_scene
+	visible_control.visible = false

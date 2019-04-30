@@ -1,5 +1,9 @@
 extends Node2D
 
+func _ready():
+	event.connect("BlueKnightDead", self, "expand", ["Blue"])
+	event.connect("RedKnightDead", self, "expand", ["Red"])
+
 func Show(isSpell):
 	visible = true
 	$Unit.visible = not isSpell
@@ -8,7 +12,7 @@ func Show(isSpell):
 func Hide():
 	visible = false
 	
-func Expand(color, side):
+func expand(side, color):
 	if side == "Center":
 		return
 	if color == "Blue":

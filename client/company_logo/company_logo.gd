@@ -20,4 +20,7 @@ func _ready():
 	if not config.get_value("gameflag", "intro_skip"):
 		loading_screen.GoToScene("res://intro/intro.tscn")
 		return
+	if not config.get_value("gameflag", "tutorial_skip"):
+		loading_screen.GoToScene("res://tutorial/tutorial.tscn")
+		return
 	loading_screen.GoToScene("res://lobby/lobby.tscn")

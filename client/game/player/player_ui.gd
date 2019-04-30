@@ -1,22 +1,11 @@
 extends Player
 
-export(NodePath) onready var mothership = get_node(mothership)
-export(NodePath) onready var tile = get_node(tile)
-export(NodePath) onready var energy_bar = get_node(energy_bar) if energy_bar else null
-
-export(NodePath) onready var hand1 = get_node(hand1) if hand1 else null
-export(NodePath) onready var hand2 = get_node(hand2) if hand2 else null
-export(NodePath) onready var hand3 = get_node(hand3) if hand3 else null
-export(NodePath) onready var hand4 = get_node(hand4) if hand4 else null
-export(NodePath) onready var next = get_node(next) if next else null
-export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if next else null
-export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if next else null
+export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if knightbutton_left else null
+export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if knightbutton_right else null
 
 var id
 var color
 var input_sent_cards = []		# input sent but not used cards
-
-var focusCard
 
 func Init(playerData, game):
 	.Init(playerData, game)
@@ -24,31 +13,25 @@ func Init(playerData, game):
 	color = team
 	if game.team_swapped:
 		color = "Blue" if team == "Red" else "Red"
-	if energy_bar:
-		energy_bar.max_value = MAX_ENERGY
 	init_deck()
-	
 	for card in hand:
 		if card.Type == data.KnightCard:
-			if card.Side == "Left":
+			if card.Side == "Left" and knightbutton_left:
 				knightbutton_left.visible = true
-			elif card.Side == "Right":
+			elif card.Side == "Right" and knightbutton_right:
 				knightbutton_right.visible = true
-	mothership.Init(self)
+	event.connect("%sHandFocused" % color, self, "handFocused")
+	event.emit_signal("%sPlayerInitialized" % color, self)
 
 func Update():
 	.Update()
 	update_energy()
-	if next:
-		next.Update(drawTimer <= 0)
+	event.emit_signal("%sUpdateNext" % color, drawTimer <= 0)
 
 func drawCard(index):
 	.drawCard(index)
-	var node = get("hand%d" % (index+1))
-	if node:
-		node.Set(hand[index])
-	if next:
-		next.Set(pending[0])
+	event.emit_signal("%sSetHand%d" % [color, index+1], hand[index])
+	event.emit_signal("%sSetNext" % color, pending[0])
 
 func addKnight(name, level, side):
 	var knight = .addKnight(name, level, side)
@@ -58,27 +41,18 @@ func addKnight(name, level, side):
 
 func useCard(card, tileX, tileY):
 	.useCard(card, tileX, tileY)
-	if $AudioStreamPlayer != null:
+	if has_node("AudioStreamPlayer"):
 		var sound_path = loading_screen.GetCardReadySoundPath(card)
 		$AudioStreamPlayer.stream = loading_screen.LoadResource(sound_path)
 		$AudioStreamPlayer.play()
 
 func init_deck():
 	for i in len(hand):
-		var node = get("hand%d" % (i+1))
-		if node:
-			node.Set(hand[i])
-	if next:
-		next.Set(pending[0])
+		event.emit_signal("%sSetHand%d" % [color, i+1], hand[i])
+	event.emit_signal("%sSetNext" % color, pending[0])
 
 func update_energy():
-	var energy = get_energy()
-	if energy_bar:
-		energy_bar.value = energy
-	for i in HAND_SIZE:
-		var node = get("hand%d" % (i+1))
-		if node:
-			node.Update(energy)
+	event.emit_signal("%sEnergyUpdated" % color, get_energy())
 
 func get_energy():
 	var current = energy
@@ -87,29 +61,21 @@ func get_energy():
 	return current
 
 func removeCardFromHand(index):
-	.removeCardFromHand(index)
-	var node = get("hand%d" % (index+1))
-	if node:
-		for c in input_sent_cards:
-			if c.Name == node.card.Name:
-				input_sent_cards.erase(c)
-				update_energy()
-				break
-		node.Set(null)
+	var card = .removeCardFromHand(index)
+	for c in input_sent_cards:
+		if c.Name == card.Name:
+			input_sent_cards.erase(c)
+			update_energy()
+			break
+	event.emit_signal("%sSetHand%d" % [color, index+1], null)
 
 func removeCardFromPending(index):
 	.removeCardFromPending(index)
 	if index == 0:
-		if next:
-			next.Set(pending[0])
-	
+		event.emit_signal("%sSetNext" % color, pending[0])
+
 func OnKnightDead(knight):
 	.OnKnightDead(knight)
-	mothership.Destroy(knight.side)
-	tile.Expand(color, knight.side)
-
-func OnKnightHalfDamaged(knight):
-	mothership.PartialDestroy(knight.side)
 
 func send_input(card, pos):
 	var x = int(pos.x)
@@ -140,23 +106,15 @@ func send_input(card, pos):
 	input_sent_cards.append(card)
 	update_energy()
 
-	
-func focusedCard(selected):
-	focusCard = selected
-	
-	for i in HAND_SIZE:
-		var node = get("hand%d" % (i+1))
-		var knight = findKnight(node.card.Name)
-		if node == selected:
-			#print(" i = ", i, " focus = ", node)
-			node.get_node("AnimationPlayer").play("card%d_ready" % (i+1))
-			if knight != null:
-				knight.skillReady()
-			
+func handFocused(index):
+	for i in range(len(hand)):
+		var card = hand[i]
+		if card == null:
+			continue
+		var knight = findKnight(card.Name)
+		if knight == null:
+			continue
+		if i == index - 1:
+			knight.skillReady()
 		else:
-			node.get_node("AnimationPlayer").play("card%d_rest" % (i+1))
-			node.cardRest()
-			if knight != null:
-				knight.skillRest()
-			
-			#print(" i = ", i, " none = ", node)
+			knight.skillRest()

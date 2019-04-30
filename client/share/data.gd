@@ -1909,28 +1909,3 @@ const ArenaNames = {
 	4: "Karas",
 	5: "Eoparu",
 }
-
-const TutorialGameCfg = {
-	"Id": "TEST",
-	"MapName": "Thanatos",
-	"Players": [
-		{
-			"Id": "Student",
-			"Team": "Blue",
-			"Deck": [
-				{"Name": "archsapper", "Level": 0, "Side": "Left"},
-				{"Name": "legion", "Level": 0, "Side": "Right"},
-				{"Name": "judge", "Level": 0, "Side": "Center"},
-			],
-		},
-		{
-			"Id": "Tutor",
-			"Team": "Red",
-			"Deck": [
-				{"Name": "archsapper", "Level": 0, "Side": "Left"},
-				{"Name": "legion", "Level": 0, "Side": "Right"},
-				{"Name": "judge", "Level": 0, "Side": "Center"},
-			],
-		}
-	],
-}

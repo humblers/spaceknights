@@ -434,3 +434,6 @@ func moveTo(unit, play_anim = true):
 func Update():
 	moving = false
 	SetVelocity(0, 0)
+
+func SetSide(side):
+	self.side = side

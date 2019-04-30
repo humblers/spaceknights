@@ -1,12 +1,9 @@
 extends Control
 
-export(NodePath) onready var game = get_node(game)
-export(NodePath) onready var player = get_node(player)
 export(NodePath) onready var tile = get_node(tile)
 export(NodePath) onready var map = get_node(map)
 export(NodePath) onready var knight_button_left = get_node(knight_button_left)
 export(NodePath) onready var knight_button_right = get_node(knight_button_right)
-export(NodePath) onready var mothership = get_node(mothership)
 
 export(NodePath) onready var knight_guide = get_node(knight_guide)
 export(NodePath) onready var squire_guide = get_node(squire_guide)
@@ -23,6 +20,10 @@ onready var card_init_z_index = $Card.z_index
 onready var cursor_init_pos = $Cursor.position
 onready var dummy_init_pos = $Rotate/Dummy.position
 
+export(int, 1, 4)  var index = null
+
+var game
+var player
 var card
 var pressed = false
 var input_sent = false
@@ -33,11 +34,21 @@ var guide
 var prev_mouse = null
 
 func _ready():
-
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
 	knight_button_right.connect("gui_input", self, "handle_knight_input", ["Right"])
 	map.connect("gui_input", self, "handle_map_input")
+	event.connect("GameInitialized", self, "setGame", [], CONNECT_ONESHOT)
+	event.connect("BluePlayerInitialized", self, "setPlayer", [], CONNECT_ONESHOT)
+	event.connect("BlueEnergyUpdated", self, "updateEnergy")
+	event.connect("BlueSetHand%d" % index, self, "setHand")
+	event.connect("BlueHandFocused", self, "updateFocus")
+
+func setGame(game):
+	self.game = game
+
+func setPlayer(player):
+	self.player = player
 
 func handle_knight_input(event, side):
 	if card and card.Side == side:
@@ -57,7 +68,7 @@ func handle_map_input(ev):
 		pass
 		
 
-func Set(card):
+func setHand(card):
 	if card == null:
 		visible = false		# also cancels previous input
 		pressed = false
@@ -71,9 +82,9 @@ func Set(card):
 		init_cursor(card)
 		init_dummy(card)
 		if card.Type == data.KnightCard:
-			mothership.OpenDeck(card.Side)
+			event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckOpen, card.Side)
 
-func Update(energy):
+func updateEnergy(energy):
 	if input_sent:
 		return
 	var ready = energy >= energy_bar.max_value
@@ -82,7 +93,7 @@ func Update(energy):
 	energy_bar.value = card.Cost - energy
 	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
-		mothership.UpdateDeckReadyState(card.Side, ratio)
+		event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckCharging, card.Side, ratio)
 
 func init_card(card = null):
 	$Card.position = card_init_pos
@@ -133,7 +144,7 @@ func init_dummy(card):
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Rotate/Dummy.add_child(node)
 	
-func handle_input(ev , side = null):
+func handle_input(ev, side = null):
 	if input_sent:
 		return
 	if ev is InputEventMouseButton:
@@ -148,9 +159,9 @@ func handle_input(ev , side = null):
 func on_pressed(side = null):
 	tile.Show(data.CardIsSpell(card))
 	$Card.z_index += 1
-	cardReady(side)
+	event.emit_signal("BlueHandFocused", index)
 	prev_mouse = "Pressed"
-	
+
 func on_dragged(ev):
 	$Card.position = ev.position
 	
@@ -248,7 +259,7 @@ func on_released(side = null):
 		self.get_node("Rotate").set_rotation_degrees(0)
 
 	if card.Type == data.KnightCard:
-		mothership.CloseDeck(card.Side)
+		event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckClose, card.Side)
 		guide.visible = false
 		
 	knight_button_left.visible = true
@@ -292,7 +303,7 @@ func set_cursor_pos(x, y):
 		pos[1] = game.FlipY(pos[1])
 	$Cursor.global_position.x = pos[0] + map.rect_position.x
 	$Cursor.global_position.y = pos[1] + map.rect_position.y
-	
+
 func set_guide_pos(x, y):
 	if game.team_swapped:
 		x = game.FlipX(x)
@@ -317,8 +328,7 @@ func set_guide_pos(x, y):
 	if game.team_swapped:
 		pos[0] = game.FlipX(pos[0])
 		pos[1] = game.FlipY(pos[1])
-	
-	
+
 	var from
 	var target = Vector2(pos[0] + map.rect_position.x, pos[1] + map.rect_position.y)
 
@@ -344,33 +354,28 @@ func set_guide_pos(x, y):
 		rotateRunway(angle)
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
-
-func cardReady(side = null):
-	focused = true
-	player.focusedCard(self)
-	knight = player.findKnight(card.Name)
-	if side == "Left":
-		knight_button_right.visible = false
-	elif side == "Right":
-		knight_button_left.visible = false
+func updateFocus(focused_hand_index):
+	focused = index == focused_hand_index
+	if focused:
+		$AnimationPlayer.play("card%d_ready" % index)
+		var knight_btns = [knight_button_left, knight_button_right]
+		if card.Type == data.KnightCard:
+			knight_btns.erase(knight_button_left if card.Side == data.Left else knight_button_right)
+		for btn in knight_btns:
+			btn.visible = false
+		knight = player.findKnight(card.Name)
 	else:
-		knight_button_left.visible = false
-		knight_button_right.visible = false
-	
-	
-func cardRest():
-	focused = false
-	
+		$AnimationPlayer.play("card%d_rest" % index)
+
 func rotateRunway(angle):
 	var runway
-	if self.name == "Hand1":
-		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L1/DeckBaseL1/Guide")
-	if self.name == "Hand2":
-		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L2/DeckBaseL2/Guide")
-	if self.name == "Hand3":
-		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L3/DeckBaseR2/Guide")
-	if self.name == "Hand4":
-		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
+#	if self.name == "Hand1":
+#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L1/DeckBaseL1/Guide")
+#	if self.name == "Hand2":
+#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L2/DeckBaseL2/Guide")
+#	if self.name == "Hand3":
+#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L3/DeckBaseR2/Guide")
+#	if self.name == "Hand4":
+#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
 	if runway:
 		runway.set_rotation_degrees((180/PI) * angle)
-		

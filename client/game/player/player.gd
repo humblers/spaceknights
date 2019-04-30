@@ -148,6 +148,7 @@ func addKnight(name, level, side):
 		x = game.FlipX(x)
 		y = game.FlipY(y)
 	var knight = game.AddUnit(name, level, x, y, self)
+	knight.SetSide(side)
 	knightIds[side] = knight.Id()
 	return knight
 
@@ -264,8 +265,10 @@ func findCard(from, name):
 	return -1
 
 func removeCardFromHand(index):
+	var card = hand[index]
 	hand[index] = null
 	emptyIdx.append(index)
+	return card
 
 func removeCardFromPending(index):
 	pending.remove(index)
