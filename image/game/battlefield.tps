@@ -1236,7 +1236,9 @@
                 <false/>
             </struct>
             <key type="filename">battlefield/unit/champion/shoulder.png</key>
+            <key type="filename">battlefield/unit/champion/shoulder_normal.png</key>
             <key type="filename">battlefield/unit/jouster/shoulder.png</key>
+            <key type="filename">battlefield/unit/jouster/shoulder_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1250,7 +1252,9 @@
                 <false/>
             </struct>
             <key type="filename">battlefield/unit/champion/upperarm.png</key>
+            <key type="filename">battlefield/unit/champion/upperarm_normal.png</key>
             <key type="filename">battlefield/unit/jouster/upperarm.png</key>
+            <key type="filename">battlefield/unit/jouster/upperarm_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1390,6 +1394,7 @@
                 <false/>
             </struct>
             <key type="filename">battlefield/unit/felhound/upperarm.png</key>
+            <key type="filename">battlefield/unit/felhound/upperarm_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -1818,6 +1823,7 @@
                 <false/>
             </struct>
             <key type="filename">battlefield/unit/jouster/lance_grip.png</key>
+            <key type="filename">battlefield/unit/jouster/lance_grip_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
