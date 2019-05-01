@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://game/bg/kapteyn/bg_kapteyn.png" type="Texture" id=1]
-[ext_resource path="res://game/bg/kapteyn/kapteyn.png" type="Texture" id=2]
-[ext_resource path="res://game/bg/colony_2.png" type="Texture" id=3]
-[ext_resource path="res://game/bg/colony_1.png" type="Texture" id=4]
-[ext_resource path="res://game/vfx/square.png" type="Texture" id=5]
+[ext_resource path="res://atlas/game/map.sprites/kapteyn/bg_kapteyn.tres" type="Texture" id=1]
+[ext_resource path="res://atlas/game/map.sprites/kapteyn/kapteyn.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/map.sprites/kapteyn/colony_2.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/map.sprites/kapteyn/colony_1.tres" type="Texture" id=4]
+[ext_resource path="res://game/bg/bg_colidor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/bg/debris/space_debris.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
@@ -149,28 +149,10 @@ position = Vector2( 49.7878, 7.29041 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
 
-[node name="Colidor" type="Node2D" parent="."]
-editor/display_folded = true
-visible = false
-
-[node name="Sprite" type="Sprite" parent="Colidor"]
-position = Vector2( 115.5, 860 )
-scale = Vector2( 18.625, 12.5 )
-texture = ExtResource( 5 )
-
-[node name="Sprite2" type="Sprite" parent="Colidor"]
-position = Vector2( 965, 860 )
-scale = Vector2( 18.625, 12.5 )
-texture = ExtResource( 5 )
-
-[node name="Sprite3" type="Sprite" parent="Colidor"]
-position = Vector2( 539.75, 860 )
-scale = Vector2( 49.9375, 12.5 )
-texture = ExtResource( 5 )
+[node name="Colidor" parent="." instance=ExtResource( 5 )]
 
 [node name="SpaceDebris" parent="." instance=ExtResource( 6 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "bg_scroll"
 anims/bg_scroll = SubResource( 1 )
-

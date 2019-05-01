@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -181,29 +181,285 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">map/bg.png</key>
+            <key type="filename">map/building_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>90,120,180,240</rect>
+                <rect>54,64,107,127</rect>
                 <key>scale9Paddings</key>
-                <rect>90,120,180,240</rect>
+                <rect>54,64,107,127</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">map/pillar_top.png</key>
+            <key type="filename">map/cloud_1.png</key>
+            <key type="filename">map/cloud_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>42,24,83,48</rect>
+                <rect>63,63,125,125</rect>
                 <key>scale9Paddings</key>
-                <rect>42,24,83,48</rect>
+                <rect>63,63,125,125</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>92,47,183,93</rect>
+                <key>scale9Paddings</key>
+                <rect>92,47,183,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>76,27,151,55</rect>
+                <key>scale9Paddings</key>
+                <rect>76,27,151,55</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,47,105,93</rect>
+                <key>scale9Paddings</key>
+                <rect>53,47,105,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,22,77,43</rect>
+                <key>scale9Paddings</key>
+                <rect>39,22,77,43</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,24,57,49</rect>
+                <key>scale9Paddings</key>
+                <rect>29,24,57,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_6.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,19,50,38</rect>
+                <key>scale9Paddings</key>
+                <rect>25,19,50,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/debris/debris_mid.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>50,24,99,47</rect>
+                <key>scale9Paddings</key>
+                <rect>50,24,99,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kapteyn/bg_kapteyn.png</key>
+            <key type="filename">map/kepler/bg_kepler.png</key>
+            <key type="filename">map/luyten/bg_luyten.png</key>
+            <key type="filename">map/proxima/bg_proxima_screen.png</key>
+            <key type="filename">map/ross/bg_ross_screen.png</key>
+            <key type="filename">map/trappist/bg_trappist.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>94,120,187,240</rect>
+                <key>scale9Paddings</key>
+                <rect>94,120,187,240</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kapteyn/colony_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>76,55,152,111</rect>
+                <key>scale9Paddings</key>
+                <rect>76,55,152,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kapteyn/colony_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>71,54,141,107</rect>
+                <key>scale9Paddings</key>
+                <rect>71,54,141,107</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kapteyn/kapteyn.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>93,93,185,185</rect>
+                <key>scale9Paddings</key>
+                <rect>93,93,185,185</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kapteyn/kapteyn_set_1.png</key>
+            <key type="filename">map/kapteyn/kapteyn_set_2.png</key>
+            <key type="filename">map/ross/ross_set_1.png</key>
+            <key type="filename">map/ross/ross_set_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>94,125,187,250</rect>
+                <key>scale9Paddings</key>
+                <rect>94,125,187,250</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/kepler/kepler.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>76,76,153,153</rect>
+                <key>scale9Paddings</key>
+                <rect>76,76,153,153</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/luyten/flare.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>57,57,114,114</rect>
+                <key>scale9Paddings</key>
+                <rect>57,57,114,114</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/luyten/luyten.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>81,81,163,163</rect>
+                <key>scale9Paddings</key>
+                <rect>81,81,163,163</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/luyten/luyten_satellite.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>52,56,104,113</rect>
+                <key>scale9Paddings</key>
+                <rect>52,56,104,113</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/meteor/meteor_big.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,22,45,45</rect>
+                <key>scale9Paddings</key>
+                <rect>23,22,45,45</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/meteor/meteor_middle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,14,35,27</rect>
+                <key>scale9Paddings</key>
+                <rect>17,14,35,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/meteor/meteor_small.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,8,12,15</rect>
+                <key>scale9Paddings</key>
+                <rect>6,8,12,15</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -220,18 +476,68 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">map/spark_1.png</key>
-            <key type="filename">map/spark_2.png</key>
-            <key type="filename">map/spark_3.png</key>
+            <key type="filename">map/proxima/bg_proxima_debris.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>32,16,64,32</rect>
+                <rect>61,47,121,93</rect>
                 <key>scale9Paddings</key>
-                <rect>32,16,64,32</rect>
+                <rect>61,47,121,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/proxima/bg_proxima_highlight.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>63,71,126,143</rect>
+                <key>scale9Paddings</key>
+                <rect>63,71,126,143</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/proxima/bg_proxima_planet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>77,77,154,154</rect>
+                <key>scale9Paddings</key>
+                <rect>77,77,154,154</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/ross/bg_ross_planet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9Paddings</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/sphere.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -248,8 +554,75 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">map/wall_center_top.png</key>
-            <key type="filename">map/wall_center_top_normal.png</key>
+            <key type="filename">map/trappist/bg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>90,120,180,240</rect>
+                <key>scale9Paddings</key>
+                <rect>90,120,180,240</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/trappist/pillar_top.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>42,24,83,48</rect>
+                <key>scale9Paddings</key>
+                <rect>42,24,83,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/trappist/spark_1.png</key>
+            <key type="filename">map/trappist/spark_2.png</key>
+            <key type="filename">map/trappist/spark_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,16,64,32</rect>
+                <key>scale9Paddings</key>
+                <rect>32,16,64,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/trappist/trappist.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,48,97,97</rect>
+                <key>scale9Paddings</key>
+                <rect>48,48,97,97</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/trappist/trappist_debris.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>71,50,142,101</rect>
+                <key>scale9Paddings</key>
+                <rect>71,50,142,101</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/trappist/wall_center_top.png</key>
+            <key type="filename">map/trappist/wall_center_top_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
