@@ -20,7 +20,7 @@ void vertex() {
 void fragment(){
 	NORMAL.xy = mat2(local_rot.xy, local_rot.zw) * NORMAL.xy;
 	vec4 color = texture(TEXTURE, UV);
-	vec3 l = normalize(-direction);
+	vec3 l = normalize(direction);
 	float light = dot(NORMAL.xyz, -l) * energy;
 	vec4 lit = vec4(light * color.xyz, color.w);
 	COLOR = lit;
