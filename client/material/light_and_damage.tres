@@ -2,20 +2,28 @@
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
-render_mode blend_mix;
 
 uniform bool is_blue;
 uniform vec4 blue_damaged : hint_color;
 uniform vec4 red_damaged : hint_color;
 uniform float damage_ratio : hint_range(0, 1);
 
+uniform float energy : hint_range(0, 10) = 1.0;
+uniform vec3 direction = vec3(0, 0, 1);
+varying vec4 local_rot;
+
+void vertex() {
+	local_rot.xy = normalize(WORLD_MATRIX * (EXTRA_MATRIX * vec4(1, 0, 0, 0))).xy;
+	local_rot.zw = normalize(WORLD_MATRIX * (EXTRA_MATRIX * vec4(0, 1, 0, 0))).xy;
+}
+
 void fragment(){
+	NORMAL.xy = mat2(local_rot.xy, local_rot.zw) * NORMAL.xy;
 	vec4 color = texture(TEXTURE, UV);
-	vec3 l = normalize(vec3(0, 0, 1));
-	float light = max(dot(NORMAL, l), 0);
-//	vec4 lit = vec4(light * color.xyz, color.a);
-	vec4 lit = light * color;
-	COLOR = color + lit;
+	vec3 l = normalize(-direction);
+	float light = dot(NORMAL.xyz, -l) * energy;
+	vec4 lit = vec4(light * color.xyz, color.w);
+	COLOR = lit;
 	if (is_blue) {
 		COLOR.rgb += blue_damaged.rgb * damage_ratio;
 	} else {
@@ -29,3 +37,5 @@ shader_param/is_blue = false
 shader_param/blue_damaged = Color( 0.0566406, 0.0699158, 0.90625, 1 )
 shader_param/red_damaged = Color( 0.945312, 0.0369263, 0.0369263, 1 )
 shader_param/damage_ratio = 0.0
+shader_param/energy = 1.0
+shader_param/direction = Vector3( 0, 0, 1 )

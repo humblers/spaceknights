@@ -2,15 +2,25 @@
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
-render_mode blend_mix;
+uniform float energy : hint_range(0, 10) = 1.0;
+uniform vec3 direction = vec3(0, 0, 1);
+varying vec4 local_rot;
+
+void vertex() {
+	local_rot.xy = normalize(WORLD_MATRIX * (EXTRA_MATRIX * vec4(1, 0, 0, 0))).xy;
+	local_rot.zw = normalize(WORLD_MATRIX * (EXTRA_MATRIX * vec4(0, 1, 0, 0))).xy;
+}
 
 void fragment(){
+	NORMAL.xy = mat2(local_rot.xy, local_rot.zw) * NORMAL.xy;
 	vec4 color = texture(TEXTURE, UV);
-	vec3 l = normalize(vec3(0, 0, 1));
-	float light = max(dot(NORMAL, l), 0);
-	vec4 lit = light * color;
-	COLOR = color + lit;
+	vec3 l = normalize(direction);
+	float light = dot(NORMAL.xyz, -l) * energy;
+	vec4 lit = vec4(light * color.xyz, color.w);
+	COLOR = lit;
 }"
 
 [resource]
 shader = SubResource( 1 )
+shader_param/energy = 1.0
+shader_param/direction = Vector3( 0, 0, 1 )
