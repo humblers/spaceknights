@@ -17,7 +17,7 @@ func expand(side, color):
 		return
 	if color == "Blue":
 		$Unit/Blue.get_node("%s%s" % [color, side]).visible = true
-		$Unit/Deco.get_node("Knight%s" % side).visible = false
+		$Spell/Deco.get_node("Knight%s" % side).visible = false
 	else:
-		$Unit.get_node("Extend%s" % side).visible = true
-		$Unit.get_node("Red%s" % side).visible = false
+		$Unit/Blue.get_node("Extend%s" % side).visible = true
+		$Unit/Red.get_node("Red%s" % side).visible = false
