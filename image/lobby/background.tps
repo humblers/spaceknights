@@ -195,6 +195,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background/building_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>54,64,107,127</rect>
+                <key>scale9Paddings</key>
+                <rect>54,64,107,127</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">background/card_list_panel.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -205,6 +218,20 @@
                 <rect>3,177,5,354</rect>
                 <key>scale9Paddings</key>
                 <rect>3,177,5,354</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/cloud_1.png</key>
+            <key type="filename">background/cloud_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>63,63,125,125</rect>
+                <key>scale9Paddings</key>
+                <rect>63,63,125,125</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -264,6 +291,32 @@
                 <rect>94,120,187,240</rect>
                 <key>scale9Paddings</key>
                 <rect>94,120,187,240</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/kapteyn/colony_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>76,55,152,111</rect>
+                <key>scale9Paddings</key>
+                <rect>76,55,152,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/kapteyn/colony_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>71,54,141,107</rect>
+                <key>scale9Paddings</key>
+                <rect>71,54,141,107</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -359,6 +412,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background/pixel.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>0,0,1,1</rect>
+                <key>scale9Paddings</key>
+                <rect>0,0,1,1</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">background/proxima/bg_proxima_debris.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -408,6 +474,32 @@
                 <rect>53,53,105,105</rect>
                 <key>scale9Paddings</key>
                 <rect>53,53,105,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/sphere.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/square.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,4,4</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,4,4</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
