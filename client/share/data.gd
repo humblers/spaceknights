@@ -1475,19 +1475,19 @@ var units = {
 	"giant_gargoyle": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           5,
-		"radius":         27,
+		"mass":           50,
+		"radius":         60,
 		"hp":             [180],
 		"shield":         [54000],
 		"sight":          275,
-		"speed":          150,	#pixels per second
+		"speed":          20,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
-		"attackdamage":   [40],
-		"attackrange":    100,
-		"attackinterval": 10,
-		"preattackdelay": 5,
+		"attackdamage":   [50],
+		"attackrange":    140,
+		"attackinterval": 4,
+		"preattackdelay": 1,
 	},
 }
 

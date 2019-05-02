@@ -3,7 +3,9 @@ extends "res://game/game.gd"
 enum PHASES {
 	INITIAL,
 	REQUEST_ARCHERS,
+	COMPLIMENT_ARCHERS,
 	REQUEST_GIANT_GARGOYLE,
+	EXPLAIN_BERSERKER
 	REQUEST_BERSERKER,
 	HUNT_GIANT_GARGOYLE,
 	REMIND_ANTI_BARRIER,
@@ -59,13 +61,27 @@ func _enter_tree():
 func _ready():
 	event.connect("StudentUseCard", self, "studentCardUsed")
 
+func update_time():
+	var time_left
+	if step < data.PlayTime + 1200:
+		time_left = data.PlayTime + 1200 - step
+		$UI/Hud/Time/Text.text ="Time Left"
+	else:
+		time_left = data.PlayTime + 1200 + data.OverTime - step
+		$UI/Hud/Time/Text.text ="Sudden Death"
+	var sec = time_left / data.StepPerSec
+	$UI/Hud/Time/Remaining.text = "%d:%02d" % [sec/60, sec%60]
+	
 func Update(state):
 	.Update(state)
 	match phase:
 		PHASES.INITIAL:
 			if opening_anim.IsFinished():
 				ForwardToNextPhase()
-		PHASES.REQUEST_ARCHERS:
+#		PHASES.REQUEST_ARCHERS:
+#			if FindMyArcher() == true:
+#				ForwardToNextPhase()
+		PHASES.REQUEST_ARCHERS, PHASES.COMPLIMENT_ARCHERS:
 			if step / data.StepPerSec >= GIANT_GARGOYLE_REQUEST_AFTER:
 				ForwardToNextPhase()
 		PHASES.HUNT_GIANT_GARGOYLE:
@@ -86,7 +102,18 @@ func AddUnit(name, level, posX, posY, player):
 	return node
 
 func Over():
-	var over = .Over()
+	var over
+	if step < data.PlayTime + 1200:
+		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
+			over = true
+		else:
+			over =  false
+	elif step < data.PlayTime + data.OverTime:
+		if score("Blue") != score("Red"):
+			over =  true
+		else:
+			over =  false
+				
 	if over:
 		var config = ConfigFile.new()
 		var err = config.load(user.CONFIG_FILE_NAME)
@@ -114,6 +141,13 @@ func FindGiantGargoyle():
 		if unit.name_ == "giant_gargoyle":
 			return unit
 	return null
+	
+func FindMyArcher():
+	for id in units.keys():
+		var unit = units[id]
+		if unit.name_ == "archer" and unit.team == "Blue":
+			return true
+	return null
 
 func EnergyBoostEnabled():
 	return phase >= PHASES.EXPLAIN_ENERGY_BOOST
@@ -123,6 +157,10 @@ func IsKnightInvincible():
 
 func studentCardUsed(card):
 	match phase:
+		PHASES.REQUEST_ARCHERS:
+			if card.Name == "archers":
+				event.emit_signal("MarkOff")
+				ForwardToNextPhase()
 		PHASES.REQUEST_BERSERKER:
 			if card.Name == "berserker":
 				event.emit_signal("MarkOff")

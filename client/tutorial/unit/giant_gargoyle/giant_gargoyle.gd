@@ -1,4 +1,4 @@
-extends "res://game/unit/gargoyle/gargoyle.gd"
+extends "res://game/unit/gargoyleking/gargoyleking.gd"
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "giant_gargoyle", player.Team(), level, posX, posY, game)
