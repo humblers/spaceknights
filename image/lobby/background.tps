@@ -221,6 +221,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background/cargo.png</key>
+            <key type="filename">background/cargo_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,25,27,50</rect>
+                <key>scale9Paddings</key>
+                <rect>14,25,27,50</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">background/cloud_1.png</key>
             <key type="filename">background/cloud_2.png</key>
             <struct type="IndividualSpriteSettings">
@@ -360,6 +374,176 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background/knights/arcenginner.png</key>
+            <key type="filename">background/knights/arcenginner_normal.png</key>
+            <key type="filename">background/knights/arcsapper.png</key>
+            <key type="filename">background/knights/arcsapper_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>37,41,73,81</rect>
+                <key>scale9Paddings</key>
+                <rect>37,41,73,81</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/astra.png</key>
+            <key type="filename">background/knights/astra_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,44,46,87</rect>
+                <key>scale9Paddings</key>
+                <rect>23,44,46,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/buran.png</key>
+            <key type="filename">background/knights/buran_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,54,85,107</rect>
+                <key>scale9Paddings</key>
+                <rect>43,54,85,107</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/frost.png</key>
+            <key type="filename">background/knights/frost_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>46,35,91,70</rect>
+                <key>scale9Paddings</key>
+                <rect>46,35,91,70</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/ion_coffin.png</key>
+            <key type="filename">background/knights/ion_coffin_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,45,53,90</rect>
+                <key>scale9Paddings</key>
+                <rect>27,45,53,90</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/judge.png</key>
+            <key type="filename">background/knights/judge_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,38,55,77</rect>
+                <key>scale9Paddings</key>
+                <rect>28,38,55,77</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/lancer.png</key>
+            <key type="filename">background/knights/lancer_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,51,77,101</rect>
+                <key>scale9Paddings</key>
+                <rect>39,51,77,101</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/legion.png</key>
+            <key type="filename">background/knights/legion_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,24,70,48</rect>
+                <key>scale9Paddings</key>
+                <rect>35,24,70,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/nagmash.png</key>
+            <key type="filename">background/knights/nagmash_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,40,44,79</rect>
+                <key>scale9Paddings</key>
+                <rect>22,40,44,79</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/pixieking.png</key>
+            <key type="filename">background/knights/pixieking_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,44,47,87</rect>
+                <key>scale9Paddings</key>
+                <rect>24,44,47,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/tombstone.png</key>
+            <key type="filename">background/knights/tombstone_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,47,63,93</rect>
+                <key>scale9Paddings</key>
+                <rect>32,47,63,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/knights/valkyrie.png</key>
+            <key type="filename">background/knights/valkyrie_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,37,58,74</rect>
+                <key>scale9Paddings</key>
+                <rect>29,37,58,74</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">background/luyten/flare.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -396,6 +580,48 @@
                 <rect>52,56,104,113</rect>
                 <key>scale9Paddings</key>
                 <rect>52,56,104,113</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/main_arm1.png</key>
+            <key type="filename">background/main_arm1_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,14,7,28</rect>
+                <key>scale9Paddings</key>
+                <rect>4,14,7,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/main_arm2.png</key>
+            <key type="filename">background/main_arm2_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,20,8,39</rect>
+                <key>scale9Paddings</key>
+                <rect>4,20,8,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">background/maintenance.png</key>
+            <key type="filename">background/maintenance_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,22,80,45</rect>
+                <key>scale9Paddings</key>
+                <rect>40,22,80,45</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
