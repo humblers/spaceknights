@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://lobby/page/card/item_not_found.gd" type="Script" id=1]
 [ext_resource path="res://atlas/lobby/contents.sprites/board_black.tres" type="Texture" id=2]
 [ext_resource path="res://lobby/page/card/item_base.tscn" type="PackedScene" id=3]
-[ext_resource path="res://material/grayscale_screen.tres" type="Material" id=4]
-[ext_resource path="res://atlas/lobby/contents.sprites/board_white.tres" type="Texture" id=5]
+[ext_resource path="res://material/grayscale.tres" type="Material" id=4]
 
 [node name="Item" type="Button"]
 margin_right = 250.0
@@ -37,8 +36,14 @@ patch_margin_right = 15
 patch_margin_bottom = 14
 
 [node name="Base" parent="." instance=ExtResource( 3 )]
-editor/display_folded = true
 margin_bottom = 301.0
+
+[node name="Control" parent="Base" index="0"]
+material = ExtResource( 4 )
+use_parent_material = false
+
+[node name="Background" parent="Base/Control" index="0"]
+use_parent_material = true
 
 [node name="Label" parent="Base/Control" index="3"]
 visible = false
@@ -48,14 +53,5 @@ visible = false
 
 [node name="Cost" parent="Base/Control" index="5"]
 visible = false
-
-[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
-position = Vector2( 125.286, 150.177 )
-scale = Vector2( 1.27407, 1.52296 )
-copy_mode = 2
-
-[node name="Sprite" type="Sprite" parent="BackBufferCopy"]
-material = ExtResource( 4 )
-texture = ExtResource( 5 )
 
 [editable path="Base"]

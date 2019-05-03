@@ -29,6 +29,7 @@ export(Dictionary) var user_cards = {
 export(bool) var test_open = false
 
 func _ready():
+	event.connect("RequestChestOpenDialog", self, "popUp")
 	card1.connect("button_up", self, "flip_card", [card1])
 	card2.connect("button_up", self, "flip_card", [card2])
 	card3.connect("button_up", self, "flip_card", [card3])
@@ -36,14 +37,14 @@ func _ready():
 	card5.connect("button_up", self, "flip_card", [card5])
 	skip_button.connect("button_up", self, "skip_open")
 	if test_open:
-		PopUp(chest_name, gold, cash, cards, user_cards)
+		popUp(chest_name, gold, cash, cards, user_cards)
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
 		if len(hidden_cards) <= 0:
 			visible = false
 
-func PopUp(chest_name, gold, cash, cards, user_cards = user.Cards):
+func popUp(chest_name, gold, cash, cards, user_cards = user.Cards):
 	chest_icon.Open(chest_name)
 	gold_label.text = "+%d" % gold
 	cash_label.text = "+%d" % cash

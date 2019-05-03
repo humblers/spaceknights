@@ -2,19 +2,12 @@ extends Node
 
 const PAGES = ["Battle", "Card", "Explore", "Shop", "Social"]
 
-export(NodePath) onready var hud = get_node(hud)
-export(NodePath) onready var input_manager = get_node(input_manager)
-export(NodePath) onready var firebase_auth_manager = get_node(firebase_auth_manager)
-export(NodePath) onready var resource_manager = get_node(resource_manager)
-export(NodePath) onready var page_battle = get_node(page_battle)
-export(NodePath) onready var page_card = get_node(page_card)
-export(NodePath) onready var page_explore = get_node(page_explore)
-export(NodePath) onready var page_shop = get_node(page_shop)
-export(NodePath) onready var page_social = get_node(page_social)
+onready var hud = $HeadUpDisplay
+onready var firebase_auth_manager = $Managers/FirebaseAuth
+onready var resource_manager = $Managers/Resources
 
 func _ready():
-	add_user_signal("load_completed")
-	input_manager.move_to_page(PAGES[0])
+	add_user_signal("load_completed") # should replace event's signal
 	login()
 
 func load_data():
@@ -32,7 +25,6 @@ func load_data():
 		var d = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
 		data.set(path.capitalize(), resource_manager.scripts.get_resource(path).new(d))
 	Invalidate()
-	page_battle.PlayAppearAni()
 	connect_to_notifier()
 
 func connect_to_notifier():
@@ -41,6 +33,7 @@ func connect_to_notifier():
 		yield(notifier_client, "connected")
 		notifier_client.Send({"Id": user.Id, "Token": user.Id})
 	emit_signal("load_completed")
+	event.emit_signal("DoneBackgroundProcess")
 	
 func login():
 	# for desktop
@@ -74,12 +67,15 @@ func login():
 
 func Invalidate():
 	hud.invalidate()
-	page_battle.Invalidate()
-	page_card.Invalidate()
+	event.emit_signal("InvalidatePageBattle")
+	$Contents/Card.Invalidate()
+#	page_battle.Invalidate()
+#	page_card.Invalidate()
 
 func handleErrorInLoadStep(message):
 	HandleError(message, true)
 	emit_signal("load_completed")
+	event.emit_signal("DoneBackgroundProcess")
 
 func HandleError(message, back_to_company_logo = true):
 	hud.message_modal.PopUp(message)

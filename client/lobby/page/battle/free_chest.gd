@@ -1,7 +1,6 @@
 extends TextureButton
 
-export(NodePath) onready var label = get_node(label)
-export(NodePath) onready var lobby = get_node(lobby)
+onready var label = $Open/Count
 
 var last_acquired_time = 0
 
@@ -32,7 +31,7 @@ func open():
 	var req = lobby_request.New("/chest/open", params)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.HandleError(response[1].ErrMessage)
+		event.emit_signal(response[1].ErrMessage)
 		return
 	var gold = response[1].Gold
 	var cash = response[1].Cash
@@ -48,6 +47,5 @@ func open():
 			user.Cards[name] = {"Level": 0, "Holding": 0}
 		user.Cards[name].Holding += count
 	user.FreeChest = opened_at
-	lobby.Invalidate()
-	lobby.hud.chestopen_dialog.PopUp("Free", gold, cash, cards)
-	
+	event.emit_signal("InvalidateLobby")
+	event.emit_signal("RequestChestOpenDialog", "Free", gold, cash, cards)

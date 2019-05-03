@@ -6,6 +6,7 @@ var elapsed
 
 func _ready():
 	set_process(false)
+	event.connect("RequestMatchwaitingDialog", self, "Pop")
 
 func _process(delta):
 	elapsed += delta

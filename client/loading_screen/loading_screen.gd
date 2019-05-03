@@ -62,7 +62,8 @@ func GoToScene(dest_path, nonpreload_paths = [], param = null):
 func LoadResource(path):
 	if loaded_resources.has(path):
 		return loaded_resources[path]
-	print("resource is not in loaded_resources: ", path)
+	if not ResourceLoader.has_cached(path):
+		print("resource is not cached and not in loaded_resources: ", path)
 	var res = ResourceLoader.load(path)
 	loaded_resources[path] = res
 	return res
