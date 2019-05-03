@@ -2,24 +2,30 @@ extends "res://game/game.gd"
 
 enum PHASES {
 	INITIAL,
+	HELLO,
 	REQUEST_ARCHERS,
 	COMPLIMENT_ARCHERS,
 	REQUEST_GIANT_GARGOYLE,
 	EXPLAIN_BERSERKER
-	REQUEST_BERSERKER,
+	REQUEST_BERSERKER,	
 	HUNT_GIANT_GARGOYLE,
 	REMIND_ANTI_BARRIER,
-	REQUEST_RANGE_SQUIRES,
 	REQUEST_GARGOYLES,
 	EXPLAIN_ENERGY_BOOST,
+	REQUEST_BOOSTED_SQUIRES
+	COMPLIMENT_BOOST
 	REMIND_POSITION_STRATEGY,
 	REQUEST_FOOTMANS_WAVE,
 	REQUEST_FIREBALL,
+	COMPLIMENT_FIREBALL
 	TO_THE_VICTORY,
+	WIN,
+	LOSE,
+	END,
 }
 const RED_PLAYER_CARD_POS_X = 500
 const RED_PLAYER_CARD_POS_Y = 400
-const GIANT_GARGOYLE_REQUEST_AFTER = 20
+const GIANT_GARGOYLE_REQUEST_AFTER = 30
 const GIANT_GARGOYLE_SHIELD_MULTIPLIER = 1000
 const GIANT_GARGOYLE_SHIELD_REGEN_PER_STEP = INF
 const FOOTMAN_WAVE_COUNT = 3
@@ -61,36 +67,26 @@ func _enter_tree():
 func _ready():
 	event.connect("StudentUseCard", self, "studentCardUsed")
 
-func update_time():
-	var time_left
-	if step < data.PlayTime + 1200:
-		time_left = data.PlayTime + 1200 - step
-		$UI/Hud/Time/Text.text ="Time Left"
-	else:
-		time_left = data.PlayTime + 1200 + data.OverTime - step
-		$UI/Hud/Time/Text.text ="Sudden Death"
-	var sec = time_left / data.StepPerSec
-	$UI/Hud/Time/Remaining.text = "%d:%02d" % [sec/60, sec%60]
-	
 func Update(state):
 	.Update(state)
 	match phase:
 		PHASES.INITIAL:
 			if opening_anim.IsFinished():
 				ForwardToNextPhase()
-#		PHASES.REQUEST_ARCHERS:
-#			if FindMyArcher() == true:
-#				ForwardToNextPhase()
 		PHASES.REQUEST_ARCHERS, PHASES.COMPLIMENT_ARCHERS:
 			if step / data.StepPerSec >= GIANT_GARGOYLE_REQUEST_AFTER:
 				ForwardToNextPhase()
 		PHASES.HUNT_GIANT_GARGOYLE:
 			if FindGiantGargoyle() == null:
 				ForwardToNextPhase()
-		PHASES.REQUEST_GARGOYLES, PHASES.EXPLAIN_ENERGY_BOOST:
+		PHASES.REQUEST_BOOSTED_SQUIRES:
 			if isTutorRemainOnlyKnights():
 				event.emit_signal("TransmissionOff")
-				ForwardToPhase(PHASES.REMIND_POSITION_STRATEGY)
+				ForwardToPhase(PHASES.COMPLIMENT_BOOST)
+		PHASES.REMIND_POSITION_STRATEGY:
+			if isTutorRemainOnlyKnights():
+				event.emit_signal("TransmissionOff")
+				ForwardToNextPhase()
 
 func AddUnit(name, level, posX, posY, player):
 	unitCounter += 1
@@ -102,18 +98,20 @@ func AddUnit(name, level, posX, posY, player):
 	return node
 
 func Over():
-	var over
-	if step < data.PlayTime + 1200:
-		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
-			over = true
+	var over = .Over()
+	if over and phase != PHASES.END:
+		var my_team = $Players/Blue.team
+		var enemy_team = "Blue" if my_team == "Red" else "Red"
+		var my_score = score(my_team)
+		var enemy_score = score(enemy_team)
+		if my_score > enemy_score:
+			ForwardToPhase(PHASES.WIN)
+		elif my_score < enemy_score:
+			ForwardToPhase(PHASES.LOSE)
 		else:
-			over =  false
-	elif step < data.PlayTime + data.OverTime:
-		if score("Blue") != score("Red"):
-			over =  true
-		else:
-			over =  false
-				
+			ForwardToPhase(PHASES.LOSE)
+		return false
+	
 	if over:
 		var config = ConfigFile.new()
 		var err = config.load(user.CONFIG_FILE_NAME)
@@ -131,9 +129,12 @@ func ForwardToPhase(phase):
 	self.phase = phase
 	event.emit_signal("PhaseChanged", phase, PHASES)
 	match phase:
-		PHASES.REMIND_ANTI_BARRIER, PHASES.REMIND_POSITION_STRATEGY:
+		PHASES.HELLO, PHASES.EXPLAIN_BERSERKER, PHASES.REMIND_ANTI_BARRIER, PHASES.EXPLAIN_ENERGY_BOOST, PHASES.COMPLIMENT_BOOST, PHASES.COMPLIMENT_FIREBALL:
 			yield(event, "TransmissionTerminated")
 			ForwardToNextPhase()
+		PHASES.WIN, PHASES.LOSE:
+			yield(event, "TransmissionTerminated")
+			ForwardToPhase(PHASES.END)
 
 func FindGiantGargoyle():
 	for id in units.keys():
