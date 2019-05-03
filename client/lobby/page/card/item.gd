@@ -25,8 +25,8 @@ func Invalidate(card):
 	self.visible = card != null
 	if card == null:
 		return
-	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	icon.texture = loading_screen.LoadResource("res://image/icon/%s.png" % card.Name)
+	frame.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/card/%s_%s_frame.tres" % [card.Type.replace("Card", "").to_lower(), card.Rarity.to_lower()])
 	cost_label.text = "%d" % (card.Cost / 1000)
 	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
 	level_label.modulate = Color(1, 1, 1, 1)

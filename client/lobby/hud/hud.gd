@@ -2,8 +2,6 @@ extends CanvasLayer
 
 export(NodePath) onready var lobby = get_node(lobby)
 
-export(NodePath) onready var bot = get_node(bot)
-
 export(NodePath) onready var page_battle_btn = get_node(page_battle_btn)
 export(NodePath) onready var page_card_btn = get_node(page_card_btn)
 export(NodePath) onready var page_explore_btn = get_node(page_explore_btn)
@@ -25,9 +23,9 @@ export(NodePath) onready var message_modal = get_node(message_modal)
 export(NodePath) onready var confirm_modal = get_node(confirm_modal)
 
 func _ready():
-	for page in lobby.PAGES:
+	for page in event.Pages:
 		var btn = get("page_%s_btn" % page.to_lower())
-		btn.connect("button_up", self, "page_select", [page])
+		btn.connect("button_up", self, "pageSelect", [page])
 
 func invalidate():
 	level_label.text = "%d" % (user.Level + 1)
@@ -35,8 +33,8 @@ func invalidate():
 	galacticoin_label.text = "%d" % user.Galacticoin
 	dimensium_label.text = "%d" % user.Dimensium
 
-func page_select(page):
-	lobby.input_manager.move_to_page(page)
+func pageSelect(page):
+	event.emit_signal("PageSelected", page)
 
 func FormatStepToSecond(steps):
 	var in_secs = float(steps) / data.StepPerSec

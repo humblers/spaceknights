@@ -1,21 +1,21 @@
-extends Node
+extends "res://lobby/script/page_container.gd"
 
 const MODE_NO_SCROLL = "NO_SCROLL"
 const MODE_SCROLL_HORIZONTAL = "SCROLL_HORIZONTAL"
 const MODE_SCROLL_VERTICAL = "SCROLL_VERTICAL"
 
 const SCROLL_DECISION_PIXEL = 50
-const SCROLL_EXTEND_LIMIT = 100
 
-export(NodePath) onready var lobby = get_node(lobby)
-
-export(NodePath) onready var camera = get_node(camera)
-export(NodePath) onready var tween = get_node(tween)
+onready var camera = $InitialCenter/Camera2D
+onready var tween = $Tween
 
 var cur_page
 
 var scroll = MODE_NO_SCROLL
 var prev_input_pos
+
+func _ready():
+	event.connect("PageSelected", self, "moveToPage")
 
 func _input(ev):
 	if ev is InputEventMouseButton:
@@ -27,36 +27,9 @@ func _input(ev):
 			MODE_NO_SCROLL:
 				return
 			MODE_SCROLL_VERTICAL:
-				var scrollable = cur_page.get_vertical_scrollable_control()
-				if scrollable != null:
-					if scrollable.rect_position.y > cur_page.scroll_max_y:
-						tween.interpolate_property(
-								scrollable,
-								"rect_position",
-								scrollable.rect_position,
-								Vector2(scrollable.rect_position.x, cur_page.scroll_max_y),
-								0.2, Tween.TRANS_LINEAR, Tween.EASE_IN
-						)
-						tween.start()
-					elif scrollable.rect_position.y < cur_page.scroll_min_y:
-						tween.interpolate_property(
-								scrollable,
-								"rect_position",
-								scrollable.rect_position,
-								Vector2(scrollable.rect_position.x, cur_page.scroll_min_y),
-								0.2, Tween.TRANS_LINEAR, Tween.EASE_IN
-						)
-						tween.start()
+				event.emit_signal("VerticalScrollInput", true, 0)
 			MODE_SCROLL_HORIZONTAL:
-				cur_page = closest_page()
-				tween.interpolate_property(
-						camera,
-						"global_position",
-						camera.global_position,
-						cur_page.center_top.rect_global_position,
-						0.2, Tween.TRANS_LINEAR, Tween.EASE_IN
-				)
-				tween.start()
+				event.emit_signal("PageSelected", closestPage())
 		get_tree().set_input_as_handled()
 		get_tree().get_root().gui_release_mouse_focus()
 		scroll = MODE_NO_SCROLL
@@ -70,14 +43,7 @@ func _input(ev):
 				elif abs(d.y) > SCROLL_DECISION_PIXEL:
 					scroll = MODE_SCROLL_VERTICAL
 			MODE_SCROLL_VERTICAL:
-				var control = cur_page.get_vertical_scrollable_control()
-				if control == null:
-					continue
-				if control.rect_position.y < cur_page.scroll_min_y - SCROLL_EXTEND_LIMIT:
-					continue
-				if control.rect_position.y > cur_page.scroll_max_y + SCROLL_EXTEND_LIMIT:
-					continue
-				control.rect_position.y -= d.y
+				event.emit_signal("VerticalScrollInput", false, d.y)
 				continue
 			MODE_SCROLL_HORIZONTAL:
 				camera.position.x += d.x
@@ -89,27 +55,29 @@ func _input(ev):
 func scroll_mode():
 	return scroll
 
-func move_to_page(page):
-	var dest_page = lobby.get("page_%s" % page.to_lower())
+func moveToPage(page):
+	var pos_node = get_node("%s/CameraPosition" % page)
 	tween.interpolate_property(
 			camera,
 			"global_position",
 			camera.global_position,
-			dest_page.center_top.rect_global_position,
+			pos_node.rect_global_position,
 			0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
-	cur_page = dest_page
 
-func closest_page():
-	var closest
+func closestPage():
+	var closest_node
+	var closest_page
 	var cam_x = camera.global_position.x
-	for page in lobby.PAGES:
-		var page_node = lobby.get("page_%s" % page.to_lower())
-		if closest == null:
-			closest = page_node
+	for page in ["Battle", "Card"]:
+		var pos_node = get_node("%s/CameraPosition" % page)
+		if closest_node == null:
+			closest_node = pos_node
+			closest_page = page
 			continue
-		var prev_x = closest.center_top.rect_global_position.x
-		var cur_x = page_node.center_top.rect_global_position.x
+		var prev_x = closest_node.rect_global_position.x
+		var cur_x = pos_node.rect_global_position.x
 		if abs(cur_x - cam_x) < abs(prev_x - cam_x):
-			closest = page_node
-	return closest
+			closest_node = pos_node
+			closest_page = page
+	return closest_page

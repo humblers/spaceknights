@@ -1,5 +1,8 @@
 extends Node
 
+signal DoneBackgroundProcess
+
+# For game
 signal GameInitialized(game)
 
 signal BlueEnergyUpdated(energy)
@@ -33,6 +36,16 @@ signal BlueSetNext(card)
 signal BlueUpdateNext(ready)
 signal RedSetNext(card)
 signal RedUpdateNext(ready)
+
+# For lobby
+const Pages = ["Battle", "Card", "Explore", "Shop", "Social"]
+signal PageSelected(page)
+signal VerticalScrollInput(released, dy)
+signal InvalidateLobby
+signal InvalidatePageBattle
+signal RequestChestOpenDialog(kind, gold, cash, cards)
+signal RequestMessageModal(message, back_to_company_logo)
+signal RequestMatchwaitingDialog
 
 # For tutorial
 signal StudentUseCard(card)
