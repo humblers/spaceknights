@@ -75,7 +75,7 @@ func Update(state):
 				ForwardToNextPhase()
 		PHASES.REQUEST_ARCHERS, PHASES.COMPLIMENT_ARCHERS:
 			if step / data.StepPerSec >= GIANT_GARGOYLE_REQUEST_AFTER:
-				ForwardToNextPhase()
+				ForwardToPhase(PHASES.REQUEST_GIANT_GARGOYLE)
 		PHASES.HUNT_GIANT_GARGOYLE:
 			if FindGiantGargoyle() == null:
 				ForwardToNextPhase()
@@ -141,13 +141,6 @@ func FindGiantGargoyle():
 		var unit = units[id]
 		if unit.name_ == "giant_gargoyle":
 			return unit
-	return null
-	
-func FindMyArcher():
-	for id in units.keys():
-		var unit = units[id]
-		if unit.name_ == "archer" and unit.team == "Blue":
-			return true
 	return null
 
 func EnergyBoostEnabled():
