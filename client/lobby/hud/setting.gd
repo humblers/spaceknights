@@ -69,4 +69,4 @@ func email_link():
 	firebase.link_account(firebase.EMAIL_PASSWORD_PROVIDER_ID, self, email, password)
 
 func playIntro():
-	loading_screen.GoToScene("res://intro/intro.tscn")
+	loading_screen.GoToScene("res://intro/intro.tscn", [], {"next_scene": "res://lobby/lobby.tscn"})

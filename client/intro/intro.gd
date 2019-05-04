@@ -2,7 +2,7 @@ extends Button
 
 const LAST_ANIM_NAME = "step_11"
 
-var next_scene = "res://lobby/lobby.tscn"
+var next_scene = "res://tutorial/tutorial.tscn"
 
 func _ready():
 	connect("button_up", self, "skipToNextAnimation")

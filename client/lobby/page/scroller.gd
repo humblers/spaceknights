@@ -6,13 +6,14 @@ const MODE_NORMAL = "NORMAL"
 export(NodePath) onready var scrollable = get_node(scrollable) if scrollable != null else null
 export(String, "Battle", "Card") var name_ = null
 
-onready var tween = $Tween
-
+var tween = null
 var scroll_disabled = true
 var scroll_min_y
 var scroll_max_y
 
 func _ready():
+	if has_node("Tween"):
+		tween = $Tween
 	event.connect("PageSelected", self, "pageSelected")
 	event.connect("VerticalScrollInput", self, "scroll")
 
