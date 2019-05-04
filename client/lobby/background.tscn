@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://lobby/script/page_container.gd" type="Script" id=1]
 [ext_resource path="res://atlas/lobby/background.sprites/square.tres" type="Texture" id=2]
@@ -17,13 +17,18 @@
 [ext_resource path="res://atlas/lobby/background.sprites/maintenance.tres" type="Texture" id=15]
 [ext_resource path="res://atlas/lobby/background.sprites/main_arm1.tres" type="Texture" id=16]
 [ext_resource path="res://atlas/lobby/background.sprites/main_arm2.tres" type="Texture" id=17]
-[ext_resource path="res://atlas/lobby/background.sprites/cargo.tres" type="Texture" id=18]
-[ext_resource path="res://atlas/lobby/background.sprites/pointlight.tres" type="Texture" id=19]
-[ext_resource path="res://atlas/lobby/background.sprites/sphere.tres" type="Texture" id=20]
-[ext_resource path="res://atlas/lobby/background.sprites/container_re.tres" type="Texture" id=21]
-[ext_resource path="res://atlas/lobby/background.sprites/trappist/bg_trappist.tres" type="Texture" id=22]
+[ext_resource path="res://atlas/lobby/background.sprites/box1.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/lobby/background.sprites/box2.tres" type="Texture" id=19]
+[ext_resource path="res://atlas/lobby/background.sprites/box3.tres" type="Texture" id=20]
+[ext_resource path="res://atlas/lobby/background.sprites/scv.tres" type="Texture" id=21]
+[ext_resource path="res://atlas/lobby/background.sprites/scv_arm.tres" type="Texture" id=22]
+[ext_resource path="res://atlas/lobby/background.sprites/cargo.tres" type="Texture" id=23]
+[ext_resource path="res://atlas/lobby/background.sprites/pointlight.tres" type="Texture" id=24]
+[ext_resource path="res://atlas/lobby/background.sprites/sphere.tres" type="Texture" id=25]
+[ext_resource path="res://atlas/lobby/background.sprites/container_re.tres" type="Texture" id=26]
+[ext_resource path="res://atlas/lobby/background.sprites/trappist/bg_trappist.tres" type="Texture" id=27]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=11]
 resource_name = "bg_scroll"
 length = 240.0
 tracks/0/type = "value"
@@ -99,20 +104,277 @@ tracks/5/keys = {
 "values": [ Color( 0.278431, 0.282353, 0.352941, 0.886275 ), Color( 0.796078, 0.8, 0.882353, 1 ), Color( 0.278431, 0.282353, 0.352941, 0.886275 ) ]
 }
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.376314, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.433842, 0.4824 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.0133333, 1 )
 colors = PoolColorArray( 0.180392, 0.654902, 1, 0.792157, 1, 0.105882, 0.105882, 0.290196 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Animation" id=10]
+resource_name = "SCV"
+length = 120.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SCV1/Boxes/Box3:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 49.3, 50.3, 75, 75.6, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SCV1/Boxes/Box2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 99.3, 100.4, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SCV1/Boxes/Box1:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 33.2, 34, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SCV1/Body/ArmR:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 33, 33.8, 49, 49.7, 75, 75.8, 100, 100.9, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10.8334, -8.33334 ), Vector2( 10.8334, -8.33334 ), Vector2( 15, 0 ), Vector2( 15, 0 ), Vector2( 10.8334, -8.33334 ), Vector2( 10.8334, -8.33334 ), Vector2( 15, 0 ), Vector2( 15, 0 ), Vector2( 10.8334, -8.33334 ), Vector2( 10.8334, -8.33334 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SCV1/Body/ArmL:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 33, 33.8, 49, 49.7, 75, 75.8, 100, 100.9, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10.8333, -8.33334 ), Vector2( -10.8333, -8.33334 ), Vector2( -15, 0 ), Vector2( -15, 0 ), Vector2( -10.8333, -8.33334 ), Vector2( -10.8333, -8.33334 ), Vector2( -15, 0 ), Vector2( -15, 0 ), Vector2( -10.8333, -8.33334 ), Vector2( -10.8333, -8.33334 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SCV1:rotation_degrees")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 8.5, 30.1, 33, 33.4, 33.8, 34.3, 38.4, 48, 49, 50, 51, 58.8, 62.3, 74.4124, 75, 75.6, 76.1876, 79.3, 94.2, 99.2, 99.9, 100.6, 101.4, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 15.0, 30.0, 30.0, 30.0, 30.0, 59.9999, 89.9999, 89.9999, 89.9999, 89.9999, 59.9999, 0.0, 0.0, 0.0, 0.0, 0.0, -44.9999, -195.0, -210.0, -210.0, -210.0, -210.0, -180.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SCV1:position")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 8.5, 30.1, 33, 33.4, 33.8, 34.3, 39.8, 48, 49, 50, 51, 60.1, 74.4124, 75, 75.6, 76.1876, 79.3, 93.8, 99.2, 99.9, 100.6, 101.4, 102.7, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -87.9607, -60.9803 ), Vector2( -87.9607, -60.9803 ), Vector2( -166.029, -274.928 ), Vector2( -127.099, -254.857 ), Vector2( -127.099, -254.857 ), Vector2( -127.099, -254.857 ), Vector2( -127.099, -254.857 ), Vector2( -150.432, -214.443 ), Vector2( -89.7209, -199.598 ), Vector2( -89.7209, -199.598 ), Vector2( -89.7209, -199.598 ), Vector2( -89.7209, -199.598 ), Vector2( -32.0206, -274.538 ), Vector2( 7.43204, -325.372 ), Vector2( 7.43204, -325.372 ), Vector2( 7.43204, -325.372 ), Vector2( 7.43204, -325.372 ), Vector2( -25.7098, -345.469 ), Vector2( -125.302, -449.637 ), Vector2( -127.612, -429.802 ), Vector2( -127.612, -429.802 ), Vector2( -127.612, -429.802 ), Vector2( -127.612, -429.802 ), Vector2( -120.878, -410.635 ), Vector2( -76.9748, -79.175 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SCV2:position")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 29.7, 44.6, 48.4, 49, 49.5, 50.1, 52.9, 58.6, 60, 60.6, 61.5, 62.1, 71, 74.9, 77.7, 78.3, 79, 79.6, 89.6, 110, 114.2, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1.49461, -61.5773 ), Vector2( -1.49461, -61.5773 ), Vector2( 76.6104, -308.526 ), Vector2( 65.3046, -288.111 ), Vector2( 65.3046, -288.111 ), Vector2( 65.3046, -288.111 ), Vector2( 65.3046, -288.111 ), Vector2( 75.7053, -256.125 ), Vector2( 129.012, -307.621 ), Vector2( 131.016, -281.926 ), Vector2( 131.016, -281.926 ), Vector2( 131.016, -281.926 ), Vector2( 131.016, -281.926 ), Vector2( 275.782, -236.836 ), Vector2( 309.809, -206.606 ), Vector2( 283.542, -191.942 ), Vector2( 283.542, -191.942 ), Vector2( 283.542, -191.942 ), Vector2( 283.542, -191.942 ), Vector2( 226.392, -165.804 ), Vector2( 226.392, -165.804 ), Vector2( 135.12, -124.06 ), Vector2( -1.49461, -61.5773 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("SCV2:rotation_degrees")
+tracks/8/interp = 2
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 43, 45.2, 48.4, 49, 49.5, 50.1, 53, 58.6, 60, 60.6, 61.5, 62.1, 71, 74.9, 77.7, 78.3, 79, 79.6, 89.6, 110, 114.2, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -135.0, -150.0, -150.0, -150.0, -150.0, -225.0, -206.194, -210.0, -210.0, -210.0, -210.0, -255.0, -89.9999, -89.9999, -89.9999, -89.9999, -89.9999, -71.9549, -71.9549, -135.0, -135.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("SCV2/Body/ArmL:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 49.1, 49.7, 60.3, 60.9, 79, 79.6, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10.8334, -8.33331 ), Vector2( -10.8334, -8.33331 ), Vector2( -15, 0 ), Vector2( -15, 0 ), Vector2( -10.8334, -8.33331 ), Vector2( -10.8334, -8.33331 ), Vector2( -15, 0 ), Vector2( -15, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("SCV2/Body/ArmR:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 49.1, 49.7, 60.3, 60.9, 79, 79.6, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10.8333, -8.33331 ), Vector2( 10.8333, -8.33331 ), Vector2( 15, 0 ), Vector2( 15, 0 ), Vector2( 10.8333, -8.33331 ), Vector2( 10.8333, -8.33331 ), Vector2( 15, 0 ), Vector2( 15, 0 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("SCV2/Boxes/Box1:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 120 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("SCV2/Boxes/Box2:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 49, 49.7, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("SCV2/Boxes/Box3:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 60.3, 61, 79, 79.6, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("SCV3:position")
+tracks/14/interp = 2
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 18.7, 23.3, 27.7, 31.1, 31.7, 32.3, 33.1, 40.6, 61, 61.6, 62.2, 62.8, 66.6, 70.3, 78.5, 85, 101.7, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 72.937, -63.8301 ), Vector2( 72.937, -63.8301 ), Vector2( 88.3168, -105.469 ), Vector2( 66.0112, -110.168 ), Vector2( 66.0112, -110.168 ), Vector2( 66.0112, -110.168 ), Vector2( 66.0112, -110.168 ), Vector2( 66.0112, -110.168 ), Vector2( 94.4741, -130.3 ), Vector2( 131.459, -102.693 ), Vector2( 131.459, -102.693 ), Vector2( 131.459, -102.693 ), Vector2( 131.459, -102.693 ), Vector2( 169.795, -134.926 ), Vector2( 145.392, -179.326 ), Vector2( 41.9294, -203.457 ), Vector2( -0.165718, -267.213 ), Vector2( 33.3478, -63.5928 ), Vector2( 33.3478, -63.5928 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("SCV3:rotation_degrees")
+tracks/15/interp = 2
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 18.7, 23.3, 31.1, 31.7, 32.3, 33.1, 40.6, 52.1, 61, 61.6, 62.2, 62.8, 66.6, 72.6, 81.1, 85, 101.7, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -30.0, -30.0, -30.0, -30.0, -30.0, 30.0, 74.9999, 30.0, 30.0, 30.0, 30.0, -30.0, -74.9999, -89.9999, -180.0, -195.0, -195.0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("SCV3/Body/ArmL:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 31.7, 32.3, 61.6, 62.2, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -10.333, -8.333 ), Vector2( -10.333, -8.333 ), Vector2( -15, 0 ), Vector2( -15, 0 ), Vector2( -10.333, -8.333 ), Vector2( -10.333, -8.333 ) ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("SCV3/Body/ArmR:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 31.7, 32.3, 61.6, 62.2, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10.333, -8.333 ), Vector2( 10.333, -8.333 ), Vector2( 15, 0 ), Vector2( 15, 0 ), Vector2( 10.333, -8.333 ), Vector2( 10.333, -8.333 ) ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("SCV3/Boxes/Box1:modulate")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 61.4, 62, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("SCV3/Boxes/Box2:modulate")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 31.5, 32.2, 120 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("SCV3/Boxes/Box3:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0, 120 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5451 ), -0.4752, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=4]
 colors = PoolColorArray( 0.00784314, 1, 0.509804, 0.32549, 0.803922, 1, 0.101961, 0 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Left/DecoLeft:position")
@@ -943,8 +1205,8 @@ tracks/68/keys = {
 "values": [ Vector2( 0.000213623, 1.97137 ), Vector2( 0.000213623, 1.97137 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-length = 40.0
+[sub_resource type="Animation" id=6]
+length = 160.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("CargoShip/Ship:rotation_degrees")
@@ -953,7 +1215,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5, 6, 10, 16, 20, 30.1, 36.1, 38.1, 40 ),
+"times": PoolRealArray( 0, 20, 24, 40, 64, 80, 120.4, 144.4, 152.4, 160 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ -30.0, -30.0, -74.9999, -120.0, -135.0, -165.0, -225.0, -225.0, -270.0, -255.0 ]
@@ -965,7 +1227,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 4, 5.8, 10, 20, 30.1, 36.1 ),
+"times": PoolRealArray( 0, 16, 23.2, 40, 80, 120.4, 144.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 129.167, -129.333 ), Vector2( 129.167, -129.333 ), Vector2( 29.1665, -321.066 ), Vector2( -4.16687, -354.399 ), Vector2( -120.834, -387.733 ), Vector2( -229.167, -329.399 ), Vector2( -87.5001, -166.899 ) ]
@@ -977,7 +1239,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 4, 9.8, 12, 14.7, 19.6, 21.5, 28, 39.7 ),
+"times": PoolRealArray( 0, 16, 39.2, 48, 58.8, 78.4, 86, 112, 158.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false, true, false, true, false, true, false ]
@@ -989,7 +1251,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 4, 9.8, 13.8, 15, 24, 24.9, 25.4, 26.7, 28, 39.7 ),
+"times": PoolRealArray( 0, 16, 39.2, 55.2, 60, 96, 99.6, 101.6, 106.8, 112, 158.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false, true, false, true, false, true, false, true, false ]
@@ -1001,7 +1263,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 5.5, 8.1, 20, 24.1, 25.3, 27.4, 35.4, 37.2 ),
+"times": PoolRealArray( 0, 22, 32.4, 80, 96.4, 101.2, 109.6, 141.6, 148.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false, true, false, true, false, true, false ]
@@ -1013,7 +1275,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 14, 18.1 ),
+"times": PoolRealArray( 0, 56, 72.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
@@ -1025,10 +1287,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 6, 32.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 24, 26.4, 29.6, 49.6, 53.2, 104.8, 110.8, 127.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ false, true, false, true, false, true, false, true, false ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("CargoShip/Ship/SpotLight:rotation_degrees")
@@ -1037,7 +1299,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0.2, 6.1, 7.7, 12.1, 13.4, 23.3, 24.7, 26.5, 30.3, 31.7 ),
+"times": PoolRealArray( 0.8, 24.4, 30.8, 48.4, 53.6, 93.2, 98.8, 106, 121.2, 126.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ -1.70755e-06, -1.70755e-06, -89.9999, -89.9999, -15.0, -15.0, -44.9999, 44.9999, -15.0, 0.0 ]
@@ -1061,7 +1323,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 6.3, 6.9, 7.3, 12.7, 13, 27, 28.9 ),
+"times": PoolRealArray( 0, 25.2, 27.6, 29.2, 50.8, 52, 108, 115.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false, true, false, true, true, true ]
@@ -1073,13 +1335,13 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0.1, 7.4, 9.4, 12.6, 14.1, 23.5, 24.7, 26.5 ),
+"times": PoolRealArray( 0.4, 29.6, 37.6, 50.4, 56.4, 94, 98.8, 106 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 1.5 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 2 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 2 ), Vector2( 0.5, 2 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 1.5 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 50.0
 loop = true
 tracks/0/type = "value"
@@ -1575,7 +1837,7 @@ tracks/40/keys = {
 "values": [ false, true, false ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -1650,7 +1912,7 @@ tracks/5/keys = {
 "values": [ Vector2( -93.3532, -13.3069 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 10.0
 loop = true
 tracks/0/type = "value"
@@ -1829,15 +2091,16 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 8 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/Center/Map/Kapteyn"]
-anims/bg_scroll = SubResource( 1 )
+anims/bg_scroll = SubResource( 11 )
 
 [node name="Mothership" type="Node2D" parent="Battle/Center"]
+editor/display_folded = true
 position = Vector2( -420, -890 )
 rotation = -0.523598
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Nodes" type="Node2D" parent="Battle/Center/Mothership"]
-position = Vector2( 0, 1050 )
+position = Vector2( 3.63692, 1043.7 )
 scale = Vector2( 2, 2 )
 
 [node name="Body" type="Sprite" parent="Battle/Center/Mothership/Nodes"]
@@ -1846,11 +2109,12 @@ position = Vector2( 78.6485, -175.738 )
 texture = ExtResource( 9 )
 
 [node name="Deck" type="Node2D" parent="Battle/Center/Mothership/Nodes"]
-position = Vector2( -91.4452, -16.6117 )
+position = Vector2( -92.8484, -14.1813 )
 rotation = 0.523599
 
 [node name="Left" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck"]
-position = Vector2( -150, -270 )
+editor/display_folded = true
+position = Vector2( -150, -269.149 )
 
 [node name="Link" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Left"]
 material = ExtResource( 10 )
@@ -1874,6 +2138,7 @@ normal_map = ExtResource( 12 )
 flip_v = true
 
 [node name="ReadyL" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Left"]
+editor/display_folded = true
 position = Vector2( 0, -19 )
 rotation = 3.14159
 
@@ -1962,8 +2227,10 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Left/Position"]
 
 [node name="DecoLeft" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Left"]
-position = Vector2( -0.001297, -18.8071 )
-rotation = 2.48353e-07
+modulate = Color( 0, 0, 0, 1 )
+show_behind_parent = true
+position = Vector2( -1.52588e-05, -18.75 )
+scale = Vector2( 0.75, 0.75 )
 
 [node name="Maintenace1L" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Left/DecoLeft"]
 material = ExtResource( 10 )
@@ -2098,6 +2365,7 @@ offset = Vector2( 3.05176e-05, 39 )
 material = ExtResource( 5 )
 position = Vector2( 3.8147e-05, 75.0551 )
 scale = Vector2( 1.2, 0.4 )
+emitting = false
 amount = 3
 lifetime = 0.4
 speed_scale = 0.2
@@ -2110,8 +2378,8 @@ spread = 90.0
 gravity = Vector2( 0, -20 )
 initial_velocity = 0.0
 radial_accel = 90.0
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.37
 hue_variation_random = 0.07
 
@@ -2132,13 +2400,14 @@ spread = 90.0
 gravity = Vector2( 0, -20 )
 initial_velocity = 0.0
 radial_accel = 90.0
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Right" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck"]
-position = Vector2( 150, -270 )
+editor/display_folded = true
+position = Vector2( 148.378, -269.306 )
 
 [node name="Link3" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Right"]
 material = ExtResource( 10 )
@@ -2250,8 +2519,10 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Right/Position"]
 
 [node name="DecoRight" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Right"]
-position = Vector2( -0.00131226, -18.807 )
-rotation = 2.48353e-07
+modulate = Color( 0, 0, 0, 1 )
+show_behind_parent = true
+position = Vector2( 0, -18.75 )
+scale = Vector2( 0.75, 0.75 )
 
 [node name="Maintenace1R" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Right/DecoRight"]
 material = ExtResource( 10 )
@@ -2309,7 +2580,7 @@ offset = Vector2( 0, -166.863 )
 show_behind_parent = true
 material = ExtResource( 10 )
 position = Vector2( 62, -138 )
-rotation = 6.31345
+rotation = 2.61799
 texture = ExtResource( 16 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 0, 24 )
@@ -2326,7 +2597,7 @@ offset = Vector2( 3.05176e-05, 39 )
 show_behind_parent = true
 material = ExtResource( 10 )
 position = Vector2( -62, -138 )
-rotation = -6.35996
+rotation = -2.61799
 texture = ExtResource( 16 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 0, 24 )
@@ -2334,7 +2605,7 @@ offset = Vector2( 0, 24 )
 [node name="R2Arm2R" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Right/DecoRight/Maintenace2R/R2Arm1R"]
 show_behind_parent = true
 material = ExtResource( 10 )
-position = Vector2( 0, 16.5683 )
+position = Vector2( 0.000213623, 1.97137 )
 texture = ExtResource( 17 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 3.05176e-05, 39 )
@@ -2387,6 +2658,7 @@ material = ExtResource( 5 )
 position = Vector2( -63.9072, -37.7847 )
 rotation = 2.09439
 scale = Vector2( 1.2, 0.4 )
+emitting = false
 amount = 3
 lifetime = 0.4
 speed_scale = 0.2
@@ -2398,8 +2670,8 @@ spread = 90.0
 gravity = Vector2( 0, -20 )
 initial_velocity = 0.0
 radial_accel = 90.0
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.37
 hue_variation_random = 0.07
 
@@ -2419,12 +2691,13 @@ spread = 90.0
 gravity = Vector2( 0, -20 )
 initial_velocity = 0.0
 radial_accel = 90.0
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Center" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck"]
+editor/display_folded = true
 position = Vector2( 0, -230 )
 
 [node name="NormalC" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Center"]
@@ -2522,8 +2795,10 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Center/Position"]
 
 [node name="DecoCenter" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/Center"]
-position = Vector2( -0.00146484, 18.9429 )
-rotation = 2.48353e-07
+modulate = Color( 0, 0, 0, 1 )
+show_behind_parent = true
+position = Vector2( -0.000137438, 19 )
+scale = Vector2( 0.75, 0.75 )
 
 [node name="Maintenace1C" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Center/DecoCenter"]
 material = ExtResource( 10 )
@@ -2623,7 +2898,7 @@ offset = Vector2( 0, -166.863 )
 show_behind_parent = true
 material = ExtResource( 10 )
 position = Vector2( 62, -138 )
-rotation = 6.64148
+rotation = 2.61799
 texture = ExtResource( 16 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 0, 24 )
@@ -2631,7 +2906,7 @@ offset = Vector2( 0, 24 )
 [node name="C3Arm2L" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/Center/DecoCenter/Maintenace3C/C3Arm1L"]
 show_behind_parent = true
 material = ExtResource( 10 )
-position = Vector2( 0, 10.4576 )
+position = Vector2( 0.000213623, 1.97137 )
 texture = ExtResource( 17 )
 normal_map = ExtResource( 12 )
 offset = Vector2( 3.05176e-05, 39 )
@@ -2670,12 +2945,160 @@ spread = 90.0
 gravity = Vector2( 0, -20 )
 initial_velocity = 0.0
 radial_accel = 90.0
-scale_amount_curve = SubResource( 2 )
-color_ramp = SubResource( 3 )
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.37
 hue_variation_random = 0.07
 
+[node name="SCV" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck"]
+position = Vector2( 87.4997, -31.5037 )
+rotation = -0.523599
+
+[node name="SCV1" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV"]
+position = Vector2( -87.9607, -60.9803 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Boxes" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1"]
+position = Vector2( -1.52588e-05, -33.3333 )
+
+[node name="Box1" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1/Boxes"]
+material = ExtResource( 10 )
+texture = ExtResource( 18 )
+normal_map = ExtResource( 12 )
+
+[node name="Box2" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 19 )
+normal_map = ExtResource( 12 )
+
+[node name="Box3" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 20 )
+normal_map = ExtResource( 12 )
+
+[node name="Body" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1"]
+material = ExtResource( 10 )
+texture = ExtResource( 21 )
+normal_map = ExtResource( 12 )
+
+[node name="ArmL" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( -10.8333, -8.33334 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( -5, -10 )
+
+[node name="ArmR" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV1/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( 10.8334, -8.33334 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( 5, -10 )
+flip_h = true
+
+[node name="SCV2" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV"]
+editor/display_folded = true
+position = Vector2( -1.49461, -61.5773 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Boxes" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2"]
+position = Vector2( -1.52588e-05, -33.3333 )
+
+[node name="Box1" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 18 )
+normal_map = ExtResource( 12 )
+
+[node name="Box2" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2/Boxes"]
+material = ExtResource( 10 )
+texture = ExtResource( 19 )
+normal_map = ExtResource( 12 )
+
+[node name="Box3" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 20 )
+normal_map = ExtResource( 12 )
+
+[node name="Body" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2"]
+material = ExtResource( 10 )
+texture = ExtResource( 21 )
+normal_map = ExtResource( 12 )
+
+[node name="ArmL" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( -10.8334, -8.33331 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( -5, -10 )
+
+[node name="ArmR" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV2/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( 10.8333, -8.33331 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( 5, -10 )
+flip_h = true
+
+[node name="SCV3" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV"]
+editor/display_folded = true
+position = Vector2( 72.937, -63.8301 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Boxes" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3"]
+position = Vector2( -1.52588e-05, -33.3333 )
+
+[node name="Box1" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 18 )
+normal_map = ExtResource( 12 )
+
+[node name="Box2" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3/Boxes"]
+material = ExtResource( 10 )
+texture = ExtResource( 19 )
+normal_map = ExtResource( 12 )
+
+[node name="Box3" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3/Boxes"]
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 10 )
+texture = ExtResource( 20 )
+normal_map = ExtResource( 12 )
+
+[node name="Body" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3"]
+material = ExtResource( 10 )
+texture = ExtResource( 21 )
+normal_map = ExtResource( 12 )
+
+[node name="ArmL" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( -10.333, -8.333 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( -5, -10 )
+
+[node name="ArmR" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/SCV/SCV3/Body"]
+show_behind_parent = true
+material = ExtResource( 10 )
+position = Vector2( 10.333, -8.333 )
+texture = ExtResource( 22 )
+normal_map = ExtResource( 12 )
+offset = Vector2( 5, -10 )
+flip_h = true
+
+[node name="SCVAni" type="AnimationPlayer" parent="Battle/Center/Mothership/Nodes/Deck/SCV"]
+anims/SCV = SubResource( 10 )
+
 [node name="CargoShip" type="Node2D" parent="Battle/Center/Mothership/Nodes/Deck"]
+editor/display_folded = true
 position = Vector2( -0.00137329, -0.0570679 )
 rotation = 2.48353e-07
 
@@ -2684,7 +3107,7 @@ material = ExtResource( 10 )
 position = Vector2( 129.167, -129.333 )
 rotation = -0.523599
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 18 )
+texture = ExtResource( 23 )
 normal_map = ExtResource( 12 )
 
 [node name="SpotLight" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship"]
@@ -2696,7 +3119,7 @@ material = ExtResource( 5 )
 position = Vector2( 0.409424, -46.2104 )
 rotation = -2.91011e-08
 scale = Vector2( 0.5, 1.5 )
-texture = ExtResource( 19 )
+texture = ExtResource( 24 )
 offset = Vector2( 0, -50 )
 
 [node name="Sprite" type="Sprite" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship/SpotLight"]
@@ -2704,7 +3127,7 @@ visible = false
 use_parent_material = true
 position = Vector2( -2.07614, -89.6176 )
 scale = Vector2( 4, 1.5 )
-texture = ExtResource( 20 )
+texture = ExtResource( 25 )
 
 [node name="Booster" type="CPUParticles2D" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship"]
 material = ExtResource( 5 )
@@ -2712,11 +3135,11 @@ position = Vector2( 14, 47 )
 rotation = -0.523598
 emitting = false
 amount = 4
-texture = ExtResource( 20 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 30 )
 scale_amount = 0.6
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="Booster2" type="CPUParticles2D" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship"]
 material = ExtResource( 5 )
@@ -2724,11 +3147,11 @@ position = Vector2( -14, 47 )
 rotation = 0.523599
 emitting = false
 amount = 4
-texture = ExtResource( 20 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 30 )
 scale_amount = 0.6
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="BoosterR" type="CPUParticles2D" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship"]
 material = ExtResource( 5 )
@@ -2736,11 +3159,11 @@ position = Vector2( 15.4582, -45.0331 )
 rotation = -2.09439
 emitting = false
 amount = 4
-texture = ExtResource( 20 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 30 )
 scale_amount = 0.6
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="BoosterL" type="CPUParticles2D" parent="Battle/Center/Mothership/Nodes/Deck/CargoShip/Ship"]
 material = ExtResource( 5 )
@@ -2748,41 +3171,42 @@ position = Vector2( -14.9689, -44.434 )
 rotation = 2.35619
 emitting = false
 amount = 4
-texture = ExtResource( 20 )
+texture = ExtResource( 25 )
 gravity = Vector2( 0, 30 )
 scale_amount = 0.6
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="DeckAni1" type="AnimationPlayer" parent="Battle/Center/Mothership/Nodes/Deck"]
 autoplay = "appear"
-anims/appear = SubResource( 6 )
+anims/appear = SubResource( 5 )
 
 [node name="DeckAni2" type="AnimationPlayer" parent="Battle/Center/Mothership/Nodes/Deck"]
 autoplay = "loopani"
-anims/loopani = SubResource( 7 )
+anims/loopani = SubResource( 6 )
 
 [node name="DeckAni3" type="AnimationPlayer" parent="Battle/Center/Mothership/Nodes/Deck"]
 autoplay = "maintenaceani"
-anims/maintenaceani = SubResource( 8 )
+anims/maintenaceani = SubResource( 7 )
 
 [node name="Container" type="Node2D" parent="Battle/Center/Mothership/Nodes"]
+editor/display_folded = true
 
 [node name="Sprite" type="Node2D" parent="Battle/Center/Mothership/Nodes/Container"]
 
 [node name="Normal" type="Sprite" parent="Battle/Center/Mothership/Nodes/Container/Sprite"]
 light_mask = 2
 position = Vector2( 258.333, 0 )
-texture = ExtResource( 21 )
+texture = ExtResource( 26 )
 offset = Vector2( -80, 0 )
 
 [node name="AppearAni" type="AnimationPlayer" parent="Battle/Center/Mothership"]
 autoplay = "appear"
-anims/appear = SubResource( 9 )
+anims/appear = SubResource( 8 )
 
 [node name="IdleAni" type="AnimationPlayer" parent="Battle/Center/Mothership"]
 autoplay = "idle"
-anims/idle = SubResource( 10 )
+anims/idle = SubResource( 9 )
 
 [node name="Explore" type="Control" parent="."]
 anchor_right = 1.0
@@ -2808,7 +3232,7 @@ margin_top = -960.0
 margin_right = 720.0
 margin_bottom = 960.0
 rect_min_size = Vector2( 1440, 1920 )
-texture = ExtResource( 22 )
+texture = ExtResource( 27 )
 expand = true
 
 [node name="Social" type="Control" parent="."]
