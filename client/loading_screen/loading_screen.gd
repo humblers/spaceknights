@@ -82,7 +82,7 @@ func _load_scene(paths):
 
 	var loaded_resources = {}
 	var progress_val = 0
-	for path in dict.keys():
+	for path in paths:
 		var loader = dict[path]
 		while(true):
 			progress.call_deferred("set_value", progress_val + loader.get_stage())
