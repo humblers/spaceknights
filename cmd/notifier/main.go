@@ -71,21 +71,21 @@ func main() {
 				// auth
 				if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
 					logger.Print(err)
-					break
+					continue
 				}
 				b, err := reader.ReadBytes('\n')
 				if err != nil {
 					logger.Print(err)
-					break
+					continue
 				}
 				var auth game.Auth
 				if err := json.Unmarshal(b, &auth); err != nil {
 					logger.Print(err)
-					break
+					continue
 				}
 				if auth.Id != auth.Token { // TODO: implement auth using humbler token
 					logger.Print("auth failed")
-					break
+					continue
 				}
 				id := auth.Id
 				mutex.Lock()

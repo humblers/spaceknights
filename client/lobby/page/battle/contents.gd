@@ -51,7 +51,9 @@ func show_config():
 	return
 
 func playAppearAni():
-	$Background/Mothership/AppearAni.play("appear")
+	# WHERE IS MOTHERSHIP RESOURCE??
+	#$Background/Mothership/AppearAni.play("appear")
+	pass
 
 func start_game(cfg):
 	var non_preload_paths = []

@@ -1,6 +1,6 @@
 extends Node
 
-const DEFAULT_HOST = '127.0.0.1'
+const DEFAULT_HOST = '13.125.74.237'
 const DEFAULT_PORT = 9998
 const PACKET_TERMINATOR = '\n'
 
