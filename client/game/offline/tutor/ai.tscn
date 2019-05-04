@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/offline/tutor/ai.gd" type="Script" id=1]
+[ext_resource path="res://game/game.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/offline/tutor/ai_player.gd" type="Script" id=3]
+[ext_resource path="res://game/offline/tutor/data.gd" type="Script" id=4]
+
+[node name="AI" type="Node"]
+script = ExtResource( 1 )
+
+[node name="game" parent="." instance=ExtResource( 2 )]
+
+[node name="Blue" parent="game/Players" index="0"]
+editor/display_folded = true
+knightbutton_left = NodePath("../../../../AIplayer/game/UI/KnightButtonLeft")
+knightbutton_right = NodePath("../../../../AIplayer/game/UI/KnightButtonRight")
+
+[node name="Red" parent="game/Players" index="1"]
+script = ExtResource( 3 )
+
+[node name="Map" parent="game" index="4"]
+editor/display_folded = true
+
+[node name="Tutor" type="ResourcePreloader" parent="game/Resource" index="3"]
+resources = [ PoolStringArray( "tutor_data" ), [ ExtResource( 4 ) ] ]
+
+[editable path="game"]
