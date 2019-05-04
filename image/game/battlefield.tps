@@ -2005,6 +2005,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">battlefield/unit/legion/fighter.png</key>
+            <key type="filename">battlefield/unit/legion/fighter_normal.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,19,35,38</rect>
+                <key>scale9Paddings</key>
+                <rect>18,19,35,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">battlefield/unit/legion/head.png</key>
             <key type="filename">battlefield/unit/legion/head_normal.png</key>
             <struct type="IndividualSpriteSettings">
