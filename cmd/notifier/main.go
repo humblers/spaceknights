@@ -67,39 +67,38 @@ func main() {
 				}
 				panic(err)
 			} else {
-				reader := bufio.NewReader(conn)
-				// auth
-				if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
-					logger.Print(err)
-					continue
-				}
-				b, err := reader.ReadBytes('\n')
-				if err != nil {
-					logger.Print(err)
-					continue
-				}
-				var auth game.Auth
-				if err := json.Unmarshal(b, &auth); err != nil {
-					logger.Print(err)
-					continue
-				}
-				if auth.Id != auth.Token { // TODO: implement auth using humbler token
-					logger.Print("auth failed")
-					continue
-				}
-				id := auth.Id
-				mutex.Lock()
-				if existing := clients[id]; existing != nil {
-					existing.SetReadDeadline(time.Now())
-				}
-				clients[id] = conn
-				mutex.Unlock()
-				logger.Printf("user %v connected", id)
-
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
 					defer conn.Close()
+					// auth
+					if err := conn.SetReadDeadline(time.Now().Add(1 * time.Second)); err != nil {
+						logger.Print(err)
+						return
+					}
+					reader := bufio.NewReader(conn)
+					b, err := reader.ReadBytes('\n')
+					if err != nil {
+						logger.Print(err)
+						return
+					}
+					var auth game.Auth
+					if err := json.Unmarshal(b, &auth); err != nil {
+						logger.Print(err)
+						return
+					}
+					if auth.Id != auth.Token { // TODO: implement auth using humbler token
+						logger.Print("auth failed")
+						return
+					}
+					id := auth.Id
+					mutex.Lock()
+					if existing := clients[id]; existing != nil {
+						existing.SetReadDeadline(time.Now())
+					}
+					clients[id] = conn
+					mutex.Unlock()
+					logger.Printf("user %v connected", id)
 					for {
 						if err := conn.SetReadDeadline(time.Now().Add(clientTimeout)); err != nil {
 							panic(err)
