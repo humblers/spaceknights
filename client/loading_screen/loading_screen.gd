@@ -69,31 +69,26 @@ func LoadResource(path):
 	return res
 
 func _load_scene(paths):
-	var dict = {}
-	var total = 0
-	for path in paths:
-		if dict.has(path):
-			continue
-		var loader = ResourceLoader.load_interactive(path)
-		assert(loader != null and loader.get_stage_count() > 0)
-		dict[path] = loader
-		total += loader.get_stage_count()
+	var dest_scene = paths.pop_front()
+	var loader = ResourceLoader.load_interactive(dest_scene)
+	var total = loader.get_stage_count() + len(paths)
 	progress.call_deferred("set_max", total)
 
 	var loaded_resources = {}
-	var progress_val = 0
-	for path in paths:
-		var loader = dict[path]
-		while(true):
-			progress.call_deferred("set_value", progress_val + loader.get_stage())
-			var err = loader.poll()
-			if err == ERR_FILE_EOF:
-				loaded_resources[path] = loader.get_resource()
-				progress_val += loader.get_stage()
-				break
-			elif err != OK:
-				print("error loading %s" % path)
-				break
+	while(true):
+		progress.call_deferred("set_value", loader.get_stage())
+		var err = loader.poll()
+		if err == ERR_FILE_EOF:
+			loaded_resources[dest_scene] = loader.get_resource()
+			break
+		elif err != OK:
+			print("error loading %s" % dest_scene)
+			break
+	var cur = loader.get_stage()
+	for i in range(len(paths)):
+		var path = paths[i]
+		loaded_resources[path] = ResourceLoader.load(path)
+		progress.call_deferred("set_value", cur + i)
 	call_deferred("_load_done", loaded_resources)
 
 func _load_done(loaded_resources):
