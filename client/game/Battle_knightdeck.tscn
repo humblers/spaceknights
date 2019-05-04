@@ -1,19 +1,19 @@
 [gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=1]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=2]
-[ext_resource path="res://atlas/lobby/background.sprites/mothership_cut.tres" type="Texture" id=3]
-[ext_resource path="res://material/light.tres" type="Material" id=4]
-[ext_resource path="res://atlas/lobby/background.sprites/knight_energy_link.tres" type="Texture" id=5]
-[ext_resource path="res://atlas/lobby/background_n.png" type="Texture" id=6]
-[ext_resource path="res://atlas/lobby/background.sprites/deck_yellow.tres" type="Texture" id=7]
-[ext_resource path="res://atlas/lobby/background.sprites/deck_cover_set.tres" type="Texture" id=8]
-[ext_resource path="res://atlas/lobby/background.sprites/maintenance.tres" type="Texture" id=9]
-[ext_resource path="res://atlas/lobby/background.png" type="Texture" id=10]
-[ext_resource path="res://atlas/lobby/background.sprites/main_arm1.tres" type="Texture" id=11]
-[ext_resource path="res://atlas/lobby/background.sprites/main_arm2.tres" type="Texture" id=12]
-[ext_resource path="res://atlas/lobby/background.sprites/square.tres" type="Texture" id=13]
-[ext_resource path="res://atlas/lobby/background.sprites/cargo.tres" type="Texture" id=14]
+[ext_resource path="res://atlas/lobby/background.sprites/mothership_cut.tres" type="Texture" id=1]
+[ext_resource path="res://material/light.tres" type="Material" id=2]
+[ext_resource path="res://atlas/lobby/background.sprites/knight_energy_link.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/lobby/background_n.png" type="Texture" id=4]
+[ext_resource path="res://atlas/lobby/background.sprites/deck_yellow.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/lobby/background.sprites/deck_cover_set.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/lobby/background.sprites/maintenance.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/lobby/background.png" type="Texture" id=8]
+[ext_resource path="res://atlas/lobby/background.sprites/main_arm1.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/lobby/background.sprites/main_arm2.tres" type="Texture" id=10]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=11]
+[ext_resource path="res://atlas/lobby/background.sprites/square.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/lobby/background.sprites/cargo.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/lobby/background.sprites/pointlight.tres" type="Texture" id=14]
 [ext_resource path="res://atlas/lobby/background.sprites/sphere.tres" type="Texture" id=15]
 [ext_resource path="res://atlas/lobby/background.sprites/container_re.tres" type="Texture" id=16]
 
@@ -862,7 +862,6 @@ tracks/68/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-resource_name = "loopani"
 length = 40.0
 loop = true
 tracks/0/type = "value"
@@ -961,9 +960,44 @@ tracks/7/keys = {
 "update": 0,
 "values": [ -1.70755e-06, -1.70755e-06, -89.9999, -89.9999, -15.0, -15.0, -44.9999, 44.9999, -15.0, 0.0 ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("CargoShip/Ship:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("CargoShip/Ship/SpotLight/Sprite:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 6.3, 6.9, 7.3, 12.7, 13, 27, 28.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, true, true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("CargoShip/Ship/SpotLight:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0.1, 7.4, 9.4, 12.6, 14.1, 23.5, 24.7, 26.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 1.5 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 2 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 2 ), Vector2( 0.5, 2 ), Vector2( 0.5, 1.5 ), Vector2( 0.5, 1.5 ) ]
+}
 
 [sub_resource type="Animation" id=7]
-resource_name = "maintenaceani"
 length = 50.0
 loop = true
 tracks/0/type = "value"
@@ -1462,43 +1496,43 @@ tracks/40/keys = {
 [sub_resource type="Animation" id=8]
 length = 2.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("../../KnightText/Leftwing:visible")
-tracks/0/interp = 1
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.8, 2 ),
+"times": PoolRealArray( 0, 1.1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
+"update": 0,
+"values": [ Vector2( 12, -419 ), Vector2( -111, -784 ), Vector2( -420, -890 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../../KnightText/Rightwing:visible")
+tracks/1/path = NodePath("Nodes/Deck/Center:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.8, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -230 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../../KnightText/Leader:visible")
+tracks/2/path = NodePath("Nodes/Deck/Right:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.7, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 148.907, -269.532 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Nodes/Deck/Center:position")
+tracks/3/path = NodePath("Nodes/Deck/Left:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1507,91 +1541,31 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -230 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( -150, -264.871 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Nodes/Deck/Right:position")
+tracks/4/path = NodePath("Nodes/Deck:rotation_degrees")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 148.907, -269.532 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Nodes/Deck/Left:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -150, -264.871 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Nodes/Deck:rotation_degrees")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "times": PoolRealArray( 0, 1.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 30.0 ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("Nodes/Deck:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
+tracks/5/type = "value"
+tracks/5/path = NodePath("Nodes/Deck:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 1.4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( -93.3532, -13.3069 ) ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("../../KnightText/Center:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 1.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("../../KnightText/Right:visible")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 1.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("../../KnightText/Left:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 1.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -1647,26 +1621,18 @@ tracks/3/keys = {
 }
 
 [node name="Mothership" type="Node2D"]
-position = Vector2( 120, 0 )
+position = Vector2( -420, -890 )
 rotation = -0.523598
 scale = Vector2( 1.2, 1.2 )
 
-[node name="Sprite" type="Light2D" parent="."]
-material = ExtResource( 1 )
-position = Vector2( 203.627, 463.974 )
-scale = Vector2( 20, 20 )
-texture = ExtResource( 2 )
-texture_scale = 3.0
-range_height = 8.0
-
 [node name="Nodes" type="Node2D" parent="."]
-editor/display_folded = true
-position = Vector2( 0, 1050 )
+position = Vector2( 4.94537, 1041.44 )
 scale = Vector2( 2, 2 )
 
 [node name="Body" type="Sprite" parent="Nodes"]
+modulate = Color( 0.619608, 0.619608, 0.619608, 1 )
 position = Vector2( 78.6485, -175.738 )
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 
 [node name="Deck" type="Node2D" parent="Nodes"]
 position = Vector2( -93.3532, -13.3069 )
@@ -1676,24 +1642,24 @@ rotation = 0.523599
 position = Vector2( -150, -264.871 )
 
 [node name="Link" type="Sprite" parent="Nodes/Deck/Left"]
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 75, 83 )
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
 
 [node name="Link2" type="Sprite" parent="Nodes/Deck/Left"]
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 44, 97 )
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
 flip_h = true
 flip_v = true
 
 [node name="NormalL" type="Sprite" parent="Nodes/Deck/Left"]
 light_mask = 3
-material = ExtResource( 4 )
-texture = ExtResource( 7 )
-normal_map = ExtResource( 6 )
+material = ExtResource( 2 )
+texture = ExtResource( 5 )
+normal_map = ExtResource( 4 )
 flip_v = true
 
 [node name="ReadyL" type="Node2D" parent="Nodes/Deck/Left"]
@@ -1705,22 +1671,22 @@ rotation = 3.14159
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -1731,22 +1697,22 @@ rotation = -2.09439
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -1757,22 +1723,22 @@ rotation = -4.18878
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Left/ReadyL/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -1786,148 +1752,145 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Nodes/Deck/Left/Position"]
 
 [node name="DecoLeft" type="Node2D" parent="Nodes/Deck/Left"]
-position = Vector2( -1.52588e-05, -18.75 )
+position = Vector2( -0.001297, -18.8071 )
+rotation = 2.48353e-07
 
 [node name="Maintenace1L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft"]
-editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0, -0.265 )
 rotation = -3.14159
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="L1Arm1L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace1L"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
-rotation = 3.58714
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+rotation = 2.61799
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L1Arm2L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace1L/L1Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="L1Arm1R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace1L"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
-rotation = -2.8872
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+rotation = -2.61799
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L1Arm2R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace1L/L1Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace2L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft"]
-editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0, -0.265 )
 rotation = -1.0472
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="L2Arm1L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace2L"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L2Arm2L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace2L/L2Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="L2Arm1R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace2L"]
-editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L2Arm2R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace2L/L2Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace3L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft"]
-editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0, -0.265 )
 rotation = 1.0472
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="L3Arm1L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace3L"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L3Arm2L" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace3L/L3Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="L3Arm1R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace3L"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="L3Arm2R" type="Sprite" parent="Nodes/Deck/Left/DecoLeft/Maintenace3L/L3Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Display1" type="CPUParticles2D" parent="Nodes/Deck/Left/DecoLeft"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 3.8147e-05, 75.0551 )
 scale = Vector2( 1.2, 0.4 )
 amount = 3
@@ -1935,7 +1898,7 @@ lifetime = 0.4
 speed_scale = 0.2
 explosiveness = 1.0
 randomness = 1.0
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -1948,7 +1911,7 @@ hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Display2" type="CPUParticles2D" parent="Nodes/Deck/Left/DecoLeft"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( -65.0002, -38.2781 )
 rotation = 2.09439
 scale = Vector2( 1.2, 0.4 )
@@ -1957,7 +1920,7 @@ amount = 3
 lifetime = 0.4
 speed_scale = 0.2
 explosiveness = 1.0
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -1970,27 +1933,28 @@ hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Right" type="Node2D" parent="Nodes/Deck"]
+editor/display_folded = true
 position = Vector2( 148.907, -269.532 )
 
 [node name="Link3" type="Sprite" parent="Nodes/Deck/Right"]
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -56, 97 )
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
 flip_v = true
 
 [node name="Link2" type="Sprite" parent="Nodes/Deck/Right"]
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -67, 83 )
-texture = ExtResource( 5 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 3 )
+normal_map = ExtResource( 4 )
 flip_h = true
 
 [node name="NormalR" type="Sprite" parent="Nodes/Deck/Right"]
 light_mask = 3
-material = ExtResource( 4 )
-texture = ExtResource( 7 )
-normal_map = ExtResource( 6 )
+material = ExtResource( 2 )
+texture = ExtResource( 5 )
+normal_map = ExtResource( 4 )
 flip_v = true
 
 [node name="ReadyR" type="Node2D" parent="Nodes/Deck/Right"]
@@ -2002,22 +1966,22 @@ rotation = 3.14159
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2028,22 +1992,22 @@ rotation = -2.09439
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2054,22 +2018,22 @@ rotation = -4.18878
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Right/ReadyR/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2083,145 +2047,147 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Nodes/Deck/Right/Position"]
 
 [node name="DecoRight" type="Node2D" parent="Nodes/Deck/Right"]
-position = Vector2( 0, -18.75 )
+editor/display_folded = true
+position = Vector2( -0.00131226, -18.807 )
+rotation = 2.48353e-07
 
 [node name="Maintenace1R" type="Sprite" parent="Nodes/Deck/Right/DecoRight"]
 editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000244141, -0.264832 )
 rotation = -3.14159
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="R1Arm1L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R1Arm2L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace1R/R1Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="R1Arm1R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace1R"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R1Arm2R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace1R/R1Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace2R" type="Sprite" parent="Nodes/Deck/Right/DecoRight"]
 editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, -0.264847 )
 rotation = -1.0472
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="R2Arm1L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace2R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
 rotation = 6.31345
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R2Arm2L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace2R/R2Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="R2Arm1R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace2R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
 rotation = -6.35996
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R2Arm2R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace2R/R2Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0, 16.5683 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace3R" type="Sprite" parent="Nodes/Deck/Right/DecoRight"]
 editor/display_folded = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000244141, -0.264832 )
 rotation = 1.0472
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="R3Arm1L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace3R"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R3Arm2L" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace3R/R3Arm1L"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="R3Arm1R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace3R"]
 editor/display_folded = true
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="R3Arm2R" type="Sprite" parent="Nodes/Deck/Right/DecoRight/Maintenace3R/R3Arm1R"]
 show_behind_parent = true
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Display3" type="CPUParticles2D" parent="Nodes/Deck/Right/DecoRight"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( -63.9072, -37.7847 )
 rotation = 2.09439
 scale = Vector2( 1.2, 0.4 )
@@ -2229,7 +2195,7 @@ amount = 3
 lifetime = 0.4
 speed_scale = 0.2
 explosiveness = 1.0
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -2242,7 +2208,7 @@ hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Display4" type="CPUParticles2D" parent="Nodes/Deck/Right/DecoRight"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 0.25946, 74.7158 )
 scale = Vector2( 1.2, 0.4 )
 emitting = false
@@ -2250,7 +2216,7 @@ amount = 3
 lifetime = 0.4
 speed_scale = 0.2
 explosiveness = 1.0
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -2263,13 +2229,14 @@ hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="Center" type="Node2D" parent="Nodes/Deck"]
+editor/display_folded = true
 position = Vector2( 0, -230 )
 
 [node name="NormalC" type="Sprite" parent="Nodes/Deck/Center"]
 light_mask = 3
-material = ExtResource( 4 )
-texture = ExtResource( 7 )
-normal_map = ExtResource( 6 )
+material = ExtResource( 2 )
+texture = ExtResource( 5 )
+normal_map = ExtResource( 4 )
 
 [node name="DeckCover" type="Node2D" parent="Nodes/Deck/Center"]
 editor/display_folded = true
@@ -2279,22 +2246,22 @@ position = Vector2( 3.05176e-05, 18.9999 )
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set1"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2305,22 +2272,22 @@ rotation = -2.09439
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set2"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2331,22 +2298,22 @@ rotation = -4.18878
 
 [node name="Cover1" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( -33.9999, 56.4999 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 vframes = 2
 region_enabled = true
 region_rect = Rect2( 0, 0, 135, 68 )
 
 [node name="Cover2" type="Sprite" parent="Nodes/Deck/Center/DeckCover/Set3"]
 light_mask = 3
-material = ExtResource( 4 )
+material = ExtResource( 2 )
 position = Vector2( 34.0001, 56.4998 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
-normal_map = ExtResource( 6 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 4 )
 flip_h = true
 vframes = 2
 region_enabled = true
@@ -2360,15 +2327,17 @@ scale = Vector2( 0.5, 0.5 )
 [node name="Unit" type="Node2D" parent="Nodes/Deck/Center/Position"]
 
 [node name="DecoCenter" type="Node2D" parent="Nodes/Deck/Center"]
-position = Vector2( -0.000137438, 19 )
+editor/display_folded = true
+position = Vector2( -0.00146484, 18.9429 )
+rotation = 2.48353e-07
 
 [node name="Maintenace1C" type="Sprite" parent="Nodes/Deck/Center/DecoCenter"]
 editor/display_folded = true
 position = Vector2( 0.000244141, -0.264832 )
 rotation = -2.09439
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="C1Arm1L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace1C"]
@@ -2376,15 +2345,15 @@ editor/display_folded = true
 show_behind_parent = true
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C1Arm2L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace1C/C1Arm1L"]
 show_behind_parent = true
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="C1Arm1R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace1C"]
@@ -2392,23 +2361,23 @@ editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C1Arm2R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace1C/C1Arm1R"]
 show_behind_parent = true
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace2C" type="Sprite" parent="Nodes/Deck/Center/DecoCenter"]
 editor/display_folded = true
 position = Vector2( 0.000213623, -0.264847 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="C2Arm1L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace2C"]
@@ -2416,15 +2385,15 @@ editor/display_folded = true
 show_behind_parent = true
 position = Vector2( 62, -138 )
 rotation = 2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C2Arm2L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace2C/C2Arm1L"]
 show_behind_parent = true
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="C2Arm1R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace2C"]
@@ -2432,15 +2401,15 @@ editor/display_folded = true
 show_behind_parent = true
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C2Arm2R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace2C/C2Arm1R"]
 show_behind_parent = true
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Maintenace3C" type="Sprite" parent="Nodes/Deck/Center/DecoCenter"]
@@ -2448,50 +2417,51 @@ editor/display_folded = true
 position = Vector2( 0.000244141, -0.264832 )
 rotation = 2.09439
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 9 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, -166.863 )
 
 [node name="C3Arm1L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace3C"]
 show_behind_parent = true
 position = Vector2( 62, -138 )
 rotation = 6.64148
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C3Arm2L" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace3C/C3Arm1L"]
 show_behind_parent = true
 position = Vector2( 0, 10.4576 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="C3Arm1R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace3C"]
 show_behind_parent = true
 position = Vector2( -62, -138 )
 rotation = -2.61799
-texture = ExtResource( 11 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 0, 24 )
 
 [node name="C3Arm2R" type="Sprite" parent="Nodes/Deck/Center/DecoCenter/Maintenace3C/C3Arm1R"]
 show_behind_parent = true
 position = Vector2( 0.000213623, 1.97137 )
-texture = ExtResource( 12 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 10 )
+normal_map = ExtResource( 8 )
 offset = Vector2( 3.05176e-05, 39 )
 
 [node name="Display5" type="CPUParticles2D" parent="Nodes/Deck/Center/DecoCenter"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 66.2501, 37.8508 )
 rotation = -1.0472
 scale = Vector2( 1.2, 0.4 )
+emitting = false
 amount = 3
 lifetime = 0.4
 speed_scale = 0.2
 explosiveness = 1.0
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 90.0
@@ -2504,27 +2474,38 @@ hue_variation = 0.37
 hue_variation_random = 0.07
 
 [node name="CargoShip" type="Node2D" parent="Nodes/Deck"]
+position = Vector2( -0.00137329, -0.0570679 )
+rotation = 2.48353e-07
 
 [node name="Ship" type="Sprite" parent="Nodes/Deck/CargoShip"]
-material = ExtResource( 4 )
-position = Vector2( -171.618, -377.577 )
-rotation = -3.26823
+material = ExtResource( 2 )
+position = Vector2( 129.167, -129.333 )
+rotation = -0.523599
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 14 )
-normal_map = ExtResource( 10 )
+texture = ExtResource( 13 )
+normal_map = ExtResource( 8 )
 
 [node name="SpotLight" type="Sprite" parent="Nodes/Deck/CargoShip/Ship"]
-modulate = Color( 0.760784, 0.8, 1, 0.752941 )
+visible = false
+modulate = Color( 0.760784, 0.8, 1, 1 )
+self_modulate = Color( 1, 1, 1, 0.470588 )
 show_behind_parent = true
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 0.409424, -46.2104 )
-rotation = -0.407714
-scale = Vector2( 1, 5 )
+rotation = -2.91011e-08
+scale = Vector2( 0.5, 1.5 )
+texture = ExtResource( 14 )
+offset = Vector2( 0, -50 )
+
+[node name="Sprite" type="Sprite" parent="Nodes/Deck/CargoShip/Ship/SpotLight"]
+visible = false
+use_parent_material = true
+position = Vector2( -2.07614, -89.6176 )
+scale = Vector2( 4, 1.5 )
 texture = ExtResource( 15 )
-offset = Vector2( 0, -9 )
 
 [node name="Booster" type="CPUParticles2D" parent="Nodes/Deck/CargoShip/Ship"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 14, 47 )
 rotation = -0.523598
 emitting = false
@@ -2536,7 +2517,7 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="Booster2" type="CPUParticles2D" parent="Nodes/Deck/CargoShip/Ship"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( -14, 47 )
 rotation = 0.523599
 emitting = false
@@ -2548,9 +2529,10 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="BoosterR" type="CPUParticles2D" parent="Nodes/Deck/CargoShip/Ship"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( 15.4582, -45.0331 )
 rotation = -2.09439
+emitting = false
 amount = 4
 texture = ExtResource( 15 )
 gravity = Vector2( 0, 30 )
@@ -2559,7 +2541,7 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="BoosterL" type="CPUParticles2D" parent="Nodes/Deck/CargoShip/Ship"]
-material = ExtResource( 1 )
+material = ExtResource( 11 )
 position = Vector2( -14.9689, -44.434 )
 rotation = 2.35619
 emitting = false
@@ -2582,49 +2564,17 @@ anims/loopani = SubResource( 6 )
 autoplay = "maintenaceani"
 anims/maintenaceani = SubResource( 7 )
 
-[node name="Example" type="Node2D" parent="Nodes"]
-editor/display_folded = true
-position = Vector2( -91.4452, -16.6117 )
-rotation = 0.523599
-
-[node name="Left" type="Node2D" parent="Nodes/Example"]
-position = Vector2( -150, -270 )
-
-[node name="Position" type="Position2D" parent="Nodes/Example/Left"]
-position = Vector2( 0, -9.16667 )
-scale = Vector2( 0.5, 0.5 )
-
-[node name="Unit" type="Node2D" parent="Nodes/Example/Left/Position"]
-
-[node name="Right" type="Node2D" parent="Nodes/Example"]
-position = Vector2( 150, -270 )
-
-[node name="Position" type="Position2D" parent="Nodes/Example/Right"]
-position = Vector2( 0, -9.16667 )
-scale = Vector2( 0.5, 0.5 )
-
-[node name="Unit" type="Node2D" parent="Nodes/Example/Right/Position"]
-
-[node name="Center" type="Node2D" parent="Nodes/Example"]
-position = Vector2( 0, -230 )
-
-[node name="Position" type="Position2D" parent="Nodes/Example/Center"]
-position = Vector2( 1.52588e-05, 3.33334 )
-scale = Vector2( 0.5, 0.5 )
-
-[node name="Unit" type="Node2D" parent="Nodes/Example/Center/Position"]
-
 [node name="Container" type="Node2D" parent="Nodes"]
-editor/display_folded = true
 
-[node name="Normal" type="Sprite" parent="Nodes/Container"]
+[node name="Sprite" type="Node2D" parent="Nodes/Container"]
+
+[node name="Normal" type="Sprite" parent="Nodes/Container/Sprite"]
 light_mask = 2
-position = Vector2( 258.333, 7.62939e-06 )
+position = Vector2( 258.333, 0 )
 texture = ExtResource( 16 )
 offset = Vector2( -80, 0 )
 
 [node name="AppearAni" type="AnimationPlayer" parent="."]
-autoplay = "appear"
 anims/appear = SubResource( 8 )
 
 [node name="IdleAni" type="AnimationPlayer" parent="."]
