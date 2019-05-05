@@ -1,4 +1,4 @@
-extends Control
+extends TextureButton
 
 const MAX_STAT_COUNT = 10
 
@@ -29,12 +29,13 @@ var card
 var unit
 
 func _ready():
+	self.connect("button_up", self, "hide")
 	use_btn.connect("button_up", self, "useButtonUp")
 	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
 
 func useButtonUp():
 	get_tree().current_scene.page_card.set_picked_card(card)
-	main_popup.hide()
+	hide()
 
 func isUpgradable():
 	if data.Upgrade.IsLevelMax(card.Rarity, card.Level):
@@ -45,7 +46,7 @@ func isUpgradable():
 
 func upgradeButtonUp():
 	if not isUpgradable():
-		main_popup.hide()
+		hide()
 		return
 	var params = {"Name": card.Name}
 	var req = lobby_request.New(
@@ -77,14 +78,18 @@ func PopUp(card, enable_use = false):
 	card_name_label.SetText("ID_%s" % card.Name.to_upper())
 	info_label.SetText("ID_CARD_INFO_%s" % card.Name)
 	rarity_label.SetText("ID_%s" % card.Rarity.to_upper())
-	$Base.Invalidate(card)
+	$MainPopup/MainPanel/SubPanel/NinePatchRect/Base.Invalidate(card)
 	holding_label.text = "%d/%d" % [card.Holding, card_cost]
 	upgrade_cost.text = "%d" % coin_cost
 
 	main_popup.Invalidate(card, unit)
+	sub_popup.visible = false
 	self.visible = true
 
-func Hide():
+func hide():
+	if $SubPopup.visible:
+		$SubPopup.visible = false
+		return
 	self.visible = false
 
 func PopUpSub(pressed):

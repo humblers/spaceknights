@@ -18,11 +18,11 @@ export(NodePath) onready var chest_6 = get_node(chest_6)
 export(NodePath) onready var chest_7 = get_node(chest_7)
 
 func _ready():
-	event.connect("DoneBackgroundProcess", self, "playAppearAni")
+	event.connect("InvalidatePageBattle", self, "invalidate")
 	match_btn.connect("button_up", self, "match_request")
 	config_btn.connect("button_up", self, "show_config")
 
-func Invalidate():
+func invalidate():
 	# temporary set uid
 	user_name.text = user.Id
 	rank.text = "%d" % user.Rank
@@ -46,11 +46,6 @@ func match_request():
 
 func show_config():
 	event.emit_signal("RequestPopup", event.PopupSetting, [])
-
-func playAppearAni():
-	# WHERE IS MOTHERSHIP RESOURCE??
-	#$Background/Mothership/AppearAni.play("appear")
-	pass
 
 func start_game(cfg):
 	var non_preload_paths = []

@@ -38,4 +38,4 @@ func time_left():
 func open():
 	if chest == null:
 		return
-	get_tree().current_scene.hud.chestinfo_dialog.PopUp(chest, slot)
+	event.emit_signal("RequestPoupInContents", event.PopupContentsChestInfo, [chest, slot])

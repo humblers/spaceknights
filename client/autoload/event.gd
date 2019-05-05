@@ -1,7 +1,5 @@
 extends Node
 
-signal DoneBackgroundProcess
-
 # For game
 signal GameInitialized(game)
 
@@ -44,12 +42,17 @@ signal VerticalScrollInput(released, dy)
 signal InvalidateLobby
 signal InvalidateHUD
 signal InvalidatePageBattle
+signal InvalidatePageCard
 
 const PopupModalConfirm = "ModalConfirm"
 const PopupModalMessage = "ModalMessage"
 const PopupSetting      = "PopupSetting"
 signal RequestPopup(kind, args)
 signal ModalConfirmed(tf)
+
+const PopupContentsCardInfo  = "PopupContentsCardInfo"
+const PopupContentsChestInfo = "PopupContentsChestInfo"
+signal RequestPoupInContents(kind, args)
 
 const DialogCardUpgrade = "DialogCardUpgrade"
 const DialogChestOpen   = "DialogChestOpen"

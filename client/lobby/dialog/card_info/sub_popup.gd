@@ -1,4 +1,4 @@
-extends PopupPanel
+extends TextureButton
 
 const STAT_ORDER = [
 	"castduration", "duration", "damageduration",
@@ -46,7 +46,7 @@ func Invalidate(card, pressed):
 				break
 		for i in range(info_root.MAX_STAT_COUNT):
 			item_nodes[i].visible = i < pointer
-	self.popup()
+	self.visible = true
 
 func keyText(key, skill):
 	match key:
@@ -107,7 +107,7 @@ func valueText(key, card, skill):
 		# spell only
 		"castduration", "duration", "damageduration":
 			if skill.has(key):
-				return get_tree().current_scene.hud.FormatStepToSecond(skill[key])
+				return static_func.FormatStepToSecond(skill[key])
 			return null
 		"damage":
 			if skill.has(key):
@@ -115,12 +115,12 @@ func valueText(key, card, skill):
 				return "%d" % skill[key][lv]
 		"radius":
 			if skill.has(key):
-				return get_tree().current_scene.hud.FormatPixelToTile(skill[key])
+				return static_func.FormatPixelToTile(skill[key])
 		"area":
 			if skill.has("width") and skill.has("height"):
 				return "%s x %s" % [
-					get_tree().current_scene.hud.FormatPixelToTile(skill["width"]),
-					get_tree().current_scene.hud.FormatPixelToTile(skill["height"]),
+					static_func.FormatPixelToTile(skill["width"]),
+					static_func.FormatPixelToTile(skill["height"]),
 				]
 		"count":
 			if skill.has(key) and skill[key] > 1:
@@ -142,13 +142,13 @@ func valueText(key, card, skill):
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 					return "%d" % u[key][lv]
 				"attackinterval", "spawninterval":
-					return get_tree().current_scene.hud.FormatStepToSecond(u[key])
+					return static_func.FormatStepToSecond(u[key])
 				"speed":
-					return get_tree().current_scene.hud.FormatSpeed(u.get(key, 0))
+					return static_func.FormatSpeed(u.get(key, 0))
 				"attackrange":
 					if data.DamageTypeIs(u.get("damagetype", 0), data.Melee):
 						return "ID_MELEE"
-					return get_tree().current_scene.hud.FormatPixelToTile(u[key])
+					return static_func.FormatPixelToTile(u[key])
 				"decaydamage":
 					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 					var hp = float(u["hp"][lv])
@@ -184,5 +184,5 @@ func valueText(key, card, skill):
 				atk_type = u.get("attacktype", "")
 			if dmg_type == null:
 				dmg_type = u.get("damagetype", 0)
-			return get_tree().current_scene.hud.FormatAttackType(target_types, atk_type, dmg_type)
+			return static_func.FormatAttackType(target_types, atk_type, dmg_type)
 	return null

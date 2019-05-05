@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func GetStatIcon(layer, stat_key):
-	var path = "res://atlas/lobby/%s.sprites/stat_icon/%s.png"
+	var path = "res://atlas/lobby/%s.sprites/stat_icon/%s.tres"
 	match stat_key:
 		"damage", "attackdamage":
 			path = path % [layer, "damage"]
@@ -17,6 +17,8 @@ func GetStatIcon(layer, stat_key):
 			path = path % [layer, "attack_type"]
 		"decaydamage":
 			path = path % [layer, "lifetime"]
+		"attackrange":
+			path = path % [layer, "attack_range"]
 		_:
 			path = path % [layer, stat_key]
 	return LoadResource(path)

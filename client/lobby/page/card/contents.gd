@@ -43,6 +43,7 @@ var picked_card
 var filter = data.SquireCard
 
 func _ready():
+	event.connect("InvalidatePageCard", self, "invalidate")
 	scroll_max_y = scrollable.rect_position.y
 	calc_scroll_threshold()
 	bottom_left.connect("item_rect_changed", self, "calc_scroll_threshold")
@@ -64,7 +65,7 @@ func calc_scroll_threshold():
 	var scrollable_height = bottom_left.rect_global_position.y - scrollable.rect_global_position.y
 	scroll_min_y = page_height - scrollable_height
 	
-func Invalidate():
+func invalidate():
 	var cur_mode = current_mode()
 	var selected = user.DeckSelected
 	get("deck_btn_%d" % selected).pressed = true
@@ -134,9 +135,10 @@ func button_up_deck_num(btn):
 	var request = lobby_request.New("/edit/deck/select", {"num":pressed_num})
 	var response = yield(request, "Completed")
 	if not response[0]:
-		event.emit_signal("RequestMessageModal", self, response[1].ErrMessage)
+		event.emit_signal("RequestPopup", self, [response[1].ErrMessage])
 		return
 	user.DeckSelected = pressed_num
+	invalidate()
 	event.emit_signal("InvalidatePageBattle")
 
 func button_up_deck_item(btn):
@@ -189,6 +191,7 @@ func button_up_deck_item(btn):
 	pressed_card = null
 	user.DeckSlots[params.num] = params.deck
 	picked.rect_global_position = origin
+	invalidate()
 	event.emit_signal("InvalidatePageBattle")
 	if picked_type == data.SquireCard:
 		scrollable.rect_position.y = -knights_control.rect_size.y
@@ -198,7 +201,7 @@ func set_pressed_card(card, position = Vector2(0, 0)):
 		return
 	if card == null or card == pressed_card:
 		pressed_card = null
-		Invalidate()
+		invalidate()
 		return
 	pressed_card = card
 	pressed.rect_global_position = position
@@ -206,7 +209,7 @@ func set_pressed_card(card, position = Vector2(0, 0)):
 
 func set_picked_card(card):
 	picked_card = card
-	Invalidate()
+	invalidate()
 
 func change_filter(filter):
 	if self.filter != filter:
@@ -219,7 +222,7 @@ func change_filter(filter):
 			not user.CardInDeck(pressed_card.Name) and \
 			filter != pressed_card.Type:
 		pressed_card = null
-	Invalidate()
+	invalidate()
 
 func go_to_tutor_mode():
 	var params = config.GAME.duplicate(true)
