@@ -369,13 +369,4 @@ func updateFocus(focused_hand_index):
 
 func rotateRunway(angle):
 	var runway
-#	if self.name == "Hand1":
-#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L1/DeckBaseL1/Guide")
-#	if self.name == "Hand2":
-#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameL/Link2L/Link1L2/DeckBaseL2/Guide")
-#	if self.name == "Hand3":
-#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L3/DeckBaseR2/Guide")
-#	if self.name == "Hand4":
-#		runway = mothership.get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/FrameR/Link2R/Link1L4/DeckBaseR1/Guide")
-	if runway:
-		runway.set_rotation_degrees((180/PI) * angle)
+	event.emit_signal("RunwayRotate", int(self.name[4]), (180/PI) * angle)
