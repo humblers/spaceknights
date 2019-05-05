@@ -37,6 +37,8 @@ signal BlueUpdateNext(ready)
 signal RedSetNext(card)
 signal RedUpdateNext(ready)
 
+signal RunwayRotate(num, angle)
+
 # For lobby
 const Pages = ["Battle", "Card", "Explore", "Shop", "Social"]
 signal PageSelected(page)

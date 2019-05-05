@@ -9,6 +9,7 @@ export(String, "Blue", "Red") var color = null
 func _ready():
 	event.connect("%sPlayerInitialized" % String(color), self, "init", [], CONNECT_ONESHOT)
 	event.connect("%sMothershipDeckUpdate" % color, self, "updateDeck")
+	event.connect("RunwayRotate", self, "runwayRotate")
 
 func init(player):
 	event.connect("%sKnightDead" % color, self, "destroy")
@@ -53,3 +54,9 @@ func updateDeck(state, side, charging_ratio = 0):
 			node.visible = charging_ratio >= 1
 		event.MothershipDeckOpen, event.MothershipDeckClose:
 			get_node("Anim%s" % side).play(state)
+			
+func runwayRotate(num, angle):
+	var side = "L" if num < 3 else "R"
+	var runway = get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/Frame%s/Link2%s/Link1L%d/DeckBaseL%d/Guide" % [ side, side, num, num ])
+	if runway:
+		runway.set_rotation_degrees(angle)
