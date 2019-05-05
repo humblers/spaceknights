@@ -63,6 +63,7 @@ const DialogChestOpen   = "DialogChestOpen"
 const DialogMatchwating = "DialogMatchWaiting"
 signal RequestDialog(kind, args)
 
+signal PageCardPickedCardItem(card)
 
 # For tutorial
 signal StudentUseCard(card)

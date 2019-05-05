@@ -34,7 +34,7 @@ func _ready():
 	upgrade_btn.connect("button_up", self, "upgradeButtonUp")
 
 func useButtonUp():
-	get_tree().current_scene.page_card.set_picked_card(card)
+	event.emit_signal("PageCardPickedCardItem", card)
 	hide()
 
 func isUpgradable():
@@ -53,7 +53,7 @@ func upgradeButtonUp():
 			"/edit/card/upgrade", params)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		get_tree().current_scene.HandleError(response[1].ErrMessage)
+		event.emit_signal("RequestPopup", event.PopupModalMessage, [response[1].ErrMessage])
 		return
 	var c = response[1].Card
 	user.Cards[card.Name] = c

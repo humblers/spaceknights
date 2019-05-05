@@ -9,8 +9,6 @@ const SCROLL_DECISION_PIXEL = 50
 onready var camera = $InitialCenter/Camera2D
 onready var tween = $Tween
 
-var cur_page
-
 var scroll = MODE_NO_SCROLL
 var prev_input_pos
 

@@ -44,6 +44,7 @@ var filter = data.SquireCard
 
 func _ready():
 	event.connect("InvalidatePageCard", self, "invalidate")
+	event.connect("PageCardPickedCardItem", self, "set_picked_card")
 	scroll_max_y = scrollable.rect_position.y
 	calc_scroll_threshold()
 	bottom_left.connect("item_rect_changed", self, "calc_scroll_threshold")
