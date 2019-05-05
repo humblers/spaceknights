@@ -81,9 +81,8 @@ func makeUpgradeBar(card):
 	anim.track_set_key_value(level_track_idx, 1, "%02d" % (int(level_label.text) + 1))
 
 func buttonUp():
-	if animation_player.is_playing():
-		if animation_player.current_animation == "card_upgrade":
-			animation_player.advance(animation_player.current_animation_length)
+	if animation_player.is_playing() and\
+			animation_player.current_animation == "card_upgrade":
 		return
 	animation_player.play("close")
 
