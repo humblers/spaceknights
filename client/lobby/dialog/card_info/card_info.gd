@@ -13,11 +13,7 @@ export(NodePath) onready var sub_popup = get_node(sub_popup)
 export(NodePath) onready var card_name_label = get_node(card_name_label)
 export(NodePath) onready var info_label = get_node(info_label)
 export(NodePath) onready var rarity_label = get_node(rarity_label)
-export(NodePath) onready var cost_label = get_node(cost_label)
 export(NodePath) onready var rarity_panel = get_node(rarity_panel)
-export(NodePath) onready var icon = get_node(icon)
-export(NodePath) onready var frame = get_node(frame)
-export(NodePath) onready var level_label = get_node(level_label)
 export(NodePath) onready var holding_label = get_node(holding_label)
 export(NodePath) onready var holding_progress = get_node(holding_progress)
 
@@ -72,8 +68,6 @@ func PopUp(card, enable_use = false):
 	self.unit = data.units[card.Unit]
 
 	rarity_panel.modulate = get("rarity_panel_%s" % card.Rarity.to_lower())
-	icon.texture = get_tree().current_scene.resource_manager.get_card_icon(card.Name)
-	frame.texture = get_tree().current_scene.resource_manager.get_card_frame(card.Type, card.Rarity)
 	use_btn.visible = enable_use
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	var coin_cost = data.Upgrade.CoinCostNextLevel(card.Rarity, card.Level)
@@ -83,8 +77,7 @@ func PopUp(card, enable_use = false):
 	card_name_label.SetText("ID_%s" % card.Name.to_upper())
 	info_label.SetText("ID_CARD_INFO_%s" % card.Name)
 	rarity_label.SetText("ID_%s" % card.Rarity.to_upper())
-	cost_label.text = "%d" % (card.Cost / 1000)
-	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
+	$Base.Invalidate(card)
 	holding_label.text = "%d/%d" % [card.Holding, card_cost]
 	upgrade_cost.text = "%d" % coin_cost
 

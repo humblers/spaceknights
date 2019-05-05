@@ -1,15 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://material/unshaded.tres" type="Material" id=1]
-[ext_resource path="res://atlas/lobby/contents.sprites/card/knight_bg.tres" type="Texture" id=2]
-[ext_resource path="res://image/icon/lancer.png" type="Texture" id=3]
-[ext_resource path="res://atlas/lobby/contents.sprites/card/squire_common_frame.tres" type="Texture" id=4]
-[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=5]
-[ext_resource path="res://font/vipnagorgialla/size_50_outline_4_000000.tres" type="DynamicFont" id=6]
-[ext_resource path="res://lobby/page/quantum.tscn" type="PackedScene" id=7]
-[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=8]
-
-
+[ext_resource path="res://lobby/page/card/item_base.gd" type="Script" id=2]
+[ext_resource path="res://atlas/lobby/contents.sprites/card/knight_bg.tres" type="Texture" id=3]
+[ext_resource path="res://image/icon/lancer.png" type="Texture" id=4]
+[ext_resource path="res://atlas/lobby/contents.sprites/card/squire_common_frame.tres" type="Texture" id=5]
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=6]
+[ext_resource path="res://font/vipnagorgialla/size_50_outline_4_000000.tres" type="DynamicFont" id=7]
+[ext_resource path="res://lobby/page/quantum.tscn" type="PackedScene" id=8]
+[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=9]
 
 [sub_resource type="Animation" id=1]
 length = 0.2
@@ -21,6 +20,11 @@ margin_right = 250.0
 margin_bottom = 281.0
 rect_min_size = Vector2( 250, 196 )
 mouse_filter = 1
+script = ExtResource( 2 )
+icon = NodePath("Control/Icon")
+frame = NodePath("Control/Frame")
+cost_label = NodePath("Control/Cost/Label")
+level_label = NodePath("Control/Lv")
 
 [node name="Control" type="Control" parent="."]
 use_parent_material = true
@@ -35,7 +39,7 @@ margin_top = 19.0
 margin_right = 238.0
 margin_bottom = 243.0
 rect_min_size = Vector2( 224, 224 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 expand = true
 
 [node name="Icon" type="TextureRect" parent="Control"]
@@ -45,14 +49,14 @@ margin_top = 19.0
 margin_right = 238.0
 margin_bottom = 243.0
 rect_min_size = Vector2( 224, 224 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 
 [node name="Frame" type="TextureRect" parent="Control"]
 use_parent_material = true
 margin_right = 250.0
 margin_bottom = 300.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="Control"]
 use_parent_material = true
@@ -60,7 +64,7 @@ margin_left = 54.0
 margin_top = 244.0
 margin_right = 102.0
 margin_bottom = 282.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Lv."
 align = 1
@@ -73,12 +77,12 @@ margin_top = 228.0
 margin_right = 197.0
 margin_bottom = 289.0
 rect_min_size = Vector2( 60, 0 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 text = "02"
 align = 1
 valign = 1
 
-[node name="Cost" parent="Control" instance=ExtResource( 7 )]
+[node name="Cost" parent="Control" instance=ExtResource( 8 )]
 position = Vector2( 42.1184, 50.7236 )
 scale = Vector2( 1.2, 1.2 )
 frame = 4
@@ -93,7 +97,7 @@ margin_left = -56.6667
 margin_top = -47.1667
 margin_right = -1.66666
 margin_bottom = -3.16667
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/line_spacing = 0

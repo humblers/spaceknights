@@ -42,10 +42,18 @@ const Pages = ["Battle", "Card", "Explore", "Shop", "Social"]
 signal PageSelected(page)
 signal VerticalScrollInput(released, dy)
 signal InvalidateLobby
+signal InvalidateHUD
 signal InvalidatePageBattle
-signal RequestChestOpenDialog(kind, gold, cash, cards)
-signal RequestMessageModal(message, back_to_company_logo)
-signal RequestMatchwaitingDialog
+
+const PopupModalConfirm = "ModalConfirm"
+const PopupModalMessage = "ModalMessage"
+const PopupSetting      = "PopupSetting"
+signal RequestPopup(kind, args)
+
+const DialogCardUpgrade = "DialogCardUpgrade"
+const DialogChestOpen   = "DialogChestOpen"
+const DialogMatchwating = "DialogMatchWaiting"
+signal RequestDialog(kind, args)
 
 # For tutorial
 signal StudentUseCard(card)

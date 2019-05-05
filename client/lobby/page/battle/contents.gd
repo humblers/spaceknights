@@ -42,13 +42,10 @@ func match_request():
 	if not response[0]:
 		event.emit_signal("RequestMessageModal", response[1].ErrMessage, false)
 		return
-	event.emit_signal("RequestMatchwaitingDialog")
+	event.emit_signal("RequestDialog", event.DialogMatchwating, [])
 
 func show_config():
-#	var setting = lobby.hud.get_node("PopupSetting")
-#	setting.Invalidate()
-#	setting.popup()
-	return
+	event.emit_signal("RequestPopup", event.PopupSetting, [])
 
 func playAppearAni():
 	# WHERE IS MOTHERSHIP RESOURCE??

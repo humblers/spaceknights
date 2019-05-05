@@ -1,5 +1,26 @@
 extends CanvasLayer
 
+func GetStatIcon(layer, stat_key):
+	var path = "res://atlas/lobby/%s.sprites/stat_icon/%s.png"
+	match stat_key:
+		"damage", "attackdamage":
+			path = path % [layer, "damage"]
+		"damageduration", "duration":
+			path = path % [layer, "damage_duration"]
+		"damagepersecond":
+			path = path % [layer, "dps"]
+		"attackinterval":
+			path = path % [layer, "attack_speed"]
+		"chargedattackdamage", "powerattackdamage", "absorbdamage":
+			path = path % [layer, "skill_damage"]
+		"damagetype":
+			path = path % [layer, "attack_type"]
+		"decaydamage":
+			path = path % [layer, "lifetime"]
+		_:
+			path = path % [layer, stat_key]
+	return LoadResource(path)
+
 static func GetCardIconPathInGame(card_name):
 	return "res://atlas/game/ui.sprites/icon/%s_small.tres" % [card_name]
 

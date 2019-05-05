@@ -23,7 +23,11 @@ func _ready():
 		link_email.visible = true
 		link_email.connect("button_up", self, "email_link")
 
-func Invalidate():
+func PopUp():
+	invalidate()
+	popup()
+
+func invalidate():
 	var firebase = get_tree().current_scene.firebase_auth_manager
 	if not link_google.is_connected("button_up", firebase, "link_account"):
 		link_google.connect("button_up", firebase, "link_account", [firebase.GOOGLE_PROVIDER_ID, self])
