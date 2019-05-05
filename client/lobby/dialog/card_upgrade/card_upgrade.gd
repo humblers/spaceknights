@@ -9,8 +9,6 @@ const STAT_ORDER = [
 	"leader", "wing"
 ]
 
-export(NodePath) onready var hud = get_node(hud)
-
 export(NodePath) onready var card_name_label = get_node(card_name_label)
 export(NodePath) onready var icon = get_node(icon)
 export(NodePath) onready var frame = get_node(frame)
@@ -29,8 +27,8 @@ func _ready():
 	decrease_animation_player.rename_animation(anim_name, "%s-ref" % [anim_name])
 
 func PopUp(card):
-	icon.texture = hud.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = hud.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
+	icon.texture = loading_screen.LoadResource("res://image/icon/%s.png" % card.Name)
+	frame.texture = loading_screen.LoadResource("res://atlas/lobby/popup.sprites/card/%s_%s_frame.tres" % [card.Type.replace("Card", "").to_lower(), card.Rarity.to_lower()])
 	card_name_label.SetText("ID_%s" % card.Name.to_upper())
 	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity])
 	makeUpgradeBar(card)
@@ -44,13 +42,12 @@ func PopUp(card):
 		var value_cur = value_texts[0]
 		var value_increased = value_texts[1]
 		var key_text = keyText(key, unit)
-		var icon_texture = hud.lobby.resource_manager.StatIcon(key)
+		var icon_texture = loading_screen.GetStatIcon("popup", key)
 		item_nodes[idx].Invalidate(icon_texture, key_text, value_cur, value_increased)
 		idx += 1
 	for i in range(len(item_nodes)):
 		item_nodes[i].visible = i < idx
 	animation_player.play("card_upgrade")
-	
 
 func makeUpgradeBar(card):
 	var decrease_anim_name

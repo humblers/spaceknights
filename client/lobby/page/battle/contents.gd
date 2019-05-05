@@ -18,11 +18,11 @@ export(NodePath) onready var chest_6 = get_node(chest_6)
 export(NodePath) onready var chest_7 = get_node(chest_7)
 
 func _ready():
-	event.connect("DoneBackgroundProcess", self, "playAppearAni")
+	event.connect("InvalidatePageBattle", self, "invalidate")
 	match_btn.connect("button_up", self, "match_request")
 	config_btn.connect("button_up", self, "show_config")
 
-func Invalidate():
+func invalidate():
 	# temporary set uid
 	user_name.text = user.Id
 	rank.text = "%d" % user.Rank
@@ -42,18 +42,10 @@ func match_request():
 	if not response[0]:
 		event.emit_signal("RequestMessageModal", response[1].ErrMessage, false)
 		return
-	event.emit_signal("RequestMatchwaitingDialog")
+	event.emit_signal("RequestDialog", event.DialogMatchwating, [])
 
 func show_config():
-#	var setting = lobby.hud.get_node("PopupSetting")
-#	setting.Invalidate()
-#	setting.popup()
-	return
-
-func playAppearAni():
-	# WHERE IS MOTHERSHIP RESOURCE??
-	#$Background/Mothership/AppearAni.play("appear")
-	pass
+	event.emit_signal("RequestPopup", event.PopupSetting, [])
 
 func start_game(cfg):
 	var non_preload_paths = []

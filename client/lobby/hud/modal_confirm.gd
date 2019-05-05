@@ -4,7 +4,7 @@ onready var ok_button = $VBoxContainer/HBoxContainer/OK
 onready var cancel_button = $VBoxContainer/HBoxContainer/Cancel
 onready var message_label = $VBoxContainer/Control/Label
 
-signal modal_confirmed(ok)
+#signal modal_confirmed(ok)
 
 func _ready():
 	ok_button.connect("button_up", self, "ok")
@@ -16,9 +16,9 @@ func PopUp(message_id):
 	popup()
 
 func ok():
-	emit_signal("modal_confirmed", true)
+	emit_signal("ModalConfirmed", true)
 	hide()
 
 func cancel():
-	emit_signal("modal_confirmed", false)
+	emit_signal("ModalConfirmed", false)
 	hide()

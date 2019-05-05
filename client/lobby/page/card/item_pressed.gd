@@ -23,8 +23,6 @@ func _ready():
 	upgrade_btn.hide()
 	info_btn.hide()
 
-		
-
 func Invalidate(card):
 	self.card = card
 	self.visible = card != null
@@ -32,10 +30,7 @@ func Invalidate(card):
 		return
 	use_btn.visible = not user.CardInDeck(card.Name)
 	container.rect_size.y = 0 # force downsizing
-	icon.texture = page_card.lobby.resource_manager.get_card_icon(card.Name)
-	frame.texture = page_card.lobby.resource_manager.get_card_frame(card.Type, card.Rarity)
-	cost_label.text = "%d" % (card.Cost / 1000)
-	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
+	$MarginContainer/MarginContainer/VBoxContainer/Base.Invalidate(card)
 	
 	if isUpgradable():
 		info_btn.hide()
@@ -48,7 +43,7 @@ func useButtonUp():
 	page_card.set_picked_card(self.card)
 
 func pop_card_info():
-	page_card.lobby.hud.cardinfo_dialog.PopUp(card, not user.CardInDeck(card.Name))
+	event.emit_signal("RequestPoupInContents", event.PopupContentsCardInfo, [card, not user.CardInDeck(card.Name)])
 	self.card = null
 	page_card.set_pressed_card(null)
 	

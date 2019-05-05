@@ -32,3 +32,38 @@ static func get_time_left_string(total_sec):
 		return "%02dm %02ds" % [minute, second]
 	else:
 		return "%02dh %02dm" % [hour, minute]
+
+static func FormatStepToSecond(steps):
+	var in_secs = float(steps) / data.StepPerSec
+	return "%.*fs" % [1 if decimals(in_secs) > 0 else 0, in_secs]
+
+static func FormatPixelToTile(pixels):
+	var in_tiles = float(pixels) / data.TileSizeInPixel
+	return "%.*f" % [ 1 if decimals(in_tiles) > 0 else 0, in_tiles]
+
+static func FormatSpeed(speed):
+	if speed > 150:
+		return "ID_VERYFAST"
+	if speed > 100:
+		return "ID_FAST"
+	if speed > 75:
+		return "ID_MEDIUM"
+	if speed > 0:
+		return "ID_SLOW"
+	return null
+
+static func FormatAttackType(target_types, attack_type, damage_type):
+	var types = PoolStringArray()
+	var VISIBLE_DAMAGE_TYPES = {
+		"ID_SIEGE": data.Siege,
+		"ID_ABATTACK": data.AntiShield,
+		"ID_BOMBING": data.Death,
+	}
+	for k in VISIBLE_DAMAGE_TYPES:
+		if data.DamageTypeIs(damage_type, VISIBLE_DAMAGE_TYPES[k]):
+			types.append(k)
+		if len(types) >= 2:
+			break
+	if len(types) == 0:
+		return null
+	return types.join(" & ")

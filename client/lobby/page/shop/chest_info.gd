@@ -98,7 +98,7 @@ func PopUp(chest, slot):
 		get("arrow_%d" % i).visible = (i == slot % NUM_COLUMN)
 
 	visible = true
-	popup.rect_position = upper_pos if slot < NUM_COLUMN else lower_pos
+	popup.rect_position.y = upper_pos.y if slot < NUM_COLUMN else lower_pos.y
 
 func _process(delta):
 	if not visible:

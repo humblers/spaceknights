@@ -2,7 +2,6 @@ extends Node
 
 const PAGES = ["Battle", "Card", "Explore", "Shop", "Social"]
 
-onready var hud = $HeadUpDisplay
 onready var firebase_auth_manager = $Managers/FirebaseAuth
 onready var resource_manager = $Managers/Resources
 
@@ -33,8 +32,7 @@ func connect_to_notifier():
 		yield(notifier_client, "connected")
 		notifier_client.Send({"Id": user.Id, "Token": user.Id})
 	emit_signal("load_completed")
-	event.emit_signal("DoneBackgroundProcess")
-	
+
 func login():
 	# for desktop
 	firebase_auth_manager.sign_in_with_email_and_password_if_exists()
@@ -66,20 +64,13 @@ func login():
 	load_data()
 
 func Invalidate():
-	hud.invalidate()
+	event.emit_signal("InvalidateHUD")
 	event.emit_signal("InvalidatePageBattle")
-	$Contents/Card.Invalidate()
-#	page_battle.Invalidate()
-#	page_card.Invalidate()
+	event.emit_signal("InvalidatePageCard")
 
 func handleErrorInLoadStep(message):
 	HandleError(message, true)
 	emit_signal("load_completed")
-	event.emit_signal("DoneBackgroundProcess")
 
 func HandleError(message, back_to_company_logo = true):
-	hud.message_modal.PopUp(message)
-	if not back_to_company_logo:
-		return
-	yield(hud.message_modal, "popup_hide")
-	loading_screen.GoToScene("res://company_logo/company_logo.tscn")
+	event.emit_signal("RequestPopup", event.PopupModalMessage, [message])

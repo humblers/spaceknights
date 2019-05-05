@@ -4,7 +4,7 @@ func _ready():
 	event.connect("InvalidatePageBattle", self, "invalidate")
 
 func invalidate():
-	return
+	$Center/Mothership/AppearAni.play("appear")
 	# TODO: restore below code
 #	for card in user.DeckSlots[user.DeckSelected]:
 #		card = data.NewCard(card)

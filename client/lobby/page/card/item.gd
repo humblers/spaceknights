@@ -2,10 +2,6 @@ extends BaseButton
 
 export(NodePath) onready var page_card = get_node(page_card)
 export(NodePath) onready var base = get_node(base)
-export(NodePath) onready var icon = get_node(icon)
-export(NodePath) onready var frame = get_node(frame)
-export(NodePath) onready var cost_label = get_node(cost_label)
-export(NodePath) onready var level_label = get_node(level_label)
 export(NodePath) onready var upgrade_process = get_node(upgrade_process)
 export(NodePath) onready var holding_label = get_node(holding_label)
 export(NodePath) onready var pressed_btn_guide = get_node(pressed_btn_guide)
@@ -25,11 +21,7 @@ func Invalidate(card):
 	self.visible = card != null
 	if card == null:
 		return
-	icon.texture = loading_screen.LoadResource("res://image/icon/%s.png" % card.Name)
-	frame.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/card/%s_%s_frame.tres" % [card.Type.replace("Card", "").to_lower(), card.Rarity.to_lower()])
-	cost_label.text = "%d" % (card.Cost / 1000)
-	level_label.text = "%02d" % (card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity] + 1)
-	level_label.modulate = Color(1, 1, 1, 1)
+	$Base.Invalidate(card)
 	var card_cost = data.Upgrade.CardCostNextLevel(card.Level)
 	upgrade_process.max_value = card_cost
 	upgrade_process.value = card.Holding

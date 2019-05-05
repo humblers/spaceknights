@@ -22,8 +22,13 @@ func _ready():
 		$VBoxContainer/Buttons/Email/Label.visible = true
 		link_email.visible = true
 		link_email.connect("button_up", self, "email_link")
+	#connect("ModalConfirmed", self, "")
 
-func Invalidate():
+func PopUp():
+	invalidate()
+	popup()
+
+func invalidate():
 	var firebase = get_tree().current_scene.firebase_auth_manager
 	if not link_google.is_connected("button_up", firebase, "link_account"):
 		link_google.connect("button_up", firebase, "link_account", [firebase.GOOGLE_PROVIDER_ID, self])
@@ -44,10 +49,10 @@ func Invalidate():
 	current_language.SetText("ID_SETTING_%s" % user.locale.to_upper())
 
 func select_language():
-	var modal = get_tree().current_scene.hud.confirm_modal
-	modal.PopUp("ID_MODAL_CONFIRM_CHANGE_LANGUAGE")
-	var ok = yield(modal, "modal_confirmed")
+	event.emit_signal("RequestPopup", event.PopupModalConfirm, ["ID_MODAL_CONFIRM_CHANGE_LANGUAGE"])
+	var ok = yield(event, "ModalConfirmed")
 	if not ok:
+		print(ok)
 		return
 	user.locale = "en" if user.locale != "en" else "ko"
 	var config = ConfigFile.new()
@@ -70,3 +75,7 @@ func email_link():
 
 func playIntro():
 	loading_screen.GoToScene("res://intro/intro.tscn", [], {"next_scene": "res://lobby/lobby.tscn"})
+
+func modalConfirm():
+	return "ok"
+	
