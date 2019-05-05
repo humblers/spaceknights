@@ -164,9 +164,9 @@ func matchMake() {
 		conn,
 		"match-queue",
 		time.Now().Unix(),
-		10,
-		30,
-		60,
+		2,
+		3,
+		5,
 		1,
 		5,
 	))
