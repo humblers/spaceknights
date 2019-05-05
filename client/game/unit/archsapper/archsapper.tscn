@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://game/unit/archsapper/archsapper.gd" type="Script" id=1]
 [ext_resource path="res://game/vfx/skill_ready.tscn" type="PackedScene" id=2]
@@ -29,21 +29,20 @@
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=27]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=28]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=29]
-[ext_resource path="res://game/vfx/vfx.sprites/sphere.tres" type="Texture" id=30]
-[ext_resource path="res://game/unit/archsapper/explosion.tres" type="Animation" id=31]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=32]
-[ext_resource path="res://game/unit/archsapper/attack.tres" type="Animation" id=33]
-[ext_resource path="res://game/unit/archsapper/build_direct.tres" type="Animation" id=34]
-[ext_resource path="res://game/unit/archsapper/destroy.tres" type="Animation" id=35]
-[ext_resource path="res://game/unit/archsapper/idle.tres" type="Animation" id=36]
-[ext_resource path="res://game/unit/archsapper/show.tres" type="Animation" id=37]
-[ext_resource path="res://game/unit/archsapper/skill.tres" type="Animation" id=38]
-[ext_resource path="res://game/vfx/skill_ready.tres" type="Animation" id=39]
-[ext_resource path="res://game/unit/archsapper/archsapper_atk.wav" type="AudioStream" id=40]
-[ext_resource path="res://sound/sfx/explosion_knight.wav" type="AudioStream" id=41]
-[ext_resource path="res://game/unit/archsapper/archsapper_skill.wav" type="AudioStream" id=42]
-[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=43]
-[ext_resource path="res://game/unit/archsapper/cannon_bullet.tscn" type="PackedScene" id=44]
+[ext_resource path="res://game/unit/archsapper/explosion.tres" type="Animation" id=30]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/archsapper/attack.tres" type="Animation" id=32]
+[ext_resource path="res://game/unit/archsapper/build_direct.tres" type="Animation" id=33]
+[ext_resource path="res://game/unit/archsapper/destroy.tres" type="Animation" id=34]
+[ext_resource path="res://game/unit/archsapper/idle.tres" type="Animation" id=35]
+[ext_resource path="res://game/unit/archsapper/show.tres" type="Animation" id=36]
+[ext_resource path="res://game/unit/archsapper/skill.tres" type="Animation" id=37]
+[ext_resource path="res://game/vfx/skill_ready.tres" type="Animation" id=38]
+[ext_resource path="res://game/unit/archsapper/archsapper_atk.wav" type="AudioStream" id=39]
+[ext_resource path="res://sound/sfx/explosion_knight.wav" type="AudioStream" id=40]
+[ext_resource path="res://game/unit/archsapper/archsapper_skill.wav" type="AudioStream" id=41]
+[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=42]
+[ext_resource path="res://game/unit/archsapper/cannon_bullet.tscn" type="PackedScene" id=43]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -448,40 +447,40 @@ visible = false
 modulate = Color( 0.159531, 0.182441, 0.332031, 1 )
 material = ExtResource( 14 )
 scale = Vector2( 5, 5 )
-texture = ExtResource( 30 )
+texture = ExtResource( 18 )
 
 [node name="Center2" type="Sprite" parent="Rotatable/Explosion/Main/Center"]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 18 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
-anims/explosion = ExtResource( 31 )
+anims/explosion = ExtResource( 30 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 32 )]
+[node name="HitEffect" parent="." instance=ExtResource( 31 )]
 circle_radius = 40.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 33 )
-anims/build_direct = ExtResource( 34 )
-anims/destroy = ExtResource( 35 )
-anims/idle = ExtResource( 36 )
-anims/show = ExtResource( 37 )
-anims/skill = ExtResource( 38 )
-anims/skill_ready = ExtResource( 39 )
+anims/attack = ExtResource( 32 )
+anims/build_direct = ExtResource( 33 )
+anims/destroy = ExtResource( 34 )
+anims/idle = ExtResource( 35 )
+anims/show = ExtResource( 36 )
+anims/skill = ExtResource( 37 )
+anims/skill_ready = ExtResource( 38 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 40 )
+stream = ExtResource( 39 )
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 41 )
+stream = ExtResource( 40 )
 
 [node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 42 )
+stream = ExtResource( 41 )
 
-[node name="Hp" parent="." instance=ExtResource( 43 )]
+[node name="Hp" parent="." instance=ExtResource( 42 )]
 position = Vector2( 0, -105 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "cannon_bullet" ), [ ExtResource( 44 ) ] ]
+resources = [ PoolStringArray( "cannon_bullet" ), [ ExtResource( 43 ) ] ]
