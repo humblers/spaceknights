@@ -18,4 +18,5 @@ func invalidate():
 		var sprite = Sprite.new()
 		sprite.texture = loading_screen.LoadResource("res://atlas/lobby/background.sprites/knights/%s.tres" % card.Name)
 		sprite.normal_map = loading_screen.LoadResource("res://atlas/lobby/background_n.png")
+		sprite.material = loading_screen.LoadResource("res://material/light_and_damage.tres")
 		deck.add_child(sprite)

@@ -22,7 +22,6 @@ func _ready():
 		$VBoxContainer/Buttons/Email/Label.visible = true
 		link_email.visible = true
 		link_email.connect("button_up", self, "email_link")
-	#connect("ModalConfirmed", self, "")
 
 func PopUp():
 	invalidate()
@@ -52,7 +51,6 @@ func select_language():
 	event.emit_signal("RequestPopup", event.PopupModalConfirm, ["ID_MODAL_CONFIRM_CHANGE_LANGUAGE"])
 	var ok = yield(event, "ModalConfirmed")
 	if not ok:
-		print(ok)
 		return
 	user.locale = "en" if user.locale != "en" else "ko"
 	var config = ConfigFile.new()

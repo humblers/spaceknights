@@ -16,9 +16,9 @@ func PopUp(message_id):
 	popup()
 
 func ok():
-	emit_signal("ModalConfirmed", true)
+	event.emit_signal("ModalConfirmed", true)
 	hide()
 
 func cancel():
-	emit_signal("ModalConfirmed", false)
+	event.emit_signal("ModalConfirmed", false)
 	hide()

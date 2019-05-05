@@ -1,4 +1,4 @@
-[gd_scene load_steps=123 format=2]
+[gd_scene load_steps=124 format=2]
 
 [ext_resource path="res://lobby/lobby.gd" type="Script" id=1]
 [ext_resource path="res://lobby/network/firebase_auth.gd" type="Script" id=2]
@@ -115,13 +115,14 @@
 [ext_resource path="res://atlas/lobby/background.sprites/knights/pixieking.tres" type="Texture" id=113]
 [ext_resource path="res://atlas/lobby/background.sprites/knights/tombstone.tres" type="Texture" id=114]
 [ext_resource path="res://atlas/lobby/background.sprites/knights/valkyrie.tres" type="Texture" id=115]
-[ext_resource path="res://lobby/script/input.gd" type="Script" id=116]
-[ext_resource path="res://lobby/background.tscn" type="PackedScene" id=117]
-[ext_resource path="res://lobby/tile.tscn" type="PackedScene" id=118]
-[ext_resource path="res://lobby/contents.tscn" type="PackedScene" id=119]
-[ext_resource path="res://lobby/popup.tscn" type="PackedScene" id=120]
-[ext_resource path="res://lobby/dialog.tscn" type="PackedScene" id=121]
-[ext_resource path="res://sound/bgm/viennese.ogg" type="AudioStream" id=122]
+[ext_resource path="res://material/light_and_damage.tres" type="Material" id=116]
+[ext_resource path="res://lobby/script/input.gd" type="Script" id=117]
+[ext_resource path="res://lobby/background.tscn" type="PackedScene" id=118]
+[ext_resource path="res://lobby/tile.tscn" type="PackedScene" id=119]
+[ext_resource path="res://lobby/contents.tscn" type="PackedScene" id=120]
+[ext_resource path="res://lobby/popup.tscn" type="PackedScene" id=121]
+[ext_resource path="res://lobby/dialog.tscn" type="PackedScene" id=122]
+[ext_resource path="res://sound/bgm/viennese.ogg" type="AudioStream" id=123]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -132,13 +133,11 @@ __meta__ = {
 }
 
 [node name="Managers" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="FirebaseAuth" type="FirebaseAuth" parent="Managers"]
 script = ExtResource( 2 )
 
 [node name="Resources" type="Node" parent="Managers"]
-editor/display_folded = true
 script = ExtResource( 3 )
 scripts = NodePath("../../../Lobby/Managers/Resources/Scripts")
 card_icon = NodePath("../../../Lobby/Managers/Resources/CardIcon")
@@ -160,12 +159,15 @@ resources = [ PoolStringArray( "area_damage", "area_damage 2", "area_dps", "area
 [node name="KnightDummyImage" type="ResourcePreloader" parent="Managers/Resources"]
 resources = [ PoolStringArray( "archengineer", "archsapper", "astra", "buran", "frost", "ironcoffin", "judge", "lancer", "legion", "nagmash", "pixieking", "tombstone", "valkyrie" ), [ ExtResource( 103 ), ExtResource( 104 ), ExtResource( 105 ), ExtResource( 106 ), ExtResource( 107 ), ExtResource( 108 ), ExtResource( 109 ), ExtResource( 110 ), ExtResource( 111 ), ExtResource( 112 ), ExtResource( 113 ), ExtResource( 114 ), ExtResource( 115 ) ] ]
 
+[node name="Material" type="ResourcePreloader" parent="Managers/Resources"]
+resources = [ PoolStringArray( "light_and_damage" ), [ ExtResource( 116 ) ] ]
+
 [node name="Input" type="Control" parent="."]
 editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = ExtResource( 116 )
+script = ExtResource( 117 )
 
 [node name="InitialCenter" type="Control" parent="Input"]
 editor/display_folded = true
@@ -236,17 +238,17 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 
-[node name="Background" parent="." instance=ExtResource( 117 )]
+[node name="Background" parent="." instance=ExtResource( 118 )]
 
-[node name="Tile" parent="." instance=ExtResource( 118 )]
+[node name="Tile" parent="." instance=ExtResource( 119 )]
 
-[node name="Contents" parent="." instance=ExtResource( 119 )]
+[node name="Contents" parent="." instance=ExtResource( 120 )]
 
-[node name="Popup" parent="." instance=ExtResource( 120 )]
+[node name="Popup" parent="." instance=ExtResource( 121 )]
 
-[node name="Dialog" parent="." instance=ExtResource( 121 )]
+[node name="Dialog" parent="." instance=ExtResource( 122 )]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 122 )
+stream = ExtResource( 123 )
 volume_db = -15.0
 autoplay = true

@@ -62,9 +62,12 @@ var initialDeckSlots = [data.DeckSlotSize]deck{
 
 func newUser() *user {
 	if initialCards == nil {
-		initialCards = make(map[string]card, len(data.InitialDeck))
-		for _, c := range data.InitialDeck {
-			initialCards[c.Name] = card{}
+		initialCards = make(map[string]card, len(data.Cards))
+		for k, c := range data.Cards {
+			if c.Rarity == data.Legendary {
+				continue
+			}
+			initialCards[k] = card{Level: 8 - data.Upgrade.RelativeLvByRarity[c.Rarity]}
 		}
 	}
 

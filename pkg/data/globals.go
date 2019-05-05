@@ -22,7 +22,7 @@ const DecreasedDamageRatioOnKnightBuilding = 35
 
 var InitialDeck = []Card{
 	Card{Name: "archers"},
-	Card{Name: "giant"},
+	Card{Name: "berserker"},
 	Card{Name: "footmans"},
 	Card{Name: "blaster"},
 	Card{Name: "enforcer"},

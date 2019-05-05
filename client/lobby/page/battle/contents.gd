@@ -24,7 +24,7 @@ func _ready():
 
 func invalidate():
 	# temporary set uid
-	user_name.text = user.Id
+	user_name.text = "Imperial-Knight-%03d" % int(user.Id)
 	rank.text = "%d" % user.Rank
 	
 	# set chests
