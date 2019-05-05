@@ -537,6 +537,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/flag.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>100,25,200,50</rect>
+                <key>scale9Paddings</key>
+                <rect>100,25,200,50</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">contents/humbler_glow.png</key>
             <key type="filename">contents/zezaxo.png</key>
             <struct type="IndividualSpriteSettings">
@@ -720,6 +733,19 @@
                 <rect>0,0,1,1</rect>
                 <key>scale9Paddings</key>
                 <rect>0,0,1,1</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">contents/point.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,20,40,40</rect>
+                <key>scale9Paddings</key>
+                <rect>20,20,40,40</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
