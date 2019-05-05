@@ -56,6 +56,8 @@ func updateDeck(state, side, charging_ratio = 0):
 			get_node("Anim%s" % side).play(state)
 			
 func runwayRotate(num, angle):
+	if color == "Red":
+		return
 	var side = "L" if num < 3 else "R"
 	var runway = get_node("Nodes/Container/GUI/Module/Set/ElixirBar/NextBase/Frame%s/Link2%s/Link1L%d/DeckBaseL%d/Guide" % [ side, side, num, num ])
 	if runway:
