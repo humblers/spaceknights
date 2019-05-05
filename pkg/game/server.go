@@ -248,6 +248,9 @@ func (s *server) saveResult(g Game) {
 		return
 	}
 	for _, p := range replay.Config.Players {
+		if p.Id == "bot" {
+			continue
+		}
 		key_rank := fmt.Sprintf("%v:rank", p.Id)
 		key_medal := fmt.Sprintf("%v:medal", p.Id)
 		key_medal_chest := fmt.Sprintf("%v:medal-chest", p.Id)

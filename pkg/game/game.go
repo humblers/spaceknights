@@ -63,6 +63,9 @@ type Game interface {
 	Update()
 	Over() bool
 	State() map[string]interface{}
+	AddActionToNextStep(a Action) // for AI update
+	Hash() uint32
+	IsReplaying() bool
 }
 
 type game struct {
@@ -80,10 +83,11 @@ type game struct {
 	occupied     [][]int
 	winner       Team
 
-	players   map[string]Player
-	playerIds []string
-	actions   map[int][]Action
-	sent      packet
+	players     map[string]Player
+	playerIds   []string
+	actions     map[int][]Action
+	sent        packet
+	isReplaying bool
 
 	joinc   chan Client
 	leavec  chan Client
@@ -93,6 +97,14 @@ type game struct {
 	applied chan error
 	quit    chan struct{}
 	logger  *log.Logger
+}
+
+func (g *game) AddActionToNextStep(a Action) {
+	g.actions[g.step+1] = append(g.actions[g.step+1], a)
+}
+
+func (g *game) IsReplaying() bool {
+	return g.isReplaying
 }
 
 func (g *game) FindPlayer(team Team) Player {
@@ -183,6 +195,9 @@ func NewGame(cfg Config, actions map[int][]Action, l *log.Logger) Game {
 	g.lastDeadPosX[Red] = 0
 	if g.actions == nil {
 		g.actions = make(map[int][]Action)
+		g.isReplaying = false
+	} else {
+		g.isReplaying = true
 	}
 	g.initTiles()
 	g.createMapObstacles()

@@ -47,6 +47,7 @@ func main() {
 				panic(err)
 			}
 			l.Println(string(b))
+			l.Println(g.Hash())
 			break
 		}
 	}

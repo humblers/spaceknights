@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 	"os"
 	"os/signal"
@@ -25,8 +26,9 @@ var matchMakeScript = redis.NewScript(1, `
 	local now = tonumber(ARGV[1])
 	local t1 = tonumber(ARGV[2])
 	local t2 = tonumber(ARGV[3])
-	local d1 = tonumber(ARGV[4])
-	local d2 = tonumber(ARGV[5])
+	local t3 = tonumber(ARGV[4])
+	local d1 = tonumber(ARGV[5])
+	local d2 = tonumber(ARGV[6])
 
 	-- functions
 	local getusers = function ()
@@ -43,9 +45,7 @@ var matchMakeScript = redis.NewScript(1, `
 		end
 		return users
 	end
-	local matchable = function (a, b, rankdiff)
-		local wait_a = now - a.time
-		local wait_b = now - b.time
+	local matchable = function (wait_a, wait_b, rankdiff)
 		if rankdiff < d1 then
 			return true
 		elseif rankdiff < d2 then
@@ -74,11 +74,13 @@ var matchMakeScript = redis.NewScript(1, `
 			local picked
 			local index
 			local mindiff
+			local wait_a = now - user.time
 			for j = i + 1, n do
 				local candidate = users[j]
 				if candidate then
+					local wait_b = now - candidate.time
 					local rankdiff = math.abs(user.rank - candidate.rank)
-					if matchable(user, candidate, rankdiff) then
+					if matchable(wait_a, wait_b, rankdiff) then
 						if not picked or rankdiff < mindiff then
 							picked = candidate
 							index = j
@@ -91,6 +93,10 @@ var matchMakeScript = redis.NewScript(1, `
 				users[index] = nil
 				matched[#matched + 1] = user.id
 				matched[#matched + 1] = picked.id
+			elseif wait_a > t3 then
+				-- match with AI
+				matched[#matched + 1] = user.id
+				matched[#matched + 1] = 'bot'
 			end
 		end
 	end
@@ -130,6 +136,7 @@ func main() {
 	logger.Print("server starting")
 	numGR = runtime.NumGoroutine()
 	ticker := time.NewTicker(1 * time.Second)
+	rand.Seed(time.Now().UnixNano())
 	defer ticker.Stop()
 	for {
 		select {
@@ -159,6 +166,7 @@ func matchMake() {
 		time.Now().Unix(),
 		10,
 		30,
+		60,
 		1,
 		5,
 	))
@@ -195,37 +203,74 @@ func createMatch(id1, id2 string) {
 }
 
 func getPlayerData(id, team string) game.PlayerData {
-	conn := pool.Get()
-	defer conn.Close()
 	d := game.PlayerData{
 		Id:   id,
 		Team: game.Team(team),
 	}
-	index, err := redis.Int(conn.Do("GET", fmt.Sprintf("%v:decknum", id)))
-	if err != nil {
-		panic(err)
-	}
-	deck, err := redis.Bytes(conn.Do("LINDEX", fmt.Sprintf("%v:decks", id), index))
-	if err != nil {
-		panic(err)
-	}
-	if err := json.Unmarshal(deck, &d.Deck); err != nil {
-		panic(err)
-	}
-	args := []interface{}{fmt.Sprintf("%v:cards", id)}
-	for _, c := range d.Deck {
-		args = append(args, c.Name)
-	}
-	reply, err := redis.Values(conn.Do("HMGET", args...))
-	if err != nil {
-		panic(err)
-	}
-	for i, c := range d.Deck {
-		var card data.Card
-		if err := json.Unmarshal(reply[i].([]byte), &card); err != nil {
+	if id == "bot" {
+		var squirePool []string
+		var knightPool []string
+		for k, v := range data.Cards {
+			switch v.Type {
+			case data.SquireCard:
+				squirePool = append(squirePool, k)
+			case data.KnightCard:
+				knightPool = append(knightPool, k)
+			default:
+				panic("unknown card type")
+			}
+		}
+		rand.Shuffle(len(squirePool), func(i, j int) { squirePool[i], squirePool[j] = squirePool[j], squirePool[i] })
+		rand.Shuffle(len(knightPool), func(i, j int) { knightPool[i], knightPool[j] = knightPool[j], knightPool[i] })
+		squirePool = squirePool[:data.SquireCountInInitialDeck]
+		knightPool = knightPool[:data.KnightCountInInitialDeck]
+		for _, name := range squirePool {
+			d.Deck = append(d.Deck, data.Card{Name: name, Level: 0})
+		}
+		for i, name := range knightPool {
+			var side data.KnightSide
+			switch i {
+			case 0:
+				side = data.Left
+			case 1:
+				side = data.Center
+			case 2:
+				side = data.Right
+			default:
+				panic("invalid knight side")
+			}
+			d.Deck = append(d.Deck, data.Card{Name: name, Level: 0, Side: side})
+		}
+		rand.Shuffle(len(d.Deck), func(i, j int) { d.Deck[i], d.Deck[j] = d.Deck[j], d.Deck[i] })
+	} else {
+		conn := pool.Get()
+		defer conn.Close()
+		index, err := redis.Int(conn.Do("GET", fmt.Sprintf("%v:decknum", id)))
+		if err != nil {
 			panic(err)
 		}
-		c.Level = card.Level
+		deck, err := redis.Bytes(conn.Do("LINDEX", fmt.Sprintf("%v:decks", id), index))
+		if err != nil {
+			panic(err)
+		}
+		if err := json.Unmarshal(deck, &d.Deck); err != nil {
+			panic(err)
+		}
+		args := []interface{}{fmt.Sprintf("%v:cards", id)}
+		for _, c := range d.Deck {
+			args = append(args, c.Name)
+		}
+		reply, err := redis.Values(conn.Do("HMGET", args...))
+		if err != nil {
+			panic(err)
+		}
+		for i, c := range d.Deck {
+			var card data.Card
+			if err := json.Unmarshal(reply[i].([]byte), &card); err != nil {
+				panic(err)
+			}
+			c.Level = card.Level
+		}
 	}
 	return d
 }

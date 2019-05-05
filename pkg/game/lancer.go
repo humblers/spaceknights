@@ -152,7 +152,7 @@ func (l *lancer) SetAsLeader() {
 	posY := s["posY"].([]int)
 	w := l.game.World().FromPixel(s["width"].(int))
 	h := l.game.World().FromPixel(s["height"].(int))
-	damage := s["damage"].(int)
+	damage := s["damage"].([]int)[l.level]
 	damageType := s["damagetype"].(data.DamageType)
 	duration := s["duration"].(int)
 	for i := 0; i < count; i++ {
@@ -187,7 +187,7 @@ func (l *lancer) CastSkill(posX, posY int) {
 }
 
 func (l *lancer) drop() {
-	dps := l.Skill()["damage"].(int)
+	dps := l.Skill()["damage"].([]int)[l.level]
 	w := l.game.World().FromPixel(l.Skill()["width"].(int))
 	h := l.game.World().FromPixel(l.Skill()["height"].(int))
 	remain := l.Skill()["damageduration"].(int)

@@ -24,7 +24,11 @@ func ping():
 	if client_connected:
 		Send("PING")
 	
-func Connect(ip=DEFAULT_HOST, port=DEFAULT_PORT):
+func Connect(ip, port):
+	if ip == null:
+		ip = DEFAULT_HOST
+	if port == null:
+		port = DEFAULT_PORT
 	var err = client.connect_to_host(ip, port)
 	if err != OK:
 		print("[notifier] tcp Connect failed: %s" % err)
