@@ -97,7 +97,7 @@ func (l *lancer) Update() {
 			l.cast++
 		}
 	} else {
-		if l.attack > 0 && l.retargeting {
+		if l.attack > 0 && !l.retargeting {
 			l.handleAttack()
 		} else {
 			t := l.target()
