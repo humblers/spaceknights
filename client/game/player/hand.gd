@@ -216,8 +216,6 @@ func on_released(side = null):
 		
 	if card.Type == data.KnightCard and knight:
 		knight.set_rotation_degrees(0)
-	else:
-		rotateRunway(0)
 	
 	# released on map?
 	
@@ -233,6 +231,7 @@ func on_released(side = null):
 			if knight != null:
 				knight.skillRest()
 		prev_mouse = "Released"
+		rotateRunway(0)
 		return
 	
 	# enough energy?
@@ -241,6 +240,7 @@ func on_released(side = null):
 		init_card()
 		init_cursor()
 		prev_mouse = "Released"
+		rotateRunway(0)
 		return
 	
 	# send input
@@ -254,9 +254,13 @@ func on_released(side = null):
 		$Rotate/Dummy.position = $Cursor.position
 		$Cursor.visible = false
 		guide.visible = false
+		self.get_node("Rotate").set_rotation_degrees(0)
+		var offsetpos = self.get_node("Rotate/Dummy").position
+		offsetpos += Vector2(-95, -65)
+		self.get_node("Rotate/Dummy").set_position(offsetpos)
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
-		self.get_node("Rotate").set_rotation_degrees(0)
+		rotateRunway(0)
 
 	if card.Type == data.KnightCard:
 		event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckClose, card.Side)
