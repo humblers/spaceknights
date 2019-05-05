@@ -67,7 +67,7 @@ func closestPage():
 	var closest_node
 	var closest_page
 	var cam_x = camera.global_position.x
-	for page in ["Battle", "Card"]:
+	for page in event.Pages:
 		var pos_node = get_node("%s/CameraPosition" % page)
 		if closest_node == null:
 			closest_node = pos_node
