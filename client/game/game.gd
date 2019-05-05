@@ -94,8 +94,10 @@ func _ready():
 		var player = $Players.get_node(team)
 		player.Init(p, self)
 		players[p.Id] = player
-	opening_anim.Play($Players.get_node("Blue").leader, 
-		$Players.get_node("Red").leader)
+		opening_anim.SetPlayerData(team, p.Id, player.leader)
+		if team == "Blue":
+			$UI/Hud/ID/RankIconBG/Text.text = "Imperial-Knight-%03d" % int(p.Id)
+	opening_anim.Play()
 	event.emit_signal("GameInitialized", self)
 
 func initTiles():
