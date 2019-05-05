@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://lobby/dialog/requesting.gd" type="Script" id=1]
 [ext_resource path="res://lobby/dialog/1proxima.tscn" type="PackedScene" id=2]
@@ -12,23 +12,25 @@
 [ext_resource path="res://atlas/lobby/popup.sprites/card_list_panel.tres" type="Texture" id=10]
 [ext_resource path="res://atlas/lobby/popup.sprites/tab_disable.tres" type="Texture" id=11]
 [ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=12]
-[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=13]
-[ext_resource path="res://atlas/lobby/popup.sprites/slots_panel_w.tres" type="Texture" id=14]
-[ext_resource path="res://atlas/lobby/popup.sprites/circle.tres" type="Texture" id=15]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=16]
-[ext_resource path="res://atlas/lobby/popup.sprites/circle_edge.tres" type="Texture" id=17]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_pressed.tres" type="Texture" id=18]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t_hover.tres" type="Texture" id=19]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t_pressed.tres" type="Texture" id=20]
-[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t.tres" type="Texture" id=21]
-[ext_resource path="res://atlas/lobby/popup.sprites/board_white.tres" type="Texture" id=22]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=13]
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=14]
+[ext_resource path="res://atlas/lobby/popup.sprites/slots_panel_w.tres" type="Texture" id=15]
+[ext_resource path="res://atlas/lobby/popup.sprites/circle.tres" type="Texture" id=16]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=17]
+[ext_resource path="res://atlas/lobby/popup.sprites/circle_edge.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/upgrade_button_pressed.tres" type="Texture" id=19]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t_hover.tres" type="Texture" id=20]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t_pressed.tres" type="Texture" id=21]
+[ext_resource path="res://atlas/lobby/popup.sprites/button/button_t.tres" type="Texture" id=22]
+[ext_resource path="res://atlas/lobby/popup.sprites/board_white.tres" type="Texture" id=23]
+[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=24]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.573333, 1 )
 colors = PoolColorArray( 1, 1, 1, 0.143647, 1, 1, 1, 0.569059, 1, 1, 1, 0 )
 
 [sub_resource type="StyleBoxTexture" id=2]
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 59.5
 margin_right = 61.0
@@ -36,7 +38,7 @@ margin_top = 30.0
 margin_bottom = 30.5
 
 [sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 59.5
 margin_right = 60.5
@@ -44,7 +46,7 @@ margin_top = 30.0
 margin_bottom = 29.5
 
 [sub_resource type="StyleBoxTexture" id=4]
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 60.0
 margin_right = 60.0
@@ -52,7 +54,7 @@ margin_top = 30.0
 margin_bottom = 30.0
 
 [sub_resource type="StyleBoxTexture" id=5]
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 60.0
 margin_right = 60.0
@@ -223,7 +225,6 @@ texture = ExtResource( 10 )
 expand = true
 
 [node name="ArenaTitle" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -242,7 +243,9 @@ margin_top = -50.0
 margin_right = 457.0
 margin_bottom = 8.0
 custom_fonts/font = ExtResource( 12 )
-text = "PROXIMA"
+text = "ID_PROXIMA"
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Script" type="Label" parent="ArenaTitle"]
 anchor_top = 0.5
@@ -251,12 +254,13 @@ margin_left = 40.0
 margin_top = 9.0
 margin_right = 571.0
 margin_bottom = 46.0
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0.615686, 0.654902, 0.705882, 1 )
-text = "SLEEPING LION"
+text = "ID_PROXIMA_DSC"
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Opponent" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
@@ -275,7 +279,7 @@ margin_top = -40.0
 margin_right = 150.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 199.5, 200.75 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="Hand" type="TextureRect" parent="Opponent"]
@@ -289,14 +293,14 @@ margin_top = -5.0
 margin_right = 400.0
 margin_bottom = -1.0
 rect_pivot_offset = Vector2( 400, 2 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Opponent"]
 position = Vector2( 539, 200 )
 amount = 1
 speed_scale = 0.2
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 0.0
@@ -314,12 +318,12 @@ margin_left = -200.0
 margin_top = -200.0
 margin_right = 200.0
 margin_bottom = 200.0
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 
 [node name="Secglow" type="TextureRect" parent="Opponent"]
 modulate = Color( 0.254902, 1, 0.721569, 1 )
-material = ExtResource( 16 )
+material = ExtResource( 17 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -331,12 +335,12 @@ margin_bottom = 200.0
 rect_rotation = 90.0
 rect_scale = Vector2( 0.72, 0.72 )
 rect_pivot_offset = Vector2( 200, 200 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 expand = true
 
 [node name="30secglow" type="TextureRect" parent="Opponent"]
 modulate = Color( 0.254902, 1, 0.721569, 1 )
-material = ExtResource( 16 )
+material = ExtResource( 17 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -346,7 +350,7 @@ margin_top = -200.0
 margin_right = 200.0
 margin_bottom = 200.0
 rect_pivot_offset = Vector2( 200, 200 )
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 expand = true
 
 [node name="Elapsed" type="Label" parent="Opponent"]
@@ -372,7 +376,7 @@ margin_left = -540.0
 margin_top = -40.0
 margin_right = 540.0
 margin_bottom = -35.0
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="Opponent" type="Label" parent="Opponent/TextureRect2"]
@@ -384,9 +388,11 @@ margin_left = -319.5
 margin_top = -42.0
 margin_right = 319.5
 margin_bottom = 2.0
-custom_fonts/font = ExtResource( 13 )
-text = "SERCHING FOR OPPONENT..."
+custom_fonts/font = ExtResource( 14 )
+text = "ID_SEARCHING"
 align = 1
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Cancel" type="TextureRect" parent="."]
 self_modulate = Color( 1, 0, 0, 0.501961 )
@@ -398,7 +404,7 @@ margin_left = -720.0
 margin_top = 386.0
 margin_right = 720.0
 margin_bottom = 466.0
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="TextureRect2" type="TextureRect" parent="Cancel"]
@@ -411,7 +417,7 @@ margin_left = -190.0
 margin_top = -25.5
 margin_right = 190.0
 margin_bottom = 105.5
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 expand = true
 
 [node name="Button" type="Button" parent="Cancel"]
@@ -435,18 +441,19 @@ margin_top = 30.0
 margin_right = 310.0
 margin_bottom = 95.0
 custom_fonts/font = ExtResource( 12 )
-text = "CANCEL"
+text = "ID_CANCEL"
 align = 1
 valign = 1
+clip_text = true
+script = ExtResource( 13 )
 
 [node name="Tip" type="NinePatchRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.141176 )
 margin_left = 195.0
 margin_top = 1530.0
 margin_right = 1245.0
 margin_bottom = 1890.0
-texture = ExtResource( 22 )
+texture = ExtResource( 23 )
 region_rect = Rect2( 0, 0, 40, 40 )
 patch_margin_left = 15
 patch_margin_top = 15
@@ -459,17 +466,22 @@ margin_top = 10.0
 margin_right = 115.0
 margin_bottom = 69.0
 custom_fonts/font = ExtResource( 12 )
-text = "TIP"
+text = "ID_TIP"
+clip_text = true
+script = ExtResource( 13 )
 
-[node name="Label" type="Label" parent="Tip"]
+[node name="DSC" type="RichTextLabel" parent="Tip"]
 margin_left = 20.0
 margin_top = 89.0
-margin_right = 1030.0
-margin_bottom = 259.0
-custom_fonts/font = ExtResource( 13 )
-text = "2V2 Battle allows you to collect chests wuth a friend.
-Clanmate or another player * without the risk of losing trophies!"
-autowrap = true
+margin_right = 60.0
+margin_bottom = 129.0
+rect_min_size = Vector2( 1010, 250 )
+custom_fonts/normal_font = ExtResource( 24 )
+bbcode_enabled = true
+bbcode_text = "ID_TIP_DSC"
+text = "ID_TIP_DSC"
+scroll_active = false
+script = ExtResource( 13 )
 
 [node name="Sec" type="AnimationPlayer" parent="."]
 autoplay = "timer"
