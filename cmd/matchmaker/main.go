@@ -271,6 +271,7 @@ func getPlayerData(id, team string) game.PlayerData {
 			}
 			c.Level = card.Level
 		}
+		rand.Shuffle(len(d.Deck), func(i, j int) { d.Deck[i], d.Deck[j] = d.Deck[j], d.Deck[i] })
 	}
 	return d
 }
