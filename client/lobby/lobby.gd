@@ -6,6 +6,7 @@ onready var firebase_auth_manager = $Managers/FirebaseAuth
 onready var resource_manager = $Managers/Resources
 
 func _ready():
+	event.connect("InvalidateLobby", self, "invalidate")
 	add_user_signal("load_completed") # should replace event's signal
 	login()
 
@@ -23,7 +24,7 @@ func load_data():
 			return
 		var d = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
 		data.set(path.capitalize(), resource_manager.scripts.get_resource(path).new(d))
-	Invalidate()
+	invalidate()
 	connect_to_notifier()
 
 func connect_to_notifier():
@@ -32,6 +33,7 @@ func connect_to_notifier():
 		yield(notifier_client, "connected")
 		notifier_client.Send({"Id": user.Id, "Token": user.Id})
 	emit_signal("load_completed")
+	event.emit_signal("DoneBackgroundProcess")
 
 func login():
 	# for desktop
@@ -63,7 +65,7 @@ func login():
 		user.set(k, response[1].User[k])
 	load_data()
 
-func Invalidate():
+func invalidate():
 	event.emit_signal("InvalidateHUD")
 	event.emit_signal("InvalidatePageBattle")
 	event.emit_signal("InvalidatePageCard")
@@ -71,6 +73,7 @@ func Invalidate():
 func handleErrorInLoadStep(message):
 	HandleError(message, true)
 	emit_signal("load_completed")
+	event.emit_signal("DoneBackgroundProcess")
 
 func HandleError(message, back_to_company_logo = true):
 	event.emit_signal("RequestPopup", event.PopupModalMessage, [message])

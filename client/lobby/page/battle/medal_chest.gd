@@ -13,12 +13,13 @@ func Set(medals):
 
 func open():
 	if progress.value < progress.max_value:
+		event.emit_signal("RequestPopup", event.PopupModalMessage, ["not enough medals for medal chest", false])
 		return
 	var params = {"Name": "Medal"}
 	var req = lobby_request.New("/chest/open", params)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		event.emit_signal(response[1].ErrMessage)
+		event.emit_signal("RequestPopup", event.PopupModalMessage, [response[1].ErrMessage])
 		return
 	var gold = response[1].Gold
 	var cash = response[1].Cash
@@ -34,4 +35,4 @@ func open():
 		user.Cards[name].Holding += count
 	user.MedalChest = 0
 	event.emit_signal("InvalidateLobby")
-	event.emit_signal("RequestChestOpenDialog", "Medal", gold, cash, cards)
+	event.emit_signal("RequestDialog", event.DialogChestOpen, ["Medal", gold, cash, cards])

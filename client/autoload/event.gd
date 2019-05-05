@@ -1,5 +1,7 @@
 extends Node
 
+signal DoneBackgroundProcess
+
 # For game
 signal GameInitialized(game)
 

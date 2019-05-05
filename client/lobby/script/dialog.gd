@@ -6,8 +6,11 @@ func _ready():
 func showDialog(kind, args):
 	match kind:
 		event.DialogCardUpgrade:
-			pass
+			$CardUpgrade.PopUp(args[0])
 		event.DialogChestOpen:
-			pass
+			if len(args) == 3:
+				$ChestOpen.PopUp(args[0], args[1], args[2])
+			else:
+				$ChestOpen.PopUp(args[0], args[1], args[2], args[3])
 		event.DialogMatchwating:
 			$MatchWating.Pop()

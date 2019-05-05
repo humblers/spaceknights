@@ -58,13 +58,13 @@ func open(use_cash=false):
 		if not user.Cards.has(name):
 			user.Cards[name] = {"Level": 0, "Holding": 0}
 		user.Cards[name].Holding += count
-	get_tree().current_scene.Invalidate()
+	event.emit_signal("InvalidateLobby")
 
 	# for test
 	#get_tree().current_scene.hud.chestopen_dialog.PopUp(chest.Name, gold, 0, cards)
 	var cash = response[1].Cash
 	user.Dimensium += cash
-	get_tree().current_scene.hud.chestopen_dialog.PopUp(chest.Name, gold, cash, cards)
+	event.emit_signal("RequestDialog", event.DialogChestOpen, [chest.Name, gold, cash, cards])
 
 	visible = false
 

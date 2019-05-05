@@ -1,4 +1,4 @@
-extends "res://lobby/page/page.gd"
+extends "res://lobby/page/scroller.gd"
 
 export(NodePath) onready var light = get_node(light)
 
@@ -63,14 +63,12 @@ func match_request():
 	var req = lobby_request.New("/match/request")
 	var response = yield(req, "Completed")
 	if not response[0]:
-		lobby.HandleError(response[1].ErrMessage, false)
 		return
-	lobby.hud.requesting_dialog.Pop()
 
 func show_config():
-	var setting = lobby.hud.get_node("PopupSetting")
-	setting.Invalidate()
-	setting.popup()
+	return
+#	setting.Invalidate()
+#	setting.popup()
 
 func PlayAppearAni():
 	$Background/Mothership/AppearAni.play("appear")

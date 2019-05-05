@@ -60,9 +60,9 @@ func upgradeButtonUp():
 	user.Galacticoin = response[1].Galacticoin
 	c.Name = card.Name
 	card = data.NewCard(c)
-	get_tree().current_scene.Invalidate()
-	get_tree().current_scene.hud.cardupgrade_dialog.PopUp(card)
-	main_popup.hide()
+	event.emit_signal("InvalidateLobby")
+	event.emit_signal("RequestDialog", event.DialogCardUpgrade, [card])
+	hide()
 
 func PopUp(card, enable_use = false):
 	self.card = card

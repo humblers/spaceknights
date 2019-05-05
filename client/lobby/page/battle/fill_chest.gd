@@ -11,4 +11,4 @@ func requestNewChest():
 		return
 	user.BattleChestSlots = response[1].BattleChests
 	user.MedalChest = response[1].MedalChest
-	event.emit_signal("InvalidateLobby")
+	event.emit_signal("InvalidatePageBattle")
