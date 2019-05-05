@@ -1,0 +1,430 @@
+[gd_scene load_steps=39 format=2]
+
+[ext_resource path="res://atlas/lobby/hud.sprites/top_bar_r.tres" type="Texture" id=1]
+[ext_resource path="res://atlas/lobby/hud.sprites/top_bar.tres" type="Texture" id=2]
+[ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=3]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=4]
+[ext_resource path="res://font/vipnagorgialla/size_50_outline_4_000000.tres" type="DynamicFont" id=5]
+[ext_resource path="res://font/vipnagorgialla/size_20_outline_1_000000.tres" type="DynamicFont" id=6]
+[ext_resource path="res://atlas/lobby/hud.sprites/exp_bar_bg.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/lobby/hud.sprites/exp_bar.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/lobby/hud.sprites/dimensium_shop.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/lobby/hud.sprites/dimensium.tres" type="Texture" id=10]
+[ext_resource path="res://lobby/hud/dimensium.tscn" type="PackedScene" id=11]
+[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=12]
+[ext_resource path="res://atlas/lobby/hud.sprites/galacticoin_shop.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/lobby/hud.sprites/galacticoin.tres" type="Texture" id=14]
+[ext_resource path="res://lobby/hud/galacticoin.tscn" type="PackedScene" id=15]
+[ext_resource path="res://atlas/lobby/hud.sprites/bottom_panel_l.tres" type="Texture" id=16]
+[ext_resource path="res://atlas/lobby/hud.sprites/bottom_panel_r.tres" type="Texture" id=17]
+[ext_resource path="res://atlas/lobby/hud.sprites/bottom_panel_m.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/lobby/hud.sprites/battle.tres" type="Texture" id=19]
+[ext_resource path="res://atlas/lobby/hud.sprites/battle_pressed.tres" type="Texture" id=20]
+[ext_resource path="res://atlas/lobby/hud.sprites/battle_hover.tres" type="Texture" id=21]
+[ext_resource path="res://atlas/lobby/hud.sprites/card.tres" type="Texture" id=22]
+[ext_resource path="res://atlas/lobby/hud.sprites/card_pressed.tres" type="Texture" id=23]
+[ext_resource path="res://atlas/lobby/hud.sprites/card_hover.tres" type="Texture" id=24]
+[ext_resource path="res://atlas/lobby/hud.sprites/explo.tres" type="Texture" id=25]
+[ext_resource path="res://atlas/lobby/hud.sprites/explo_pressed.tres" type="Texture" id=26]
+[ext_resource path="res://atlas/lobby/hud.sprites/explo_hover.tres" type="Texture" id=27]
+[ext_resource path="res://atlas/lobby/hud.sprites/social.tres" type="Texture" id=28]
+[ext_resource path="res://atlas/lobby/hud.sprites/social_pressed.tres" type="Texture" id=29]
+[ext_resource path="res://atlas/lobby/hud.sprites/social_hover.tres" type="Texture" id=30]
+[ext_resource path="res://atlas/lobby/hud.sprites/shop.tres" type="Texture" id=31]
+[ext_resource path="res://atlas/lobby/hud.sprites/shop_pressed.tres" type="Texture" id=32]
+[ext_resource path="res://atlas/lobby/hud.sprites/shop_hover.tres" type="Texture" id=33]
+[ext_resource path="res://lobby/dialog/modal.tscn" type="PackedScene" id=34]
+[ext_resource path="res://lobby/hud/modal_confirm.tscn" type="PackedScene" id=35]
+[ext_resource path="res://lobby/hud/setting.tscn" type="PackedScene" id=36]
+
+[sub_resource type="ImageTexture" id=1]
+flags = 0
+flags = 0
+size = Vector2( 16, 16 )
+
+[sub_resource type="ButtonGroup" id=2]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="HUD" type="Control" parent="."]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Top" type="TextureRect" parent="HUD"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -540.0
+margin_bottom = 120.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_editor_icon": SubResource( 1 )
+}
+
+[node name="Stat" type="TextureRect" parent="HUD"]
+editor/display_folded = true
+margin_right = 1080.0
+margin_bottom = 120.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Label" type="Label" parent="HUD/Stat"]
+margin_left = 8.0
+margin_top = 3.0
+margin_right = 144.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 123, 35 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.792157, 0.792157, 0.792157, 1 )
+text = "ID_HUD_LEVEL"
+align = 1
+valign = 1
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Level" type="Label" parent="HUD/Stat"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 15.0
+margin_top = -32.0
+margin_right = 131.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "00"
+align = 1
+valign = 1
+
+[node name="Exp" type="Label" parent="HUD/Stat"]
+margin_left = 157.0
+margin_top = 39.0
+margin_right = 352.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 6 )
+text = "80000/168770"
+align = 2
+valign = 2
+
+[node name="ExpBar" type="TextureProgress" parent="HUD/Stat"]
+self_modulate = Color( 0.0156863, 0.701961, 1, 1 )
+margin_left = 141.0
+margin_top = 65.0
+margin_right = 359.0
+margin_bottom = 81.0
+value = 69.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
+nine_patch_stretch = true
+
+[node name="Control" type="Control" parent="HUD"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 40.0
+
+[node name="Dimensium" type="TextureButton" parent="HUD/Control"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 211.0
+margin_top = 14.0
+margin_right = 511.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 9 )
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Control/Dimensium"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 150.0
+margin_top = -41.0
+margin_right = 216.0
+margin_bottom = 22.0
+texture = ExtResource( 10 )
+
+[node name="Node2D" parent="HUD/Control/Dimensium" instance=ExtResource( 11 )]
+position = Vector2( 199, 25 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Label" type="Label" parent="HUD/Control/Dimensium"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -295.0
+margin_top = -23.0
+margin_right = -133.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 12 )
+text = "99999"
+align = 2
+valign = 2
+
+[node name="Galacticoin" type="TextureButton" parent="HUD/Control"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = 14.0
+margin_right = 192.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 13 )
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Control/Galacticoin"]
+visible = false
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 200.0
+margin_top = -51.0
+margin_right = 278.0
+margin_bottom = 30.0
+texture = ExtResource( 14 )
+
+[node name="Node2D" parent="HUD/Control/Galacticoin" instance=ExtResource( 15 )]
+position = Vector2( 228, 25 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Label" type="Label" parent="HUD/Control/Galacticoin"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -23.0
+margin_right = -115.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 12 )
+text = "9999999"
+align = 2
+valign = 2
+
+[node name="BotPadL" type="TextureRect" parent="HUD"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -193.0
+margin_right = 540.0
+texture = ExtResource( 16 )
+expand = true
+
+[node name="BotPadR" type="TextureRect" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -540.0
+margin_top = -193.0
+texture = ExtResource( 17 )
+expand = true
+
+[node name="Bot" type="TextureRect" parent="HUD"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -514.0
+margin_top = -158.0
+margin_right = 515.0
+texture = ExtResource( 18 )
+expand = true
+__meta__ = {
+"_edit_horizontal_guides_": [ 1852.83 ]
+}
+
+[node name="Battle" type="TextureButton" parent="HUD/Bot"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -95.5
+margin_top = -79.0
+margin_right = 94.5
+margin_bottom = 41.0
+rect_min_size = Vector2( 190, 120 )
+toggle_mode = true
+pressed = true
+group = SubResource( 2 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 21 )
+expand = true
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="HUD/Bot/Battle"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -81.5
+margin_top = -33.0
+margin_right = 84.5
+margin_bottom = 17.0
+rect_min_size = Vector2( 166, 50 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0.741176, 0.741176, 1 )
+text = "ID_HUD_BATTLE"
+align = 1
+valign = 2
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Card" type="TextureButton" parent="HUD/Bot"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -800.0
+margin_top = -79.0
+margin_right = -610.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 190, 120 )
+toggle_mode = true
+group = SubResource( 2 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 23 )
+texture_hover = ExtResource( 24 )
+expand = true
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="HUD/Bot/Card"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -82.5
+margin_top = -33.0
+margin_right = 83.5
+margin_bottom = 17.0
+rect_min_size = Vector2( 166, 50 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0.741176, 0.741176, 1 )
+text = "ID_HUD_CARD"
+align = 1
+valign = 2
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Explore" type="TextureButton" parent="HUD/Bot"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -420.0
+margin_top = -79.0
+margin_right = -230.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 190, 120 )
+toggle_mode = true
+group = SubResource( 2 )
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 26 )
+texture_hover = ExtResource( 27 )
+expand = true
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="HUD/Bot/Explore"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -82.5
+margin_top = -33.0
+margin_right = 83.5
+margin_bottom = 17.0
+rect_min_size = Vector2( 166, 50 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0.741176, 0.741176, 1 )
+text = "ID_HUD_EXPLORE"
+align = 1
+valign = 2
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Social" type="TextureButton" parent="HUD/Bot"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -230.0
+margin_top = -79.0
+margin_right = -40.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 190, 120 )
+toggle_mode = true
+group = SubResource( 2 )
+texture_normal = ExtResource( 28 )
+texture_pressed = ExtResource( 29 )
+texture_hover = ExtResource( 30 )
+expand = true
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="HUD/Bot/Social"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -83.0
+margin_top = -33.0
+margin_right = 83.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 166, 50 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0.741176, 0.741176, 1 )
+text = "ID_HUD_SOCIAL"
+align = 1
+valign = 2
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Shop" type="TextureButton" parent="HUD/Bot"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 39.0
+margin_top = -79.0
+margin_right = 229.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 190, 120 )
+toggle_mode = true
+group = SubResource( 2 )
+texture_normal = ExtResource( 31 )
+texture_pressed = ExtResource( 32 )
+texture_hover = ExtResource( 33 )
+expand = true
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="HUD/Bot/Shop"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -83.0
+margin_top = -33.0
+margin_right = 83.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 166, 50 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0.741176, 0.741176, 1 )
+text = "ID_HUD_SHOP"
+align = 1
+valign = 2
+clip_text = true
+script = ExtResource( 4 )
+
+[node name="Modal" parent="." instance=ExtResource( 34 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -684.5
+margin_right = 540.0
+margin_bottom = 344.5
+btn = NodePath("../../Transparent/Modal/TextureButton")
+message = NodePath("../../Transparent/Modal/Label")
+
+[node name="ModalConfirm" parent="." instance=ExtResource( 35 )]
+margin_top = -519.0
+margin_bottom = 179.0
+
+[node name="PopupSetting" parent="." instance=ExtResource( 36 )]
