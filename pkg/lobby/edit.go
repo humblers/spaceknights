@@ -26,10 +26,6 @@ func NewEditRouter(path string, p *redis.Pool, l *log.Logger) (string, http.Hand
 	e.Post("deck/select", e.deckSelect)
 	e.Post("deck/set", e.deckSet)
 	e.Post("card/upgrade", e.cardUpgrade)
-
-	// for test
-	e.Post("chest/fill", e.fillChest)
-	e.Post("rank/set", e.setRank)
 	return path, http.TimeoutHandler(e, TimeoutDefault, TimeoutMessage)
 }
 

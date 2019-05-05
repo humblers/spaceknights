@@ -156,10 +156,6 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 	}
 	rc.Send("MULTI")
 	rc.Send("INCRBY", fmt.Sprintf("%v:galacticoin", b.uid), gold)
-
-	// temporary boosting for balancing test
-	cash = cash*10 + 50
-
 	rc.Send("INCRBY", fmt.Sprintf("%v:dimensium", b.uid), cash)
 	if _, err := rc.Do("EXEC"); err != nil {
 		c.logger.Print(err)

@@ -236,9 +236,9 @@ func go_to_tutor_mode():
 		for side in user.KNIGHT_SIDES:
 			var knight_btn = get("knight_%s" % side)
 			non_preload_paths += loading_screen.GetReqResourcePathsInGame(knight_btn.card)
-			d.append({"Name":knight_btn.card.Name, "Level":0, "Side": side.capitalize()})
+			d.append({"Name":knight_btn.card.Name, "Level":knight_btn.card.Level, "Side": side.capitalize()})
 		for i in range(user.SQUIRE_COUNT):
 			var squire_btn = get("squire_%d" % i)
 			non_preload_paths += loading_screen.GetReqResourcePathsInGame(squire_btn.card)
-			d.append({"Name":squire_btn.card.Name, "Level":0})
+			d.append({"Name":squire_btn.card.Name, "Level":squire_btn.card.Level})
 	loading_screen.GoToScene("res://game/offline/tutor/tutor.tscn", non_preload_paths, {"cfg": params})
