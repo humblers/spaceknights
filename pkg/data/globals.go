@@ -32,6 +32,9 @@ var InitialDeck = []Card{
 	Card{Name: "nagmash", Side: Right},
 }
 
+const SquireCountInInitialDeck = 6
+const KnightCountInInitialDeck = 3
+
 type Arena int
 
 const ArenaCount = 6

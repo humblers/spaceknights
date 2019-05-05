@@ -29,7 +29,7 @@ func load_data():
 
 func connect_to_notifier():
 	if not notifier_client.client_connected:
-		notifier_client.Connect()
+		notifier_client.Connect(config.get("NOTIFIER_HOST"), config.get("NOTIFIER_PORT"))
 		yield(notifier_client, "connected")
 		notifier_client.Send({"Id": user.Id, "Token": user.Id})
 	emit_signal("load_completed")

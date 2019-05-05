@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/humblers/spaceknights/pkg/data"
 )
@@ -43,6 +44,7 @@ type Player interface {
 }
 
 type player struct {
+	id        string
 	team      Team
 	energy    int
 	hand      []*data.Card
@@ -60,6 +62,7 @@ type player struct {
 
 func newPlayer(pd PlayerData, g Game) Player {
 	p := &player{
+		id:         pd.Id,
 		team:       pd.Team,
 		energy:     startEnergy,
 		knightIds:  make(map[data.KnightSide]int),
@@ -151,6 +154,25 @@ func (p *player) Update() {
 		p.drawCard(index)
 	} else {
 		p.drawTimer--
+	}
+	if p.id == "bot" && !p.game.IsReplaying() {
+		p.UpdateAI()
+	}
+}
+
+func (p *player) UpdateAI() {
+	if p.game.Step() > 100 && p.game.Step()%10 == 0 {
+		for _, card := range p.hand {
+			if card != nil && p.energy > card.Cost {
+				p.game.AddActionToNextStep(Action{
+					Id:    p.id,
+					Card:  data.Card{Name: card.Name},
+					TileX: rand.Intn(20),
+					TileY: rand.Intn(15),
+				})
+				break
+			}
+		}
 	}
 }
 
@@ -282,7 +304,7 @@ func (p *player) Do(a *Action) error {
 	// find card in hand
 	index := p.findCard(p.hand, a.Card.Name)
 	if index < 0 {
-		return fmt.Errorf("card not found: %v, step: %v", a.Card.Name, p.game.Step())
+		return fmt.Errorf("card not found: %v, step: %v, id: %v", a.Card.Name, p.game.Step(), p.id)
 	}
 	card := p.hand[index]
 	a.Card.Level = card.Level // to protect level cheat
