@@ -2,6 +2,7 @@ extends "res://game/player/hand.gd"
 
 var marked = false
 var revealed = false
+var unlockKnightBtn = false
 
 func _ready():
 	event.connect("PhaseChanged", self, "phaseChanged")
@@ -25,6 +26,7 @@ func phaseChanged(phase, PHASES):
 		4:
 			marked = phase == PHASES.REQUEST_FIREBALL
 			revealed = phase >= PHASES.REQUEST_FIREBALL
+			unlockKnightBtn = phase >= PHASES.REQUEST_FIREBALL
 	visible = revealed
 	focusHand()
 
@@ -43,3 +45,9 @@ func focusHand():
 	event.emit_signal("MarkOff")
 	if $Cursor.visible:
 		event.emit_signal("TransmissionOff")
+		
+func handle_knight_input(event, side):
+	if not unlockKnightBtn:
+		return
+	else:
+		.handle_knight_input(event, side)
