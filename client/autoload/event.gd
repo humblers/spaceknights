@@ -49,11 +49,13 @@ const PopupModalConfirm = "ModalConfirm"
 const PopupModalMessage = "ModalMessage"
 const PopupSetting      = "PopupSetting"
 signal RequestPopup(kind, args)
+signal ModalConfirmed(tf)
 
 const DialogCardUpgrade = "DialogCardUpgrade"
 const DialogChestOpen   = "DialogChestOpen"
 const DialogMatchwating = "DialogMatchWaiting"
 signal RequestDialog(kind, args)
+
 
 # For tutorial
 signal StudentUseCard(card)
