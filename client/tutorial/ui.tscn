@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://game/ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tutorial/transmission.gd" type="Script" id=2]
@@ -27,14 +27,11 @@
 [ext_resource path="res://tutorial/hand_student.gd" type="Script" id=25]
 [ext_resource path="res://material/unshaded.tres" type="Material" id=26]
 [ext_resource path="res://tutorial/marker.gd" type="Script" id=27]
-[ext_resource path="res://game/offline/tutor/squaretutor.png" type="Texture" id=28]
-[ext_resource path="res://game/offline/tutor/arrowtutor1.png" type="Texture" id=29]
-[ext_resource path="res://game/offline/tutor/arrowtutor2.png" type="Texture" id=30]
-[ext_resource path="res://game/offline/tutor/arrowtutor3.png" type="Texture" id=31]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=32]
-[ext_resource path="res://atlas/game/ui.sprites/slots_panel_w.tres" type="Texture" id=33]
-[ext_resource path="res://tutorial/animation/focus/off.tres" type="Animation" id=34]
-[ext_resource path="res://tutorial/animation/focus/on.tres" type="Animation" id=35]
+[ext_resource path="res://atlas/game/ui.sprites/squaretutor.tres" type="Texture" id=28]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=29]
+[ext_resource path="res://atlas/game/ui.sprites/slots_panel_w.tres" type="Texture" id=30]
+[ext_resource path="res://tutorial/animation/focus/off.tres" type="Animation" id=31]
+[ext_resource path="res://tutorial/animation/focus/on.tres" type="Animation" id=32]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5 ), -0.236835, 0.0, 0, 0 ]
@@ -45,7 +42,7 @@ colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
+"frames": [ null, null, null ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -55,8 +52,7 @@ animations = [ {
 colors = PoolColorArray( 0.101961, 1, 0.392157, 0.623804, 0, 0.976471, 1, 0 )
 
 [node name="UI" index="0" instance=ExtResource( 1 )]
-z_index = 10
-z_as_relative = false
+editor/display_folded = true
 
 [node name="Hud" parent="." index="0"]
 editor/display_folded = false
@@ -316,20 +312,21 @@ self_modulate = Color( 0, 1, 0.905882, 1 )
 position = Vector2( 0, -92 )
 scale = Vector2( 1, 1.5 )
 frames = SubResource( 3 )
+frame = 1
 playing = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Marker/Arrow" index="0"]
 visible = false
-material = ExtResource( 32 )
+material = ExtResource( 29 )
 position = Vector2( 0, 56.667 )
 scale = Vector2( 0.62, 0.1 )
 amount = 2
 speed_scale = 0.2
-texture = ExtResource( 33 )
+texture = ExtResource( 30 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 color_ramp = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Marker" index="2"]
-anims/off = ExtResource( 34 )
-anims/on = ExtResource( 35 )
+anims/off = ExtResource( 31 )
+anims/on = ExtResource( 32 )

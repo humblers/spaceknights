@@ -194,6 +194,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">ui/arrowtutor1.png</key>
+            <key type="filename">ui/arrowtutor2.png</key>
+            <key type="filename">ui/arrowtutor3.png</key>
+            <key type="filename">ui/result_star.png</key>
+            <key type="filename">ui/result_star_empty.png</key>
+            <key type="filename">ui/squaretutor.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9Paddings</key>
+                <rect>30,30,60,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">ui/background_gradation.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -596,32 +614,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/knight_guide.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,32,32,64</rect>
-                <key>scale9Paddings</key>
-                <rect>16,32,32,64</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/knight_guide_arrow.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,14,32,28</rect>
-                <key>scale9Paddings</key>
-                <rect>16,14,32,28</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">ui/knight_guide_arrow_1.png</key>
             <key type="filename">ui/knight_guide_arrow_2.png</key>
             <key type="filename">ui/knight_guide_arrow_3.png</key>
@@ -718,6 +710,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">ui/positionmarker.png</key>
+            <key type="filename">ui/ui_tile.png</key>
+            <key type="filename">ui/ui_tile_color.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9Paddings</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">ui/rank/rank_icon_0.png</key>
             <key type="filename">ui/rank/rank_icon_1.png</key>
             <key type="filename">ui/rank/rank_icon_10.png</key>
@@ -753,20 +760,6 @@
                 <rect>29,34,58,67</rect>
                 <key>scale9Paddings</key>
                 <rect>29,34,58,67</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/result_star.png</key>
-            <key type="filename">ui/result_star_empty.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,30,60,60</rect>
-                <key>scale9Paddings</key>
-                <rect>30,30,60,60</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -926,20 +919,6 @@
                 <rect>27,23,53,46</rect>
                 <key>scale9Paddings</key>
                 <rect>27,23,53,46</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/ui_tile.png</key>
-            <key type="filename">ui/ui_tile_color.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>13,13,25,25</rect>
-                <key>scale9Paddings</key>
-                <rect>13,13,25,25</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
