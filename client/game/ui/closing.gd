@@ -24,6 +24,7 @@ onready var chest_icon = $Boxopen/Chest/ChestIcon
 
 var medal = 0
 var anim_finished = false
+var rank = 0
 
 func _input(event):
 	if event is InputEventMouseButton and not event.pressed:
@@ -32,6 +33,7 @@ func _input(event):
 
 func Init(rank, medal, chest_order):
 	self.medal = medal
+	self.rank = rank
 	var rank_up = clamp(rank - 1, 0, data.InitialRank)
 	var rank_down = clamp(rank + 1, 0, data.InitialRank)
 	rank_number.text = str(rank)
@@ -71,8 +73,12 @@ func PlayLoseAnim():
 		medal_remove_anim.play("medal_remove%d" % (medal))
 		yield(medal_remove_anim, "animation_finished")
 	else:
-		anim.play("rankdown")
-		yield(anim, "animation_finished")
+		if rank % 5 == 0:
+			anim.play("rankdown_limit")
+			yield(anim, "animation_finished")
+		else:
+			anim.play("rankdown")
+			yield(anim, "animation_finished")
 	anim_finished = true
 
 func PlayDrawAnim():
