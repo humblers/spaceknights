@@ -62,8 +62,12 @@ func PlayWinAnim():
 		medal_add_anim.play("medal_add%d" % (medal+1))
 		yield(medal_add_anim, "animation_finished")
 	else:
-		anim.play("rankup")
-		yield(anim, "animation_finished")
+		if rank == 0:
+			anim.play("rankup_limit")
+			yield(anim, "animation_finished")
+		else:
+			anim.play("rankup")
+			yield(anim, "animation_finished")
 	anim_finished = true
 
 func PlayLoseAnim():
@@ -73,7 +77,7 @@ func PlayLoseAnim():
 		medal_remove_anim.play("medal_remove%d" % (medal))
 		yield(medal_remove_anim, "animation_finished")
 	else:
-		if rank % 5 == 0:
+		if rank == 25:
 			anim.play("rankdown_limit")
 			yield(anim, "animation_finished")
 		else:
