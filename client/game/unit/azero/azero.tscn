@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/unit/azero/azero.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/azero/ball.tres" type="Texture" id=2]
@@ -9,8 +9,8 @@
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_7.tres" type="Texture" id=7]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=8]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/azero/wing.tres" type="Texture" id=9]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust.tres" type="Texture" id=10]
-[ext_resource path="res://game/vfx/vfx.sprites/thrust_2.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=11]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/azero/body.tres" type="Texture" id=12]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=13]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=14]
@@ -20,16 +20,12 @@
 [ext_resource path="res://game/unit/azero/destroy.tres" type="Animation" id=18]
 [ext_resource path="res://game/unit/azero/idle.tres" type="Animation" id=19]
 [ext_resource path="res://game/unit/azero/move.tres" type="Animation" id=20]
-[ext_resource path="res://game/vfx/unit_explosion_1.png" type="Texture" id=21]
-[ext_resource path="res://game/vfx/sphere.png" type="Texture" id=22]
-[ext_resource path="res://game/vfx/unit_explosion_7.png" type="Texture" id=23]
-[ext_resource path="res://game/vfx/cloud_3.png" type="Texture" id=24]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=25]
-[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=26]
-[ext_resource path="res://game/unit/azero/azero_atk.wav" type="AudioStream" id=27]
-[ext_resource path="res://sound/sfx/explosion_m.wav" type="AudioStream" id=28]
-[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=29]
-[ext_resource path="res://game/unit/azero/ice_orb.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=21]
+[ext_resource path="res://game/hpbar/hpbar_m.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/unit/azero/azero_atk.wav" type="AudioStream" id=23]
+[ext_resource path="res://sound/sfx/explosion_m.wav" type="AudioStream" id=24]
+[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=25]
+[ext_resource path="res://game/unit/azero/ice_orb.tscn" type="PackedScene" id=26]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.0311091, 0.9928 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6848 ), 0.0, 0.0, 0, 0 ]
@@ -323,7 +319,7 @@ scale = Vector2( 1.5, 1.5 )
 emitting = false
 speed_scale = 2.0
 explosiveness = 0.2
-texture = ExtResource( 21 )
+texture = ExtResource( 4 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, -20 )
@@ -340,14 +336,14 @@ modulate = Color( 0.243137, 0.521569, 1, 0.505882 )
 material = ExtResource( 5 )
 position = Vector2( 0, -4 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 22 )
+texture = ExtResource( 6 )
 
 [node name="Circle" type="CPUParticles2D" parent="HitPoint"]
 material = ExtResource( 5 )
 position = Vector2( 0, 0.66667 )
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 23 )
+texture = ExtResource( 7 )
 gravity = Vector2( 0, -90 )
 angular_velocity = 180.0
 angular_velocity_random = 1.0
@@ -360,7 +356,7 @@ material = ExtResource( 5 )
 emitting = false
 lifetime = 0.8
 preprocess = 0.5
-texture = ExtResource( 24 )
+texture = ExtResource( 8 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 180.0
@@ -375,23 +371,23 @@ color_ramp = SubResource( 6 )
 [node name="HitEffect" type="AnimationPlayer" parent="HitPoint"]
 anims/hit = SubResource( 9 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 25 )]
+[node name="HitEffect" parent="." instance=ExtResource( 21 )]
 type = 0
 rect_area = Rect2( -32, -30, 64, 60 )
 
-[node name="Hp" parent="." instance=ExtResource( 26 )]
+[node name="Hp" parent="." instance=ExtResource( 22 )]
 position = Vector2( 0, -65 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 27 )
+stream = ExtResource( 23 )
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 28 )
+stream = ExtResource( 24 )
 
 [node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 29 )
+stream = ExtResource( 25 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "ice_orb" ), [ ExtResource( 30 ) ] ]
+resources = [ PoolStringArray( "ice_orb" ), [ ExtResource( 26 ) ] ]
