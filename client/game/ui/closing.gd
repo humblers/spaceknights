@@ -10,7 +10,7 @@ onready var rank_name = $Texts/RankName
 onready var rank_name_up = $Texts/RankNameUp
 onready var rank_name_down = $Texts/RankNameDown
 onready var rank_icon = $Result/Icon/RankBase/Rank/RankIcon
-onready var rank_icon_up = $Result/Icon/RankBase/Rank/RankIcon
+onready var rank_icon_up = $Result/Icon/RankBase/Rank/RankIconUp
 onready var rank_icon_down = $Result/Icon/RankBase/Rank/RankIconDown
 
 onready var medal1 = $Result/Icon/Medal/Medals/Medal1
@@ -56,33 +56,34 @@ func Init(rank, medal, chest_order):
 	chest_icon.Set(name)
 	
 func PlayWinAnim():
-	if medal < data.MedalsPerRank:
-		anim.play("win")
-		yield(anim, "animation_finished")
-		medal_add_anim.play("medal_add%d" % (medal+1))
-		yield(medal_add_anim, "animation_finished")
-	else:
-		if rank == 0:
-			anim.play("rankup_limit")
+	if rank > 0:
+		if medal < data.MedalsPerRank:
+			anim.play("win")
 			yield(anim, "animation_finished")
+			medal_add_anim.play("medal_add%d" % (medal+1))
+			yield(medal_add_anim, "animation_finished")
 		else:
-			anim.play("rankup")
+			if rank == 1:
+				anim.play("rankup_legend")
+			else:
+				anim.play("rankup")
 			yield(anim, "animation_finished")
+	else:
+		pass # TODO: add anim for legend player win
 	anim_finished = true
 
 func PlayLoseAnim():
-	if medal > 0:
+	if medal <= 0:
+		if rank % data.RankDownLimit != 0:
+			anim.play("rankdown")
+		else:
+			anim.play("rankdown_limit")
+		yield(anim, "animation_finished")
+	else:
 		anim.play("lose")
 		yield(anim, "animation_finished")
 		medal_remove_anim.play("medal_remove%d" % (medal))
 		yield(medal_remove_anim, "animation_finished")
-	else:
-		if rank == 25:
-			anim.play("rankdown_limit")
-			yield(anim, "animation_finished")
-		else:
-			anim.play("rankdown")
-			yield(anim, "animation_finished")
 	anim_finished = true
 
 func PlayDrawAnim():

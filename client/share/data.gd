@@ -17,6 +17,7 @@ const SlowPercent = 50
 
 const InitialRank = 25
 const MedalsPerRank = 5
+const RankDownLimit = 5
 
 # CardRarity
 const Common = "Common"

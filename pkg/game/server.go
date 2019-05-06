@@ -301,7 +301,7 @@ func (s *server) saveResult(g Game) {
 			}
 		} else {
 			if medal <= 0 {
-				if rank < data.InitialRank {
+				if rank%data.RankDownLimit != 0 {
 					rank++
 					medal = data.MedalsPerRank - 1
 				}
