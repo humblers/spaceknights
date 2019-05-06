@@ -73,6 +73,7 @@ var Units = map[string]Unit{
 		"attackinterval": 20,
 		"preattackdelay": 9,
 		"absorbratio":    50,
+		"estimatedcost":  5000,
 	},
 	"archengineer": map[string]interface{}{
 		"mass":           0,
@@ -101,6 +102,7 @@ var Units = map[string]Unit{
 				"expanddamageradius": []int{3},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"archer": map[string]interface{}{
 		"type":           Squire,
@@ -118,6 +120,7 @@ var Units = map[string]Unit{
 		"attackinterval": 12,
 		"preattackdelay": 0,
 		"bulletlifetime": 6,
+		"estimatedcost":  1500,
 	},
 	"archmage": map[string]interface{}{
 		"type":           Squire,
@@ -136,6 +139,7 @@ var Units = map[string]Unit{
 		"attackinterval": 17,
 		"preattackdelay": 11,
 		"bulletlifetime": 4,
+		"estimatedcost":  5000,
 	},
 	"archsapper": map[string]interface{}{
 		"mass":           0,
@@ -168,6 +172,7 @@ var Units = map[string]Unit{
 				"hpratio": []int{300},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"astra": map[string]interface{}{
 		"mass":           0,
@@ -199,6 +204,7 @@ var Units = map[string]Unit{
 				"hpratio": []int{52},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"azero": map[string]interface{}{
 		"type":           Squire,
@@ -218,6 +224,7 @@ var Units = map[string]Unit{
 		"preattackdelay": 7,
 		"bulletlifetime": 4,
 		"slowduration":   80,
+		"estimatedcost":  3000,
 	},
 	"barrack": map[string]interface{}{
 		"type":          Building,
@@ -233,6 +240,7 @@ var Units = map[string]Unit{
 		"spawnoffsetX":  []int{-20, 20},
 		"spawnoffsetY":  []int{0, 0},
 		"decaydamage":   3,
+		"estimatedcost": 0,
 	},
 	"beholder": map[string]interface{}{
 		"type":              Building,
@@ -251,6 +259,7 @@ var Units = map[string]Unit{
 		"attackinterval":    4,
 		"decaydamage":       2,
 		"amplifycountlimit": 10,
+		"estimatedcost":     4000,
 	},
 	"berserker": map[string]interface{}{
 		"type":           Squire,
@@ -267,6 +276,7 @@ var Units = map[string]Unit{
 		"attackrange":    50,
 		"attackinterval": 20,
 		"preattackdelay": 6,
+		"estimatedcost":  3000,
 	},
 	"blaster": map[string]interface{}{
 		"type":           Squire,
@@ -285,6 +295,7 @@ var Units = map[string]Unit{
 		"attackinterval": 20,
 		"preattackdelay": 0,
 		"bulletlifetime": 20,
+		"estimatedcost":  3000,
 	},
 	"blastturret": map[string]interface{}{
 		"type":           Building,
@@ -305,6 +316,7 @@ var Units = map[string]Unit{
 		"preattackdelay": 0,
 		"bulletlifetime": 15,
 		"decaydamage":    3,
+		"estimatedcost":  4000,
 	},
 	"buran": map[string]interface{}{
 		"mass":           0,
@@ -333,6 +345,7 @@ var Units = map[string]Unit{
 				"amplifycountlimit":   10,
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"cannon": map[string]interface{}{
 		"type":           Building,
@@ -352,6 +365,7 @@ var Units = map[string]Unit{
 		"preattackdelay": 0,
 		"bulletlifetime": 5,
 		"decaydamage":    2,
+		"estimatedcost":  2000,
 	},
 	"champion": map[string]interface{}{
 		"type":                    Squire,
@@ -376,6 +390,7 @@ var Units = map[string]Unit{
 		"chargedattackdamage":     []int{240},
 		"chargedattackinterval":   7,
 		"chargedattackpredelay":   4,
+		"estimatedcost":           4000,
 	},
 	"drillram": map[string]interface{}{
 		"type":           Squire,
@@ -392,6 +407,7 @@ var Units = map[string]Unit{
 		"attackrange":    70,
 		"attackinterval": 2,
 		"preattackdelay": 0,
+		"estimatedcost":  4000,
 	},
 	"enforcer": map[string]interface{}{
 		"type":           Squire,
@@ -409,6 +425,7 @@ var Units = map[string]Unit{
 		"attackradius":   80,
 		"attackinterval": 15,
 		"preattackdelay": 1,
+		"estimatedcost":  4000,
 	},
 	"felhound": map[string]interface{}{
 		"type":           Squire,
@@ -426,6 +443,7 @@ var Units = map[string]Unit{
 		"attackrange":    60,
 		"attackinterval": 30,
 		"preattackdelay": 10,
+		"estimatedcost":  2500,
 	},
 	"footman": map[string]interface{}{
 		"type":           Squire,
@@ -442,6 +460,7 @@ var Units = map[string]Unit{
 		"attackrange":    45,
 		"attackinterval": 15,
 		"preattackdelay": 5,
+		"estimatedcost":  1250,
 	},
 	"frost": map[string]interface{}{
 		"mass":           0,
@@ -471,6 +490,7 @@ var Units = map[string]Unit{
 				"slowduration": []int{30},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"gargoyle": map[string]interface{}{
 		"type":           Squire,
@@ -488,6 +508,7 @@ var Units = map[string]Unit{
 		"attackrange":    100,
 		"attackinterval": 10,
 		"preattackdelay": 5,
+		"estimatedcost":  1000,
 	},
 	"gargoyleking": map[string]interface{}{
 		"type":           Squire,
@@ -505,6 +526,7 @@ var Units = map[string]Unit{
 		"attackrange":    100,
 		"attackinterval": 15,
 		"preattackdelay": 5,
+		"estimatedcost":  3000,
 	},
 	"giant": map[string]interface{}{
 		"type":           Squire,
@@ -521,6 +543,7 @@ var Units = map[string]Unit{
 		"attackrange":    70,
 		"attackinterval": 2,
 		"preattackdelay": 0,
+		"estimatedcost":  5000,
 	},
 	"heavymissile": map[string]interface{}{
 		"type":           Squire,
@@ -537,6 +560,7 @@ var Units = map[string]Unit{
 		"attackrange":    60,
 		"attackradius":   105,
 		"preattackdelay": 3,
+		"estimatedcost":  1333,
 	},
 	"ironcoffin": map[string]interface{}{
 		"mass":           0,
@@ -567,6 +591,7 @@ var Units = map[string]Unit{
 				"perstep": 100,
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"jouster": map[string]interface{}{
 		"type":                    Squire,
@@ -589,6 +614,7 @@ var Units = map[string]Unit{
 		"chargedattackdamage":     []int{520},
 		"chargedattackinterval":   6,
 		"chargedattackpredelay":   3,
+		"estimatedcost":           5000,
 	},
 	"judge": map[string]interface{}{
 		"mass":           0,
@@ -619,6 +645,7 @@ var Units = map[string]Unit{
 				"attackrangeratio": []int{110},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"lancer": map[string]interface{}{
 		"mass":           0,
@@ -659,6 +686,7 @@ var Units = map[string]Unit{
 				"height":     50,
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"legion": map[string]interface{}{
 		"mass":           0,
@@ -689,6 +717,7 @@ var Units = map[string]Unit{
 				"attackdamageratio": []int{110},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"micromissile": map[string]interface{}{
 		"type":           Squire,
@@ -705,6 +734,7 @@ var Units = map[string]Unit{
 		"attackrange":    35,
 		"attackradius":   80,
 		"preattackdelay": 3,
+		"estimatedcost":  250,
 	},
 	"nagmash": map[string]interface{}{
 		"mass":           0,
@@ -740,6 +770,7 @@ var Units = map[string]Unit{
 				"perstep": 300,
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"nukemissile": map[string]interface{}{
 		"type":           Squire,
@@ -756,6 +787,7 @@ var Units = map[string]Unit{
 		"attackrange":    60,
 		"attackradius":   200,
 		"preattackdelay": 3,
+		"estimatedcost":  5000,
 	},
 	"ogre": map[string]interface{}{
 		"type":           Squire,
@@ -772,6 +804,7 @@ var Units = map[string]Unit{
 		"attackrange":    60,
 		"attackinterval": 20,
 		"preattackdelay": 6,
+		"estimatedcost":  7000,
 	},
 	"panzerkunstler": map[string]interface{}{
 		"type":                    Squire,
@@ -797,6 +830,7 @@ var Units = map[string]Unit{
 		"powerattackfrequency":    3,
 		"powerattackradius":       350,
 		"powerattackforce":        2000,
+		"estimatedcost":           5000,
 	},
 	"pixie": map[string]interface{}{
 		"type":           Squire,
@@ -813,6 +847,7 @@ var Units = map[string]Unit{
 		"attackrange":    35,
 		"attackinterval": 20,
 		"preattackdelay": 4,
+		"estimatedcost":  333,
 	},
 	"pixiegeode": map[string]interface{}{
 		"type":          Building,
@@ -828,6 +863,7 @@ var Units = map[string]Unit{
 		"spawnoffsetX":  []int{0},
 		"spawnoffsetY":  []int{0},
 		"decaydamage":   1,
+		"estimatedcost": 0,
 	},
 	"pixieking": map[string]interface{}{
 		"mass":           0,
@@ -860,6 +896,7 @@ var Units = map[string]Unit{
 				"offsetY": []int{0, 0, 0, 0, 0, 0, 0, 0},
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"psabu": map[string]interface{}{
 		"type":               Squire,
@@ -883,6 +920,7 @@ var Units = map[string]Unit{
 		"absorbdamage":       5,
 		"absorbdamageradius": 150,
 		"absorbradius":       300,
+		"estimatedcost":      7000,
 	},
 	"sentry": map[string]interface{}{
 		"type":           Squire,
@@ -900,6 +938,7 @@ var Units = map[string]Unit{
 		"attackinterval": 13,
 		"preattackdelay": 0,
 		"bulletlifetime": 6,
+		"estimatedcost":  666,
 	},
 	"sentryshelter": map[string]interface{}{
 		"type":          Building,
@@ -915,6 +954,7 @@ var Units = map[string]Unit{
 		"spawnoffsetX":  []int{0},
 		"spawnoffsetY":  []int{0},
 		"decaydamage":   2,
+		"estimatedcost": 0,
 	},
 	"shadowvision": map[string]interface{}{
 		"type":           Squire,
@@ -934,6 +974,7 @@ var Units = map[string]Unit{
 		"attackinterval": 20,
 		"preattackdelay": 0,
 		"bulletlifetime": 20,
+		"estimatedcost":  4000,
 	},
 	"starfire": map[string]interface{}{
 		"type":           Squire,
@@ -951,6 +992,7 @@ var Units = map[string]Unit{
 		"attackinterval": 11,
 		"preattackdelay": 0,
 		"bulletlifetime": 6,
+		"estimatedcost":  4000,
 	},
 	"tombstone": map[string]interface{}{
 		"mass":           0,
@@ -984,6 +1026,7 @@ var Units = map[string]Unit{
 				"perdeaths": 4,
 			},
 		},
+		"estimatedcost": 0,
 	},
 	"trainee": map[string]interface{}{
 		"type":           Squire,
@@ -1000,6 +1043,7 @@ var Units = map[string]Unit{
 		"attackrange":    44,
 		"attackinterval": 12,
 		"preattackdelay": 5,
+		"estimatedcost":  666,
 	},
 	"valkyrie": map[string]interface{}{
 		"mass":           0,
@@ -1035,6 +1079,7 @@ var Units = map[string]Unit{
 				"offsetY": []int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			},
 		},
+		"estimatedcost": 1000,
 	},
 	"voidcreeper": map[string]interface{}{
 		"type":              Squire,
@@ -1055,6 +1100,7 @@ var Units = map[string]Unit{
 		"destroydamagetype": DecreaseOnKnight | Melee | Death,
 		"destroydamage":     []int{400},
 		"destroyradius":     175,
+		"estimatedcost":     5000,
 	},
 	"wasp": map[string]interface{}{
 		"type":              Squire,
@@ -1075,6 +1121,7 @@ var Units = map[string]Unit{
 		"destroydamagetype": DecreaseOnKnight | Melee | Death,
 		"destroydamage":     []int{400},
 		"destroyradius":     175,
+		"estimatedcost":     5000,
 	},
 }
 

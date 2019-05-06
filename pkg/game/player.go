@@ -41,6 +41,7 @@ type Player interface {
 	KnightDead(side data.KnightSide) bool
 	Update()
 	Score() int
+	Energy() int
 }
 
 type player struct {
@@ -55,6 +56,7 @@ type player struct {
 	score     int
 
 	statRatios map[string][]int
+	patience   int
 
 	game   Game
 	client Client
@@ -68,6 +70,7 @@ func newPlayer(pd PlayerData, g Game) Player {
 		knightIds:  make(map[data.KnightSide]int),
 		score:      leaderScore + wingScore*2,
 		statRatios: make(map[string][]int),
+		patience:   8,
 
 		game: g,
 	}
@@ -87,6 +90,10 @@ func newPlayer(pd PlayerData, g Game) Player {
 	}
 	p.applyLeaderSkill()
 	return p
+}
+
+func (p *player) Energy() int {
+	return p.energy
 }
 
 func (p *player) Client() Client {
@@ -160,18 +167,90 @@ func (p *player) Update() {
 	}
 }
 
+const PATIENCE_MIN = 10
+const PATIENCE_MAX = 30
+const ENERGY_GAP = 5000
+
 func (p *player) UpdateAI() {
-	if p.game.Step() > 100 && p.game.Step()%10 == 0 {
+	if p.game.Step()%10 == 0 {
+		var card_candidate []*data.Card
 		for _, card := range p.hand {
-			if card != nil && p.energy > card.Cost {
+			if card == nil {
+				continue
+			}
+			var energyAfterUse = p.energy - card.Cost
+			if energyAfterUse < 0 {
+				continue
+			}
+			if p.patience > 0 {
+				enemy := p.game.FindPlayer(Blue)
+				if enemy.Energy()-energyAfterUse > ENERGY_GAP {
+					continue
+				}
+			}
+			card_candidate = append(card_candidate, card)
+		}
+		if p.patience < 0 {
+			p.patience = rand.Intn(PATIENCE_MAX) + PATIENCE_MIN
+		}
+		if len(card_candidate) <= 0 {
+			p.patience--
+			return
+		}
+		picked := card_candidate[rand.Intn(len(card_candidate))]
+		if picked.IsSpell() {
+			var maxCost int
+			var maxCostUnit Unit
+			for _, id := range p.game.UnitIds() {
+				u := p.game.FindUnit(id)
+				if u.Team() == Blue {
+					cost := data.Units[u.Name()]["estimatedcost"].(int)
+					if maxCostUnit == nil || cost > maxCost {
+						maxCostUnit, maxCost = u, cost
+					}
+				}
+			}
+			px, py := p.game.World().ToPixel(maxCostUnit.Position().X), p.game.World().ToPixel(maxCostUnit.Position().Y)
+			tx, ty := p.game.TileFromPos(px, py)
+			p.game.AddActionToNextStep(Action{
+				Id:    p.id,
+				Card:  data.Card{Name: picked.Name},
+				TileX: tx,
+				TileY: ty,
+			})
+		} else {
+			var costSpentLeft int
+			var costSpentRight int
+			for _, id := range p.game.UnitIds() {
+				u := p.game.FindUnit(id)
+				if u.Team() == Blue {
+					cost := data.Units[u.Name()]["estimatedcost"].(int)
+					if u.Position().Y < p.game.Map().CenterX() {
+						costSpentLeft += cost
+					} else {
+						costSpentRight += cost
+					}
+				}
+			}
+			tx := rand.Intn(10)
+			ty := rand.Intn(15)
+			if costSpentLeft < costSpentRight {
+				tx += 10
+			}
+			nx, ny := picked.TileNum()
+			tr := &tileRect{tx, ty, nx, ny}
+			tr = p.FindUnoccupiedTileRect(tr, 3)
+			if tr == nil {
+				p.game.Logger().Printf("[AI] cannot find unoccupied tile: %v", picked.Name)
+			} else {
 				p.game.AddActionToNextStep(Action{
 					Id:    p.id,
-					Card:  data.Card{Name: card.Name},
-					TileX: rand.Intn(20),
-					TileY: rand.Intn(15),
+					Card:  data.Card{Name: picked.Name},
+					TileX: tx,
+					TileY: ty,
 				})
-				break
 			}
+
 		}
 	}
 }
@@ -311,7 +390,7 @@ func (p *player) Do(a *Action) error {
 
 	// energy check
 	if p.energy < card.Cost {
-		return fmt.Errorf("not enough energy: %v", card.Name)
+		return fmt.Errorf("not enough energy: %v, id: %v", card.Name, p.id)
 	}
 
 	// tile check
@@ -319,7 +398,7 @@ func (p *player) Do(a *Action) error {
 	tr := &tileRect{a.TileX, a.TileY, nx, ny}
 	isSpell := card.IsSpell()
 	if !p.TileRectValid(tr, isSpell) {
-		return fmt.Errorf("invalid tile: %v", tr)
+		return fmt.Errorf("invalid tile: %v, id: %v, card: %v", tr, p.id, card.Name)
 	}
 	if !isSpell {
 		tr := p.FindUnoccupiedTileRect(tr, maxTileFindDistance)

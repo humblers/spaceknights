@@ -14,6 +14,8 @@ type Map interface {
 	TileNumY() int
 	GetObstacles() []Area
 	FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scalar) fixed.Vector
+	CenterX() fixed.Scalar
+	CenterY() fixed.Scalar
 }
 
 type Area interface {
@@ -145,6 +147,14 @@ func newThanatos(scale fixed.Scalar) *thanatos {
 		fixed.Vector{t.righthole.l, t.righthole.b},
 	}
 	return t
+}
+
+func (t *thanatos) CenterX() fixed.Scalar {
+	return t.centerX
+}
+
+func (t *thanatos) CenterY() fixed.Scalar {
+	return t.centerY
 }
 
 func (t *thanatos) Width() fixed.Scalar {
