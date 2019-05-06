@@ -19,6 +19,10 @@ func GetStatIcon(layer, stat_key):
 			path = path % [layer, "lifetime"]
 		"attackrange":
 			path = path % [layer, "attack_range"]
+		"shield":
+			path = path % [layer, "barrier"]
+		"count":
+			path = path % [layer, "spawn_count"]
 		_:
 			path = path % [layer, stat_key]
 	return LoadResource(path)
