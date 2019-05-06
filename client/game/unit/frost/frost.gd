@@ -182,7 +182,7 @@ func doFreeze():
 		var x = scalar.Sub(u.PositionX(), game.World().FromPixel(castPosX))
 		var y = scalar.Sub(u.PositionY(), game.World().FromPixel(castPosY))
 		var d = vector.LengthSquared(x, y)
-		var r = scalar.Add(Radius(), radius)
+		var r = scalar.Add(u.Radius(), radius)
 		if d < scalar.Mul(r, r):
 			u.Freeze(duration)
 	
