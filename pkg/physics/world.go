@@ -146,12 +146,12 @@ func (w *world) State() map[string]interface{} {
 		"restitution":         w.restitution,
 		"correctionPercent":   w.correctionPercent,
 		"correctionThreshold": w.correctionThreshold,
-		"collisions":          []interface{}{},
 	}
+	collisions := []interface{}{}
 	for _, c := range w.collisions {
-		slice := state["collisions"].([]interface{})
-		slice = append(slice, c.State())
+		collisions = append(collisions, c.State())
 	}
+	state["collisions"] = collisions
 	return state
 }
 

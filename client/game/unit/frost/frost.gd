@@ -179,8 +179,8 @@ func doFreeze():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():
 			continue
-		var x = scalar.Sub(game.World().FromPixel(castPosX), u.PositionX())
-		var y = scalar.Sub(game.World().FromPixel(castPosY), u.PositionY())
+		var x = scalar.Sub(u.PositionX(), game.World().FromPixel(castPosX))
+		var y = scalar.Sub(u.PositionY(), game.World().FromPixel(castPosY))
 		var d = vector.LengthSquared(x, y)
 		var r = scalar.Add(Radius(), radius)
 		if d < scalar.Mul(r, r):
