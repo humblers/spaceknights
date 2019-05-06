@@ -94,9 +94,10 @@ func _ready():
 		var player = $Players.get_node(team)
 		player.Init(p, self)
 		players[p.Id] = player
-		opening_anim.SetPlayerData(team, p.Id, player.leader)
+		opening_anim.SetPlayerData(team, p.Id, player.leader, p.Rank)
 		if team == "Blue":
 			$UI/Hud/ID/RankIconBG/Text.text = "Imperial-Knight-%03d" % int(p.Id)
+			$UI/Hud/ID/RankIconBG.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/rank/rank_icon_%d.tres" % user.Rank)
 	opening_anim.Play()
 	event.emit_signal("GameInitialized", self)
 

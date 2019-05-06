@@ -193,6 +193,9 @@ func createMatch(id1, id2 string) {
 	}
 	p1 := getPlayerData(id1, "Blue")
 	p2 := getPlayerData(id2, "Red")
+	if id2 == "bot" {
+		p2.Rank = p1.Rank - 1 + rand.Intn(3)
+	}
 	config.Players = append(config.Players, p1, p2)
 	gameid, err := redis.Int(conn.Do("INCR", "nextgameid"))
 	if err != nil {
@@ -245,6 +248,11 @@ func getPlayerData(id, team string) game.PlayerData {
 	} else {
 		conn := pool.Get()
 		defer conn.Close()
+		rank, err := redis.Int(conn.Do("GET", fmt.Sprintf("%v:rank", id)))
+		if err != nil {
+			panic(err)
+		}
+		d.Rank = rank
 		index, err := redis.Int(conn.Do("GET", fmt.Sprintf("%v:decknum", id)))
 		if err != nil {
 			panic(err)

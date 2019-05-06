@@ -5,6 +5,7 @@ export(NodePath) onready var config_btn = get_node(config_btn)
 
 export(NodePath) onready var user_name = get_node(user_name)
 export(NodePath) onready var rank = get_node(rank)
+export(NodePath) onready var rank_icon = get_node(rank_icon)
 
 export(NodePath) onready var free_chest = get_node(free_chest)
 export(NodePath) onready var medal_chest = get_node(medal_chest)
@@ -26,6 +27,7 @@ func invalidate():
 	# temporary set uid
 	user_name.text = "Imperial-Knight-%03d" % int(user.Id)
 	rank.text = "%d" % user.Rank
+	rank_icon.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/rank/rank_icon_%d.tres" % user.Rank)
 	
 	# set chests
 	free_chest.Set(user.FreeChest)

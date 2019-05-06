@@ -30,6 +30,7 @@ type Join struct {
 type PlayerData struct {
 	Id   string
 	Team Team
+	Rank int
 	Deck []data.Card
 }
 
