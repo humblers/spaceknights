@@ -26,7 +26,7 @@ func invalidate():
 
 func open():
 	if time_left() > 0:
-		event.emit_signal("RequestPopup", event.PopupModalMessage, ["free chest not available now", false])
+		event.emit_signal("RequestPopup", event.PopupModalMessage, ["ID_ERROR_FREECHEST", false])
 		return
 	var params = {"Name": "Free"}
 	var req = lobby_request.New("/chest/open", params)

@@ -236,7 +236,7 @@ func on_released(side = null):
 	
 	# enough energy?
 	if $Card/Energy.value > 0:
-		show_message("Not Enough energy", pos.y)
+		show_message("ID_ERROR_ENERGY", pos.y) 
 		init_card()
 		init_cursor()
 		prev_mouse = "Released"
