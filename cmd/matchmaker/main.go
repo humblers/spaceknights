@@ -195,6 +195,11 @@ func createMatch(id1, id2 string) {
 	p2 := getPlayerData(id2, "Red")
 	if id2 == "bot" {
 		p2.Rank = p1.Rank - 1 + rand.Intn(3)
+		if p2.Rank < 0 {
+			p2.Rank = 0
+		} else if p2.Rank > data.InitialRank {
+			p2.Rank = data.InitialRank
+		}
 	}
 	config.Players = append(config.Players, p1, p2)
 	gameid, err := redis.Int(conn.Do("INCR", "nextgameid"))
