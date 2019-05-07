@@ -1,7 +1,7 @@
 extends Control
 
 func _ready():
-	event.connect("DoneBackgroundProcess", self, "appear")
+	event.connect("LobbyInitialized", self, "appear")
 	event.connect("InvalidatePageBattle", self, "invalidate")
 
 func appear():

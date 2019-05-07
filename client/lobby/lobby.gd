@@ -7,7 +7,6 @@ onready var resource_manager = $Managers/Resources
 
 func _ready():
 	event.connect("InvalidateLobby", self, "invalidate")
-	add_user_signal("load_completed") # should replace event's signal
 	login()
 
 func load_data():
@@ -32,8 +31,8 @@ func connect_to_notifier():
 		notifier_client.Connect(config.get("NOTIFIER_HOST"), config.get("NOTIFIER_PORT"))
 		yield(notifier_client, "connected")
 		notifier_client.Send({"Id": user.Id, "Token": user.Id})
-	emit_signal("load_completed")
-	event.emit_signal("DoneBackgroundProcess")
+	event.emit_signal("LoadSceneCompleted")
+	event.emit_signal("LobbyInitialized")
 
 func login():
 	# for desktop
@@ -72,8 +71,7 @@ func invalidate():
 
 func handleErrorInLoadStep(message):
 	HandleError(message, true)
-	emit_signal("load_completed")
-	event.emit_signal("DoneBackgroundProcess")
+	event.emit_signal("LoadSceneCompleted")
 
 func HandleError(message, back_to_company_logo = true):
 	event.emit_signal("RequestPopup", event.PopupModalMessage, [message])

@@ -1,69 +1,5 @@
 extends CanvasLayer
 
-func GetStatIcon(layer, stat_key):
-	var path = "res://atlas/lobby/%s.sprites/stat_icon/%s.tres"
-	match stat_key:
-		"damage", "attackdamage":
-			path = path % [layer, "damage"]
-		"damageduration", "duration":
-			path = path % [layer, "damage_duration"]
-		"damagepersecond":
-			path = path % [layer, "dps"]
-		"attackinterval":
-			path = path % [layer, "attack_speed"]
-		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			path = path % [layer, "skill_damage"]
-		"damagetype":
-			path = path % [layer, "attack_type"]
-		"decaydamage":
-			path = path % [layer, "lifetime"]
-		"attackrange":
-			path = path % [layer, "attack_range"]
-		"shield":
-			path = path % [layer, "barrier"]
-		"count":
-			path = path % [layer, "spawn_count"]
-		_:
-			path = path % [layer, stat_key]
-	return LoadResource(path)
-
-static func GetCardIconPathInGame(card_name):
-	return "res://atlas/game/ui.sprites/icon/%s_small.tres" % [card_name]
-
-static func GetUnitScenePath(unit):
-	return "res://game/unit/%s/%s.tscn" % [unit, unit]
-
-static func GetCardReadySoundPath(card):
-	if card.Type != data.SquireCard:
-		return "res://sound/sfx/ready/archers.wav"
-	var path = "res://sound/sfx/ready/%s.wav"
-	match card.Name:
-		"gargoyles", "gargoylesquad":
-			path = path % ["gargoylesquad"]
-		_:
-			path = path % [card.Name]
-	return path
-
-static func GetCursorScenePath(card):
-	if card.Type == data.SquireCard:
-		return "res://game/player/cursor/squire.tscn"
-	return "res://game/unit/%s/skill_cursor.tscn" % [card.Unit]
-
-static func GetReqResourcePathsInGame(card):
-	var paths = [
-		GetCardIconPathInGame(card.Name),
-		GetUnitScenePath(card.Unit),
-		GetCardReadySoundPath(card),
-		GetCursorScenePath(card),
-	]
-	if card.Type == data.KnightCard:
-		var skill = data.units[card.Unit].skill
-		if skill.wing.has("unit"):
-			paths.append(GetUnitScenePath(skill.wing.unit))
-		if skill.leader.has("unit"):
-			paths.append(GetUnitScenePath(skill.leader.unit))
-	return paths
-
 var loaded_resources = {}
 var dest_path = ""
 var param = null
@@ -73,6 +9,7 @@ onready var visible_control = $Control
 
 func _ready():
 	visible_control.visible = false
+	event.connect("LoadSceneCompleted", self, "hide")
 
 func GoToScene(dest_path, nonpreload_paths = [], param = null):
 	loaded_resources = {}
@@ -137,7 +74,71 @@ func _load_done(loaded_resources):
 			new_scene.set(k, param[k])
 
 	get_tree().root.add_child(new_scene)
-	if new_scene.has_user_signal("load_completed"):
-		yield(new_scene, "load_completed")
 	get_tree().current_scene = new_scene
+
+func hide():
 	visible_control.visible = false
+
+func GetStatIcon(layer, stat_key):
+	var path = "res://atlas/lobby/%s.sprites/stat_icon/%s.tres"
+	match stat_key:
+		"damage", "attackdamage":
+			path = path % [layer, "damage"]
+		"damageduration", "duration":
+			path = path % [layer, "damage_duration"]
+		"damagepersecond":
+			path = path % [layer, "dps"]
+		"attackinterval":
+			path = path % [layer, "attack_speed"]
+		"chargedattackdamage", "powerattackdamage", "absorbdamage":
+			path = path % [layer, "skill_damage"]
+		"damagetype":
+			path = path % [layer, "attack_type"]
+		"decaydamage":
+			path = path % [layer, "lifetime"]
+		"attackrange":
+			path = path % [layer, "attack_range"]
+		"shield":
+			path = path % [layer, "barrier"]
+		"count":
+			path = path % [layer, "spawn_count"]
+		_:
+			path = path % [layer, stat_key]
+	return LoadResource(path)
+
+static func GetCardIconPathInGame(card_name):
+	return "res://atlas/game/ui.sprites/icon/%s_small.tres" % [card_name]
+
+static func GetUnitScenePath(unit):
+	return "res://game/unit/%s/%s.tscn" % [unit, unit]
+
+static func GetCardReadySoundPath(card):
+	if card.Type != data.SquireCard:
+		return "res://sound/sfx/ready/archers.wav"
+	var path = "res://sound/sfx/ready/%s.wav"
+	match card.Name:
+		"gargoyles", "gargoylesquad":
+			path = path % ["gargoylesquad"]
+		_:
+			path = path % [card.Name]
+	return path
+
+static func GetCursorScenePath(card):
+	if card.Type == data.SquireCard:
+		return "res://game/player/cursor/squire.tscn"
+	return "res://game/unit/%s/skill_cursor.tscn" % [card.Unit]
+
+static func GetReqResourcePathsInGame(card):
+	var paths = [
+		GetCardIconPathInGame(card.Name),
+		GetUnitScenePath(card.Unit),
+		GetCardReadySoundPath(card),
+		GetCursorScenePath(card),
+	]
+	if card.Type == data.KnightCard:
+		var skill = data.units[card.Unit].skill
+		if skill.wing.has("unit"):
+			paths.append(GetUnitScenePath(skill.wing.unit))
+		if skill.leader.has("unit"):
+			paths.append(GetUnitScenePath(skill.leader.unit))
+	return paths

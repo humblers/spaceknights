@@ -1,6 +1,6 @@
 extends Node
 
-signal DoneBackgroundProcess
+signal LoadSceneCompleted()
 
 # For game
 signal GameInitialized(game)
@@ -40,13 +40,15 @@ signal RedUpdateNext(ready)
 signal RunwayRotate(num, angle)
 
 # For lobby
+signal LobbyInitialized()
+
 const Pages = ["Battle", "Card", "Explore", "Shop", "Social"]
 signal PageSelected(page)
 signal VerticalScrollInput(released, dy)
-signal InvalidateLobby
-signal InvalidateHUD
-signal InvalidatePageBattle
-signal InvalidatePageCard
+signal InvalidateLobby()
+signal InvalidateHUD()
+signal InvalidatePageBattle()
+signal InvalidatePageCard()
 
 const PopupModalConfirm = "ModalConfirm"
 const PopupModalMessage = "ModalMessage"
@@ -69,6 +71,6 @@ signal PageCardPickedCardItem(card)
 signal StudentUseCard(card)
 signal PhaseChanged(phase)
 signal MarkAt(global_pos)
-signal MarkOff
-signal TransmissionOff
-signal TransmissionTerminated
+signal MarkOff()
+signal TransmissionOff()
+signal TransmissionTerminated()

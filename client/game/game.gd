@@ -72,7 +72,10 @@ func _unhandled_key_input(ev):
 	emit_signal("debug_option_changed")
 
 func _ready():
-	randomize()
+	# TODO: if this is network connected game, move this signal emission
+	# to after stacked packet processing
+	event.emit_signal("LoadSceneCompleted")
+	
 	if connected:
 		game_client.connect("disconnected", self, "request_stop")
 	else:
@@ -484,6 +487,3 @@ static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
 	if d > scalar.Mul(radius, radius):
 		return false
 	return true
-
-func restart_game():
-	loading_screen.GoToScene("res://game/offline/offline.tscn")
