@@ -5,6 +5,7 @@ const LAST_ANIM_NAME = "step_11"
 var next_scene = "res://tutorial/tutorial.tscn"
 
 func _ready():
+	event.emit_signal("LoadSceneCompleted")
 	connect("button_up", self, "skipToNextAnimation")
 	$Skip.connect("button_up", self, "skipToNextScene")
 	$AnimationPlayer.connect("animation_finished", self, "animationFinished")

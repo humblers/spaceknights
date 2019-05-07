@@ -1,6 +1,7 @@
 extends Control
 
 func _ready():
+	event.emit_signal("LoadSceneCompleted")
 	$AnimationPlayer.play("fade_in")
 	yield($AnimationPlayer, "animation_finished")
 

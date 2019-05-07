@@ -26,6 +26,9 @@ var MedalChest
 var BattleChestSlots
 var BattleChestOrder = 0
 
+func _ready():
+	randomize()		# set global random seed
+	
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:
 		if p.Id == Id and not p.Team == "Blue":
