@@ -43,6 +43,7 @@ func _enter_tree():
 			{
 				"Id": "Student",
 				"Team": "Blue",
+				"Rank": 25,
 				"Deck": [
 					{"Name": "archers", "Level": 0},
 					{"Name": "berserker", "Level": 0},
@@ -55,6 +56,7 @@ func _enter_tree():
 			{
 				"Id": "Tutor",
 				"Team": "Red",
+				"Rank": 0,
 				"Deck": [
 					{"Name": "archsapper", "Level": 0, "Side": "Left"},
 					{"Name": "legion", "Level": 0, "Side": "Right"},
