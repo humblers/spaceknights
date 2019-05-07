@@ -170,6 +170,7 @@ func (p *player) Update() {
 const PATIENCE_MIN = 10
 const PATIENCE_MAX = 30
 const ENERGY_GAP = 5000
+const ENERGY_STOCK = 8500
 
 func (p *player) UpdateAI() {
 	if p.game.Step()%10 == 0 {
@@ -184,7 +185,7 @@ func (p *player) UpdateAI() {
 			}
 			if p.patience > 0 {
 				enemy := p.game.FindPlayer(Blue)
-				if enemy.Energy()-energyAfterUse > ENERGY_GAP {
+				if enemy.Energy() > ENERGY_STOCK || enemy.Energy()-energyAfterUse > ENERGY_GAP {
 					continue
 				}
 			}
