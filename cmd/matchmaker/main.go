@@ -269,6 +269,7 @@ func getPlayerData(id, team string) game.PlayerData {
 		if err := json.Unmarshal(deck, &d.Deck); err != nil {
 			panic(err)
 		}
+		// TODO: do not store total card info to 'id:cards'
 		args := []interface{}{fmt.Sprintf("%v:cards", id)}
 		for _, c := range d.Deck {
 			args = append(args, c.Name)
@@ -277,12 +278,12 @@ func getPlayerData(id, team string) game.PlayerData {
 		if err != nil {
 			panic(err)
 		}
-		for i, c := range d.Deck {
+		for i, _ := range d.Deck {
 			var card data.Card
 			if err := json.Unmarshal(reply[i].([]byte), &card); err != nil {
 				panic(err)
 			}
-			c.Level = card.Level
+			d.Deck[i].Level = card.Level
 		}
 		rand.Shuffle(len(d.Deck), func(i, j int) { d.Deck[i], d.Deck[j] = d.Deck[j], d.Deck[i] })
 	}
