@@ -302,7 +302,7 @@ func (p *player) ClampToValidTile(tx, ty int) (int, int) {
 	}
 	if ty < maxY/2+2 {
 		opponentSide := data.Left
-		if tx < maxX/2 {
+		if tx < maxX/2+1 {
 			opponentSide = data.Right
 		}
 		if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {
@@ -338,7 +338,7 @@ func (p *player) TileValid(tx, ty int, isSpell bool) bool {
 		}
 		if ty < maxY/2+2 {
 			opponentSide := data.Left
-			if tx < maxX/2 {
+			if tx < maxX/2+1 {
 				opponentSide = data.Right
 			}
 			if !p.game.FindPlayer(p.opponentTeam()).KnightDead(opponentSide) {

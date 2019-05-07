@@ -78,7 +78,7 @@ func ClampToValidTile(tx, ty):
 		ty = maxY/2 - 4
 	if ty < maxY/2 + 2:
 		var opponentSide = data.Left
-		if tx < maxX/2:
+		if tx < maxX/2 + 1:
 			opponentSide = data.Right
 		if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
 			ty = maxY/2 + 2
@@ -104,7 +104,7 @@ func TileValid(tx, ty, isSpell):
 			return false
 		if ty < maxY/2+2:
 			var opponentSide = data.Left
-			if tx < maxX/2:
+			if tx < maxX/2 + 1:
 				opponentSide = data.Right
 			if not game.FindPlayer(opponentTeam()).KnightDead(opponentSide):
 				return false
