@@ -13,7 +13,7 @@ func Set(medals):
 
 func open():
 	if progress.value < progress.max_value:
-		event.emit_signal("RequestPopup", event.PopupModalMessage, ["not enough medals for medal chest", false])
+		event.emit_signal("RequestPopup", event.PopupModalMessage, ["ID_ERROR_MEDALCHEST", false])
 		return
 	var params = {"Name": "Medal"}
 	var req = lobby_request.New("/chest/open", params)
