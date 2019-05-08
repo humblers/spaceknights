@@ -32,9 +32,9 @@ func animationFinished(anim_name):
 func skipToNextScene():
 	$Skip.visible = false
 	self.disconnect("button_up", self, "skipToNextAnimation")
+	$AnimationPlayer.clear_queue()
 	$AnimationPlayer.play("fade_out")
-	$AnimationPlayer.seek($AnimationPlayer.get_animation("fade_out").length, true)
-	$AnimationPlayer.play(LAST_ANIM_NAME)
+	$AnimationPlayer.queue(LAST_ANIM_NAME)
 
 func goToNextScene():
 	var config = ConfigFile.new()
