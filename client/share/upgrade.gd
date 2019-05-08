@@ -38,9 +38,8 @@ var dict = {
 	],
 }
 
-func _init(dict=null):
-	if dict != null:
-		self.dict = dict
+func Set(dict):
+	self.dict = dict
 
 func CardCostNextLevel(level):
 	return dict.CardCost[level]

@@ -46,6 +46,8 @@ var frame = 0
 # for stop signal
 var to_stop = false
 
+var initial_ff_finished = false
+
 # elapsed sec since last logic update
 var elapsed = 0
 
@@ -72,18 +74,6 @@ func _unhandled_key_input(ev):
 	emit_signal("debug_option_changed")
 
 func _ready():
-	# TODO: if this is network connected game, move this signal emission
-	# to after stacked packet processing
-	event.emit_signal("LoadSceneCompleted")
-	
-	if connected:
-		game_client.connect("disconnected", self, "request_stop")
-	else:
-		data.Upgrade = $Resource/Upgrade.get_resource("upgrade").new()
-		data.Initialize()
-	set_process(true)
-	set_physics_process(true)
-
 	self.deathToll = {"Blue":0, "Red":0}
 	self.lastDeadPosX = {"Blue":0, "Red":0}
 	map = $Resource/Map.get_resource(cfg.MapName).new(world)
@@ -101,9 +91,17 @@ func _ready():
 		if team == "Blue":
 			$UI/Hud/ID/RankIconBG/Text.text = "Imperial-Knight-%03d" % int(p.Id)
 			$UI/Hud/ID/RankIconBG.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/rank/rank_icon_%d.tres" % user.Rank)
-	opening_anim.Play()
 	event.emit_signal("GameInitialized", self)
 
+	if connected:
+		game_client.connect("disconnected", self, "request_stop")
+		visible = false
+		while not initial_ff_finished:
+			yield(get_tree(), "idle_frame")
+	opening_anim.Play()
+	event.emit_signal("LoadSceneCompleted")
+	visible = true
+	
 func initTiles():
 	for i in map.TileNumX():
 		occupied.append([])
@@ -231,15 +229,17 @@ func _physics_process(delta):
 			if connected:
 				var iterations = 1
 				var n = game_client.received.size()
-				if n <= 0:
-					if to_stop:
-						stop()
-						return
-					print("not enough packets")
-					iterations = 0
 				if n > PACKET_WINDOW:
 					print("too many packets %s" % [n])
 					iterations = min(10, n)
+				else:
+					initial_ff_finished = true
+					if n <= 0:
+						if to_stop:
+							stop()
+							return
+						print("not enough packets")
+						iterations = 0
 				for i in range(iterations):
 					var state = static_func.cast_float_to_int(parse_json(game_client.received.pop_front()))
 					Update(state)

@@ -22,7 +22,7 @@ func load_data():
 			handleErrorInLoadStep(response[1].ErrMessage)
 			return
 		var d = static_func.cast_float_to_int(parse_json(response[1]["Data"]))
-		data.set(path.capitalize(), resource_manager.scripts.get_resource(path).new(d))
+		data.Upgrade.Set(d)
 	invalidate()
 	connect_to_notifier()
 

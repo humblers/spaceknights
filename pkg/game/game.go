@@ -13,6 +13,7 @@ import (
 	"github.com/humblers/spaceknights/pkg/physics"
 )
 
+const openingAnimDelay = time.Second * 6
 const stepInterval = time.Second / data.StepPerSec
 const wingScore = 1
 const leaderScore = 3
@@ -351,13 +352,16 @@ func (g *game) score(t Team) int {
 }
 
 func (g *game) Run() {
+	runAfter := time.Now().Add(openingAnimDelay)
 	ticker := time.NewTicker(stepInterval)
 	defer ticker.Stop()
 	for !g.Over() {
 		select {
-		case <-ticker.C:
-			g.Update()
-			g.broadcast()
+		case t := <-ticker.C:
+			if t.Sub(runAfter) > 0 {
+				g.Update()
+				g.broadcast()
+			}
 		case c := <-g.joinc:
 			g.joined <- g.handleJoin(c)
 		case c := <-g.leavec:

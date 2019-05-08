@@ -172,7 +172,8 @@ const PATIENCE_MAX = 30
 const ENERGY_GAP = 5000
 
 func (p *player) UpdateAI() {
-	if p.game.Step()%10 == 0 {
+	step := p.game.Step()
+	if step > 180 && step%10 == 0 {
 		var card_candidate []*data.Card
 		for _, card := range p.hand {
 			if card == nil {

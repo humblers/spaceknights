@@ -56,6 +56,12 @@ const Bullet = 1 << 7
 const Missile = 1 << 8
 const Laser = 1 << 9
 
+var Upgrade
+
+func _ready():
+	data.Initialize()
+	Upgrade = preload("res://share/upgrade.gd").new()
+
 func DamageTypeIs(damageType, bits):
 	return damageType & bits != 0
 
@@ -1491,9 +1497,6 @@ var units = {
 		"preattackdelay": 1,
 	},
 }
-
-# TODO: change this to autoloaded(global) object
-onready var Upgrade = preload("res://share/upgrade.gd").new()
 
 func Initialize():
 	for k in units:
