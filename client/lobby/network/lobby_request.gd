@@ -20,7 +20,7 @@ func New(path, params = {}):
 	params["HumblerToken"] = user.HumblerToken
 	params["IssuedAt"] = user.IssuedAt
 	var resource = $ResourcePreloader.get_resource("queued_request")
-	var req = resource.new(self, "%s%s" % [lobby_host, path], to_json(params))
+	var req = resource.new("%s%s" % [lobby_host, path], to_json(params))
 	queued_requests.push_back(req)
 	requestNext()
 	return req
@@ -33,8 +33,11 @@ func requestNext():
 				HTTPClient.METHOD_POST, next.body)
 	match err:
 		OK:
-			self.connect("request_completed", next, "requestCompleted")
+			var ret = yield(self, "request_completed")
+			next.requestCompleted(ret[0], ret[1], ret[2], ret[3])
+			call_deferred("requestNext")
 		ERR_BUSY:
 			queued_requests.push_front(next)
 		_:
-			next.call_deffered("requestCompleted", [err, OK, PoolStringArray(), "{}"])
+			next.requestCompleted(err, OK, PoolStringArray(), "{}")
+			call_deferred("requestNext")

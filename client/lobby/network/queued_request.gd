@@ -1,13 +1,11 @@
 extends Object
 
-var http_manager
 var url
 var body
 
 signal Completed(success, body)
 
-func _init(http_manager, url, body):
-	self.http_manager = http_manager
+func _init(url, body):
 	self.url = url
 	self.body = body
 
@@ -20,5 +18,4 @@ func requestCompleted(result, response_code, headers, body):
 	else:
 		dict = static_func.cast_float_to_int(parse_json(body.get_string_from_utf8()))
 	emit_signal("Completed", [dict.ErrMessage == "", dict])
-	http_manager.requestNext()
 	call_deferred("free")
