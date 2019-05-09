@@ -173,85 +173,89 @@ const ENERGY_GAP = 5000
 
 func (p *player) UpdateAI() {
 	step := p.game.Step()
-	if step > 180 && step%10 == 0 {
-		var card_candidate []*data.Card
-		for _, card := range p.hand {
-			if card == nil {
-				continue
-			}
-			var energyAfterUse = p.energy - card.Cost
-			if energyAfterUse < 0 {
-				continue
-			}
-			if p.patience > 0 {
-				enemy := p.game.FindPlayer(Blue)
-				if enemy.Energy()-energyAfterUse > ENERGY_GAP {
+	if step%10 == 0 {
+		enemy := p.game.FindPlayer(Blue)
+		if step < 180 && enemy.energy > 6900 {
+			return
+		} else {
+			var card_candidate []*data.Card
+			for _, card := range p.hand {
+				if card == nil {
 					continue
 				}
-			}
-			card_candidate = append(card_candidate, card)
-		}
-		if p.patience < 0 {
-			p.patience = rand.Intn(PATIENCE_MAX) + PATIENCE_MIN
-		}
-		if len(card_candidate) <= 0 {
-			p.patience--
-			return
-		}
-		picked := card_candidate[rand.Intn(len(card_candidate))]
-		if picked.IsSpell() {
-			var maxCost int
-			var maxCostUnit Unit
-			for _, id := range p.game.UnitIds() {
-				u := p.game.FindUnit(id)
-				if u.Team() == Blue {
-					cost := data.Units[u.Name()]["estimatedcost"].(int)
-					if maxCostUnit == nil || cost > maxCost {
-						maxCostUnit, maxCost = u, cost
+				var energyAfterUse = p.energy - card.Cost
+				if energyAfterUse < 0 {
+					continue
+				}
+				if p.patience > 0 {					
+					if enemy.Energy()-energyAfterUse > ENERGY_GAP {
+						continue
 					}
 				}
+				card_candidate = append(card_candidate, card)
 			}
-			px, py := p.game.World().ToPixel(maxCostUnit.Position().X), p.game.World().ToPixel(maxCostUnit.Position().Y)
-			tx, ty := p.game.TileFromPos(px, py)
-			p.game.AddActionToNextStep(Action{
-				Id:    p.id,
-				Card:  data.Card{Name: picked.Name},
-				TileX: tx,
-				TileY: ty,
-			})
-		} else {
-			var costSpentLeft int
-			var costSpentRight int
-			for _, id := range p.game.UnitIds() {
-				u := p.game.FindUnit(id)
-				if u.Team() == Blue {
-					cost := data.Units[u.Name()]["estimatedcost"].(int)
-					if u.Position().Y < p.game.Map().CenterX() {
-						costSpentLeft += cost
-					} else {
-						costSpentRight += cost
+			if p.patience < 0 {
+				p.patience = rand.Intn(PATIENCE_MAX) + PATIENCE_MIN
+			}
+			if len(card_candidate) <= 0 {
+				p.patience--
+				return
+			}
+			picked := card_candidate[rand.Intn(len(card_candidate))]
+			if picked.IsSpell() {
+				var maxCost int
+				var maxCostUnit Unit
+				for _, id := range p.game.UnitIds() {
+					u := p.game.FindUnit(id)
+					if u.Team() == Blue {
+						cost := data.Units[u.Name()]["estimatedcost"].(int)
+						if maxCostUnit == nil || cost > maxCost {
+							maxCostUnit, maxCost = u, cost
+						}
 					}
 				}
-			}
-			tx := rand.Intn(10)
-			ty := rand.Intn(15)
-			if costSpentLeft < costSpentRight {
-				tx += 10
-			}
-			nx, ny := picked.TileNum()
-			tr := &tileRect{tx, ty, nx, ny}
-			tr = p.FindUnoccupiedTileRect(tr, 3)
-			if tr == nil {
-				p.game.Logger().Printf("[AI] cannot find unoccupied tile: %v", picked.Name)
-			} else {
+				px, py := p.game.World().ToPixel(maxCostUnit.Position().X), p.game.World().ToPixel(maxCostUnit.Position().Y)
+				tx, ty := p.game.TileFromPos(px, py)
 				p.game.AddActionToNextStep(Action{
 					Id:    p.id,
 					Card:  data.Card{Name: picked.Name},
 					TileX: tx,
 					TileY: ty,
 				})
-			}
+			} else {
+				var costSpentLeft int
+				var costSpentRight int
+				for _, id := range p.game.UnitIds() {
+					u := p.game.FindUnit(id)
+					if u.Team() == Blue {
+						cost := data.Units[u.Name()]["estimatedcost"].(int)
+						if u.Position().Y < p.game.Map().CenterX() {
+							costSpentLeft += cost
+						} else {
+							costSpentRight += cost
+						}
+					}
+				}
+				tx := rand.Intn(10)
+				ty := rand.Intn(15)
+				if costSpentLeft < costSpentRight {
+					tx += 10
+				}
+				nx, ny := picked.TileNum()
+				tr := &tileRect{tx, ty, nx, ny}
+				tr = p.FindUnoccupiedTileRect(tr, 3)
+				if tr == nil {
+					p.game.Logger().Printf("[AI] cannot find unoccupied tile: %v", picked.Name)
+				} else {
+					p.game.AddActionToNextStep(Action{
+						Id:    p.id,
+						Card:  data.Card{Name: picked.Name},
+						TileX: tx,
+						TileY: ty,
+					})
+				}
 
+			}
 		}
 	}
 }

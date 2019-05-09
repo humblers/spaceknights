@@ -106,7 +106,7 @@ var matchMakeScript = redis.NewScript(1, `
 	return matched
 `)
 
-const AICardLevelMin = 7
+const AICardLevelMin = 8
 
 var logger *log.Logger
 var pool *redis.Pool
