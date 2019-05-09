@@ -106,6 +106,8 @@ var matchMakeScript = redis.NewScript(1, `
 	return matched
 `)
 
+const AICardLevelMin = 7
+
 var logger *log.Logger
 var pool *redis.Pool
 var gameServerAddr string
@@ -233,7 +235,12 @@ func getPlayerData(id, team string) game.PlayerData {
 		squirePool = squirePool[:data.SquireCountInInitialDeck]
 		knightPool = knightPool[:data.KnightCountInInitialDeck]
 		for _, name := range squirePool {
-			d.Deck = append(d.Deck, data.Card{Name: name, Level: 0})
+			card := data.NewCard(data.Card{Name: name})
+			card.Level = AICardLevelMin - 1 - data.Upgrade.RelativeLvByRarity[card.Rarity]
+			if card.Level < 0 {
+				card.Level = 0
+			}
+			d.Deck = append(d.Deck, *card)
 		}
 		for i, name := range knightPool {
 			var side data.KnightSide
@@ -247,7 +254,12 @@ func getPlayerData(id, team string) game.PlayerData {
 			default:
 				panic("invalid knight side")
 			}
-			d.Deck = append(d.Deck, data.Card{Name: name, Level: 0, Side: side})
+			card := data.NewCard(data.Card{Name: name, Side: side})
+			card.Level = AICardLevelMin - 1 - data.Upgrade.RelativeLvByRarity[card.Rarity]
+			if card.Level < 0 {
+				card.Level = 0
+			}
+			d.Deck = append(d.Deck, *card)
 		}
 		rand.Shuffle(len(d.Deck), func(i, j int) { d.Deck[i], d.Deck[j] = d.Deck[j], d.Deck[i] })
 	} else {
