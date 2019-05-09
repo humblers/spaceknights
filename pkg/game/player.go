@@ -175,7 +175,7 @@ func (p *player) UpdateAI() {
 	step := p.game.Step()
 	if step%10 == 0 {
 		enemy := p.game.FindPlayer(Blue)
-		if step < 180 && enemy.energy > 6900 {
+		if step < 180 && enemy.Energy() > 6900 {
 			return
 		} else {
 			var card_candidate []*data.Card
@@ -187,7 +187,7 @@ func (p *player) UpdateAI() {
 				if energyAfterUse < 0 {
 					continue
 				}
-				if p.patience > 0 {					
+				if p.patience > 0 {
 					if enemy.Energy()-energyAfterUse > ENERGY_GAP {
 						continue
 					}
