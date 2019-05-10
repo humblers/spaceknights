@@ -13,11 +13,13 @@ onready var language_button = $VBoxContainer/Buttons/Language/Button
 onready var current_language = $VBoxContainer/Buttons/Language/Button/Description
 
 onready var intro_button = $VBoxContainer/Buttons2/Intro/Button
+onready var tutorial_button = $VBoxContainer/Buttons2/Tutorial/Button
 
 func _ready():
 	$Close.connect("button_up", self, "hide")
 	language_button.connect("button_up", self, "select_language")
 	intro_button.connect("button_up", self, "playIntro")
+	tutorial_button.connect("button_up", self, "playTutorial")
 	if not OS.get_name() in ["Android", "iOS"]:
 		$VBoxContainer/Buttons/Email/Label.visible = true
 		link_email.visible = true
@@ -74,6 +76,5 @@ func email_link():
 func playIntro():
 	loading_screen.GoToScene("res://intro/intro.tscn", [], {"next_scene": "res://lobby/lobby.tscn"})
 
-func modalConfirm():
-	return "ok"
-	
+func playTutorial():
+	loading_screen.GoToScene("res://tutorial/tutorial.tscn")
