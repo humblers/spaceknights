@@ -65,9 +65,29 @@ func _enter_tree():
 			}
 		],
 	}
+	data.units["giant_gargoyle"] = {
+		"type":           data.Squire,
+		"layer":          data.Normal,
+		"mass":           50,
+		"radius":         60,
+		"hp":             [180],
+		"shield":         [54000],
+		"sight":          275,
+		"speed":          20,	#pixels per second
+		"targettypes":    [data.Squire, data.Building, data.Knight],
+		"targetlayers":   [data.Normal],
+		"damagetype":     data.Melee,
+		"attackdamage":   [50],
+		"attackrange":    140,
+		"attackinterval": 4,
+		"preattackdelay": 1,
+	}
 
 func _ready():
 	event.connect("StudentUseCard", self, "studentCardUsed")
+
+func _exit_tree():
+	data.units.erase("giant_gargoyle")
 
 func Update(state):
 	.Update(state)

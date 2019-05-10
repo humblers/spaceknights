@@ -1478,24 +1478,6 @@ var units = {
 		"destroydamage":     [400],
 		"destroyradius":     175,
 	},
-
-	"giant_gargoyle": {
-		"type":           Squire,
-		"layer":          Normal,
-		"mass":           50,
-		"radius":         60,
-		"hp":             [180],
-		"shield":         [54000],
-		"sight":          275,
-		"speed":          20,	#pixels per second
-		"targettypes":    [Squire, Building, Knight],
-		"targetlayers":   [Normal],
-		"damagetype":     Melee,
-		"attackdamage":   [50],
-		"attackrange":    140,
-		"attackinterval": 4,
-		"preattackdelay": 1,
-	},
 }
 
 func Initialize():
