@@ -52,7 +52,10 @@ func setPlayer(player):
 
 func handle_knight_input(event, side):
 	if card and card.Side == side:
-		event.position = get_local_mouse_position()
+		var node = knight_button_left
+		if side == "Right":
+			node = knight_button_right
+		event.position = node.rect_global_position + event.position - rect_global_position
 		handle_input(event, side)
 		
 func handle_map_input(ev):
@@ -188,14 +191,12 @@ func map_on_released(ev):
 	$Card.position = ev.position
 	
 	var y = ev.position.y
-	
 	var pos = ev.position
 	set_cursor_pos(int(pos.x), int(pos.y))
 	$Cursor.visible = true
 	set_guide_pos(int(pos.x), int(pos.y))
 	guide.visible = true
 	on_released(pos)
-
 
 func on_released(map_pos, side = null):
 	pressed = false
