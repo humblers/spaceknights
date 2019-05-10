@@ -60,13 +60,8 @@ func handle_map_input(ev):
 		return
 	if ev is InputEventMouseButton:
 		pressed = ev.pressed
-		if pressed:
-			pass
-		else:
+		if not pressed:
 			map_on_released(ev)
-	if ev is InputEventMouseMotion and pressed:
-		pass
-		
 
 func setHand(card):
 	if card == null:
@@ -152,7 +147,8 @@ func handle_input(ev, side = null):
 		if pressed:
 			on_pressed(side)
 		else:
-			on_released(side)
+			var map_pos = rect_global_position + ev.position - map.rect_global_position
+			on_released(map_pos, side)
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)
 
@@ -193,21 +189,20 @@ func map_on_released(ev):
 	
 	var y = ev.position.y
 	
-	var pos = map.get_local_mouse_position()
+	var pos = ev.position
 	set_cursor_pos(int(pos.x), int(pos.y))
 	$Cursor.visible = true
 	set_guide_pos(int(pos.x), int(pos.y))
 	guide.visible = true
-	on_released()
+	on_released(pos)
 
 
-func on_released(side = null):
+func on_released(map_pos, side = null):
 	pressed = false
 	if not focused:
 		tile.Hide()
 	
-	var pos = map.get_local_mouse_position()
-		
+	var pos = map_pos
 	if side and pos.y < map.rect_size.y:
 		if prev_mouse != "Dragged":
 			return
@@ -223,7 +218,7 @@ func on_released(side = null):
 		init_card()
 		init_cursor()
 		if prev_mouse == "Dragged":
-			focused = false
+#			focused = false
 			guide.visible = false
 			tile.Hide()
 			knight_button_left.visible = true
