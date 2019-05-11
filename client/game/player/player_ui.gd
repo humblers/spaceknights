@@ -6,6 +6,7 @@ export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) i
 var id
 var color
 var input_sent_cards = []		# input sent but not used cards
+var focused_hand_index = -1
 
 func Init(playerData, game):
 	.Init(playerData, game)
@@ -107,6 +108,7 @@ func send_input(card, pos):
 	update_energy()
 
 func handFocused(index):
+	focused_hand_index = index
 	for i in range(len(hand)):
 		var card = hand[i]
 		if card == null:
@@ -118,3 +120,9 @@ func handFocused(index):
 			knight.skillReady()
 		else:
 			knight.skillRest()
+
+func hasFocused():
+	return focused_hand_index > 0
+
+func focusRelease():
+	focused_hand_index = -1

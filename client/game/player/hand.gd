@@ -50,22 +50,6 @@ func setGame(game):
 func setPlayer(player):
 	self.player = player
 
-func handle_knight_input(event, side):
-	if card and card.Side == side:
-		var node = knight_button_left
-		if side == "Right":
-			node = knight_button_right
-		event.position = node.rect_global_position + event.position - rect_global_position
-		handle_input(event, side)
-		
-func handle_map_input(ev):
-	if input_sent or not focused:
-		return
-	if ev is InputEventMouseButton:
-		pressed = ev.pressed
-		if not pressed:
-			map_on_released(ev)
-
 func setHand(card):
 	if card == null:
 		visible = false		# also cancels previous input
@@ -107,6 +91,12 @@ func init_card(card = null):
 			guide = knight_guide
 		else:
 			guide = squire_guide
+			
+func init_focused_card(card = null):
+	$Card.position = card_init_pos + Vector2(0, -40)
+	$Card.scale = card_init_scale
+	$Card.z_index = card_init_z_index
+
 	
 func init_cursor(card = null):
 	$Cursor.visible = false
@@ -141,7 +131,35 @@ func init_dummy(card):
 			var node = loading_screen.LoadResource(path).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
 			$Rotate/Dummy.add_child(node)
-	
+
+func handle_knight_input(event, side):
+	# translate in hand button coordination
+	if card and card.Side == side:
+		var node = knight_button_left
+		if side == "Right":
+			node = knight_button_right
+		event.position = node.rect_global_position + event.position - rect_global_position
+	if event is InputEventMouseMotion:
+		handle_input(event)
+	if event is InputEventMouseButton:
+		if card and card.Side == side:
+			if focused or not player.hasFocused():
+				var node = knight_button_left
+				if side == "Right":
+					node = knight_button_right
+				handle_input(event, side)
+		else:
+			if focused:
+				handle_input(event, null)
+
+func handle_map_input(ev):
+	if input_sent or not focused:
+		return
+	if ev is InputEventMouseButton:
+		pressed = ev.pressed
+		if not pressed:
+			map_on_released(ev)
+
 func handle_input(ev, side = null):
 	if input_sent:
 		return
@@ -158,8 +176,9 @@ func handle_input(ev, side = null):
 func on_pressed(side = null):
 	tile.Show(data.CardIsSpell(card))
 	$Card.z_index += 1
-	event.emit_signal("BlueHandFocused", index)
-	prev_mouse = "Pressed"
+	if not focused:
+		event.emit_signal("BlueHandFocused", index)
+		prev_mouse = "Pressed"
 
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -189,7 +208,6 @@ func on_dragged(ev):
 	
 func map_on_released(ev):
 	$Card.position = ev.position
-	
 	var y = ev.position.y
 	var pos = ev.position
 	set_cursor_pos(int(pos.x), int(pos.y))
@@ -204,28 +222,25 @@ func on_released(map_pos, side = null):
 		tile.Hide()
 	
 	var pos = map_pos
+
 	if side and pos.y < map.rect_size.y:
 		if prev_mouse != "Dragged":
 			return
-		elif knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
+		if knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
+			guide.visible = false
+			knight.set_rotation_degrees(0)
+			init_cursor()
+			init_focused_card()
 			return
-		
+
 	if card.Type == data.KnightCard and knight:
 		knight.set_rotation_degrees(0)
 	
 	# released on map?
 	
 	if pos.y > map.rect_size.y:
-		init_card()
+		init_focused_card()
 		init_cursor()
-		if prev_mouse == "Dragged":
-#			focused = false
-			guide.visible = false
-			tile.Hide()
-			knight_button_left.visible = true
-			knight_button_right.visible = true
-			if knight != null:
-				knight.skillRest()
 		prev_mouse = "Released"
 		rotateRunway(0)
 		return
@@ -233,7 +248,7 @@ func on_released(map_pos, side = null):
 	# enough energy?
 	if $Card/Energy.value > 0:
 		show_message("ID_ERROR_ENERGY", pos.y) 
-		init_card()
+		init_focused_card()
 		init_cursor()
 		prev_mouse = "Released"
 		rotateRunway(0)
@@ -264,6 +279,7 @@ func on_released(map_pos, side = null):
 		
 	knight_button_left.visible = true
 	knight_button_right.visible = true
+	player.focusRelease()
 	prev_mouse = "Released"
 	focused = false
 	tile.Hide()
