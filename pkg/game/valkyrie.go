@@ -146,6 +146,10 @@ func (v *valkyrie) preCastDelay() int {
 	return v.Skill()["precastdelay"].(int)
 }
 
+func (v *valkyrie) freezeDuration() int {
+	return v.Skill()["freezeduration"].(int)
+}
+
 func (v *valkyrie) SetAsLeader() {
 	v.isLeader = true
 }
@@ -172,6 +176,7 @@ func (v *valkyrie) CastSkill(posX, posY int) {
 }
 
 func (v *valkyrie) emp() {
+	duration := v.freezeDuration()
 	damage := v.Skill()["damage"].([]int)[v.level]
 	damageType := v.Skill()["damagetype"].(data.DamageType)
 	radius := v.game.World().FromPixel(v.Skill()["radius"].(int))
@@ -188,6 +193,7 @@ func (v *valkyrie) emp() {
 		r := u.Radius().Add(radius)
 		if d < r.Mul(r) {
 			u.TakeDamage(damage, damageType)
+			u.Freeze(duration)
 		}
 	}
 }
