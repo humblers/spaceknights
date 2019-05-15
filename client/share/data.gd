@@ -867,10 +867,10 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":           "freeze",
-				"radius":         200,
-				"castduration":   30,
+				"radius":         250,
+				"castduration":   20,
 				"freezeduration": 50,
-				"precastdelay":   20,
+				"precastdelay":   10,
 			},
 			"leader": {
 				"name":         "frozenbullet",

@@ -116,6 +116,8 @@ func Update():
 				else:
 					attack = 0
 					findTargetAndAttack()
+	if target() == null and cast == 0 and not skillReady:
+		$AnimationPlayer.play("idle")
 
 func findTargetAndAttack():
 	var t = findTarget()
