@@ -151,6 +151,9 @@ func castDuration():
 func preCastDelay():
 	return Skill()["precastdelay"]
 
+func freezeDuration():
+	return Skill()["freezeduration"]
+
 func SetAsLeader():
 	isLeader = true
 	
@@ -170,6 +173,7 @@ func CastSkill(posX, posY):
 	setLayer(data.Casting)
 
 func emp():
+	var duration = freezeDuration()
 	var damage = Skill()["damage"][level]
 	var damageType = Skill()["damagetype"]
 	var radius = game.World().FromPixel(Skill()["radius"])
@@ -183,6 +187,7 @@ func emp():
 		var r = scalar.Add(u.Radius(), radius)
 		if d < scalar.Mul(r, r):
 			u.TakeDamage(damage, damageType, self)
+			u.Freeze(duration)
 	
 	# client only
 	var skill = $ResourcePreloader.get_resource("emp").instance()
