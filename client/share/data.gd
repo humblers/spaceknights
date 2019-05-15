@@ -504,7 +504,7 @@ var units = {
 			},
 			"leader": {
 				"name":               "louder",
-				"expanddamageradius": [3],
+				"expanddamageradius": [10],
 			},
 		},
 	},
@@ -571,7 +571,7 @@ var units = {
 				"count":        2,
 				"posX":         [325, 675],	 # pos based on blue side
 				"posY":         [1075, 1075],
-				"hpratio":      [300],
+				"hpratio":      [150],
 			},
 		},
 	},
@@ -867,10 +867,10 @@ var units = {
 		"skill": {
 			"wing": {
 				"name":           "freeze",
-				"radius":         200,
-				"castduration":   30,
+				"radius":         250,
+				"castduration":   20,
 				"freezeduration": 50,
-				"precastdelay":   20,
+				"precastdelay":   10,
 			},
 			"leader": {
 				"name":         "frozenbullet",
@@ -970,7 +970,7 @@ var units = {
 			"leader": {
 				"name":    "gathersentry",
 				"unit":    "sentry",
-				"perstep": 100,
+				"perstep": 80,
 			},
 		},
 	},
@@ -1055,7 +1055,7 @@ var units = {
 			},
 			"leader": {
 				"name":           "deathcarpet",
-				"duration":       600,
+				"duration":       900,
 				"damagetype":     DecreaseOnKnight | Skill,
 				"damage":         [93],
 				"count":          2,
@@ -1142,7 +1142,7 @@ var units = {
 				"count":        4,
 				"offsetX":      [-30, 30, -30, 30],
 				"offsetY":      [-30, -30, 30, 30],
-				"perstep":      300,
+				"perstep":      200,
 			},
 		},
 	},
@@ -1259,7 +1259,7 @@ var units = {
 			"leader": {
 				"name":    "pixiemarch",
 				"unit":    "pixie",
-				"perstep": 300,
+				"perstep": 150,
 				"count":   8,
 				"offsetX": [-105, -75, -45, -15, 15, 45, 75, 105],
 				"offsetY": [0, 0, 0, 0, 0, 0, 0, 0],
@@ -1383,7 +1383,7 @@ var units = {
 				"unit":         "footman",
 				"count":        1,
 				"offsetX":      150,
-				"perdeaths":    4,
+				"perdeaths":    3,
 			},
 		},
 	},
@@ -1423,15 +1423,16 @@ var units = {
 			"wing": {
 				"name":             "emp",
 				"damagetype":       DecreaseOnKnight | Skill,
-				"damage":           [140],
+				"damage":           [160],
 				"radius":           200,
+				"freezeduration":   10,
 				"castduration":     10,
 				"precastdelay":     4,
 			},
 			"leader": {
 				"name":    "threatmissile",
 				"unit":    "micromissile",
-				"perstep": 300,
+				"perstep": 200,
 				"count":   10,
 				"offsetX": [-250, -200, -150, -100, -50, 50, 100, 150, 200, 250],
 				"offsetY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
