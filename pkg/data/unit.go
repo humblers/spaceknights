@@ -555,7 +555,7 @@ var Units = map[string]Unit{
 		"speed":          150,
 		"targettypes":    UnitTypes{Squire, Building, Knight},
 		"targetlayers":   UnitLayers{Normal},
-		"damagetype":     DecreaseOnKnight | Melee | Death,
+		"damagetype":     Melee | Death,
 		"attackdamage":   []int{500},
 		"attackrange":    100,
 		"attackradius":   150,
