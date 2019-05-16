@@ -28,7 +28,19 @@ var BattleChestOrder = 0
 
 func _ready():
 	randomize()		# set global random seed
-	
+	# load or set locale
+	var config = ConfigFile.new()
+	var err = config.load(user.CONFIG_FILE_NAME)
+	if err != OK:
+		print("config file load fail. file name: ", user.CONFIG_FILE_NAME, ", err code: ", err)
+	user.locale = config.get_value("locale", "language")
+	if user.locale == null:
+		user.locale = OS.get_locale().split("_")[0]
+		if err in [OK, ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN]:
+			config.set_value("locale", "language", user.locale)
+			config.save(user.CONFIG_FILE_NAME)
+	TranslationServer.set_locale(user.locale)
+
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:
 		if p.Id == Id and not p.Team == "Blue":
