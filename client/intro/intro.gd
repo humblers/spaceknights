@@ -27,16 +27,6 @@ func skipToNextAnimation():
 	$AnimationPlayer.advance(anim_len)
 
 func animationFinished(anim_name):
-	goToNextScene()
-
-func skipToNextScene():
-	$Skip.visible = false
-	self.disconnect("button_up", self, "skipToNextAnimation")
-	$AnimationPlayer.clear_queue()
-	$AnimationPlayer.play("fade_out")
-	$AnimationPlayer.queue(LAST_ANIM_NAME)
-
-func goToNextScene():
 	var config = ConfigFile.new()
 	var err = config.load(user.CONFIG_FILE_NAME)
 	if err != OK:
@@ -44,4 +34,15 @@ func goToNextScene():
 		assert(err in [ERR_FILE_NOT_FOUND, ERR_FILE_CANT_OPEN, ERR_FILE_CANT_READ, ERR_CANT_OPEN])
 	config.set_value("gameflag", "intro_skip", true)
 	config.save(user.CONFIG_FILE_NAME)
-	loading_screen.GoToScene(next_scene)
+	if config.has_section_key("gameflag", "agreement_skip")\
+			and config.get_value("gameflag", "agreement_skip"):
+		loading_screen.GoToScene(next_scene)
+		return
+	add_child(load("res://agreement/agreement.tscn").instance())
+
+func skipToNextScene():
+	$Skip.visible = false
+	self.disconnect("button_up", self, "skipToNextAnimation")
+	$AnimationPlayer.clear_queue()
+	$AnimationPlayer.play("fade_out")
+	$AnimationPlayer.queue(LAST_ANIM_NAME)
