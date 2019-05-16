@@ -173,6 +173,22 @@ var Chests = map[string]ChestInfo{
 		},
 		BundleMin: 4,
 	},
+	"Training": ChestInfo{
+		Name:           "Training",
+		Duration:       3600 * 6,
+		MinGoldPerCard: 2,
+		MaxGoldPerCard: 3,
+		NumCards:       [ArenaCount]int{5, 5, 5, 5, 5, 6},
+		Guaranteed: map[CardRarity][ArenaCount]int{
+			Rare: [ArenaCount]int{0, 0, 0, 0, 0, 1},
+		},
+		ExtraCards: map[CardRarity][ArenaCount]float64{
+			Rare:      [ArenaCount]float64{20, 30, 40, 50, 60, 70},
+			Epic:      [ArenaCount]float64{1.4, 1.6, 1.8, 2, 2.4, 5},
+			Legendary: [ArenaCount]float64{0, 0, 0, 0, 0, 0.010},
+		},
+		BundleMin: 2,
+	},
 }
 
 var ChestOrder = []string{
