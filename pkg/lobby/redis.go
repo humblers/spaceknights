@@ -27,6 +27,7 @@ type user struct {
 	Medal            int             `db:"string,medal"`
 	FreeChest        int             `db:"string,free-chest"`  // timestamp at acquired time
 	MedalChest       int             `db:"string,medal-chest"` // medals earned after last chest open
+	FeebleChestSlots []*data.Chest   `db:"lists,feeble-chest-slots"`
 	BattleChestSlots []*data.Chest   `db:"lists,battle-chest-slots"`
 	BattleChestOrder int             `db:"string,battle-chest-order"`
 }
@@ -77,7 +78,8 @@ func newUser() *user {
 		Cards:            initialCards,
 		DeckSlots:        initialDeckSlots[0:],
 		Rank:             data.InitialRank,
-		BattleChestSlots: []*data.Chest{nil, nil, nil, nil, nil, nil, nil, nil},
+		FeebleChestSlots: []*data.Chest{nil, nil, nil, nil},
+		BattleChestSlots: []*data.Chest{nil, nil, nil, nil},
 	}
 }
 

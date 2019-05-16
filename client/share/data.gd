@@ -1553,7 +1553,6 @@ var Chests = {
 		"Guaranteed": {
 			"Rare": [0, 0, 1, 1, 1, 1],
 		},
-
 	},
 	"Gold": {
 		"Duration":       3600 * 3,
@@ -1563,7 +1562,6 @@ var Chests = {
 		"Guaranteed": {
 			"Rare": [3, 4, 4, 5, 5, 6],
 		},
-
 	},
 	"Diamond": {
 		"Duration":       3600 * 8,
@@ -1574,7 +1572,6 @@ var Chests = {
 			"Rare": [14, 15, 16, 16, 17, 18],
 			"Epic": [1, 1, 1, 2, 2, 2],
 		},
-
 	},
 	"D-Matter": {
 		"Duration":       3600 * 12,
@@ -1585,7 +1582,6 @@ var Chests = {
 			"Rare": [35, 37, 38, 40, 42, 43],
 			"Epic": [5, 6, 6, 6, 7, 7],
 		},
-
 	},
 	"E-Matter": {
 		"Duration":       3600 * 12,
@@ -1597,7 +1593,6 @@ var Chests = {
 			"Epic":      [17, 18, 18, 19, 20, 20],
 			"Legendary": [0, 0, 0, 0, 1, 1],
 		},
-
 	},
 	"Free": {
 		"Duration":       3600 * 4,
@@ -1607,7 +1602,6 @@ var Chests = {
 		"Guaranteed": {
 			"Rare": [0, 0, 0, 0, 0, 1],
 		},
-
 	},
 	"Medal": {
 		"Duration": 0,
@@ -1617,7 +1611,15 @@ var Chests = {
 		"Guaranteed": {
 			"Rare": [4, 5, 6, 7, 7, 8],
 		},
-
+	},
+	"Training": {
+		"Duration": 3600 * 6,
+		"MinGoldPerCard": 2,
+		"MaxGoldPerCard": 3,
+		"NumCards":       [5, 5, 5, 5, 5, 6],
+		"Guaranteed": {
+			"Rare": [0, 0, 0, 0, 0, 1],
+		},
 	},
 }
 

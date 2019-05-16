@@ -51,6 +51,7 @@ type CardUpradeResponse struct {
 }
 
 type ChestOpenRequest struct {
+	Kind    string
 	Name    string
 	Slot    int
 	UseCash bool

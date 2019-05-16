@@ -308,6 +308,29 @@ func (s *server) saveResult(g Game) {
 			} else {
 				medal--
 			}
+			// chest reward
+			key_slots := fmt.Sprintf("%v:feeble-chest-slots", p.Id)
+			v, _ := conn.Do("LRANGE", key_slots, 0, -1)
+			slice := v.([]interface{})
+			for i, v := range slice {
+				var chest *data.Chest
+				json.Unmarshal(v.([]byte), &chest)
+				if chest == nil { // empty slot
+					time := time.Now().Unix()
+					chest := &data.Chest{
+						Name:         "Silver",
+						AcquiredRank: rank,
+						AcquiredAt:   time,
+					}
+					json, _ := json.Marshal(chest)
+					conn.Send("LSET", key_slots, i, json)
+					if _, err := conn.Do(""); err != nil {
+						panic(err)
+					}
+					break
+				}
+			}
+
 		}
 		conn.Send("SET", key_rank, rank)
 		conn.Send("SET", key_medal, medal)

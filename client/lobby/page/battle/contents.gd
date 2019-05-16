@@ -36,7 +36,11 @@ func invalidate():
 		var chest = user.BattleChestSlots[i]
 		var node = get("chest_%d" % i)
 		node.Set(chest)
-	
+	for i in len(user.FeebleChestSlots):
+		var chest = user.FeebleChestSlots[i]
+		var node = get("chest_%d" % [i + 4])
+		node.Set(chest)
+
 func match_request():
 	notifier_client.connect("game_created", self, "start_game", [], CONNECT_ONESHOT)
 	var req = lobby_request.New("/match/request")
