@@ -1106,7 +1106,7 @@ var units = {
 		"speed":          300,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"damagetype":     DecreaseOnKnight | Melee | Death,
+		"damagetype":     Melee | Death,
 		"attackdamage":   [95],
 		"attackrange":    35,
 		"attackradius":   80,
