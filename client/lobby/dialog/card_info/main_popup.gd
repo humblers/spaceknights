@@ -28,7 +28,14 @@ func Invalidate(card, unit):
 		if value_text == null:
 			continue
 		var key_text = keyText(key, unit)
-		var icon_texture = loading_screen.GetStatIcon("contents", key)
+		var icon_key = key
+		if unit.has("damageradius"):
+			match key:
+				"attackdamage":
+					icon_key = "areadamage"
+				"damagepersecond":
+					icon_key = "areadps"
+		var icon_texture = loading_screen.GetStatIcon("contents", icon_key)
 		var sub_info = unit.get("skill", {}).get(key, null)
 		if sub_info != null:
 			sub_info = sub_info.duplicate(true)
@@ -47,39 +54,39 @@ func keyText(key, unit):
 			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
 				t = "ID_AREADAMAGE"
-			return t
+			return [t]
 		"attackinterval":
-			return "ID_ATTACKSPEED"
+			return ["ID_ATTACKSPEED"]
 		"attackrange":
-			return "ID_RANGE"
+			return ["ID_RANGE"]
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "ID_SKILLDAMAGE"		
+			return ["ID_SKILLDAMAGE"]
 		"count":
-			return "ID_COUNT"
+			return ["ID_COUNT"]
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
 				t = "ID_AREADPS"
-			return t
+			return [t]
 		"damagetype":
-			return "ID_ATTACKTYPE"
+			return ["ID_ATTACKTYPE"]
 		"destroydamage":
-			return "ID_DEATHDAMAGE"
+			return ["ID_DEATHDAMAGE"]
 		"freezeduration":
-			return "ID_FREEZEDURATION"
+			return ["ID_FREEZEDURATION"]
 		"hp":
-			return "ID_HP"
+			return ["ID_HP"]
 		"leader", "wing":
-			return "ID_%s_SKILL" % key.to_upper()
+			return ["ID_%s_SKILL" % key.to_upper()]
 		"shield":
-			return "ID_BARRIER"
+			return ["ID_BARRIER"]
 		"spawninterval":
-			return "ID_SPAWNSPEED"
+			return ["ID_SPAWNSPEED"]
 		"spawncount":
-			return "%s ID_COUNT" % "spawn unit name"
+			return ["%s ID_COUNT" % "spawn unit name"]
 		"speed":
-			return "ID_SPEED"
-	return key.capitalize()
+			return ["ID_SPEED"]
+	return [key.capitalize()]
 
 func valueText(key, card, unit):
 	match key:

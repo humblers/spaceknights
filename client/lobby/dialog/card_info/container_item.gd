@@ -21,7 +21,10 @@ func _ready():
 func Invalidate(icon_texture, key_text, value_text, sub_info):
 	self.sub_info = sub_info
 	icon.texture = icon_texture
-	key_label.SetText(key_text)
+	if len(key_text) > 1:
+		key_label.SetText(key_text[0], key_text[1])
+	else:
+		key_label.SetText(key_text[0])
 	value_label.SetText(value_text)
 	if sub_popup_btn != null:
 		sub_popup_btn.visible = sub_info != null

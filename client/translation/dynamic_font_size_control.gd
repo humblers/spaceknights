@@ -21,12 +21,15 @@ func _ready():
 			self.connect("visibility_changed", self, "SetText")
 			SetText()
 
-func SetText(id = null):
+func SetText(id = null, extra_id = null):
 	match self.get_class():
 		"Label":
 			if id == null:
 				id = self.get("text")
 			var text = tr(id)
+			if extra_id:
+				var extra_text = tr(extra_id)
+				text = text + " " + extra_text
 			self.set("text", text)
 			var font = getFont()
 			font.size = org_font_size

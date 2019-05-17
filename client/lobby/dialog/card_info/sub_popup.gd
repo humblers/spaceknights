@@ -3,6 +3,7 @@ extends TextureButton
 const STAT_ORDER = [
 	"castduration", "duration", "damageduration",
 	"damage", "attackdamage",
+	"destroydamage",
 	"damagepersecond",
 	"hp", "shield",
 	"attackinterval",
@@ -13,6 +14,7 @@ const STAT_ORDER = [
 	"freezeduration",
 	"decaydamage",
 	"spawninterval",
+	"knightdamage",
 	"count", "spawncount",
 ]
 
@@ -39,7 +41,23 @@ func Invalidate(card, pressed):
 			if value_text == null:
 				continue
 			var key_text = keyText(key, pressed.sub_info)
-			var icon_texture = get_tree().current_scene.resource_manager.StatIcon(key)
+			var icon_key = key
+			var u = data.units.get(pressed.sub_info.get("unit", ""), {})
+			if pressed.sub_info.get("radius", null) != null:
+				match key:
+					"damage":
+						icon_key = "areadamage"
+					"damagepersecond":
+						icon_key = "areadps"
+			if pressed.sub_info.has("unit"):
+				var spawnunit = data.units[pressed.sub_info["unit"]]
+				if spawnunit.has("damageradius"):
+					match key:
+						"attackdamage":
+							icon_key = "areadamage"
+						"damagepersecond":
+							icon_key = "areadps"
+			var icon_texture = loading_screen.GetStatIcon("contents", icon_key)
 			item_nodes[pointer].Invalidate(icon_texture, key_text, value_text, null)
 			pointer += 1
 			if pointer >= info_root.MAX_STAT_COUNT:
@@ -50,62 +68,73 @@ func Invalidate(card, pressed):
 
 func keyText(key, skill):
 	match key:
-		"area":
-			return "ID_AREA"
 		"attackdamage":
 			var t = "ID_DAMAGE"
-			var u = data.units.get(skill.get("unit", ""), {})
-			if u.get("damageradius", null) != null:
+			if not skill.has("unit"):
+				return [t]
+			var u = data.units[skill["unit"]]
+			if not u.has(key):
+				return [t]
+			if u.has("damageradius"):
 				t = "ID_AREADAMAGE"
-			return t
+			return [t]
+		"area":
+			return ["ID_AREA"]
 		"attackinterval":
-			return "ID_ATTACKSPEED"
+			return ["ID_ATTACKSPEED"]
 		"attackrange":
-			return "ID_RANGE"
+			return ["ID_RANGE"]
 		"castduration":
-			return "ID_CASTDURATION"
+			return ["ID_CASTDURATION"]
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "ID_SKILLDAMAGE"		
+			return ["ID_SKILLDAMAGE"]
 		"count":
-			return "ID_COUNT"
+			return [ "ID_%s" % skill.get("unit", "").to_upper(),"ID_COUNT"]
 		"damage":
-			return "ID_AREADAMAGE"
+			var t = "ID_DAMAGE"
+			if skill.get("radius", null) != null:
+				t = "ID_AREADAMAGE"
+			return [t]
 		"damageduration", "duration":
-			return "ID_DAMAGEDURATION"
+			return ["ID_DAMAGEDURATION"]
 		"damagepersecond":
 			var t = "ID_DPS"
-			var u = data.units.get(skill.get("unit", ""), {})
-			if u.get("damageradius", null) != null:
+			if not skill.has("unit"):
+				return [t]
+			var u = data.units[skill["unit"]]
+			if u.has("damageradius"):
 				t = "ID_AREADPS"
-			return t
+			return [t]
 		"damagetype":
-			return "ID_ATTACKTYPE"
+			return ["ID_ATTACKTYPE"]
 		"decaydamage":
-			return "ID_LIFETIME"
+			return ["ID_LIFETIME"]
 		"destroydamage":
-			return "ID_DEATHDAMAGE"
+			return ["ID_DEATHDAMAGE"]
 		"freezeduration":
-			return "ID_FREEZEDURATION"
+			return ["ID_FREEZEDURATION"]
 		"hp":
-			return "ID_HP"
+			return ["ID_HP"]
+		"knightdamage":
+			return ["ID_KNIGHTDAMAGE"]
 		"leader", "wing":
-			return "ID_%s_SKILL" % key.to_upper()
+			return ["ID_%s_SKILL" % key.to_upper()]
 		"radius":
-			return "ID_RADIUS"
+			return ["ID_RADIUS"]
 		"shield":
-			return "ID_BARRIER"
+			return ["ID_BARRIER"]
 		"spawninterval":
-			return "ID_SPAWNSPEED"		
+			return ["ID_SPAWNSPEED"]
 		"spawncount":
-			return "%s ID_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "")
+			return [ "ID_%s" % data.units.get(skill.get("unit", ""), {}).get("spawn", "").to_upper(),"ID_COUNT"]
 		"speed":
-			return "ID_SPEED"		
-	return key
+			return ["ID_SPEED"]
+	return [key]
 
 func valueText(key, card, skill):
 	match key:
 		# spell only
-		"castduration", "duration", "damageduration":
+		"castduration", "duration", "damageduration", "freezeduration":
 			if skill.has(key):
 				return static_func.FormatStepToSecond(skill[key])
 			return null
@@ -113,6 +142,12 @@ func valueText(key, card, skill):
 			if skill.has(key):
 				var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
 				return "%d" % skill[key][lv]
+		"knightdamage":
+			if skill.has("damagetype"):
+				if data.DamageTypeIs(skill["damagetype"], data.DecreaseOnKnight):
+					var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+					return "%d" % round(skill["damage"][lv] * data.DecreasedDamageRatioOnKnightBuilding / 100)
+			return null
 		"radius":
 			if skill.has(key):
 				return static_func.FormatPixelToTile(skill[key])
