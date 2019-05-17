@@ -25,15 +25,20 @@ export(NodePath) onready var description_label = get_node(description_label)
 export(NodePath) onready var left_point = get_node(left_point)
 export(NodePath) onready var right_point = get_node(right_point)
 
+export(NodePath) onready var wing_skill_dsc = get_node(wing_skill_dsc)
+export(NodePath) onready var add_description_label = get_node(add_description_label)
+
 func Invalidate(card, pressed):
 	self.rect_global_position = pressed.sub_popup_pos.global_position
 	left_point.visible = pressed.is_left
 	right_point.visible = not pressed.is_left
 	description_label.visible = pressed.sub_info.type == "leader"
 	stat_container.visible = pressed.sub_info.type == "wing"
+	wing_skill_dsc.visible = pressed.sub_info.type == "wing"
 	if pressed.sub_info.type == "leader":
-		description_label.SetText("ID_LEADER_SKILL_%s" % card.Name)
+		description_label.SetText("ID_LEADER_SKILL_%s" % card.Name.to_upper())
 	else:
+		add_description_label.SetText("ID_WING_SKILL_%s" % card.Name.to_upper())
 		var item_nodes = stat_container.get_children()
 		var pointer = 0
 		for key in STAT_ORDER:
