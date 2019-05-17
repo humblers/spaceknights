@@ -29,7 +29,7 @@ func SetPlayerData(team, id, leader, rank):
 func Play():
 	blue_user_name.text = "Imperial-Knight-%03d" % blue_id
 	blue_leader_name.SetText("ID_%s" % blue_leader.to_upper())
-	blue_leader_desc.SetText("ID_LEADER_SKILL_%s" % blue_leader)
+	blue_leader_desc.SetText("ID_LEADER_SKILL_%s" % blue_leader.to_upper())
 	var path = loading_screen.GetCardIconPathInGame(blue_leader)
 	blue_leader_icon.texture = loading_screen.LoadResource(path)
 	blue_rank_num.text = str(blue_rank)
@@ -40,7 +40,7 @@ func Play():
 		red_id = blue_id + pad
 	red_user_name.text = "Imperial-Knight-%03d" % red_id
 	red_leader_name.SetText("ID_%s" % red_leader.to_upper())
-	red_leader_desc.SetText("ID_LEADER_SKILL_%s" % red_leader)
+	red_leader_desc.SetText("ID_LEADER_SKILL_%s" % red_leader.to_upper())
 	path = loading_screen.GetCardIconPathInGame(red_leader)
 	red_leader_icon.texture = loading_screen.LoadResource(path)
 	red_rank_num.text = str(red_rank)
