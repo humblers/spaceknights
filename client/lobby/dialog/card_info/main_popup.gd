@@ -28,7 +28,14 @@ func Invalidate(card, unit):
 		if value_text == null:
 			continue
 		var key_text = keyText(key, unit)
-		var icon_texture = loading_screen.GetStatIcon("contents", key)
+		var icon_key = key
+		if unit.has("damageradius"):
+			match key:
+				"attackdamage":
+					icon_key = "areadamage"
+				"damagepersecond":
+					icon_key = "areadps"
+		var icon_texture = loading_screen.GetStatIcon("contents", icon_key)
 		var sub_info = unit.get("skill", {}).get(key, null)
 		if sub_info != null:
 			sub_info = sub_info.duplicate(true)
@@ -53,7 +60,7 @@ func keyText(key, unit):
 		"attackrange":
 			return "ID_RANGE"
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return "ID_SKILLDAMAGE"		
+			return "ID_SKILLDAMAGE"
 		"count":
 			return "ID_COUNT"
 		"damagepersecond":
@@ -75,11 +82,10 @@ func keyText(key, unit):
 			return "ID_BARRIER"
 		"spawninterval":
 			return "ID_SPAWNSPEED"
-		"spawncount":
-			return "%s ID_COUNT" % "spawn unit name"
 		"speed":
 			return "ID_SPEED"
-	return key.capitalize()
+		_:
+			print("key text format failed")
 
 func valueText(key, card, unit):
 	match key:

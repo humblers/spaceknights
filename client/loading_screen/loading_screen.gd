@@ -86,8 +86,14 @@ func GetStatIcon(layer, stat_key):
 			path = path % [layer, "damage"]
 		"damageduration", "duration":
 			path = path % [layer, "damage_duration"]
+		"areadamage":
+			path = path % [layer, "area_damage"]
+		"destroydamage":
+			path = path % [layer, "death_damage"]
 		"damagepersecond":
 			path = path % [layer, "dps"]
+		"areadps":
+			path = path % [layer, "area_dps"]
 		"attackinterval":
 			path = path % [layer, "attack_speed"]
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
@@ -96,12 +102,22 @@ func GetStatIcon(layer, stat_key):
 			path = path % [layer, "attack_type"]
 		"decaydamage":
 			path = path % [layer, "lifetime"]
+		"knightdamage":
+			path = path % [layer, "knight_damage"]
 		"attackrange":
 			path = path % [layer, "attack_range"]
 		"shield":
 			path = path % [layer, "barrier"]
-		"count":
+		"castduration":
+			path = path % [layer, "cast_duration"]
+		"freezeduration":
+			path = path % [layer, "freeze_duration"]
+		"count", "spawncount":
 			path = path % [layer, "spawn_count"]
+		"radius", "area": # this is temporary using. we must add area icon for showing skill area like a lancer, astra
+			path = path % [layer, "radius"]
+		"spawninterval":
+			path = path % [layer, "spawn_speed"]
 		_:
 			path = path % [layer, stat_key]
 	return LoadResource(path)

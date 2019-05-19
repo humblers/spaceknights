@@ -4028,7 +4028,6 @@ container_notfounds = NodePath("PageMain/MarginContainer/VBoxContainer/BottomCon
 resource_preloader = NodePath("ResourcePreloader")
 
 [node name="PageMain" type="Control" parent="Card"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
@@ -4059,7 +4058,6 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Card/PageMain"]
-editor/display_folded = true
 margin_top = 8.0
 margin_right = 1440.0
 margin_bottom = 3187.0
@@ -4518,7 +4516,6 @@ clip_text = true
 script = ExtResource( 31 )
 
 [node name="BottomContainers" type="MarginContainer" parent="Card/PageMain/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 1484.0
 margin_right = 1440.0
 margin_bottom = 2794.0
@@ -5175,6 +5172,7 @@ resources = [ PoolStringArray( "item", "item_not_found" ), [ ExtResource( 33 ), 
 [node name="Tween" type="Tween" parent="Card"]
 
 [node name="Battle" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 58 )
@@ -10015,13 +10013,11 @@ autoplay = "pagechange"
 anims/pagechange = SubResource( 19 )
 
 [node name="PopUp" type="Control" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="CardInfo" type="TextureButton" parent="PopUp"]
-editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10063,7 +10059,6 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="MainPopup" type="TextureButton" parent="PopUp/CardInfo"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -10090,7 +10085,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Title" type="Control" parent="PopUp/CardInfo/MainPopup/MainPanel"]
-editor/display_folded = true
 margin_top = 12.0
 margin_bottom = 12.0
 
@@ -10955,8 +10949,6 @@ clip_text = true
 script = ExtResource( 31 )
 
 [node name="SubPopup" type="TextureButton" parent="PopUp/CardInfo"]
-editor/display_folded = true
-visible = false
 margin_top = 360.0
 margin_right = 860.0
 margin_bottom = 780.0
@@ -10967,6 +10959,8 @@ stat_container = NodePath("Panel/Spec/StatIconContainer")
 description_label = NodePath("Panel/Spec/Description")
 left_point = NodePath("Panel/Spec/LeftPoint")
 right_point = NodePath("Panel/Spec/RightPoint")
+wing_skill_dsc = NodePath("WingSkillDsc")
+add_description_label = NodePath("WingSkillDsc/Spec/AddDescription")
 
 [node name="Panel" type="NinePatchRect" parent="PopUp/CardInfo/SubPopup"]
 self_modulate = Color( 0.211765, 0.211765, 0.211765, 1 )
@@ -11469,6 +11463,65 @@ margin_left = 30.0
 margin_top = 50.0
 margin_right = -30.0
 margin_bottom = -10.0
+custom_fonts/normal_font = ExtResource( 8 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+tab_size = 10
+text = "YOLO!"
+scroll_active = false
+script = ExtResource( 31 )
+
+[node name="WingSkillDsc" type="NinePatchRect" parent="PopUp/CardInfo/SubPopup"]
+self_modulate = Color( 0.211765, 0.211765, 0.211765, 1 )
+margin_top = -200.0
+margin_right = 860.0
+rect_min_size = Vector2( 860, 200 )
+texture = ExtResource( 85 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+
+[node name="Spec" type="Control" parent="PopUp/CardInfo/SubPopup/WingSkillDsc"]
+margin_left = 10.0
+margin_top = 11.0
+margin_right = 850.0
+margin_bottom = 391.0
+
+[node name="Spec2" type="NinePatchRect" parent="PopUp/CardInfo/SubPopup/WingSkillDsc/Spec"]
+self_modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
+margin_top = 20.0
+margin_right = 840.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 840, 160 )
+texture = ExtResource( 73 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+
+[node name="TextureRect" type="TextureRect" parent="PopUp/CardInfo/SubPopup/WingSkillDsc/Spec"]
+self_modulate = Color( 1, 0.32549, 0.117647, 1 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -430.0
+margin_top = -380.0
+margin_right = 430.0
+margin_bottom = -375.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="AddDescription" type="RichTextLabel" parent="PopUp/CardInfo/SubPopup/WingSkillDsc/Spec"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = 33.0
+margin_right = -30.0
+margin_bottom = -187.0
+rect_min_size = Vector2( 780, 160 )
 custom_fonts/normal_font = ExtResource( 18 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 tab_size = 10
