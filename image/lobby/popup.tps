@@ -291,6 +291,7 @@
             </struct>
             <key type="filename">popup/button/close_btn_nor.png</key>
             <key type="filename">popup/button/close_btn_ov.png</key>
+            <key type="filename">popup/stat_icon/area.png</key>
             <key type="filename">popup/stat_icon/area_damage.png</key>
             <key type="filename">popup/stat_icon/area_dps.png</key>
             <key type="filename">popup/stat_icon/attack_range.png</key>
