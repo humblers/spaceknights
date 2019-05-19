@@ -76,65 +76,64 @@ func keyText(key, skill):
 		"attackdamage":
 			var t = "ID_DAMAGE"
 			if not skill.has("unit"):
-				return [t]
+				return t
 			var u = data.units[skill["unit"]]
 			if not u.has(key):
-				return [t]
+				return t
 			if u.has("damageradius"):
 				t = "ID_AREADAMAGE"
-			return [t]
+			return t
 		"area":
-			return ["ID_AREA"]
+			return "ID_AREA"
 		"attackinterval":
-			return ["ID_ATTACKSPEED"]
+			return "ID_ATTACKSPEED"
 		"attackrange":
-			return ["ID_RANGE"]
+			return "ID_RANGE"
 		"castduration":
-			return ["ID_CASTDURATION"]
+			return "ID_CASTDURATION"
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return ["ID_SKILLDAMAGE"]
-		"count":
-			return [ "ID_%s" % skill.get("unit", "").to_upper(),"ID_COUNT"]
+			return "ID_SKILLDAMAGE"
 		"damage":
 			var t = "ID_DAMAGE"
 			if skill.get("radius", null) != null:
 				t = "ID_AREADAMAGE"
-			return [t]
+			return t
 		"damageduration", "duration":
-			return ["ID_DAMAGEDURATION"]
+			return "ID_DAMAGEDURATION"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if not skill.has("unit"):
-				return [t]
+				return t
 			var u = data.units[skill["unit"]]
 			if u.has("damageradius"):
 				t = "ID_AREADPS"
-			return [t]
+			return t
 		"damagetype":
-			return ["ID_ATTACKTYPE"]
+			return "ID_ATTACKTYPE"
 		"decaydamage":
-			return ["ID_LIFETIME"]
+			return "ID_LIFETIME"
 		"destroydamage":
-			return ["ID_DEATHDAMAGE"]
+			return "ID_DEATHDAMAGE"
 		"freezeduration":
-			return ["ID_FREEZEDURATION"]
+			return "ID_FREEZEDURATION"
 		"hp":
-			return ["ID_HP"]
+			return "ID_HP"
 		"knightdamage":
-			return ["ID_KNIGHTDAMAGE"]
-		"leader", "wing":
-			return ["ID_%s_SKILL" % key.to_upper()]
+			return "ID_KNIGHTDAMAGE"
 		"radius":
-			return ["ID_RADIUS"]
+			return "ID_RADIUS"
 		"shield":
-			return ["ID_BARRIER"]
+			return "ID_BARRIER"
 		"spawninterval":
-			return ["ID_SPAWNSPEED"]
+			return "ID_SPAWNSPEED"
+		"count":
+			return "ID_COUNT"
 		"spawncount":
-			return [ "ID_%s" % data.units.get(skill.get("unit", ""), {}).get("spawn", "").to_upper(),"ID_COUNT"]
+			return "ID_%s_COUNT" % data.units.get(skill.get("unit", ""), {}).get("spawn", "").to_upper()
 		"speed":
-			return ["ID_SPEED"]
-	return [key]
+			return "ID_SPEED"
+		_:
+			print("key text format failed")
 
 func valueText(key, card, skill):
 	match key:

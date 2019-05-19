@@ -54,39 +54,38 @@ func keyText(key, unit):
 			var t = "ID_DAMAGE"
 			if unit.has("damageradius"):
 				t = "ID_AREADAMAGE"
-			return [t]
+			return t
 		"attackinterval":
-			return ["ID_ATTACKSPEED"]
+			return "ID_ATTACKSPEED"
 		"attackrange":
-			return ["ID_RANGE"]
+			return "ID_RANGE"
 		"chargedattackdamage", "powerattackdamage", "absorbdamage":
-			return ["ID_SKILLDAMAGE"]
+			return "ID_SKILLDAMAGE"
 		"count":
-			return ["ID_COUNT"]
+			return "ID_COUNT"
 		"damagepersecond":
 			var t = "ID_DPS"
 			if unit.has("damageradius"):
 				t = "ID_AREADPS"
-			return [t]
+			return t
 		"damagetype":
-			return ["ID_ATTACKTYPE"]
+			return "ID_ATTACKTYPE"
 		"destroydamage":
-			return ["ID_DEATHDAMAGE"]
+			return "ID_DEATHDAMAGE"
 		"freezeduration":
-			return ["ID_FREEZEDURATION"]
+			return "ID_FREEZEDURATION"
 		"hp":
-			return ["ID_HP"]
+			return "ID_HP"
 		"leader", "wing":
-			return ["ID_%s_SKILL" % key.to_upper()]
+			return "ID_%s_SKILL" % key.to_upper()
 		"shield":
-			return ["ID_BARRIER"]
+			return "ID_BARRIER"
 		"spawninterval":
-			return ["ID_SPAWNSPEED"]
-		"spawncount":
-			return ["%s ID_COUNT" % "spawn unit name"]
+			return "ID_SPAWNSPEED"
 		"speed":
-			return ["ID_SPEED"]
-	return [key.capitalize()]
+			return "ID_SPEED"
+		_:
+			print("key text format failed")
 
 func valueText(key, card, unit):
 	match key:
