@@ -840,6 +840,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/stat_icon/area.png</key>
             <key type="filename">contents/stat_icon/area_damage.png</key>
             <key type="filename">contents/stat_icon/area_dps.png</key>
             <key type="filename">contents/stat_icon/attack_range.png</key>
