@@ -1,11 +1,11 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/unit/pixie/pixie.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/pixie_body.tres" type="Texture" id=2]
 [ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/pixie_rake.tres" type="Texture" id=4]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=5]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=5]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=7]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/pixie/wing.tres" type="Texture" id=8]
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=9]
@@ -29,10 +29,13 @@
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.296801 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0, 0, 1 )
 
 [sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Pixie" type="Node2D"]
@@ -72,12 +75,12 @@ flip_h = true
 
 [node name="Attackpoint" type="Position2D" parent="Rotatable/Main/Body"]
 position = Vector2( 0, -47.5 )
+scale = Vector2( 2, 2 )
 
 [node name="AttackP" type="CPUParticles2D" parent="Rotatable/Main/Body/Attackpoint"]
-material = ExtResource( 5 )
 emitting = false
 speed_scale = 2.0
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 gravity = Vector2( 0, 10 )
@@ -86,12 +89,12 @@ angular_velocity_random = 1.0
 radial_accel = 100.0
 scale_amount = 1.5
 scale_amount_curve = SubResource( 1 )
-color = Color( 1, 0.137255, 0.137255, 1 )
+color_ramp = SubResource( 2 )
 
 [node name="AttackLight" type="Sprite" parent="Rotatable/Main/Body/Attackpoint"]
 visible = false
-modulate = Color( 0.941176, 0.611765, 0.0901961, 0.854902 )
-material = ExtResource( 5 )
+modulate = Color( 1, 0, 0, 0.854902 )
+material = ExtResource( 6 )
 position = Vector2( 0, 8 )
 scale = Vector2( 1.6, 1.6 )
 texture = ExtResource( 7 )
@@ -148,12 +151,12 @@ spread = 180.0
 angular_velocity = 180.0
 radial_accel = 100.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 2 )
+scale_amount_curve = SubResource( 3 )
 
 [node name="LightF" type="Sprite" parent="Rotatable/Main/Body/Forcefield"]
 visible = false
 modulate = Color( 0.478431, 0.596078, 0.905882, 0.945098 )
-material = ExtResource( 5 )
+material = ExtResource( 6 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 7 )
 
@@ -181,14 +184,14 @@ texture = ExtResource( 12 )
 [node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-material = ExtResource( 5 )
+material = ExtResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 7 )
 
 [node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
 visible = false
 modulate = Color( 0.384314, 0.101961, 1, 0 )
-material = ExtResource( 5 )
+material = ExtResource( 6 )
 rotation = 4.71239
 scale = Vector2( 2, 2 )
 texture = ExtResource( 13 )
@@ -213,7 +216,7 @@ gravity = Vector2( 0, 0 )
 angular_velocity = 180.0
 radial_accel = 120.0
 scale_amount = 1.5
-scale_amount_curve = SubResource( 3 )
+scale_amount_curve = SubResource( 4 )
 color = Color( 0.929412, 0.643137, 1, 1 )
 
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
@@ -222,7 +225,7 @@ anims/explosion = ExtResource( 14 )
 [node name="CenterLight" type="Sprite" parent="."]
 visible = false
 modulate = Color( 0.458824, 0.0901961, 0.901961, 1 )
-material = ExtResource( 5 )
+material = ExtResource( 6 )
 scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 7 )
 

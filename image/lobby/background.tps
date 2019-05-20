@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.12.1</string>
+        <string>5.0.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -392,10 +392,10 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">background/knights/arcenginner.png</key>
-            <key type="filename">background/knights/arcenginner_normal.png</key>
-            <key type="filename">background/knights/arcsapper.png</key>
-            <key type="filename">background/knights/arcsapper_normal.png</key>
+            <key type="filename">background/knights/archengineer.png</key>
+            <key type="filename">background/knights/archengineer_normal.png</key>
+            <key type="filename">background/knights/archsapper.png</key>
+            <key type="filename">background/knights/archsapper_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -450,8 +450,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">background/knights/ion_coffin.png</key>
-            <key type="filename">background/knights/ion_coffin_normal.png</key>
+            <key type="filename">background/knights/ironcoffin.png</key>
+            <key type="filename">background/knights/ironcoffin_normal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

@@ -1,44 +1,38 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://game/unit/micromissile/micromissile.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/micromissile/micro_missile.tres" type="Texture" id=2]
 [ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=4]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=5]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_1.tres" type="Texture" id=6]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=7]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=8]
-[ext_resource path="res://sound/sfx/explosion_s.wav" type="AudioStream" id=9]
-[ext_resource path="res://game/unit/micromissile/attack.tres" type="Animation" id=10]
-[ext_resource path="res://game/unit/micromissile/destroy.tres" type="Animation" id=11]
-[ext_resource path="res://game/unit/micromissile/idle.tres" type="Animation" id=12]
-[ext_resource path="res://game/unit/micromissile/move.tres" type="Animation" id=13]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=14]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=5]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_1.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=8]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=9]
+[ext_resource path="res://sound/sfx/explosion_s.wav" type="AudioStream" id=10]
+[ext_resource path="res://game/unit/micromissile/attack.tres" type="Animation" id=11]
+[ext_resource path="res://game/unit/micromissile/destroy.tres" type="Animation" id=12]
+[ext_resource path="res://game/unit/micromissile/idle.tres" type="Animation" id=13]
+[ext_resource path="res://game/unit/micromissile/move.tres" type="Animation" id=14]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, 0.167767, 0, 0, Vector2( 1, 0.4824 ), -0.850656, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0.158333, 1 )
-colors = PoolColorArray( 0.290447, 0.378906, 0.0458832, 1, 1, 0.576471, 0.2, 0 )
-
-[sub_resource type="Curve" id=3]
 min_value = -360.0
 max_value = 360.0
 _data = [ Vector2( 0.00921278, -15.4688 ), 0.0, 0.0, 0, 0, Vector2( 0.987674, -15.4688 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0.0192363, 0.0951999 ), 0.0, 0.0, 0, 0, Vector2( 0.256747, 0.736328 ), 0.0, 2.25309, 0, 0, Vector2( 0.755306, 0.00585938 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.770493, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=4]
 min_value = -200.0
 max_value = 200.0
 _data = [ Vector2( 0.110406, 85.9375 ), 0.0, 0.0, 0, 0, Vector2( 0.568111, -158.984 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.923066, 0 ), 0.0, 0.0, 0, 0 ]
 
 [node name="MicroMissile" type="Node2D"]
@@ -58,51 +52,35 @@ normal_map = ExtResource( 3 )
 position = Vector2( -4.5, 10.3269 )
 rotation = 0.523599
 
-[node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Body/Booster1"]
+[node name="Particles2D" type="Sprite" parent="Rotatable/Body/Booster1"]
 visible = false
 modulate = Color( 1, 0.564706, 0.219608, 1 )
 material = ExtResource( 4 )
-speed_scale = 4.0
+position = Vector2( 0.288531, 10.2665 )
+scale = Vector2( 0.4, 0.5 )
 texture = ExtResource( 5 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 20.0
-gravity = Vector2( 0, 40 )
-angular_velocity = 180.0
-scale_amount = 0.5
-scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Body/Booster1/Particles2D"]
 material = ExtResource( 4 )
-position = Vector2( -0.215688, 2.58829 )
-scale = Vector2( 0.2, 0.4 )
-texture = ExtResource( 5 )
+position = Vector2( -0.722102, -14.1134 )
+texture = ExtResource( 6 )
 
 [node name="Booster2" type="Position2D" parent="Rotatable/Body"]
 position = Vector2( 4.5, 10.3269 )
 rotation = -0.523599
 
-[node name="Particles2D" type="CPUParticles2D" parent="Rotatable/Body/Booster2"]
+[node name="Particles2D" type="Sprite" parent="Rotatable/Body/Booster2"]
 visible = false
 modulate = Color( 1, 0.564706, 0.219608, 1 )
 material = ExtResource( 4 )
-speed_scale = 4.0
+position = Vector2( -0.288531, 10.2665 )
+scale = Vector2( 0.4, 0.5 )
 texture = ExtResource( 5 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 20.0
-gravity = Vector2( 0, 40 )
-angular_velocity = 180.0
-scale_amount = 0.5
-scale_amount_curve = SubResource( 1 )
-color_ramp = SubResource( 2 )
 
 [node name="Light2D" type="Sprite" parent="Rotatable/Body/Booster2/Particles2D"]
 material = ExtResource( 4 )
-position = Vector2( -0.215688, 2.58829 )
-scale = Vector2( 0.2, 0.4 )
-texture = ExtResource( 5 )
+position = Vector2( 0.290724, -14.1134 )
+texture = ExtResource( 6 )
 
 [node name="Explosion" type="Node2D" parent="Rotatable"]
 
@@ -114,7 +92,7 @@ emitting = false
 amount = 4
 speed_scale = 2.0
 explosiveness = 0.5
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 2
 emission_rect_extents = Vector2( 1, 1 )
 spread = 0.0
@@ -122,13 +100,13 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 0.0
 angular_velocity = 180.0
 angular_velocity_random = 0.5
-angular_velocity_curve = SubResource( 3 )
+angular_velocity_curve = SubResource( 1 )
 damping = 10.0
 damping_random = 0.5
 angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 4 )
+scale_amount_curve = SubResource( 2 )
 color = Color( 0.203922, 0.203922, 0.203922, 0.517647 )
 
 [node name="Center" type="CPUParticles2D" parent="Rotatable/Explosion/Exp1"]
@@ -136,7 +114,7 @@ material = ExtResource( 4 )
 emitting = false
 amount = 10
 speed_scale = 3.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 0.0
@@ -150,7 +128,7 @@ tangential_accel_random = 0.5
 damping = 10.0
 scale_amount = 0.8
 scale_amount_random = 0.5
-scale_amount_curve = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
 color = Color( 0.890196, 0.294118, 0.294118, 0.466667 )
 hue_variation = 0.1
 hue_variation_random = 1.0
@@ -161,7 +139,7 @@ emitting = false
 amount = 12
 speed_scale = 1.5
 explosiveness = 0.8
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 emission_shape = 1
 emission_sphere_radius = 28.0
 spread = 180.0
@@ -171,27 +149,27 @@ angular_velocity = 180.0
 angular_velocity_random = 0.5
 radial_accel = 100.0
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 6 )
+radial_accel_curve = SubResource( 4 )
 scale_amount_random = 0.5
-scale_amount_curve = SubResource( 7 )
+scale_amount_curve = SubResource( 5 )
 color = Color( 0.988235, 0.627451, 0.054902, 1 )
 
-[node name="Hp" parent="." instance=ExtResource( 8 )]
+[node name="Hp" parent="." instance=ExtResource( 9 )]
 position = Vector2( 0, -45 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 9 )
+stream = ExtResource( 10 )
 
 [node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 10 )
-anims/destroy = ExtResource( 11 )
-anims/idle = ExtResource( 12 )
-anims/move = ExtResource( 13 )
+anims/attack = ExtResource( 11 )
+anims/destroy = ExtResource( 12 )
+anims/idle = ExtResource( 13 )
+anims/move = ExtResource( 14 )
 
-[node name="HitEffect" parent="." instance=ExtResource( 14 )]
+[node name="HitEffect" parent="." instance=ExtResource( 15 )]
 type = 0
 rect_area = Rect2( -10, -20, 20, 40 )
