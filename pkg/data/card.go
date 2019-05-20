@@ -26,20 +26,20 @@ const (
 
 type Card struct {
 	// invariant
-	Name    string
-	Type    CardType
-	Cost    int
-	Unit    string
-	Count   int
-	OffsetX []int
-	OffsetY []int
-	Rarity  CardRarity
-	Arena   Arena
+	Name    string     `json:",omitempty"`
+	Type    CardType   `json:",omitempty"`
+	Cost    int        `json:",omitempty"`
+	Unit    string     `json:",omitempty"`
+	Count   int        `json:",omitempty"`
+	OffsetX []int      `json:",omitempty"`
+	OffsetY []int      `json:",omitempty"`
+	Rarity  CardRarity `json:",omitempty"`
+	Arena   Arena      `json:",omitempty"`
 
 	// variant
-	Level   int
-	Holding int
-	Side    KnightSide
+	Level   int        `json:",omitempty"`
+	Holding int        `json:",omitempty"`
+	Side    KnightSide `json:",omitempty"`
 }
 
 func NewCard(c Card) *Card {

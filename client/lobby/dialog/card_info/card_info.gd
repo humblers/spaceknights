@@ -56,10 +56,10 @@ func upgradeButtonUp():
 		event.emit_signal("RequestPopup", event.PopupModalMessage, [response[1].ErrMessage])
 		return
 	var c = response[1].Card
-	user.Cards[card.Name] = c
-	user.Galacticoin = response[1].Galacticoin
 	c.Name = card.Name
 	card = data.NewCard(c)
+	user.Cards[card.Name] = card
+	user.Galacticoin = response[1].Galacticoin
 	event.emit_signal("InvalidateLobby")
 	event.emit_signal("RequestDialog", event.DialogCardUpgrade, [card])
 	hide()

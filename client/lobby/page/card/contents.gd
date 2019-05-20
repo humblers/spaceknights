@@ -74,13 +74,12 @@ func invalidate():
 	var not_found_cards = data.cards.keys()
 	var found_cards = user.Cards.keys()
 	var i = 0
-	for card in user.DeckSlots[selected]:
-		card = data.NewCard(card)
+	for c in user.DeckSlots[selected]:
+		var card = data.NewCard(c)
 		card.Level = user.Cards[card.Name].Level
 		card.Holding = user.Cards[card.Name].Holding
-		var name = card.Name
-		not_found_cards.erase(name)
-		found_cards.erase(name)
+		not_found_cards.erase(card.Name)
+		found_cards.erase(card.Name)
 		match card.Type:
 			data.KnightCard:
 				get("knight_%s" % card.Side.to_lower()).Invalidate(card)
@@ -97,9 +96,7 @@ func invalidate():
 		var item = resource_preloader.get_resource("item").instance()
 		item.page_card = get_path()
 		container_founds.add_child(item)
-		var c = user.Cards[name].duplicate(true)
-		c.Name = name
-		item.Invalidate(data.NewCard(c))
+		item.Invalidate(data.NewCard(user.Cards[name]))
 	for child in container_notfounds.get_children():
 		child.queue_free()
 	for i in range(not_found_cards.size()):

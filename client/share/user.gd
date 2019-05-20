@@ -16,7 +16,7 @@ var Level
 var Exp
 var Galacticoin
 var Dimensium
-var Cards
+var Cards setget setCards
 var DeckSlots
 var DeckSelected
 var Rank = 25
@@ -41,6 +41,13 @@ func _ready():
 			config.set_value("locale", "language", user.locale)
 			config.save(user.CONFIG_FILE_NAME)
 	TranslationServer.set_locale(user.locale)
+
+func setCards(dict):
+	Cards = {}
+	for card_name in dict.keys():
+		var c = dict[card_name]
+		c.Name = card_name
+		Cards[card_name] = data.NewCard(c)
 
 func ShouldSwapTeam(cfg):
 	for p in cfg.Players:
