@@ -1,414 +1,166 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://game/script/dot.gd" type="Script" id=1]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=2]
-[ext_resource path="res://material/additive_blend.tres" type="Material" id=3]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_4.tres" type="Texture" id=4]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_2.tres" type="Texture" id=5]
-[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=6]
-[ext_resource path="res://game/unit/lancer/skill_napalm.wav" type="AudioStream" id=7]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=2]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/napalm_1.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.png" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/napalm_2.tres" type="Texture" id=5]
+[ext_resource path="res://game/unit/lancer/skill_napalm.wav" type="AudioStream" id=6]
 
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "dot",
-"speed": 5.0
-} ]
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.5143 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9543 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.172549, 0.262745, 1, 1, 0.402344, 1, 0.733856, 1 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 1, 303, 100, 296 )
+margin = Rect2( 0, 0, 0, 4 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.9752 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 0.156863, 0.592157, 1, 0.278431, 0.278431, 1, 0.560784, 0.482353 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 1, 601, 86, 277 )
+margin = Rect2( 7, 8, 14, 23 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 0.6188 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5836 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+colors = PoolColorArray( 0.0820313, 0.591217, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Curve" id=9]
+_data = [ Vector2( 0, 0.9664 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.9312 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0, 0.570513, 0.967949 )
+colors = PoolColorArray( 0.230469, 0.549103, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.940298 )
+
+[sub_resource type="Animation" id=11]
 length = 8.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Set/Set1:modulate")
+tracks/0/path = NodePath("Set/Set6:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 1.2, 7.5, 7.8, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.6, 7, 7.6, 7.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Set/Set2:modulate")
+tracks/1/path = NodePath("Set:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.9, 1.1, 7.4, 7.8, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Set/Set3:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.8, 1, 7.3, 7.7, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Set/Set4:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.7, 0.9, 7.2, 7.7, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Set/Set5:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.6, 0.8, 7.1, 7.6, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Set/Set6:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.5, 0.7, 7, 7.6, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Set/Set7:modulate")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.4, 0.6, 6.9, 7.5, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("Set/Set8:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5, 6.8, 7.5, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.00392157 ), Color( 1, 1, 1, 0.00392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.00392157 ), Color( 1, 1, 1, 0.00392157 ) ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("Set/Set9:modulate")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 6.7, 7.4, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("Set/Set10:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3, 6.6, 7.4, 7.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Set:visible")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
 "times": PoolRealArray( 0, 7.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/11/type = "value"
-tracks/11/path = NodePath("Sound/Napalm:playing")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sound/Napalm:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("Set/Set1/DotCloud:playing")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
+tracks/3/type = "value"
+tracks/3/path = NodePath("Set/Set6/Dot:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/13/type = "value"
-tracks/13/path = NodePath("Set/Set1/DotCloud:visible")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
+tracks/4/type = "value"
+tracks/4/path = NodePath("Set/Set6/Spark:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.6, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/14/type = "value"
-tracks/14/path = NodePath("Set/Set2/DotCloud:playing")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
+tracks/5/type = "value"
+tracks/5/path = NodePath("Set/Set6/Spark2:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.6, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/15/type = "value"
-tracks/15/path = NodePath("Set/Set2/DotCloud:visible")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
+tracks/6/type = "value"
+tracks/6/path = NodePath("Set/Set6/Dot2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.4, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/16/type = "value"
-tracks/16/path = NodePath("Set/Set3/DotCloud:playing")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
+tracks/7/type = "value"
+tracks/7/path = NodePath("Set/Set6/Dot3:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 2, 8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
-tracks/17/type = "value"
-tracks/17/path = NodePath("Set/Set3/DotCloud:visible")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/18/type = "value"
-tracks/18/path = NodePath("Set/Set4/DotCloud:playing")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/19/type = "value"
-tracks/19/path = NodePath("Set/Set4/DotCloud:visible")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/20/type = "value"
-tracks/20/path = NodePath("Set/Set5/DotCloud:playing")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/21/type = "value"
-tracks/21/path = NodePath("Set/Set5/DotCloud:visible")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/22/type = "value"
-tracks/22/path = NodePath("Set/Set6/DotCloud:playing")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/23/type = "value"
-tracks/23/path = NodePath("Set/Set6/DotCloud:visible")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/24/type = "value"
-tracks/24/path = NodePath("Set/Set7/DotCloud:playing")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/25/type = "value"
-tracks/25/path = NodePath("Set/Set7/DotCloud:visible")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/26/type = "value"
-tracks/26/path = NodePath("Set/Set8/DotCloud:playing")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/27/type = "value"
-tracks/27/path = NodePath("Set/Set8/DotCloud:visible")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/28/type = "value"
-tracks/28/path = NodePath("Set/Set9/DotCloud:playing")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/29/type = "value"
-tracks/29/path = NodePath("Set/Set9/DotCloud:visible")
-tracks/29/interp = 1
-tracks/29/loop_wrap = true
-tracks/29/imported = false
-tracks/29/enabled = true
-tracks/29/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/30/type = "value"
-tracks/30/path = NodePath("Set/Set10/DotCloud:playing")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-tracks/31/type = "value"
-tracks/31/path = NodePath("Set/Set10/DotCloud:visible")
-tracks/31/interp = 1
-tracks/31/loop_wrap = true
-tracks/31/imported = false
-tracks/31/enabled = true
-tracks/31/keys = {
-"times": PoolRealArray( 0, 0.6, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
+tracks/8/type = "value"
+tracks/8/path = NodePath("Set/Set6/Spark2:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 1.7, 3, 4, 6, 6.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.2, 1 ), Vector2( 1, 1 ), Vector2( 1.2, 1 ), Vector2( 1, 1 ), Vector2( 1.2, 1 ) ]
 }
 
 [node name="Napalm" type="Node2D"]
 modulate = Color( 1, 1, 1, 0.552941 )
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_horizontal_guides_": [ -50.0, 350.0 ],
-"_edit_vertical_guides_": [ -50.0, 100.0 ]
+"_edit_horizontal_guides_": [ -200.0, 200.0 ],
+"_edit_vertical_guides_": [ -90.0, 90.0 ]
 }
 
 [node name="Set" type="Node2D" parent="."]
@@ -416,343 +168,98 @@ visible = false
 position = Vector2( -30, -150 )
 scale = Vector2( 1.2, 1 )
 
-[node name="Set1" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( -20, -20 )
-scale = Vector2( 0.6, 0.6 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set1"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set1"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 1
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set1"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set2" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 50, -10 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set2"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set2"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set2"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set3" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 10, 40 )
-scale = Vector2( 1.2, 1.2 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set3"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set3"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set3"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set4" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 50, 66 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set4"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set4"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 1
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set4"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set5" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 0, 100 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set5"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set5"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 1
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set5"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
 [node name="Set6" type="Node2D" parent="Set"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 30, 154 )
-scale = Vector2( 1.5, 1.5 )
+scale = Vector2( 1.7, 1.5 )
 
 [node name="Dot" type="CPUParticles2D" parent="Set/Set6"]
-texture = ExtResource( 2 )
+modulate = Color( 1, 1, 1, 0.12549 )
+material = ExtResource( 2 )
+emitting = false
+amount = 10
+texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
-spread = 180.0
+spread = 20.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
+initial_velocity = 0.0
 angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
+radial_accel = 10.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set6"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set6"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set7" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 0, 210 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set7"]
-texture = ExtResource( 2 )
+[node name="Dot3" type="CPUParticles2D" parent="Set/Set6"]
+modulate = Color( 1, 1, 1, 0.12549 )
+material = ExtResource( 2 )
+rotation = -3.14159
+emitting = false
+amount = 10
+texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
-spread = 180.0
+spread = 20.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
+initial_velocity = 0.0
 angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
+radial_accel = 10.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
 
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set7"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 2
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set7"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set8" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0.00392157 )
-position = Vector2( 70, 216 )
-scale = Vector2( 0.6, 0.6 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set8"]
-texture = ExtResource( 2 )
+[node name="Dot2" type="CPUParticles2D" parent="Set/Set6"]
+material = ExtResource( 2 )
+emitting = false
+amount = 2
+speed_scale = 0.5
+texture = SubResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 1.0
+spread = 20.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity_random = 1.0
+radial_accel = 10.0
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
+
+[node name="Spark" type="CPUParticles2D" parent="Set/Set6"]
+material = ExtResource( 2 )
+scale = Vector2( 1.2, 1 )
+emitting = false
+amount = 1
+texture = SubResource( 6 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
+initial_velocity = 0.0
 angular_velocity_random = 1.0
+linear_accel = 30.0
 radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set8"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set8"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
+[node name="Spark2" type="CPUParticles2D" parent="Set/Set6"]
+material = ExtResource( 2 )
+position = Vector2( -3.8147e-06, -6.66667 )
+rotation = -3.14159
+scale = Vector2( 1.2, 1 )
+emitting = false
+amount = 2
+lifetime = 1.5
+texture = ExtResource( 5 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
+initial_velocity = 0.0
 angular_velocity_random = 1.0
+linear_accel = 30.0
 radial_accel = 60.0
-
-[node name="Set9" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( -20, 320 )
-scale = Vector2( 0.6, 0.6 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set9"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set9"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 1
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set9"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-
-[node name="Set10" type="Node2D" parent="Set"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 30, 280 )
-scale = Vector2( 1.5, 1.5 )
-
-[node name="Dot" type="CPUParticles2D" parent="Set/Set10"]
-texture = ExtResource( 2 )
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 180.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
-color = Color( 0.156863, 0.560784, 0.286275, 1 )
-
-[node name="DotCloud" type="AnimatedSprite" parent="Set/Set10"]
-visible = false
-modulate = Color( 0, 0.341176, 0.823529, 1 )
-material = ExtResource( 3 )
-frames = SubResource( 1 )
-animation = "dot"
-frame = 1
-speed_scale = 2.0
-
-[node name="Particle" type="CPUParticles2D" parent="Set/Set10"]
-material = ExtResource( 3 )
-texture = ExtResource( 6 )
-spread = 180.0
-gravity = Vector2( 0, 0 )
-angular_velocity = 360.0
-angular_velocity_random = 1.0
-radial_accel = 60.0
+scale_amount_curve = SubResource( 9 )
+color_ramp = SubResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "napalm"
-anims/napalm = SubResource( 2 )
+anims/napalm = SubResource( 11 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Napalm" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
