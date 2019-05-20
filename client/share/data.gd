@@ -76,7 +76,7 @@ func NewCard(card):
 		"OffsetX": info.get("OffsetX"),
 		"OffsetY": info.get("OffsetY"),
 		"Rarity": info.Rarity,
-		"Level": card.Level,
+		"Level": card.get("Level", 0),
 		"Holding": card.get("Holding", 0),
 		"Side": card.get("Side", ""),
 	}
@@ -108,7 +108,7 @@ func CardIsSpell(card):
 			return true
 	else:
 		return false
-	
+
 var cards = {
 # units
 	"absorber": {
@@ -1543,7 +1543,7 @@ func RequiredCashForTime(sec):
 	if sec % TimeReductionPerCash > 0:
 		cash += 1
 	return cash
-	
+
 var Chests = {
 	"Silver": {
 		"Duration":       3600 * 3,
