@@ -211,10 +211,10 @@ func adjustSkillAnim():
 	var ref_vec = Vector2(0, -600) * $Rotatable.scale
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
-	var vec = Vector2(x, y).rotated($Rotatable.rotation)
+	var vec = Vector2(x, y)
 	if game.team_swapped:
 		vec = vec.rotated(PI)
-	vec -= offset
+	vec = vec.rotated($Rotatable.rotation) - offset
 	var angle = ref_vec.angle_to(vec)
 	var scale = vec.length()/ref_vec.length()
 	var old_anim = $AnimationPlayer.get_animation("skill-ref")
