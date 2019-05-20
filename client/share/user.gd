@@ -23,6 +23,7 @@ var Rank = 25
 var Medal = 0
 var FreeChest
 var MedalChest
+var FeebleChestSlots
 var BattleChestSlots
 var BattleChestOrder = 0
 

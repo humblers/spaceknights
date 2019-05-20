@@ -1,6 +1,8 @@
 extends Button
 
-export(int, 0, 7) var slot = 0
+export(int, 0, 3) var slot = 0
+export(String, "Battle", "Feeble") var kind = null
+
 export(NodePath) onready var can_open = get_node(can_open)
 export(NodePath) onready var can_not_open = get_node(can_not_open)
 export(NodePath) onready var cost_label = get_node(cost_label)
@@ -14,6 +16,7 @@ func Set(chest):
 	invalidate()
 
 func _ready():
+	assert(kind != null)
 	connect("button_up", self, "open")
 
 func _process(delta):
@@ -38,4 +41,4 @@ func time_left():
 func open():
 	if chest == null:
 		return
-	event.emit_signal("RequestPoupInContents", event.PopupContentsChestInfo, [chest, slot])
+	event.emit_signal("RequestPoupInContents", event.PopupContentsChestInfo, [chest, kind, slot])

@@ -1,14 +1,18 @@
 package lobby
 
-import "fmt"
-import "log"
-import "time"
-import "sort"
-import "math/rand"
-import "net/http"
-import "encoding/json"
-import "github.com/gomodule/redigo/redis"
-import "github.com/humblers/spaceknights/pkg/data"
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"math/rand"
+	"net/http"
+	"sort"
+	"strings"
+	"time"
+
+	"github.com/gomodule/redigo/redis"
+	"github.com/humblers/spaceknights/pkg/data"
+)
 
 type chestRouter struct {
 	*Router
@@ -65,7 +69,8 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 			return
 		}
 	default:
-		if bytes, err := redis.Bytes(rc.Do("LINDEX", fmt.Sprintf("%v:battle-chest-slots", b.uid), req.Slot)); err != nil {
+		key_slots := fmt.Sprintf("%v:%v-chest-slots", b.uid, strings.ToLower(req.Kind))
+		if bytes, err := redis.Bytes(rc.Do("LINDEX", key_slots, req.Slot)); err != nil {
 			if err == redis.ErrNil {
 				resp.ErrMessage = "invalid slot index"
 			} else {
@@ -91,7 +96,7 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 		time_left := chest.AcquiredAt + data.Chests[chest.Name].Duration - time.Now().Unix()
 		if time_left > 0 {
 			if !req.UseCash {
-				resp.ErrMessage = "cannot open battle chest yet"
+				resp.ErrMessage = fmt.Sprintf("cannot open %v chest yet", strings.ToLower(req.Kind))
 				return
 			} else {
 				required_cash = data.RequiredCashForTime(time_left)
@@ -172,7 +177,8 @@ func (c *chestRouter) openChest(b *bases, w http.ResponseWriter, r *http.Request
 		rc.Do("SET", fmt.Sprintf("%v:medal-chest", b.uid), 0)
 	default:
 		rc.Do("DECRBY", fmt.Sprintf("%v:dimensium", b.uid), required_cash)
-		rc.Do("LSET", fmt.Sprintf("%v:battle-chest-slots", b.uid), req.Slot, "null")
+		key_slots := fmt.Sprintf("%v:%v-chest-slots", b.uid, strings.ToLower(req.Kind))
+		rc.Do("LSET", key_slots, req.Slot, "null")
 	}
 
 	// reply to client

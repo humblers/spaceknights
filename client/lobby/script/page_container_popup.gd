@@ -24,4 +24,4 @@ func popUp(kind, args):
 			else:
 				$PopUp/CardInfo.PopUp(args[0], args[1])
 		event.PopupContentsChestInfo:
-			$PopUp/ChestInfo.PopUp(args[0], args[1])
+			$PopUp/ChestInfo.PopUp(args[0], args[1], args[2])
