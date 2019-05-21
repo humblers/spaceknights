@@ -24,9 +24,11 @@ var prev_desired_pos_y = 0
 var moving = false
 
 var shader_material = preload("res://material/light_and_damage.tres")
+var hit_anim = preload("res://game/unit/hit_1.tres")
 var damages = {}
 var color
 var side	# knight position: Left, Center, or Right 
+var hit_player
 
 func State():
 	return {
@@ -122,6 +124,10 @@ func New(id, name, team, level, posX, posY, game):
 	debug.init(self, game)
 	$AnimationPlayer.play("idle")
 	add_child(debug)
+	if data.units[name_].get("type") == "Squire":
+		hit_player = AnimationPlayer.new()
+		add_child(hit_player)
+		hit_player.add_animation("hit",hit_anim)
 	return self
 
 # debug circle radius in pixels
@@ -215,6 +221,11 @@ func TakeDamage(amount, damageType, attacker):
 		return
 	damages[game.step] = 0
 	$HitEffect.hit(damageType)
+#	if !$AnimationPlayer.get_current_animation() or $AnimationPlayer.get_current_animation() == "move" or $AnimationPlayer.get_current_animation() != "hit" :
+#		$AnimationPlayer.play("hit")
+#		print(self, " 맞았다 "+$AnimationPlayer.get_current_animation())
+	if hit_player:
+		hit_player.play("hit")
 
 func Occupy(tr):
 	game.Occupy(tr, id)

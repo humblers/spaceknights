@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://game/unit/archer/archer.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/archer/archer.tres" type="Texture" id=2]
@@ -18,14 +18,16 @@
 [ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=16]
 [ext_resource path="res://game/unit/archer/attack.tres" type="Animation" id=17]
 [ext_resource path="res://game/unit/archer/destroy.tres" type="Animation" id=18]
-[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=19]
-[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=20]
-[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=21]
-[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=22]
-[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=23]
-[ext_resource path="res://sound/sfx/explosion_s.wav" type="AudioStream" id=24]
-[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=25]
-[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=26]
+[ext_resource path="res://game/unit/hit_1.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/hit_2.tres" type="Animation" id=20]
+[ext_resource path="res://game/unit/archer/idle.tres" type="Animation" id=21]
+[ext_resource path="res://game/unit/archer/move.tres" type="Animation" id=22]
+[ext_resource path="res://game/unit/archer/show.tres" type="Animation" id=23]
+[ext_resource path="res://game/unit/archer/archer_atk.wav" type="AudioStream" id=24]
+[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=25]
+[ext_resource path="res://sound/sfx/explosion_s.wav" type="AudioStream" id=26]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=27]
+[ext_resource path="res://game/unit/archer/bullet.tscn" type="PackedScene" id=28]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -252,24 +254,26 @@ circle_radius = 30.0
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack = ExtResource( 17 )
 anims/destroy = ExtResource( 18 )
-anims/idle = ExtResource( 19 )
-anims/move = ExtResource( 20 )
-anims/show = ExtResource( 21 )
+anims/hit_1 = ExtResource( 19 )
+anims/hit_2 = ExtResource( 20 )
+anims/idle = ExtResource( 21 )
+anims/move = ExtResource( 22 )
+anims/show = ExtResource( 23 )
 
 [node name="Sound" type="Node2D" parent="."]
 editor/display_folded = true
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 22 )
-
-[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 23 )
-
-[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 24 )
 
-[node name="Hp" parent="." instance=ExtResource( 25 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 25 )
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 26 )
+
+[node name="Hp" parent="." instance=ExtResource( 27 )]
 position = Vector2( 0, -55 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet" ), [ ExtResource( 26 ) ] ]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 28 ) ] ]
