@@ -33,7 +33,7 @@ func get_name():
 func _enter_tree():
 	import_plugin_tilesheet = preload("texturepacker_import_tileset.gd").new()
 	add_import_plugin(import_plugin_tilesheet)
-	import_plugin_spritesheet = preload("texturepacker_import_spritesheet.gd").new()
+	import_plugin_spritesheet = preload("texturepacker_import_spritesheet.gd").new(get_tree())
 	add_import_plugin(import_plugin_spritesheet)
 
 

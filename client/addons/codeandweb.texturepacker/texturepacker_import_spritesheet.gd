@@ -23,12 +23,16 @@
 tool
 extends EditorImportPlugin
 
+var scene_tree
 var imageLoader = preload("image_loader.gd").new();
 
 enum Preset { PRESET_DEFAULT }
 
 # const TiledMapReader = preload("tiled_map_reader.gd")
 
+func _init(scene_tree):
+	self.scene_tree = scene_tree
+	
 func get_importer_name():
 	return "codeandweb.texturepacker_import_spritesheet"
 
@@ -96,6 +100,7 @@ func create_atlas_textures(sheetFolder, sheet, image, r_gen_files):
 	for sprite in sheet.sprites:
 		if !create_atlas_texture(sheetFolder, sprite, image, r_gen_files):
 			return false
+		yield(scene_tree, "idle_frame")
 	return true
 
 
