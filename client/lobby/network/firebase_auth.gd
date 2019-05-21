@@ -14,7 +14,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			request_google_id_token()
 			var res = yield(self, "on_request_google_id_token_complete")
 			if res.auth_error != kAuthErrorNone:
-				get_tree().current_scene.HandleError(res.error_message)
+				event.emit_signal("RequestPopup", event.PopupModalMessage, [res.error_message])
 				return
 			token = res.google_id_token
 			link_with_google_id_token(token)
@@ -22,7 +22,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			request_facebook_access_token()
 			var res = yield(self, "on_request_facebook_access_token_complete")
 			if res.auth_error != kAuthErrorNone:
-				get_tree().current_scene.HandleError(res.error_message)
+				event.emit_signal("RequestPopup", event.PopupModalMessage, [res.error_message])
 				return
 			token = res.access_token
 			link_with_facebook_access_token(token)
@@ -32,7 +32,7 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			assert(typeof(arg2) == TYPE_STRING)
 			link_with_email_and_password(arg1, arg2)
 		_:
-			get_tree().current_scene.HandleError(idp)
+			event.emit_signal("RequestPopup", event.PopupModalMessage, [idp])
 			return
 	var res = yield(self, "on_link_complete")
 	match res.auth_error:
@@ -41,13 +41,12 @@ func link_account(idp, setting_popup, arg1 = null, arg2 = null):
 			if idp == EMAIL_PASSWORD_PROVIDER_ID:
 				save_email_password(arg1, arg2)
 		kAuthErrorCredentialAlreadyInUse, kAuthErrorEmailAlreadyInUse:
-			var modal = get_tree().current_scene.hud.confirm_modal
-			modal.PopUp("ID_MODAL_CONFIRM_CHANGE_ACCOUNT")
-			var ok = yield(modal, "modal_confirmed")
+			event.emit_signal("RequestPopup", event.PopupModalConfirm, ["ID_MODAL_CONFIRM_CHANGE_ACCOUNT"])
+			var ok = yield(event, "ModalConfirmed")
 			if ok:
 				change_account(idp, token, arg1, arg2)
 		_:
-			get_tree().current_scene.HandleError(res.error_message)
+			event.emit_signal("RequestPopup", event.PopupModalMessage, [res.error_message])
 
 func change_account(idp, token, arg1 = null, arg2 = null):
 	match idp:
@@ -58,11 +57,11 @@ func change_account(idp, token, arg1 = null, arg2 = null):
 		EMAIL_PASSWORD_PROVIDER_ID:
 			sign_in_with_email_and_password(arg1, arg2)
 		_:
-			get_tree().current_scene.HandleError(idp)
+			event.emit_signal("RequestPopup", event.PopupModalMessage, [idp])
 			return
 	var res = yield(self, "on_sign_in_complete")
 	if res.auth_error != kAuthErrorNone:
-		get_tree().current_scene.HandleError(res.error_message)
+		event.emit_signal("RequestPopup", event.PopupModalMessage, [res.error_message])
 		return
 	if idp == EMAIL_PASSWORD_PROVIDER_ID:
 		save_email_password(arg1, arg2)

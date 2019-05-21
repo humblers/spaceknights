@@ -70,8 +70,5 @@ func invalidate():
 	event.emit_signal("InvalidatePageCard")
 
 func handleErrorInLoadStep(message):
-	HandleError(message, true)
-	event.emit_signal("LoadSceneCompleted")
-
-func HandleError(message, back_to_company_logo = true):
 	event.emit_signal("RequestPopup", event.PopupModalMessage, [message])
+	event.emit_signal("LoadSceneCompleted")
