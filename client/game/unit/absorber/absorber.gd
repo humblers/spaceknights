@@ -82,6 +82,8 @@ func handleAttack():
 		if t != null and withinRange(t):
 			var damage = attackDamage() + absorbed
 			absorbed = 0
+			game.camera.Shake(float(absorbed) / absorb_max * 3 + 0.1 , 60, 15)
+			
 			for id in game.UnitIds():
 				var u = game.FindUnit(id)
 				if not canAttack(u):

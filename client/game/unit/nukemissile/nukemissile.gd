@@ -60,6 +60,7 @@ func findTargetAndDoAction():
 		$AnimationPlayer.play("idle")
 
 func suicideAttack():
+	game.camera.Shake(1, 60, 20)
 	for id in game.UnitIds():
 		var u = game.FindUnit(id)
 		if u.Team() == Team():

@@ -465,7 +465,7 @@ var units = {
 	"absorber": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           30,
+		"mass":           3,
 		"radius":         30,
 		"hp":             [1850],
 		"sight":          275,
@@ -511,7 +511,7 @@ var units = {
 	"archer": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           9,
+		"mass":           1,
 		"radius":         30,
 		"hp":             [180],
 		"sight":          275,
@@ -528,7 +528,7 @@ var units = {
 	"archmage": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           42,
+		"mass":           4,
 		"radius":         42,
 		"hp":             [550],
 		"sight":          275,
@@ -609,7 +609,7 @@ var units = {
 	"azero": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           32,
+		"mass":           3,
 		"radius":         32,
 		"hp":             [650],
 		"sight":          275,
@@ -661,7 +661,7 @@ var units = {
 	"berserker": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           18,
+		"mass":           2,
 		"radius":         30,
 		"hp":             [950],
 		"sight":          275,
@@ -677,7 +677,7 @@ var units = {
 	"blaster": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           21,
+		"mass":           2,
 		"radius":         35,
 		"hp":             [400],
 		"sight":          275,
@@ -762,7 +762,7 @@ var units = {
 	"champion": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           28,
+		"mass":           3,
 		"radius":         35,
 		"hp":             [600],
 		"shield":         [1800],
@@ -786,7 +786,7 @@ var units = {
 	"drillram": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           40,
+		"mass":           4,
 		"radius":         50,
 		"hp":             [1500],
 		"sight":          475,
@@ -802,7 +802,7 @@ var units = {
 	"enforcer": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           32,
+		"mass":           3,
 		"radius":         40,
 		"hp":             [1350],
 		"sight":          275,
@@ -819,7 +819,7 @@ var units = {
 	"felhound": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           20,
+		"mass":           2,
 		"radius":         40,
 		"hp":             [630],
 		"shield":         [1890],
@@ -836,7 +836,7 @@ var units = {
 	"footman": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           6,
+		"mass":           1,
 		"radius":         25,
 		"hp":             [400],
 		"sight":          275,
@@ -881,7 +881,7 @@ var units = {
 	"gargoyle": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           5,
+		"mass":           1,
 		"radius":         27,
 		"hp":             [180],
 		"shield":         [540],
@@ -898,7 +898,7 @@ var units = {
 	"gargoyleking": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           22,
+		"mass":           2,
 		"radius":         37,
 		"hp":             [750],
 		"shield":         [2250],
@@ -915,7 +915,7 @@ var units = {
 	"giant": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           50,
+		"mass":           5,
 		"radius":         50,
 		"hp":             [2700],
 		"sight":          375,
@@ -931,7 +931,7 @@ var units = {
 	"heavymissile": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           1,
 		"radius":         50,
 		"hp":             [350],
 		"sight":          275,
@@ -977,7 +977,7 @@ var units = {
 	"jouster": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           35,
+		"mass":           3,
 		"radius":         35,
 		"hp":             [1650],
 		"sight":          275,
@@ -1149,7 +1149,7 @@ var units = {
 	"nukemissile": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           40,
+		"mass":           4,
 		"radius":         40,
 		"hp":             [1700],
 		"sight":          275,
@@ -1165,7 +1165,7 @@ var units = {
 	"ogre": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           56,
+		"mass":           5,
 		"radius":         40,
 		"hp":             [3100],
 		"sight":          250,
@@ -1176,12 +1176,12 @@ var units = {
 		"attackdamage":   [550],
 		"attackrange":    60,
 		"attackinterval": 20,
-		"preattackdelay": 6,
+		"preattackdelay": 9,
 	},
 	"panzerkunstler": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           35,
+		"mass":           3,
 		"radius":         35,
 		"hp":             [1000],
 		"shield":         [3000],
@@ -1189,19 +1189,14 @@ var units = {
 		"speed":          100,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
-		"damagetype":     Melee,
-		"attackdamage":   [400],
-		"attackrange":    100,
-		"attackinterval": 30,
-		"preattackdelay": 15,
-		"powerattackdamagetype":   DecreaseOnKnight | Melee,
-		"powerattackdamage":       [550],
-		"powerattackdamageradius": 120,
-		"powerattackinterval":     50,
-		"powerattackpredelay":     33,
-		"powerattackfrequency":    3,
-		"powerattackradius":       350,
-		"powerattackforce":        2000,
+		"damagetype":         Melee,
+		"attackdamage":       [400],
+		"attackrange":        100,
+		"attackdamageradius": 100,
+		"attackradius":       350,
+		"attackforce":        4000,
+		"attackinterval":     20,
+		"preattackdelay":     16,
 	},
 	"pixie": {
 		"type":           Squire,
@@ -1269,7 +1264,7 @@ var units = {
 	"psabu": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           63,
+		"mass":           6,
 		"radius":         45,
 		"hp":             [1300],
 		"shield":         [3900],
@@ -1283,7 +1278,7 @@ var units = {
 		"attackinterval": 50,
 		"attackradius":   100,
 		"preattackdelay": 28,
-		"absorbforce":        2000,
+		"absorbforce":        1000,
 		"absorbdamagetype":   DecreaseOnKnight | Melee,
 		"absorbdamage":       5,
 		"absorbdamageradius": 150,
@@ -1292,7 +1287,7 @@ var units = {
 	"sentry": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           2,
+		"mass":           1,
 		"radius":         20,
 		"hp":             [90],
 		"sight":          275,
@@ -1324,7 +1319,7 @@ var units = {
 	"shadowvision": {
 		"type":           Squire,
 		"layer":          Ether,
-		"mass":           32,
+		"mass":           3,
 		"radius":         40,
 		"hp":             [400],
 		"shield":         [1200],
@@ -1343,7 +1338,7 @@ var units = {
 	"starfire": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           24,
+		"mass":           2,
 		"radius":         30,
 		"hp":             [550],
 		"sight":          300,
@@ -1390,7 +1385,7 @@ var units = {
 	"trainee": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           1,
 		"radius":         24,
 		"hp":             [110],
 		"sight":          275,
@@ -1442,7 +1437,7 @@ var units = {
 	"voidcreeper": {
 		"type":              Squire,
 		"layer":             Normal,
-		"mass":              45,
+		"mass":              4,
 		"radius":            45,
 		"hp":                [1750],
 		"sight":             275,
@@ -1462,7 +1457,7 @@ var units = {
 	"wasp": {
 		"type":              Squire,
 		"layer":             Normal,
-		"mass":              55,
+		"mass":              5,
 		"radius":            55,
 		"hp":                [1400],
 		"shield":            [4200],

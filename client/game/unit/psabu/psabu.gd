@@ -109,6 +109,7 @@ func handleAttack():
 			var r = scalar.Add(u.Radius(), radius)
 			if d < scalar.Mul(r, r):
 				u.TakeDamage(attackDamage(), damageType(), self)
+		game.camera.Shake(0.8, 60, 12)
 	attack += 1
 	if attack > attackInterval():
 		attack = 0
