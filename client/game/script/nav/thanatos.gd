@@ -154,9 +154,9 @@ func print_path(path):
 			print(world.ToPixel(p[k]))
 	
 func getLocation(pos_x, pos_y, radius):
-	if pos_y < scalar.Sub(top.b, radius):
+	if pos_y < top.b:
 		return top
-	if pos_y > scalar.Add(bottom.t, radius):
+	if pos_y > bottom.t:
 		return bottom
 	if pos_x > scalar.Add(lefthole.l, radius) and pos_x < scalar.Sub(lefthole.r, radius):
 		return lefthole
