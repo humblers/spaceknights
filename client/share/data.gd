@@ -1176,7 +1176,7 @@ var units = {
 		"attackdamage":   [550],
 		"attackrange":    60,
 		"attackinterval": 20,
-		"preattackdelay": 6,
+		"preattackdelay": 9,
 	},
 	"panzerkunstler": {
 		"type":           Squire,

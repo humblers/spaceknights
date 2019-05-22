@@ -803,7 +803,7 @@ var Units = map[string]Unit{
 		"attackdamage":   []int{550},
 		"attackrange":    60,
 		"attackinterval": 20,
-		"preattackdelay": 6,
+		"preattackdelay": 9,
 		"estimatedcost":  7000,
 	},
 	"panzerkunstler": map[string]interface{}{
