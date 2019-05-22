@@ -7,7 +7,6 @@ var attackCount = 0
 var shield
 var punchPosX
 var punchPosY
-var attack_counter = 0
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "panzerkunstler", player.Team(), level, posX, posY, game)
@@ -96,14 +95,12 @@ func handleAttack():
 		dy = scalar.Mul(norm[1], attackRange())
 		punchPosX = scalar.Add(PositionX(), dx)
 		punchPosY = scalar.Add(PositionY(), dy)
-		if attack_counter % 2 == 0:
+		if attackCount % 2 == 0:
 			$AnimationPlayer.play("attack_1")
 		else:
 			$AnimationPlayer.play("attack_2")
-		attack_counter += 1
 		look_at_pos(t.PositionX(), t.PositionY())
-	if attack >= powerAttackPreDelay():
-		game.camera.Shake(0.5, 60, 8)
+	if attack >= preAttackDelay():
 		for id in game.UnitIds():
 			var u = game.FindUnit(id)
 			if u.Team() == Team() or u.Layer() != data.Normal:
@@ -111,51 +108,29 @@ func handleAttack():
 			var x = scalar.Sub(u.PositionX(), punchPosX)
 			var y = scalar.Sub(u.PositionY(), punchPosY)
 			var d = vector.LengthSquared(x, y)
-			var r = scalar.Add(u.Radius(), powerAttackRadius())
+			var r = scalar.Add(u.Radius(), attackRadius())
 			if d < scalar.Mul(r, r):
 				var n = vector.Normalized(x, y)
-				var fx = scalar.Mul(n[0], powerAttackForce())
-				var fy = scalar.Mul(n[1], powerAttackForce())
+				var fx = scalar.Mul(n[0], attackForce())
+				var fy = scalar.Mul(n[1], attackForce())
 				u.AddForce(fx, fy)
-			r = scalar.Add(u.Radius(), powerAttackDamageRadius())
-			if d < scalar.Mul(r, r) and attack == powerAttackPreDelay():
-					u.TakeDamage(powerAttackDamage(), powerAttackDamageType(), self)
+			r = scalar.Add(u.Radius(), attackDamageRadius())
+			if d < scalar.Mul(r, r) and attack == preAttackDelay():
+				u.TakeDamage(attackDamage(), damageType(), self)
+	if attack == preAttackDelay():
+		game.camera.Shake(0.5, 60, 8)
 	attack += 1
-	if attack > powerAttackInterval():
+	if attack > attackInterval():
 		attack = 0
 		attackCount += 1
-	
-#func canDoPowerAttack():
-#	return attackCount % powerAttackFrequency() == 0
 
-func powerAttackInterval():
-	return data.units[name_]["powerattackinterval"]
-
-func powerAttackPreDelay():
-	return data.units[name_]["powerattackpredelay"]
-
-func powerAttackFrequency():
-	return data.units[name_]["powerattackfrequency"]
-
-func powerAttackDamageType():
-	return data.units[name_]["powerattackdamagetype"]
-
-func powerAttackDamage():
-	var v = data.units[name_]["powerattackdamage"]
-	var t = typeof(v)
-	if t == TYPE_INT:
-		return v
-	if t == TYPE_ARRAY:
-		return v[level]
-	print("invalid power attack damage type")
-
-func powerAttackDamageRadius():
-	var r = data.units[name_]["powerattackdamageradius"]
+func attackDamageRadius():
+	var r = data.units[name_]["attackdamageradius"]
 	return game.World().FromPixel(r)
 
-func powerAttackRadius():
-	var r = data.units[name_]["powerattackradius"]
+func attackRadius():
+	var r = data.units[name_]["attackradius"]
 	return game.World().FromPixel(r)
 
-func powerAttackForce():
-	return game.World().FromPixel(data.units[name_]["powerattackforce"])
+func attackForce():
+	return game.World().FromPixel(data.units[name_]["attackforce"])

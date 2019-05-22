@@ -89,93 +89,46 @@ func (p *panzerkunstler) findTargetAndDoAction() {
 }
 
 func (p *panzerkunstler) handleAttack() {
-	if p.canDoPowerAttack() {
-		if p.attack == 0 {
-			t := p.target()
-			d := t.Position().Sub(p.Position()).Normalized().Mul(p.attackRange())
-			p.punchPos = p.Position().Add(d)
-		}
-		if p.attack >= p.powerAttackPreDelay() {
-			for _, id := range p.game.UnitIds() {
-				u := p.game.FindUnit(id)
-				if u.Team() == p.Team() || u.Layer() != data.Normal {
-					continue
-				}
-				d := u.Position().Sub(p.punchPos)
-				r := u.Radius().Add(p.powerAttackRadius())
-				if d.LengthSquared() < r.Mul(r) {
-					n := d.Normalized()
-					u.AddForce(n.Mul(p.powerAttackForce()))
-				}
-				r = u.Radius().Add(p.powerAttackDamageRadius())
-				if d.LengthSquared() < r.Mul(r) && p.attack == p.powerAttackPreDelay() {
-					u.TakeDamage(p.powerAttackDamage(), p.powerAttackDamageType())
-				}
+	if p.attack == 0 {
+		t := p.target()
+		d := t.Position().Sub(p.Position()).Normalized().Mul(p.attackRange())
+		p.punchPos = p.Position().Add(d)
+	}
+	if p.attack >= p.preAttackDelay() {
+		for _, id := range p.game.UnitIds() {
+			u := p.game.FindUnit(id)
+			if u.Team() == p.Team() || u.Layer() != data.Normal {
+				continue
+			}
+			d := u.Position().Sub(p.punchPos)
+			r := u.Radius().Add(p.attackRadius())
+			if d.LengthSquared() < r.Mul(r) {
+				n := d.Normalized()
+				u.AddForce(n.Mul(p.attackForce()))
+			}
+			r = u.Radius().Add(p.attackDamageRadius())
+			if d.LengthSquared() < r.Mul(r) && p.attack == p.preAttackDelay() {
+				u.TakeDamage(p.attackDamage(), p.damageType())
 			}
 		}
-		p.attack++
-		if p.attack > p.powerAttackInterval() {
-			p.attack = 0
-			p.attackCount++
-		}
-	} else {
-		if p.attack == p.preAttackDelay() {
-			t := p.target()
-			if t != nil && p.withinRange(t) {
-				t.TakeDamage(p.attackDamage(), p.damageType())
-			} else {
-				p.attack = 0
-				return
-			}
-		}
-		p.attack++
-		if p.attack > p.attackInterval() {
-			p.attack = 0
-			p.attackCount++
-		}
+	}
+	p.attack++
+	if p.attack > p.attackInterval() {
+		p.attack = 0
+		p.attackCount++
 	}
 }
 
-func (p *panzerkunstler) canDoPowerAttack() bool {
-	return p.attackCount%p.powerAttackFrequency() == 0
-}
-
-func (p *panzerkunstler) powerAttackInterval() int {
-	return data.Units[p.name]["powerattackinterval"].(int)
-}
-
-func (p *panzerkunstler) powerAttackPreDelay() int {
-	return data.Units[p.name]["powerattackpredelay"].(int)
-}
-
-func (p *panzerkunstler) powerAttackFrequency() int {
-	return data.Units[p.name]["powerattackfrequency"].(int)
-}
-
-func (p *panzerkunstler) powerAttackDamageType() data.DamageType {
-	return data.Units[p.name]["powerattackdamagetype"].(data.DamageType)
-}
-
-func (p *panzerkunstler) powerAttackDamage() int {
-	switch v := data.Units[p.name]["powerattackdamage"].(type) {
-	case int:
-		return v
-	case []int:
-		return v[p.level]
-	}
-	panic("invalid power attack damage type")
-}
-
-func (p *panzerkunstler) powerAttackDamageRadius() fixed.Scalar {
-	r := data.Units[p.name]["powerattackdamageradius"].(int)
+func (p *panzerkunstler) attackDamageRadius() fixed.Scalar {
+	r := data.Units[p.name]["attackdamageradius"].(int)
 	return p.game.World().FromPixel(r)
 }
 
-func (p *panzerkunstler) powerAttackRadius() fixed.Scalar {
-	r := data.Units[p.name]["powerattackradius"].(int)
+func (p *panzerkunstler) attackRadius() fixed.Scalar {
+	r := data.Units[p.name]["attackradius"].(int)
 	return p.game.World().FromPixel(r)
 }
 
-func (p *panzerkunstler) powerAttackForce() fixed.Scalar {
-	return p.game.World().FromPixel(data.Units[p.name]["powerattackforce"].(int))
+func (p *panzerkunstler) attackForce() fixed.Scalar {
+	return p.game.World().FromPixel(data.Units[p.name]["attackforce"].(int))
 }
