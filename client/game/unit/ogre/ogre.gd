@@ -65,6 +65,7 @@ func handleAttack():
 	if attack == preAttackDelay():
 		if t != null and withinRange(t):
 			t.TakeDamage(attackDamage(), damageType(), self)
+			game.camera.Shake(0.6, 60, 12)
 		else:
 			attack = 0
 			return

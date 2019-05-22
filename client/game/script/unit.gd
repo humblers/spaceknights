@@ -226,6 +226,7 @@ func Release():
 	
 func Destroy():
 	game.World().RemoveBody(body)
+	$Hp.visible = false
 
 func MakeSlow(duration):
 	if duration <= 0:

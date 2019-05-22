@@ -10,6 +10,7 @@ var RelativeLvByRarity = {
 }
 
 func _enter_tree():
+	randomize()
 	for player in cfg.Players:
 		if player.Team != "Red":
 			continue

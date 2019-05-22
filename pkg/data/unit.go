@@ -59,7 +59,7 @@ var Units = map[string]Unit{
 	"absorber": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           30,
+		"mass":           3,
 		"radius":         30,
 		"hp":             []int{1850},
 		"sight":          275,
@@ -107,7 +107,7 @@ var Units = map[string]Unit{
 	"archer": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           9,
+		"mass":           1,
 		"radius":         30,
 		"hp":             []int{180},
 		"sight":          275,
@@ -125,7 +125,7 @@ var Units = map[string]Unit{
 	"archmage": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           42,
+		"mass":           4,
 		"radius":         42,
 		"hp":             []int{550},
 		"sight":          275,
@@ -209,7 +209,7 @@ var Units = map[string]Unit{
 	"azero": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           32,
+		"mass":           3,
 		"radius":         32,
 		"hp":             []int{650},
 		"sight":          275,
@@ -264,7 +264,7 @@ var Units = map[string]Unit{
 	"berserker": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           18,
+		"mass":           2,
 		"radius":         30,
 		"hp":             []int{950},
 		"sight":          275,
@@ -281,7 +281,7 @@ var Units = map[string]Unit{
 	"blaster": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           21,
+		"mass":           2,
 		"radius":         35,
 		"hp":             []int{400},
 		"sight":          275,
@@ -370,7 +370,7 @@ var Units = map[string]Unit{
 	"champion": map[string]interface{}{
 		"type":                    Squire,
 		"layer":                   Normal,
-		"mass":                    28,
+		"mass":                    3,
 		"radius":                  35,
 		"hp":                      []int{600},
 		"shield":                  []int{1800},
@@ -395,7 +395,7 @@ var Units = map[string]Unit{
 	"drillram": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           40,
+		"mass":           4,
 		"radius":         50,
 		"hp":             []int{1500},
 		"sight":          475,
@@ -412,7 +412,7 @@ var Units = map[string]Unit{
 	"enforcer": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           32,
+		"mass":           3,
 		"radius":         40,
 		"hp":             []int{1350},
 		"sight":          275,
@@ -430,7 +430,7 @@ var Units = map[string]Unit{
 	"felhound": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           20,
+		"mass":           2,
 		"radius":         40,
 		"hp":             []int{630},
 		"shield":         []int{1890},
@@ -448,7 +448,7 @@ var Units = map[string]Unit{
 	"footman": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           6,
+		"mass":           1,
 		"radius":         25,
 		"hp":             []int{400},
 		"sight":          275,
@@ -495,7 +495,7 @@ var Units = map[string]Unit{
 	"gargoyle": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           5,
+		"mass":           1,
 		"radius":         27,
 		"hp":             []int{180},
 		"shield":         []int{540},
@@ -513,7 +513,7 @@ var Units = map[string]Unit{
 	"gargoyleking": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           22,
+		"mass":           2,
 		"radius":         37,
 		"hp":             []int{750},
 		"shield":         []int{2250},
@@ -531,7 +531,7 @@ var Units = map[string]Unit{
 	"giant": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           50,
+		"mass":           5,
 		"radius":         50,
 		"hp":             []int{2700},
 		"sight":          375,
@@ -548,7 +548,7 @@ var Units = map[string]Unit{
 	"heavymissile": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           1,
 		"radius":         50,
 		"hp":             []int{350},
 		"sight":          275,
@@ -596,7 +596,7 @@ var Units = map[string]Unit{
 	"jouster": map[string]interface{}{
 		"type":                    Squire,
 		"layer":                   Normal,
-		"mass":                    35,
+		"mass":                    3,
 		"radius":                  35,
 		"hp":                      []int{1650},
 		"sight":                   275,
@@ -775,7 +775,7 @@ var Units = map[string]Unit{
 	"nukemissile": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           40,
+		"mass":           4,
 		"radius":         40,
 		"hp":             []int{1700},
 		"sight":          275,
@@ -792,7 +792,7 @@ var Units = map[string]Unit{
 	"ogre": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           56,
+		"mass":           5,
 		"radius":         40,
 		"hp":             []int{3100},
 		"sight":          250,
@@ -809,7 +809,7 @@ var Units = map[string]Unit{
 	"panzerkunstler": map[string]interface{}{
 		"type":                    Squire,
 		"layer":                   Normal,
-		"mass":                    35,
+		"mass":                    3,
 		"radius":                  35,
 		"hp":                      []int{1000},
 		"shield":                  []int{3000},
@@ -823,13 +823,13 @@ var Units = map[string]Unit{
 		"attackinterval":          30,
 		"preattackdelay":          15,
 		"powerattackdamagetype":   DecreaseOnKnight | Melee,
-		"powerattackdamage":       []int{550},
-		"powerattackdamageradius": 120,
-		"powerattackinterval":     50,
-		"powerattackpredelay":     33,
+		"powerattackdamage":       []int{400},
+		"powerattackdamageradius": 100,
+		"powerattackinterval":     20,
+		"powerattackpredelay":     16,
 		"powerattackfrequency":    3,
 		"powerattackradius":       350,
-		"powerattackforce":        2000,
+		"powerattackforce":        4000,
 		"estimatedcost":           5000,
 	},
 	"pixie": map[string]interface{}{
@@ -901,7 +901,7 @@ var Units = map[string]Unit{
 	"psabu": map[string]interface{}{
 		"type":               Squire,
 		"layer":              Normal,
-		"mass":               63,
+		"mass":               6,
 		"radius":             45,
 		"hp":                 []int{1300},
 		"shield":             []int{3900},
@@ -915,7 +915,7 @@ var Units = map[string]Unit{
 		"attackinterval":     50,
 		"attackradius":       100,
 		"preattackdelay":     28,
-		"absorbforce":        2000,
+		"absorbforce":        1000,
 		"absorbdamagetype":   DecreaseOnKnight | Melee,
 		"absorbdamage":       5,
 		"absorbdamageradius": 150,
@@ -925,7 +925,7 @@ var Units = map[string]Unit{
 	"sentry": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           2,
+		"mass":           1,
 		"radius":         20,
 		"hp":             []int{90},
 		"sight":          275,
@@ -959,7 +959,7 @@ var Units = map[string]Unit{
 	"shadowvision": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Ether,
-		"mass":           32,
+		"mass":           3,
 		"radius":         40,
 		"hp":             []int{400},
 		"shield":         []int{1200},
@@ -979,7 +979,7 @@ var Units = map[string]Unit{
 	"starfire": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           24,
+		"mass":           2,
 		"radius":         30,
 		"hp":             []int{550},
 		"sight":          300,
@@ -1031,7 +1031,7 @@ var Units = map[string]Unit{
 	"trainee": map[string]interface{}{
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           1,
 		"radius":         24,
 		"hp":             []int{110},
 		"sight":          275,
@@ -1085,7 +1085,7 @@ var Units = map[string]Unit{
 	"voidcreeper": map[string]interface{}{
 		"type":              Squire,
 		"layer":             Normal,
-		"mass":              45,
+		"mass":              4,
 		"radius":            45,
 		"hp":                []int{1750},
 		"sight":             275,
@@ -1106,7 +1106,7 @@ var Units = map[string]Unit{
 	"wasp": map[string]interface{}{
 		"type":              Squire,
 		"layer":             Normal,
-		"mass":              55,
+		"mass":              5,
 		"radius":            55,
 		"hp":                []int{1400},
 		"shield":            []int{4200},

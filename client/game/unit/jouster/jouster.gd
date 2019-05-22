@@ -72,6 +72,7 @@ func handleAttack():
 		if attack == chargedAttackPreDelay():
 			if t != null and withinRange(t):
 				t.TakeDamage(chargedAttackDamage(), chargedAttackDamageType(), self)
+				game.camera.Shake(0.3, 60, 10)
 			else:
 				attack = 0
 				charge = 0

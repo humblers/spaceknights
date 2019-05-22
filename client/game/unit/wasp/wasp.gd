@@ -26,6 +26,7 @@ func TakeDamage(amount, damageType, attacker):
 		damages[game.step] = 0
 		$HitEffect.hit(damageType)
 	if not alreadyDead and IsDead():
+		game.camera.Shake(0.5, 60, 12)
 		for id in game.UnitIds():
 			var u = game.FindUnit(id)
 			if u.Team() == Team():

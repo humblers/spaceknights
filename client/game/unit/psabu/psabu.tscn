@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://game/unit/psabu/psabu.gd" type="Script" id=1]
 [ext_resource path="res://atlas/game/battlefield.sprites/unit/psabu/body.tres" type="Texture" id=2]
@@ -28,16 +28,15 @@
 [ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=26]
 [ext_resource path="res://game/unit/psabu/explosion.tres" type="Animation" id=27]
 [ext_resource path="res://game/vfx/energyshield_nodirection.tscn" type="PackedScene" id=28]
-[ext_resource path="res://game/vfx/energyshield.tscn" type="PackedScene" id=29]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/unit/psabu/attack.tres" type="Animation" id=31]
-[ext_resource path="res://game/unit/psabu/destroy.tres" type="Animation" id=32]
-[ext_resource path="res://game/unit/psabu/idle.tres" type="Animation" id=33]
-[ext_resource path="res://game/unit/psabu/move.tres" type="Animation" id=34]
-[ext_resource path="res://game/hpbar/hpshieldbar_l.tscn" type="PackedScene" id=35]
-[ext_resource path="res://game/unit/psabu/psabu_atk.wav" type="AudioStream" id=36]
-[ext_resource path="res://sound/sfx/explosion_l.wav" type="AudioStream" id=37]
-[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=38]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=29]
+[ext_resource path="res://game/unit/psabu/attack.tres" type="Animation" id=30]
+[ext_resource path="res://game/unit/psabu/destroy.tres" type="Animation" id=31]
+[ext_resource path="res://game/unit/psabu/idle.tres" type="Animation" id=32]
+[ext_resource path="res://game/unit/psabu/move.tres" type="Animation" id=33]
+[ext_resource path="res://game/hpbar/hpshieldbar_l.tscn" type="PackedScene" id=34]
+[ext_resource path="res://game/unit/psabu/psabu_atk.wav" type="AudioStream" id=35]
+[ext_resource path="res://sound/sfx/explosion_l.wav" type="AudioStream" id=36]
+[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=37]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.3009 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.8729 ), 0.0, 0.0, 0, 0 ]
@@ -93,6 +92,7 @@ colors = PoolColorArray( 0.0431373, 0.282353, 1, 0.497059, 0.372549, 0.262745, 1
 script = ExtResource( 1 )
 
 [node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 
 [node name="Chest" type="Node2D" parent="Rotatable"]
@@ -553,32 +553,29 @@ color = Color( 0.509804, 0.482353, 1, 1 )
 [node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
 anims/explosion = ExtResource( 27 )
 
-[node name="EnergyshieldND" parent="." instance=ExtResource( 28 )]
+[node name="Energyshield" parent="." instance=ExtResource( 28 )]
 visible = false
 
-[node name="Energyshield" parent="." instance=ExtResource( 29 )]
-visible = false
-
-[node name="HitEffect" parent="." instance=ExtResource( 30 )]
+[node name="HitEffect" parent="." instance=ExtResource( 29 )]
 position = Vector2( 0, 7 )
 circle_radius = 45.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = ExtResource( 31 )
-anims/destroy = ExtResource( 32 )
-anims/idle = ExtResource( 33 )
-anims/move = ExtResource( 34 )
+anims/attack = ExtResource( 30 )
+anims/destroy = ExtResource( 31 )
+anims/idle = ExtResource( 32 )
+anims/move = ExtResource( 33 )
 
-[node name="Hp" parent="." instance=ExtResource( 35 )]
+[node name="Hp" parent="." instance=ExtResource( 34 )]
 position = Vector2( 0, -85 )
 
 [node name="Sound" type="Node2D" parent="."]
 
 [node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 36 )
+stream = ExtResource( 35 )
 
 [node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 37 )
+stream = ExtResource( 36 )
 
 [node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
-stream = ExtResource( 38 )
+stream = ExtResource( 37 )
