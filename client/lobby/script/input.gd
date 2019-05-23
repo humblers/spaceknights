@@ -5,20 +5,33 @@ const MODE_SCROLL_HORIZONTAL = "SCROLL_HORIZONTAL"
 const MODE_SCROLL_VERTICAL = "SCROLL_VERTICAL"
 
 const SCROLL_DECISION_PIXEL = 50
+const MAX_SWIPE_INTERVAL = 300	# msec
+const MIN_SWIPE_SPEED = 1 # pixels per msec
 
 onready var camera = $InitialCenter/Camera2D
 onready var tween = $Tween
 
 var scroll = MODE_NO_SCROLL
 var prev_input_pos
+var init_input_pos
+var init_input_time
+var current_page = "Battle"
 
 func _ready():
 	event.connect("PageSelected", self, "moveToPage")
 
+func page_from_index(idx):
+	return event.Pages[idx]
+	
+func index_from_page(page):
+	return PAGES[page] + len(PAGES)/2
+	
 func _input(ev):
 	if ev is InputEventMouseButton:
 		if ev.pressed:
 			prev_input_pos = ev.position
+			init_input_pos = ev.position
+			init_input_time = OS.get_system_time_msecs()
 			return
 		prev_input_pos = null
 		match scroll:
@@ -27,7 +40,14 @@ func _input(ev):
 			MODE_SCROLL_VERTICAL:
 				event.emit_signal("VerticalScrollInput", true, 0)
 			MODE_SCROLL_HORIZONTAL:
-				event.emit_signal("PageSelected", closestPage())
+				var to = closestPage()
+				var idx = index_from_page(current_page)
+				if idx > 0 and idx < len(event.Pages) - 1:
+					var elapsed = OS.get_system_time_msecs() - init_input_time
+					var vel_x = (init_input_pos.x - ev.position.x) / elapsed
+					if elapsed < MAX_SWIPE_INTERVAL and abs(vel_x) > MIN_SWIPE_SPEED:
+						to = page_from_index(idx + 1) if vel_x > 0 else page_from_index(idx - 1)
+				event.emit_signal("PageSelected", to)
 		get_tree().set_input_as_handled()
 		get_tree().get_root().gui_release_mouse_focus()
 		scroll = MODE_NO_SCROLL
@@ -62,7 +82,8 @@ func moveToPage(page):
 			pos_node.rect_global_position,
 			0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
-
+	current_page = page
+	
 func closestPage():
 	var closest_node
 	var closest_page

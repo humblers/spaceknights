@@ -42,7 +42,7 @@ signal RunwayRotate(num, angle)
 # For lobby
 signal LobbyInitialized()
 
-const Pages = ["Battle", "Card", "Explore", "Shop", "Social"]
+const Pages = ["Shop", "Card", "Battle", "Explore", "Social"]
 signal PageSelected(page)
 signal VerticalScrollInput(released, dy)
 signal InvalidateLobby()
