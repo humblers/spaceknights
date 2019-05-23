@@ -11,7 +11,8 @@ uniform float damage_ratio : hint_range(0, 1);
 uniform float light_position_x : hint_range(-1, 1);
 uniform float light_position_y : hint_range(-1, 1);
 uniform float light_height : hint_range(0, 10);
-uniform float light_energy : hint_range(0, 5);
+uniform float diffuse_energy : hint_range(0, 5);
+uniform float ambient_energy : hint_range(0, 5);
 
 varying vec4 local_rot;
 
@@ -35,7 +36,7 @@ void fragment(){
 	vec2 dir = vec2(light_position - screen_uv);
 	dir.x *= SCREEN_PIXEL_SIZE.y/SCREEN_PIXEL_SIZE.x;
 	vec3 light = normalize(vec3(dir, light_height));
-	float L = dot(NORMAL.xyz, light) * light_energy;
+	float L = dot(NORMAL.xyz, light) * diffuse_energy + ambient_energy;
 	vec4 lit = vec4(L * color.xyz, color.w);
 	COLOR = lit;
 	
@@ -55,4 +56,5 @@ shader_param/damage_ratio = 0.0
 shader_param/light_position_x = 0.0
 shader_param/light_position_y = 0.5
 shader_param/light_height = 2.0
-shader_param/light_energy = 2.0
+shader_param/diffuse_energy = 2.0
+shader_param/ambient_energy = null
