@@ -154,13 +154,9 @@ func print_path(path):
 			print(k, " = ", world.ToPixel(p[k]))
 	
 func getLocation(pos_x, pos_y, radius):
-	if pos_y < scalar.Sub(top.b, radius):
-		return top
-	if pos_y > scalar.Add(bottom.t, radius):
-		return bottom
-	if pos_x > scalar.Add(lefthole.l, radius) and pos_x < scalar.Sub(lefthole.r, radius):
+	if InArea(lefthole, pos_x, pos_y, radius):
 		return lefthole
-	if pos_x > scalar.Add(righthole.l, radius) and pos_x < scalar.Sub(righthole.r, radius):
+	if InArea(righthole, pos_x, pos_y, radius):
 		return righthole
 	if pos_y < top.b:
 		return top
@@ -291,6 +287,17 @@ static func nextCornerInPath(path, start_x, start_y):
 			right_x = newRight_x
 			right_y = newRight_y
 	return [portalLeft_x, portalLeft_y]
+
+static func InArea(area, pos_x, pos_y, radius):
+	if pos_x <= scalar.Add(area.l, radius):
+		return false
+	if pos_x >= scalar.Sub(area.r, radius):
+		return false
+	if pos_y <= scalar.Sub(area.t, radius):
+		return false
+	if pos_y >= scalar.Add(area.b, radius):
+		return false
+	return true
 
 static func AreaWidth(area):
 	return scalar.Div(scalar.Sub(area.r, area.l), scalar.Two)

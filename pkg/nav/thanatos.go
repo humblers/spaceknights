@@ -186,16 +186,10 @@ func (t *thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scal
 }
 
 func (t *thanatos) getLocation(pos fixed.Vector, radius fixed.Scalar) *area {
-	if pos.Y < t.top.b.Sub(radius) {
-		return t.top
-	}
-	if pos.Y > t.bottom.t.Add(radius) {
-		return t.bottom
-	}
-	if pos.X > t.lefthole.l.Add(radius) && pos.X < t.lefthole.r.Sub(radius) {
+	if InArea(t.lefthole, pos.X, pos.Y, radius) {
 		return t.lefthole
 	}
-	if pos.X > t.righthole.l.Add(radius) && pos.X < t.righthole.r.Sub(radius) {
+	if InArea(t.righthole, pos.X, pos.Y, radius) {
 		return t.righthole
 	}
 	if pos.Y < t.top.b {
@@ -325,6 +319,22 @@ func nextCornerInPath(path []*portal, start fixed.Vector) fixed.Vector {
 		}
 	}
 	return portalLeft
+}
+
+func InArea(area *area, pos_x, pos_y, radius fixed.Scalar) bool {
+	if pos_x <= area.l.Add(radius) {
+		return false
+	}
+	if pos_x >= area.r.Sub(radius) {
+		return false
+	}
+	if pos_y <= area.t.Sub(radius) {
+		return false
+	}
+	if pos_y >= area.b.Add(radius) {
+		return false
+	}
+	return true
 }
 
 func (a *area) Width() fixed.Scalar {
