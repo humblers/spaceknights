@@ -353,7 +353,9 @@ func set_guide_pos(x, y):
 	guide.get_node("Sprite").value = (dir.length()/15.3)
 
 	if card.Type == data.KnightCard:
-		knight.set_rotation_degrees((180/PI) * angle)
+		if !knight.get_node("AnimationPlayer").get_current_animation():
+			#knight.set_rotation_degrees((180/PI) * angle)
+			pass
 	else:
 		rotateRunway(angle)
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
