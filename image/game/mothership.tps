@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.12.1</string>
+        <string>5.0.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -423,6 +423,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">mothership/knighthologram.png</key>
             <key type="filename">mothership/knightupeffect.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
