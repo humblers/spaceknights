@@ -469,7 +469,7 @@ var units = {
 		"radius":         30,
 		"hp":             [1850],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -515,7 +515,7 @@ var units = {
 		"radius":         30,
 		"hp":             [180],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Bullet,
@@ -532,7 +532,7 @@ var units = {
 		"radius":         42,
 		"hp":             [550],
 		"sight":          275,
-		"speed":          150,
+		"speed":          90,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Bullet,
@@ -613,7 +613,7 @@ var units = {
 		"radius":         32,
 		"hp":             [650],
 		"sight":          275,
-		"speed":          150,
+		"speed":          110,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Bullet,
@@ -665,7 +665,7 @@ var units = {
 		"radius":         30,
 		"hp":             [950],
 		"sight":          275,
-		"speed":          150,	#pixels per second
+		"speed":          110,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -681,7 +681,7 @@ var units = {
 		"radius":         35,
 		"hp":             [400],
 		"sight":          275,
-		"speed":          150,
+		"speed":          110,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Missile,
@@ -762,12 +762,12 @@ var units = {
 	"champion": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           30,
 		"radius":         35,
 		"hp":             [600],
 		"shield":         [1800],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -777,7 +777,7 @@ var units = {
 		"attackinterval": 13,
 		"preattackdelay": 5,
 		"chargedelay":           20,
-		"chargedmovespeed":      300,
+		"chargedmovespeed":      225,
 		"chargedattackdamagetype": AntiShield | Melee,
 		"chargedattackdamage":   [240],
 		"chargedattackinterval": 7,
@@ -790,7 +790,7 @@ var units = {
 		"radius":         50,
 		"hp":             [1500],
 		"sight":          475,
-		"speed":          200,	#pixels per second
+		"speed":          150,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee | Siege,
@@ -806,7 +806,7 @@ var units = {
 		"radius":         40,
 		"hp":             [1350],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -824,7 +824,7 @@ var units = {
 		"hp":             [630],
 		"shield":         [1890],
 		"sight":          275,
-		"speed":          200,
+		"speed":          150,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -840,7 +840,7 @@ var units = {
 		"radius":         25,
 		"hp":             [400],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -886,7 +886,7 @@ var units = {
 		"hp":             [180],
 		"shield":         [540],
 		"sight":          275,
-		"speed":          150,	#pixels per second
+		"speed":          110,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -903,7 +903,7 @@ var units = {
 		"hp":             [750],
 		"shield":         [2250],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -915,11 +915,11 @@ var units = {
 	"giant": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           5,
+		"mass":           50,
 		"radius":         50,
 		"hp":             [2700],
 		"sight":          375,
-		"speed":          75,	#pixels per second
+		"speed":          55,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee | Siege,
@@ -935,11 +935,11 @@ var units = {
 		"radius":         50,
 		"hp":             [350],
 		"sight":          275,
-		"speed":          150,	#pixels per second
+		"speed":          110,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee | Death,
-		"attackdamage":   [500],
+		"attackdamage":   [475],
 		"attackrange":    100,
 		"preattackdelay": 3,
 		"attackradius":   150,
@@ -977,11 +977,11 @@ var units = {
 	"jouster": {
 		"type":           Squire,
 		"layer":          Normal,
-		"mass":           3,
+		"mass":           30,
 		"radius":         35,
 		"hp":             [1650],
 		"sight":          275,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -990,7 +990,7 @@ var units = {
 		"attackinterval": 14,
 		"preattackdelay": 5,
 		"chargedelay":            20,
-		"chargedmovespeed":       300,
+		"chargedmovespeed":       225,
 		"chargedattackdamagetype": AntiShield | Melee,
 		"chargedattackdamage":    [520],
 		"chargedattackinterval":  6,
@@ -1103,7 +1103,7 @@ var units = {
 		"radius":         25,
 		"hp":             [60],
 		"sight":          275,
-		"speed":          300,	#pixels per second
+		"speed":          185,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee | Death,
@@ -1153,11 +1153,11 @@ var units = {
 		"radius":         40,
 		"hp":             [1700],
 		"sight":          275,
-		"speed":          75,	#pixels per second
+		"speed":          55,	#pixels per second
 		"targettypes":    [Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee | Death,
-		"attackdamage":   [2350],
+		"attackdamage":   [1750],
 		"attackrange":    60,
 		"attackradius":   200,
 		"preattackdelay": 3,
@@ -1169,7 +1169,7 @@ var units = {
 		"radius":         40,
 		"hp":             [3100],
 		"sight":          250,
-		"speed":          75,	#pixels per second
+		"speed":          55,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     AntiShield | Melee,
@@ -1183,17 +1183,17 @@ var units = {
 		"layer":          Normal,
 		"mass":           3,
 		"radius":         35,
-		"hp":             [1000],
-		"shield":         [3000],
+		"hp":             [500],
+		"shield":         [2500],
 		"sight":          250,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":         Melee,
-		"attackdamage":       [400],
+		"attackdamage":       [200],
 		"attackrange":        100,
 		"attackdamageradius": 100,
-		"attackradius":       350,
+		"attackradius":       250,
 		"attackforce":        4000,
 		"attackinterval":     20,
 		"preattackdelay":     16,
@@ -1205,7 +1205,7 @@ var units = {
 		"radius":         15,
 		"hp":             [40],
 		"sight":          275,
-		"speed":          150,	#pixels per second
+		"speed":          110,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -1269,7 +1269,7 @@ var units = {
 		"hp":             [1300],
 		"shield":         [3900],
 		"sight":          200,
-		"speed":          100,
+		"speed":          75,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -1291,7 +1291,7 @@ var units = {
 		"radius":         20,
 		"hp":             [90],
 		"sight":          275,
-		"speed":          200,	#pixels per second
+		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Bullet,
@@ -1324,7 +1324,7 @@ var units = {
 		"hp":             [400],
 		"shield":         [1200],
 		"sight":          250,
-		"speed":          150,
+		"speed":          65,
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Missile,
@@ -1342,7 +1342,7 @@ var units = {
 		"radius":         30,
 		"hp":             [550],
 		"sight":          300,
-		"speed":          100,	#pixels per second
+		"speed":          75,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Bullet,
@@ -1389,7 +1389,7 @@ var units = {
 		"radius":         24,
 		"hp":             [110],
 		"sight":          275,
-		"speed":          200,	#pixels per second
+		"speed":          150,	#pixels per second
 		"targettypes":    [Squire, Building, Knight],
 		"targetlayers":   [Normal],
 		"damagetype":     Melee,
@@ -1441,7 +1441,7 @@ var units = {
 		"radius":            45,
 		"hp":                [1750],
 		"sight":             275,
-		"speed":             100,	#pixels per second
+		"speed":             75,	#pixels per second
 		"targettypes":       [Squire, Building, Knight],
 		"targetlayers":      [Normal],
 		"damagetype":        AntiShield | Melee,
@@ -1457,12 +1457,12 @@ var units = {
 	"wasp": {
 		"type":              Squire,
 		"layer":             Normal,
-		"mass":              5,
+		"mass":              50,
 		"radius":            55,
 		"hp":                [1400],
 		"shield":            [4200],
 		"sight":             375,
-		"speed":             100,	#pixels per second
+		"speed":             75,	#pixels per second
 		"targettypes":       [Building, Knight],
 		"targetlayers":      [Normal],
 		"damagetype":        Melee,

@@ -37,7 +37,7 @@ func _init(world):
 	centerX = scalar.Div(scalar.Mul(tileWidth, tileNumX), scalar.Two)
 	centerY = scalar.Div(scalar.Mul(tileHeight, tileNumY), scalar.Two)
 	top = {
-		"b": scalar.Mul(tileHeight, scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)),
+			"b": scalar.Mul(tileHeight, scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)),
 	}
 	bottom = {
 		"t": scalar.Mul(tileHeight, scalar.Add(scalar.Div(tileNumY, scalar.Two), scalar.One)),
@@ -144,24 +144,28 @@ func GetObstacles():
 
 func FindNextCornerInPath(from_x, from_y, to_x, to_y, radius):
 	var path = findPath(from_x, from_y, to_x, to_y, radius)
-#	print_path(path)
+	#print_path(path)
 	path = narrowPath(path, radius)
 	return nextCornerInPath(path, from_x, from_y)
 
 func print_path(path):
 	for p in path:
 		for k in p:
-			print(world.ToPixel(p[k]))
+			print(k, " = ", world.ToPixel(p[k]))
 	
 func getLocation(pos_x, pos_y, radius):
-	if pos_y < top.b:
+	if pos_y < scalar.Sub(top.b, radius):
 		return top
-	if pos_y > bottom.t:
+	if pos_y > scalar.Add(bottom.t, radius):
 		return bottom
 	if pos_x > scalar.Add(lefthole.l, radius) and pos_x < scalar.Sub(lefthole.r, radius):
 		return lefthole
 	if pos_x > scalar.Add(righthole.l, radius) and pos_x < scalar.Sub(righthole.r, radius):
 		return righthole
+	if pos_y < top.b:
+		return top
+	if pos_y > bottom.t:
+		return bottom
 	return null
 
 func findPath(from_x, from_y, to_x, to_y, radius):
