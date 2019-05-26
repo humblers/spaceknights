@@ -37,7 +37,7 @@ func _init(world):
 	centerX = scalar.Div(scalar.Mul(tileWidth, tileNumX), scalar.Two)
 	centerY = scalar.Div(scalar.Mul(tileHeight, tileNumY), scalar.Two)
 	top = {
-			"b": scalar.Mul(tileHeight, scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)),
+		"b": scalar.Mul(tileHeight, scalar.Sub(scalar.Div(tileNumY, scalar.Two), scalar.One)),
 	}
 	bottom = {
 		"t": scalar.Mul(tileHeight, scalar.Add(scalar.Div(tileNumY, scalar.Two), scalar.One)),
@@ -144,24 +144,24 @@ func GetObstacles():
 
 func FindNextCornerInPath(from_x, from_y, to_x, to_y, radius):
 	var path = findPath(from_x, from_y, to_x, to_y, radius)
-	#print_path(path)
+#	print_path(path)
 	path = narrowPath(path, radius)
 	return nextCornerInPath(path, from_x, from_y)
 
 func print_path(path):
 	for p in path:
 		for k in p:
-			print(k, " = ", world.ToPixel(p[k]))
+			print(world.ToPixel(p[k]))
 	
 func getLocation(pos_x, pos_y, radius):
-	if InArea(lefthole, pos_x, pos_y, radius):
-		return lefthole
-	if InArea(righthole, pos_x, pos_y, radius):
-		return righthole
 	if pos_y < top.b:
 		return top
 	if pos_y > bottom.t:
 		return bottom
+	if pos_x > scalar.Add(lefthole.l, radius) and pos_x < scalar.Sub(lefthole.r, radius):
+		return lefthole
+	if pos_x > scalar.Add(righthole.l, radius) and pos_x < scalar.Sub(righthole.r, radius):
+		return righthole
 	return null
 
 func findPath(from_x, from_y, to_x, to_y, radius):
@@ -223,30 +223,30 @@ func narrowPath(path, radius):
 			topToLefthole, topToRighthole:
 				new_path.append({
 					"left_x": scalar.Add(p.left_x, -radius),
-					"left_y": scalar.Add(p.left_y, -radius),
+					"left_y": p.left_y,
 					"right_x": scalar.Add(p.right_x, radius),
-					"right_y": scalar.Add(p.right_y, -radius),
+					"right_y": p.right_y,
 				})
 			bottomToLefthole, bottomToRighthole:
 				new_path.append({
 					"left_x": scalar.Add(p.left_x, radius),
-					"left_y": scalar.Add(p.left_y, radius),
+					"left_y": p.left_y,
 					"right_x": scalar.Add(p.right_x, -radius),
-					"right_y": scalar.Add(p.right_y, radius),
+					"right_y": p.right_y,
 				})
 			leftholeToTop, rightholeToTop:
 				new_path.append({
 					"left_x": scalar.Add(p.left_x, radius),
-					"left_y": scalar.Add(p.left_y, -radius),
+					"left_y": p.left_y,
 					"right_x": scalar.Add(p.right_x, -radius),
-					"right_y": scalar.Add(p.right_y, -radius),
+					"right_y": p.right_y,
 				})
 			leftholeToBottom, rightholeToBottom:
 				new_path.append({
 					"left_x": scalar.Add(p.left_x, -radius),
-					"left_y": scalar.Add(p.left_y, radius),
+					"left_y": p.left_y,
 					"right_x": scalar.Add(p.right_x, radius),
-					"right_y": scalar.Add(p.right_y, radius),
+					"right_y": p.right_y,
 				})
 			_:
 				new_path.append(p)
@@ -287,17 +287,6 @@ static func nextCornerInPath(path, start_x, start_y):
 			right_x = newRight_x
 			right_y = newRight_y
 	return [portalLeft_x, portalLeft_y]
-
-static func InArea(area, pos_x, pos_y, radius):
-	if pos_x <= scalar.Add(area.l, radius):
-		return false
-	if pos_x >= scalar.Sub(area.r, radius):
-		return false
-	if pos_y <= scalar.Sub(area.t, radius):
-		return false
-	if pos_y >= scalar.Add(area.b, radius):
-		return false
-	return true
 
 static func AreaWidth(area):
 	return scalar.Div(scalar.Sub(area.r, area.l), scalar.Two)

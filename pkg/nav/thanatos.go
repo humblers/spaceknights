@@ -186,17 +186,17 @@ func (t *thanatos) FindNextCornerInPath(from, to fixed.Vector, radius fixed.Scal
 }
 
 func (t *thanatos) getLocation(pos fixed.Vector, radius fixed.Scalar) *area {
-	if InArea(t.lefthole, pos.X, pos.Y, radius) {
-		return t.lefthole
-	}
-	if InArea(t.righthole, pos.X, pos.Y, radius) {
-		return t.righthole
-	}
 	if pos.Y < t.top.b {
 		return t.top
 	}
 	if pos.Y > t.bottom.t {
 		return t.bottom
+	}
+	if pos.X > t.lefthole.l.Add(radius) && pos.X < t.lefthole.r.Sub(radius) {
+		return t.lefthole
+	}
+	if pos.X > t.righthole.l.Add(radius) && pos.X < t.righthole.r.Sub(radius) {
+		return t.righthole
 	}
 	return nil
 }
@@ -268,20 +268,20 @@ func (t *thanatos) narrowPath(path []*portal, radius fixed.Scalar) []*portal {
 	for _, p := range path {
 		switch p {
 		case t.topToLefthole, t.topToRighthole:
-			l := p.left.Add(fixed.Vector{-radius, -radius})
-			r := p.right.Add(fixed.Vector{radius, -radius})
+			l := p.left.Add(fixed.Vector{-radius, 0})
+			r := p.right.Add(fixed.Vector{radius, 0})
 			new_path = append(new_path, &portal{l, r})
 		case t.bottomToLefthole, t.bottomToRighthole:
-			l := p.left.Add(fixed.Vector{radius, radius})
-			r := p.right.Add(fixed.Vector{-radius, radius})
+			l := p.left.Add(fixed.Vector{radius, 0})
+			r := p.right.Add(fixed.Vector{-radius, 0})
 			new_path = append(new_path, &portal{l, r})
 		case t.leftholeToTop, t.rightholeToTop:
-			l := p.left.Add(fixed.Vector{radius, -radius})
-			r := p.right.Add(fixed.Vector{-radius, -radius})
+			l := p.left.Add(fixed.Vector{radius, 0})
+			r := p.right.Add(fixed.Vector{-radius, 0})
 			new_path = append(new_path, &portal{l, r})
 		case t.leftholeToBottom, t.rightholeToBottom:
-			l := p.left.Add(fixed.Vector{-radius, radius})
-			r := p.right.Add(fixed.Vector{radius, radius})
+			l := p.left.Add(fixed.Vector{-radius, 0})
+			r := p.right.Add(fixed.Vector{radius, 0})
 			new_path = append(new_path, &portal{l, r})
 		default:
 			new_path = append(new_path, p)
@@ -319,22 +319,6 @@ func nextCornerInPath(path []*portal, start fixed.Vector) fixed.Vector {
 		}
 	}
 	return portalLeft
-}
-
-func InArea(area *area, pos_x, pos_y, radius fixed.Scalar) bool {
-	if pos_x <= area.l.Add(radius) {
-		return false
-	}
-	if pos_x >= area.r.Sub(radius) {
-		return false
-	}
-	if pos_y <= area.t.Sub(radius) {
-		return false
-	}
-	if pos_y >= area.b.Add(radius) {
-		return false
-	}
-	return true
 }
 
 func (a *area) Width() fixed.Scalar {
