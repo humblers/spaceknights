@@ -239,7 +239,7 @@ var Units = map[string]Unit{
 		"spawncount":    2,
 		"spawnoffsetX":  []int{-20, 20},
 		"spawnoffsetY":  []int{0, 0},
-		"decaydamage":   4,
+		"decaydamage":   5,
 		"estimatedcost": 0,
 	},
 	"beholder": map[string]interface{}{
@@ -257,7 +257,7 @@ var Units = map[string]Unit{
 		"attackdamage":      []int{20},
 		"attackrange":       300,
 		"attackinterval":    4,
-		"decaydamage":       4,
+		"decaydamage":       6,
 		"amplifycountlimit": 10,
 		"estimatedcost":     4000,
 	},
@@ -315,7 +315,7 @@ var Units = map[string]Unit{
 		"attackinterval": 16,
 		"preattackdelay": 0,
 		"bulletlifetime": 15,
-		"decaydamage":    4,
+		"decaydamage":    6,
 		"estimatedcost":  4000,
 	},
 	"buran": map[string]interface{}{
@@ -364,7 +364,7 @@ var Units = map[string]Unit{
 		"attackinterval": 8,
 		"preattackdelay": 0,
 		"bulletlifetime": 5,
-		"decaydamage":    3,
+		"decaydamage":    5,
 		"estimatedcost":  2000,
 	},
 	"champion": map[string]interface{}{
@@ -857,7 +857,7 @@ var Units = map[string]Unit{
 		"spawncount":    1,
 		"spawnoffsetX":  []int{0},
 		"spawnoffsetY":  []int{0},
-		"decaydamage":   2,
+		"decaydamage":   3,
 		"estimatedcost": 0,
 	},
 	"pixieking": map[string]interface{}{
@@ -948,7 +948,7 @@ var Units = map[string]Unit{
 		"spawncount":    1,
 		"spawnoffsetX":  []int{0},
 		"spawnoffsetY":  []int{0},
-		"decaydamage":   2,
+		"decaydamage":   3,
 		"estimatedcost": 0,
 	},
 	"shadowvision": map[string]interface{}{

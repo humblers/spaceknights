@@ -638,7 +638,7 @@ var units = {
 		"spawncount":     2,
 		"spawnoffsetX":   [-20, 20],
 		"spawnoffsetY":   [0, 0],
-		"decaydamage":    4,
+		"decaydamage":    5,
 	},
 	"beholder": {
 		"type":              Building,
@@ -655,7 +655,7 @@ var units = {
 		"attackdamage":      [20],
 		"attackrange":       300,
 		"attackinterval":    4,
-		"decaydamage":       4,
+		"decaydamage":       6,
 		"amplifycountlimit": 10,
 	},
 	"berserker": {
@@ -710,7 +710,7 @@ var units = {
 		"attackinterval": 16,
 		"preattackdelay": 0,
 		"bulletlifetime": 15,
-		"decaydamage":    4,
+		"decaydamage":    6,
 	},
 	"buran": {
 		"mass":           0,
@@ -757,7 +757,7 @@ var units = {
 		"attackinterval": 8,
 		"preattackdelay": 0,
 		"bulletlifetime": 5,
-		"decaydamage":    3,
+		"decaydamage":    5,
 	},
 	"champion": {
 		"type":           Squire,
@@ -1227,7 +1227,7 @@ var units = {
 		"spawncount":    1,
 		"spawnoffsetX":  [0],
 		"spawnoffsetY":  [0],
-		"decaydamage":   2,
+		"decaydamage":   3,
 	},
 	"pixieking": {
 		"mass":           0,
@@ -1314,7 +1314,7 @@ var units = {
 		"spawncount":    1,
 		"spawnoffsetX":  [0],
 		"spawnoffsetY":  [0],
-		"decaydamage":   2,
+		"decaydamage":   3,
 	},
 	"shadowvision": {
 		"type":           Squire,
