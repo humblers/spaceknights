@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.12.1</string>
+        <string>5.0.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -2288,6 +2288,7 @@
             <key type="filename">battlefield/unit/pixie/pixie_body.png</key>
             <key type="filename">battlefield/unit/pixie/pixie_body_normal.png</key>
             <key type="filename">battlefield/unit/pixieking/pixiegeode/dummy.png</key>
+            <key type="filename">battlefield/unit/pixieking/pixiegeode/dummy.psd</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

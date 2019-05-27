@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.12.1</string>
+        <string>5.0.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -459,30 +459,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/costicon/quantum_icon_1.png</key>
-            <key type="filename">ui/costicon/quantum_icon_10.png</key>
-            <key type="filename">ui/costicon/quantum_icon_11.png</key>
-            <key type="filename">ui/costicon/quantum_icon_12.png</key>
-            <key type="filename">ui/costicon/quantum_icon_2.png</key>
-            <key type="filename">ui/costicon/quantum_icon_3.png</key>
-            <key type="filename">ui/costicon/quantum_icon_4.png</key>
-            <key type="filename">ui/costicon/quantum_icon_5.png</key>
-            <key type="filename">ui/costicon/quantum_icon_6.png</key>
-            <key type="filename">ui/costicon/quantum_icon_7.png</key>
-            <key type="filename">ui/costicon/quantum_icon_8.png</key>
-            <key type="filename">ui/costicon/quantum_icon_9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,13,30,27</rect>
-                <key>scale9Paddings</key>
-                <rect>15,13,30,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">ui/cursor_ab.png</key>
             <key type="filename">ui/cursor_barrier.png</key>
             <key type="filename">ui/cursor_death.png</key>
@@ -597,6 +573,20 @@
                 <rect>80,80,160,160</rect>
                 <key>scale9Paddings</key>
                 <rect>80,80,160,160</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ui/hologram_gage.png</key>
+            <key type="filename">ui/targetcursor/outer_ring.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>50,50,100,100</rect>
+                <key>scale9Paddings</key>
+                <rect>50,50,100,100</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -880,19 +870,6 @@
                 <rect>13,5,25,10</rect>
                 <key>scale9Paddings</key>
                 <rect>13,5,25,10</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ui/targetcursor/outer_ring.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>50,50,100,100</rect>
-                <key>scale9Paddings</key>
-                <rect>50,50,100,100</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
