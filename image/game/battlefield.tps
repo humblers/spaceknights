@@ -2288,6 +2288,7 @@
             <key type="filename">battlefield/unit/pixie/pixie_body.png</key>
             <key type="filename">battlefield/unit/pixie/pixie_body_normal.png</key>
             <key type="filename">battlefield/unit/pixieking/pixiegeode/dummy.png</key>
+            <key type="filename">battlefield/unit/pixieking/pixiegeode/dummy.psd</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

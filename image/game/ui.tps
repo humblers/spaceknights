@@ -459,30 +459,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">ui/cost_icon/quantum_icon_1.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_10.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_11.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_12.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_2.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_3.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_4.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_5.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_6.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_7.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_8.png</key>
-            <key type="filename">ui/cost_icon/quantum_icon_9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,13,30,27</rect>
-                <key>scale9Paddings</key>
-                <rect>15,13,30,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">ui/cursor_ab.png</key>
             <key type="filename">ui/cursor_barrier.png</key>
             <key type="filename">ui/cursor_death.png</key>

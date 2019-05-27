@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://material/unshaded.tres" type="Material" id=1]
 [ext_resource path="res://material/additive_blend.tres" type="Material" id=2]
@@ -8,43 +8,24 @@
 [ext_resource path="res://atlas/lobby/popup.sprites/card/squire_common_frame.tres" type="Texture" id=6]
 [ext_resource path="res://font/scdream8/size_30_outline_2_000000_fallback.tres" type="DynamicFont" id=7]
 [ext_resource path="res://font/vipnagorgialla/size_50_outline_4_000000.tres" type="DynamicFont" id=8]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_1.tres" type="Texture" id=9]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_2.tres" type="Texture" id=10]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_3.tres" type="Texture" id=11]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_4.tres" type="Texture" id=12]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_5.tres" type="Texture" id=13]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_6.tres" type="Texture" id=14]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_7.tres" type="Texture" id=15]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_8.tres" type="Texture" id=16]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_9.tres" type="Texture" id=17]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_10.tres" type="Texture" id=18]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_11.tres" type="Texture" id=19]
-[ext_resource path="res://atlas/lobby/popup.sprites/cost_icon/quantum_icon_12.tres" type="Texture" id=20]
-[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=21]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/cardgagebg.tres" type="Texture" id=22]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/card_gauge_bg.tres" type="Texture" id=23]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/card_gauge.tres" type="Texture" id=24]
-[ext_resource path="res://atlas/lobby/contents.sprites/card_glow.tres" type="Texture" id=25]
-[ext_resource path="res://atlas/lobby/popup.sprites/card/up_1.tres" type="Texture" id=26]
+[ext_resource path="res://atlas/lobby/popup.sprites/clan_icon_base.tres" type="Texture" id=9]
+[ext_resource path="res://font/vipnagorgialla/size_70_outline_4_000000.tres" type="DynamicFont" id=10]
+[ext_resource path="res://atlas/lobby/popup.sprites/card/cardgagebg.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/lobby/popup.sprites/card/card_gauge_bg.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/lobby/popup.sprites/card/card_gauge.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/lobby/contents.sprites/card_glow.tres" type="Texture" id=14]
+[ext_resource path="res://font/vipnagorgialla/size_30_outline_2_000000.tres" type="DynamicFont" id=15]
+[ext_resource path="res://atlas/lobby/popup.sprites/card/up_1.tres" type="Texture" id=16]
 
-
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
-"loop": true,
-"name": "quantum",
-"speed": 10.0
-} ]
-
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.59542, 1 )
 colors = PoolColorArray( 0, 0, 0, 0, 0.332031, 0.655579, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.256944, 0.743056, 1 )
 colors = PoolColorArray( 0, 0.47451, 0.219608, 0, 0.0980392, 0.85098, 0.533333, 1, 0.136719, 1, 0.656036, 1, 0, 0.745098, 0.501961, 0 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("HoldingBar/Control/Arrow/Up1:visible")
@@ -239,7 +220,7 @@ tracks/15/keys = {
 "values": [ true, true, false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 2.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("HoldingBar/Control/Arrow/Up1:visible")
@@ -599,12 +580,11 @@ text = "03"
 align = 1
 valign = 1
 
-[node name="Cost" type="AnimatedSprite" parent="Item/Base/Control"]
+[node name="Cost" type="TextureRect" parent="Item/Base/Control"]
+self_modulate = Color( 0.654902, 0.654902, 0.654902, 1 )
 material = ExtResource( 1 )
-position = Vector2( 42.1184, 50.7236 )
-scale = Vector2( 1.2, 1.2 )
-frames = SubResource( 1 )
-animation = "quantum"
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 9 )
 
 [node name="Label" type="Label" parent="Item/Base/Control/Cost"]
 use_parent_material = true
@@ -612,11 +592,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -56.6667
-margin_top = -47.1667
-margin_right = -1.66666
-margin_bottom = -3.16667
-custom_fonts/font = ExtResource( 21 )
+margin_left = -62.0
+margin_top = -51.0
+margin_right = 41.0
+margin_bottom = 34.0
+rect_scale = Vector2( 1.2, 1.2 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/line_spacing = 0
@@ -635,7 +616,7 @@ mouse_filter = 1
 [node name="TextureRect" type="TextureRect" parent="Item/HoldingBar"]
 margin_right = 250.0
 margin_bottom = 50.0
-texture = ExtResource( 22 )
+texture = ExtResource( 11 )
 
 [node name="TextureProgress" type="TextureProgress" parent="Item/HoldingBar"]
 visible = false
@@ -645,8 +626,8 @@ margin_top = 2.0
 margin_right = 235.0
 margin_bottom = 48.0
 value = 70.0
-texture_under = ExtResource( 23 )
-texture_progress = ExtResource( 24 )
+texture_under = ExtResource( 12 )
+texture_progress = ExtResource( 13 )
 
 [node name="TextureProgress2" type="TextureProgress" parent="Item/HoldingBar"]
 modulate = Color( 0, 1, 0.552941, 1 )
@@ -654,8 +635,8 @@ margin_left = 15.0
 margin_top = 2.0
 margin_right = 235.0
 margin_bottom = 48.0
-texture_under = ExtResource( 23 )
-texture_progress = ExtResource( 24 )
+texture_under = ExtResource( 12 )
+texture_progress = ExtResource( 13 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Item/HoldingBar/TextureProgress2"]
 visible = false
@@ -666,11 +647,11 @@ emitting = false
 amount = 4
 lifetime = 6.5
 speed_scale = 4.0
-texture = ExtResource( 25 )
+texture = ExtResource( 14 )
 spread = 0.0
 gravity = Vector2( -30, 0 )
 initial_velocity = 0.0
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 1 )
 
 [node name="Label" type="Label" parent="Item/HoldingBar"]
 margin_left = 74.0
@@ -678,7 +659,7 @@ margin_top = 4.0
 margin_right = 175.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 85, 41 )
-custom_fonts/font = ExtResource( 21 )
+custom_fonts/font = ExtResource( 15 )
 text = "0/20"
 align = 1
 valign = 2
@@ -698,17 +679,17 @@ margin_bottom = -1.0
 
 [node name="Up1" type="Sprite" parent="Item/HoldingBar/Control/Arrow"]
 modulate = Color( 0.0627451, 0.584314, 1, 1 )
-texture = ExtResource( 26 )
+texture = ExtResource( 16 )
 
 [node name="Up2" type="CPUParticles2D" parent="Item/HoldingBar/Control/Arrow"]
 visible = false
 position = Vector2( 0, 13 )
 emitting = false
 amount = 1
-texture = ExtResource( 26 )
+texture = ExtResource( 16 )
 gravity = Vector2( 0, -50 )
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Item"]
-anims/progress = SubResource( 4 )
-anims/ready = SubResource( 5 )
+anims/progress = SubResource( 3 )
+anims/ready = SubResource( 4 )
