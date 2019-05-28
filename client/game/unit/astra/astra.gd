@@ -237,8 +237,8 @@ func CastSkill(posX, posY):
 	setLayer(data.Casting)
 
 func adjustSkillAnim():
-	var offset = $Rotatable/Body/LaserStart.position * $Rotatable.scale
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
+	var offset = $Rotatable/Body/LaserStart.position
+	var ref_vec = Vector2(0, -800)
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y)

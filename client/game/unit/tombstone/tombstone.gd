@@ -209,7 +209,7 @@ func CastSkill(posX, posY):
 	setLayer(data.Casting)
 
 func adjustSkillAnim():
-	var ref_vec = Vector2(0, -800) * $Rotatable.scale
+	var ref_vec = Vector2(0, -800) 
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y)
