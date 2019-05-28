@@ -1,6 +1,5 @@
 extends "res://game/script/unit.gd"
 
-var player
 var targetId = 0
 var attack = 0
 var attackCount = 0
@@ -10,31 +9,6 @@ var punchPosY
 
 func Init(id, level, posX, posY, game, player):
 	New(id, "panzerkunstler", player.Team(), level, posX, posY, game)
-	self.player = player
-	shield = initialShield()
-	$Hp/HBoxContainer/VBoxContainer/Shield.max_value = shield
-	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
-
-func TakeDamage(amount, damageType, attacker):
-	if not data.DamageTypeIs(damageType, data.AntiShield):
-		shield -= amount
-		if shield < 0:
-			hp += shield
-			shield = 0
-			damages[game.step] = 0
-			$HitEffect.hit(damageType)
-		else:
-			$Energyshield.hit(attacker)
-	else:
-		hp -= amount
-		damages[game.step] = 0
-		$HitEffect.hit(damageType)
-	var node_hp = get_node("Hp/HBoxContainer/VBoxContainer/%s" % color)
-	node_hp.value = hp
-	node_hp.visible = true
-	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
-	$Hp/HBoxContainer/VBoxContainer/Shield.visible = true
-	$Hp/HBoxContainer/Control.visible = true
 
 func Update():
 	.Update()
@@ -54,10 +28,6 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
-	shield += data.ShieldRegenPerStep
-	if shield > initialShield():
-		shield = initialShield()
-	$Hp/HBoxContainer/VBoxContainer/Shield.value = shield
 
 func Destroy():
 	.Destroy()
