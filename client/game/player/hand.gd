@@ -10,8 +10,7 @@ export(NodePath) onready var squire_guide = get_node(squire_guide)
 
 onready var icon = $Card/ItemBase/Control/Icon
 onready var cost_label = $Card/ItemBase/Control/Cost/Label
-onready var cost_icon = $Card/ItemBase/Control/Cost
-onready var energy_bar = $Card/Energy
+onready var energy_bar = $Card/ItemBase/Control/Energy
 onready var glow = $Card/Glow
 
 onready var card_init_pos = $Card.position
@@ -81,19 +80,16 @@ func setHand(card):
 		init_card(card)
 		init_cursor(card)
 		init_dummy(card)
-		if card.Type == data.KnightCard:
-			event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckOpen, card.Side)
 
 func updateEnergy(energy):
 	if input_sent:
 		return
 	var ready = energy >= energy_bar.max_value
-	cost_icon.playing = ready
 	glow.visible = ready
 	energy_bar.value = card.Cost - energy
 	if card.Type == data.KnightCard:
 		var ratio = float(energy)/card.Cost
-		event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckCharging, card.Side, ratio)
+		event.emit_signal("BlueMothershipDeckUpdate", card.Side, ratio)
 
 func init_card(card = null):
 	$Card.position = card_init_pos
@@ -235,7 +231,7 @@ func on_released(side = null):
 		return
 	
 	# enough energy?
-	if $Card/Energy.value > 0:
+	if energy_bar.value > 0:
 		show_message("ID_ERROR_ENERGY", pos.y) 
 		init_card()
 		init_cursor()
@@ -263,7 +259,6 @@ func on_released(side = null):
 		rotateRunway(0)
 
 	if card.Type == data.KnightCard:
-		event.emit_signal("BlueMothershipDeckUpdate", event.MothershipDeckClose, card.Side)
 		guide.visible = false
 		
 	knight_button_left.visible = true
@@ -337,7 +332,8 @@ func set_guide_pos(x, y):
 	var target = Vector2(pos[0] + map.rect_position.x, pos[1] + map.rect_position.y)
 
 	if card.Type == data.SquireCard:
-		from = Vector2( (int(self.name.right(4)) -1) * 202 + 346, 1800)
+		from = self.rect_global_position + self.rect_size / 2
+#		from = Vector2( (int(self.name.right(4)) -1) * 202 + 346, 1800)
 		guide.set_position(from)
 
 	else:

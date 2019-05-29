@@ -15,11 +15,8 @@ signal BlueKnightDead(side)
 signal RedKnightHalfDamaged(side)
 signal RedKnightDead(side)
 
-const MothershipDeckOpen = "deck_on"
-const MothershipDeckClose = "deck_off"
-const MothershipDeckCharging = "charging"
-signal BlueMothershipDeckUpdate(state, side, charging_ratio)
-signal RedMothershipDeckUpdate(state, side, charging_ratio)
+signal BlueMothershipDeckUpdate(side, charging_ratio)
+signal RedMothershipDeckUpdate(side, charging_ratio)
 
 signal BlueSetHand1(card)
 signal BlueSetHand2(card)

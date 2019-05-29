@@ -45,16 +45,10 @@ func partialDestroy(side):
 func destroy(side):
 	get_node("Anim%s" % side).play("destroy")
 
-func updateDeck(state, side, charging_ratio = 0):
-	match state:
-		event.MothershipDeckCharging:
-			var node = get_node(DECK_READY_LIGHT % [side, side.left(1)])
-			node.modulate.a = clamp(charging_ratio, 0, 1)
-			node = get_node(DECK_READY_SIGN % [side, side.left(1)])
-			node.visible = charging_ratio >= 1
-		event.MothershipDeckOpen, event.MothershipDeckClose:
-			get_node("Anim%s" % side).play(state)
-			
+func updateDeck(side, charging_ratio = 0):
+	get_node("Nodes/Deck/%s/Ready/Hologram" % side).value = charging_ratio * 100
+	get_node("Anim%s" % side).play("deck_on" if charging_ratio >= 1 else "deck_off")
+
 func runwayRotate(num, angle):
 	if color == "Red":
 		return
