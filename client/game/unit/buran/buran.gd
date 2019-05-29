@@ -207,8 +207,8 @@ func CastSkill(posX, posY):
 	$AnimationPlayer.play("skill")
 
 func adjustSkillAnim():
-	var offset = $Rotatable/Body/Dummy.position * $Rotatable.scale
-	var ref_vec = Vector2(0, -600) * $Rotatable.scale
+	var offset = $Rotatable/Body/Dummy.position
+	var ref_vec = Vector2(0, -600)
 	var x = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosX), PositionX()))
 	var y = game.World().ToPixel(scalar.Sub(game.World().FromPixel(castPosY), PositionY()))
 	var vec = Vector2(x, y)
