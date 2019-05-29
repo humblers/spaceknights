@@ -17,8 +17,10 @@ func Init(id, level, posX, posY, game, player):
 	Decayable.Init(self)
 
 func _ready():
-	$AnimationPlayer.play("anchor")
+	$Float/FloatAni.play("activate")
 	damage_max = .attackDamage() * data.units[name_]["amplifycountlimit"]
+	yield($Float/FloatAni, "animation_finished")
+	$AnimationPlayer.play("idle")
 
 func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):
@@ -63,8 +65,6 @@ func Update():
 		$Sound/Attack.stop()
 		
 	# client only
-	if targetId == 0:
-		$AnimationPlayer.play("idle")
 	show_laser(attack > 0)
 
 func show_laser(enable):

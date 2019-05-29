@@ -12,7 +12,7 @@ func Init(id, level, posX, posY, game, player):
 	self.player = player
 
 func _ready():
-	$AnimationPlayer.play("anchor")
+	$Rotatable/Float/FloatAni.play("activate")
 
 func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):
@@ -37,6 +37,8 @@ func Update():
 	if step == 15:
 		doSpawn()
 	spawn += 1
+	if !$AnimationPlayer.get_current_animation():
+		$AnimationPlayer.play("idle")
 
 func spawnInterval():
 	return data.units[name_]["spawninterval"]
