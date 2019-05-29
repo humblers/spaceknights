@@ -19,6 +19,8 @@ const InitialRank = 25
 const MedalsPerRank = 5
 const RankDownLimit = 5
 
+const HandSize = 4
+
 # CardRarity
 const Common = "Common"
 const Rare = "Rare"

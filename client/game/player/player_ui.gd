@@ -1,8 +1,5 @@
 extends Player
 
-export(NodePath) onready var knightbutton_left = get_node(knightbutton_left) if knightbutton_left else null
-export(NodePath) onready var knightbutton_right = get_node(knightbutton_right) if knightbutton_right else null
-
 var id
 var color
 var input_sent_cards = []		# input sent but not used cards
@@ -14,12 +11,6 @@ func Init(playerData, game):
 	if game.team_swapped:
 		color = "Blue" if team == "Red" else "Red"
 	init_deck()
-	for card in hand:
-		if card.Type == data.KnightCard:
-			if card.Side == "Left" and knightbutton_left:
-				knightbutton_left.visible = true
-			elif card.Side == "Right" and knightbutton_right:
-				knightbutton_right.visible = true
 	event.connect("%sHandFocused" % color, self, "handFocused")
 	event.emit_signal("%sPlayerInitialized" % color, self)
 
