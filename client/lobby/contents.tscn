@@ -1,4 +1,4 @@
-[gd_scene load_steps=158 format=2]
+[gd_scene load_steps=159 format=2]
 
 [ext_resource path="res://lobby/script/page_container_popup.gd" type="Script" id=1]
 [ext_resource path="res://atlas/lobby/contents.sprites/background_gradation.tres" type="Texture" id=2]
@@ -93,8 +93,8 @@
 [ext_resource path="res://atlas/lobby/contents.sprites/button/upgrade_button_pressed.tres" type="Texture" id=91]
 [ext_resource path="res://atlas/lobby/contents.sprites/button/upgrade_button_hover.tres" type="Texture" id=92]
 [ext_resource path="res://atlas/lobby/contents.sprites/card/knight_bg.tres" type="Texture" id=93]
-[ext_resource path="res://image/icon/lancer.png" type="Texture" id=94]
-[ext_resource path="res://atlas/lobby/contents.sprites/card/squire_common_frame.tres" type="Texture" id=95]
+[ext_resource path="res://image/icon/nagmash.png" type="Texture" id=94]
+[ext_resource path="res://atlas/lobby/contents.sprites/card/knight_rare_frame.tres" type="Texture" id=95]
 [ext_resource path="res://lobby/page/quantum.tscn" type="PackedScene" id=96]
 [ext_resource path="res://atlas/lobby/contents.sprites/button/button_hover.tres" type="Texture" id=97]
 [ext_resource path="res://atlas/lobby/contents.sprites/button/button.tres" type="Texture" id=98]
@@ -471,7 +471,24 @@ tracks/2/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="StyleBoxTexture" id=19]
+[sub_resource type="Animation" id=33]
+resource_name = "loop"
+length = 16.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("UnitPosition:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4, 8, 12, 16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 306, 220 ), Vector2( 296, 210 ), Vector2( 306, 220 ), Vector2( 316, 230 ), Vector2( 306, 220 ) ]
+}
+
+[sub_resource type="StyleBoxTexture" id=34]
 texture = ExtResource( 92 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 50.5
@@ -479,7 +496,7 @@ margin_right = 51.0
 margin_top = 20.0
 margin_bottom = 20.0
 
-[sub_resource type="StyleBoxTexture" id=20]
+[sub_resource type="StyleBoxTexture" id=35]
 texture = ExtResource( 91 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
@@ -487,7 +504,7 @@ margin_right = 50.5
 margin_top = 19.75
 margin_bottom = 19.75
 
-[sub_resource type="StyleBoxTexture" id=21]
+[sub_resource type="StyleBoxTexture" id=36]
 texture = ExtResource( 91 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 50.0
@@ -495,7 +512,7 @@ margin_right = 51.0
 margin_top = 20.0
 margin_bottom = 20.0
 
-[sub_resource type="StyleBoxTexture" id=22]
+[sub_resource type="StyleBoxTexture" id=37]
 texture = ExtResource( 90 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
@@ -503,14 +520,14 @@ margin_right = 50.0
 margin_top = 20.25
 margin_bottom = 20.0
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=38]
 size = 40
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 108 )
 
-[sub_resource type="StyleBoxTexture" id=24]
+[sub_resource type="StyleBoxTexture" id=39]
 texture = ExtResource( 97 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 50.5
@@ -518,7 +535,7 @@ margin_right = 51.0
 margin_top = 20.0
 margin_bottom = 20.0
 
-[sub_resource type="StyleBoxTexture" id=25]
+[sub_resource type="StyleBoxTexture" id=40]
 texture = ExtResource( 74 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
@@ -526,7 +543,7 @@ margin_right = 50.5
 margin_top = 19.75
 margin_bottom = 19.75
 
-[sub_resource type="StyleBoxTexture" id=26]
+[sub_resource type="StyleBoxTexture" id=41]
 texture = ExtResource( 98 )
 region_rect = Rect2( 0, 0, 230, 60 )
 margin_left = 49.75
@@ -534,14 +551,14 @@ margin_right = 50.0
 margin_top = 20.25
 margin_bottom = 20.0
 
-[sub_resource type="Curve" id=27]
+[sub_resource type="Curve" id=42]
 _data = [ Vector2( 0, 0.5528 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=28]
+[sub_resource type="Gradient" id=43]
 offsets = PoolRealArray( 0.0166667, 0.169014, 1 )
 colors = PoolColorArray( 1, 1, 1, 0.00321569, 1, 1, 1, 1, 1, 0.682353, 0.00784314, 0.0497255 )
 
-[sub_resource type="StyleBoxTexture" id=29]
+[sub_resource type="StyleBoxTexture" id=44]
 texture = ExtResource( 50 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 49.75
@@ -549,7 +566,7 @@ margin_right = 49.75
 margin_top = 50.0
 margin_bottom = 49.5
 
-[sub_resource type="StyleBoxTexture" id=30]
+[sub_resource type="StyleBoxTexture" id=45]
 texture = ExtResource( 49 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 49.5
@@ -557,7 +574,7 @@ margin_right = 50.0
 margin_top = 50.0
 margin_bottom = 50.0
 
-[sub_resource type="StyleBoxTexture" id=31]
+[sub_resource type="StyleBoxTexture" id=32]
 texture = ExtResource( 48 )
 region_rect = Rect2( 0, 0, 230, 120 )
 margin_left = 50.0
@@ -4008,6 +4025,7 @@ container_notfounds = NodePath("PageMain/MarginContainer/VBoxContainer/BottomCon
 resource_preloader = NodePath("ResourcePreloader")
 
 [node name="PageMain" type="Control" parent="Card"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -720.0
@@ -4306,6 +4324,7 @@ margin_bottom = 527.0
 page_card = NodePath("../../../../../../../../..")
 
 [node name="Tab" type="TextureRect" parent="Card/PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 1309.0
 margin_right = 1440.0
 margin_bottom = 1459.0
@@ -4490,6 +4509,7 @@ clip_text = true
 script = ExtResource( 31 )
 
 [node name="BottomContainers" type="MarginContainer" parent="Card/PageMain/MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 1484.0
 margin_right = 1440.0
 margin_bottom = 2794.0
@@ -4753,6 +4773,7 @@ custom_constants/margin_left = 15
 custom_constants/margin_bottom = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Card/PageMain/MarginContainer/Control/Pressed/MarginContainer/MarginContainer"]
+editor/display_folded = true
 margin_left = 15.0
 margin_top = 20.0
 margin_right = 297.0
@@ -5262,6 +5283,7 @@ texture = ExtResource( 59 )
 expand = true
 
 [node name="Control" type="Control" parent="Battle/ProfileBar"]
+editor/display_folded = true
 use_parent_material = true
 margin_left = 1.04904e-05
 margin_top = 43.75
@@ -5457,6 +5479,7 @@ clip_text = true
 script = ExtResource( 31 )
 
 [node name="MedalChest" type="TextureButton" parent="Battle/SpecialChests"]
+editor/display_folded = true
 self_modulate = Color( 1, 0.701961, 0, 1 )
 use_parent_material = true
 margin_left = 225.0
@@ -5556,6 +5579,7 @@ texture_progress = ExtResource( 70 )
 tint_progress = Color( 1, 0.713726, 0.0431373, 1 )
 
 [node name="TextureRect" type="TextureRect" parent="Battle/SpecialChests/MedalChest"]
+editor/display_folded = true
 self_modulate = Color( 0.368627, 0.368627, 0.368627, 1 )
 use_parent_material = true
 margin_left = 6.0
@@ -5589,7 +5613,6 @@ align = 1
 valign = 1
 
 [node name="KnightText" type="Control" parent="Battle"]
-editor/display_folded = true
 material = ExtResource( 72 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5675,7 +5698,6 @@ script = ExtResource( 31 )
 anims/appear = SubResource( 2 )
 
 [node name="BattleChests" type="NinePatchRect" parent="Battle"]
-editor/display_folded = true
 self_modulate = Color( 0.34902, 0.301961, 0.258824, 0.486275 )
 use_parent_material = true
 anchor_left = 0.5
@@ -5708,7 +5730,6 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="Slots" type="VBoxContainer" parent="Battle/BattleChests"]
-editor/display_folded = true
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5723,7 +5744,6 @@ custom_constants/separation = 0
 alignment = 1
 
 [node name="SlotLine1" type="HBoxContainer" parent="Battle/BattleChests/Slots"]
-editor/display_folded = true
 margin_top = 8.0
 margin_right = 1052.0
 margin_bottom = 308.0
@@ -5731,7 +5751,6 @@ custom_constants/separation = 0
 alignment = 1
 
 [node name="Slot0" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine1"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 6.0
@@ -5746,7 +5765,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine1/Slot0"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5807,7 +5825,6 @@ custom_styles/normal = SubResource( 5 )
 kind = "Battle"
 
 [node name="Slot1" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine1"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 266.0
@@ -5822,7 +5839,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine1/Slot1"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5884,7 +5900,6 @@ slot = 1
 kind = "Battle"
 
 [node name="Slot2" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine1"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 526.0
@@ -5899,7 +5914,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine1/Slot2"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -5961,7 +5975,6 @@ slot = 2
 kind = "Battle"
 
 [node name="Slot3" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine1"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 786.0
@@ -5976,7 +5989,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine1/Slot3"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6038,7 +6050,6 @@ slot = 3
 kind = "Battle"
 
 [node name="SlotLine2" type="HBoxContainer" parent="Battle/BattleChests/Slots"]
-editor/display_folded = true
 margin_top = 308.0
 margin_right = 1052.0
 margin_bottom = 608.0
@@ -6046,7 +6057,6 @@ custom_constants/separation = 0
 alignment = 1
 
 [node name="Slot0" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine2"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 6.0
@@ -6061,7 +6071,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine2/Slot0"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6122,7 +6131,6 @@ custom_styles/normal = SubResource( 5 )
 kind = "Feeble"
 
 [node name="Slot1" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine2"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 266.0
@@ -6137,7 +6145,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine2/Slot1"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6199,7 +6206,6 @@ slot = 1
 kind = "Feeble"
 
 [node name="Slot2" type="NinePatchRect" parent="Battle/BattleChests/Slots/SlotLine2"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.439216 )
 use_parent_material = true
 margin_left = 526.0
@@ -6214,7 +6220,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine2/Slot2"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6290,7 +6295,6 @@ patch_margin_right = 16
 patch_margin_bottom = 14
 
 [node name="Base0" type="TextureRect" parent="Battle/BattleChests/Slots/SlotLine2/Slot3"]
-editor/display_folded = true
 self_modulate = Color( 0.298039, 0.298039, 0.298039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6352,7 +6356,6 @@ slot = 3
 kind = "Feeble"
 
 [node name="SlotCover" type="Control" parent="Battle"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -6464,7 +6467,6 @@ autoplay = "openslot"
 anims/openslot = SubResource( 7 )
 
 [node name="Mid" type="TextureRect" parent="Battle"]
-editor/display_folded = true
 use_parent_material = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6540,7 +6542,6 @@ clip_text = true
 script = ExtResource( 31 )
 
 [node name="FillChest" type="TextureButton" parent="Battle"]
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -6568,6 +6569,7 @@ valign = 1
 clip_text = true
 
 [node name="Explore" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1440.0
@@ -6635,6 +6637,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="Control" type="Control" parent="Explore/PageMain"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -6653,7 +6656,6 @@ margin_right = 1260.0
 margin_bottom = 2290.0
 
 [node name="Roots" type="Control" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 2500.0
 
@@ -6757,7 +6759,6 @@ texture = ExtResource( 4 )
 expand = true
 
 [node name="Pressed0" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 465.0
 margin_top = 358.0
 margin_right = 665.0
@@ -6820,7 +6821,6 @@ align = 1
 valign = 1
 
 [node name="Pressed1" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 215.0
 margin_top = 508.0
 margin_right = 415.0
@@ -6883,7 +6883,6 @@ align = 1
 valign = 1
 
 [node name="Pressed2" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 615.0
 margin_top = 608.0
 margin_right = 815.0
@@ -6952,7 +6951,6 @@ align = 1
 valign = 1
 
 [node name="Pressed3" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 765.0
 margin_top = 808.0
 margin_right = 965.0
@@ -7021,7 +7019,6 @@ align = 1
 valign = 1
 
 [node name="Pressed4" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 415.0
 margin_top = 858.0
 margin_right = 615.0
@@ -7090,7 +7087,6 @@ align = 1
 valign = 1
 
 [node name="Pressed5" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 165.0
 margin_top = 988.0
 margin_right = 365.0
@@ -7159,7 +7155,6 @@ align = 1
 valign = 1
 
 [node name="Pressed6" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 665.0
 margin_top = 1208.0
 margin_right = 865.0
@@ -7228,7 +7223,6 @@ align = 1
 valign = 1
 
 [node name="Pressed7" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 415.0
 margin_top = 1238.0
 margin_right = 615.0
@@ -7297,7 +7291,6 @@ align = 1
 valign = 1
 
 [node name="Pressed8" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 115.0
 margin_top = 1408.0
 margin_right = 315.0
@@ -7366,7 +7359,6 @@ align = 1
 valign = 1
 
 [node name="Pressed9" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 515.0
 margin_top = 1558.0
 margin_right = 715.0
@@ -7435,7 +7427,6 @@ align = 1
 valign = 1
 
 [node name="Pressed10" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 715.0
 margin_top = 1738.0
 margin_right = 915.0
@@ -7504,7 +7495,6 @@ align = 1
 valign = 1
 
 [node name="Pressed11" type="Button" parent="Explore/PageMain/Control/Scroll"]
-editor/display_folded = true
 margin_left = 365.0
 margin_top = 1938.0
 margin_right = 565.0
@@ -7583,7 +7573,6 @@ margin_right = -180.0
 margin_bottom = 960.0
 
 [node name="Tap1" type="TextureRect" parent="Explore/PageMain/Control/StageSelect"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.470588 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -7632,7 +7621,6 @@ align = 1
 valign = 1
 
 [node name="Tap2" type="TextureRect" parent="Explore/PageMain/Control/StageSelect"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.470588 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -7687,7 +7675,6 @@ align = 1
 valign = 1
 
 [node name="Tap3" type="TextureRect" parent="Explore/PageMain/Control/StageSelect"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.470588 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -7742,7 +7729,6 @@ align = 1
 valign = 1
 
 [node name="Tap4" type="TextureRect" parent="Explore/PageMain/Control/StageSelect"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0.470588 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -7797,7 +7783,6 @@ align = 1
 valign = 1
 
 [node name="Tap5" type="TextureRect" parent="Explore/PageMain/Control/StageSelect"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.705882 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -7926,7 +7911,6 @@ align = 1
 valign = 2
 
 [node name="Bottom" type="TextureRect" parent="Explore/PageMain"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 margin_top = 1680.0
 margin_right = 1440.0
@@ -7978,6 +7962,7 @@ align = 1
 valign = 1
 
 [node name="Social" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 2880.0
@@ -10014,7 +9999,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="CardInfo" type="TextureButton" parent="PopUp"]
-editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10061,19 +10045,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -520.0
-margin_top = -590.0
+margin_top = -800.0
 margin_right = 520.0
-margin_bottom = 590.0
-rect_min_size = Vector2( 1040, 1150 )
+margin_bottom = 720.0
+rect_min_size = Vector2( 1040, 1520 )
 script = ExtResource( 102 )
 info_root = NodePath("..")
 stat_container = NodePath("MainPanel/SubPanel/Spec/StatIconContainer")
 
 [node name="MainPanel" type="NinePatchRect" parent="PopUp/CardInfo/MainPopup"]
 self_modulate = Color( 0.243137, 0.278431, 0.380392, 1 )
-margin_top = -210.0
 margin_right = 1040.0
-margin_bottom = 1310.0
+margin_bottom = 1520.0
 texture = ExtResource( 85 )
 region_rect = Rect2( 0, 0, 40, 40 )
 patch_margin_left = 15
@@ -10170,10 +10153,14 @@ margin_left = 360.0
 margin_right = 990.0
 margin_bottom = 430.0
 
+[node name="HoverLoop" type="AnimationPlayer" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView"]
+autoplay = "loop"
+anims/loop = SubResource( 33 )
+
 [node name="Symbol" type="Control" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView"]
-margin_left = -399.0
+margin_left = -379.0
 margin_top = -109.5
-margin_right = -199.0
+margin_right = -179.0
 margin_bottom = -9.5
 
 [node name="Knight" type="TextureRect" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView/Symbol"]
@@ -10182,10 +10169,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -69.0
-margin_top = -41.5
-margin_right = 69.0
-margin_bottom = 41.5
+margin_left = -99.0
+margin_top = -51.0
+margin_right = 81.0
+margin_bottom = 58.0
 texture = ExtResource( 30 )
 expand = true
 
@@ -10195,10 +10182,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 299.0
-margin_top = 23.0
-margin_right = 929.0
-margin_bottom = 443.0
+margin_left = 279.0
+margin_top = 3.0
+margin_right = 909.0
+margin_bottom = 423.0
 texture = ExtResource( 79 )
 expand = true
 
@@ -10208,10 +10195,10 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -90.0
-margin_top = -36.5
+margin_top = -56.5
 margin_right = 90.0
-margin_bottom = 8.5
-custom_fonts/font = ExtResource( 6 )
+margin_bottom = -11.5
+custom_fonts/font = ExtResource( 17 )
 text = "KNIGHT"
 align = 1
 valign = 1
@@ -10223,10 +10210,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -69.0
-margin_top = -41.5
-margin_right = 69.0
-margin_bottom = 41.5
+margin_left = -99.0
+margin_top = -51.0
+margin_right = 81.0
+margin_bottom = 58.0
 texture = ExtResource( 34 )
 expand = true
 
@@ -10236,10 +10223,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 299.0
-margin_top = 23.0
-margin_right = 929.0
-margin_bottom = 443.0
+margin_left = 279.0
+margin_top = 3.0
+margin_right = 909.0
+margin_bottom = 423.0
 texture = ExtResource( 79 )
 expand = true
 
@@ -10249,19 +10236,20 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -90.0
-margin_top = -36.5
+margin_top = -56.5
 margin_right = 90.0
-margin_bottom = 8.5
-custom_fonts/font = ExtResource( 6 )
+margin_bottom = -11.5
+custom_fonts/font = ExtResource( 17 )
 text = "SQUIRE"
 align = 1
 valign = 1
 
 [node name="UnitPosition" type="Position2D" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView"]
 position = Vector2( 306, 220 )
-scale = Vector2( 1.4, 1.4 )
+scale = Vector2( 1.6, 1.6 )
 
 [node name="Lancer" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView/UnitPosition" instance=ExtResource( 104 )]
+use_parent_material = true
 
 [node name="RarityControl" type="Control" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel"]
 editor/display_folded = true
@@ -10320,7 +10308,6 @@ patch_margin_right = 15
 patch_margin_bottom = 15
 
 [node name="StatIconContainer" type="GridContainer" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/Spec"]
-editor/display_folded = true
 anchor_left = 0.016
 anchor_top = 0.02
 anchor_right = 0.985
@@ -10329,7 +10316,6 @@ margin_bottom = 18.8
 columns = 2
 
 [node name="Item0" type="Control" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/Spec/StatIconContainer"]
-editor/display_folded = true
 margin_right = 475.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 475, 74 )
@@ -10965,10 +10951,10 @@ margin_top = 1262.0
 margin_right = 660.0
 margin_bottom = 1392.0
 rect_min_size = Vector2( 280, 130 )
-custom_styles/hover = SubResource( 19 )
-custom_styles/pressed = SubResource( 20 )
-custom_styles/disabled = SubResource( 21 )
-custom_styles/normal = SubResource( 22 )
+custom_styles/hover = SubResource( 34 )
+custom_styles/pressed = SubResource( 35 )
+custom_styles/disabled = SubResource( 36 )
+custom_styles/normal = SubResource( 37 )
 
 [node name="Label2" type="Label" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/Upgrade"]
 margin_left = 10.0
@@ -10976,7 +10962,7 @@ margin_top = 8.0
 margin_right = 270.0
 margin_bottom = 67.0
 rect_min_size = Vector2( 260, 50 )
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 38 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_HUD_CARDINFO_UPGRADE"
 align = 1
@@ -11018,9 +11004,9 @@ margin_left = 690.0
 margin_top = 1262.0
 margin_right = 970.0
 margin_bottom = 1392.0
-custom_styles/hover = SubResource( 24 )
-custom_styles/pressed = SubResource( 25 )
-custom_styles/normal = SubResource( 26 )
+custom_styles/hover = SubResource( 39 )
+custom_styles/pressed = SubResource( 40 )
+custom_styles/normal = SubResource( 41 )
 
 [node name="Label" type="Label" parent="PopUp/CardInfo/MainPopup/MainPanel/SubPanel/Use"]
 margin_left = 13.0
@@ -11669,8 +11655,8 @@ angular_velocity = 180.0
 angular_velocity_random = 1.0
 radial_accel_random = 1.0
 scale_amount = 6.0
-scale_amount_curve = SubResource( 27 )
-color_ramp = SubResource( 28 )
+scale_amount_curve = SubResource( 42 )
+color_ramp = SubResource( 43 )
 
 [node name="TextureRect" type="TextureRect" parent="PopUp/ChestInfo/Popup/Chest/BGeffect"]
 modulate = Color( 0.647059, 0.803922, 1, 1 )
@@ -12071,9 +12057,9 @@ margin_top = 575.0
 margin_right = 680.0
 margin_bottom = 705.0
 rect_min_size = Vector2( 280, 130 )
-custom_styles/hover = SubResource( 29 )
-custom_styles/pressed = SubResource( 30 )
-custom_styles/normal = SubResource( 31 )
+custom_styles/hover = SubResource( 44 )
+custom_styles/pressed = SubResource( 45 )
+custom_styles/normal = SubResource( 32 )
 
 [node name="Label" type="Label" parent="PopUp/ChestInfo/Popup/Panel/Contents/Open"]
 margin_left = 10.0
@@ -12096,9 +12082,9 @@ margin_top = 575.0
 margin_right = 980.0
 margin_bottom = 705.0
 rect_min_size = Vector2( 280, 130 )
-custom_styles/hover = SubResource( 29 )
-custom_styles/pressed = SubResource( 30 )
-custom_styles/normal = SubResource( 31 )
+custom_styles/hover = SubResource( 44 )
+custom_styles/pressed = SubResource( 45 )
+custom_styles/normal = SubResource( 32 )
 
 [node name="Text" type="Label" parent="PopUp/ChestInfo/Popup/Panel/Contents/InstantOpen"]
 margin_left = 12.0

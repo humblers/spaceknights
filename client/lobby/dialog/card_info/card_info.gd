@@ -27,6 +27,7 @@ export(NodePath) onready var icon_resource = get_node(icon_resource)
 
 var card
 var unit
+var shader_material = preload("res://material/light.tres")
 
 func _ready():
 	self.connect("button_up", self, "hide")
@@ -97,11 +98,14 @@ func set_unit_preview(card):
 		for i in card.Count:
 			var node = loading_screen.LoadResource(path).instance()
 			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+			node.material = shader_material.duplicate()
 			position.add_child(node)
+			
 		preview.get_node("Symbol/Knight").visible = false
 		preview.get_node("Symbol/Squire").visible = true
 	else:
 		var node = loading_screen.LoadResource(path).instance()
+		node.material = shader_material.duplicate()
 		position.add_child(node)
 		preview.get_node("Symbol/Knight").visible = true
 		preview.get_node("Symbol/Squire").visible = false
