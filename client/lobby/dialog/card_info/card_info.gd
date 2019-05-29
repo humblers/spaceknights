@@ -81,11 +81,31 @@ func PopUp(card, enable_use = false):
 	$MainPopup/MainPanel/SubPanel/NinePatchRect/Base.Invalidate(card)
 	holding_label.text = "%d/%d" % [card.Holding, card_cost]
 	upgrade_cost.text = "%d" % coin_cost
+	set_unit_preview(card)
 
 	main_popup.Invalidate(card, unit)
 	sub_popup.visible = false
 	self.visible = true
 
+func set_unit_preview(card):
+	var preview = $MainPopup/MainPanel/SubPanel/NinePatchRect/UnitView
+	var position = preview.get_node("UnitPosition")
+	for c in position.get_children():
+		c.queue_free()
+	var path = loading_screen.GetUnitScenePath(card.Unit)
+	if card.Type == data.SquireCard:
+		for i in card.Count:
+			var node = loading_screen.LoadResource(path).instance()
+			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+			position.add_child(node)
+		preview.get_node("Symbol/Knight").visible = false
+		preview.get_node("Symbol/Squire").visible = true
+	else:
+		var node = loading_screen.LoadResource(path).instance()
+		position.add_child(node)
+		preview.get_node("Symbol/Knight").visible = true
+		preview.get_node("Symbol/Squire").visible = false
+		
 func hide():
 	if $SubPopup.visible:
 		$SubPopup.visible = false
