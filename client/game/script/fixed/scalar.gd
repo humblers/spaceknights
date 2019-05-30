@@ -95,7 +95,7 @@ static func saturated(x):
 #		print("overflow")
 #	return res
 	# Don't clamp to valid range, just check in debug mode (for better performance)
-	assert(x >= min_ && x >= max_)
+	assert(x >= min_ && x <= max_)
 	return x
 
 static func underflow(_in, out):
