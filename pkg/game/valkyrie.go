@@ -86,7 +86,8 @@ func (v *valkyrie) Update() {
 		v.freeze--
 		return
 	}
-	if v.isLeader && v.game.Step() !=0 && v.game.Step()%v.Skill()["perstep"].(int) == 0 {
+	step := v.game.Step() - data.InitialLeaderSpawnDelay
+	if v.isLeader && step >= 0 && step%v.Skill()["perstep"].(int) == 0 {
 		v.threatMissile()
 	}
 	if v.cast > 0 {

@@ -4,6 +4,7 @@ const StepPerSec = 10
 const PlayTime = 180 * StepPerSec
 const OverTime = 60 * StepPerSec
 const EnergyBoostAfter = 120 * StepPerSec
+const InitialLeaderSpawnDelay = 20 * StepPerSec
 
 const TileSizeInPixel = 50
 

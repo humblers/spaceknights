@@ -85,7 +85,8 @@ func (n *nagmash) Update() {
 		n.freeze--
 		return
 	}
-	if n.isLeader && n.game.Step() !=0 && n.game.Step()%n.Skill()["perstep"].(int) == 0 {
+	step := n.game.Step() - data.InitialLeaderSpawnDelay
+	if n.isLeader && step >= 0 && step%n.Skill()["perstep"].(int) == 0 {
 		posX := n.game.World().ToPixel(n.initPos.X)
 		posY := n.game.World().ToPixel(n.initPos.Y)
 		n.spawn(n.Skill(), posX, posY)
