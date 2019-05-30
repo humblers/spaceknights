@@ -96,6 +96,7 @@ func init_card(card = null):
 	$Card.scale = card_init_scale
 	$Card.z_index = card_init_z_index
 	if card != null:
+		$Card.visible = card.Type == data.SquireCard
 		var path = loading_screen.GetCardIconPathInGame(card.Name)
 		icon.texture = loading_screen.LoadResource(path)
 		cost_label.text = str(card.Cost/1000)
@@ -259,8 +260,9 @@ func on_released(side = null):
 		rotateRunway(0)
 
 	if card.Type == data.KnightCard:
+		event.emit_signal("BlueHandVanished", card)
 		guide.visible = false
-		
+
 	knight_button_left.visible = true
 	knight_button_right.visible = true
 	prev_mouse = "Released"
@@ -333,7 +335,6 @@ func set_guide_pos(x, y):
 
 	if card.Type == data.SquireCard:
 		from = self.rect_global_position + self.rect_size / 2
-#		from = Vector2( (int(self.name.right(4)) -1) * 202 + 346, 1800)
 		guide.set_position(from)
 
 	else:
@@ -348,11 +349,7 @@ func set_guide_pos(x, y):
 	guide.set_rotation_degrees((180/PI) * angle)
 	guide.get_node("Sprite").value = (dir.length()/15.3)
 
-	if card.Type == data.KnightCard:
-		if !knight.get_node("AnimationPlayer").get_current_animation():
-			#knight.set_rotation_degrees((180/PI) * angle)
-			pass
-	else:
+	if card.Type != data.KnightCard:
 		rotateRunway(angle)
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
