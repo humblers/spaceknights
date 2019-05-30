@@ -7,6 +7,7 @@ func _ready():
 		event.connect("BlueSetHand%d" % [i+1], self, "setHand", [i+1])
 	event.connect("BlueHandVanished", self, "offCostVisible")
 	event.connect("GameInitialized", self, "init")
+	event.connect("BlueKnightDead", self, "knightDead")
 
 func init(game):
 	var color = "Red" if game.team_swapped else "Blue"
@@ -33,3 +34,7 @@ func setHand(hand, index):
 func offCostVisible(hand):
 	if hand != null and side == hand.Side:
 		$Cost.visible = false
+
+func knightDead(side):
+	if self.side == side:
+		self.visible = false
