@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/blake2b"
 )
 
-const validDuration = 10 * time.Minute
+const validDuration = 24 * time.Hour
 
 var key []byte = []byte("7E7A4A754292AC2BBF1FCEC4C8DDE")
 
