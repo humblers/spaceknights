@@ -90,10 +90,13 @@ static func Sqrt(x):
 	return res
 
 static func saturated(x):
-	var res = Clamp(x, min_, max_)
-	if res != x:
-		print("overflow")
-	return res
+#	var res = Clamp(x, min_, max_)
+#	if res != x:
+#		print("overflow")
+#	return res
+	# Don't clamp to valid range, just check in debug mode (for better performance)
+	assert(x >= min_ && x >= max_)
+	return x
 
 static func underflow(_in, out):
 	var b = (_in != 0 and out == 0)

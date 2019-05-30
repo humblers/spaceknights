@@ -324,7 +324,7 @@ func Update(state):
 	update_energy_boost()
 
 func validate(state):
-	if connected:
+	if connected and config.CHECK_DESYNC:
 		var client_hash = Hash()
 		var server_hash = state.Hash
 		if client_hash != server_hash:
