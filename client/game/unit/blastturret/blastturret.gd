@@ -13,7 +13,7 @@ func Init(id, level, posX, posY, game, player):
 	Decayable.Init(self)
 
 func _ready():
-	$AnimationPlayer.play("anchor")
+	$Float/FloatAni.play("activate")
 
 func TakeDamage(amount, damageType, attacker):
 	if data.DamageTypeIs(damageType, data.DecreaseOnKnight):
@@ -38,8 +38,6 @@ func Update():
 				handleAttack()
 			else:
 				findTargetAndDoAction()
-	if targetId == 0:
-		$AnimationPlayer.play("idle")
 
 func Destroy():
 	.Destroy()
@@ -64,9 +62,11 @@ func fire():
 	game.AddBullet(b)
 	# client only
 	b.rotation = $Rotatable.rotation
-	b.global_position = $Rotatable/TurretBody/Launcher/Shotpoint/Left.global_position
+	b.global_position = $Rotatable/TurretBody/Launcher/Shotpoint.global_position
 
 func findTargetAndDoAction():
+	if !$AnimationPlayer.get_current_animation():
+		$AnimationPlayer.play("idle")
 	var t = findTarget()
 	setTarget(t)
 	if t != null:
