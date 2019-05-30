@@ -116,6 +116,8 @@ func Update():
 				else:
 					attack = 0
 					findTargetAndDoAction()
+	if target() == null and cast == 0 and not skillReady:
+		$AnimationPlayer.play("idle")
 	
 func handleAttack():
 	var modulo = attack % attackInterval()

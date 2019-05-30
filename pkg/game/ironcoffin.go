@@ -88,7 +88,7 @@ func (i *ironcoffin) Update() {
 		i.freeze--
 		return
 	}
-	if i.isLeader && i.game.Step()%i.Skill()["perstep"].(int) == 0 {
+	if i.isLeader && i.game.Step() !=0 && i.game.Step()%i.Skill()["perstep"].(int) == 0 {
 		i.spawn(i.Skill())
 	}
 	if i.cast > 0 {

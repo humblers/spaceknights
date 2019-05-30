@@ -149,7 +149,7 @@ func Update():
 			$Sound/Attack.stop()
 		
 	# client only
-	if targetId <= 0 and cast <= 0:
+	if targetId <= 0 and cast <= 0 and not skillReady:
 		$AnimationPlayer.play("idle")
 	show_laser(attack > 0)
 

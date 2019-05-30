@@ -88,7 +88,7 @@ func (p *pixieking) Update() {
 		p.freeze--
 		return
 	}
-	if p.isLeader && p.game.Step()%p.Skill()["perstep"].(int) == 0 {
+	if p.isLeader && p.game.Step() !=0 && p.game.Step()%p.Skill()["perstep"].(int) == 0 {
 		p.spawn(p.Skill())
 	}
 	if p.cast > 0 {
