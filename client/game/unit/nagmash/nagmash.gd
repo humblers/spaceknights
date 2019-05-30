@@ -96,7 +96,7 @@ func Update():
 		targetId = 0
 		freeze -= 1
 		return
-	if isLeader and game.Step() % Skill()["perstep"] == 0:
+	if isLeader and game.Step() != 0 and game.Step() % Skill()["perstep"] == 0:
 		var posX = game.World().ToPixel(initPosX)
 		var posY = game.World().ToPixel(initPosY)
 		spawn(Skill(), posX, posY)
@@ -150,6 +150,8 @@ func Update():
 			$Sound/Attack.stop()
 		
 	# client only
+	if targetId <= 0 and cast <= 0 and not skillReady:
+		$AnimationPlayer.play("idle")
 	show_laser(attack > 0)
 
 func show_laser(enable):
