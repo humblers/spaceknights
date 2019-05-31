@@ -3,8 +3,8 @@ extends Node
 class_name Player
 
 const MAX_ENERGY = 10000
-const START_ENERGY = 7000
-const ENERGY_PER_FRAME = 40
+const START_ENERGY = 5000
+const ENERGY_PER_FRAME = 35
 const HAND_SIZE = 4
 const DRAW_INTERVAL = 30
 const KNIGHT_TILE_NUM_X = 4

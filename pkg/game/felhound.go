@@ -8,26 +8,11 @@ type felhound struct {
 	*unit
 	targetId int
 	attack   int
-	shield   int
 }
 
 func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
-	u := newUnit(id, "felhound", p.Team(), level, posX, posY, g)
 	return &felhound{
-		unit:   u,
-		shield: u.initialShield(),
-	}
-}
-
-func (f *felhound) TakeDamage(amount int, damageType data.DamageType) {
-	if !damageType.Is(data.AntiShield) {
-		f.shield -= amount
-		if f.shield < 0 {
-			f.hp += f.shield
-			f.shield = 0
-		}
-	} else {
-		f.hp -= amount
+		unit:   newUnit(id, "felhound", p.Team(), level, posX, posY, g),
 	}
 }
 
@@ -52,10 +37,6 @@ func (f *felhound) Update() {
 				f.findTargetAndDoAction()
 			}
 		}
-	}
-	f.shield += ShieldRegenPerStep
-	if f.shield > f.initialShield() {
-		f.shield = f.initialShield()
 	}
 }
 

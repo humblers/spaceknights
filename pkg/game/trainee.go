@@ -3,12 +3,27 @@ package game
 type trainee struct {
 	*unit
 	targetId int
-	attack   int // elapsed time since attack start
+	attack   int // elapsed time since attack start	
+	shield   int
 }
 
 func newTrainee(id int, level, posX, posY int, g Game, p Player) Unit {
+	u := newUnit(id, "trainee", p.Team(), level, posX, posY, g)
 	return &trainee{
-		unit: newUnit(id, "trainee", p.Team(), level, posX, posY, g),
+		unit: u,
+		shield: u.initialShield(),
+	}
+}
+
+func (tr *trainee) TakeDamage(amount int, damageType data.DamageType) {
+	if !damageType.Is(data.AntiShield) {
+		tr.shield -= amount
+		if tr.shield < 0 {
+			tr.hp += tr.shield
+			tr.shield = 0
+		}
+	} else {
+		tr.hp -= amount
 	}
 }
 
@@ -33,6 +48,10 @@ func (tr *trainee) Update() {
 				tr.findTargetAndDoAction()
 			}
 		}
+	}
+	tr.shield += ShieldRegenPerStep
+	if tr.shield > tr.initialShield() {
+		tr.shield = tr.initialShield()
 	}
 }
 
