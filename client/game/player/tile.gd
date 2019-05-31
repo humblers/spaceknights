@@ -5,6 +5,7 @@ var focus_index = -1
 func _ready():
 	event.connect("BlueKnightDead", self, "expand", ["Blue"])
 	event.connect("RedKnightDead", self, "expand", ["Red"])
+	visible = false
 
 func Show(isSpell, index):
 	focus_index = index
@@ -13,21 +14,11 @@ func Show(isSpell, index):
 	$Unit.visible = not isSpell
 	$Spell.visible = isSpell
 
-func Hide(type = null, index = -1):
+func Hide(index):
 	if focus_index != index:
 		return
-	$Grid.visible = false
-	if !type:
-		visible = false
-	else:
-		match type:
-			"Unit":
-				$Unit.visible = false
-				return
-			"Spell":
-				$Spell.visible = false
-				return
-	
+	visible = false
+
 func expand(side, color):
 	if side == "Center":
 		return
