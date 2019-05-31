@@ -29,7 +29,6 @@ var input_sent = false
 
 var focused setget setFocus
 var guide
-var prev_mouse = null
 
 func _ready():
 	connect("gui_input", self, "handle_input")
@@ -159,7 +158,6 @@ func on_pressed(side = null):
 	tile.Show(data.CardIsSpell(card), index)
 	$Card.z_index += 1
 	event.emit_signal("BlueHandFocused", index)
-	prev_mouse = "Pressed"
 
 func on_dragged(ev):
 	$Card.position = ev.position
@@ -184,9 +182,7 @@ func on_dragged(ev):
 	else:
 		$Cursor.visible = false
 		guide.visible = false
-	
-	prev_mouse = "Dragged"
-	
+
 func map_on_released(ev):
 	$Card.position = ev.position
 	
@@ -207,48 +203,33 @@ func on_released(side = null):
 	var pos = map.get_local_mouse_position()
 	# when knigt button get input signal, if this input is mis input then reset ui
 	if side and pos.y < map.rect_size.y:
-		if prev_mouse != "Dragged":
-			return
 		var knight = player.findKnight(card.Name)
 		if knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
-			if side == "Left" and knight_button_left.get_global_rect().has_point(pos):
-				$Cursor.visible = false
-				guide.visible = false
-				return
-			if side == "Right" and knight_button_right.get_global_rect().has_point(pos):
-				$Cursor.visible = false
-				guide.visible = false
-				return
-		
+			var control = get("knight_button_%s" % side.to_lower())
+			if control != null:
+				var rect = Rect2(Vector2(0, 0), control.rect_size)
+				if rect.has_point(control.get_local_mouse_position()):
+					$Cursor.visible = false
+					guide.visible = false
+					return
+
 	if card.Type == data.KnightCard:
 		var knight = player.findKnight(card.Name)
 		if knight:
 			knight.set_rotation_degrees(0)
 	
 	# released on map?
-	
 	if pos.y > map.rect_size.y:
-		if prev_mouse == "Dragged":
-			self.focused = false
-			guide.visible = false
-			tile.Hide(index)
-			knight_button_left.visible = true
-			knight_button_right.visible = true
-			var knight = player.findKnight(card.Name)
-			if knight != null:
-				knight.skillRest()
 		init_card()
 		init_cursor()
-		prev_mouse = "Released"
 		rotateRunway(0)
 		return
-	
+
 	# enough energy?
 	if energy_bar.value > 0:
 		show_message("ID_ERROR_ENERGY", pos.y) 
 		init_card()
 		init_cursor()
-		prev_mouse = "Released"
 		rotateRunway(0)
 		return
 
@@ -258,7 +239,6 @@ func on_released(side = null):
 
 	knight_button_left.visible = true
 	knight_button_right.visible = true
-	prev_mouse = "Released"
 	self.focused = false
 	tile.Hide(index)
 

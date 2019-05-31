@@ -23,14 +23,14 @@ const RankDownLimit = 5
 const DecreasedDamageRatioOnKnightBuilding = 35
 
 var InitialDeck = []Card{
-	Card{Name: "archers"},
+	Card{Name: "champion"},
 	Card{Name: "berserker"},
-	Card{Name: "footmans"},
-	Card{Name: "blaster"},
-	Card{Name: "enforcer"},
-	Card{Name: "jouster"},
-	Card{Name: "archsapper", Side: Left},
-	Card{Name: "legion", Side: Center},
+	Card{Name: "sentries"},
+	Card{Name: "gargoyleking"},
+	Card{Name: "starfire"},
+	Card{Name: "ogre"},
+	Card{Name: "legion", Side: Left},
+	Card{Name: "buran", Side: Center},
 	Card{Name: "nagmash", Side: Right},
 }
 
