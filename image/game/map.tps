@@ -181,6 +181,64 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">map/bluehole/bluehole.png</key>
+            <key type="filename">map/kapteyn/bg_kapteyn.png</key>
+            <key type="filename">map/kepler/bg_kepler.png</key>
+            <key type="filename">map/luyten/bg_luyten.png</key>
+            <key type="filename">map/proxima/bg_proxima_screen.png</key>
+            <key type="filename">map/ross/bg_ross_screen.png</key>
+            <key type="filename">map/trappist/bg_trappist.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>94,120,187,240</rect>
+                <key>scale9Paddings</key>
+                <rect>94,120,187,240</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/bluehole/debrie1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>46,35,91,71</rect>
+                <key>scale9Paddings</key>
+                <rect>46,35,91,71</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/bluehole/debrie2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>55,35,109,71</rect>
+                <key>scale9Paddings</key>
+                <rect>55,35,109,71</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">map/bluehole/debrie3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,33,97,66</rect>
+                <key>scale9Paddings</key>
+                <rect>49,33,97,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">map/building_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -296,24 +354,6 @@
                 <rect>50,24,99,47</rect>
                 <key>scale9Paddings</key>
                 <rect>50,24,99,47</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">map/kapteyn/bg_kapteyn.png</key>
-            <key type="filename">map/kepler/bg_kepler.png</key>
-            <key type="filename">map/luyten/bg_luyten.png</key>
-            <key type="filename">map/proxima/bg_proxima_screen.png</key>
-            <key type="filename">map/ross/bg_ross_screen.png</key>
-            <key type="filename">map/trappist/bg_trappist.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>94,120,187,240</rect>
-                <key>scale9Paddings</key>
-                <rect>94,120,187,240</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
