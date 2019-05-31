@@ -234,7 +234,7 @@ var cards = {
 		"Unit":    "footman",
 		"Count":   4,
 		"OffsetX": [-30, 30, -30, 30],
-		"OffsetY": [-30, -30, 30, 30],
+		"OffsetY": [-20, -20, 20, 20],
 		"Rarity":  Common,
 	},
 	"frost": {
@@ -249,7 +249,7 @@ var cards = {
 		"Unit":    "gargoyle",
 		"Count":   3,
 		"OffsetX": [-20, 20, 0],
-		"OffsetY": [20, 20, 0],
+		"OffsetY": [10, 10, -10],
 		"Rarity":  Common,
 	},
 	"gargoylesquad": {
@@ -285,7 +285,7 @@ var cards = {
 		"Unit":    "heavymissile",
 		"Count":   3,
 		"OffsetX": [-40, 40, 0],
-		"OffsetY": [40, 40, 0],
+		"OffsetY": [20, 20, -20],
 		"Rarity":  Rare,
 	},
 	"ironcoffin": {
@@ -369,7 +369,7 @@ var cards = {
 		"Unit":    "pixie",
 		"Count":   3,
 		"OffsetX": [-30, 30, 0],
-		"OffsetY": [30, 30, 0],
+		"OffsetY": [15, 15, -15],
 		"Rarity":  Rare,
 	},
 	"pixieking": {
@@ -393,7 +393,7 @@ var cards = {
 		"Unit":    "sentry",
 		"Count":   3,
 		"OffsetX": [-30, 30, 0],
-		"OffsetY": [30, 30, 0],
+		"OffsetY": [15, 15, -15],
 		"Rarity":  Common,
 	},
 	"shadowvision": {
@@ -419,8 +419,8 @@ var cards = {
 		"Cost":    9000,
 		"Unit":    "starfire",
 		"Count":   3,
-		"OffsetX": [-50, 50, 0],
-		"OffsetY": [50, 50, 0],
+		"OffsetX": [-60, 60, 0],
+		"OffsetY": [30, 30, -30],
 		"Rarity":  Rare,
 	},
 	"tombstone": {
@@ -435,7 +435,7 @@ var cards = {
 		"Unit":    "trainee",
 		"Count":   3,
 		"OffsetX": [-30, 30, 0],
-		"OffsetY": [30, 30, 0],
+		"OffsetY": [15, 15, -15],
 		"Rarity":  Rare,
 	},
 	"valkyrie": {
