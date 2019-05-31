@@ -27,10 +27,10 @@ var card
 var pressed = false
 var input_sent = false
 
-var knight = null
-var focused = false
+var focused setget setFocus
 var guide
 var prev_mouse = null
+
 func _ready():
 	connect("gui_input", self, "handle_input")
 	knight_button_left.connect("gui_input", self, "handle_knight_input", ["Left"])
@@ -41,7 +41,6 @@ func _ready():
 	event.connect("BlueEnergyUpdated", self, "updateEnergy")
 	event.connect("BlueSetHand%d" % index, self, "setHand")
 	event.connect("BlueHandFocused", self, "updateFocus")
-	tile.Hide(-1)
 
 func setGame(game):
 	self.game = game
@@ -76,7 +75,6 @@ func setHand(card):
 		visible = true
 		self.card = card
 		$AnimationPlayer.stop()
-		tile.Hide()
 		init_card(card)
 		init_cursor(card)
 		init_dummy(card)
@@ -205,18 +203,14 @@ func map_on_released(ev):
 
 func on_released(side = null):
 	pressed = false
-	# i dont know why this hide needed
-#	if not focused:
-#		tile.Hide()
 
-	
 	var pos = map.get_local_mouse_position()
-		
 	# when knigt button get input signal, if this input is mis input then reset ui
 	if side and pos.y < map.rect_size.y:
 		if prev_mouse != "Dragged":
 			return
-		elif knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
+		var knight = player.findKnight(card.Name)
+		if knight.get_node("AnimationPlayer").get_current_animation() == "skill_ready":
 			if side == "Left" and knight_button_left.get_global_rect().has_point(pos):
 				$Cursor.visible = false
 				guide.visible = false
@@ -226,18 +220,21 @@ func on_released(side = null):
 				guide.visible = false
 				return
 		
-	if card.Type == data.KnightCard and knight:
-		knight.set_rotation_degrees(0)
+	if card.Type == data.KnightCard:
+		var knight = player.findKnight(card.Name)
+		if knight:
+			knight.set_rotation_degrees(0)
 	
 	# released on map?
 	
 	if pos.y > map.rect_size.y:
 		if prev_mouse == "Dragged":
-			focused = false
+			self.focused = false
 			guide.visible = false
-			tile.Hide()
+			tile.Hide(index)
 			knight_button_left.visible = true
 			knight_button_right.visible = true
+			var knight = player.findKnight(card.Name)
 			if knight != null:
 				knight.skillRest()
 		init_card()
@@ -254,10 +251,16 @@ func on_released(side = null):
 		prev_mouse = "Released"
 		rotateRunway(0)
 		return
-	
+
 	# send input
 	player.send_input(card, $Cursor.global_position - map.rect_position)
 	input_sent = true
+
+	knight_button_left.visible = true
+	knight_button_right.visible = true
+	prev_mouse = "Released"
+	self.focused = false
+	tile.Hide(index)
 
 	# play launch and show anim
 	if card.Type == data.SquireCard:
@@ -273,18 +276,10 @@ func on_released(side = null):
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
 		rotateRunway(0)
-		tile.Hide("Unit", index)
 
 	if card.Type == data.KnightCard:
 		event.emit_signal("BlueHandVanished", card)
 		guide.visible = false
-		tile.Hide("Spell", index)
-
-	knight_button_left.visible = true
-	knight_button_right.visible = true
-	prev_mouse = "Released"
-	focused = false
-	
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")
@@ -371,18 +366,20 @@ func set_guide_pos(x, y):
 		self.get_node("Rotate").set_rotation_degrees((180/PI) * angle)
 
 func updateFocus(focused_hand_index):
-	focused = index == focused_hand_index
+	self.focused = index == focused_hand_index
 	if focused:
-		if !$AnimationPlayer.get_current_animation():
-			$AnimationPlayer.play("card%d_ready" % index)
 		var knight_btns = [knight_button_left, knight_button_right]
 		if card.Type == data.KnightCard:
 			knight_btns.erase(knight_button_left if card.Side == data.Left else knight_button_right)
 		for btn in knight_btns:
 			btn.visible = false
-		knight = player.findKnight(card.Name)
-	else:
-		$AnimationPlayer.play("card%d_rest" % index)
+
+func setFocus(val):
+	focused = val
+	var anim_name = "card%d_ready" if val else "card%d_rest"
+	anim_name = anim_name % index
+	if $AnimationPlayer.get_current_animation() != anim_name:
+		$AnimationPlayer.play(anim_name)
 
 func rotateRunway(angle):
 	var runway
