@@ -116,6 +116,7 @@ func Update():
 					findTargetAndAttack()
 	if targetId <= 0 and cast <= 0 and not skillReady:
 		$AnimationPlayer.play("idle")
+		init_rotation()
 
 func castDuration():
 	return Skill()["castduration"]

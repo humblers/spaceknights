@@ -6,11 +6,22 @@ func _ready():
 
 func Show(isSpell):
 	visible = true
+	$Grid.visible = true
 	$Unit.visible = not isSpell
 	$Spell.visible = isSpell
 
-func Hide():
-	visible = false
+func Hide(type = null):
+	$Grid.visible = false
+	if !type:
+		visible = false
+	else:
+		match type:
+			"Unit":
+				$Unit.visible = false
+				return
+			"Spell":
+				$Spell.visible = false
+				return
 	
 func expand(side, color):
 	if side == "Center":
