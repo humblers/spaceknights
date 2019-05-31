@@ -97,7 +97,7 @@ func set_unit_preview(card):
 	if card.Type == data.SquireCard:
 		for i in card.Count:
 			var node = loading_screen.LoadResource(path).instance()
-			node.position = Vector2(card.OffsetX[i], card.OffsetY[i])
+			node.position = Vector2(card.OffsetX[i]*2, card.OffsetY[i]*2)
 			node.material = shader_material.duplicate()
 			position.add_child(node)
 			
