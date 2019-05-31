@@ -1,11 +1,16 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://loading_screen/loading_screen.gd" type="Script" id=1]
-[ext_resource path="res://image/intro/loading_1.png" type="Texture" id=2]
-[ext_resource path="res://material/unshaded.tres" type="Material" id=3]
-[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=4]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=5]
-[ext_resource path="res://image/title3.png" type="Texture" id=6]
+[ext_resource path="res://material/unshaded.tres" type="Material" id=2]
+[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=3]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=4]
+[ext_resource path="res://image/title3.png" type="Texture" id=5]
+[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=6]
+[ext_resource path="res://image/icon/wood.png" type="Texture" id=7]
+[ext_resource path="res://image/icon/fire.png" type="Texture" id=8]
+[ext_resource path="res://image/icon/water.png" type="Texture" id=9]
+[ext_resource path="res://image/icon/none.png" type="Texture" id=10]
+[ext_resource path="res://image/element_arrow.png" type="Texture" id=11]
 
 [sub_resource type="Animation" id=1]
 length = 2.0
@@ -42,27 +47,14 @@ margin_right = 720.0
 margin_bottom = 970.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="TextureRect3" type="TextureRect" parent="Control"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -720.0
-margin_top = -960.0
-margin_right = 720.0
-margin_bottom = 960.0
-texture = ExtResource( 2 )
-expand = true
-
 [node name="ProgressBar" type="ProgressBar" parent="Control"]
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -80.0
 rect_min_size = Vector2( 1080, 80 )
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 value = 50.0
 
@@ -80,15 +72,16 @@ margin_top = -140.0
 margin_right = 500.0
 margin_bottom = -82.0
 rect_min_size = Vector2( 1000, 0 )
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "ID_PAGE_LOADING_NOW"
 align = 1
 valign = 1
 clip_text = true
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -97,4 +90,167 @@ margin_left = -256.0
 margin_top = -346.0
 margin_right = 256.0
 margin_bottom = 166.0
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
+
+[node name="Elements" type="Control" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -960.0
+margin_right = 540.0
+margin_bottom = 790.0
+
+[node name="Title" type="Label" parent="Control/Elements"]
+visible = false
+margin_top = 60.0
+margin_right = 1080.0
+margin_bottom = 130.0
+custom_fonts/font = ExtResource( 6 )
+text = "원소별 상성"
+align = 1
+valign = 1
+
+[node name="Description" type="Label" parent="Control/Elements"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -515.0
+margin_top = -720.0
+margin_right = 515.0
+margin_bottom = -320.0
+custom_fonts/font = ExtResource( 3 )
+custom_constants/line_spacing = 10
+text = "각 세콰이어별 속성은 서로 상성관계에 있다.
+불은 나무에 강하고, 나무는 물에 강하고, 물은 불에 강하다.
+
+무속성은 모든 속성에 영향을 받거나 주지 않는다.
+하지만 그것이 무조건 장점은 아니다."
+align = 1
+valign = 1
+clip_text = true
+
+[node name="Wood" type="TextureRect" parent="Control/Elements"]
+margin_left = 380.0
+margin_top = 670.0
+margin_right = 700.0
+margin_bottom = 990.0
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Label" type="Label" parent="Control/Elements/Wood"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -200.0
+margin_right = 150.0
+margin_bottom = -140.0
+custom_fonts/font = ExtResource( 3 )
+text = "나무"
+align = 1
+valign = 1
+
+[node name="Fire" type="TextureRect" parent="Control/Elements"]
+margin_left = 70.0
+margin_top = 1160.0
+margin_right = 390.0
+margin_bottom = 1480.0
+texture = ExtResource( 8 )
+expand = true
+
+[node name="Label2" type="Label" parent="Control/Elements/Fire"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -190.0
+margin_right = 150.0
+margin_bottom = -130.0
+custom_fonts/font = ExtResource( 3 )
+text = "불"
+align = 1
+valign = 1
+
+[node name="Water" type="TextureRect" parent="Control/Elements"]
+margin_left = 690.0
+margin_top = 1160.0
+margin_right = 1010.0
+margin_bottom = 1480.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Label3" type="Label" parent="Control/Elements/Water"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -190.0
+margin_right = 150.0
+margin_bottom = -130.0
+custom_fonts/font = ExtResource( 3 )
+text = "물"
+align = 1
+valign = 1
+
+[node name="None" type="TextureRect" parent="Control/Elements"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = 110.0
+margin_right = 160.0
+margin_bottom = 430.0
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Label4" type="Label" parent="Control/Elements/None"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -160.0
+margin_right = 150.0
+margin_bottom = -100.0
+custom_fonts/font = ExtResource( 3 )
+text = "무속성"
+align = 1
+valign = 1
+
+[node name="Arrow1" type="TextureRect" parent="Control/Elements"]
+modulate = Color( 0.269531, 0.52063, 1, 0.588235 )
+margin_left = 720.0
+margin_top = 1260.0
+margin_right = 1120.0
+margin_bottom = 1340.0
+rect_scale = Vector2( -1, 1 )
+texture = ExtResource( 11 )
+expand = true
+
+[node name="Arrow2" type="TextureRect" parent="Control/Elements"]
+modulate = Color( 0.078125, 1, 0, 0.588235 )
+margin_left = 636.0
+margin_top = 840.0
+margin_right = 1036.0
+margin_bottom = 920.0
+rect_rotation = 60.0
+texture = ExtResource( 11 )
+expand = true
+
+[node name="Arrow3" type="TextureRect" parent="Control/Elements"]
+modulate = Color( 1, 1, 1, 0.588235 )
+self_modulate = Color( 1, 0, 0, 1 )
+margin_left = 230.0
+margin_top = 1205.0
+margin_right = 630.0
+margin_bottom = 1285.0
+rect_rotation = -60.0
+texture = ExtResource( 11 )
+expand = true
