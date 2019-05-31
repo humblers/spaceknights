@@ -101,7 +101,7 @@ func Update():
 		freeze -= 1
 		return
 	var step = game.Step() - data.InitialLeaderSpawnDelay
-	if isLeader and step != 0 and step % Skill()["perstep"] == 0:
+	if isLeader and step >= 0 and step % Skill()["perstep"] == 0:
 		spawn(Skill())
 	if cast > 0:
 		if cast == preCastDelay() + 1:
@@ -128,6 +128,7 @@ func Update():
 					findTargetAndAttack()
 	if target() == null and cast == 0 and not skillReady:
 		$AnimationPlayer.play("idle")
+		init_rotation()
 		
 func findTargetAndAttack():
 	var t = findTarget()
