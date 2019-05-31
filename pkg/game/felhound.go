@@ -1,9 +1,5 @@
 package game
 
-import (
-	"github.com/humblers/spaceknights/pkg/data"
-)
-
 type felhound struct {
 	*unit
 	targetId int
@@ -12,7 +8,7 @@ type felhound struct {
 
 func newFelhound(id int, level, posX, posY int, g Game, p Player) Unit {
 	return &felhound{
-		unit:   newUnit(id, "felhound", p.Team(), level, posX, posY, g),
+		unit: newUnit(id, "felhound", p.Team(), level, posX, posY, g),
 	}
 }
 

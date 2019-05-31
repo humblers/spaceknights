@@ -1,16 +1,18 @@
 package game
 
+import "github.com/humblers/spaceknights/pkg/data"
+
 type trainee struct {
 	*unit
 	targetId int
-	attack   int // elapsed time since attack start	
+	attack   int // elapsed time since attack start
 	shield   int
 }
 
 func newTrainee(id int, level, posX, posY int, g Game, p Player) Unit {
 	u := newUnit(id, "trainee", p.Team(), level, posX, posY, g)
 	return &trainee{
-		unit: u,
+		unit:   u,
 		shield: u.initialShield(),
 	}
 }
