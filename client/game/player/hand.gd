@@ -41,7 +41,7 @@ func _ready():
 	event.connect("BlueEnergyUpdated", self, "updateEnergy")
 	event.connect("BlueSetHand%d" % index, self, "setHand")
 	event.connect("BlueHandFocused", self, "updateFocus")
-	tile.Hide()
+	tile.Hide(-1)
 
 func setGame(game):
 	self.game = game
@@ -76,7 +76,7 @@ func setHand(card):
 		visible = true
 		self.card = card
 		$AnimationPlayer.stop()
-		#tile.Hide()
+		tile.Hide()
 		init_card(card)
 		init_cursor(card)
 		init_dummy(card)
@@ -158,7 +158,7 @@ func handle_input(ev, side = null):
 		on_dragged(ev)
 
 func on_pressed(side = null):
-	tile.Show(data.CardIsSpell(card))
+	tile.Show(data.CardIsSpell(card), index)
 	$Card.z_index += 1
 	event.emit_signal("BlueHandFocused", index)
 	prev_mouse = "Pressed"
@@ -273,12 +273,12 @@ func on_released(side = null):
 		$AnimationPlayer.play("show")
 		yield($AnimationPlayer, "animation_finished")
 		rotateRunway(0)
-		tile.Hide("Unit")
+		tile.Hide("Unit", index)
 
 	if card.Type == data.KnightCard:
 		event.emit_signal("BlueHandVanished", card)
 		guide.visible = false
-		tile.Hide("Spell")
+		tile.Hide("Spell", index)
 
 	knight_button_left.visible = true
 	knight_button_right.visible = true

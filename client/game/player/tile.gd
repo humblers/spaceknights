@@ -1,16 +1,21 @@
 extends Node2D
 
+var focus_index = -1
+
 func _ready():
 	event.connect("BlueKnightDead", self, "expand", ["Blue"])
 	event.connect("RedKnightDead", self, "expand", ["Red"])
 
-func Show(isSpell):
+func Show(isSpell, index):
+	focus_index = index
 	visible = true
 	$Grid.visible = true
 	$Unit.visible = not isSpell
 	$Spell.visible = isSpell
 
-func Hide(type = null):
+func Hide(type = null, index = -1):
+	if focus_index != index:
+		return
 	$Grid.visible = false
 	if !type:
 		visible = false
