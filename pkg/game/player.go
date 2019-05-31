@@ -8,8 +8,8 @@ import (
 )
 
 const maxEnergy = 10000
-const startEnergy = 7000
-const energyPerFrame = 40
+const startEnergy = 5000
+const energyPerFrame = 35
 const handSize = 4
 const drawInterval = 30
 const knightTileNumX = 4
