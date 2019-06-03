@@ -19,7 +19,18 @@ func _ready():
 	add_child(timer)
 	timer.connect("timeout", self, "ping")
 	timer.start(10)
+	connect("disconnected", self, "restart_app")
 
+func restart_app():
+	loading_screen.GoToScene("res://company_logo/company_logo.tscn")
+
+func _notification(what):
+	# application foreground/background handling for future implementation
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+		print("focus in")
+	elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		print("focus out")
+	
 func ping():
 	if client_connected:
 		Send("PING")
