@@ -25,6 +25,6 @@ func cancel():
 	var req = lobby_request.New("/match/cancel")
 	var response = yield(req, "Completed")
 	if not response[0]:
-		get_tree().current_scene.HandleError(response[1].ErrMessage, false)
+		event.emit_signal("RequestPopup", event.PopupModalMessage, [response[1].ErrMessage, false])
 		return
 	Hide()

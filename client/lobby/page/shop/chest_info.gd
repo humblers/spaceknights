@@ -44,7 +44,7 @@ func open(use_cash=false):
 	var req = lobby_request.New("/chest/open", params)
 	var response = yield(req, "Completed")
 	if not response[0]:
-		get_tree().current_scene.HandleError(response[1].ErrMessage)
+		event.emit_signal("RequestPopup", event.PopupModalMessage, [response[1].ErrMessage])
 		return
 	var gold = response[1].Gold
 	var cards = response[1].Cards
