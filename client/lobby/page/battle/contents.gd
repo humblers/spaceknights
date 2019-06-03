@@ -22,6 +22,7 @@ func _ready():
 	event.connect("InvalidatePageBattle", self, "invalidate")
 	match_btn.connect("button_up", self, "match_request")
 	config_btn.connect("button_up", self, "show_config")
+	notifier_client.connect("prev_game_exists", self, "start_game", [], CONNECT_ONESHOT)
 
 func invalidate():
 	# temporary set uid

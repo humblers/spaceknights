@@ -209,21 +209,23 @@ func (s *server) runGame(cfg Config) {
 	s.games[cfg.Id] = g
 	s.Unlock()
 
+	// marshal game config
+	bytes, err := json.Marshal(cfg)
+	if err != nil {
+		panic(err)
+	}
+
 	// record game config for reconnect
 	conn := s.redisPool.Get()
 	defer conn.Close()
 	key1 := fmt.Sprintf("%v:game", cfg.Players[0].Id)
 	key2 := fmt.Sprintf("%v:game", cfg.Players[1].Id)
-	if _, err := conn.Do("MSET", key1, cfg, key2, cfg); err != nil {
+	if _, err := conn.Do("MSET", key1, bytes, key2, bytes); err != nil {
 		panic(err)
 	}
 
 	// publish to notifier
-	msg, err := json.Marshal(cfg)
-	if err != nil {
-		panic(err)
-	}
-	if _, err := conn.Do("PUBLISH", "match", msg); err != nil {
+	if _, err := conn.Do("PUBLISH", "match", bytes); err != nil {
 		panic(err)
 	}
 }

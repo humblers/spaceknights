@@ -13,6 +13,7 @@ var receive_buf = ""
 signal connected
 signal disconnected
 signal game_created(cfg)
+signal prev_game_exists(cfg)
 
 func _ready():
 	var timer = Timer.new()
@@ -97,6 +98,7 @@ func write():
 
 func parse(packet):
 	var dict = static_func.cast_float_to_int(parse_json(packet))
-	var cfg = dict["GameCreated"]
-	if cfg != null:
-		emit_signal("game_created", cfg)
+	if dict.has("GameCreated"):
+		emit_signal("game_created", dict["GameCreated"])
+	elif dict.has("PrevGameExists"):
+		emit_signal("prev_game_exists", dict["PrevGameExists"])

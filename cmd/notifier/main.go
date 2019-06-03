@@ -1,5 +1,6 @@
 package main
 
+import "fmt"
 import "sync"
 import "log"
 import "time"
@@ -18,7 +19,8 @@ import "github.com/humblers/spaceknights/pkg/game"
 const clientTimeout = time.Minute
 
 type Notification struct {
-	GameCreated *game.Config
+	GameCreated    *game.Config `json:",omitempty"`
+	PrevGameExists *game.Config `json:",omitempty"`
 	// add another notification types here
 }
 
@@ -99,6 +101,7 @@ func main() {
 					clients[id] = conn
 					mutex.Unlock()
 					logger.Printf("user %v connected", id)
+					checkAndSendGameConfig(id, conn)
 					for {
 						if err := conn.SetReadDeadline(time.Now().Add(clientTimeout)); err != nil {
 							panic(err)
@@ -190,4 +193,24 @@ func main() {
 		pprof.Lookup("goroutine").WriteTo(os.Stderr, 2)
 	}
 	logger.Println("server stopped")
+}
+
+func checkAndSendGameConfig(id string, conn net.Conn) {
+	rc := pool.Get()
+	defer rc.Close()
+	data, _ := redis.Bytes(rc.Do("GET", fmt.Sprintf("%v:game", id)))
+	if data != nil {
+		var cfg game.Config
+		if err := json.Unmarshal(data, &cfg); err != nil {
+			panic(err)
+		}
+		noti := Notification{PrevGameExists: &cfg}
+		packet, err := json.Marshal(noti)
+		if err != nil {
+			panic(err)
+		}
+		packet = append(packet, '\n')
+		conn.Write(packet)
+		logger.Printf("sent game config to user %v", id)
+	}
 }
