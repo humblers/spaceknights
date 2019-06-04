@@ -12,6 +12,8 @@ func Update():
 	if attack == attackInterval:
 		fire()
 		attack = 0
+	print(" x = ", self.global_position, " posx = ", PositionX())
+	SetPosition(game.World().FromPixel(int(self.global_position.x)), game.World().FromPixel(int(self.global_position.y))) 
 
 func fire():
 	var b = $ResourcePreloader.get_resource("bullet").instance()

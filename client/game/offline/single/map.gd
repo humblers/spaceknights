@@ -39,4 +39,4 @@ func on_dragged(ev):
 		return
 		
 func set_hero_pos(pos):
-	hero.global_position = hero_prev_pos + (pos - prev_pos)
+	hero.global_position = hero_prev_pos  + (pos - prev_pos)

@@ -43,7 +43,13 @@ func useRandomCards():
 func phaseChanged(phase, PHASES):
 	match phase:
 		PHASES.FOOTMANS:
-			pass
+			var archers = data.NewCard({"Name": "archers", "Level": 0})
+			var footmans = data.NewCard({"Name": "footmans", "Level": 0})
+			useCard(archers, randi() % game.Map().TileNumX(), randi() % (game.Map().TileNumY() / 2 - 6) + 4)
+			yield(get_tree().create_timer(2), "timeout")
+			useCard(footmans, randi() % game.Map().TileNumX(), randi() % (game.Map().TileNumY() / 2 - 6) + 4)
+			yield(get_tree().create_timer(2), "timeout")
+			
 #		PHASES.REQUEST_ARCHERS:
 #			event.connect("StudentUseCard", self, "useFootmans")
 #		PHASES.REQUEST_GIANT_GARGOYLE:
