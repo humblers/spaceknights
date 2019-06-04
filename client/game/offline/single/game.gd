@@ -1,7 +1,7 @@
 extends Node2D
 
 var connected = false
-var cfg = config.GAME
+var cfg
 
 const LEADER_SCORE = 3
 const WING_SCORE = 1
@@ -31,8 +31,6 @@ onready var opening_anim = $UI/Hud/Opening
 var map
 
 var units = {}
-var deathToll = {}
-var lastDeadPosX = {}
 var unitCounter = 0
 var players = {}
 var bullets = []
@@ -59,27 +57,11 @@ onready var camera = $Camera2D
 var show_radius = false
 var show_range = false
 var show_sight = false
-signal debug_option_changed
 
-func _unhandled_key_input(ev):
-	if ev.pressed:
-		return
-	match ev.scancode:
-		KEY_F1:
-			show_radius = not show_radius
-		KEY_F2:
-			show_range = not show_range
-		KEY_F3:
-			show_sight = not show_sight
-	emit_signal("debug_option_changed")
 
 func _ready():
-	self.deathToll = {"Blue":0, "Red":0}
-	self.lastDeadPosX = {"Blue":0, "Red":0}
 	map = $Resource/Map.get_resource(cfg.MapName).new(world)
 	initTiles()
-	createMapObstacles()
-	team_swapped = user.ShouldSwapTeam(cfg)
 	for p in cfg.Players:
 		var team = p.Team
 		if team_swapped:
@@ -91,17 +73,10 @@ func _ready():
 		if team == "Blue":
 			$UI/Hud/ID/RankIconBG/Text.text = "Imperial-Knight-%03d" % int(p.Id)
 			$UI/Hud/ID/RankIconBG.texture = loading_screen.LoadResource("res://atlas/lobby/contents.sprites/rank/rank_icon_%d.tres" % user.Rank)
-	event.emit_signal("GameInitialized", self)
-
-	if connected:
-		game_client.connect("disconnected", self, "request_stop")
-		visible = false
-		while not initial_ff_finished:
-			yield(get_tree(), "idle_frame")
+	#event.emit_signal("GameInitialized", self)
 	opening_anim.Play()
-	event.emit_signal("LoadSceneCompleted")
 	visible = true
-	
+
 func initTiles():
 	for i in map.TileNumX():
 		occupied.append([])
@@ -128,35 +103,6 @@ func Occupy(tr, ownerId):
 			assert(occupied[i][j] == 0)
 			occupied[i][j] = ownerId
 
-func Release(tr, ownerId):
-	if tr == null:
-		return
-	for i in range(TileRectMinX(tr), TileRectMaxX(tr) + 1):
-		for j in range(TileRectMinY(tr), TileRectMaxY(tr) + 1):
-			assert(occupied[i][j] == ownerId)
-			occupied[i][j] = 0
-	
-func Over():
-	if step < data.PlayTime:
-		if score("Blue") < LEADER_SCORE or score("Red") < LEADER_SCORE:
-			return true
-		else:
-			return false
-	elif step < data.PlayTime + data.OverTime:
-		if score("Blue") != score("Red"):
-			return true
-		else:
-			return false
-	return true
-
-func score(team):
-	var score = 0
-	for id in players:
-		var p = players[id]
-		if p.Team() == team:
-			score += p.Score()
-	return score
-
 func request_stop():
 	to_stop = true
 
@@ -166,26 +112,6 @@ func stop():
 
 func Step():
 	return step
-
-func createMapObstacles():
-	for o in map.GetObstacles():
-		var x = map.AreaPosX(o)
-		var y = map.AreaPosY(o)
-		var w = map.AreaWidth(o)
-		var h = map.AreaHeight(o)
-		var tw = map.TileWidth()
-		var th = map.TileHeight()
-
-		var b = world.AddBox(0, w, h, x, y)
-		b.SetLayer(data.Normal)
-
-		w = scalar.Mul(w, scalar.Two)
-		h = scalar.Mul(h, scalar.Two)
-		var tx = scalar.ToInt(scalar.Div(x, tw))
-		var ty = scalar.ToInt(scalar.Div(y, th))
-		var nx = scalar.ToInt(scalar.Div(w, tw))
-		var ny = scalar.ToInt(scalar.Div(h, th))
-		Occupy(NewTileRect(tx, ty, nx, ny), -1)
 
 func _process(delta):
 	elapsed += delta
@@ -200,89 +126,26 @@ func _process(delta):
 				world.ToPixel(b.pos_x),
 				world.ToPixel(b.pos_y)
 			)
-			if team_swapped:
-				prev.x = FlipX(prev.x)
-				prev.y = FlipY(prev.y)
-				curr.x = FlipX(curr.x)
-				curr.y = FlipY(curr.y)
-			b.node.position = prev.linear_interpolate(curr, t)
-	if has_node("Debug"):
-		get_node("Debug").update(self)
 
+			b.node.position = prev.linear_interpolate(curr, t)
+			
 func _physics_process(delta):
 	if frame % frame_per_step == 0:
-		if Over():
-			set_physics_process(false)
-			bgm_anim.play("fade-out")
-			closing_scene.Init(user.Rank, user.Medal, user.BattleChestOrder)
-			var my_team = $Players/Blue.team
-			var enemy_team = "Blue" if my_team == "Red" else "Red"
-			var my_score = score(my_team)
-			var enemy_score = score(enemy_team)
-			if my_score > enemy_score:
-				closing_scene.PlayWinAnim()
-			elif my_score < enemy_score:
-				closing_scene.PlayLoseAnim()
-			else:
-				closing_scene.PlayDrawAnim()
-		else:
-			if connected:
-				var iterations = 1
-				var n = game_client.received.size()
-				if n > PACKET_WINDOW:
-					print("too many packets %s" % [n])
-					iterations = min(10, n)
-				else:
-					initial_ff_finished = true
-					if n <= 0:
-						if to_stop:
-							stop()
-							return
-						print("not enough packets")
-						iterations = 0
-				for i in range(iterations):
-					var state = static_func.cast_float_to_int(parse_json(game_client.received.pop_front()))
-					Update(state)
-			else:
-				var state = {"Actions": null}
-				if actions.has(step):
-					state["Actions"] = actions[step]
-				Update(state)
+		var state = {"Actions": null}
+		if actions.has(step):
+			state["Actions"] = actions[step]
+		Update(state)
 	
 	frame += 1
-
-func Hash():
-	var hashes = [
-		djb2.HashInt(step),
-		djb2.HashInt(unitCounter),
-		djb2.HashInt(deathToll["Blue"]),
-		djb2.HashInt(deathToll["Red"]),
-		world.Hash(),
-		scalar.Hash(lastDeadPosX["Blue"]),
-		scalar.Hash(lastDeadPosX["Red"]),
-	]
-	for id in units.keys():
-		hashes.append(units[id].Hash())
-	for b in bullets:
-		hashes.append(b.Hash())
-	for s in skills:
-		hashes.append(s.Hash())
-	for row in occupied:
-		for i in row:
-			hashes.append(djb2.HashInt(i))
-	return djb2.Combine(hashes)
 
 func State():
 	var state = {
 		"step": step,
 		"unitCounter": unitCounter,
-		"deathToll": deathToll,
 		"world": world.State(),
-		"lastDeadPosX": lastDeadPosX,
 		"units": {},
 		"bullets": [],
 		"skills": [],
-		"occupied": [],
 	}
 	for id in units:
 		state["units"][id] = units[id].State()
@@ -290,11 +153,7 @@ func State():
 		state["bullets"].append(b.State())
 	for s in skills:
 		state["skills"].append(s.State())
-	for row in occupied:
-		var slice = []
-		state["occupied"].append(slice)
-		for i in row:
-			slice.append(i)
+
 	return state
 
 func Update(state):
@@ -316,25 +175,12 @@ func Update(state):
 	removeExpiredSkills()
 	world.Step()
 	step += 1
-	validate(state)
 	
 	# client only
 	elapsed = 0
 	update_time()
 	update_energy_boost()
-
-func validate(state):
-	if connected and config.CHECK_DESYNC:
-		var client_hash = Hash()
-		var server_hash = state.Hash
-		if client_hash != server_hash:
-			print("desync detected")
-			print("game id: %s" % cfg.Id)
-			print("step: %s" % step)
-			print("client hash: %s" % client_hash)
-			print("server hash: %s" % server_hash)
-			print(to_json(State()))
-			get_tree().paused = true
+	
 
 func update_time():
 	var time_left
@@ -360,9 +206,6 @@ func removeDeadUnits():
 		var u = units[id]
 		if u.IsDead():
 			units.erase(id)
-			if u.Type() != data.Knight:
-				deathToll[u.Team()] += 1
-				lastDeadPosX[u.Team()] = u.PositionX()
 			u.Destroy()
 
 func removeExpiredBullets():
@@ -416,28 +259,17 @@ func Map():
 
 func UnitIds():
 	return units.keys()
-
-func DeathToll(team):
-	return deathToll[team]
-
-func LastDeadPosX(team):
-	return lastDeadPosX[team]
-
+	
 func FlipX(x):
 	return world.ToPixel(map.Width()) - x
 
 func FlipY(y):
 	return world.ToPixel(map.Height()) - y
-
+	
 func TileFromPos(x, y):
 	var tx = int(clamp(x / world.ToPixel(map.TileWidth()), 0, map.TileNumX() - 1))
 	var ty = int(clamp(y / world.ToPixel(map.TileHeight()), 0, map.TileNumY() - 1))
 	return [tx, ty]
-	
-func PosFromTile(x, y):
-	var tw = world.ToPixel(map.TileWidth())
-	var th = world.ToPixel(map.TileHeight())
-	return [x*tw + tw/2, y*th + th/2]
 
 func NewTileRect(x, y, numX, numY):
 	return {
@@ -458,32 +290,3 @@ func TileRectMinY(tr):
 
 func TileRectMaxY(tr):
 	return tr.y + (tr.numY+1)/2 - 1
-	
-static func intersect_tilerect(a, b):
-	if a.t > b.b:
-		return false
-	if a.b < b.t:
-		return false
-	if a.l > b.r:
-		return false
-	if a.r < b.l:
-		return false
-	return true
-
-static func boxVScircle(posAx, posAy, posBx, posBy, width, height, radius):
-	var relPosX = scalar.Sub(posBx, posAx)
-	var relPosY = scalar.Sub(posBy, posAy)
-	var closestX = relPosX
-	var closestY = relPosY
-	var xExtent = width
-	var yExtent = height
-	closestX = scalar.Clamp(closestX, -xExtent, xExtent)
-	closestY = scalar.Clamp(closestY, -yExtent, yExtent)
-	if relPosX == closestX and relPosY == closestY:
-		return true
-	var normalX = scalar.Sub(relPosX, closestX)
-	var normalY = scalar.Sub(relPosY, closestY)
-	var d = vector.LengthSquared(normalX, normalY)
-	if d > scalar.Mul(radius, radius):
-		return false
-	return true

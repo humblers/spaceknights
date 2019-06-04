@@ -1,0 +1,183 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://game/unit/sentry/sentry.gd" type="Script" id=1]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/sentry/body.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_black.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/beacon_red.tres" type="Texture" id=5]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=13]
+[ext_resource path="res://game/unit/sentry/explosion.tres" type="Animation" id=14]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=15]
+[ext_resource path="res://game/unit/sentry/attack.tres" type="Animation" id=16]
+[ext_resource path="res://game/unit/sentry/destroy.tres" type="Animation" id=17]
+[ext_resource path="res://game/unit/sentry/idle.tres" type="Animation" id=18]
+[ext_resource path="res://game/unit/sentry/move.tres" type="Animation" id=19]
+[ext_resource path="res://game/unit/sentry/sentry_atk.wav" type="AudioStream" id=20]
+[ext_resource path="res://sound/sfx/explosion_s.wav" type="AudioStream" id=21]
+[ext_resource path="res://sound/sfx/thrust_s.wav" type="AudioStream" id=22]
+[ext_resource path="res://game/hpbar/hpbar_s.tscn" type="PackedScene" id=23]
+[ext_resource path="res://game/unit/sentry/bullet.tscn" type="PackedScene" id=24]
+
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0.00554016, 0.3328 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[node name="Sentry" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Rotatable" type="Node2D" parent="."]
+use_parent_material = true
+
+[node name="Body" type="Sprite" parent="Rotatable"]
+light_mask = 3
+use_parent_material = true
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
+
+[node name="FlashingRed" type="AnimatedSprite" parent="Rotatable/Body"]
+position = Vector2( 0, 4.6 )
+rotation = 1.5708
+scale = Vector2( 0.8, 1.6 )
+frames = SubResource( 1 )
+frame = 1
+playing = true
+
+[node name="Shotpoint" type="Position2D" parent="Rotatable/Body"]
+position = Vector2( 0, -26.9231 )
+
+[node name="Light2" type="Sprite" parent="Rotatable/Body/Shotpoint"]
+visible = false
+modulate = Color( 0.921569, 0.921569, 0.247059, 0.952941 )
+material = ExtResource( 6 )
+position = Vector2( 0, 21 )
+scale = Vector2( 0.4, 0.7 )
+texture = ExtResource( 7 )
+
+[node name="Boosterpoint" type="Position2D" parent="Rotatable/Body"]
+position = Vector2( 0, 23.8462 )
+scale = Vector2( 0.769231, 0.769231 )
+
+[node name="Thrust" type="AnimatedSprite" parent="Rotatable/Body/Boosterpoint"]
+visible = false
+modulate = Color( 0.0705882, 0.141176, 0.905882, 1 )
+material = ExtResource( 6 )
+position = Vector2( 0, 5 )
+frames = SubResource( 2 )
+animation = "thrust"
+frame = 1
+speed_scale = 3.0
+offset = Vector2( 0, 15 )
+
+[node name="Light" type="Sprite" parent="Rotatable/Body/Boosterpoint"]
+visible = false
+material = ExtResource( 6 )
+position = Vector2( 0, 3 )
+scale = Vector2( 0.4, 1 )
+texture = ExtResource( 7 )
+
+[node name="Explosion" type="Node2D" parent="Rotatable/Body"]
+
+[node name="Main" type="Node2D" parent="Rotatable/Body/Explosion"]
+
+[node name="Exp1" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
+visible = false
+modulate = Color( 0.435294, 0.172549, 0, 0 )
+texture = ExtResource( 10 )
+
+[node name="Exp2" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 6 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 7 )
+
+[node name="Circle1" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.352941, 0.101961, 0 )
+material = ExtResource( 6 )
+rotation = 4.71239
+scale = Vector2( 2, 2 )
+texture = ExtResource( 12 )
+
+[node name="Circle2" type="Sprite" parent="Rotatable/Body/Explosion/Main"]
+visible = false
+modulate = Color( 1, 0.352941, 0.101961, 0 )
+rotation = -3.66519
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 12 )
+flip_h = true
+flip_v = true
+
+[node name="Particle" type="CPUParticles2D" parent="Rotatable/Body/Explosion/Main"]
+emitting = false
+amount = 12
+speed_scale = 1.5
+explosiveness = 0.5
+texture = ExtResource( 13 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 180.0
+radial_accel = 120.0
+scale_amount = 1.5
+scale_amount_curve = SubResource( 3 )
+color = Color( 1, 0.819608, 0.643137, 1 )
+
+[node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Body/Explosion"]
+anims/explosion = ExtResource( 14 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 15 )]
+position = Vector2( 0, 4 )
+circle_radius = 20.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = ExtResource( 16 )
+anims/destroy = ExtResource( 17 )
+anims/idle = ExtResource( 18 )
+anims/move = ExtResource( 19 )
+
+[node name="Sound" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 20 )
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 21 )
+
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 22 )
+
+[node name="Hp" parent="." instance=ExtResource( 23 )]
+position = Vector2( 0, -45 )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [ PoolStringArray( "bullet" ), [ ExtResource( 24 ) ] ]
