@@ -1,0 +1,480 @@
+[gd_scene load_steps=41 format=2]
+
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler.gd" type="Script" id=1]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/body.tres" type="Texture" id=2]
+[ext_resource path="res://atlas/game/battlefield_n.png" type="Texture" id=3]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/head.tres" type="Texture" id=4]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/sphere.tres" type="Texture" id=5]
+[ext_resource path="res://material/additive_blend.tres" type="Material" id=6]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/shoulder.tres" type="Texture" id=7]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/upperarm.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/lowerarm.tres" type="Texture" id=9]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/hand.tres" type="Texture" id=10]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/attack_1.tres" type="Texture" id=11]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/attack_2.tres" type="Texture" id=12]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/attack_3.tres" type="Texture" id=13]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/cloud_3.tres" type="Texture" id=14]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/finger.tres" type="Texture" id=15]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/fist.tres" type="Texture" id=16]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/lowerbody.tres" type="Texture" id=17]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_1.tres" type="Texture" id=18]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/thrust_2.tres" type="Texture" id=19]
+[ext_resource path="res://atlas/game/battlefield.sprites/unit/panzerkunstler/leg.tres" type="Texture" id=20]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_3.tres" type="Texture" id=21]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/unit_explosion_1.tres" type="Texture" id=22]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/explosion_2.tres" type="Texture" id=23]
+[ext_resource path="res://atlas/game/battlefield.sprites/vfx/pixel.tres" type="Texture" id=24]
+[ext_resource path="res://game/unit/panzerkunstler/explosion.tres" type="Animation" id=25]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=26]
+[ext_resource path="res://game/unit/panzerkunstler/attack_1.tres" type="Animation" id=27]
+[ext_resource path="res://game/unit/panzerkunstler/attack_2.tres" type="Animation" id=28]
+[ext_resource path="res://game/unit/panzerkunstler/destroy.tres" type="Animation" id=29]
+[ext_resource path="res://game/unit/panzerkunstler/idle.tres" type="Animation" id=30]
+[ext_resource path="res://game/unit/panzerkunstler/move.tres" type="Animation" id=31]
+[ext_resource path="res://game/unit/panzerkunstler/panzerkunstler_atk.wav" type="AudioStream" id=32]
+[ext_resource path="res://sound/sfx/explosion_l.wav" type="AudioStream" id=33]
+[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=34]
+[ext_resource path="res://game/hpbar/hpshieldbar_m.tscn" type="PackedScene" id=35]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ null, ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), null ],
+"loop": true,
+"name": "impect",
+"speed": 5.0
+} ]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 1, 0.341176, 0.27451, 0.635294, 1, 0.941176, 0.294118, 0.192157 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "thrust",
+"speed": 5.0
+} ]
+
+[node name="Panzerkunstler" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Rotatable" type="Node2D" parent="."]
+editor/display_folded = true
+use_parent_material = true
+scale = Vector2( 1.2, 1.2 )
+
+[node name="Body" type="Sprite" parent="Rotatable"]
+light_mask = 3
+use_parent_material = true
+texture = ExtResource( 2 )
+normal_map = ExtResource( 3 )
+
+[node name="Head" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
+light_mask = 3
+use_parent_material = true
+texture = ExtResource( 4 )
+normal_map = ExtResource( 3 )
+offset = Vector2( 0, -2 )
+
+[node name="Kira" type="Position2D" parent="Rotatable/Body/Head"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -3 )
+
+[node name="Eye_Shining" type="Sprite" parent="Rotatable/Body/Head/Kira"]
+rotation = -1.86264e-08
+scale = Vector2( 0.2, 4 )
+texture = ExtResource( 5 )
+
+[node name="Eye_Shining2" type="Sprite" parent="Rotatable/Body/Head/Kira"]
+rotation = 1.70299e-08
+scale = Vector2( 3.5, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="EyeLight" type="Sprite" parent="Rotatable/Body/Head/Kira"]
+visible = false
+modulate = Color( 0.0862745, 1, 0.356863, 1 )
+material = ExtResource( 6 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
+
+[node name="ShoulderL" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( -28, 0 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 3 )
+
+[node name="UpperarmL" type="Sprite" parent="Rotatable/Body/ShoulderL"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+rotation = -0.523599
+texture = ExtResource( 8 )
+normal_map = ExtResource( 3 )
+offset = Vector2( -12, 0 )
+
+[node name="LowerarmL" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( -21, 0 )
+rotation = 0.261799
+texture = ExtResource( 9 )
+normal_map = ExtResource( 3 )
+offset = Vector2( 0, -10 )
+
+[node name="HandL" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL"]
+position = Vector2( 0, -24 )
+texture = ExtResource( 10 )
+
+[node name="EffectWind" type="Position2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL/EffectWind"]
+modulate = Color( 1, 1, 1, 0.624314 )
+rotation = 0.261799
+scale = Vector2( 2, 1 )
+frames = SubResource( 1 )
+animation = "impect"
+
+[node name="Particle2" type="Node2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+rotation = 0.523599
+scale = Vector2( 1.4, 1.4 )
+
+[node name="FistFlash2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL/Particle2"]
+material = ExtResource( 6 )
+emitting = false
+lifetime = 1.4
+preprocess = 1.0
+speed_scale = 3.0
+explosiveness = 0.2
+texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 90.0
+radial_accel_random = 1.0
+scale_amount = 1.4
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="FistFlash2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+material = ExtResource( 6 )
+rotation = 0.941384
+scale = Vector2( 1.4, 1.4 )
+emitting = false
+lifetime = 1.4
+preprocess = 1.0
+speed_scale = 3.0
+explosiveness = 0.2
+texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 90.0
+radial_accel_random = 1.0
+scale_amount = 1.4
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="Charge3" type="CPUParticles2D" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+material = ExtResource( 6 )
+rotation = -2.98023e-08
+emitting = false
+amount = 12
+lifetime = 1.3
+speed_scale = 2.0
+texture = ExtResource( 14 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_amount = 1.5
+scale_amount_curve = SubResource( 4 )
+color = Color( 1, 0.65098, 0.847059, 0.509804 )
+
+[node name="Finger" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+visible = false
+show_behind_parent = true
+texture = ExtResource( 15 )
+offset = Vector2( 1, -12 )
+
+[node name="Fist" type="Sprite" parent="Rotatable/Body/ShoulderL/UpperarmL/LowerarmL/HandL"]
+show_behind_parent = true
+texture = ExtResource( 16 )
+offset = Vector2( 3, -5 )
+
+[node name="ShoulderR" type="Sprite" parent="Rotatable/Body"]
+editor/display_folded = true
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( 28, 0 )
+texture = ExtResource( 7 )
+normal_map = ExtResource( 3 )
+flip_h = true
+
+[node name="UpperarmR" type="Sprite" parent="Rotatable/Body/ShoulderR"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+rotation = 0.523599
+texture = ExtResource( 8 )
+normal_map = ExtResource( 3 )
+offset = Vector2( 12, 0 )
+flip_h = true
+
+[node name="LowerarmR" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( 21, 0 )
+rotation = -0.261799
+texture = ExtResource( 9 )
+normal_map = ExtResource( 3 )
+offset = Vector2( 0, -10 )
+flip_h = true
+
+[node name="HandR" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR"]
+position = Vector2( 0, -24 )
+texture = ExtResource( 10 )
+flip_h = true
+
+[node name="EffectWind" type="Position2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR/EffectWind"]
+modulate = Color( 1, 1, 1, 0.624314 )
+material = ExtResource( 6 )
+scale = Vector2( 2, 1 )
+frames = SubResource( 1 )
+animation = "impect"
+
+[node name="Particle" type="Node2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+scale = Vector2( 1.4, 1.4 )
+
+[node name="FistFlash" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR/Particle"]
+material = ExtResource( 6 )
+emitting = false
+lifetime = 1.4
+preprocess = 1.0
+speed_scale = 3.0
+explosiveness = 0.2
+texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 0.0
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+radial_accel = 90.0
+radial_accel_random = 1.0
+scale_amount = 1.4
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+
+[node name="Charge2" type="CPUParticles2D" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+material = ExtResource( 6 )
+emitting = false
+amount = 12
+lifetime = 1.3
+speed_scale = 2.0
+texture = ExtResource( 14 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+radial_accel = 30.0
+radial_accel_random = 1.0
+scale_amount = 1.5
+scale_amount_curve = SubResource( 4 )
+color = Color( 1, 0.65098, 0.847059, 0.509804 )
+
+[node name="Finger" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+visible = false
+show_behind_parent = true
+texture = ExtResource( 15 )
+offset = Vector2( -1, -12 )
+flip_h = true
+
+[node name="Fist" type="Sprite" parent="Rotatable/Body/ShoulderR/UpperarmR/LowerarmR/HandR"]
+show_behind_parent = true
+texture = ExtResource( 16 )
+offset = Vector2( -3, -5 )
+flip_h = true
+
+[node name="Lowerbody" type="Sprite" parent="Rotatable"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+texture = ExtResource( 17 )
+normal_map = ExtResource( 3 )
+
+[node name="BoosterpointL" type="Position2D" parent="Rotatable/Lowerbody"]
+position = Vector2( -13.5, 27.5 )
+rotation = 0.349066
+
+[node name="ThrustL" type="AnimatedSprite" parent="Rotatable/Lowerbody/BoosterpointL"]
+visible = false
+modulate = Color( 0.133333, 0.207843, 1, 1 )
+material = ExtResource( 6 )
+position = Vector2( 0, 2 )
+scale = Vector2( 1.2, 1.2 )
+frames = SubResource( 5 )
+animation = "thrust"
+frame = 1
+speed_scale = 3.0
+offset = Vector2( 0, 15 )
+
+[node name="LightL" type="Sprite" parent="Rotatable/Lowerbody/BoosterpointL"]
+visible = false
+modulate = Color( 0.67451, 0.678431, 0.709804, 1 )
+material = ExtResource( 6 )
+position = Vector2( 0, -4 )
+scale = Vector2( 1, 1.5 )
+texture = ExtResource( 5 )
+
+[node name="BoosterpointR" type="Position2D" parent="Rotatable/Lowerbody"]
+position = Vector2( 13.5, 27.5 )
+rotation = -0.349066
+
+[node name="ThrustR" type="AnimatedSprite" parent="Rotatable/Lowerbody/BoosterpointR"]
+visible = false
+modulate = Color( 0.133333, 0.207843, 1, 1 )
+material = ExtResource( 6 )
+position = Vector2( 0, 2 )
+scale = Vector2( 1.2, 1.2 )
+frames = SubResource( 5 )
+animation = "thrust"
+speed_scale = 3.0
+offset = Vector2( 0, 15 )
+
+[node name="LightR" type="Sprite" parent="Rotatable/Lowerbody/BoosterpointR"]
+visible = false
+modulate = Color( 0.67451, 0.678431, 0.709804, 1 )
+material = ExtResource( 6 )
+position = Vector2( 0, -4 )
+scale = Vector2( 1, 1.5 )
+texture = ExtResource( 5 )
+
+[node name="LegL" type="Sprite" parent="Rotatable/Lowerbody"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( -15, 0 )
+rotation = -0.261799
+texture = ExtResource( 20 )
+normal_map = ExtResource( 3 )
+offset = Vector2( -15, 0 )
+
+[node name="LegR" type="Sprite" parent="Rotatable/Lowerbody"]
+show_behind_parent = true
+light_mask = 3
+use_parent_material = true
+position = Vector2( 15, 0 )
+rotation = 0.261799
+texture = ExtResource( 20 )
+normal_map = ExtResource( 3 )
+offset = Vector2( 15, 0 )
+flip_h = true
+
+[node name="Hitpoint" type="Position2D" parent="Rotatable"]
+position = Vector2( 0, -70 )
+
+[node name="Explosion" type="Node2D" parent="Rotatable"]
+scale = Vector2( 1.5, 1.5 )
+
+[node name="Main" type="Node2D" parent="Rotatable/Explosion"]
+
+[node name="Exp1" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.0541992, 0, 0.433594, 0 )
+texture = ExtResource( 21 )
+
+[node name="Exp2" type="Sprite" parent="Rotatable/Explosion/Main"]
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 22 )
+
+[node name="Sprite" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+material = ExtResource( 6 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+
+[node name="Circle1" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.101961, 0.47451, 1, 0 )
+material = ExtResource( 6 )
+rotation = 4.71239
+scale = Vector2( 2, 2 )
+texture = ExtResource( 23 )
+
+[node name="Circle2" type="Sprite" parent="Rotatable/Explosion/Main"]
+visible = false
+modulate = Color( 0.384314, 0.101961, 1, 0 )
+rotation = -3.66519
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 23 )
+flip_h = true
+flip_v = true
+
+[node name="Particle" type="CPUParticles2D" parent="Rotatable/Explosion/Main"]
+emitting = false
+amount = 12
+explosiveness = 0.5
+texture = ExtResource( 24 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+angular_velocity = 180.0
+radial_accel = 180.0
+color = Color( 0.509804, 0.482353, 1, 1 )
+
+[node name="ExplosionAni" type="AnimationPlayer" parent="Rotatable/Explosion"]
+anims/explosion = ExtResource( 25 )
+
+[node name="HitEffect" parent="." instance=ExtResource( 26 )]
+circle_radius = 30.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack_1 = ExtResource( 27 )
+anims/attack_2 = ExtResource( 28 )
+anims/destroy = ExtResource( 29 )
+anims/idle = ExtResource( 30 )
+anims/move = ExtResource( 31 )
+next/attack_1 = "attack-2"
+next/attack_2 = "attack-2"
+blend_times = [ "attack_1", "attack_1", 0.3, "attack_1", "attack_2", 0.3 ]
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 32 )
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 33 )
+
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 34 )
+
+[node name="Hp" parent="." instance=ExtResource( 35 )]
+position = Vector2( 0, -84 )

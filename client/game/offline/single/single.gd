@@ -15,26 +15,33 @@ func _enter_tree():
 		"MapName": "Thanatos",
 		"Players": [
 			{
-				"Id": "Student",
+				"Id": "Hero",
 				"Team": "Blue",
 				"Rank": 25,
 				"Deck": [
-					{"Name": "archers", "Level": 0},
-					{"Name": "berserker", "Level": 0},
-					{"Name": "gargoyles", "Level": 0},
+					{"Name": "archers", "Level": 4},
+					{"Name": "berserker", "Level": 4},
+					{"Name": "footmans", "Level": 4},
+					{"Name": "gargoylesquad", "Level": 4},
+					{"Name": "micromissiles", "Level": 0},
+					{"Name": "panzerkunstler", "Level": 0},
 					{"Name": "legion", "Level": 0, "Side": "Right"},
 					{"Name": "archsapper", "Level": 0, "Side": "Left"},
-					{"Name": "judge", "Level": 0, "Side": "Center"},
+					{"Name": "valkyrie", "Level": 0, "Side": "Center"},
 				],
 			},
 			{
-				"Id": "Tutor",
+				"Id": "Villain",
 				"Team": "Red",
 				"Rank": 0,
 				"Deck": [
-					{"Name": "archsapper", "Level": 0, "Side": "Left"},
+					{"Name": "archers", "Level": 0},
+					{"Name": "berserker", "Level": 0},
+					{"Name": "footmans", "Level": 0},
+					{"Name": "gargoylesquad", "Level": 0},
 					{"Name": "legion", "Level": 0, "Side": "Right"},
-					{"Name": "judge", "Level": 0, "Side": "Center"},
+					{"Name": "archsapper", "Level": 0, "Side": "Left"},
+					{"Name": "lancer", "Level": 0, "Side": "Center"},
 				],
 			}
 		],
@@ -42,6 +49,13 @@ func _enter_tree():
 	
 func _ready():
 	event.connect("StudentUseCard", self, "studentCardUsed")
+	players["Hero"].rival_knight = FindUnit(players["Villain"].knightIds["Center"])
+	players["Hero"].knight.setRival(players["Hero"].rival_knight)
+	players["Villain"].rival_knight = FindUnit(players["Hero"].knightIds["Center"])
+	players["Villain"].knight.setRival(players["Villain"].rival_knight)
+	#rival_knight = game.FindUnit(game.FindPlayer(opponentTeam()).knightIds["Center"])
+	#knight.setRival(rival_knight)
+	
 
 func Update(state):
 	.Update(state)
@@ -69,6 +83,8 @@ func AddUnit(name, level, posX, posY, player):
 	var id = unitCounter
 	var node = $Resource/Unit.get_resource(name).instance()
 	node.Init(id, level, posX, posY, self, player)
+	if node.Type() == data.Squire:
+		node.scale = Vector2(1.2,1.2)
 	$BattleField/Unit.add_child(node)
 	units[id] = node
 	return node

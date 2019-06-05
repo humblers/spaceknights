@@ -1,12 +1,7 @@
-extends "res://game/unit/valkyrie/valkyrie.gd"
-
+extends "res://game/unit/lancer/lancer.gd"
 
 var attackInterval = 2
 var rival
-
-func Init(id, level, posX, posY, game, player):
-	.Init(id, level, posX, posY, game, player)
-	body.no_physics = true
 
 func Update():
 	look_at_pos(rival.PositionX(), rival.PositionY())
@@ -14,8 +9,7 @@ func Update():
 	if attack == attackInterval:
 		fire()
 		attack = 0
-	SetPosition(game.World().FromPixel(int(self.global_position.x)), game.World().FromPixel(int(self.global_position.y))) 
-
+	
 func fire():
 	var b = $ResourcePreloader.get_resource("bullet").instance()
 	b.Init(team, 25, 100, data.units["archer"]["damagetype"], game)
@@ -23,8 +17,11 @@ func fire():
 	
 	# client only
 	b.rotation = $Rotatable.rotation
-	b.global_position = $Rotatable/Body/Missile.global_position
+	b.global_position = $Rotatable/Shotpoint.global_position
 	
 func setRival(knight):
 	rival = knight
 
+
+	
+	

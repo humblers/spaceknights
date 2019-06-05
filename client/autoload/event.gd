@@ -37,6 +37,7 @@ signal RedSetNext(card)
 signal RedUpdateNext(ready)
 
 signal RunwayRotate(num, angle)
+signal CardUse(pos, index)
 
 # For lobby
 signal LobbyInitialized()

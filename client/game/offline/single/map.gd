@@ -10,7 +10,6 @@ func _ready():
 	
 func initHero(hero):
 	self.hero = hero
-	print(hero)
 	
 func handle_map_input(ev):
 	var prev_pressed = pressed
@@ -21,7 +20,9 @@ func handle_map_input(ev):
 				hero_prev_pos = hero.global_position
 				prev_pos = self.get_local_mouse_position()
 		else:
-			
+			var index
+			index = randi() % 4 +1 
+			event.emit_signal("CardUse", hero.global_position, index)
 			return
 	if ev is InputEventMouseMotion and pressed:
 		on_dragged(ev)

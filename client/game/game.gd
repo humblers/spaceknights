@@ -87,6 +87,7 @@ func _ready():
 		var player = $Players.get_node(team)
 		player.Init(p, self)
 		players[p.Id] = player
+		print(" id =", p.Id)
 		opening_anim.SetPlayerData(team, p.Id, player.leader, p.Rank)
 		if team == "Blue":
 			$UI/Hud/ID/RankIconBG/Text.text = "Imperial-Knight-%03d" % int(p.Id)
@@ -302,7 +303,8 @@ func Update(state):
 		for action in state.Actions:
 			var err = players[action.Id].Do(action)
 			if err != null:
-				print(err)
+				#print(err)
+				pass
 	for id in players:
 		players[id].Update()
 	for id in units.keys():

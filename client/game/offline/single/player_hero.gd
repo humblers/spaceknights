@@ -1,6 +1,8 @@
 extends "res://game/player/player_ui.gd"
 
 var initial_hands
+var knight
+var rival_knight
 
 func Init(playerData, game):
 	team = playerData.Team
@@ -14,12 +16,14 @@ func Init(playerData, game):
 				hand.append(card)
 			else:
 				pending.append(card)
-#		if card.Type == data.KnightCard:
-#			var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
-#			addKnight(card.Name, lv, card.Side)
-#			if card.Side == data.Center:
-#				leader = card.Name
-	get_node("../../UI/Map").initHero(addKnight("valkyrie", 1, "Center"))
+		if card.Type == data.KnightCard and card.Side == data.Center:
+			var lv = card.Level + data.Upgrade.dict.RelativeLvByRarity[card.Rarity]
+			knight = addKnight(card.Name, lv, card.Side)
+			get_node("../../UI/Map").initHero(knight)
+			if card.Side == data.Center:
+				leader = card.Name
+			
+	#get_node("../../UI/Map").initHero(addKnight("valkyrie", 1, "Center"))
 	#	get_node("UI/Map").initHero(
 	id = playerData.Id
 	color = team
@@ -32,10 +36,7 @@ func Init(playerData, game):
 	initial_hands = hand.duplicate(true)
 
 func Update():
-	if game.EnergyBoostEnabled():
-		energy += ENERGY_PER_FRAME * 2
-	else:
-		energy += ENERGY_PER_FRAME
+	energy += ENERGY_PER_FRAME * 3
 	if energy > MAX_ENERGY:
 		energy = MAX_ENERGY
 	if canDrawCard():
@@ -53,6 +54,7 @@ func drawCard(index):
 	hand[index] = next
 	drawTimer = DRAW_INTERVAL
 	event.emit_signal("%sSetHand%d" % [color, index+1], hand[index])
+	print("next = ", next, "index = ", index)
 
 func addKnight(name, level, side):
 	var x = INITIAL_KNIGHT_POSITION_X[side]
@@ -64,3 +66,6 @@ func addKnight(name, level, side):
 	knight.SetSide(side)
 	knightIds[side] = knight.Id()
 	return knight
+
+func KnightDead(side):
+	return knightIds["Center"] == 0

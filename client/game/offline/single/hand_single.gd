@@ -25,14 +25,14 @@ var focused setget setFocus
 var guide
 
 func _ready():
-	connect("gui_input", self, "handle_input")
+	#connect("gui_input", self, "handle_input")
 	map.connect("gui_input", self, "handle_map_input")
 	event.connect("GameInitialized", self, "setGame", [], CONNECT_ONESHOT)
 	event.connect("BluePlayerInitialized", self, "setPlayer", [], CONNECT_ONESHOT)
 	event.connect("BlueEnergyUpdated", self, "updateEnergy")
 	event.connect("BlueSetHand%d" % index, self, "setHand")
 	event.connect("BlueHandFocused", self, "updateFocus")
-	print("my ", index)
+	event.connect("CardUse", self, "cardUse")
 
 func setGame(game):
 	self.game = game
@@ -59,7 +59,6 @@ func handle_map_input(ev):
 
 
 func setHand(card):
-	print(card)
 	if card == null:
 		visible = false		# also cancels previous input
 		pressed = false
@@ -78,10 +77,7 @@ func updateEnergy(energy):
 	var ready = energy >= energy_bar.max_value
 	glow.visible = ready
 	energy_bar.value = card.Cost - energy
-	if card.Type == data.KnightCard:
-		var ratio = float(energy)/card.Cost
-		event.emit_signal("BlueMothershipDeckUpdate", card.Side, ratio)
-
+	
 func init_card(card = null):
 	#if card is focused card init position is ready position
 	if focused:
@@ -247,6 +243,33 @@ func on_released(side = null):
 	if card.Type == data.KnightCard:
 		event.emit_signal("BlueHandVanished", card)
 		guide.visible = false
+		
+func cardUse(pos, cardIndex):
+	if index != cardIndex:
+		return
+		
+	# enough energy?
+	if energy_bar.value > 0:
+		show_message("ID_ERROR_ENERGY", pos.y) 
+		init_card()
+		#init_cursor()
+		rotateRunway(0)
+		return
+	
+	player.send_input(card, pos - map.rect_position)
+	input_sent = true
+	
+	if card.Type == data.SquireCard:
+		$AnimationPlayer.play("launch")
+		yield($AnimationPlayer, "animation_finished")
+		$Rotate/Dummy.position = pos
+		
+		var offsetpos = self.get_node("Rotate/Dummy").position
+		offsetpos += Vector2(-95, -65)
+		self.get_node("Rotate/Dummy").set_position(offsetpos)
+		$AnimationPlayer.play("show")
+		yield($AnimationPlayer, "animation_finished")
+		
 
 func show_message(msg, pos_y):
 	var message_bar = map.get_node("Message")

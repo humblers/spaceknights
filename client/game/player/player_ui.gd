@@ -47,8 +47,8 @@ func update_energy():
 
 func get_energy():
 	var current = energy
-	for card in input_sent_cards:
-		current -= card.Cost
+#	for card in input_sent_cards:
+#		current -= card.Cost
 	return current
 
 func removeCardFromHand(index):

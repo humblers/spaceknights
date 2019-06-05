@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://material/unshaded.tres" type="Material" id=1]
+[ext_resource path="res://game/script/skill_cursor.gd" type="Script" id=2]
+[ext_resource path="res://atlas/game/ui.sprites/targetcursor/target_square_1.tres" type="Texture" id=3]
+[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=4]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=5]
+
+[node name="TargetSquare" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -200.0, 200.0 ],
+"_edit_vertical_guides_": [ -100.0, 100.0 ]
+}
+
+[node name="Target" type="NinePatchRect" parent="."]
+margin_left = -100.0
+margin_top = -200.0
+margin_right = 100.0
+margin_bottom = 200.0
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 128, 128 )
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="Deco" type="Node2D" parent="."]
+use_parent_material = true
+
+[node name="NameNod" type="Node2D" parent="Deco"]
+use_parent_material = true
+position = Vector2( 0, 150 )
+
+[node name="Level" type="Label" parent="Deco/NameNod"]
+use_parent_material = true
+margin_left = -100.0
+margin_top = -150.0
+margin_right = 100.0
+margin_bottom = -100.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.360784, 0.360784, 0.360784, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "lvl. 7"
+align = 1
+
+[node name="Skill" type="Label" parent="Deco/NameNod"]
+use_parent_material = true
+margin_left = -200.0
+margin_top = -210.0
+margin_right = 200.0
+margin_bottom = -136.0
+rect_min_size = Vector2( 0, 74 )
+custom_fonts/font = ExtResource( 4 )
+text = "ID_NAPALM"
+align = 1
+valign = 1
+clip_text = true
+script = ExtResource( 5 )

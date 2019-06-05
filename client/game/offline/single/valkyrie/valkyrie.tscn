@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://game/offline/single/valkyrie/valkyrie_single.gd" type="Script" id=1]
 [ext_resource path="res://game/vfx/skill_ready.tscn" type="PackedScene" id=2]
@@ -28,11 +28,12 @@
 [ext_resource path="res://game/unit/lancer/lancer_atk.wav" type="AudioStream" id=26]
 [ext_resource path="res://sound/sfx/explosion_knight.wav" type="AudioStream" id=27]
 [ext_resource path="res://game/unit/lancer/lancer_skill.wav" type="AudioStream" id=28]
-[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=29]
-[ext_resource path="res://game/offline/single/valkyrie/bullet.tscn" type="PackedScene" id=30]
-[ext_resource path="res://game/unit/valkyrie/emp.tscn" type="PackedScene" id=31]
-[ext_resource path="res://game/unit/valkyrie/missile.tscn" type="PackedScene" id=32]
-[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=33]
+[ext_resource path="res://sound/sfx/thrust_m.wav" type="AudioStream" id=29]
+[ext_resource path="res://game/hpbar/hpbar_knight.tscn" type="PackedScene" id=30]
+[ext_resource path="res://game/offline/single/valkyrie/bullet.tscn" type="PackedScene" id=31]
+[ext_resource path="res://game/unit/valkyrie/emp.tscn" type="PackedScene" id=32]
+[ext_resource path="res://game/unit/valkyrie/missile.tscn" type="PackedScene" id=33]
+[ext_resource path="res://game/vfx/hit_effect.tscn" type="PackedScene" id=34]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0.192 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -256,12 +257,15 @@ stream = ExtResource( 27 )
 [node name="Skill" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource( 28 )
 
-[node name="Hp" parent="." instance=ExtResource( 29 )]
+[node name="Move" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource( 29 )
+
+[node name="Hp" parent="." instance=ExtResource( 30 )]
 position = Vector2( 0, -125 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [ PoolStringArray( "bullet", "emp", "missile" ), [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ] ]
+resources = [ PoolStringArray( "bullet", "emp", "missile" ), [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ] ]
 
-[node name="HitEffect" parent="." instance=ExtResource( 33 )]
+[node name="HitEffect" parent="." instance=ExtResource( 34 )]
 type = 0
 rect_area = Rect2( -40, -60, 80, 140 )
