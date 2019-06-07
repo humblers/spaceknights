@@ -6,7 +6,7 @@ const MAX_ENERGY = 10000
 const START_ENERGY = 5000
 const ENERGY_PER_FRAME = 35
 const HAND_SIZE = 4
-const DRAW_INTERVAL = 30
+const DRAW_INTERVAL = 3
 const KNIGHT_TILE_NUM_X = 4
 const KNIGHT_TILE_NUM_Y = 4
 const MAX_TILE_FIND_DISTANCE = 5
@@ -20,7 +20,7 @@ const INITIAL_KNIGHT_POSITION_Y = {
 	"Center": 1450,
 	"Right": 1350,
 }
-const INPUT_DELAY_STEP = 10
+const INPUT_DELAY_STEP = 0
 
 var team
 var leader = ""
@@ -217,15 +217,17 @@ func Do(action):
 	var tr = game.NewTileRect(action.TileX, action.TileY, nx, ny)
 	var isSpell = data.CardIsSpell(card)
 	if not TileRectValid(tr, isSpell):
-		return "invalid tile: %s" % tr
+		#return "invalid tile: %s" % tr
+		pass
 	if not isSpell:
-		tr = FindUnoccupiedTileRect(tr, MAX_TILE_FIND_DISTANCE)
-		if tr == null:
-			return "cannot find unoccupied tile"
-		else:
-			action.TileX = tr.x
-			action.TileY = tr.y
-	
+#		tr = FindUnoccupiedTileRect(tr, MAX_TILE_FIND_DISTANCE)
+#		if tr == null:
+#
+#			return "cannot find unoccupied tile"
+#		else:
+		action.TileX = tr.x
+		action.TileY = tr.y
+
 	# knight check
 	if card.Type == data.KnightCard:
 		var knight = findKnight(card.Name)
@@ -234,7 +236,7 @@ func Do(action):
 		if not knight.CanCastSkill():
 			return "%s cannot cast skill now" % knight.Name()
 
-	useCard(card, action.TileX, action.TileY)	
+	useCard(card, action.TileX, action.TileY)
 	removeCardFromHand(index)
 	pending.append(card)
 	return null

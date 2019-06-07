@@ -65,6 +65,7 @@ func setHand(card):
 		input_sent = false
 	else:
 		visible = true
+		#visible = false
 		self.card = card
 		$AnimationPlayer.stop()
 		init_card(card)
@@ -87,7 +88,8 @@ func init_card(card = null):
 	$Card.scale = card_init_scale
 	$Card.z_index = card_init_z_index
 	if card != null:
-		$Card.visible = card.Type == data.SquireCard
+		#$Card.visible = card.Type == data.SquireCard
+		$Card.visible = false
 		var path = loading_screen.GetCardIconPathInGame(card.Name)
 		icon.texture = loading_screen.LoadResource(path)
 		cost_label.text = str(card.Cost/1000)
@@ -247,7 +249,7 @@ func on_released(side = null):
 func cardUse(pos, cardIndex):
 	if index != cardIndex:
 		return
-		
+	
 	# enough energy?
 	if energy_bar.value > 0:
 		show_message("ID_ERROR_ENERGY", pos.y) 
@@ -256,6 +258,7 @@ func cardUse(pos, cardIndex):
 		rotateRunway(0)
 		return
 	
+	$Card.visible = true	
 	player.send_input(card, pos - map.rect_position)
 	input_sent = true
 	
