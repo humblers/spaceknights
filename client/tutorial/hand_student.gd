@@ -38,7 +38,11 @@ func focusHand():
 	if not marked:
 		return
 	if not pressed:
-		var grect = self.get_global_rect()
+		var grect
+		if unlockKnightBtn:
+			grect = knight_button_right.get_global_rect()
+		else:
+			grect = self.get_global_rect()
 		var center_global_pos = grect.position + grect.size / 2
 		event.emit_signal("MarkAt", center_global_pos)
 		return
