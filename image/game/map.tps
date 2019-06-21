@@ -181,6 +181,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">map/arena_bg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>120,154,240,307</rect>
+                <key>scale9Paddings</key>
+                <rect>120,154,240,307</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">map/bluehole/bluehole.png</key>
             <key type="filename">map/kapteyn/bg_kapteyn.png</key>
             <key type="filename">map/kepler/bg_kepler.png</key>
