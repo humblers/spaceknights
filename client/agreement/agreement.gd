@@ -2,10 +2,10 @@ extends TextureRect
 
 var next_scene = "res://tutorial/tutorial.tscn"
 
-onready var privacy_policy_label = $PanelContainer/VBoxContainer/PrivacyPolicy
-onready var privacy_policy_agree = $PanelContainer/VBoxContainer/PrivacyAgreeContainer/PrivacyAgree
-onready var tos_label = $PanelContainer/VBoxContainer/TOS
-onready var tos_agree = $PanelContainer/VBoxContainer/TOSAgreeContainer/TOSAgree
+onready var privacy_policy_label = $PanelContainer/VBoxContainer1/PrivacyPolicy
+onready var privacy_policy_agree = $PanelContainer/VBoxContainer1/PrivacyAgreeContainer/PrivacyAgree
+onready var tos_label = $PanelContainer/VBoxContainer2/TOS
+onready var tos_agree = $PanelContainer/VBoxContainer2/TOSAgreeContainer/TOSAgree
 
 func _ready():
 	privacy_policy_label.text = tr(privacy_policy_label.text)
