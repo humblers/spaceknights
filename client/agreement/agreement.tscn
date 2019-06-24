@@ -1,29 +1,24 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://atlas/lobby/contents.sprites/background_gradation.tres" type="Texture" id=1]
+[ext_resource path="res://atlas/lobby/contents.sprites/pixel.tres" type="Texture" id=1]
 [ext_resource path="res://agreement/agreement.gd" type="Script" id=2]
-[ext_resource path="res://atlas/lobby/contents.sprites/card_list_panel.tres" type="Texture" id=3]
+[ext_resource path="res://atlas/lobby/contents.sprites/board_white.tres" type="Texture" id=3]
 [ext_resource path="res://atlas/lobby/contents.sprites/board_black.tres" type="Texture" id=4]
-[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=5]
-[ext_resource path="res://atlas/lobby/contents.sprites/button/slot_pressed.tres" type="Texture" id=6]
-[ext_resource path="res://atlas/lobby/contents.sprites/button/slot_normal.tres" type="Texture" id=7]
-[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=8]
+[ext_resource path="res://atlas/lobby/contents.sprites/slots_panel_w.tres" type="Texture" id=5]
+[ext_resource path="res://font/scdream8/size_50_outline_4_222222_fallback.tres" type="DynamicFont" id=6]
+[ext_resource path="res://font/scdream8/size_40_outline_4_333333_fallback.tres" type="DynamicFont" id=7]
+[ext_resource path="res://atlas/lobby/contents.sprites/icon/chack_box_2.tres" type="Texture" id=8]
+[ext_resource path="res://atlas/lobby/contents.sprites/icon/chack_box_1.tres" type="Texture" id=9]
+[ext_resource path="res://translation/dynamic_font_size_control.gd" type="Script" id=10]
 
-[sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 40, 40 )
-margin_left = 12.25
-margin_right = 11.75
-margin_top = 11.375
-margin_bottom = 12.625
+[sub_resource type="StyleBoxEmpty" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="StyleBoxEmpty" id=4]
-
 [node name="Agreement" type="TextureRect"]
+self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -1.12018
@@ -32,114 +27,246 @@ texture = ExtResource( 1 )
 expand = true
 script = ExtResource( 2 )
 
-[node name="GradationTop" type="TextureRect" parent="."]
-anchor_right = 1.0
-margin_top = 500.0
-margin_bottom = 1000.0
-rect_min_size = Vector2( 0, 500 )
-rect_scale = Vector2( 1, -1 )
-texture = ExtResource( 3 )
-expand = true
-
-[node name="GradationBottom" type="TextureRect" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -500.0
-rect_min_size = Vector2( 0, 500 )
-texture = ExtResource( 3 )
-expand = true
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-editor/display_folded = true
+[node name="PanelContainer" type="NinePatchRect" parent="."]
+self_modulate = Color( 0.243137, 0.278431, 0.380392, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -412.0
-margin_top = -442.0
-margin_right = 412.0
-margin_bottom = 442.0
-custom_styles/panel = SubResource( 1 )
+margin_left = -510.0
+margin_top = -900.0
+margin_right = 510.0
+margin_bottom = 900.0
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 13
+patch_margin_top = 14
+patch_margin_right = 13
+patch_margin_bottom = 14
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-margin_left = 12.25
-margin_top = 11.375
-margin_right = 812.25
-margin_bottom = 1003.38
+[node name="BG1" type="NinePatchRect" parent="PanelContainer"]
+modulate = Color( 0.635294, 0.635294, 0.635294, 1 )
+margin_left = 9.99997
+margin_top = 70.0
+margin_right = 1010.0
+margin_bottom = 890.0
+rect_min_size = Vector2( 1000, 820 )
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 14
+patch_margin_top = 14
+patch_margin_right = 14
+patch_margin_bottom = 14
 
-[node name="PrivacyPolicy" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
-margin_right = 800.0
-margin_bottom = 400.0
-rect_min_size = Vector2( 800, 400 )
-custom_fonts/normal_font = ExtResource( 5 )
+[node name="BG2" type="NinePatchRect" parent="PanelContainer"]
+editor/display_folded = true
+modulate = Color( 0.635294, 0.635294, 0.635294, 1 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -500.0
+margin_top = -830.0
+margin_right = 500.0
+margin_bottom = -10.0
+rect_min_size = Vector2( 1000, 820 )
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 40, 40 )
+patch_margin_left = 14
+patch_margin_top = 14
+patch_margin_right = 14
+patch_margin_bottom = 14
+
+[node name="VBoxContainer1" type="VBoxContainer" parent="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -490.0
+margin_top = -890.0
+margin_right = 490.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 980, 900 )
+custom_constants/separation = 0
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer/VBoxContainer1"]
+editor/display_folded = true
+self_modulate = Color( 0, 0, 0, 0.392157 )
+margin_right = 980.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 980, 60 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Pp" type="Label" parent="PanelContainer/VBoxContainer1/TextureRect3"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -490.0
+margin_top = -29.0
+margin_right = 490.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 6 )
+custom_constants/line_spacing = 0
+text = "PRIVACY POLICY"
+align = 1
+valign = 1
+
+[node name="Emptyspace" type="Control" parent="PanelContainer/VBoxContainer1"]
+margin_top = 60.0
+margin_right = 980.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="PrivacyPolicy" type="RichTextLabel" parent="PanelContainer/VBoxContainer1"]
+margin_top = 75.0
+margin_right = 980.0
+margin_bottom = 795.0
+rect_min_size = Vector2( 980, 720 )
+custom_fonts/normal_font = ExtResource( 7 )
+custom_constants/line_separation = 0
 text = "ID_AGREEMENT_PRIVACY_POLICY"
 
-[node name="PrivacyAgreeContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-margin_top = 404.0
-margin_right = 800.0
-margin_bottom = 494.0
+[node name="Emptyspace2" type="Control" parent="PanelContainer/VBoxContainer1"]
+margin_top = 795.0
+margin_right = 980.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="Sprit" type="TextureRect" parent="PanelContainer/VBoxContainer1"]
+modulate = Color( 0, 0, 0, 1 )
+margin_top = 810.0
+margin_right = 980.0
+margin_bottom = 815.0
+rect_min_size = Vector2( 980, 5 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="PrivacyAgreeContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer1"]
+editor/display_folded = true
+margin_top = 815.0
+margin_right = 980.0
+margin_bottom = 875.0
+custom_constants/separation = 20
 alignment = 1
 
-[node name="PrivacyAgree" type="CheckBox" parent="PanelContainer/VBoxContainer/PrivacyAgreeContainer"]
-margin_left = 278.0
-margin_right = 368.0
-margin_bottom = 90.0
-custom_icons/radio_checked = ExtResource( 6 )
-custom_icons/checked = ExtResource( 6 )
-custom_icons/radio_unchecked = ExtResource( 7 )
-custom_icons/unchecked = ExtResource( 7 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+[node name="PrivacyAgree" type="CheckBox" parent="PanelContainer/VBoxContainer1/PrivacyAgreeContainer"]
+margin_left = 375.0
+margin_right = 435.0
+margin_bottom = 60.0
+custom_icons/radio_checked = ExtResource( 8 )
+custom_icons/checked = ExtResource( 8 )
+custom_icons/radio_unchecked = ExtResource( 9 )
+custom_icons/unchecked = ExtResource( 9 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/PrivacyAgreeContainer"]
-margin_left = 372.0
-margin_top = 21.0
-margin_right = 522.0
-margin_bottom = 68.0
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer1/PrivacyAgreeContainer"]
+margin_left = 455.0
+margin_top = 6.0
+margin_right = 605.0
+margin_bottom = 53.0
 rect_min_size = Vector2( 150, 0 )
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 7 )
 text = "ID_AGREEMENT_AGREE"
 valign = 1
 clip_text = true
-script = ExtResource( 8 )
+script = ExtResource( 10 )
 
-[node name="TOS" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
-margin_top = 498.0
-margin_right = 800.0
-margin_bottom = 898.0
-rect_min_size = Vector2( 800, 400 )
-custom_fonts/normal_font = ExtResource( 5 )
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -490.0
+margin_top = 10.0
+margin_right = 490.0
+margin_bottom = 910.0
+rect_min_size = Vector2( 980, 900 )
+custom_constants/separation = 0
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer/VBoxContainer2"]
+self_modulate = Color( 0, 0, 0, 0.392157 )
+margin_right = 980.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 980, 60 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Tos" type="Label" parent="PanelContainer/VBoxContainer2/TextureRect4"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -490.0
+margin_top = -29.0
+margin_right = 490.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 6 )
+custom_constants/line_spacing = 0
+text = "TERMS OF SERVICE"
+align = 1
+valign = 1
+
+[node name="Emptyspace2" type="Control" parent="PanelContainer/VBoxContainer2"]
+margin_top = 60.0
+margin_right = 980.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="TOS" type="RichTextLabel" parent="PanelContainer/VBoxContainer2"]
+margin_top = 75.0
+margin_right = 980.0
+margin_bottom = 795.0
+rect_min_size = Vector2( 980, 720 )
+custom_fonts/normal_font = ExtResource( 7 )
 text = "ID_AGREEMENT_TERMS_OF_SERVICE"
 
-[node name="TOSAgreeContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Emptyspace3" type="Control" parent="PanelContainer/VBoxContainer2"]
+margin_top = 795.0
+margin_right = 980.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="Sprit2" type="TextureRect" parent="PanelContainer/VBoxContainer2"]
+modulate = Color( 0, 0, 0, 1 )
+margin_top = 810.0
+margin_right = 980.0
+margin_bottom = 815.0
+rect_min_size = Vector2( 980, 5 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="TOSAgreeContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer2"]
 editor/display_folded = true
-margin_top = 902.0
-margin_right = 800.0
-margin_bottom = 992.0
+margin_top = 815.0
+margin_right = 980.0
+margin_bottom = 875.0
+custom_constants/separation = 20
 alignment = 1
 
-[node name="TOSAgree" type="CheckBox" parent="PanelContainer/VBoxContainer/TOSAgreeContainer"]
-margin_left = 278.0
-margin_right = 368.0
-margin_bottom = 90.0
-custom_icons/radio_checked = ExtResource( 6 )
-custom_icons/checked = ExtResource( 6 )
-custom_icons/radio_unchecked = ExtResource( 7 )
-custom_icons/unchecked = ExtResource( 7 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+[node name="TOSAgree" type="CheckBox" parent="PanelContainer/VBoxContainer2/TOSAgreeContainer"]
+margin_left = 375.0
+margin_right = 435.0
+margin_bottom = 60.0
+custom_icons/radio_checked = ExtResource( 8 )
+custom_icons/checked = ExtResource( 8 )
+custom_icons/radio_unchecked = ExtResource( 9 )
+custom_icons/unchecked = ExtResource( 9 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/TOSAgreeContainer"]
-margin_left = 372.0
-margin_top = 21.0
-margin_right = 522.0
-margin_bottom = 68.0
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer2/TOSAgreeContainer"]
+margin_left = 455.0
+margin_top = 6.0
+margin_right = 605.0
+margin_bottom = 53.0
 rect_min_size = Vector2( 150, 0 )
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 7 )
 text = "ID_AGREEMENT_AGREE"
 valign = 1
 clip_text = true
-script = ExtResource( 8 )
+script = ExtResource( 10 )

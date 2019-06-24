@@ -553,6 +553,44 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/icon/chack_box_1.png</key>
+            <key type="filename">contents/icon/chack_box_2.png</key>
+            <key type="filename">contents/stat_icon/area.png</key>
+            <key type="filename">contents/stat_icon/area_damage.png</key>
+            <key type="filename">contents/stat_icon/area_dps.png</key>
+            <key type="filename">contents/stat_icon/attack_range.png</key>
+            <key type="filename">contents/stat_icon/attack_speed.png</key>
+            <key type="filename">contents/stat_icon/attack_type.png</key>
+            <key type="filename">contents/stat_icon/barrier.png</key>
+            <key type="filename">contents/stat_icon/cast_duration.png</key>
+            <key type="filename">contents/stat_icon/damage.png</key>
+            <key type="filename">contents/stat_icon/damage_duration.png</key>
+            <key type="filename">contents/stat_icon/death_damage.png</key>
+            <key type="filename">contents/stat_icon/dps.png</key>
+            <key type="filename">contents/stat_icon/freeze_duration.png</key>
+            <key type="filename">contents/stat_icon/hp.png</key>
+            <key type="filename">contents/stat_icon/info_icon.png</key>
+            <key type="filename">contents/stat_icon/knight_damage.png</key>
+            <key type="filename">contents/stat_icon/leader.png</key>
+            <key type="filename">contents/stat_icon/lifetime.png</key>
+            <key type="filename">contents/stat_icon/radius.png</key>
+            <key type="filename">contents/stat_icon/skill_damage.png</key>
+            <key type="filename">contents/stat_icon/spawn_count.png</key>
+            <key type="filename">contents/stat_icon/spawn_speed.png</key>
+            <key type="filename">contents/stat_icon/speed.png</key>
+            <key type="filename">contents/stat_icon/wing.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,15,30,30</rect>
+                <key>scale9Paddings</key>
+                <rect>15,15,30,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">contents/icon/dim_archive.png</key>
             <key type="filename">contents/icon/dim_cell.png</key>
             <key type="filename">contents/icon/dim_megagrid.png</key>
@@ -826,42 +864,6 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">contents/stat_icon/area.png</key>
-            <key type="filename">contents/stat_icon/area_damage.png</key>
-            <key type="filename">contents/stat_icon/area_dps.png</key>
-            <key type="filename">contents/stat_icon/attack_range.png</key>
-            <key type="filename">contents/stat_icon/attack_speed.png</key>
-            <key type="filename">contents/stat_icon/attack_type.png</key>
-            <key type="filename">contents/stat_icon/barrier.png</key>
-            <key type="filename">contents/stat_icon/cast_duration.png</key>
-            <key type="filename">contents/stat_icon/damage.png</key>
-            <key type="filename">contents/stat_icon/damage_duration.png</key>
-            <key type="filename">contents/stat_icon/death_damage.png</key>
-            <key type="filename">contents/stat_icon/dps.png</key>
-            <key type="filename">contents/stat_icon/freeze_duration.png</key>
-            <key type="filename">contents/stat_icon/hp.png</key>
-            <key type="filename">contents/stat_icon/info_icon.png</key>
-            <key type="filename">contents/stat_icon/knight_damage.png</key>
-            <key type="filename">contents/stat_icon/leader.png</key>
-            <key type="filename">contents/stat_icon/lifetime.png</key>
-            <key type="filename">contents/stat_icon/radius.png</key>
-            <key type="filename">contents/stat_icon/skill_damage.png</key>
-            <key type="filename">contents/stat_icon/spawn_count.png</key>
-            <key type="filename">contents/stat_icon/spawn_speed.png</key>
-            <key type="filename">contents/stat_icon/speed.png</key>
-            <key type="filename">contents/stat_icon/wing.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,15,30,30</rect>
-                <key>scale9Paddings</key>
-                <rect>15,15,30,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
