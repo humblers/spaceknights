@@ -657,6 +657,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">contents/icon/galacticoin_credits.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,38,75,75</rect>
+                <key>scale9Paddings</key>
+                <rect>38,38,75,75</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">contents/icon/game_center_icon.png</key>
             <key type="filename">contents/pointlight.png</key>
             <struct type="IndividualSpriteSettings">
